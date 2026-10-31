@@ -156,6 +156,60 @@ T = {
 
 LANGS = ["nl", "es", "en", "fr"]
 
+I18N_JS_LOGIC = r"""
+  const DEFAULT = 'es';
+  let current = DEFAULT;
+
+  function readStored() {
+    try {
+      const v = localStorage.getItem('fittrack.lang');
+      return BUNDLES[v] ? v : DEFAULT;
+    } catch (e) { return DEFAULT; }
+  }
+
+  function t(key, vars) {
+    let s = (BUNDLES[current] && BUNDLES[current][key]) || (BUNDLES[DEFAULT][key] || key);
+    if (vars) for (const k in vars) s = s.replace('{' + k + '}', String(vars[k]));
+    return s;
+  }
+
+  function apply() {
+    current = readStored();
+    document.documentElement.setAttribute('lang', current);
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      el.textContent = t(el.getAttribute('data-i18n'));
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach((el) => {
+      el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph')));
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+      el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
+    });
+    document.querySelectorAll('.lang-btn').forEach((b) => {
+      b.classList.toggle('active', b.getAttribute('data-lang') === current);
+      b.setAttribute('aria-pressed', b.getAttribute('data-lang') === current);
+    });
+  }
+
+  function setLang(lang) {
+    if (!BUNDLES[lang]) return;
+    try { localStorage.setItem('fittrack.lang', lang); } catch (e) {}
+    apply();
+    document.querySelectorAll('.lang-btn').forEach((b) => {
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+    // permite que las vistas dinámicas se repinten en el nuevo idioma
+    window.dispatchEvent(new CustomEvent('ft-lang-change', { detail: { lang } }));
+  }
+
+  document.querySelectorAll('.lang-btn').forEach((b) => {
+    b.addEventListener('click', () => setLang(b.getAttribute('data-lang')));
+  });
+  apply();
+
+  return { t, setLang, getLang: () => current, DEFAULT, BUNDLES };
+"""
+
 
 def main() -> int:
     os.makedirs(OUT, exist_ok=True)
@@ -176,7 +230,26 @@ def main() -> int:
     for lang in LANGS:
         assert sets[lang] == base, f"paridad de claves fallida en {lang}"
     print(f"OK: {len(keys)} claves idénticas en los 4 bundles")
+
+    # JS de i18n para la web (bundles embebidos, 0 peticiones de red)
+    emit_i18n_js(os.path.join(ROOT, "web", "public", "js", "i18n.js"))
     return 0
+
+
+def emit_i18n_js(path: str) -> None:
+    """Genera web/public/js/i18n.js con los 4 bundles embebidos + lógica de
+    conmutación instantánea (0 peticiones de red)."""
+    keys = sorted(T.keys())
+    bundles = {lang: {k: T[k][lang] for k in keys} for lang in LANGS}
+    body = "/* FitTrack i18n — 4 bundles (nl/es/en/fr) embebidos: cambio de idioma sin red. */\n"
+    body += "window.FT_I18N = (function () {\n"
+    body += "  const BUNDLES = " + json.dumps(bundles, ensure_ascii=False, indent=2) + ";\n"
+    body += I18N_JS_LOGIC
+    body += "})();\n"
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(body)
+    print(f"wrote {path}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,52 @@
+---
+/**
+ * Barra de navegación (estilo apple.com): wordmark, enlaces y selector de
+ * idioma. El cambio de idioma lo gestiona /js/i18n.js (100% local, sin red).
+ */
+const { active = '' } = Astro.props;
+
+const Links = [
+  { href: '/', key: 'nav_dashboard', label: 'Resumen' },
+  { href: '/exercises/', key: 'nav_exercises', label: 'Ejercicios' },
+  { href: '/session/', key: 'nav_session', label: 'Sesión' },
+  { href: '/history/', key: 'nav_history', label: 'Historial' },
+];
+
+const Langs = ['nl', 'es', 'en', 'fr'];
+---
+
+<header class="Nav">
+  <nav class="mx-auto flex h-full max-w-wrap items-center gap-4 px-5 md:gap-8 md:px-8">
+    <a href="/" class="text-[18px] font-semibold tracking-tighter2" aria-label="FitTrack">
+      Fit<span class="text-AppBlue">Track</span>
+    </a>
+    <div class="ml-1 flex items-center gap-4 md:gap-7">
+      {
+        Links.map((l) => (
+          <a
+            href={l.href}
+            class={active === l.key ? 'NavLink NavLinkActive' : 'NavLink'}
+            data-i18n={l.key}
+            aria-current={active === l.key ? 'page' : undefined}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </div>
+    <div class="ml-auto flex items-center gap-1" role="group" aria-label="Idioma">
+      {
+        Langs.map((lang) => (
+          <button
+            type="button"
+            data-lang={lang}
+            class="lang-btn LangBtn"
+            aria-label={lang.toUpperCase()}
+          >
+            {lang.toUpperCase()}
+          </button>
+        ))
+      }
+    </div>
+  </nav>
+</header>

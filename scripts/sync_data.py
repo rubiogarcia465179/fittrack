@@ -37,11 +37,12 @@ def main() -> int:
             f.write("\n")
         print("sync", dst, f"({count} ejercicios, source={source})")
 
-    # Imágenes: la web las sirve desde public/
+    # Imágenes: la web las sirve desde public/images/exercises/ (ruta
+    # estable: /images/exercises/<id>.png).
     if os.path.isdir(WEB_IMG):
         shutil.rmtree(WEB_IMG)
-    shutil.copytree(SRC_IMG, WEB_IMG)
-    n = len(os.listdir(WEB_IMG))
+    shutil.copytree(SRC_IMG, os.path.join(WEB_IMG, "exercises"))
+    n = len(os.listdir(os.path.join(WEB_IMG, "exercises")))
     print("sync", WEB_IMG, f"({n} imágenes)")
 
     # i18n: la web importa desde src/i18n; la app desde src/i18n-data

@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base — tipografía y métricas de estilo Apple. */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-app bg-AppBg text-AppText antialiased;
+    font-size: 17px;
+    line-height: 1.47;
+  }
+  ::selection {
+    background: rgba(0, 113, 227, 0.25);
+  }
+  :focus-visible {
+    outline: 3px solid rgba(0, 113, 227, 0.4);
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+@layer components {
+  /* ---- Nav (barra superior estilo apple.com) ---- */
+  .Nav {
+    @apply fixed inset-x-0 top-0 z-50 h-nav bg-AppNearWhite/80 backdrop-blur-xl
+           saturate-[1.8] transition-colors;
+  }
+  .NavLink {
+    @apply text-[13px] leading-none text-AppText/70 hover:text-AppText
+           transition-colors;
+  }
+  .NavLinkActive {
+    @apply text-AppText font-semibold;
+  }
+  .LangBtn {
+    @apply text-[11px] leading-none text-AppText/40 hover:text-AppText
+           transition-colors rounded px-1 py-0.5;
+  }
+  .lang-btn.active {
+    @apply text-AppText font-semibold bg-AppGray;
+  }
+
+  /* ---- Botones ---- */
+  .BtnPrimary {
+    @apply inline-flex items-center justify-center rounded-pill bg-AppBlue
+           text-white text-[15px] font-medium px-5 py-2.5
+           hover:bg-[#0077ed] active:scale-[0.98] transition;
+  }
+  .BtnSecondary {
+    @apply inline-flex items-center justify-center rounded-pill border border-AppBorder
+           bg-AppCard text-AppText text-[15px] font-medium px-5 py-2.5
+           hover:bg-AppGray active:scale-[0.98] transition;
+  }
+  .BtnDanger {
+    @apply inline-flex items-center justify-center rounded-pill border border-red-300
+           text-red-600 text-[14px] font-medium px-4 py-2 hover:bg-red-50 transition;
+  }
+
+  /* ---- Encabezados de página ---- */
+  .PageTitle {
+    @apply text-[32px] md:text-[40px] font-semibold tracking-apple
+           leading-[1.08];
+  }
+  .PageSub {
+    @apply mt-2 text-[17px] text-AppSecondary max-w-wrap;
+  }
+
+  /* ---- Cards / stats ---- */
+  .Card {
+    @apply rounded-tile bg-AppCard border border-AppBorder/70 shadow-card
+           p-5;
+  }
+  .StatCard {
+    @apply rounded-tile bg-AppSection border border-AppBorder/60 p-5;
+  }
+  .StatLabel {
+    @apply text-[12px] font-medium uppercase tracking-[0.08em] text-AppSubtext;
+  }
+  .StatValue {
+    @apply mt-1 text-[28px] md:text-[32px] font-semibold tracking-apple
+           leading-none;
+  }
+  .StatHint {
+    @apply mt-1.5 text-[13px] text-AppSubtext;
+  }
+
+  /* ---- Formulario ---- */
+  .Field {
+    @apply w-full rounded-field border border-AppBorder bg-AppCard px-3 py-2.5
+           text-[15px] text-AppText placeholder:text-AppDim;
+  }
+  .FieldLabel {
+    @apply block text-[13px] font-medium text-AppSubtext mb-1.5;
+  }
+
+  /* ---- Chips de filtro ---- */
+  .Chip {
+    @apply inline-flex items-center rounded-pill border border-AppBorder bg-AppCard
+           px-3 py-1.5 text-[13px] text-AppText/80 hover:bg-AppGray transition;
+  }
+  .ChipActive {
+    @apply border-AppBlue bg-AppBlue/10 text-AppLink font-semibold;
+  }
+
+  /* ---- Filas de ejercicio ---- */
+  .ExRow {
+    @apply flex items-center gap-4 rounded-tile bg-AppCard border border-AppBorder/70
+           p-4 hover:shadow-card transition;
+  }
+  .ExRowImg {
+    @apply w-20 h-14 rounded-lg object-cover shrink-0 border border-AppBorder/50;
+  }
+}

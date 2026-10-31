@@ -1,0 +1,45 @@
+---
+/**
+ * Layout base de la web FitTrack.
+ * - CSS global (Tailwind) inlineado en el <head> (sin flash de estilos).
+ * - Nav + <slot/> + Footer.
+ * - i18n en el <head> (sin defer): el idioma se aplica antes del paint,
+ *   sin red (bundles embebidos en js/i18n.js).
+ */
+import Nav from './Nav.astro';
+import '../styles/global.css';
+
+const {
+  Title = 'FitTrack',
+  TitleKey = 'app_name',
+  Description = 'FitTrack — monitor de progreso de gimnasio: ejercicios, sesiones y dashboard.',
+  Active = '',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n={TitleKey}>{Title}</title>
+    <meta name="description" content={Description} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- i18n en el <head> (sin defer) para evitar el parpadeo de idioma. -->
+    <script src="/js/i18n.js" is:inline></script>
+    <script src="/js/store.js" is:inline></script>
+  </head>
+  <body>
+    <Nav active={Active} />
+    <main class="mx-auto max-w-wrap px-5 pb-20 pt-20 md:px-8">
+      <slot />
+    </main>
+    <footer class="border-t border-AppBorder/60 bg-AppSection/60 py-10">
+      <div class="mx-auto flex max-w-wrap flex-col gap-2 px-5 text-[13px] text-AppSubtext md:px-8">
+        <p data-i18n="footer">FitTrack — se guarda en tu dispositivo, sin cuenta.</p>
+        <p data-i18n="footer_note">Base de ejercicios: seed (placeholder) — ver PROGRESS.md.</p>
+      </div>
+    </footer>
+  </body>
+</html>

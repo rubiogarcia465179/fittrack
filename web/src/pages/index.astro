@@ -1,0 +1,195 @@
+---
+/**
+ * Dashboard (/) — resumen: volumen semanal, frecuencia, racha, PRs,
+ * peso corporal y últimos registros.
+ *
+ * SSR en español (idioma por defecto); /js/i18n.js traduce al abrir
+ * (0 red). Los bloques dinámicos se pintan desde localStorage con
+ * /js/gym.js + /js/store.js.
+ */
+import Layout from '../components/Layout.astro';
+import { GROUPS } from '../lib/gym.js';
+import exData from '../data/exercises.json';
+
+const exById = Object.fromEntries(exData.exercises.map((e) => [e.id, e]));
+// Nombres por defecto (ES = name_en en el seed) para el SSR de etiquetas.
+const names = Object.fromEntries(exData.exercises.map((e) => [e.id, e.name_en]));
+const groups = GROUPS;
+---
+
+<Layout Title="FitTrack — Resumen" TitleKey="dash_title" Active="nav_dashboard">
+  <h1 class="PageTitle" data-i18n="dash_title">Resumen</h1>
+  <p class="PageSub" data-i18n="dash_sub">Tus últimas semanas de un vistazo.</p>
+
+  <!-- Stats -->
+  <section aria-label="Métricas" class="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+    <div class="StatCard">
+      <p class="StatLabel" data-i18n="stat_weekly_volume">Volumen esta semana</p>
+      <p class="StatValue" id="stat-volume">—</p>
+      <p class="StatHint">kg movidos (peso × reps)</p>
+    </div>
+    <div class="StatCard">
+      <p class="StatLabel" data-i18n="stat_weekly_sessions">Sesiones esta semana</p>
+      <p class="StatValue" id="stat-sessions">—</p>
+      <p class="StatHint" id="stat-sessions-hint">en los últimos 7 días</p>
+    </div>
+    <div class="StatCard">
+      <p class="StatLabel" data-i18n="stat_streak">Racha (días)</p>
+      <p class="StatValue" id="stat-streak">—</p>
+      <p class="StatHint">días consecutivos con sesión</p>
+    </div>
+    <div class="StatCard">
+      <p class="StatLabel" data-i18n="stat_weight">Peso corporal</p>
+      <p class="StatValue" id="stat-weight">—</p>
+      <p class="StatHint" id="stat-weight-hint" data-i18n="dash_no_weight">Aún no has registrado peso.</p>
+    </div>
+  </section>
+
+  <!-- Charts -->
+  <section aria-label="Volumen" class="mt-4 grid gap-3 md:grid-cols-2 md:gap-4">
+    <div class="Card">
+      <h2 class="text-[15px] font-semibold" data-i18n="dash_volume_7d">Volumen por semana (kg)</h2>
+      <div id="chart-weekly" class="mt-4 flex items-end gap-3 h-40" role="img" aria-label="Volumen por semana">
+        <p class="text-[13px] text-AppSubtext" data-i18n="dash_no_sessions">Aún no hay sesiones. Empieza una para comenzar.</p>
+      </div>
+    </div>
+    <div class="Card">
+      <h2 class="text-[15px] font-semibold" data-i18n="dash_groups">Volumen por grupo muscular (7 días)</h2>
+      <div id="chart-groups" class="mt-4 flex flex-col gap-2.5" role="img" aria-label="Volumen por grupo muscular">
+        <p class="text-[13px] text-AppSubtext" data-i18n="dash_no_sessions">Aún no hay sesiones. Empieza una para comenzar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recientes -->
+  <section aria-label="Últimas sesiones" class="mt-8">
+    <div class="flex items-baseline justify-between">
+      <h2 class="text-[20px] font-semibold tracking-apple" data-i18n="dash_recent">Últimas sesiones</h2>
+      <a class="text-[15px] text-AppLink hover:underline" href="/session/" data-i18n="nav_session">Sesión</a>
+    </div>
+    <div id="recent" class="mt-4 flex flex-col gap-3">
+      <p class="text-[14px] text-AppSubtext" data-i18n="dash_empty_hint">Añade tu primera sesión para llenar el panel.</p>
+    </div>
+  </section>
+
+  <script type="module">
+    import {
+      weeklyVolume, sessionVolume, streakDays, newPrs, groupTotals,
+      latestWeight, sortByDate,
+    } from '/src/lib/gym.js';
+
+    const T = window.FT_I18N.t;
+    const store = window.FTStore;
+    const EX = { { JSON.stringify(names) } };
+    const GROUPS = { JSON.stringify(groups) };
+
+    function fmtKg(v) {
+      return Math.round(v).toLocaleString('es-ES') + ' kg';
+    }
+
+    function render() {
+      const sessions = store.sessions();
+
+      // ---- stats ----
+      const weeks = weeklyVolume(sessions, 4);
+      const last = weeks[weeks.length - 1];
+      document.getElementById('stat-volume').textContent = last && last.volume > 0 ? fmtKg(last.volume) : '0 kg';
+      const last7 = sessions.filter((s) => s.date >= weeks[weeks.length - 2].week_start);
+      document.getElementById('stat-sessions').textContent = String(last7.length);
+      document.getElementById('stat-streak').textContent = String(streakDays(sessions));
+      const w = latestWeight(sessions);
+      document.getElementById('stat-weight').textContent = w ? w.toFixed(1) + ' kg' : '—';
+      document.getElementById('stat-weight-hint').textContent = w ? '' : T('dash_no_weight');
+
+      // ---- gráfica semanal (barras) ----
+      const cw = document.getElementById('chart-weekly');
+      cw.textContent = '';
+      const maxV = Math.max(1, ...weeks.map((x) => x.volume));
+      for (const wk of weeks) {
+        const wrap = document.createElement('div');
+        wrap.className = 'flex h-full flex-1 flex-col items-center justify-end gap-1.5';
+        const val = document.createElement('span');
+        val.className = 'text-[11px] font-medium';
+        val.textContent = wk.volume > 0 ? String(Math.round(wk.volume)) : '';
+        const bar = document.createElement('div');
+        bar.className = 'w-full max-w-[44px] rounded-t ' + (wk.volume > 0 ? 'bg-AppBlue/90' : 'bg-AppBorder/60');
+        bar.style.height = Math.max(wk.volume > 0 ? 8 : 2, Math.round((wk.volume / maxV) * 100)) + '%';
+        const lb = document.createElement('span');
+        lb.className = 'text-[11px] text-AppSubtext';
+        lb.textContent = wk.week_start.slice(5);
+        wrap.append(val, bar, lb);
+        cw.appendChild(wrap);
+      }
+
+      // ---- gráfica por grupo ----
+      const cg = document.getElementById('chart-groups');
+      cg.textContent = '';
+      const totals = groupTotals(sessions, GROUPS, 7);
+      const rows = Object.entries(totals);
+      if (!rows.length) {
+        const p = document.createElement('p');
+        p.className = 'text-[13px] text-AppSubtext';
+        p.setAttribute('data-i18n', 'dash_no_sessions');
+        p.textContent = T('dash_no_sessions');
+        cg.appendChild(p);
+      } else {
+        const maxG = Math.max(...rows.map(([, v]) => v));
+        for (const [g, v] of rows) {
+          const row = document.createElement('div');
+          row.className = 'flex items-center gap-3';
+          const label = document.createElement('span');
+          label.className = 'w-24 shrink-0 text-[13px] text-AppText/80';
+          label.textContent = T('group_' + g);
+          const track = document.createElement('div');
+          track.className = 'h-3 flex-1 rounded-full bg-AppGray overflow-hidden';
+          const fill = document.createElement('div');
+          fill.className = 'h-full rounded-full bg-AppBlue/90';
+          fill.style.width = Math.max(4, (v / maxG) * 100) + '%';
+          track.appendChild(fill);
+          const val = document.createElement('span');
+          val.className = 'w-16 shrink-0 text-right text-[13px] font-medium';
+          val.textContent = Math.round(v) + ' kg';
+          row.append(label, track, val);
+          cg.appendChild(row);
+        }
+      }
+
+      // ---- recientes (top 5) ----
+      const rec = document.getElementById('recent');
+      rec.textContent = '';
+      const recent = sortByDate(sessions).slice(0, 5);
+      if (!recent.length) {
+        const p = document.createElement('p');
+        p.className = 'text-[14px] text-AppSubtext';
+        p.setAttribute('data-i18n', 'dash_empty_hint');
+        p.textContent = T('dash_empty_hint');
+        rec.appendChild(p);
+      }
+      for (const s of recent) {
+        const prs = newPrs(s, sessions);
+        const card = document.createElement('article');
+        card.className = 'Card flex flex-wrap items-center gap-x-6 gap-y-2';
+        const date = document.createElement('p');
+        date.className = 'text-[15px] font-semibold min-w-[110px]';
+        date.textContent = s.date;
+        const desc = document.createElement('p');
+        desc.className = 'text-[14px] text-AppSubtext';
+        desc.textContent = s.exercises.length + ' ' + T('hist_exercises') + ' · ' +
+          s.exercises.reduce((a, e) => a + e.sets.length, 0) + ' ' + T('hist_sets_total') + ' · ' +
+          Math.round(sessionVolume(s)).toLocaleString('es-ES') + ' kg';
+        card.append(date, desc);
+        if (prs.length) {
+          const badge = document.createElement('span');
+          badge.className = 'ml-auto rounded-pill bg-AppGreen/10 text-AppGreen px-3 py-1 text-[12px] font-semibold';
+          badge.textContent = '★ ' + prs.length + ' ' + T('stat_pr');
+          card.appendChild(badge);
+        }
+        rec.appendChild(card);
+      }
+    }
+
+    render();
+    window.addEventListener('ft-lang-change', render);
+    window.addEventListener('ft-data-changed', render);
+  </script>
+</Layout>
