@@ -56,12 +56,13 @@ const WEB_DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'web/src/data/exerci
 
 // ------------------------------------------------- 1. integridad de datos
 section('data — base de ejercicios');
-eq(ALL.count, 61, 'count declarado');
-eq(ALL.exercises.length, 61, '61 ejercicios');
-eq(ALL.source, 'seed', 'source=seed');
+const EXPECTED_COUNT = ALL.count;
+eq(ALL.count, ALL.exercises.length, 'count declarado == nº real');
+ok(ALL.count >= 200, ALL.count + ' ejercicios (>=200, dataset real wger)');
+eq(ALL.source, 'real', 'source=real');
 
 const ids = ALL.exercises.map((e) => e.id);
-eq(new Set(ids).size, 61, 'ids únicos');
+ok(new Set(ids).size === ids.length, 'ids únicos (' + ids.length + ')');
 const badIds = ids.filter((i) => !/^[a-z0-9_]+$/.test(i));
 eq(badIds, [], 'ids en slug válido');
 
@@ -97,16 +98,16 @@ for (const e of ALL.exercises) {
   }
 }
 eq(wrongImage, [], 'rutas de imagen consistentes (/images/exercises/<id>.png)');
-eq(missingFiles, [], '61 PNG en data/, web/public/ y app/assets/');
-eq(fs.readdirSync(IMG).filter((f) => f.endsWith('.png')).length, 61, 'solo 61 PNG en data/images');
+eq(missingFiles, [], EXPECTED_COUNT + ' PNG en data/, web/public/ y app/assets/');
+eq(fs.readdirSync(IMG).filter((f) => f.endsWith('.png')).length, EXPECTED_COUNT, 'solo ' + EXPECTED_COUNT + ' PNG en data/images');
 
 eq(APP_DATA, ALL, 'app/src/data/exercises.json sincronizado con all.json');
 eq(WEB_DATA, ALL, 'web/src/data/exercises.json sincronizado con all.json');
 
 const mapIds = [...APP_MAP.matchAll(/'([a-z0-9_]+)':\s*require\('\.\.\/assets\/exercises\/([a-z0-9_]+)\.png'\)/g)].map((m) => m[1]);
-eq(mapIds.length, 61, 'mapa de assets: 61 requires');
-eq(new Set(mapIds).size, 61, 'mapa de assets: sin duplicados');
-eq(ids.slice().sort().join(','), mapIds.slice().sort().join(','), 'mapa de assets cubre los 61 ids');
+eq(mapIds.length, EXPECTED_COUNT, 'mapa de assets: ' + EXPECTED_COUNT + ' requires');
+eq(new Set(mapIds).size, EXPECTED_COUNT, 'mapa de assets: sin duplicados');
+eq(ids.slice().sort().join(','), mapIds.slice().sort().join(','), 'mapa de assets cubre los ' + EXPECTED_COUNT + ' ids');
 
 // ------------------------------------------------------------------ i18n
 section('i18n — 4 bundles, paridad de claves');

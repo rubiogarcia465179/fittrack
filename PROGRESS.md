@@ -6,16 +6,18 @@ tarea.
 ## Estado actual
 - [x] Fase 0 — Estructura del repo: AGENTS/SPEC/PROGRESS/TASKS/README +
       .gitignore, git init + primer commit.
-- [x] Fase 1 — Datos: 61 ejercicios (seed) + 61 imágenes + scripts
-      (sync/fetch/generadores) + i18n 4 bundles.
-- [x] Fase 2 — Web (Astro): 4 vistas + 61 páginas de detalle; build +
+- [x] Fase 1 — Datos: **226 ejercicios (source: real, wger CC-BY-SA)** + 226
+      imágenes + scripts (sync/fetch-PyPI/generadores) + i18n 4 bundles.
+- [x] Fase 2 — Web (Astro): 4 vistas + **226 páginas de detalle**; build +
       preview verificados (HTTP 200 en rutas y assets).
 - [x] Fase 3 — App (Expo): 4 pestañas + AsyncStorage + tsc 0 errores +
       bundle Metro OK.
 - [x] Fase 4 — i18n app: 4 bundles embebidos (nl/es/en/fr), conmutación
       instantánea sin red (idéntica a la web).
 - [x] Fase 5 — QA: tests/run.js → 78/78 comprobaciones, 0 fallos.
-- [ ] Fase 6 — ⛔ Datos reales (bloqueo de red del sandbox).
+- [x] Fase 6 — Datos reales: **base REAL de wger (226 ejercicios)** vía wheel
+      de PyPI (allowlist ampliado). ⛔ Solo quedan las fotos reales
+      (static.wger.de 403).
 
 ## Verificaciones (output real)
 - 2026-10-31 — Web: `npm run build` → "65 page(s) built in 2.88s", exit 0.
@@ -36,10 +38,26 @@ tarea.
   `app/src/lib/gym.ts`, tsc 0 errores).
 - 2026-10-31 — Web re-verificada con las imágenes regeneradas: build 65
   páginas + preview → HTTP 200 en 68 rutas y los 129 assets (0 fallos).
-- 2026-10-31 — Reconocimiento de entorno (medido): npmjs/wger/OFF → 403
-  (allowlist del proxy); npm cache local 788 MB con las dependencias exactas
-  de Astro 4.16/Tailwind 3.4/Expo 51/RN 0.74 (espejo desde `fitnl/`);
-  build de referencia `fitnl/web` verde (4 páginas, 5 s).
+- 2026-10-31 — **Fase 6 (datos reales) cerrada vía PyPI**: allowlist del
+  sandbox AMPLIADO (pypi.org, files.pythonhosted.org, raw.github, github SSR,
+  world.openfoodfacts.org ahora 200; wger.de/static.wger.de/api.github.com
+  siguen 403). La wheel de PyPI `wger 2.1` lleva el dataset real de wger →
+  `scripts/fetch_exercises_wger_pypi.py` extrae **226 ejercicios
+  `source:"real"`** (instrucciones reales, licencia CC-BY-SA + autor por
+  ejercicio en `license`/`credit`; name_nl/level curados local y 16 pasos
+  generados local — documentado en `source_note`).
+- 2026-10-31 — Web con base real: build **230 páginas** + preview → HTTP 200
+  en **233 rutas + 459 assets** (0 fallos); atribución CC-BY-SA visible en
+  SSR de cada detalle ("Licencia: CC-BY-SA 3 · Autor: wger.de").
+- 2026-10-31 — App con base real: `tsc --noEmit` 0 errores; bundle Metro
+  `BUNDLE_OK bytes=3324990` (226 imágenes + i18n 86 claves + base real
+  embebidos; `ex_license`/`ex_credit` presentes en el bundle). Atribución en
+  `DetailScreen`.
+- 2026-10-31 — QA con base real: `node tests/run.js` → **78/78, 0 fallos**
+  (226 ejercicios, 226 PNG en las 3 ubicaciones, mapa de 226 assets, paridad
+  TS≡JS, tsc 0 errores).
+- 2026-10-31 — i18n: 86 claves × 4 bundles (nuevas `ex_license`,
+  `ex_credit`; `footer_note` → "datos reales de wger (CC-BY-SA)").
 
 ## Decisiones tomadas
 - Proyecto nuevo e independiente → propio directorio `/sandbox/fittrack`
@@ -57,8 +75,11 @@ tarea.
   (sin él Metro no resuelve el registro de assets).
 
 ## Pendiente / bloqueos
-- Fase 6 (datos reales): ⛔ el proxy del sandbox bloquea npmjs, wger, OFF.
-  Hacer fuera o ampliar el allowlist.
+- Fase 6 (fotos reales): ⛔ `static.wger.de` bloqueada (403) → las imágenes
+  siguen siendo placeholders generados (la UI y `source_note` lo declaran).
+  Para fotos reales: ampliar el allowlist (`static.wger.de`, `wger.de`) o
+  copiar `data/images` desde una máquina con red. El resto de la base ya es
+  **real** (226 ejercicios de wger vía PyPI).
 
 ## Log
 - 2026-10-31 — Repo inicializado; estructura base y docs (Fase 0).
@@ -76,3 +97,10 @@ tarea.
   bundle Metro 3.07 MB. Fase 4 (i18n app) cerrada: 4 bundles embebidos,
   conmutación instantánea. Fase 5 (QA) cerrada: `tests/run.js` 78/78, 0
   fallos; web re-verificada 68 rutas + 129 assets con las nuevas imágenes.
+
+- 2026-10-31 — Fase 6 (datos reales) cerrada vía PyPI: allowlist ampliado →
+  wheel de PyPI `wger 2.1` extraída → **226 ejercicios `source:"real"`**
+  (CC-BY-SA, atribución por ejercicio). 226 imágenes placeholder generadas.
+  Web 230 páginas / 233 rutas / 459 assets (0 fallos); app tsc 0 + bundle
+  3.32 MB; tests 78/78. i18n 86 claves. Queda ⛔ solo fotos reales
+  (static.wger.de 403).

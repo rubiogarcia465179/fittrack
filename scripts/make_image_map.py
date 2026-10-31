@@ -23,7 +23,7 @@ def main() -> int:
         return 1
     lines = [
         "// Generado por scripts/make_image_map.py — NO editar a mano.",
-        "// id → asset de Metro de data/images/<id>.png (61 ejercicios).",
+        f"// id → asset de Metro de data/images/<id>.png ({len(names)} ejercicios).",
         "const IMAGES: Record<string, number> = {",
     ]
     for f in names:

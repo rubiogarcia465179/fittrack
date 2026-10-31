@@ -1,0 +1,1330 @@
+{
+  "dataset": "fittrack.exercises",
+  "version": 1,
+  "source": "seed",
+  "source_note": "Placeholder dataset generado localmente (el sandbox no tiene acceso a fuentes públicas: npmjs/wger/OFF → 403 del proxy). Valores de referencia estándar, NO datos reales.",
+  "generated_at": "2026-10-31",
+  "count": 61,
+  "groups": [
+    "chest",
+    "back",
+    "legs",
+    "shoulders",
+    "arms",
+    "core",
+    "cardio",
+    "full_body"
+  ],
+  "equipment": [
+    "barbell",
+    "dumbbell",
+    "machine",
+    "cable",
+    "bodyweight",
+    "other"
+  ],
+  "levels": [
+    "beginner",
+    "intermediate",
+    "advanced"
+  ],
+  "exercises": [
+    {
+      "id": "bench_press",
+      "name_en": "Bench Press",
+      "name_nl": "Benchpress",
+      "muscle_group": "chest",
+      "secondary_muscles": [
+        "triceps"
+      ],
+      "equipment": "barbell",
+      "level": "intermediate",
+      "aliases": [
+        "flat barbell press",
+        "press"
+      ],
+      "instructions": [
+        "Lie on a flat bench with feet planted on the floor.",
+        "Lower the bar to your lower chest with control.",
+        "Press the bar up until arms are fully extended.",
+        "Keep your shoulder blades pinched and glutes on the bench."
+      ],
+      "image": "/images/exercises/bench_press.png",
+      "source": "seed"
+    },
+    {
+      "id": "incline_bench_press",
+      "name_en": "Incline Bench Press",
+      "name_nl": "Incline benchpress",
+      "muscle_group": "chest",
+      "secondary_muscles": [
+        "triceps",
+        "shoulders"
+      ],
+      "equipment": "barbell",
+      "level": "intermediate",
+      "aliases": [
+        "incline press"
+      ],
+      "instructions": [
+        "Set a bench to a 30–45° incline.",
+        "Lower the bar to the upper chest.",
+        "Press up while keeping elbows slightly tucked.",
+        "Avoid arching the back excessively."
+      ],
+      "image": "/images/exercises/incline_bench_press.png",
+      "source": "seed"
+    },
+    {
+      "id": "dumbbell_fly",
+      "name_en": "Dumbbell Fly",
+      "name_nl": "Dumbbell fly",
+      "muscle_group": "chest",
+      "secondary_muscles": [],
+      "equipment": "dumbbell",
+      "level": "intermediate",
+      "aliases": [
+        "flyes",
+        "fly"
+      ],
+      "instructions": [
+        "Lie on a flat bench holding a dumbbell in each hand above your chest.",
+        "Open your arms in a wide arc until you feel a stretch in the chest.",
+        "Return to the start by squeezing the chest, not by locking the elbows hard."
+      ],
+      "image": "/images/exercises/dumbbell_fly.png",
+      "source": "seed"
+    },
+    {
+      "id": "push_up",
+      "name_en": "Push-Up",
+      "name_nl": "Kruk",
+      "muscle_group": "chest",
+      "secondary_muscles": [
+        "triceps",
+        "core"
+      ],
+      "equipment": "bodyweight",
+      "level": "beginner",
+      "aliases": [
+        "pushups",
+        "push up",
+        "chins"
+      ],
+      "instructions": [
+        "Start in a plank position with hands under shoulders.",
+        "Lower your body until your chest is near the floor.",
+        "Keep a straight line from head to heels.",
+        "Push the floor away to return to the top."
+      ],
+      "image": "/images/exercises/push_up.png",
+      "source": "seed"
+    },
+    {
+      "id": "dips",
+      "name_en": "Dips",
+      "name_nl": "Dips",
+      "muscle_group": "chest",
+      "secondary_muscles": [
+        "triceps"
+      ],
+      "equipment": "bodyweight",
+      "level": "intermediate",
+      "aliases": [
+        "dip"
+      ],
+      "instructions": [
+        "Support yourself on parallel bars, shoulders slightly forward.",
+        "Lower your body until elbows reach about 90°.",
+        "Drive up through the chest until arms are extended.",
+        "Do not shrug the shoulders toward the ears."
+      ],
+      "image": "/images/exercises/dips.png",
+      "source": "seed"
+    },
+    {
+      "id": "cable_crossover",
+      "name_en": "Cable Crossover",
+      "name_nl": "Cable crossover",
+      "muscle_group": "chest",
+      "secondary_muscles": [],
+      "equipment": "cable",
+      "level": "intermediate",
+      "aliases": [
+        "cable fly",
+        "cable flyes"
+      ],
+      "instructions": [
+        "Set both cables to chest height and step between the pulleys.",
+        "Bringing hands toward each other in front of the chest.",
+        "Squeeze the chest at the midpoint.",
+        "Return slowly with control."
+      ],
+      "image": "/images/exercises/cable_crossover.png",
+      "source": "seed"
+    },
+    {
+      "id": "machine_chest_press",
+      "name_en": "Machine Chest Press",
+      "name_nl": "Machine chestpress",
+      "muscle_group": "chest",
+      "secondary_muscles": [
+        "triceps"
+      ],
+      "equipment": "machine",
+      "level": "beginner",
+      "aliases": [
+        "pec deck press"
+      ],
+      "instructions": [
+        "Sit with your back flat against the pad, elbows at 90°.",
+        "Press the handles forward until arms are extended.",
+        "Return to the start with control.",
+        "Adjust the seat so the handles are at upper-chest height."
+      ],
+      "image": "/images/exercises/machine_chest_press.png",
+      "source": "seed"
+    },
+    {
+      "id": "dumbbell_press",
+      "name_en": "Dumbbell Bench Press",
+      "name_nl": "Dumbbell benchpress",
+      "muscle_group": "chest",
+      "secondary_muscles": [
+        "triceps"
+      ],
+      "equipment": "dumbbell",
+      "level": "intermediate",
+      "aliases": [
+        "dumbbell press"
+      ],
+      "instructions": [
+        "Lie on a flat bench with a dumbbell in each hand.",
+        "Lower the weights to the sides of your chest.",
+        "Press up until the dumbbells are nearly touching overhead.",
+        "Keep your lower back in contact with the bench."
+      ],
+      "image": "/images/exercises/dumbbell_press.png",
+      "source": "seed"
+    },
+    {
+      "id": "deadlift",
+      "name_en": "Deadlift",
+      "name_nl": "Deadlift",
+      "muscle_group": "back",
+      "secondary_muscles": [
+        "glutes",
+        "hamstrings",
+        "core"
+      ],
+      "equipment": "barbell",
+      "level": "advanced",
+      "aliases": [
+        "dl",
+        "strik"
+      ],
+      "instructions": [
+        "Stand with the bar over the mid-foot.",
+        "Hinge at the hips and grip the bar just outside the knees.",
+        "Drive the floor away and stand tall, bar close to the body.",
+        "Lock out hips and knees together; do not lean back."
+      ],
+      "image": "/images/exercises/deadlift.png",
+      "source": "seed"
+    },
+    {
+      "id": "pull_up",
+      "name_en": "Pull-Up",
+      "name_nl": "Muscu",
+      "muscle_group": "back",
+      "secondary_muscles": [
+        "biceps"
+      ],
+      "equipment": "bodyweight",
+      "level": "intermediate",
+      "aliases": [
+        "chin up",
+        "pullup"
+      ],
+      "instructions": [
+        "Hang from a bar with an overhand, shoulder-width grip.",
+        "Pull your chest toward the bar by driving the elbows down.",
+        "Lower yourself with control until fully extended.",
+        "Avoid kipping or swinging."
+      ],
+      "image": "/images/exercises/pull_up.png",
+      "source": "seed"
+    },
+    {
+      "id": "barbell_row",
+      "name_en": "Barbell Row",
+      "name_nl": "Barbell row",
+      "muscle_group": "back",
+      "secondary_muscles": [
+        "biceps"
+      ],
+      "equipment": "barbell",
+      "level": "intermediate",
+      "aliases": [
+        "bent over row"
+      ],
+      "instructions": [
+        "Hinge to about 45° with a flat back.",
+        "Pull the bar to the lower ribs.",
+        "Squeeze the shoulder blades at the top.",
+        "Lower with control, letting the lats lengthen."
+      ],
+      "image": "/images/exercises/barbell_row.png",
+      "source": "seed"
+    },
+    {
+      "id": "lat_pulldown",
+      "name_en": "Lat Pulldown",
+      "name_nl": "Lat pulldown",
+      "muscle_group": "back",
+      "secondary_muscles": [
+        "biceps"
+      ],
+      "equipment": "cable",
+      "level": "beginner",
+      "aliases": [
+        "pulldown",
+        "pull down"
+      ],
+      "instructions": [
+        "Grip the bar wider than shoulder width.",
+        "Pull the bar to the upper chest, elbows down and back.",
+        "Resist the return slowly.",
+        "Keep a slight lean back without arching the back."
+      ],
+      "image": "/images/exercises/lat_pulldown.png",
+      "source": "seed"
+    },
+    {
+      "id": "seated_cable_row",
+      "name_en": "Seated Cable Row",
+      "name_nl": "Seated cable row",
+      "muscle_group": "back",
+      "secondary_muscles": [
+        "biceps"
+      ],
+      "equipment": "cable",
+      "level": "beginner",
+      "aliases": [
+        "cable row",
+        "rowing machine"
+      ],
+      "instructions": [
+        "Sit with knees slightly bent, feet on the pad.",
+        "Pull the handle to your abdomen.",
+        "Squeeze the shoulder blades together.",
+        "Return until the arms are fully extended."
+      ],
+      "image": "/images/exercises/seated_cable_row.png",
+      "source": "seed"
+    },
+    {
+      "id": "face_pull",
+      "name_en": "Face Pull",
+      "name_nl": "Face pull",
+      "muscle_group": "back",
+      "secondary_muscles": [
+        "shoulders"
+      ],
+      "equipment": "cable",
+      "level": "beginner",
+      "aliases": [
+        "facepull"
+      ],
+      "instructions": [
+        "Set a rope at face height on a cable machine.",
+        "Pull the rope toward your face, elbows out to the sides.",
+        "Pause with the rope near your forehead.",
+        "Return slowly while keeping tension."
+      ],
+      "image": "/images/exercises/face_pull.png",
+      "source": "seed"
+    },
+    {
+      "id": "single_arm_dumbbell_row",
+      "name_en": "Single-Arm Dumbbell Row",
+      "name_nl": "Eénarmige dumbbell row",
+      "muscle_group": "back",
+      "secondary_muscles": [
+        "biceps"
+      ],
+      "equipment": "dumbbell",
+      "level": "beginner",
+      "aliases": [
+        "dumbbell row"
+      ],
+      "instructions": [
+        "Brace one hand and knee on a bench.",
+        "Hang the other arm straight down.",
+        "Pull the dumbbell to the hip.",
+        "Lower with control and keep the torso still."
+      ],
+      "image": "/images/exercises/single_arm_dumbbell_row.png",
+      "source": "seed"
+    },
+    {
+      "id": "inverted_row",
+      "name_en": "Inverted Row",
+      "name_nl": "Inverted row",
+      "muscle_group": "back",
+      "secondary_muscles": [
+        "biceps"
+      ],
+      "equipment": "bodyweight",
+      "level": "beginner",
+      "aliases": [
+        "bodyweight row",
+        "australian pull up"
+      ],
+      "instructions": [
+        "Hang under a bar at waist height with a straight body.",
+        "Pull your chest to the bar.",
+        "Lower with control.",
+        "Increase difficulty by raising the feet."
+      ],
+      "image": "/images/exercises/inverted_row.png",
+      "source": "seed"
+    },
+    {
+      "id": "back_squat",
+      "name_en": "Back Squat",
+      "name_nl": "Knik",
+      "muscle_group": "legs",
+      "secondary_muscles": [
+        "glutes",
+        "core"
+      ],
+      "equipment": "barbell",
+      "level": "intermediate",
+      "aliases": [
+        "squat",
+        "kniebuig"
+      ],
+      "instructions": [
+        "Rest the bar on your upper back, feet shoulder-width apart.",
+        "Sit down and back until thighs are at least parallel.",
+        "Drive up through the mid-foot.",
+        "Keep the chest tall and knees tracking over the toes."
+      ],
+      "image": "/images/exercises/back_squat.png",
+      "source": "seed"
+    },
+    {
+      "id": "front_squat",
+      "name_en": "Front Squat",
+      "name_nl": "Front squat",
+      "muscle_group": "legs",
+      "secondary_muscles": [
+        "glutes",
+        "core"
+      ],
+      "equipment": "barbell",
+      "level": "advanced",
+      "aliases": [],
+      "instructions": [
+        "Rest the bar on your front delts, elbows high.",
+        "Squat to parallel while bracing the core.",
+        "Stand up without letting the bar slide forward.",
+        "Keep the torso as upright as possible."
+      ],
+      "image": "/images/exercises/front_squat.png",
+      "source": "seed"
+    },
+    {
+      "id": "leg_press",
+      "name_en": "Leg Press",
+      "name_nl": "Benepers",
+      "muscle_group": "legs",
+      "secondary_muscles": [
+        "glutes"
+      ],
+      "equipment": "machine",
+      "level": "beginner",
+      "aliases": [
+        "leg press machine"
+      ],
+      "instructions": [
+        "Sit with your back on the pad, feet shoulder-width on the platform.",
+        "Lower the platform to about 90° knee flexion.",
+        "Press through the mid-foot until legs are almost straight.",
+        "Do not lock the knees out hard."
+      ],
+      "image": "/images/exercises/leg_press.png",
+      "source": "seed"
+    },
+    {
+      "id": "romanian_deadlift",
+      "name_en": "Romanian Deadlift",
+      "name_nl": "Romanian deadlift",
+      "muscle_group": "legs",
+      "secondary_muscles": [
+        "glutes",
+        "hamstrings"
+      ],
+      "equipment": "barbell",
+      "level": "intermediate",
+      "aliases": [
+        "rdl"
+      ],
+      "instructions": [
+        "Start standing with the bar at hip level.",
+        "Hinge at the hips until the bar reaches mid-shin.",
+        "Keep the back flat and knees soft.",
+        "Return to standing by driving the hips forward."
+      ],
+      "image": "/images/exercises/romanian_deadlift.png",
+      "source": "seed"
+    },
+    {
+      "id": "leg_extension",
+      "name_en": "Leg Extension",
+      "name_nl": "Buitenschachtversterker",
+      "muscle_group": "legs",
+      "secondary_muscles": [
+        "quadriceps"
+      ],
+      "equipment": "machine",
+      "level": "beginner",
+      "aliases": [
+        "quad extension"
+      ],
+      "instructions": [
+        "Sit with the pad just above the ankles.",
+        "Extend the knees to lift the pad.",
+        "Pause briefly at the top.",
+        "Lower slowly without letting the stack slam."
+      ],
+      "image": "/images/exercises/leg_extension.png",
+      "source": "seed"
+    },
+    {
+      "id": "leg_curl",
+      "name_en": "Lying Leg Curl",
+      "name_nl": "Liggende ben curl",
+      "muscle_group": "legs",
+      "secondary_muscles": [
+        "hamstrings"
+      ],
+      "equipment": "machine",
+      "level": "beginner",
+      "aliases": [
+        "lying curl"
+      ],
+      "instructions": [
+        "Lie face-down with the pad at the ankles.",
+        "Curl the legs up toward the glutes.",
+        "Lower with control.",
+        "Keep the pelvis pressed into the pad."
+      ],
+      "image": "/images/exercises/leg_curl.png",
+      "source": "seed"
+    },
+    {
+      "id": "calf_raise",
+      "name_en": "Calf Raise",
+      "name_nl": "Kuitbulten",
+      "muscle_group": "legs",
+      "secondary_muscles": [],
+      "equipment": "machine",
+      "level": "beginner",
+      "aliases": [
+        "calf raises",
+        "calf machine"
+      ],
+      "instructions": [
+        "Stand on the platform with the balls of your feet.",
+        "Rise to the top of your range.",
+        "Lower below the platform level for a stretch.",
+        "Pause briefly at the top without bouncing."
+      ],
+      "image": "/images/exercises/calf_raise.png",
+      "source": "seed"
+    },
+    {
+      "id": "walking_lunge",
+      "name_en": "Walking Lunge",
+      "name_nl": "Lunges",
+      "muscle_group": "legs",
+      "secondary_muscles": [
+        "glutes"
+      ],
+      "equipment": "bodyweight",
+      "level": "intermediate",
+      "aliases": [
+        "lunge",
+        "lunges"
+      ],
+      "instructions": [
+        "Take a long step forward.",
+        "Lower until the back knee nearly touches the floor.",
+        "Drive through the front foot to step into the next lunge.",
+        "Keep the torso upright throughout."
+      ],
+      "image": "/images/exercises/walking_lunge.png",
+      "source": "seed"
+    },
+    {
+      "id": "bulgarian_split_squat",
+      "name_en": "Bulgarian Split Squat",
+      "name_nl": "Bulgarian split squat",
+      "muscle_group": "legs",
+      "secondary_muscles": [
+        "glutes"
+      ],
+      "equipment": "dumbbell",
+      "level": "advanced",
+      "aliases": [
+        "split squat"
+      ],
+      "instructions": [
+        "Place the rear foot on a bench, holding dumbbells at the sides.",
+        "Squat straight down over the front leg.",
+        "Drive up through the front heel.",
+        "Keep most of the weight in the front leg."
+      ],
+      "image": "/images/exercises/bulgarian_split_squat.png",
+      "source": "seed"
+    },
+    {
+      "id": "hip_thrust",
+      "name_en": "Hip Thrust",
+      "name_nl": "Hip thrust",
+      "muscle_group": "legs",
+      "secondary_muscles": [
+        "glutes"
+      ],
+      "equipment": "barbell",
+      "level": "intermediate",
+      "aliases": [
+        "glute bridge"
+      ],
+      "instructions": [
+        "Sit on the floor, upper back against a bench, bar on the hips.",
+        "Drive the hips up until the body is flat.",
+        "Squeeze the glutes at the top.",
+        "Lower with control."
+      ],
+      "image": "/images/exercises/hip_thrust.png",
+      "source": "seed"
+    },
+    {
+      "id": "overhead_press",
+      "name_en": "Overhead Press",
+      "name_nl": "Krukoverhead",
+      "muscle_group": "shoulders",
+      "secondary_muscles": [
+        "triceps"
+      ],
+      "equipment": "barbell",
+      "level": "intermediate",
+      "aliases": [
+        "ohp",
+        "military press",
+        "standing press"
+      ],
+      "instructions": [
+        "Hold the bar at collarbone height.",
+        "Press overhead while keeping the core braced.",
+        "Finish with the bar over the mid-foot.",
+        "Do not lean back with the lower back."
+      ],
+      "image": "/images/exercises/overhead_press.png",
+      "source": "seed"
+    },
+    {
+      "id": "lateral_raise",
+      "name_en": "Lateral Raise",
+      "name_nl": "Zijwaars",
+      "muscle_group": "shoulders",
+      "secondary_muscles": [],
+      "equipment": "dumbbell",
+      "level": "beginner",
+      "aliases": [
+        "side raise"
+      ],
+      "instructions": [
+        "Stand with a dumbbell in each hand at the sides.",
+        "Raise the arms out to shoulder height.",
+        "Lower slowly.",
+        "Lead with the elbows and keep a slight bend in the arm."
+      ],
+      "image": "/images/exercises/lateral_raise.png",
+      "source": "seed"
+    },
+    {
+      "id": "arnold_press",
+      "name_en": "Arnold Press",
+      "name_nl": "Arnold press",
+      "muscle_group": "shoulders",
+      "secondary_muscles": [
+        "triceps"
+      ],
+      "equipment": "dumbbell",
+      "level": "intermediate",
+      "aliases": [],
+      "instructions": [
+        "Start with palms facing you at shoulder height.",
+        "Press up while rotating the palms outward.",
+        "Finish overhead with palms facing forward.",
+        "Reverse the motion on the way down."
+      ],
+      "image": "/images/exercises/arnold_press.png",
+      "source": "seed"
+    },
+    {
+      "id": "upright_row",
+      "name_en": "Upright Row",
+      "name_nl": "Upright row",
+      "muscle_group": "shoulders",
+      "secondary_muscles": [
+        "traps"
+      ],
+      "equipment": "barbell",
+      "level": "intermediate",
+      "aliases": [],
+      "instructions": [
+        "Pull the bar to the chin, elbows high.",
+        "Do not pull higher than the chin.",
+        "Lower with control.",
+        "Keep a neutral spine."
+      ],
+      "image": "/images/exercises/upright_row.png",
+      "source": "seed"
+    },
+    {
+      "id": "rear_delt_fly",
+      "name_en": "Rear Delt Fly",
+      "name_nl": "Achterste delt fly",
+      "muscle_group": "shoulders",
+      "secondary_muscles": [
+        "back"
+      ],
+      "equipment": "dumbbell",
+      "level": "beginner",
+      "aliases": [
+        "reverse fly"
+      ],
+      "instructions": [
+        "Hinge forward until the torso is near parallel.",
+        "Raise the dumbbells out to the sides.",
+        "Squeeze the rear deltoids at the top.",
+        "Lower with control."
+      ],
+      "image": "/images/exercises/rear_delt_fly.png",
+      "source": "seed"
+    },
+    {
+      "id": "cable_lateral_raise",
+      "name_en": "Cable Lateral Raise",
+      "name_nl": "Cable zijwaars",
+      "muscle_group": "shoulders",
+      "secondary_muscles": [],
+      "equipment": "cable",
+      "level": "beginner",
+      "aliases": [],
+      "instructions": [
+        "Set a low pulley and stand beside it.",
+        "Raise the arm out to the side against the cable.",
+        "Return slowly.",
+        "Keep the elbow slightly bent."
+      ],
+      "image": "/images/exercises/cable_lateral_raise.png",
+      "source": "seed"
+    },
+    {
+      "id": "bicep_curl",
+      "name_en": "Barbell Bicep Curl",
+      "name_nl": "Barbell biceps curl",
+      "muscle_group": "arms",
+      "secondary_muscles": [],
+      "equipment": "barbell",
+      "level": "beginner",
+      "aliases": [
+        "curl",
+        "biceps curl"
+      ],
+      "instructions": [
+        "Stand with the bar at hip level, elbows pinned to the sides.",
+        "Curl the bar up without swinging.",
+        "Lower under control.",
+        "Keep the wrists neutral."
+      ],
+      "image": "/images/exercises/bicep_curl.png",
+      "source": "seed"
+    },
+    {
+      "id": "hammer_curl",
+      "name_en": "Hammer Curl",
+      "name_nl": "Hammer curl",
+      "muscle_group": "arms",
+      "secondary_muscles": [],
+      "equipment": "dumbbell",
+      "level": "beginner",
+      "aliases": [],
+      "instructions": [
+        "Hold the dumbbells with a neutral grip.",
+        "Curl one arm at a time to shoulder height.",
+        "Lower and repeat; alternate arms.",
+        "Do not let the elbows drift forward."
+      ],
+      "image": "/images/exercises/hammer_curl.png",
+      "source": "seed"
+    },
+    {
+      "id": "preacher_curl",
+      "name_en": "Preacher Curl",
+      "name_nl": "Preacher curl",
+      "muscle_group": "arms",
+      "secondary_muscles": [],
+      "equipment": "machine",
+      "level": "intermediate",
+      "aliases": [
+        "preacher bench"
+      ],
+      "instructions": [
+        "Rest the upper arms on the pad.",
+        "Curl the weight up while the arms stay on the pad.",
+        "Lower slowly.",
+        "Do not hyperextend the elbows at the bottom."
+      ],
+      "image": "/images/exercises/preacher_curl.png",
+      "source": "seed"
+    },
+    {
+      "id": "tricep_dip_machine",
+      "name_en": "Tricep Dip Machine",
+      "name_nl": "Tricep dip machine",
+      "muscle_group": "arms",
+      "secondary_muscles": [],
+      "equipment": "machine",
+      "level": "beginner",
+      "aliases": [],
+      "instructions": [
+        "Sit with the pads at upper-arm height.",
+        "Extend the elbows to push the pads away.",
+        "Return slowly.",
+        "Keep the elbows pointing down."
+      ],
+      "image": "/images/exercises/tricep_dip_machine.png",
+      "source": "seed"
+    },
+    {
+      "id": "skull_crusher",
+      "name_en": "Skull Crusher",
+      "name_nl": "Skull crusher",
+      "muscle_group": "arms",
+      "secondary_muscles": [],
+      "equipment": "barbell",
+      "level": "intermediate",
+      "aliases": [
+        "close grip press",
+        "lying extension"
+      ],
+      "instructions": [
+        "Lie on a bench holding the bar over your chest with a close grip.",
+        "Lower the bar to your forehead by bending the elbows.",
+        "Extend the elbows to return to the start.",
+        "Keep the upper arms vertical."
+      ],
+      "image": "/images/exercises/skull_crusher.png",
+      "source": "seed"
+    },
+    {
+      "id": "tricep_pushdown",
+      "name_en": "Tricep Pushdown",
+      "name_nl": "Tricep pushdown",
+      "muscle_group": "arms",
+      "secondary_muscles": [],
+      "equipment": "cable",
+      "level": "beginner",
+      "aliases": [
+        "rope pushdown"
+      ],
+      "instructions": [
+        "Face the cable machine, elbows at the sides.",
+        "Extend the forearms to push the bar/rope down.",
+        "Return until the elbows are fully bent.",
+        "Do not flare the elbows out."
+      ],
+      "image": "/images/exercises/tricep_pushdown.png",
+      "source": "seed"
+    },
+    {
+      "id": "close_grip_bench_press",
+      "name_en": "Close-Grip Bench Press",
+      "name_nl": "Smalle greep bankdruk",
+      "muscle_group": "arms",
+      "secondary_muscles": [
+        "chest"
+      ],
+      "equipment": "barbell",
+      "level": "intermediate",
+      "aliases": [],
+      "instructions": [
+        "Grip the bar shoulder-width or narrower.",
+        "Lower to the lower chest, elbows close to the body.",
+        "Press up to full extension.",
+        "Keep the wrists stacked over the elbows."
+      ],
+      "image": "/images/exercises/close_grip_bench_press.png",
+      "source": "seed"
+    },
+    {
+      "id": "concentration_curl",
+      "name_en": "Concentration Curl",
+      "name_nl": "Concentration curl",
+      "muscle_group": "arms",
+      "secondary_muscles": [],
+      "equipment": "dumbbell",
+      "level": "beginner",
+      "aliases": [],
+      "instructions": [
+        "Sit with the elbow braced against the inner thigh.",
+        "Curl the dumbbell up without moving the elbow.",
+        "Lower with control.",
+        "Squeeze briefly at the top."
+      ],
+      "image": "/images/exercises/concentration_curl.png",
+      "source": "seed"
+    },
+    {
+      "id": "plank",
+      "name_en": "Plank",
+      "name_nl": "Plank",
+      "muscle_group": "core",
+      "secondary_muscles": [],
+      "equipment": "bodyweight",
+      "level": "beginner",
+      "aliases": [
+        "core plank"
+      ],
+      "instructions": [
+        "Support yourself on the forearms and toes.",
+        "Keep a straight line from head to heels.",
+        "Breathe steadily and hold the position.",
+        "Do not let the hips sag or rise."
+      ],
+      "image": "/images/exercises/plank.png",
+      "source": "seed"
+    },
+    {
+      "id": "hanging_leg_raise",
+      "name_en": "Hanging Leg Raise",
+      "name_nl": "Hangende beenhef",
+      "muscle_group": "core",
+      "secondary_muscles": [],
+      "equipment": "bodyweight",
+      "level": "advanced",
+      "aliases": [
+        "leg raise"
+      ],
+      "instructions": [
+        "Hang from a pull-up bar.",
+        "Raise the legs to parallel or higher.",
+        "Lower with control.",
+        "Avoid swinging the body."
+      ],
+      "image": "/images/exercises/hanging_leg_raise.png",
+      "source": "seed"
+    },
+    {
+      "id": "sit_up",
+      "name_en": "Sit-Up",
+      "name_nl": "Sit-up",
+      "muscle_group": "core",
+      "secondary_muscles": [],
+      "equipment": "bodyweight",
+      "level": "beginner",
+      "aliases": [],
+      "instructions": [
+        "Lie on your back with knees bent and feet anchored.",
+        "Curl the shoulders off the floor.",
+        "Return with control.",
+        "Do not pull the neck with the hands."
+      ],
+      "image": "/images/exercises/sit_up.png",
+      "source": "seed"
+    },
+    {
+      "id": "russian_twist",
+      "name_en": "Russian Twist",
+      "name_nl": "Russian twist",
+      "muscle_group": "core",
+      "secondary_muscles": [],
+      "equipment": "bodyweight",
+      "level": "intermediate",
+      "aliases": [
+        "russian twists"
+      ],
+      "instructions": [
+        "Sit with the knees bent and the torso leaning back slightly.",
+        "Rotate the torso from side to side.",
+        "Keep the movement controlled.",
+        "Optionally hold a weight in front of the chest."
+      ],
+      "image": "/images/exercises/russian_twist.png",
+      "source": "seed"
+    },
+    {
+      "id": "bicycle_crunch",
+      "name_en": "Bicycle Crunch",
+      "name_nl": "Fiets crank",
+      "muscle_group": "core",
+      "secondary_muscles": [],
+      "equipment": "bodyweight",
+      "level": "beginner",
+      "aliases": [
+        "bike crunch"
+      ],
+      "instructions": [
+        "Lie on your back with the hands behind the ears.",
+        "Bring one elbow toward the opposite knee while extending the other leg.",
+        "Alternate sides in a pedaling rhythm.",
+        "Keep the lower back in contact with the floor."
+      ],
+      "image": "/images/exercises/bicycle_crunch.png",
+      "source": "seed"
+    },
+    {
+      "id": "side_plank",
+      "name_en": "Side Plank",
+      "name_nl": "Zij plank",
+      "muscle_group": "core",
+      "secondary_muscles": [],
+      "equipment": "bodyweight",
+      "level": "intermediate",
+      "aliases": [
+        "lateral plank"
+      ],
+      "instructions": [
+        "Support yourself on one forearm and the side of one foot.",
+        "Lift the hips until the body forms a straight line.",
+        "Hold the position on one side, then switch.",
+        "Do not let the hips drop toward the floor."
+      ],
+      "image": "/images/exercises/side_plank.png",
+      "source": "seed"
+    },
+    {
+      "id": "v_up",
+      "name_en": "V-Up",
+      "name_nl": "V-up",
+      "muscle_group": "core",
+      "secondary_muscles": [],
+      "equipment": "bodyweight",
+      "level": "advanced",
+      "aliases": [
+        "reverse crunch"
+      ],
+      "instructions": [
+        "Lie flat with the legs and torso lifted into a V shape.",
+        "Reach the hands toward the toes while extending the legs.",
+        "Lower both ends with control.",
+        "Keep the lower back flat on the floor."
+      ],
+      "image": "/images/exercises/v_up.png",
+      "source": "seed"
+    },
+    {
+      "id": "mountain_climber",
+      "name_en": "Mountain Climber",
+      "name_nl": "Mountain climber",
+      "muscle_group": "core",
+      "secondary_muscles": [
+        "shoulders"
+      ],
+      "equipment": "bodyweight",
+      "level": "intermediate",
+      "aliases": [],
+      "instructions": [
+        "Start in a high plank position.",
+        "Drive one knee toward the chest.",
+        "Switch legs quickly while keeping the hips level.",
+        "Keep the shoulders over the wrists."
+      ],
+      "image": "/images/exercises/mountain_climber.png",
+      "source": "seed"
+    },
+    {
+      "id": "ab_wheel_rollout",
+      "name_en": "Ab Wheel Rollout",
+      "name_nl": "Ab wheel rollout",
+      "muscle_group": "core",
+      "secondary_muscles": [],
+      "equipment": "other",
+      "level": "advanced",
+      "aliases": [
+        "wheel rollout"
+      ],
+      "instructions": [
+        "Kneel with the wheel under the shoulders.",
+        "Roll forward until the body is nearly extended.",
+        "Pull back using the abs, not the arms.",
+        "Keep the back from arching."
+      ],
+      "image": "/images/exercises/ab_wheel_rollout.png",
+      "source": "seed"
+    },
+    {
+      "id": "burpee",
+      "name_en": "Burpee",
+      "name_nl": "Burpee",
+      "muscle_group": "full_body",
+      "secondary_muscles": [
+        "chest",
+        "core"
+      ],
+      "equipment": "bodyweight",
+      "level": "intermediate",
+      "aliases": [],
+      "instructions": [
+        "From standing, drop into a squat and place the hands on the floor.",
+        "Jump the feet back into a plank.",
+        "Perform a push-up, then jump the feet back in.",
+        "Explode up into a jump."
+      ],
+      "image": "/images/exercises/burpee.png",
+      "source": "seed"
+    },
+    {
+      "id": "jumping_jack",
+      "name_en": "Jumping Jack",
+      "name_nl": "Sprong",
+      "muscle_group": "cardio",
+      "secondary_muscles": [],
+      "equipment": "bodyweight",
+      "level": "beginner",
+      "aliases": [
+        "jumping jacks"
+      ],
+      "instructions": [
+        "Jump the feet out while raising the arms overhead.",
+        "Jump back to the start position.",
+        "Maintain a steady rhythm.",
+        "Land softly on the balls of the feet."
+      ],
+      "image": "/images/exercises/jumping_jack.png",
+      "source": "seed"
+    },
+    {
+      "id": "ski_erg",
+      "name_en": "Ski Erg",
+      "name_nl": "Ski erg",
+      "muscle_group": "cardio",
+      "secondary_muscles": [
+        "back",
+        "shoulders"
+      ],
+      "equipment": "machine",
+      "level": "beginner",
+      "aliases": [
+        "ergometer ski"
+      ],
+      "instructions": [
+        "Grip the handles and lean slightly forward.",
+        "Pull the handles down and back in one fluid motion.",
+        "Push back out slowly.",
+        "Keep a strong, stable base."
+      ],
+      "image": "/images/exercises/ski_erg.png",
+      "source": "seed"
+    },
+    {
+      "id": "rowing_machine",
+      "name_en": "Rowing Machine",
+      "name_nl": "Roeitoestel",
+      "muscle_group": "cardio",
+      "secondary_muscles": [
+        "back"
+      ],
+      "equipment": "machine",
+      "level": "beginner",
+      "aliases": [
+        "rower"
+      ],
+      "instructions": [
+        "Start with legs extended, then drive the legs first.",
+        "Pull the handle to the lower ribs.",
+        "Release the arms, then extend the legs.",
+        "Keep the back straight throughout the stroke."
+      ],
+      "image": "/images/exercises/rowing_machine.png",
+      "source": "seed"
+    },
+    {
+      "id": "treadmill_sprint",
+      "name_en": "Treadmill Sprint",
+      "name_nl": "Sprint op de loopband",
+      "muscle_group": "cardio",
+      "secondary_muscles": [],
+      "equipment": "machine",
+      "level": "beginner",
+      "aliases": [
+        "sprint"
+      ],
+      "instructions": [
+        "Start with a walk to settle in.",
+        "Increase to your sprint pace for the work interval.",
+        "Recover with a walk between intervals.",
+        "Keep the torso upright and the arms driving."
+      ],
+      "image": "/images/exercises/treadmill_sprint.png",
+      "source": "seed"
+    },
+    {
+      "id": "burpee_jump",
+      "name_en": "Burpee with Jump",
+      "name_nl": "Burpee met sprong",
+      "muscle_group": "full_body",
+      "secondary_muscles": [
+        "cardio"
+      ],
+      "equipment": "bodyweight",
+      "level": "advanced",
+      "aliases": [],
+      "instructions": [
+        "Perform a full burpee to the plank.",
+        "Jump the feet in and explode upward with a jump.",
+        "Land softly and repeat immediately.",
+        "Keep the core braced the whole time."
+      ],
+      "image": "/images/exercises/burpee_jump.png",
+      "source": "seed"
+    },
+    {
+      "id": "thruster",
+      "name_en": "Thruster",
+      "name_nl": "Thruster",
+      "muscle_group": "full_body",
+      "secondary_muscles": [
+        "chest",
+        "legs"
+      ],
+      "equipment": "barbell",
+      "level": "advanced",
+      "aliases": [],
+      "instructions": [
+        "Start with the bar at the shoulders.",
+        "Squat to depth, then drive up into a standing press.",
+        "Finish with the bar overhead.",
+        "Lower the bar to the shoulders between reps."
+      ],
+      "image": "/images/exercises/thruster.png",
+      "source": "seed"
+    },
+    {
+      "id": "clean_and_press",
+      "name_en": "Clean and Press",
+      "name_nl": "Clean and press",
+      "muscle_group": "full_body",
+      "secondary_muscles": [
+        "back",
+        "shoulders"
+      ],
+      "equipment": "barbell",
+      "level": "advanced",
+      "aliases": [],
+      "instructions": [
+        "From the floor, pull the bar to the shoulders in one motion.",
+        "Catch with a stable squat position.",
+        "Press the bar to lockout overhead.",
+        "Lower under control."
+      ],
+      "image": "/images/exercises/clean_and_press.png",
+      "source": "seed"
+    },
+    {
+      "id": "kettlebell_swing",
+      "name_en": "Kettlebell Swing",
+      "name_nl": "Kettlebell swing",
+      "muscle_group": "full_body",
+      "secondary_muscles": [
+        "back",
+        "legs"
+      ],
+      "equipment": "other",
+      "level": "intermediate",
+      "aliases": [
+        "swings"
+      ],
+      "instructions": [
+        "Hinge with the kettlebell in front of the body.",
+        "Snap the hips forward to send the bell to chest height.",
+        "Let it swing back between the legs.",
+        "Keep the back flat and the arms relaxed."
+      ],
+      "image": "/images/exercises/kettlebell_swing.png",
+      "source": "seed"
+    },
+    {
+      "id": "man_maker",
+      "name_en": "Man Maker",
+      "name_nl": "Man maker",
+      "muscle_group": "full_body",
+      "secondary_muscles": [
+        "chest",
+        "legs"
+      ],
+      "equipment": "bodyweight",
+      "level": "advanced",
+      "aliases": [
+        "muscle up combo"
+      ],
+      "instructions": [
+        "Drop into a burpee to a pull-up position.",
+        "Complete a pull-up, then step down to a push-up.",
+        "Finish with a push-up and a jump.",
+        "Chain the movements without pauses."
+      ],
+      "image": "/images/exercises/man_maker.png",
+      "source": "seed"
+    },
+    {
+      "id": "dumbbell_shrug",
+      "name_en": "Dumbbell Shrug",
+      "name_nl": "Dumbbell shrug",
+      "muscle_group": "back",
+      "secondary_muscles": [
+        "traps"
+      ],
+      "equipment": "dumbbell",
+      "level": "beginner",
+      "aliases": [
+        "shrugs"
+      ],
+      "instructions": [
+        "Stand with a dumbbell in each hand.",
+        "Elevate the shoulders toward the ears.",
+        "Hold briefly, then lower slowly.",
+        "Do not bend the elbows."
+      ],
+      "image": "/images/exercises/dumbbell_shrug.png",
+      "source": "seed"
+    },
+    {
+      "id": "neck_flexion",
+      "name_en": "Neck Flexion",
+      "name_nl": "Halsflexie",
+      "muscle_group": "core",
+      "secondary_muscles": [],
+      "equipment": "bodyweight",
+      "level": "beginner",
+      "aliases": [
+        "neck curls"
+      ],
+      "instructions": [
+        "Lie face-up with the neck supported at the edge of a bench.",
+        "Raise the head away from the bench.",
+        "Lower with control.",
+        "Keep the range of motion small."
+      ],
+      "image": "/images/exercises/neck_flexion.png",
+      "source": "seed"
+    }
+  ]
+}

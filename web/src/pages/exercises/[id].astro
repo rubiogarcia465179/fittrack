@@ -59,6 +59,16 @@ export function getStaticPaths() {
       </dl>
 
       {
+        e.license ? (
+          <p class="mt-3 text-[13px] text-AppDim">
+            <span data-i18n="ex_license">Licencia</span>: {e.license}
+            {e.credit ? <> · <span data-i18n="ex_credit">Autor</span>: {e.credit}</> : ''}
+            {' '}· <a class="text-AppLink hover:underline" href="https://wger.de" target="_blank" rel="noreferrer">wger.de</a>
+          </p>
+        ) : ''
+      }
+
+      {
         e.secondary_muscles && e.secondary_muscles.length > 0 ? (
           <p class="mt-3 text-[14px] text-AppSubtext">
             <span data-i18n="ex_secondary">Músculos secundarios</span>:

@@ -208,6 +208,10 @@ export interface ExerciseRow {
   instructions?: string[];
   image: string;
   source: string;
+  license?: string;
+  credit?: string;
+  source_id?: string;
+  source_url?: string;
 }
 
 /**

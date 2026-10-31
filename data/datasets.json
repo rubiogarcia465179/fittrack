@@ -2,11 +2,11 @@
   "datasets": {
     "exercises": {
       "path": "data/exercises/all.json",
-      "source": "seed",
-      "count": 61,
-      "images": 61,
+      "source": "real",
+      "count": 226,
+      "images": 226,
       "generated_at": "2026-10-31",
-      "note": "Seed: fuentes reales inaccesibles desde el sandbox (ver AGENTS.md)."
+      "note": "Datos reales de wger (CC-BY-SA) extraídos de la wheel de PyPI `wger 2.1` (la API de wger.de sigue bloqueada por el proxy del sandbox). name_nl/level curados localmente; imágenes: placeholders generados (ver AGENTS.md y scripts/fetch_exercises_wger_pypi.py)."
     }
   }
 }

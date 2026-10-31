@@ -84,6 +84,8 @@ T = {
     "ex_equipment": {"nl": "Uitrusting", "en": "Equipment", "es": "Material", "fr": "Équipement"},
     "ex_level": {"nl": "Niveau", "en": "Level", "es": "Nivel", "fr": "Niveau"},
     "ex_source": {"nl": "Bron", "en": "Source", "es": "Fuente", "fr": "Source"},
+    "ex_license": {"nl": "Licentie", "en": "Licence", "es": "Licencia", "fr": "Licence"},
+    "ex_credit": {"nl": "Auteur", "en": "Author", "es": "Autor", "fr": "Auteur"},
     # ---- groups / equipment / levels ----
     "group_chest": {"nl": "Borst", "en": "Chest", "es": "Pecho", "fr": "Poitrine"},
     "group_back": {"nl": "Rug", "en": "Back", "es": "Espalda", "fr": "Dos"},
@@ -147,10 +149,10 @@ T = {
         "fr": "FitTrack — stocké localement, sans compte.",
     },
     "footer_note": {
-        "nl": "Oefeningen-database: seed (placeholder) — zie PROGRESS.md.",
-        "en": "Exercise database: seed (placeholder) — see PROGRESS.md.",
-        "es": "Base de ejercicios: seed (placeholder) — ver PROGRESS.md.",
-        "fr": "Base d'exercices : seed (placeholder) — voir PROGRESS.md.",
+        "nl": "Oefeningen-database: echte gegevens van wger (CC-BY-SA) — zie PROGRESS.md.",
+        "en": "Exercise database: real data from wger (CC-BY-SA) — see PROGRESS.md.",
+        "es": "Base de ejercicios: datos reales de wger (CC-BY-SA) — ver PROGRESS.md.",
+        "fr": "Base d'exercices : données réelles de wger (CC-BY-SA) — voir PROGRESS.md.",
     },
 }
 

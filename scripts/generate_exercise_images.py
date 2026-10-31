@@ -556,8 +556,26 @@ def draw_motion(ax, j, kind, col=ACCENT):
         pass
 
 
+def fallback_spec(equipment, muscle_group):
+    """Spec (pose, equip, motion) por defecto para ejercicios sin entrada en E.
+    Basado en el equipo y grupo muscular reales del dataset."""
+    eq = {
+        "barbell": "bar_back", "dumbbell": "db", "machine": "machine",
+        "cable": "cable", "bodyweight": "none", "other": "none",
+    }.get(equipment, "none")
+    pose = "squat" if muscle_group in ("legs", "full_body") else "stand"
+    motion = {
+        "chest": "press", "back": "row", "legs": "squat", "shoulders": "raise",
+        "arms": "curl", "core": "raise_legs", "cardio": "run", "full_body": "press",
+    }.get(muscle_group, "press")
+    return (pose, eq, motion)
+
+
 def render(ex, out_path):
-    pose_name, equip, motion = E[ex["id"]]
+    spec = E.get(ex["id"])
+    if spec is None:
+        spec = fallback_spec(ex.get("equipment"), ex.get("muscle_group"))
+    pose_name, equip, motion = spec
     pose = POSES[pose_name]
 
     # Layout: cabecera arriba + figura abajo (sin solaparse).
