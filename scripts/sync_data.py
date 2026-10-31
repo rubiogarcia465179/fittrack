@@ -3,10 +3,9 @@
 
 - Copia `data/exercises/all.json` → `app/src/data/exercises.json` y
   `web/src/data/exercises.json`.
-- Copia `data/images/` → `web/public/images/` (estáticos para la web).
-- La app usa las imágenes desde `data/images` vía path relativo (bundle
-  Metro) cuando se sirva el contenido; para el MVP la web consume
-  `web/public/images`.
+- Copia `data/images/` → `web/public/images/exercises/` (estáticos web) y
+  → `app/assets/exercises/` (assets de Metro: la app los embebe vía
+  `require()`, mapeados en `app/src/images.ts` por scripts/make_image_map.py).
 """
 import json
 import os
@@ -22,6 +21,7 @@ WEB_IMG = os.path.join(ROOT, "web", "public", "images")
 WEB_I18N = os.path.join(ROOT, "web", "src", "i18n")
 APP_DATA = os.path.join(ROOT, "app", "src", "data", "exercises.json")
 APP_I18N = os.path.join(ROOT, "app", "src", "i18n-data")
+APP_IMG = os.path.join(ROOT, "app", "assets", "exercises")
 
 
 def main() -> int:
@@ -44,6 +44,12 @@ def main() -> int:
     shutil.copytree(SRC_IMG, os.path.join(WEB_IMG, "exercises"))
     n = len(os.listdir(os.path.join(WEB_IMG, "exercises")))
     print("sync", WEB_IMG, f"({n} imágenes)")
+
+    # Imágenes de la app: assets de Metro (requieren id estable de require()).
+    if os.path.isdir(APP_IMG):
+        shutil.rmtree(APP_IMG)
+    shutil.copytree(SRC_IMG, APP_IMG)
+    print("sync", APP_IMG, f"({len(os.listdir(APP_IMG))} imágenes)")
 
     # i18n: la web importa desde src/i18n; la app desde src/i18n-data
     for dst in (WEB_I18N, APP_I18N):
