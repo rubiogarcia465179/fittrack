@@ -90,6 +90,43 @@ conmutación NL/ES/EN/FR instantánea, crear sesión con sets/reps/peso,
 borrar del historial, volver a abrir la app y ver que las sesiones
 persisten (AsyncStorage).
 
+## App iPhone: probarla en tu móvil
+
+### Opción A — Expo Go (rápida, sin compilar)
+1. En el host:
+   ```bash
+   cd app
+   npm ci
+   npx expo start
+   ```
+2. En el iPhone: instala **Expo Go** desde la App Store y ábrela.
+3. Escanea el QR de la terminal con la cámara del iPhone (el iPhone debe
+   estar en la misma red que el host). Arranca la app nativa.
+4. Si no hay red común: pulsa `a` en la terminal y abre la URL
+   `exp://IP-DEL-HOST:8081` desde Expo Go (o el botón "Open on device"
+   con cuenta de Expo).
+
+### Opción B — build nativo (simulador o dispositivo, requiere macOS)
+```bash
+cd app
+npx expo prebuild -p ios
+npx expo run:ios                # arranca en el simulador por defecto
+# para tu iPhone: Xcode → Product → Destination → tu dispositivo
+# (o: cd ios && xcodebuild -workspace ios.xcworkspace -scheme fittrack
+#  -destination 'platform=iOS,name=Mi iPhone' build)
+```
+Para instalarla en el dispositivo físico hace falta cuenta de Apple
+Developer (o perfil gratuito con expiración de 7 días) y confianza del
+computadora en el iPhone.
+
+### Opción C — web en el iPhone
+`npx expo start --web` y abre `http://IP-DEL-HOST:8081` en Safari. La web
+principal también va genial en el navegador del iPhone (es
+mobile-first): abre `http://IP-DEL-HOST:4321/` de la web de Astro.
+
+Mismo checklist que Android: 4 pestañas, cambio de idioma instantáneo,
+crear sesión, borrar del historial, persistencia al reabrir (AsyncStorage).
+
 ## Tests
 ```bash
 node tests/run.js        # integridad de datos + lógica + i18n + paridad
