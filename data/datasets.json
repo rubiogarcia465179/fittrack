@@ -1,0 +1,12 @@
+{
+  "datasets": {
+    "exercises": {
+      "path": "data/exercises/all.json",
+      "source": "seed",
+      "count": 61,
+      "images": 61,
+      "generated_at": "2026-10-31",
+      "note": "Seed: fuentes reales inaccesibles desde el sandbox (ver AGENTS.md)."
+    }
+  }
+}
