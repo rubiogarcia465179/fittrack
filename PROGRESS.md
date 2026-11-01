@@ -5,19 +5,25 @@ tarea.
 
 ## Estado actual
 - [x] Fase 0 — Estructura del repo: AGENTS/SPEC/PROGRESS/TASKS/README +
-      .gitignore, git init + primer commit.
+      .gitignore, git init + commits.
 - [x] Fase 1 — Datos: **226 ejercicios (source: real, wger CC-BY-SA)** + 226
       imágenes + scripts (sync/fetch-PyPI/generadores) + i18n 4 bundles.
-- [x] Fase 2 — Web (Astro): 4 vistas + **226 páginas de detalle**; build +
-      preview verificados (HTTP 200 en rutas y assets).
+- [x] Fase 2 — Web (Astro): **231 páginas**, diseño **apple.com** (home hero +
+      2×2 tiles + franja gris; nav responsive con hamburguesa; /dashboard/).
 - [x] Fase 3 — App (Expo): 4 pestañas + AsyncStorage + tsc 0 errores +
-      bundle Metro OK.
-- [x] Fase 4 — i18n app: 4 bundles embebidos (nl/es/en/fr), conmutación
-      instantánea sin red (idéntica a la web).
-- [x] Fase 5 — QA: tests/run.js → 78/78 comprobaciones, 0 fallos.
-- [x] Fase 6 — Datos reales: **base REAL de wger (226 ejercicios)** vía wheel
-      de PyPI (allowlist ampliado). ⛔ Solo quedan las fotos reales
-      (static.wger.de 403).
+      bundle Metro OK; lock versionado (npm ci en el host).
+- [x] Fase 4 — i18n: 4 bundles (nl/es/en/fr), **105 claves**, conmutación
+      instantánea sin red; fix de botones en el <head> (DOMContentLoaded).
+- [x] Fase 5 — QA: `tests/run.js` 78/78 + **`tests/runtime.js` 35/35**
+      (DOM emulado sobre dist/: filtros, guardar/borrar sesión, dashboard).
+- [x] Fase 6 — Datos reales: base REAL de wger (226) vía PyPI. ⛔ Solo fotos
+      reales: **static.wger.de ya no existe en DNS** (no es proxy).
+- [x] Fix raíz de la web interactiva (commit b7ecefe): los scripts de página
+      morían (SyntaxError + import 404) → filtros, sesión y dashboard estaban
+      muertos. Fix: `define:vars` + global `window.FTGym`.
+- [ ] **Fase 7 — Sync en la nube (Supabase)**: decisión del usuario
+      (opción gratuita y escalable). Login magic link, tabla `sessions`,
+      RLS, sync local↔nube offline-first. Ver TASKS.md Fase 7.
 
 ## Verificaciones (output real)
 - 2026-10-31 — Web: `npm run build` → "65 page(s) built in 2.88s", exit 0.
@@ -75,11 +81,13 @@ tarea.
   (sin él Metro no resuelve el registro de assets).
 
 ## Pendiente / bloqueos
-- Fase 6 (fotos reales): ⛔ `static.wger.de` bloqueada (403) → las imágenes
-  siguen siendo placeholders generados (la UI y `source_note` lo declaran).
-  Para fotos reales: ampliar el allowlist (`static.wger.de`, `wger.de`) o
-  copiar `data/images` desde una máquina con red. El resto de la base ya es
-  **real** (226 ejercicios de wger vía PyPI).
+- Fase 7 (Sync Supabase) — pendiente de implementación (ver TASKS.md):
+  cuenta + proyecto, login magic link, tabla `sessions` + RLS, sync
+  offline-first en app y web.
+- Fase 6 (fotos reales) — ⛔ `static.wger.de` **no existe ya en DNS público**
+  (NXDOMAIN; no es el proxy). Alternativas: URL nueva de wger desde el host,
+  o dataset con fotos en GitHub. Las imágenes actuales son placeholders
+  generados (declarado en UI y `source_note`).
 
 ## Log
 - 2026-10-31 — Repo inicializado; estructura base y docs (Fase 0).
@@ -104,3 +112,9 @@ tarea.
   Web 230 páginas / 233 rutas / 459 assets (0 fallos); app tsc 0 + bundle
   3.32 MB; tests 78/78. i18n 86 claves. Queda ⛔ solo fotos reales
   (static.wger.de 403).
+- 2026-10-31 (noche) — Rediseño web a diseño apple.com (home hero + tiles;
+  nav responsive con hamburguesa; /dashboard/) + fix de botones de idioma
+  (DOMContentLoaded). Fix raíz del bug de scripts (b7ecefe): define:vars +
+  global FTGym; bug reps/peso de session.astro. tests/runtime.js 35/35 sobre
+  dist real; run.js 78/78; 462 assets 200; app tsc 0 + bundle 3.33 MB.
+  Decidida Fase 7: sync en la nube con Supabase (gratis, escalable).
