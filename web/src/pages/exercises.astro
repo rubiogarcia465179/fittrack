@@ -83,10 +83,10 @@ const srcLabel = source === 'seed' ? 'seed (placeholder)' : 'real';
     }
   </ul>
 
-  <script type="module">
-    import { searchExercises } from '/src/lib/gym.js';
+  <script type="module" define:vars={{ ex }}>
+    const { searchExercises } = window.FTGym;
     const T = window.FT_I18N.t;
-    const EX = { JSON.stringify(ex) };
+    const EX = ex;
 
     const input = document.getElementById('ex-search');
     const list = document.getElementById('ex-list');

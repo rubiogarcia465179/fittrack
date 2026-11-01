@@ -44,6 +44,89 @@
   .lang-btn.active {
     @apply text-AppText font-semibold bg-AppGray;
   }
+  /* Botón hamburguesa (solo móvil, como el icono de apple.com) */
+  .NavBurger {
+    @apply ml-auto flex h-8 w-8 items-center justify-center rounded text-AppText/80
+           active:bg-AppGray;
+  }
+  /* Menú móvil a pantalla completa (como el menú de apple.com en móvil) */
+  .MobileMenu {
+    @apply fixed inset-0 z-[60] flex flex-col bg-AppNearWhite/95 backdrop-blur-2xl
+           saturate-[1.8] pt-14;
+  }
+  .MobileMenuClose {
+    @apply absolute right-4 top-3 flex h-9 w-9 items-center justify-center
+           text-[28px] leading-none text-AppText/60 active:bg-AppGray rounded-full;
+  }
+  .MobileMenuLink {
+    @apply text-[28px] font-semibold tracking-apple text-AppText py-4
+           border-b border-AppBorder/50 active:bg-AppGray;
+  }
+  .MobileMenuLangs {
+    @apply mt-auto pb-16 flex justify-center gap-6;
+  }
+  .MobileMenuLang {
+    @apply text-[13px] text-AppText/50;
+  }
+  .MobileMenuLangActive {
+    @apply text-AppText font-semibold;
+  }
+
+  /* ---- Home: hero + tiles (estilo apple.com) ---- */
+  .HeroTag {
+    @apply text-[12px] font-semibold uppercase tracking-[0.18em] text-AppDim;
+  }
+  .HeroTitle {
+    @apply text-[28px] md:text-[44px] font-semibold tracking-apple
+           leading-[1.16] text-AppText;
+  }
+  .HeroSub {
+    @apply text-[17px] md:text-[21px] text-AppSecondary font-normal
+           leading-[1.42];
+  }
+  .BtnLink {
+    @apply inline-flex items-center gap-0.5 text-[17px] text-AppLink
+           hover:underline;
+  }
+  .BtnLinkChevron {
+    @apply text-AppLink transition-transform group-hover:translate-x-0.5;
+  }
+  .Tile {
+    @apply rounded-tile overflow-hidden flex flex-col items-center text-center
+           px-8 py-14 md:py-20;
+  }
+  .tile-dark {
+    background: #000000;
+    color: #f5f5f7;
+  }
+  .tile-gray {
+    background: #f5f5f7;
+    color: #1d1d1f;
+  }
+  .tile-navy {
+    background: #0b1f3a;
+    color: #f5f5f7;
+  }
+  .TileTitle {
+    @apply text-[24px] md:text-[32px] font-semibold tracking-apple
+           leading-[1.1] mt-5;
+  }
+  .TileSub {
+    @apply text-[15px] md:text-[19px] mt-3 max-w-[26ch] opacity-70;
+  }
+  .TileSubLight {
+    color: currentColor;
+    opacity: 0.72;
+  }
+  .TileCta {
+    @apply mt-6;
+  }
+  .TileLink {
+    @apply inline-flex items-center gap-0.5 text-[17px] text-white hover:underline;
+  }
+  .TileLinkChevron {
+    @apply text-white transition-transform group-hover:translate-x-0.5;
+  }
 
   /* ---- Botones ---- */
   .BtnPrimary {

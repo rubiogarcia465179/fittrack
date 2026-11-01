@@ -69,17 +69,17 @@ const ex = exData.exercises;
 
     <div class="mt-6 flex gap-3">
       <button id="s-save" class="BtnPrimary" data-i18n="sess_save">Guardar sesión</button>
-      <a class="BtnSecondary" href="/" data-i18n="cancel">Cancelar</a>
+      <a class="BtnSecondary" href="/dashboard/" data-i18n="cancel">Cancelar</a>
     </div>
     <p id="s-saved" class="mt-3 text-[14px] font-medium text-AppGreen" hidden>
       <span data-i18n="sess_saved">Sesión guardada</span> — <span data-i18n="sess_saved_hint">Vela en tu resumen.</span>
     </p>
   </section>
 
-  <script type="module">
-    import { searchExercises, oneRm, uid, normalizeSession } from '/src/lib/gym.js';
+  <script type="module" define:vars={{ ex }}>
+    const { searchExercises, oneRm, uid, normalizeSession } = window.FTGym;
     const T = window.FT_I18N.t;
-    const EX = { JSON.stringify(ex) };
+    const EX = ex;
 
     const byId = Object.fromEntries(EX.map((e) => [e.id, e]));
     const container = document.getElementById('s-exercises');
@@ -136,7 +136,7 @@ const ex = exData.exercises;
       const num = document.createElement('span');
       num.className = 'w-8 text-[13px] font-semibold text-AppSubtext';
       num.textContent = T('sess_set') + ' ' + (i + 1);
-      const mk = (labelKey, val, step) => {
+      const mk = (labelKey, fieldKey, val, step) => {
         const inp = document.createElement('input');
         inp.className = 'Field w-24';
         inp.type = 'number';
@@ -146,11 +146,11 @@ const ex = exData.exercises;
         inp.value = val;
         inp.setAttribute('aria-label', T(labelKey));
         inp.addEventListener('input', () => {
-          s[labelKey] = parseFloat(inp.value) || 0;
+          s[fieldKey] = parseFloat(inp.value) || 0;
         });
         return inp;
       };
-      row.append(num, mk('sess_reps', s.reps, 1), mk('sess_weight', s.weight_kg, 2.5));
+      row.append(num, mk('sess_reps', 'reps', s.reps, 1), mk('sess_weight', 'weight_kg', s.weight_kg, 2.5));
       const del = document.createElement('button');
       del.type = 'button';
       del.className = 'text-[13px] text-red-600 hover:underline';

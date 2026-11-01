@@ -19,6 +19,85 @@ T = {
         "es": "Tu progreso en el gym, en una app.",
         "fr": "Votre progression en salle, en une app.",
     },
+    # ---- home (hero + tiles, estilo apple.com) ----
+    "hero_tag": {
+        "nl": "NUUW", "en": "NEW", "es": "NUEVO", "fr": "NOUVEAU",
+    },
+    "hero_title": {
+        "nl": "Je gymprogres. In één app.",
+        "en": "Your gym progress. One app.",
+        "es": "Tu progreso en el gym. Una app.",
+        "fr": "Votre progression en salle. Une app.",
+    },
+    "hero_sub": {
+        "nl": "226 echte oefeningen (wger, CC-BY-SA), sessielogboek en dashboard — alles lokaal opgeslagen, geen account nodig.",
+        "en": "226 real exercises (wger, CC-BY-SA), session log and dashboard — all stored locally, no account needed.",
+        "es": "226 ejercicios reales (wger, CC-BY-SA), registro de sesiones y dashboard — todo se guarda en tu dispositivo, sin cuenta.",
+        "fr": "226 exercices réels (wger, CC-BY-SA), journal de séances et tableau de bord — tout est stocké en local, sans compte.",
+    },
+    "hero_cta_session": {
+        "nl": "Sessie starten", "en": "Start a session", "es": "Empezar una sesión", "fr": "Lancer une séance",
+    },
+    "hero_cta_exercises": {
+        "nl": "Oefeningen bekijken", "en": "Browse exercises", "es": "Ver ejercicios", "fr": "Parcourir les exercices",
+    },
+    "tile_1_t": {
+        "nl": "Oefeningen", "en": "Exercises", "es": "Ejercicios", "fr": "Exercices",
+    },
+    "tile_1_d": {
+        "nl": "226 echte oefeningen met instructies, spiergroepen en niveaus.",
+        "en": "226 real exercises with instructions, muscle groups and levels.",
+        "es": "226 ejercicios reales con instrucciones, grupo muscular y nivel.",
+        "fr": "226 exercices réels avec instructions, groupes musculaires et niveaux.",
+    },
+    "tile_1_cta": {
+        "nl": "Bekijk de library", "en": "Browse the library", "es": "Ver la biblioteca", "fr": "Voir la bibliothèque",
+    },
+    "tile_2_t": {
+        "nl": "Sessie", "en": "Session", "es": "Sesión", "fr": "Séance",
+    },
+    "tile_2_d": {
+        "nl": "Zet je training vast: oefeningen, sets, rep's en gewicht.",
+        "en": "Log your workout: exercises, sets, reps and weight.",
+        "es": "Registra tu entreno: ejercicios, series, repeticiones y peso.",
+        "fr": "Enregistrez votre entraînement : exercices, séries, reps et poids.",
+    },
+    "tile_2_cta": {
+        "nl": "Start een sessie", "en": "Start a session", "es": "Empezar sesión", "fr": "Lancer une séance",
+    },
+    "tile_3_t": {
+        "nl": "Dashboard", "en": "Dashboard", "es": "Resumen", "fr": "Tableau de bord",
+    },
+    "tile_3_d": {
+        "nl": "Volume, reeks, nieuwe PR's en je gewichtsontwikkeling.",
+        "en": "Volume, streaks, new PRs and your weight trend at a glance.",
+        "es": "Volumen, racha, nuevas marcas y tu evolución de peso de un vistazo.",
+        "fr": "Volume, série, nouveaux records et évolution de poids en un coup d'œil.",
+    },
+    "tile_3_cta": {
+        "nl": "Bekijk je voortgang", "en": "View your progress", "es": "Ver tu progreso", "fr": "Voir votre progression",
+    },
+    "tile_4_t": {
+        "nl": "Geschiedenis", "en": "History", "es": "Historial", "fr": "Historique",
+    },
+    "tile_4_d": {
+        "nl": "Al je sessies, nieuwste eerst — inclusief volume per sessie.",
+        "en": "All your sessions, newest first — including volume per session.",
+        "es": "Todas tus sesiones, de más reciente a anterior, con volumen por sesión.",
+        "fr": "Toutes vos séances, de la plus récente à l'ancienne, avec volume par séance.",
+    },
+    "tile_4_cta": {
+        "nl": "Bekijk geschiedenis", "en": "View history", "es": "Ver historial", "fr": "Voir l'historique",
+    },
+    "home_data_title": {
+        "nl": "Onze data komt van", "en": "Our data comes from", "es": "Nuestra data proviene de", "fr": "Nos données proviennent de",
+    },
+    "home_data_note": {
+        "nl": "226 oefeningen · licentie CC-BY-SA · wger.de",
+        "en": "226 exercises · CC-BY-SA licence · wger.de",
+        "es": "226 ejercicios · licencia CC-BY-SA · wger.de",
+        "fr": "226 exercices · licence CC-BY-SA · wger.de",
+    },
     "nav_dashboard": {"nl": "Overzicht", "en": "Dashboard", "es": "Resumen", "fr": "Tableau de bord"},
     "nav_exercises": {"nl": "Oefeningen", "en": "Exercises", "es": "Ejercicios", "fr": "Exercices"},
     "nav_session": {"nl": "Sessie", "en": "Session", "es": "Sesión", "fr": "Séance"},
@@ -204,12 +283,24 @@ I18N_JS_LOGIC = r"""
     window.dispatchEvent(new CustomEvent('ft-lang-change', { detail: { lang } }));
   }
 
-  document.querySelectorAll('.lang-btn').forEach((b) => {
-    b.addEventListener('click', () => setLang(b.getAttribute('data-lang')));
-  });
-  apply();
+  function bind() {
+    document.querySelectorAll('.lang-btn').forEach((b) => {
+      if (b.__ftBound) return;
+      b.__ftBound = true;
+      b.addEventListener('click', () => setLang(b.getAttribute('data-lang')));
+    });
+    apply();
+  }
 
-  return { t, setLang, getLang: () => current, DEFAULT, BUNDLES };
+  // El script se ejecuta en el <head> (antes de que exista el body):
+  // los botones se enlazan cuando el DOM está listo, nunca antes.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bind);
+  } else {
+    bind();
+  }
+
+  return { t, setLang, getLang: () => current, DEFAULT, BUNDLES, apply };
 """
 
 

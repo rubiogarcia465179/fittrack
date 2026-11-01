@@ -22,10 +22,10 @@ const names = Object.fromEntries(exData.exercises.map((e) => [e.id, e.name_en]))
     <p class="text-[14px] text-AppSubtext" data-i18n="hist_empty">Aún no hay sesiones en tu historial.</p>
   </div>
 
-  <script type="module">
-    import { sortByDate, sessionVolume, oneRm } from '/src/lib/gym.js';
+  <script type="module" define:vars={{ names }}>
+    const { sortByDate, sessionVolume, oneRm } = window.FTGym;
     const T = window.FT_I18N.t;
-    const NAMES = { JSON.stringify(names) };
+    const NAMES = names;
 
     const list = document.getElementById('hist-list');
 

@@ -18,7 +18,7 @@ fittrack/
 ├── AGENTS.md  SPEC.md  PROGRESS.md  TASKS.md  README.md
 ├── data/      ← base de ejercicios (JSON, source: real) + imágenes
 ├── scripts/   ← sync_data.py, fetch_exercises_wger_pypi.py, generadores
-├── i18n/      ← bundles nl/es/en/fr (86 claves)
+├── i18n/      ← bundles nl/es/en/fr (105 claves)
 ├── tests/     ← node tests/run.js
 ├── web/       ← Astro 4 (static) + Tailwind 3.4   → su package.json AQUÍ
 └── app/       ← Expo SDK 51 / React Native 0.74   → su package.json AQUÍ
@@ -43,12 +43,18 @@ Todos los comandos `npm` se ejecutan desde `web/` o desde `app/`.
    dispositivo de la red).
    También vale cualquier hosting estático con `web/dist/`.
 
-3. Checklist de rutas (230 páginas): `/`, `/exercises/`,
-   `/exercises/<id>/` (226 ids, p. ej. `/exercises/bench_press/`),
-   `/session/`, `/history/`. Cambia de idioma con NL/ES/EN/FR en la cabecera
-   (cambio instantáneo, sin red). Guarda una sesión en `/session/` y
-   comprueba que el dashboard y el historial la reflejan (persistencia en
-   localStorage).
+3. Rutas (231 páginas):
+   - `/` — home estilo apple.com (hero + grid 2×2 de tiles + franja gris)
+   - `/dashboard/` — resumen con métricas (volumen, racha, PRs, peso)
+   - `/exercises/` — biblioteca: 226 ejercicios, búsqueda + filtros por grupo/material
+   - `/exercises/<id>/` — detalle (instrucciones, imagen, licencia)
+   - `/session/` — registro de una sesión (añadir ejercicios/sets, peso corporal)
+   - `/history/` — historial con borrar
+   Cambia de idioma con NL/ES/EN/FR en la cabecera (instantáneo, sin red);
+   en móvil se abre el **menú hamburguesa** (pantalla completa, como
+   apple.com) con los enlaces grandes y el selector de idioma. Guarda una
+   sesión en `/session/` y comprueba que el dashboard y el historial la
+   reflejan (persistencia en localStorage).
 
 Si `npm run preview` da `ENOENT ... fittrack/package.json` → estabas en la
 raíz del repo: haz `cd web` antes.

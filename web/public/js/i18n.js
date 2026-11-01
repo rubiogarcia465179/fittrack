@@ -46,6 +46,11 @@ window.FT_I18N = (function () {
     "group_full_body": "Heel lichaam",
     "group_legs": "Benen",
     "group_shoulders": "Schouders",
+    "hero_cta_exercises": "Oefeningen bekijken",
+    "hero_cta_session": "Sessie starten",
+    "hero_sub": "226 echte oefeningen (wger, CC-BY-SA), sessielogboek en dashboard — alles lokaal opgeslagen, geen account nodig.",
+    "hero_tag": "NUUW",
+    "hero_title": "Je gymprogres. In één app.",
     "hist_delete": "Sessie verwijderen",
     "hist_empty": "Nog geen sessies in je geschiedenis.",
     "hist_exercises": "oefeningen",
@@ -53,6 +58,8 @@ window.FT_I18N = (function () {
     "hist_sub": "Al je sessies, nieuwste eerst.",
     "hist_title": "Geschiedenis",
     "hist_volume": "volume",
+    "home_data_note": "226 oefeningen · licentie CC-BY-SA · wger.de",
+    "home_data_title": "Onze data komt van",
     "level_advanced": "Geavanceerd",
     "level_beginner": "Beginner",
     "level_intermediate": "Intermediair",
@@ -87,7 +94,19 @@ window.FT_I18N = (function () {
     "stat_weekly_sessions": "Sessies deze week",
     "stat_weekly_volume": "Volume deze week",
     "stat_weight": "Lichaamsgewicht",
-    "tagline": "Je gymprogres, in één app."
+    "tagline": "Je gymprogres, in één app.",
+    "tile_1_cta": "Bekijk de library",
+    "tile_1_d": "226 echte oefeningen met instructies, spiergroepen en niveaus.",
+    "tile_1_t": "Oefeningen",
+    "tile_2_cta": "Start een sessie",
+    "tile_2_d": "Zet je training vast: oefeningen, sets, rep's en gewicht.",
+    "tile_2_t": "Sessie",
+    "tile_3_cta": "Bekijk je voortgang",
+    "tile_3_d": "Volume, reeks, nieuwe PR's en je gewichtsontwikkeling.",
+    "tile_3_t": "Dashboard",
+    "tile_4_cta": "Bekijk geschiedenis",
+    "tile_4_d": "Al je sessies, nieuwste eerst — inclusief volume per sessie.",
+    "tile_4_t": "Geschiedenis"
   },
   "es": {
     "app_name": "FitTrack",
@@ -134,6 +153,11 @@ window.FT_I18N = (function () {
     "group_full_body": "Cuerpo completo",
     "group_legs": "Piernas",
     "group_shoulders": "Hombros",
+    "hero_cta_exercises": "Ver ejercicios",
+    "hero_cta_session": "Empezar una sesión",
+    "hero_sub": "226 ejercicios reales (wger, CC-BY-SA), registro de sesiones y dashboard — todo se guarda en tu dispositivo, sin cuenta.",
+    "hero_tag": "NUEVO",
+    "hero_title": "Tu progreso en el gym. Una app.",
     "hist_delete": "Eliminar sesión",
     "hist_empty": "Aún no hay sesiones en tu historial.",
     "hist_exercises": "ejercicios",
@@ -141,6 +165,8 @@ window.FT_I18N = (function () {
     "hist_sub": "Todas tus sesiones, de más reciente a anterior.",
     "hist_title": "Historial",
     "hist_volume": "volumen",
+    "home_data_note": "226 ejercicios · licencia CC-BY-SA · wger.de",
+    "home_data_title": "Nuestra data proviene de",
     "level_advanced": "Avanzado",
     "level_beginner": "Principiante",
     "level_intermediate": "Intermedio",
@@ -175,7 +201,19 @@ window.FT_I18N = (function () {
     "stat_weekly_sessions": "Sesiones esta semana",
     "stat_weekly_volume": "Volumen esta semana",
     "stat_weight": "Peso corporal",
-    "tagline": "Tu progreso en el gym, en una app."
+    "tagline": "Tu progreso en el gym, en una app.",
+    "tile_1_cta": "Ver la biblioteca",
+    "tile_1_d": "226 ejercicios reales con instrucciones, grupo muscular y nivel.",
+    "tile_1_t": "Ejercicios",
+    "tile_2_cta": "Empezar sesión",
+    "tile_2_d": "Registra tu entreno: ejercicios, series, repeticiones y peso.",
+    "tile_2_t": "Sesión",
+    "tile_3_cta": "Ver tu progreso",
+    "tile_3_d": "Volumen, racha, nuevas marcas y tu evolución de peso de un vistazo.",
+    "tile_3_t": "Resumen",
+    "tile_4_cta": "Ver historial",
+    "tile_4_d": "Todas tus sesiones, de más reciente a anterior, con volumen por sesión.",
+    "tile_4_t": "Historial"
   },
   "en": {
     "app_name": "FitTrack",
@@ -222,6 +260,11 @@ window.FT_I18N = (function () {
     "group_full_body": "Full body",
     "group_legs": "Legs",
     "group_shoulders": "Shoulders",
+    "hero_cta_exercises": "Browse exercises",
+    "hero_cta_session": "Start a session",
+    "hero_sub": "226 real exercises (wger, CC-BY-SA), session log and dashboard — all stored locally, no account needed.",
+    "hero_tag": "NEW",
+    "hero_title": "Your gym progress. One app.",
     "hist_delete": "Delete session",
     "hist_empty": "No sessions in your history yet.",
     "hist_exercises": "exercises",
@@ -229,6 +272,8 @@ window.FT_I18N = (function () {
     "hist_sub": "All your sessions, newest first.",
     "hist_title": "History",
     "hist_volume": "volume",
+    "home_data_note": "226 exercises · CC-BY-SA licence · wger.de",
+    "home_data_title": "Our data comes from",
     "level_advanced": "Advanced",
     "level_beginner": "Beginner",
     "level_intermediate": "Intermediate",
@@ -263,7 +308,19 @@ window.FT_I18N = (function () {
     "stat_weekly_sessions": "Sessions this week",
     "stat_weekly_volume": "Volume this week",
     "stat_weight": "Body weight",
-    "tagline": "Your gym progress, in one app."
+    "tagline": "Your gym progress, in one app.",
+    "tile_1_cta": "Browse the library",
+    "tile_1_d": "226 real exercises with instructions, muscle groups and levels.",
+    "tile_1_t": "Exercises",
+    "tile_2_cta": "Start a session",
+    "tile_2_d": "Log your workout: exercises, sets, reps and weight.",
+    "tile_2_t": "Session",
+    "tile_3_cta": "View your progress",
+    "tile_3_d": "Volume, streaks, new PRs and your weight trend at a glance.",
+    "tile_3_t": "Dashboard",
+    "tile_4_cta": "View history",
+    "tile_4_d": "All your sessions, newest first — including volume per session.",
+    "tile_4_t": "History"
   },
   "fr": {
     "app_name": "FitTrack",
@@ -310,6 +367,11 @@ window.FT_I18N = (function () {
     "group_full_body": "Corps entier",
     "group_legs": "Jambes",
     "group_shoulders": "Épaules",
+    "hero_cta_exercises": "Parcourir les exercices",
+    "hero_cta_session": "Lancer une séance",
+    "hero_sub": "226 exercices réels (wger, CC-BY-SA), journal de séances et tableau de bord — tout est stocké en local, sans compte.",
+    "hero_tag": "NOUVEAU",
+    "hero_title": "Votre progression en salle. Une app.",
     "hist_delete": "Supprimer la séance",
     "hist_empty": "Pas encore de séance dans l'historique.",
     "hist_exercises": "exercices",
@@ -317,6 +379,8 @@ window.FT_I18N = (function () {
     "hist_sub": "Toutes vos séances, de la plus récente à l'ancienne.",
     "hist_title": "Historique",
     "hist_volume": "volume",
+    "home_data_note": "226 exercices · licence CC-BY-SA · wger.de",
+    "home_data_title": "Nos données proviennent de",
     "level_advanced": "Avancé",
     "level_beginner": "Débutant",
     "level_intermediate": "Intermédiaire",
@@ -351,7 +415,19 @@ window.FT_I18N = (function () {
     "stat_weekly_sessions": "Séances cette semaine",
     "stat_weekly_volume": "Volume cette semaine",
     "stat_weight": "Poids corporel",
-    "tagline": "Votre progression en salle, en une app."
+    "tagline": "Votre progression en salle, en une app.",
+    "tile_1_cta": "Voir la bibliothèque",
+    "tile_1_d": "226 exercices réels avec instructions, groupes musculaires et niveaux.",
+    "tile_1_t": "Exercices",
+    "tile_2_cta": "Lancer une séance",
+    "tile_2_d": "Enregistrez votre entraînement : exercices, séries, reps et poids.",
+    "tile_2_t": "Séance",
+    "tile_3_cta": "Voir votre progression",
+    "tile_3_d": "Volume, série, nouveaux records et évolution de poids en un coup d'œil.",
+    "tile_3_t": "Tableau de bord",
+    "tile_4_cta": "Voir l'historique",
+    "tile_4_d": "Toutes vos séances, de la plus récente à l'ancienne, avec volume par séance.",
+    "tile_4_t": "Historique"
   }
 };
 
@@ -400,10 +476,22 @@ window.FT_I18N = (function () {
     window.dispatchEvent(new CustomEvent('ft-lang-change', { detail: { lang } }));
   }
 
-  document.querySelectorAll('.lang-btn').forEach((b) => {
-    b.addEventListener('click', () => setLang(b.getAttribute('data-lang')));
-  });
-  apply();
+  function bind() {
+    document.querySelectorAll('.lang-btn').forEach((b) => {
+      if (b.__ftBound) return;
+      b.__ftBound = true;
+      b.addEventListener('click', () => setLang(b.getAttribute('data-lang')));
+    });
+    apply();
+  }
 
-  return { t, setLang, getLang: () => current, DEFAULT, BUNDLES };
+  // El script se ejecuta en el <head> (antes de que exista el body):
+  // los botones se enlazan cuando el DOM está listo, nunca antes.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bind);
+  } else {
+    bind();
+  }
+
+  return { t, setLang, getLang: () => current, DEFAULT, BUNDLES, apply };
 })();

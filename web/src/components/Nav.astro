@@ -1,12 +1,17 @@
 ---
 /**
- * Barra de navegación (estilo apple.com): wordmark, enlaces y selector de
- * idioma. El cambio de idioma lo gestiona /js/i18n.js (100% local, sin red).
+ * Barra de navegación (réplica de la nav de apple.com):
+ * - Escritorio: wordmark + enlaces (13px) + selector de idioma a la derecha.
+ * - Móvil: wordmark + botón hamburguesa; el menú se abre a pantalla completa
+ *   (como el de apple.com en móvil), con enlaces grandes y selector de idioma.
+ *
+ * El cambio de idioma lo gestiona /js/i18n.js (100% local, sin red);
+ * este script solo controla el estado abierto/cerrado del menú móvil.
  */
 const { active = '' } = Astro.props;
 
 const Links = [
-  { href: '/', key: 'nav_dashboard', label: 'Resumen' },
+  { href: '/dashboard/', key: 'nav_dashboard', label: 'Resumen' },
   { href: '/exercises/', key: 'nav_exercises', label: 'Ejercicios' },
   { href: '/session/', key: 'nav_session', label: 'Sesión' },
   { href: '/history/', key: 'nav_history', label: 'Historial' },
@@ -20,7 +25,9 @@ const Langs = ['nl', 'es', 'en', 'fr'];
     <a href="/" class="text-[18px] font-semibold tracking-tighter2" aria-label="FitTrack">
       Fit<span class="text-AppBlue">Track</span>
     </a>
-    <div class="ml-1 flex items-center gap-4 md:gap-7">
+
+    <!-- Enlaces: solo escritorio (en móvil van al menú hamburguesa) -->
+    <div class="ml-1 hidden items-center gap-4 md:flex md:gap-7">
       {
         Links.map((l) => (
           <a
@@ -34,7 +41,9 @@ const Langs = ['nl', 'es', 'en', 'fr'];
         ))
       }
     </div>
-    <div class="ml-auto flex items-center gap-1" role="group" aria-label="Idioma">
+
+    <!-- Selector de idioma: solo escritorio -->
+    <div class="ml-auto hidden items-center gap-1 md:flex" role="group" aria-label="Idioma">
       {
         Langs.map((lang) => (
           <button
@@ -48,5 +57,74 @@ const Langs = ['nl', 'es', 'en', 'fr'];
         ))
       }
     </div>
+
+    <!-- Hamburguesa: solo móvil -->
+    <button
+      type="button"
+      class="NavBurger md:hidden"
+      id="nav-burger"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+    >
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M2 5.5h14M2 12.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
   </nav>
 </header>
+
+<!-- Menú móvil a pantalla completa (solo visible al abrirlo) -->
+<div
+  class="MobileMenu hidden"
+  id="nav-mobile-menu"
+  role="dialog"
+  aria-label="Menú"
+>
+  <button type="button" class="MobileMenuClose" id="nav-menu-close" aria-label="Cerrar menú">
+    &times;
+  </button>
+  <nav class="flex flex-col items-center gap-1 px-10">
+    {
+      Links.map((l) => (
+        <a href={l.href} class="MobileMenuLink" data-i18n={l.key}>
+          {l.label}
+        </a>
+      ))
+    }
+  </nav>
+  <div class="MobileMenuLangs" role="group" aria-label="Idioma">
+    {
+      Langs.map((lang) => (
+        <button
+          type="button"
+          data-lang={lang}
+          class="lang-btn MobileMenuLang"
+          aria-label={lang.toUpperCase()}
+        >
+          {lang.toUpperCase()}
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const burger = document.getElementById('nav-burger');
+  const menu = document.getElementById('nav-mobile-menu');
+  const close = document.getElementById('nav-menu-close');
+
+  function setOpen(open) {
+    menu.classList.toggle('hidden', !open);
+    burger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  burger.addEventListener('click', () => setOpen(true));
+  close.addEventListener('click', () => setOpen(false));
+  // Cerrar el menú al pulsar cualquier enlace del menú
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  // Cerrar con Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !menu.classList.contains('hidden')) setOpen(false);
+  });
+</script>

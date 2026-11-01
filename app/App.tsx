@@ -72,9 +72,12 @@ export default function App() {
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar style="dark" />
+      {/* Header 48px, estilo nav de apple.com */}
       <View style={styles.header}>
-        <View>
-          <Text style={styles.title}>{t('app_name')}</Text>
+        <View style={styles.wordmarkRow}>
+          <Text style={styles.wordmark}>
+            Fit<Text style={styles.wordmarkAccent}>Track</Text>
+          </Text>
           <Text style={styles.tagline}>{t('tagline')}</Text>
         </View>
         <LangSwitcher lng={lng} onPick={pickLang} />
@@ -133,51 +136,59 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
   },
   header: {
+    height: 48,
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    paddingBottom: 12,
+    paddingHorizontal: 16,
+    backgroundColor: 'rgba(251, 251, 253, 0.82)',
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: COLORS.border,
   },
-  title: {
-    fontSize: 26,
+  wordmarkRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 10,
+  },
+  wordmark: {
+    fontSize: 18,
     fontWeight: '700',
-    letterSpacing: -0.4,
+    letterSpacing: -0.44,
     color: COLORS.text,
+  },
+  wordmarkAccent: {
+    color: COLORS.blue,
   },
   tagline: {
     fontSize: 12,
-    color: COLORS.dim,
-    marginTop: 2,
+    color: COLORS.secondary,
   },
   body: {
     flex: 1,
   },
   tabbar: {
     flexDirection: 'row',
-    backgroundColor: COLORS.card,
+    backgroundColor: 'rgba(251, 251, 253, 0.96)',
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: COLORS.border,
-    paddingBottom: Platform.OS === 'ios' ? 8 : 0,
+    paddingBottom: Platform.OS === 'ios' ? 8 : 4,
   },
   tab: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: 12,
   },
   tabActive: {
-    // resalto sutil del icono
+    backgroundColor: 'rgba(0, 113, 227, 0.06)',
   },
   tabIcon: {
     fontSize: 22,
   },
   tabLabel: {
-    fontSize: 11,
-    color: COLORS.dim,
+    fontSize: 13,
+    color: COLORS.secondary,
     marginTop: 2,
+    fontWeight: '500',
   },
   tabLabelActive: {
     color: COLORS.blue,
