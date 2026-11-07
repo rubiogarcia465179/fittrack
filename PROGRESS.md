@@ -21,6 +21,15 @@ tarea.
 - [x] Fix raíz de la web interactiva (commit b7ecefe): los scripts de página
       morían (SyntaxError + import 404) → filtros, sesión y dashboard estaban
       muertos. Fix: `define:vars` + global `window.FTGym`.
+- [x] App → **Expo SDK 58** (2026-11-07): Expo Go de la App Store solo
+      soporta SDK 58, la app estaba en SDK 51. React 19.3.0, RN 0.88.1,
+      react-native-web 0.21.4, async-storage 2.2.0, @types/react ~19.3.0,
+      typescript ~6.0.3. `expo install --check` → "Dependencies are up to
+      date"; `tsc --noEmit` → 0 errores; iPhone (Expo Go) → "iOS Bundled
+      index.ts (982 modules)". i18next con `compatibilityJSON: 'v3'` (Hermes
+      sin Intl.PluralRules). Sin ejecutar tras la subida: `bundle-check.js`,
+      `tests/run.js`. Pendiente: SafeAreaView (deprecado en RN 0.88) →
+      `react-native-safe-area-context`.
 - [ ] **Fase 7 — Sync en la nube (Supabase)**: decisión del usuario
       (opción gratuita y escalable). Login magic link, tabla `sessions`,
       RLS, sync local↔nube offline-first. Ver TASKS.md Fase 7.

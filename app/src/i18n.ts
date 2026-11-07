@@ -38,6 +38,9 @@ i18n
     lng: 'es',
     fallbackLng: 'es',
     resources,
+    // Hermes en iOS no expone Intl.PluralRules; los bundles no usan plurales,
+    // así que el formato v3 evita el aviso de pluralResolver sin polyfill.
+    compatibilityJSON: 'v3',
     interpolation: { escapeValue: false },
   })
   .catch(() => {
