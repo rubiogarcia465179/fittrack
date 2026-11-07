@@ -156,13 +156,6 @@ Todo en PowerShell.
 2. iPhone en la misma Wi-Fi: escanea el QR de la terminal con la cámara →
    se abre en Expo Go. En la terminal sale `iOS Bundled ... index.ts`.
 
-**Publicar commits hechos en `C:\dev\fittrack`:** Windows no tiene la clave
-SSH de GitHub, así que se empuja con el git de WSL (desde PowerShell):
-```powershell
-wsl.exe -d Ubuntu-24.04 -- git -c safe.directory=/mnt/c/dev/fittrack -C /mnt/c/dev/fittrack push git@github.com:rubiogarcia465179/fittrack.git main
-```
-y luego en WSL: `cd ~/fittrack && git pull`.
-
 ### Opción B — desde WSL
 WSL es donde se desarrolla y se verifica (sin iPhone):
 ```bash
