@@ -109,79 +109,59 @@ Requisitos:
   (`npx expo install expo@<versión>` + `npx expo install --fix`).
 - Una **cuenta de Expo** con sesión iniciada en los **dos** lados: la CLI
   del ordenador y la app Expo Go del iPhone, con la **misma cuenta**.
-- iPhone y ordenador en la **misma Wi-Fi** (no red de invitados ni con
-  aislamiento de clientes; VPN apagada).
+- iPhone y ordenador en la **misma Wi-Fi**.
 
-### Opción A — Metro en Windows (recomendada, probada)
-Por qué Windows y no WSL: WSL2 tiene una red interna (`172.x.x.x`) a la que
-el iPhone no llega, así que Expo Go da *timeout* si Metro corre en WSL.
-Con Metro en Windows, el QR apunta a la IP Wi-Fi del PC.
+### Opción A — Metro en Windows (lo que se usó y funcionó)
+Con Metro en WSL, Expo Go en el iPhone daba *timeout* (WSL usa una red
+interna `172.x.x.x` que el iPhone no ve). En Windows funciona.
 
-**Primera vez** (PowerShell):
-1. Node.js LTS:
+Todo en PowerShell.
+
+**Primera vez:**
+1. Instala Node.js y abre una ventana **nueva** de PowerShell (en la
+   ventana anterior `node` no se reconoce):
    ```powershell
    winget install OpenJS.NodeJS.LTS
+   node -v
    ```
-   Cierra y abre PowerShell (si no, `node` no se reconoce). Si `npm` falla
-   con `npm.ps1 cannot be loaded because running scripts is disabled`:
-   ```powershell
-   Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-   ```
-   (o usa `npm.cmd` / `npx.cmd`).
-2. Copia del repo en el disco de Windows (Metro no funciona bien desde
-   `\\wsl.localhost\...`):
+   `npm`/`npx` dan `npm.ps1 cannot be loaded because running scripts is
+   disabled` → usa `npm.cmd` y `npx.cmd`.
+2. Copia el repo de WSL al disco de Windows e instala dependencias:
    ```powershell
    git clone \\wsl.localhost\Ubuntu-24.04\home\<usuario>\fittrack C:\dev\fittrack
    cd C:\dev\fittrack\app
-   npm ci
+   npm.cmd ci
    ```
-   Esta copia usa el repo de WSL como `origin`. Para traer cambios:
-   `git -C C:\dev\fittrack pull` (y `npm ci` si cambió `package-lock.json`).
-3. Sesión de la CLI de Expo:
-   - Cuenta con contraseña: `npx expo login --no-browser` (sin
-     `--no-browser` abre el navegador, y la sesión del navegador **no**
-     llega a la terminal).
-   - Cuenta de Google/GitHub (sin contraseña): crea un token en expo.dev →
-     ajustes de la cuenta → **Access tokens**, y guárdalo para tu usuario:
-     ```powershell
-     [Environment]::SetEnvironmentVariable("EXPO_TOKEN", "<token>", "User")
-     ```
-     Reabre PowerShell. El token no se versiona ni se comparte.
+3. Sesión de Expo en la CLI con un token (con cuenta de Google,
+   `npx.cmd expo login` solo abre el navegador y la terminal sigue sin
+   sesión). Crea el token en expo.dev → **Access tokens**, y:
+   ```powershell
+   $env:EXPO_TOKEN = "<token>"
+   npx.cmd expo whoami
+   ```
+   `whoami` debe mostrar tu usuario. El token no se versiona ni se comparte.
+4. En el iPhone: instala **Expo Go** e inicia sesión con la **misma**
+   cuenta de Expo.
 
-   Comprueba con `npx expo whoami` (debe mostrar tu usuario, no
-   `Not logged in`).
-4. En el iPhone: Expo Go → iniciar sesión con la **misma** cuenta.
-
-**Cada vez:**
-1. IP Wi-Fi del PC: `ipconfig` → adaptador Wi-Fi → IPv4
-   (p. ej. `192.168.1.20`).
-2. Arranca Metro fijando esa IP (si no, Expo puede elegir la de una VPN o
-   la de WSL y el iPhone no llega):
+**Arrancar y abrir en el iPhone:**
+1. Arranca Metro con la IP Wi-Fi del PC (sin esto Expo Go daba
+   `Could not connect to the server`: el PC tiene también una VPN `10.x` y
+   la red de WSL `172.x`):
    ```powershell
    cd C:\dev\fittrack\app
    $env:REACT_NATIVE_PACKAGER_HOSTNAME = "<IP-WiFi>"
-   npx expo start --clear
+   npx.cmd expo start --clear
    ```
-   La primera vez Windows pregunta por el firewall para Node.js:
-   **Permitir acceso**. Si no salió el aviso, en PowerShell como
-   administrador (Wi-Fi de casa marcada como red privada):
-   ```powershell
-   Set-NetConnectionProfile -InterfaceAlias WiFi -NetworkCategory Private
-   New-NetFirewallRule -DisplayName "Expo Metro 8081" -Direction Inbound -Protocol TCP -LocalPort 8081 -Action Allow -Profile Private
-   ```
-3. Comprueba la red desde el iPhone: Safari →
-   `http://<IP-WiFi>:8081/status` → debe responder `packager-status:running`.
-   Si no carga, el problema es la red/firewall, no la app.
-4. Escanea el QR de la terminal con la cámara del iPhone → se abre en
-   Expo Go.
+   Si Windows pregunta por el firewall para Node.js: **Permitir acceso**.
+2. iPhone en la misma Wi-Fi: escanea el QR de la terminal con la cámara →
+   se abre en Expo Go. En la terminal sale `iOS Bundled ... index.ts`.
 
-**Publicar cambios hechos en `C:\dev\fittrack`:** Windows no tiene la clave
-SSH de GitHub. Haz el commit en la copia de Windows y publica desde WSL:
-```bash
-cd ~/fittrack
-git pull /mnt/c/dev/fittrack main
-git push
+**Publicar commits hechos en `C:\dev\fittrack`:** Windows no tiene la clave
+SSH de GitHub, así que se empuja con el git de WSL (desde PowerShell):
+```powershell
+wsl.exe -d Ubuntu-24.04 -- git -c safe.directory=/mnt/c/dev/fittrack -C /mnt/c/dev/fittrack push git@github.com:rubiogarcia465179/fittrack.git main
 ```
+y luego en WSL: `cd ~/fittrack && git pull`.
 
 ### Opción B — desde WSL
 WSL es donde se desarrolla y se verifica (sin iPhone):
@@ -213,16 +193,17 @@ Alternativa: `npx expo start --tunnel` funciona con cualquier red, pero
 necesita el paquete `@expo/ngrok` (dependencia nueva → ⛔ en `TASKS.md`
 según `AGENTS.md`).
 
-### Problemas frecuentes
-| Mensaje | Causa | Solución |
-|---|---|---|
-| `Request timed out` / `Could not connect to the server` | El iPhone no llega a Metro: IP de WSL (`172.x`) o de VPN (`10.x`), firewall, o distinta Wi-Fi | `REACT_NATIVE_PACKAGER_HOSTNAME`, firewall, prueba `/status` en Safari |
-| `Project is incompatible with this version of Expo Go` | SDK del proyecto ≠ SDK de Expo Go | Subir la SDK; `npx expo install --check` |
-| `You need to be signed in to Expo Go and Expo CLI` | CLI sin sesión | `npx expo login --no-browser` o `EXPO_TOKEN` |
-| `signed in to Expo CLI as "…", but not signed in to Expo Go` | Expo Go sin sesión | Iniciar sesión en Expo Go con la misma cuenta |
-| `Unable to resolve "react-native/asset-registry"` | `node_modules` desfasado respecto a `package.json` | `npm ci` |
-| `node`/`npm` no se reconoce tras instalar | PATH antiguo en la ventana abierta | Reabrir PowerShell |
-| `npm.ps1 cannot be loaded` | Política de ejecución de PowerShell | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` o `npm.cmd` |
+### Problemas que nos encontramos (Windows)
+| Mensaje | Qué lo resolvió |
+|---|---|
+| `node` no se reconoce tras `winget install` | Abrir una ventana nueva de PowerShell |
+| `npm.ps1 cannot be loaded because running scripts is disabled` | Usar `npm.cmd` / `npx.cmd` |
+| `Request timed out` (Metro en WSL) | Ejecutar Metro en Windows (`C:\dev\fittrack`) |
+| `Could not connect to the server` | `$env:REACT_NATIVE_PACKAGER_HOSTNAME = "<IP-WiFi>"` antes de `npx.cmd expo start --clear` |
+| `Project is incompatible with this version of Expo Go` (SDK 51 vs 58) | Ya resuelto: la app se subió a SDK 58 (commit `67b3d5c`) |
+| `You need to be signed in to Expo Go and Expo CLI` | `$env:EXPO_TOKEN = "<token>"` |
+| `signed in to Expo CLI as "…", but not signed in to Expo Go` | Iniciar sesión en Expo Go con la misma cuenta |
+| `Unable to resolve "react-native/asset-registry"` | `node_modules` antiguo tras la subida de SDK: reinstalar con `npm.cmd install` en `app/` |
 
 Aviso conocido (no bloquea): `SafeAreaView has been deprecated` → pendiente
 migrar a `react-native-safe-area-context`.
