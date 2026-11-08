@@ -13,15 +13,21 @@ export type ActiveDraftExercise = {
   equipment_status?: EquipmentStatus;
   /** Tiempo de descanso sugerido (segundos). */
   rest_after?: number;
+  /** Cuántas veces pidió "otra sugerencia" este ejercicio ocupado. Sin
+   *  temporizador: el usuario decide el ritmo. Cuando el ciclo llega de
+   *  vuelta al original, puede elegir hacerlo ahora. */
+  alt_attempts?: number;
 };
 
 export type PostponedExercise = {
   exercise_id: string;
-  /** Cuándo se aplazó (para el intervalo de re-evaluación, 10 min). */
-  since_ts: number;
-  /** Última comprobación de disponibilidad pedida al usuario. */
-  last_check_ts: number;
   reason: 'busy' | 'unavailable';
+  /** Cuántas veces pidió el usuario "otra sugerencia". Sin temporizador:
+   *  el usuario decide el ritmo. Cuando el ciclo llega de vuelta al
+   *  ejercicio original, puede elegir hacerlo ahora. */
+  attempts: number;
+  /** Series que el usuario ya había registrado (se conservan). */
+  sets?: import('../store').SetLog[];
 };
 
 export type ActiveSession = {

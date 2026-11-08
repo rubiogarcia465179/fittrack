@@ -62,13 +62,13 @@ export function PickerSheet({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, value]);
 
-  const chipW = (343 - 2 * 14 - 2 * 8) / 3; // 3 columnas, márgenes 14
   const customVal = parseFloat(txt.replace(',', '.'));
 
   return (
     <Modal visible={open} transparent animationType="slide" onRequestClose={() => onConfirm(sel)}>
       <Pressable style={[styles.backdrop, { backgroundColor: p.overlay }]} onPress={() => onConfirm(sel)} accessibilityLabel={title}>
         <View style={[styles.sheet, { backgroundColor: p.card }]}>
+          <View style={styles.handle} />
           <View style={styles.header}>
             <Text style={[styles.title, { fontSize: fs(scale, 21), color: p.text }]}>{title}</Text>
             <Pressable
@@ -97,7 +97,7 @@ export function PickerSheet({
                   style={({ pressed }) => [
                     styles.chip,
                     {
-                      width: chipW,
+                      flexBasis: '30.5%', // 3 columnas responsivas (sin width fijo)
                       borderRadius: RADII.field,
                       backgroundColor: isSel ? p.accent : p.chipOff,
                       transform: [{ scale: pressed ? 0.94 : 1 }],
@@ -190,11 +190,19 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingHorizontal: 14,
-    paddingTop: 14,
+    paddingTop: 10,
     paddingBottom: 28,
     // La hoja nunca ocupa más que el 85% de la pantalla: si hay muchos
     // valores, la rejilla hace scroll (no se pisa la fila de valor propio).
     maxHeight: '85%',
+  },
+  handle: {
+    width: 42,
+    height: 5,
+    borderRadius: 3,
+    backgroundColor: 'rgba(0,0,0,0.18)',
+    alignSelf: 'center',
+    marginBottom: 10,
   },
   header: {
     flexDirection: 'row',

@@ -20,6 +20,7 @@ import {
   Pressable,
   StyleSheet,
   KeyboardAvoidingView,
+  Modal,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
@@ -29,11 +30,12 @@ import { store } from '../store';
 import { GROUP_COLORS, RADII } from '../theme';
 import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
-import { XGlyph } from '../components/TabIcon';
+import { XGlyph, CheckGlyph } from '../components/TabIcon';
 import { PickerSheet, fmtNum } from '../components/PickerSheet';
 import { plural } from '../lib/plural';
 import {
   suggestAlternatives,
+  suggestNextExercise,
   weightForExercise,
   recentRows,
   type EquipmentStatus,
@@ -114,14 +116,21 @@ function ValueBox({
   unit,
   onPress,
   accent,
+  done,
 }: {
   value: string;
   unit: string;
   onPress: () => void;
+  /** Resaltado "activo" (por ejemplo, un campo ya rellenado). */
   accent?: boolean;
+  /** Serie COMPLETADA: se marca en verde (estado de éxito). */
+  done?: boolean;
 }) {
   const { p } = useTheme();
   const scale = useScale();
+  const doneColor = p.green;
+  const activeColor = done ? doneColor : accent ? p.accent : null;
+  const active = activeColor !== null;
   return (
     <Pressable
       accessibilityRole="button"
@@ -130,17 +139,17 @@ function ValueBox({
       style={({ pressed }) => [
         styles.valueBox,
         {
-          backgroundColor: accent ? p.accent : p.fieldBg,
-          borderColor: accent ? p.accent : p.border,
+          backgroundColor: active ? activeColor : p.fieldBg,
+          borderColor: active ? activeColor : p.border,
           transform: [{ scale: pressed ? 0.96 : 1 }],
-          transition: 'transform 80ms ease, background-color 120ms ease',
+          transition: 'transform 80ms ease, background-color 140ms ease, border-color 140ms ease',
         },
       ]}
     >
-      <Text style={[styles.valueBoxNum, { fontSize: fs(scale, 19), color: accent ? '#fff' : p.text }]}>
+      <Text style={[styles.valueBoxNum, { fontSize: fs(scale, 19), color: active ? '#fff' : p.text }]}>
         {value}
       </Text>
-      <Text style={[styles.valueBoxUnit, { fontSize: fs(scale, 12), color: accent ? 'rgba(255,255,255,0.85)' : p.secondary }]}>
+      <Text style={[styles.valueBoxUnit, { fontSize: fs(scale, 12), color: active ? 'rgba(255,255,255,0.85)' : p.secondary }]}>
         {unit}
       </Text>
     </Pressable>
@@ -191,7 +200,6 @@ export default function SessionScreen({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [toast, setToast] = useState('');
-  const [confirmReturn, setConfirmReturn] = useState<string | null>(null);
   const [confirmDiscard, setConfirmDiscard] = useState(false);
   const scrollRef = useRef<any>(null);
   const cardOffsets = useRef<Record<string, number>>({});
@@ -208,9 +216,10 @@ export default function SessionScreen({
     | { kind: 'body' }
     | { kind: 'bench'; ex: string };
   const [pick, setPick] = useState<PickTarget | null>(null);
-
-  // Re-evaluación de material aplazado: intervalo de 10 minutos.
-  const RECHECK_MS = 10 * 60 * 1000;
+  // R-15: sugerencia de ejercicio (el que sigue). R-16: búsqueda bajo demanda.
+  const [suggestedId, setSuggestedId] = useState<string | null>(null);
+  const [suggestIdx, setSuggestIdx] = useState(0);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
   const recent = useMemo(() => recentRows(sessions), [sessions]);
@@ -244,12 +253,11 @@ export default function SessionScreen({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date, duration, weightStr, notes, draft, postponed]);
 
-  // ---- progreso: series registradas (con peso y reps) / series totales ----
+  // ---- progreso: series COMPLETADAS (marcadas por el usuario) / totales ----
+  // Los valores prellenados (sugeridos) NO cuentan: solo marca la serie
+  // cuando se completa. Así la barra refleja trabajo real, no el plan.
   const totalSets = draft.reduce((a, d) => a + d.sets.length, 0);
-  const doneSets = draft.reduce(
-    (a, d) => a + d.sets.filter((s) => s.reps > 0 && s.weight_kg > 0).length,
-    0,
-  );
+  const doneSets = draft.reduce((a, d) => a + d.sets.filter((s) => s.done).length, 0);
   const progress = totalSets > 0 ? doneSets / totalSets : 0;
 
   // ---- tiempo transcurrido (con pausa acumulada) ----
@@ -312,6 +320,50 @@ export default function SessionScreen({
   const removeExercise = (id: string) =>
     setDraft((d) => d.filter((x) => x.exercise_id !== id));
 
+  // ---- R-15: sugerencia de ejercicio (el que sigue) ----
+  const suggestList = useMemo(() => {
+    // Lista de candidatos (sin repetirse), para poder pedir "otra".
+    const cand = (limit = 8) => {
+      let out: string[] = [];
+      const excluded = new Set<string>();
+      for (let i = 0; i < limit; i++) {
+        const e = suggestNextExercise(exercises, {
+          mode: session.equipment_mode,
+          benchmarks: session.benchmarks,
+          recent,
+          exclude: [...excluded, ...draft.map((x) => x.exercise_id)],
+        });
+        if (!e) break;
+        out.push(e.id);
+        excluded.add(e.id);
+      }
+      return out;
+    };
+    return cand();
+  }, [exercises, session.equipment_mode, session.benchmarks, recent, draft]);
+
+  const suggested = useMemo(() => {
+    if (!suggestedId) return null;
+    return byId.get(suggestedId) || null;
+  }, [suggestedId, byId]);
+
+  const requestSuggestion = () => {
+    if (suggestList.length === 0) return;
+    if (suggestedId === null) {
+      setSuggestedId(suggestList[0]);
+      return;
+    }
+    const i = suggestList.indexOf(suggestedId);
+    const next = suggestList[(i + 1) % suggestList.length];
+    setSuggestedId(next === suggestedId ? null : next);
+  };
+
+  // ---- R-16: búsqueda bajo demanda (hoja inferior) ----
+  const openSearch = () => {
+    setQ('');
+    setSearchOpen(true);
+  };
+
   const addSet = (id: string) =>
     setDraft((d) =>
       d.map((x) =>
@@ -360,18 +412,58 @@ export default function SessionScreen({
     );
   };
 
+  /** Marcar/desmarcar una serie como COMPLETADA (progreso real). */
+  const toggleSetDone = (id: string, idx: number) => {
+    setDraft((d) =>
+      d.map((x) =>
+        x.exercise_id === id
+          ? { ...x, sets: x.sets.map((s, i) => (i === idx ? { ...s, done: !s.done } : s)) }
+          : x,
+      ),
+    );
+  };
+
   const setBenchValue = (id: string, v: number) =>
     setBenchManual((m) => ({ ...m, [id]: Math.round(v) }));
 
   // ---- estado de material ----
+  // Disponible: simple. Ocupado / Fuera de servicio: el ejercicio se
+  // APLAZA (se saca de la lista conservando sus series) y las
+  // sugerencias se deciden desde la tarjeta de aplazados. El usuario
+  // marca el ritmo: pide "otra sugerencia" cuando quiera, y cuando el
+  // ciclo llega de vuelta al original puede elegir hacerlo ahora.
   const setStatus = (id: string, status: EquipmentStatus) => {
-    setDraft((d) => d.map((x) => (x.exercise_id === id ? { ...x, equipment_status: status } : x)));
+    if (status === 'available') {
+      setDraft((d) => d.map((x) => (x.exercise_id === id ? { ...x, equipment_status: status } : x)));
+      return;
+    }
+    const d0 = draft.find((x) => x.exercise_id === id);
+    if (!d0) return;
+    setPostponed((pp) => [
+      ...pp.filter((x) => x.exercise_id !== id),
+      {
+        exercise_id: id,
+        reason: status === 'busy' ? 'busy' : 'unavailable',
+        attempts: 0,
+        sets: d0.sets.map((s) => ({ ...s })),
+      },
+    ]);
+    setDraft((d) => d.filter((x) => x.exercise_id !== id));
+    flash(t('postponed_moved'));
+    setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 60);
   };
 
-  // ---- aceptar alternativa: el original se APLAZA, entra el sustituto ----
-  const acceptAlt = (origId: string, altId: string) => {
+  // ---- sugerencias del ejercicio aplazado ----
+  // Cuántas veces ha pedido el usuario "otra sugerencia". Sin
+  // temporizador. Tras POSTPONE_RETURN_AT intentos, el ejercicio
+  // original vuelve a aparecer como opción ("hacerlo ahora").
+  const POSTPONE_RETURN_AT = 5;
+
+  const usePostponedAlt = (origId: string, altId: string) => {
     const alt = byId.get(altId);
     if (!alt) return;
+    // El sustituto usa SU propio peso (movimiento/máquina distintos):
+    // no se copia el del ejercicio original.
     const rec = weightForExercise(alt, {
       benchmarks: session.benchmarks,
       mode: session.equipment_mode,
@@ -379,47 +471,44 @@ export default function SessionScreen({
       reps: 10,
       recent,
     });
-    setPostponed((pp) => [
-      ...pp.filter((x) => x.exercise_id !== origId),
-      { exercise_id: origId, since_ts: Date.now(), last_check_ts: Date.now(), reason: 'busy' },
-    ]);
-    setDraft((d) => [
-      ...d.filter((x) => x.exercise_id !== origId),
-      {
-        exercise_id: altId,
-        // El sustituto usa SU propio peso (movimiento/máquina distintos):
-        // no se copia el del original.
-        sets: [
-          { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
-          { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
-          { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
-        ],
-      },
-    ]);
+    setDraft((d) =>
+      d.some((x) => x.exercise_id === altId)
+        ? d
+        : [
+            ...d,
+            {
+              exercise_id: altId,
+              equipment_status: 'available',
+              sets: [
+                { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
+                { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
+                { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
+              ],
+            },
+          ],
+    );
     flash(`${t('alt_use')}: ${nameOf(alt)}`);
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 60);
   };
 
-  // ---- volver a un ejercicio aplazado / descartarlo ----
-  const returnPostponed = (id: string) => {
+  const nextSuggestion = (id: string) =>
+    setPostponed((pp) => pp.map((x) => (x.exercise_id === id ? { ...x, attempts: x.attempts + 1 } : x)));
+
+  const doPostponedNow = (id: string) => {
+    const p0 = postponed.find((x) => x.exercise_id === id);
+    const sets: SetLog[] =
+      p0?.sets && p0.sets.length > 0
+        ? p0.sets.map((s) => ({ ...s }))
+        : [
+            { reps: 10, weight_kg: 0 },
+            { reps: 10, weight_kg: 0 },
+            { reps: 10, weight_kg: 0 },
+          ];
+    setDraft((d) =>
+      d.some((x) => x.exercise_id === id) ? d : [...d, { exercise_id: id, equipment_status: 'available', sets }],
+    );
     setPostponed((pp) => pp.filter((x) => x.exercise_id !== id));
-    setDraft((d) => {
-      if (d.some((x) => x.exercise_id === id)) return d;
-      const lastSets = sessions
-        .find((s) => s.exercises.some((e) => e.exercise_id === id))
-        ?.exercises.find((e) => e.exercise_id === id)?.sets;
-      const sets: SetLog[] =
-        lastSets && lastSets.length > 0
-          ? lastSets.slice(0, 3).map((s) => ({ reps: s.reps || 10, weight_kg: s.weight_kg ?? 0 }))
-          : [
-              { reps: 10, weight_kg: 0 },
-              { reps: 10, weight_kg: 0 },
-              { reps: 10, weight_kg: 0 },
-            ];
-      return [...d, { exercise_id: id, sets }];
-    });
     flash(t('postponed_returned'));
-    setConfirmReturn(null);
   };
 
   const skipPostponed = (id: string) => {
@@ -489,9 +578,6 @@ export default function SessionScreen({
       setSaving(false);
     }
   };
-
-  const minsLeft = (pp: PostponedExercise) =>
-    Math.max(0, Math.ceil((RECHECK_MS - (now - pp.since_ts)) / 60000));
 
   const statusChip = (id: string, s: EquipmentStatus, label: string) => {
     const active = draft.find((d) => d.exercise_id === id)?.equipment_status === s;
@@ -649,42 +735,87 @@ export default function SessionScreen({
           </ScrollView>
         ) : null}
 
-        <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_pick')}</Text>
-        <TextInput
-          style={[styles.search, { backgroundColor: p.fieldBg, borderColor: p.border, color: p.text }]}
-          placeholder={t('sess_search_ph')}
-          placeholderTextColor={p.dim}
-          value={q}
-          onChangeText={setQ}
-          autoCorrect={false}
-          accessibilityLabel={t('sess_pick')}
-        />
-        <View style={styles.results}>
-          {results.map((e) => (
-            <Pressable
-              key={e.id}
-              style={({ pressed }) => [
-                styles.resultRow,
-                {
-                  backgroundColor: p.card,
-                  borderColor: p.cardBorder,
-                  ...SHADOW.card,
-                  transform: [{ scale: pressed ? 0.98 : 1 }],
-                  transition: 'transform 90ms ease',
-                },
-              ]}
-              accessibilityRole="button"
-              accessibilityLabel={nameOf(e)}
-              onPress={() => addExercise(e.id)}
-            >
-              <Image source={e.imageAsset} style={styles.resultThumb} resizeMode="cover" />
-              <Text style={[styles.resultName, { color: p.text }]} numberOfLines={1}>
-                {nameOf(e)}
-              </Text>
-              <Text style={[styles.resultAdd, { color: p.accent }]}>+ {t('sess_add_exercise')}</Text>
-            </Pressable>
-          ))}
+        {/* ejercicio: sugerencia o búsqueda (sin scroll: todo a un toque) */}
+        <View style={[styles.actionRow, { gap: 10 }]}>
+          <Pressable
+            accessibilityRole="button"
+            onPress={openSearch}
+            style={({ pressed }) => [
+              styles.actionBtn,
+              {
+                flex: 1,
+                backgroundColor: p.card,
+                borderColor: p.cardBorder,
+                borderWidth: 1,
+                opacity: pressed ? 0.8 : 1,
+                transition: 'opacity 90ms ease',
+              },
+            ]}
+          >
+            <Text style={[styles.actionBtnText, { color: p.secondary, fontWeight: '600' }]}>{t('sess_add')}</Text>
+          </Pressable>
         </View>
+
+        {/* sugerencia (R-15): el ejercicio que sigue, con 1 toque */}
+        {suggested ? (
+          <View style={[styles.suggestCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
+            <View style={styles.suggestHead}>
+              <ExerciseGlyph label={suggested.muscle_group} size={22} />
+              <View style={styles.suggestTitleWrap}>
+                <Text style={[styles.suggestName, { color: p.text }]} numberOfLines={1}>
+                  {nameOf(suggested)}
+                </Text>
+                <Text style={[styles.suggestMeta, { color: p.dim }]}>
+                  {t(`group_${suggested.muscle_group}`)} · {t(`equip_${suggested.equipment}`)}
+                </Text>
+              </View>
+            </View>
+            <Text style={[styles.suggestHint, { color: p.secondary }]}>{t('suggest_hint')}</Text>
+            <View style={styles.suggestBtns}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => {
+                  addExercise(suggested.id);
+                  setSuggestedId(null);
+                }}
+                style={({ pressed }) => [
+                  styles.suggestUse,
+                  { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
+                ]}
+              >
+                <Text style={[styles.suggestUseText, { color: '#fff', fontWeight: '700' }]}>{t('suggest_use')}</Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={requestSuggestion}
+                style={({ pressed }) => [
+                  styles.suggestSkip,
+                  { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
+                ]}
+              >
+                <Text style={[styles.suggestSkipText, { color: p.secondary, fontWeight: '600' }]}>{t('suggest_another')}</Text>
+              </Pressable>
+            </View>
+          </View>
+        ) : (
+          <Pressable
+            accessibilityRole="button"
+            onPress={requestSuggestion}
+            style={({ pressed }) => [
+              styles.suggestGhost,
+              {
+                backgroundColor: 'transparent',
+                borderColor: p.border,
+                opacity: pressed ? 0.7 : 1,
+                transition: 'opacity 90ms ease',
+              },
+            ]}
+          >
+            <Text style={[styles.suggestGhostText, { color: p.accent, fontWeight: '700' }]}>
+              {t('sess_suggest')}
+            </Text>
+          </Pressable>
+        )}
 
         <Text style={[styles.saveTitle, { color: p.text }]}>{t('hist_exercises')}</Text>
         {draft.length === 0 ? (
@@ -730,20 +861,6 @@ export default function SessionScreen({
                   {statusChip(d.exercise_id, 'busy', t('status_busy'))}
                   {statusChip(d.exercise_id, 'unavailable', t('status_unavailable'))}
                 </View>
-
-                {/* ocupado/no disponible: buscar alternativa */}
-                {ex && (d.equipment_status === 'busy' || d.equipment_status === 'unavailable') ? (
-                  <AltList
-                    orig={ex}
-                    exercises={exercises}
-                    mode={session.equipment_mode}
-                    benchmarks={session.benchmarks}
-                    recent={recent}
-                    draft={draft}
-                    postponed={postponed}
-                    onPickAlt={(altId) => acceptAlt(d.exercise_id, altId)}
-                  />
-                ) : null}
 
                 {/* benchmark: 1RM */}
                 {isBenchmark ? (
@@ -791,7 +908,7 @@ export default function SessionScreen({
                         value={String(s.reps)}
                         unit="reps"
                         onPress={() => setPick({ kind: 'reps', ex: d.exercise_id, idx: i })}
-                        accent={s.reps > 0}
+                        done={!!s.done}
                       />
                     </View>
                     <View style={styles.setFieldWrap}>
@@ -800,8 +917,31 @@ export default function SessionScreen({
                         value={fmtNum(s.weight_kg)}
                         unit="kg"
                         onPress={() => setPick({ kind: 'weight', ex: d.exercise_id, idx: i })}
-                        accent={s.weight_kg > 0}
+                        done={!!s.done}
                       />
+                    </View>
+                    <View style={styles.setDoneWrap}>
+                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('sess_set_done')}</Text>
+                      <Pressable
+                        style={({ pressed }) => [
+                          styles.doneCircle,
+                          {
+                            borderColor: s.done ? p.green : p.border,
+                            backgroundColor: s.done ? p.green : 'transparent',
+                            transform: [{ scale: pressed ? 0.9 : 1 }],
+                            transition: 'transform 80ms ease, background-color 120ms ease, border-color 120ms ease',
+                          },
+                        ]}
+                        accessibilityRole="button"
+                        accessibilityLabel={
+                          s.done ? `${t('sess_set_done')}: ${i + 1} (${t('set_done')})` : `${t('sess_set_done')}: ${i + 1} (${t('set_pending')})`
+                        }
+                        accessibilityState={{ selected: !!s.done }}
+                        onPress={() => toggleSetDone(d.exercise_id, i)}
+                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                      >
+                        {s.done ? <CheckGlyph size={18} color="#fff" /> : null}
+                      </Pressable>
                     </View>
                     <View style={styles.setDelWrap}>
                       <Text style={[styles.setCaption, { color: p.secondary }]}>{t('delete')}</Text>
@@ -829,43 +969,110 @@ export default function SessionScreen({
           })
         )}
 
-        {/* ---- ejercicios aplazados (re-evaluación continua) ---- */}
+        {/* ---- ejercicios aplazados (el usuario decide el ritmo) ---- */}
         {postponed.length > 0 ? (
           <View style={[styles.postponedCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
             <Text style={[styles.postponedTitle, { color: p.text }]}>{t('postponed_title')}</Text>
             <Text style={[styles.postponedSub, { color: p.secondary }]}>{t('postponed_sub')}</Text>
             {postponed.map((pp) => {
               const ex = byId.get(pp.exercise_id);
-              const left = minsLeft(pp);
+              // Sugerencias (la misma lista estaciona el ciclo: el botón
+              // "Otra sugerencia" avanza dentro de ella, sin temporizador).
+              const alts = ex
+                ? suggestAlternatives(ex, exercises, {
+                    mode: session.equipment_mode,
+                    benchmarks: session.benchmarks,
+                    intensity: 'moderate',
+                    exclude: [
+                      ...draft.map((d) => d.exercise_id),
+                      ...postponed.filter((x) => x.exercise_id !== pp.exercise_id).map((x) => x.exercise_id),
+                    ],
+                    recent,
+                  }).slice(0, 3)
+                : [];
+              const currentAlt = alts.length > 0 ? alts[pp.attempts % alts.length] : null;
+              const showOriginal = pp.attempts >= POSTPONE_RETURN_AT;
               return (
                 <View key={pp.exercise_id} style={[styles.postponedRow, { borderTopColor: p.cardBorder }]}>
                   <View style={styles.postponedInfo}>
                     <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} />
-                    <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
-                      {ex ? nameOf(ex) : pp.exercise_id}
-                    </Text>
-                    <Text style={[styles.postponedWait, { color: p.dim }]}>
-                      {left > 0 ? `${t('postponed_wait')} ${left}m` : t('postponed_ready')}
-                    </Text>
+                    <View style={styles.postponedNames}>
+                      <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
+                        {ex ? nameOf(ex) : pp.exercise_id}
+                      </Text>
+                      <Text style={[styles.postponedWait, { color: p.dim }]} numberOfLines={1}>
+                        {pp.attempts > 0 ? t('postponed_attempt', { n: pp.attempts }) : t('postponed_new')}
+                      </Text>
+                    </View>
                   </View>
+
+                  {/* sugerencia actual (o el original cuando el ciclo vuelve) */}
+                  {showOriginal ? (
+                    <View style={[styles.postponedSug, { borderColor: p.accent, backgroundColor: p.section }]}>
+                      <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} />
+                      <View style={styles.postponedNames}>
+                        <Text style={[styles.postponedName, { color: p.accent }]} numberOfLines={1}>
+                          {ex ? nameOf(ex) : pp.exercise_id}
+                        </Text>
+                        <Text style={[styles.postponedWait, { color: p.secondary }]}>{t('postponed_original')}</Text>
+                      </View>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={t('postponed_do_now')}
+                        onPress={() => doPostponedNow(pp.exercise_id)}
+                        style={({ pressed }) => [
+                          styles.postponedBtn,
+                          { backgroundColor: p.accent, borderWidth: 0, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' },
+                        ]}
+                      >
+                        <Text style={[styles.postponedBtnText, { color: '#fff' }]}>{t('postponed_do_now')}</Text>
+                      </Pressable>
+                    </View>
+                  ) : currentAlt ? (
+                    <View style={[styles.postponedSug, { borderColor: p.border, backgroundColor: p.section }]}>
+                      <ExerciseGlyph label={currentAlt.muscle_group} size={18} />
+                      <View style={styles.postponedNames}>
+                        <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
+                          {nameOf(currentAlt)}
+                        </Text>
+                        <Text style={[styles.postponedWait, { color: p.dim }]} numberOfLines={1}>
+                          {t(`equip_${currentAlt.equipment}`)}
+                        </Text>
+                      </View>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={`${t('alt_use')} ${nameOf(currentAlt)}`}
+                        onPress={() => usePostponedAlt(pp.exercise_id, currentAlt.id)}
+                        style={({ pressed }) => [
+                          styles.postponedBtn,
+                          { backgroundColor: p.accent, borderWidth: 0, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' },
+                        ]}
+                      >
+                        <Text style={[styles.postponedBtnText, { color: '#fff' }]}>{t('alt_use')}</Text>
+                      </Pressable>
+                    </View>
+                  ) : (
+                    <Text style={[styles.postponedWait, { color: p.dim, paddingVertical: 6 }]}>{t('alt_none')}</Text>
+                  )}
+
                   <View style={styles.postponedBtns}>
                     <Pressable
                       accessibilityRole="button"
-                      accessibilityLabel={t('postponed_check')}
-                      disabled={left > 0}
-                      onPress={() => setConfirmReturn(pp.exercise_id)}
+                      accessibilityLabel={t('postponed_next')}
+                      disabled={currentAlt === null && !showOriginal}
+                      onPress={() => nextSuggestion(pp.exercise_id)}
                       style={({ pressed }) => [
                         styles.postponedBtn,
                         {
-                          backgroundColor: left > 0 ? p.section : p.accent,
-                          borderWidth: 0,
-                          opacity: pressed ? 0.8 : 1,
+                          backgroundColor: 'transparent',
+                          borderColor: p.border,
+                          opacity: pressed ? 0.7 : 1,
                           transition: 'opacity 90ms ease',
                         },
                       ]}
                     >
-                      <Text style={[styles.postponedBtnText, { color: left > 0 ? p.dim : '#fff' }]} numberOfLines={1}>
-                        {t('postponed_check')}
+                      <Text style={[styles.postponedBtnText, { color: p.secondary }]} numberOfLines={1}>
+                        {t('postponed_next')}
                       </Text>
                     </Pressable>
                     <Pressable
@@ -877,7 +1084,7 @@ export default function SessionScreen({
                         { backgroundColor: 'transparent', borderColor: p.border, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
                       ]}
                     >
-                      <Text style={[styles.postponedBtnText, { color: p.secondary }]} numberOfLines={1}>
+                      <Text style={[styles.postponedBtnText, { color: p.red }]} numberOfLines={1}>
                         {t('postponed_skip')}
                       </Text>
                     </Pressable>
@@ -966,30 +1173,63 @@ export default function SessionScreen({
         />
       ) : null}
 
-      {/* Confirmación de disponibilidad de un ejercicio aplazado */}
-      {confirmReturn ? (
-        <View style={styles.modalBack} pointerEvents="box-none">
-          <View style={[styles.modalCard, { backgroundColor: p.card, borderColor: p.cardBorder }]}>
-            <Text style={[styles.modalTitle, { color: p.text }]}>{t('postponed_available_q')}</Text>
-            <Text style={[styles.modalMsg, { color: p.secondary }]}>{nameOf(byId.get(confirmReturn))}</Text>
-            <View style={styles.modalRow}>
+      {/* R-16: búsqueda de ejercicios bajo demanda (hoja inferior). */}
+      {searchOpen ? (
+        <Modal visible transparent animationType="slide" onRequestClose={() => setSearchOpen(false)}>
+          <Pressable style={styles.searchBack} onPress={() => setSearchOpen(false)} accessibilityLabel={t('sess_search_ph')} />
+          <View style={[styles.searchSheet, { backgroundColor: p.card }]}>
+            <View style={styles.searchHandle} />
+            <View style={styles.searchHeader}>
+              <Text style={[styles.searchTitle, { color: p.text }]}>{t('sess_add')}</Text>
               <Pressable
                 accessibilityRole="button"
-                onPress={() => returnPostponed(confirmReturn)}
-                style={({ pressed }) => [styles.modalBtn, { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' }]}
+                accessibilityLabel={t('delete')}
+                onPress={() => setSearchOpen(false)}
+                style={({ pressed }) => [styles.searchClose, { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' }]}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
-                <Text style={styles.modalBtnTextYes}>{t('postponed_return')}</Text>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => setConfirmReturn(null)}
-                style={({ pressed }) => [styles.modalBtn, { backgroundColor: p.section, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' }]}
-              >
-                <Text style={[styles.modalBtnText, { color: p.secondary }]}>{t('cancel')}</Text>
+                <XGlyph size={16} color={p.secondary} />
               </Pressable>
             </View>
+            <TextInput
+              style={[styles.searchInput, { backgroundColor: p.fieldBg, borderColor: p.border, color: p.text }]}
+              placeholder={t('sess_search_ph')}
+              placeholderTextColor={p.dim}
+              value={q}
+              onChangeText={setQ}
+              autoCorrect={false}
+              accessibilityLabel={t('sess_search_ph')}
+            />
+            <ScrollView style={styles.searchResults} showsVerticalScrollIndicator={false}>
+              {results.map((e) => (
+                <Pressable
+                  key={e.id}
+                  style={({ pressed }) => [
+                    styles.resultRow,
+                    {
+                      backgroundColor: p.section,
+                      borderColor: p.cardBorder,
+                      transform: [{ scale: pressed ? 0.98 : 1 }],
+                      transition: 'transform 90ms ease',
+                    },
+                  ]}
+                  accessibilityRole="button"
+                  accessibilityLabel={nameOf(e)}
+                  onPress={() => {
+                    addExercise(e.id);
+                    setSearchOpen(false);
+                  }}
+                >
+                  <Image source={e.imageAsset} style={styles.resultThumb} resizeMode="cover" />
+                  <Text style={[styles.resultName, { color: p.text }]} numberOfLines={1}>
+                    {nameOf(e)}
+                  </Text>
+                  <Text style={[styles.resultAdd, { color: p.accent }]}>+ {t('sess_add_exercise')}</Text>
+                </Pressable>
+              ))}
+            </ScrollView>
           </View>
-        </View>
+        </Modal>
       ) : null}
 
       {/* Confirmación de descartar el entrenamiento activo */}
@@ -1045,95 +1285,6 @@ export default function SessionScreen({
         </Pressable>
       </View>
     </KeyboardAvoidingView>
-  );
-}
-
-/** Lista de alternativas sugeridas para un ejercicio ocupado. */
-function AltList({
-  orig,
-  exercises,
-  mode,
-  benchmarks,
-  recent,
-  draft,
-  postponed,
-  onPickAlt,
-}: {
-  orig: Exercise;
-  exercises: Exercise[];
-  mode: Parameters<typeof suggestAlternatives>[2]['mode'];
-  benchmarks: { exercise_id: string; estimated_1rm: number }[];
-  recent: RecentRow[];
-  draft: ActiveDraftExercise[];
-  postponed: PostponedExercise[];
-  onPickAlt: (altId: string) => void;
-}) {
-  const { t, i18n } = useTranslation();
-  const { p } = useTheme();
-  const [open, setOpen] = useState(false);
-  const lang = i18n.language as string;
-
-  const alts = useMemo(
-    () =>
-      suggestAlternatives(orig, exercises, {
-        mode,
-        benchmarks,
-        intensity: 'moderate',
-        exclude: [...draft.map((d) => d.exercise_id), ...postponed.map((pp) => pp.exercise_id)],
-        recent,
-      }).slice(0, 3),
-    [orig, exercises, mode, benchmarks, recent, draft, postponed],
-  );
-
-  if (!open) {
-    return (
-      <Pressable
-        accessibilityRole="button"
-        onPress={() => setOpen(true)}
-        style={({ pressed }) => [styles.altFindBtn, { opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' }]}
-      >
-        <Text style={[styles.altFindBtnText, { color: p.accent }]}>{t('find_alt')}</Text>
-      </Pressable>
-    );
-  }
-  return (
-    <View style={[styles.altBlock, { backgroundColor: p.section, borderColor: p.border }]}>
-      {alts.length === 0 ? (
-        <Text style={[styles.altNone, { color: p.dim }]}>{t('alt_none')}</Text>
-      ) : (
-        alts.map((a) => (
-          <View key={a.id} style={[styles.altRow, { borderColor: p.border }]}>
-            <ExerciseGlyph label={a.muscle_group} size={18} />
-            <View style={styles.altInfo}>
-              <Text style={[styles.altName, { color: p.text }]} numberOfLines={1}>
-                {lang === 'nl' ? a.name_nl || a.name_en : a.name_en}
-              </Text>
-              <Text style={[styles.altMeta, { color: p.dim }]} numberOfLines={1}>
-                {t(`equip_${a.equipment}`)}
-              </Text>
-            </View>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`${t('alt_use')} ${a.name_en}`}
-              onPress={() => {
-                setOpen(false);
-                onPickAlt(a.id);
-              }}
-              style={({ pressed }) => [styles.altUseBtn, { opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' }]}
-            >
-              <Text style={[styles.altUseBtnText, { color: p.accent }]}>{t('alt_use')}</Text>
-            </Pressable>
-          </View>
-        ))
-      )}
-      <Pressable
-        accessibilityRole="button"
-        onPress={() => setOpen(false)}
-        style={({ pressed }) => [styles.altClose, { opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' }]}
-      >
-        <Text style={[styles.altCloseText, { color: p.secondary }]}>{t('alt_another')}</Text>
-      </Pressable>
-    </View>
   );
 }
 
@@ -1276,6 +1427,137 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 12,
     fontSize: 16,
+  },
+  // R-15: fila de acción + sugerencia
+  actionRow: {
+    marginTop: 12,
+  },
+  actionBtn: {
+    height: 52,
+    borderRadius: RADII.field,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionBtnText: {
+    fontSize: 16,
+    letterSpacing: -0.2,
+  },
+  suggestCard: {
+    marginTop: 10,
+    borderRadius: RADII.card,
+    borderWidth: 1,
+    padding: 12,
+    gap: 10,
+  },
+  suggestHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  suggestTitleWrap: {
+    flex: 1,
+    gap: 1,
+  },
+  suggestName: {
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: -0.2,
+  },
+  suggestMeta: {
+    fontSize: 12,
+  },
+  suggestHint: {
+    fontSize: 13,
+  },
+  suggestBtns: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  suggestUse: {
+    flex: 1,
+    height: 46,
+    borderRadius: RADII.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  suggestUseText: {
+    fontSize: 15,
+  },
+  suggestSkip: {
+    width: 88,
+    height: 46,
+    borderRadius: RADII.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+  },
+  suggestSkipText: {
+    fontSize: 15,
+  },
+  suggestGhost: {
+    marginTop: 10,
+    height: 52,
+    borderRadius: RADII.field,
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  suggestGhostText: {
+    fontSize: 15,
+    letterSpacing: -0.2,
+  },
+  // R-16: hoja de búsqueda
+  searchBack: {
+    flex: 1,
+    backgroundColor: 'rgba(10,15,30,0.45)',
+    justifyContent: 'flex-end',
+  },
+  searchSheet: {
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 14,
+    paddingTop: 8,
+    paddingBottom: 24,
+    maxHeight: '80%',
+  },
+  searchHandle: {
+    width: 42,
+    height: 5,
+    borderRadius: 3,
+    alignSelf: 'center',
+    marginBottom: 10,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+  },
+  searchHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  searchTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    letterSpacing: -0.3,
+  },
+  searchClose: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  searchInput: {
+    borderRadius: RADII.field,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  searchResults: {
+    gap: 8,
+    maxHeight: 400,
   },
   results: {
     gap: 8,
@@ -1466,7 +1748,7 @@ const styles = StyleSheet.create({
   },
   setRow: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 8,
     marginTop: 8,
     alignItems: 'flex-end',
   },
@@ -1477,6 +1759,18 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '600',
     marginBottom: 4,
+  },
+  setDoneWrap: {
+    width: 44,
+    alignItems: 'center',
+  },
+  doneCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   valueBox: {
     borderRadius: RADII.field,
@@ -1530,30 +1824,40 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   postponedRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    paddingVertical: 10,
+    flexDirection: 'column',
+    gap: 8,
+    paddingVertical: 12,
     borderTopWidth: 1,
   },
   postponedInfo: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
+  postponedNames: {
+    flex: 1,
+    gap: 1,
+  },
   postponedName: {
     fontSize: 14,
     fontWeight: '600',
-    flex: 1,
   },
   postponedWait: {
     fontSize: 11,
     fontWeight: '600',
   },
+  postponedSug: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    borderRadius: RADII.field,
+    borderWidth: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+  },
   postponedBtns: {
     flexDirection: 'row',
-    gap: 6,
+    gap: 8,
   },
   postponedBtn: {
     borderRadius: 999,

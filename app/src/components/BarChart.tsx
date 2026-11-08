@@ -21,6 +21,9 @@ export default function BarChart({
 }) {
   const { p, SHADOW } = useTheme();
   const max = data.reduce((m, d) => Math.max(m, d.value), 0);
+  // Altura disponible para las BARRAS: reservamos sitio para el valor (14px)
+  // y la etiqueta (15px) de cada columna, para que nada se suba al título.
+  const plot = Math.max(24, height - 40);
   return (
     <View style={[styles.card, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]} accessibilityLabel={title}>
       <Text style={[styles.title, { color: p.text }]}>{title}</Text>
@@ -32,13 +35,14 @@ export default function BarChart({
             const pct = max > 0 ? Math.max(0.04, d.value / max) : 0.04;
             return (
               <View key={d.label + i} style={styles.col}>
-                <View style={styles.barWrap}>
+                <View style={[styles.barWrap, { height: plot }]}>
                   <View
                     style={[
                       styles.bar,
                       {
-                        height: Math.round(pct * (height - 8)),
-                        backgroundColor: d.color || p.accent,                      },
+                        height: Math.round(pct * plot),
+                        backgroundColor: d.color || p.accent,
+                      },
                     ]}
                     accessibilityElementsHidden
                   />

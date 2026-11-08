@@ -27,6 +27,8 @@ import DetailScreen from './src/screens/DetailScreen';
 import SessionScreen from './src/screens/SessionScreen';
 import HistoryScreen from './src/screens/HistoryScreen';
 import WorkoutBuilderScreen from './src/screens/WorkoutBuilderScreen';
+import SessionStartScreen from './src/screens/SessionStartScreen';
+import { loadFonts, MONT } from './src/lib/fonts';
 
 type Tab = 'dashboard' | 'library' | 'session' | 'history';
 const TABS: Tab[] = ['dashboard', 'library', 'session', 'history'];
@@ -55,6 +57,15 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
   const wide = useWide();
 
   const [tab, setTab] = useState<Tab>('dashboard');
+  // R-19: Montserrat se carga al montar; cuando está lista, la raíz aplica la
+  // familia (se hereda a todo el texto en web).
+  const [fontReady, setFontReady] = useState(false);
+  useEffect(() => {
+    loadFonts().then(() => setFontReady(true));
+  }, []);
+  // R-14: en la pestaña "Sesión", primero se elige el camino
+  // (recomendado -> wizard, o manual -> sesión en blanco).
+  const [building, setBuilding] = useState(false);
   const [lng, setLng] = useState<Lang>('es');
   const [exercises] = useState<Exercise[]>(() => loadExercises());
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -103,7 +114,7 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
     void AsyncStorage.setItem(LANG_KEY, l);
   };
 
-  // Plan generado -> entrenamiento activo (tareas 2/3A/4).
+  // Plan generado -> entrenamiento activo (tareas 2/3A/4 + R-17).
   const startWorkout = (plan: WorkoutPlan, type: 'training' | 'benchmark') => {
     const draft: ActiveDraftExercise[] = plan.exercises.map((x) => ({
       exercise_id: x.exercise_id,
@@ -116,6 +127,15 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
     }));
     const a = newActiveSession({ type, equipment_mode: plan.equipment_mode, benchmarks }, todayISO, uid);
     a.draft = draft;
+    setBuilding(false);
+    persistActive(a);
+  };
+
+  // R-14: sesión en blanco (el usuario añade los ejercicios a mano).
+  const startManualSession = () => {
+    const a = newActiveSession({ type: 'training', equipment_mode: 'full_gym', benchmarks }, todayISO, uid);
+    a.draft = [];
+    setBuilding(false);
     persistActive(a);
   };
 
@@ -168,7 +188,16 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
   };
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: p.bg }]}>
+    <SafeAreaView
+      style={[
+        styles.safe,
+        {
+          backgroundColor: p.bg,
+          // R-19: familia global. En web se hereda a todo el texto por CSS.
+          fontFamily: fontReady ? MONT : 'system',
+        } as any,
+      ]}
+    >
       <StatusBar style={p.statusBar} />
       <View style={[styles.header, { backgroundColor: p.headerBg, borderBottomColor: p.border }]}>
         <View style={styles.wordmarkRow}>
@@ -219,13 +248,18 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
                   onSaved={handleSaved}
                   onDiscard={handleDiscard}
                 />
-              ) : (
+              ) : building ? (
                 <WorkoutBuilderScreen
                   exercises={exercises}
                   sessions={sessions}
                   benchmarks={benchmarks}
                   onStarted={startWorkout}
-                  onBack={() => setTab('dashboard')}
+                  onBack={() => setBuilding(false)}
+                />
+              ) : (
+                <SessionStartScreen
+                  onRecommend={() => setBuilding(true)}
+                  onManual={startManualSession}
                 />
               )
             ) : (
@@ -250,6 +284,7 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
               style={[styles.tab, isActive && styles.tabActive]}
               accessibilityRole="button"
               accessibilityState={{ selected: isActive }}
+              accessibilityLabel={t(`nav_${tb === 'library' ? 'exercises' : tb}`)}
               onPress={() => {
                 setDetailId(null);
                 setTab(tb);
@@ -264,9 +299,9 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
               <Text
                 style={[
                   styles.tabLabel,
-                  { color: isActive ? p.accent : p.secondary },
-                  isActive && styles.tabLabelActive,
+                  { color: isActive ? p.accent : p.dim },
                 ]}
+                numberOfLines={1}
               >
                 {t(`nav_${tb === 'library' ? 'exercises' : tb}`)}
               </Text>
@@ -343,36 +378,35 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderTopWidth: StyleSheet.hairlineWidth,
     paddingBottom: Platform.OS === 'ios' ? 0 : 4,
+    height: 60,
   },
   tab: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 8,
-    paddingTop: 12,
+    justifyContent: 'center',
+    paddingVertical: 4,
+    gap: 3,
   },
   tabActive: {},
   tabIconWrap: {
-    width: 34,
-    height: 30,
+    width: 28,
+    height: 24,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  tabLabel: {
+    fontSize: 10,
+    fontWeight: '600',
+    letterSpacing: 0.2,
+  },
   activeDot: {
     position: 'absolute',
-    top: -2,
-    right: -4,
-    width: 9,
-    height: 9,
-    borderRadius: 5,
-    borderWidth: 2,
+    top: -3,
+    right: -5,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    borderWidth: 1.5,
     borderColor: '#fff',
-  },
-  tabLabel: {
-    fontSize: 13,
-    marginTop: 2,
-    fontWeight: '500',
-  },
-  tabLabelActive: {
-    fontWeight: '600',
   },
 });

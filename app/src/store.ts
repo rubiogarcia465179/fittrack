@@ -15,6 +15,9 @@ export interface SetLog {
   reps: number;
   weight_kg: number;
   rpe?: number | null;
+  /** Serie COMPLETADA (el usuario la marcó). Sin esto, el progreso
+   *  confundiría los valores sugeridos con series ya hechas. */
+  done?: boolean;
 }
 
 export interface ExerciseLog {

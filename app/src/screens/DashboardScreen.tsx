@@ -126,19 +126,6 @@ export default function DashboardScreen({
       </Text>
       <Text style={[styles.sub, { color: p.secondary }]}>{t('dash_sub')}</Text>
 
-      {/* CTA principal: generar entrenamiento personalizado (nuevo). */}
-      <Pressable
-        style={({ pressed }) => [styles.heroCta, { opacity: pressed ? 0.88 : 1, transform: [{ scale: pressed ? 0.99 : 1 }], transition: 'transform 90ms ease, opacity 90ms ease', backgroundColor: p.accent, ...SHADOW.cta }]}
-        accessibilityRole="button"
-        accessibilityLabel={t('gen_cta')}
-        onPress={onStartWorkout}
-      >
-        <View style={styles.heroRow}>
-          <Text style={[styles.heroText, { color: '#fff' }]}>{t('gen_cta')}</Text>
-          <Text style={styles.heroArrow}>{'→'}</Text>
-        </View>
-      </Pressable>
-
       {sessions.length === 0 ? (
         <View style={[styles.emptyCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
           <View style={[styles.emptyMark, { backgroundColor: p.section }]}>
@@ -170,17 +157,17 @@ export default function DashboardScreen({
             </Text>
           </View>
 
-          <BarChart title={t('dash_volume_7d')} data={weekBars} emptyText={t('dash_no_sessions')} />
+          <BarChart title={t('dash_volume_7d')} data={weekBars} height={100} emptyText={t('dash_no_sessions')} />
 
           <BarChart
             title={t('dash_groups')}
             data={groupBars}
             emptyText={t('dash_no_sessions')}
-            height={110}
+            height={84}
           />
 
           <Text style={[styles.sectionTitle, { color: p.text }]}>{t('dash_recent')}</Text>
-          {sessions.slice(0, 5).map((s) => (
+          {sessions.slice(0, 3).map((s) => (
             <Pressable
               key={s.id}
               style={({ pressed }) => [styles.recentRow, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card, transform: [{ scale: pressed ? 0.99 : 1 }], transition: 'transform 90ms ease' }]}
@@ -218,7 +205,7 @@ export default function DashboardScreen({
       )}
 
       {/* Benchmarks: resultados de fuerza guardados (tarea 2). */}
-      <View style={[styles.benchCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card, marginTop: 22 }]}>
+      <View style={[styles.benchCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card, marginTop: 16 }]}>
         <View style={styles.calendarHead}>
           <View style={{ flex: 1 }}>
             <Text style={[styles.calendarTitle, { color: p.text }]}>{t('bench_title')}</Text>
@@ -323,18 +310,18 @@ function Stat({
 
 const styles = StyleSheet.create({
   body: {
-    padding: 20,
-    paddingBottom: 32,
+    padding: 16,
+    paddingBottom: 24,
   },
   title: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: '700',
     letterSpacing: -0.6,
   },
   sub: {
-    fontSize: 15,
+    fontSize: 14,
     marginTop: 4,
-    marginBottom: 18,
+    marginBottom: 14,
   },
   heroCta: {
     borderRadius: RADII.tile,
@@ -428,10 +415,10 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
   sectionTitle: {
-    fontSize: 19,
+    fontSize: 17,
     fontWeight: '600',
-    marginTop: 22,
-    marginBottom: 10,
+    marginTop: 14,
+    marginBottom: 8,
   },
   calendarCard: {
     borderRadius: RADII.tile,
@@ -478,8 +465,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderRadius: 14,
     borderWidth: 1,
-    padding: 12,
-    marginBottom: 8,
+    padding: 10,
+    marginBottom: 7,
   },
   recentLeft: {
     flexShrink: 1,

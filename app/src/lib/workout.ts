@@ -10,10 +10,10 @@
  * No hay azar: la selección es determinista (relevancia → nivel → nombre),
  * lo que hace los tests estables y el resultado predecible para el usuario.
  */
-import type { ExerciseRow, Experience, Intensity } from './types';
+import type { ExerciseRow, Experience, Intensity, Goal } from './types';
 import { oneRm, type SessionLike } from './gym';
 
-export type { Experience, Intensity } from './types';
+export type { Experience, Intensity, Goal } from './types';
 
 export type EquipmentMode = 'full_gym' | 'dumbbells' | 'bodyweight';
 /** Estado del material durante la sesión (tarea 3B). */
@@ -71,6 +71,7 @@ export interface WorkoutPlan {
   estimated_duration_min: number;
   experience: Experience;
   intensity: Intensity;
+  goal: Goal;
 }
 
 /** Palabras que delatan peso corporal aunque la base lo marque "other". */
@@ -131,11 +132,35 @@ export function conservativeOneRm(equipment: string): number {
   }
 }
 
-const REPS_BY_INTENSITY: Record<Intensity, [number, number]> = {
-  low: [12, 15],
-  moderate: [8, 12],
-  high: [6, 8],
+/**
+ * Esquema por OBJETIVO (series, rango de reps, descanso base).
+ * El objetivo manda sobre el volumen; la intensidad ajusta el rango de reps
+ * y el % de peso (vía weightFromOneRm). Cada objetivo busca una cosa distinta:
+ *   fuerza -> pocas reps pesadas, descanso largo.
+ *   músculo -> rango medio, descanso medio.
+ *   definición -> rangos medios-alto, descanso corto.
+ *   perder grasa/peso -> muchas reps, descanso muy corto, volumen global.
+ *   resistencia -> reps muy altas, descanso mínimo.
+ */
+export const GOAL_SCHEME: Record<
+  Goal,
+  { sets: number; reps: [number, number]; rest: number }
+> = {
+  strength: { sets: 4, reps: [4, 6], rest: 150 },
+  build_muscle: { sets: 3, reps: [8, 12], rest: 90 },
+  definition: { sets: 3, reps: [10, 12], rest: 60 },
+  lose_fat: { sets: 3, reps: [15, 20], rest: 45 },
+  lose_weight: { sets: 3, reps: [12, 20], rest: 45 },
+  endurance: { sets: 3, reps: [20, 25], rest: 30 },
 };
+
+/** Reps objetivo a partir del objetivo + intensidad (ajuste fino). */
+export function repsForGoal(goal: Goal, intensity: Intensity = 'moderate'): number {
+  const [lo, hi] = GOAL_SCHEME[goal].reps;
+  const base = Math.round((lo + hi) / 2);
+  const shift = intensity === 'low' ? 2 : intensity === 'high' ? -2 : 0;
+  return Math.min(30, Math.max(3, base + shift));
+}
 
 const REST_BY_EQUIP: Record<string, number> = {
   bodyweight: 45,
@@ -164,11 +189,14 @@ export function generateWorkout(opts: {
   duration_min?: number; // objetivo aprox.
   experience: Experience;
   intensity: Intensity;
+  goal?: Goal; // objetivo (por defecto: build_muscle)
   benchmarks?: BenchmarkRef[];
   exercises: ExerciseRow[];
   recent?: RecentRow[];
   exclude_ids?: string[];
 }): WorkoutPlan {
+  const goal: Goal = opts.goal || 'build_muscle';
+  const scheme = GOAL_SCHEME[goal];
   const bench = new Map((opts.benchmarks || []).map((b) => [b.exercise_id, b.estimated_1rm]));
   const recent = new Map((opts.recent || []).map((r) => [r.exercise_id, r]));
   const excluded = new Set(opts.exclude_ids || []);
@@ -199,8 +227,7 @@ export function generateWorkout(opts: {
     picked.push(...arr);
   }
 
-  const [lo, hi] = REPS_BY_INTENSITY[opts.intensity];
-  const reps = Math.round((lo + hi) / 2);
+  const reps = repsForGoal(goal, opts.intensity);
   const weightPer = (e: ExerciseRow): { w: number; src: WorkoutPlanExercise['weight_source'] } => {
     if (isBodyweightExercise(e)) return { w: 0, src: 'bodyweight' };
     if (bench.has(e.id)) {
@@ -218,9 +245,11 @@ export function generateWorkout(opts: {
     const { w, src } = weightPer(e);
     return {
       exercise_id: e.id,
-      sets: 3,
+      sets: scheme.sets,
       reps,
-      rest_sec: REST_BY_EQUIP[e.equipment] ?? 60,
+      // El descanso lo manda el objetivo (p. ej. fuerza = 150 s), pero no
+      // por debajo del descanso físico del material (p. ej. cuerpo = 45 s).
+      rest_sec: Math.max(scheme.rest, REST_BY_EQUIP[e.equipment] ?? 60),
       recommended_weight_kg: w,
       weight_source: src,
     };
@@ -249,6 +278,7 @@ export function generateWorkout(opts: {
     estimated_duration_min: estMin(out),
     experience: opts.experience,
     intensity: opts.intensity,
+    goal,
   };
 }
 
@@ -298,6 +328,44 @@ export function suggestAlternatives(
     })
     .sort((x, y) => y.score - x.score || x.e.name_en.localeCompare(y.e.name_en));
   return scored.slice(0, opts.limit ?? 3).map((s) => s.e);
+}
+
+/**
+ * "Sugerir ejercicio" dentro de una sesión (tarea R-15): recomienda el
+ * ejercicio que SIGHO a hacer según benchmarks (prioridad), historial
+ * reciente y el modo de material. Excluye lo que ya está en la sesión.
+ * Determinista: benchmark > reciente > relevancia > nombre.
+ */
+export function suggestNextExercise(
+  exercises: ExerciseRow[],
+  opts: {
+    mode: EquipmentMode;
+    groups?: string[]; // si está vacía: todos los grupos
+    benchmarks?: BenchmarkRef[];
+    recent?: RecentRow[];
+    exclude?: string[];
+  },
+): ExerciseRow | null {
+  const excluded = new Set(opts.exclude || []);
+  const bench = new Set((opts.benchmarks || []).map((b) => b.exercise_id));
+  const recent = new Set((opts.recent || []).map((r) => r.exercise_id));
+  const pool = exercises.filter(
+    (e) =>
+      !excluded.has(e.id) &&
+      fitsMode(e, opts.mode) &&
+      (!opts.groups || opts.groups.length === 0 || opts.groups.includes(e.muscle_group)),
+  );
+  if (pool.length === 0) return null;
+  const ranked = pool
+    .map((e) => {
+      let score = 0;
+      if (bench.has(e.id)) score += 3; // lo que el usuario ya mide
+      if (recent.has(e.id)) score += 1.5; // continuidad del historial
+      score += e.level === 'intermediate' ? 0.2 : 0;
+      return { e, score };
+    })
+    .sort((x, y) => y.score - x.score || x.e.name_en.localeCompare(y.e.name_en));
+  return ranked[0].e;
 }
 
 /**

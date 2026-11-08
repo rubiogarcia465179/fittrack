@@ -133,6 +133,42 @@ export function XGlyph({ size = 14, color = '#ff3b30' }: { size?: number; color?
   );
 }
 
+/** Check dibujado (√). El emoji/tilde no está en la cobertura de fuentes
+ *  de todos los dispositivos; se dibuja con dos barras rotadas. */
+export function CheckGlyph({ size = 18, color = '#fff' }: { size?: number; color?: string }) {
+  const t = Math.max(2, Math.round(size * 0.17));
+  return (
+    <View style={{ width: size, height: size }}>
+      {/* pata corta: baja hasta el vértice */}
+      <View
+        style={{
+          position: 'absolute',
+          left: size * 0.09,
+          top: size * 0.5,
+          width: size * 0.42,
+          height: t,
+          borderRadius: t / 2,
+          backgroundColor: color,
+          transform: [{ rotate: '45deg' }],
+        }}
+      />
+      {/* pata larga: sube hacia la derecha */}
+      <View
+        style={{
+          position: 'absolute',
+          left: size * 0.34,
+          top: size * 0.42,
+          width: size * 0.64,
+          height: t,
+          borderRadius: t / 2,
+          backgroundColor: color,
+          transform: [{ rotate: '-45deg' }],
+        }}
+      />
+    </View>
+  );
+}
+
 export function TabIcon({
   name,
   color,
