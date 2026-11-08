@@ -1,6 +1,6 @@
 /** Barras verticales dibujadas con View (sin react-native-svg). */
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '../theme';
+import { COLORS, SHADOW } from '../theme';
 
 export interface Bar {
   label: string;
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
     padding: 16,
+    ...SHADOW.card,
   },
   title: {
     fontSize: 15,
@@ -95,13 +96,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   value: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     color: COLORS.secondary,
     marginTop: 6,
   },
   label: {
-    fontSize: 10,
+    fontSize: 11,
     color: COLORS.dim,
     marginTop: 2,
     maxWidth: 60,

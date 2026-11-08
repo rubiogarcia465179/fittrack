@@ -14,7 +14,9 @@ import type { Exercise } from '../data';
 import type { Session, SetLog } from '../store';
 import { searchExercises, normalizeSession, uid, todayISO, oneRm } from '../lib/gym';
 import { store } from '../store';
-import { COLORS, RADII } from '../theme';
+import { COLORS, RADII, SHADOW, GRADIENT_STOPS } from '../theme';
+import { useScale, fs } from '../scale';
+import { XGlyph } from '../components/TabIcon';
 
 interface DraftExercise {
   exercise_id: string;
@@ -113,6 +115,7 @@ export default function SessionScreen({
   onSaved: (s: Session) => void;
 }) {
   const { t, i18n } = useTranslation();
+  const scale = useScale();
   const [date, setDate] = useState<string>(todayISO());
   const [dateOpen, setDateOpen] = useState(false);
   const [weightStr, setWeightStr] = useState('');
@@ -263,6 +266,13 @@ export default function SessionScreen({
 
   const totalSets = draft.reduce((a, d) => a + d.sets.length, 0);
 
+  // CTA principal: degradado azul vertical (prop CSS de RN-web; en nativo
+  // se pinta de plano con la primera parada si no hubiera soporte).
+  const ctaBg = {
+    backgroundColor: GRADIENT_STOPS[0],
+    background: `linear-gradient(180deg, ${GRADIENT_STOPS[0]} 0%, ${GRADIENT_STOPS[1]} 100%)`,
+  } as object;
+
   return (
     // Con el teclado abierto, el contenedor se encoge (iOS: height; Android:
     // padding) para que el campo en foco y la barra de guardado queden
@@ -275,7 +285,9 @@ export default function SessionScreen({
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
       >
-        <Text style={styles.title}>{t('sess_title')}</Text>
+        <Text style={[styles.title, { fontSize: fs(scale, 32) }]} numberOfLines={1}>
+          {t('sess_title')}
+        </Text>
         <Text style={styles.sub}>{t('sess_sub')}</Text>
 
         <View style={styles.fieldsRow}>
@@ -425,12 +437,13 @@ export default function SessionScreen({
                       onText={(v) => setSet(d.exercise_id, i, 'weight_kg', v)}
                     />
                     <TouchableOpacity
+                      style={styles.setRemoveBtn}
                       accessibilityRole="button"
                       accessibilityLabel={t('delete')}
                       onPress={() => removeSet(d.exercise_id, i)}
                       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                     >
-                      <Text style={styles.setRemove}>✕</Text>
+                      <XGlyph size={14} color={COLORS.red} />
                     </TouchableOpacity>
                   </View>
                 ))}
@@ -473,10 +486,11 @@ export default function SessionScreen({
           </Text>
         )}
         <TouchableOpacity
-          style={[styles.saveBtn, draft.length === 0 && styles.saveBtnDisabled]}
+          style={[styles.saveBtn, ctaBg, draft.length === 0 && styles.saveBtnDisabled]}
           accessibilityRole="button"
           disabled={draft.length === 0}
           onPress={save}
+          activeOpacity={0.85}
         >
           <Text style={styles.saveBtnText}>{t('sess_save')}</Text>
         </TouchableOpacity>
@@ -499,13 +513,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
   },
   title: {
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: '700',
-    letterSpacing: -0.5,
+    letterSpacing: -0.6,
     color: COLORS.text,
   },
   sub: {
-    fontSize: 14,
+    fontSize: 15,
     color: COLORS.secondary,
     marginTop: 4,
     marginBottom: 16,
@@ -586,7 +600,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     paddingHorizontal: 14,
     paddingVertical: 12,
-    fontSize: 15,
+    fontSize: 16,
     color: COLORS.text,
   },
   results: {
@@ -601,6 +615,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
     padding: 12,
+    ...SHADOW.card,
   },
   resultThumb: {
     width: 44,
@@ -636,11 +651,12 @@ const styles = StyleSheet.create({
   },
   draftCard: {
     backgroundColor: COLORS.card,
-    borderRadius: 14,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
     padding: 14,
     marginBottom: 12,
+    ...SHADOW.card,
   },
   draftHeader: {
     flexDirection: 'row',
@@ -648,7 +664,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   draftName: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
     color: COLORS.text,
     flex: 1,
@@ -732,13 +748,11 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     paddingHorizontal: 4,
     paddingVertical: 10,
-    fontSize: 13,
+    fontSize: 14,
     color: COLORS.text,
     minHeight: 34,
   },
-  setRemove: {
-    fontSize: 16,
-    color: COLORS.red,
+  setRemoveBtn: {
     paddingHorizontal: 10,
     paddingVertical: 12,
     // target táctil ≥ 44px (iOS HIG)
@@ -801,9 +815,10 @@ const styles = StyleSheet.create({
   },
   saveBtn: {
     backgroundColor: COLORS.blue,
-    borderRadius: RADII.field,
-    paddingVertical: 12,
-    paddingHorizontal: 22,
+    borderRadius: RADII.tile,
+    paddingVertical: 14,
+    paddingHorizontal: 26,
+    ...SHADOW.cta,
   },
   saveBtnDisabled: {
     opacity: 0.4,

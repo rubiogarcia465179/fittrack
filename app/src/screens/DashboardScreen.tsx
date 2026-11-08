@@ -2,7 +2,6 @@ import {
   View,
   Text,
   ScrollView,
-  Image,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
@@ -20,21 +19,26 @@ import {
   weekStart,
   todayISO,
 } from '../lib/gym';
-import { COLORS, GROUP_COLORS, RADII } from '../theme';
+import { COLORS, GROUP_COLORS, RADII, SHADOW, GRADIENT_STOPS } from '../theme';
+import { useScale, fs } from '../scale';
 import BarChart, { type Bar } from '../components/BarChart';
+import { EmptyMarkGlyph } from '../components/TabIcon';
 
 export default function DashboardScreen({
   exercises,
   sessions,
   onOpenExercise,
   onOpenHistory,
+  onStartSession,
 }: {
   exercises: ExerciseRow[];
   sessions: Session[]; // ordenadas de más reciente a más antigua
   onOpenExercise: (id: string) => void;
   onOpenHistory: () => void;
+  onStartSession: () => void;
 }) {
   const { t, i18n } = useTranslation();
+  const scale = useScale();
 
   const weekVolume = weeklyVolume(sessions, 4);
   const currentWeek = weekStart(todayISO());
@@ -62,21 +66,36 @@ export default function DashboardScreen({
 
   return (
     <ScrollView contentContainerStyle={styles.body}>
-      <Text style={styles.title}>{t('dash_title')}</Text>
+      <Text style={styles.title} numberOfLines={1}>
+        {t('dash_title')}
+      </Text>
       <Text style={styles.sub}>{t('dash_sub')}</Text>
 
       {sessions.length === 0 ? (
         <View style={styles.emptyCard}>
+          <View style={styles.emptyMark}>
+            <EmptyMarkGlyph size={30} />
+          </View>
           <Text style={styles.emptyTitle}>{t('dash_no_sessions')}</Text>
           <Text style={styles.emptyHint}>{t('dash_empty_hint')}</Text>
+          <TouchableOpacity
+            style={styles.cta}
+            accessibilityRole="button"
+            activeOpacity={0.85}
+            onPress={onStartSession}
+          >
+            <View style={styles.ctaInner}>
+              <Text style={styles.ctaText}>{t('hero_cta_session')}</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       ) : (
         <>
           <View style={styles.statGrid}>
-            <Stat value={Math.round(volumeThisWeek).toLocaleString(lang)} label={t('stat_weekly_volume')} />
-            <Stat value={String(sessionsThisWeek)} label={t('stat_weekly_sessions')} />
-            <Stat value={String(streak)} label={t('stat_streak')} />
-            <Stat value={String(prs)} label={t('stat_pr')} accent={prs > 0} />
+            <Stat value={Math.round(volumeThisWeek).toLocaleString(lang)} label={t('stat_weekly_volume')} scale={scale} />
+            <Stat value={String(sessionsThisWeek)} label={t('stat_weekly_sessions')} scale={scale} />
+            <Stat value={String(streak)} label={t('stat_streak')} scale={scale} />
+            <Stat value={String(prs)} label={t('stat_pr')} accent={prs > 0} scale={scale} />
           </View>
 
           <View style={styles.weightRow}>
@@ -124,21 +143,57 @@ export default function DashboardScreen({
               </View>
             </TouchableOpacity>
           ))}
+          <TouchableOpacity
+            style={styles.historyLink}
+            accessibilityRole="button"
+            activeOpacity={0.6}
+            onPress={onOpenHistory}
+          >
+            <Text style={styles.historyLinkText}>{t('hist_title')} →</Text>
+          </TouchableOpacity>
         </>
       )}
     </ScrollView>
   );
 }
 
-function Stat({ value, label, accent = false }: { value: string; label: string; accent?: boolean }) {
+function Stat({
+  value,
+  label,
+  accent = false,
+  scale,
+}: {
+  value: string;
+  label: string;
+  accent?: boolean;
+  scale: number;
+}) {
   return (
     <View style={styles.stat}>
-      <Text style={[styles.statValue, accent && { color: COLORS.green }]}>{value}</Text>
+      <Text
+        style={[
+          styles.statValue,
+          { fontSize: fs(scale, 26) },
+          accent && { color: COLORS.green },
+        ]}
+        numberOfLines={1}
+      >
+        {value}
+      </Text>
       <Text style={styles.statLabel} numberOfLines={2}>
         {label}
       </Text>
     </View>
   );
+}
+
+/** Gradiente CSS vertical de 2 paradas (RN-web lo respeta; en nativo se
+ *  pinta de plano con la primera parada si no hubiera soporte). */
+export function ctaGradient(): object {
+  return {
+    backgroundColor: GRADIENT_STOPS[0],
+    background: `linear-gradient(180deg, ${GRADIENT_STOPS[0]} 0%, ${GRADIENT_STOPS[1]} 100%)`,
+  };
 }
 
 const styles = StyleSheet.create({
@@ -148,13 +203,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
   },
   title: {
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: '700',
-    letterSpacing: -0.5,
+    letterSpacing: -0.6,
     color: COLORS.text,
   },
   sub: {
-    fontSize: 14,
+    fontSize: 15,
     color: COLORS.secondary,
     marginTop: 4,
     marginBottom: 20,
@@ -163,7 +218,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 10,
-    marginBottom: 10,
+    marginBottom: 12,
   },
   stat: {
     flexBasis: '47%',
@@ -173,10 +228,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
     padding: 14,
+    ...SHADOW.card,
   },
   statValue: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: '700',
+    letterSpacing: -0.5,
     color: COLORS.text,
   },
   statLabel: {
@@ -194,20 +251,30 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   weightValue: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
     color: COLORS.text,
   },
   emptyCard: {
     backgroundColor: COLORS.card,
-    borderRadius: RADII.tile,
+    borderRadius: RADII.tile + 4,
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
-    padding: 24,
+    padding: 28,
     alignItems: 'center',
+    ...SHADOW.card,
+  },
+  emptyMark: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: COLORS.section,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 14,
   },
   emptyTitle: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
     color: COLORS.text,
   },
@@ -216,6 +283,24 @@ const styles = StyleSheet.create({
     color: COLORS.dim,
     marginTop: 6,
     textAlign: 'center',
+  },
+  cta: {
+    marginTop: 18,
+    borderRadius: RADII.tile,
+    ...SHADOW.cta,
+    width: '100%',
+  },
+  ctaInner: {
+    ...ctaGradient(),
+    borderRadius: RADII.tile,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  ctaText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#ffffff',
+    letterSpacing: 0.2,
   },
   sectionTitle: {
     fontSize: 19,
@@ -234,6 +319,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.cardBorder,
     padding: 12,
     marginBottom: 8,
+    ...SHADOW.card,
   },
   recentLeft: {
     flexShrink: 1,
@@ -265,5 +351,16 @@ const styles = StyleSheet.create({
     color: COLORS.dim,
     marginTop: 2,
     textAlign: 'right',
+  },
+  historyLink: {
+    alignSelf: 'flex-start',
+    marginTop: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  historyLinkText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: COLORS.blue,
   },
 });

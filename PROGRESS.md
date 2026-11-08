@@ -30,9 +30,9 @@ tarea.
       sin Intl.PluralRules). Sin ejecutar tras la subida: `bundle-check.js`,
       `tests/run.js`. Pendiente: SafeAreaView (deprecado en RN 0.88) →
       `react-native-safe-area-context`.
-- [ ] **Fase 7 — Sync en la nube (Supabase)**: decisión del usuario
-      (opción gratuita y escalable). Login magic link, tabla `sessions`,
-      RLS, sync local↔nube offline-first. Ver TASKS.md Fase 7.
+- [ ] **Fase 7 — Sync en la nube (Supabase)**: ⏸ EN ESPERA — decisión del
+      usuario 2026-11-08: la v1 se publica con datos SOLO locales
+      (AsyncStorage). Retomarse cuando el usuario lo pida. Ver TASKS.md.
 
 ## Verificaciones (output real)
 - 2026-10-31 — Web: `npm run build` → "65 page(s) built in 2.88s", exit 0.
@@ -144,3 +144,18 @@ tarea.
   tarjeta (offsets por onLayout). Verificación final: devices/geometry/
   check-scroll/dup-scroll → 0 fallos en los 6 dispositivos; tsc 0;
   expo export web OK; bundle-check.js BUNDLE_OK 3.08 MB; tests/run.js 78/78.
+
+- 2026-11-08 — Pulido de UX para publicación (Fase 7b, ver TASKS.md):
+  icono 1024 + splash 2048×2732 (`scripts/make_app_assets.py`, cableados en
+  app.json: iOS splash + Android adaptiveIcon); iconos de tabbar y empty
+  states dibujados con Views (`src/components/TabIcon.tsx`: bar chart,
+  haltera, +, reloj, X, target) — los emojis y el ✕ quedaban como cuadros
+  vacíos sin fuente de emoji; sistema de diseño (SHADOW/GRADIENT en
+  theme.ts, tipografía fluida useScale(), títulos 32px, tarjetas con
+  sombra, CTA con degradado azul + sombra); tabbar icono gris→azul; empty
+  states con CTA "Empezar una sesión" (onboarding). Fase 7 (Supabase) en
+  ESPERA: v1 publica con datos solo locales (AsyncStorage). Git
+  re-inicializado en el repo (bcafc7a = estado antes de esta fase; commit
+  siguiente con todo). Verificación: tsc 0; expo export OK; devices/
+  geometry/check-scroll/dup-scroll 0 fallos × 6 dispositivos; run.js 78/78;
+  bundle-check BUNDLE_OK.

@@ -11,7 +11,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import { searchExercises, GROUPS, EQUIPMENT } from '../lib/gym';
-import { COLORS, GROUP_COLORS, RADII } from '../theme';
+import { COLORS, GROUP_COLORS, RADII, SHADOW } from '../theme';
+import { useScale, fs } from '../scale';
 
 function Chips<T extends string>({
   title,
@@ -76,6 +77,7 @@ export default function LibraryScreen({
   onOpenExercise: (id: string) => void;
 }) {
   const { t, i18n } = useTranslation();
+  const scale = useScale();
   const [q, setQ] = useState('');
   const [group, setGroup] = useState<string>('all');
   const [equip, setEquip] = useState<string>('all');
@@ -105,7 +107,9 @@ export default function LibraryScreen({
       </View>
 
       <ScrollView contentContainerStyle={styles.body}>
-        <Text style={styles.title}>{t('ex_title')}</Text>
+        <Text style={[styles.title, { fontSize: fs(scale, 32) }]} numberOfLines={1}>
+          {t('ex_title')}
+        </Text>
         <Text style={styles.sub}>{t('ex_sub')}</Text>
 
         <Chips
@@ -181,7 +185,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
     paddingHorizontal: 14,
     paddingVertical: 12,
-    fontSize: 15,
+    fontSize: 16,
     color: COLORS.text,
   },
   body: {
@@ -190,13 +194,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
   },
   title: {
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: '700',
-    letterSpacing: -0.5,
+    letterSpacing: -0.6,
     color: COLORS.text,
   },
   sub: {
-    fontSize: 14,
+    fontSize: 15,
     color: COLORS.secondary,
     marginTop: 4,
     marginBottom: 16,
@@ -214,19 +218,19 @@ const styles = StyleSheet.create({
   },
   chip: {
     paddingHorizontal: 14,
-    paddingVertical: 8,
+    paddingVertical: 9,
     borderRadius: 980,
     backgroundColor: COLORS.card,
     borderWidth: 1,
     borderColor: COLORS.border,
   },
   chipText: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '500',
     color: COLORS.text,
   },
   count: {
-    fontSize: 12,
+    fontSize: 13,
     color: COLORS.dim,
     marginBottom: 12,
   },
@@ -234,11 +238,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: COLORS.card,
-    borderRadius: 14,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
     padding: 12,
     marginBottom: 10,
+    ...SHADOW.card,
   },
   thumb: {
     width: 56,
@@ -251,12 +256,12 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   rowName: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
     color: COLORS.text,
   },
   rowMeta: {
-    fontSize: 12,
+    fontSize: 13,
     color: COLORS.secondary,
     marginTop: 2,
   },

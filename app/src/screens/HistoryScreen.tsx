@@ -11,20 +11,25 @@ import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import type { Session } from '../store';
 import { sessionVolume, sessionSets, sortByDate } from '../lib/gym';
-import { COLORS, RADII } from '../theme';
+import { COLORS, RADII, SHADOW } from '../theme';
+import { useScale, fs } from '../scale';
+import { EmptyMarkGlyph } from '../components/TabIcon';
 
 export default function HistoryScreen({
   sessions,
   exercises,
   onDeleted,
   onOpenExercise,
+  onStartSession,
 }: {
   sessions: Session[];
   exercises: Exercise[];
   onDeleted: (id: string) => void;
   onOpenExercise: (id: string) => void;
+  onStartSession: () => void;
 }) {
   const { t, i18n } = useTranslation();
+  const scale = useScale();
   const list = sortByDate(sessions);
   const lang = i18n.language as string;
   const byId = new Map(exercises.map((e) => [e.id, e]));
@@ -40,11 +45,28 @@ export default function HistoryScreen({
 
   return (
     <ScrollView contentContainerStyle={styles.body}>
-      <Text style={styles.title}>{t('hist_title')}</Text>
+      <Text style={[styles.title, { fontSize: fs(scale, 32) }]} numberOfLines={1}>
+        {t('hist_title')}
+      </Text>
       <Text style={styles.sub}>{t('hist_sub')}</Text>
 
       {list.length === 0 ? (
-        <Text style={styles.empty}>{t('hist_empty')}</Text>
+        <View style={styles.emptyCard}>
+          <View style={styles.emptyMark}>
+            <EmptyMarkGlyph size={30} />
+          </View>
+          <Text style={styles.emptyTitle}>{t('hist_empty')}</Text>
+          <TouchableOpacity
+            style={styles.cta}
+            accessibilityRole="button"
+            activeOpacity={0.85}
+            onPress={onStartSession}
+          >
+            <View style={styles.ctaInner}>
+              <Text style={styles.ctaText}>{t('hero_cta_session')}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       ) : (
         list.map((s) => (
           <View key={s.id} style={styles.card}>
@@ -100,6 +122,11 @@ export default function HistoryScreen({
   );
 }
 
+const ctaBg = {
+  backgroundColor: '#0a84ff',
+  background: 'linear-gradient(180deg, #0a84ff 0%, #0055d4 100%)',
+} as object;
+
 const styles = StyleSheet.create({
   body: {
     padding: 20,
@@ -107,24 +134,61 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg,
   },
   title: {
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: '700',
-    letterSpacing: -0.5,
+    letterSpacing: -0.6,
     color: COLORS.text,
   },
   sub: {
-    fontSize: 14,
+    fontSize: 15,
     color: COLORS.secondary,
     marginTop: 4,
     marginBottom: 16,
   },
-  empty: {
-    fontSize: 14,
-    color: COLORS.dim,
+  emptyCard: {
+    backgroundColor: COLORS.card,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: COLORS.cardBorder,
+    padding: 28,
+    alignItems: 'center',
+    ...SHADOW.card,
+  },
+  emptyMark: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
     backgroundColor: COLORS.section,
-    borderRadius: RADII.tile,
-    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 14,
+  },
+  emptyTitle: {
+    fontSize: 16,
+    color: COLORS.dim,
     textAlign: 'center',
+  },
+  cta: {
+    marginTop: 18,
+    borderRadius: RADII.tile,
+    shadowColor: 'rgba(0, 113, 227, 0.35)',
+    shadowOpacity: 1,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 6,
+    width: '100%',
+  },
+  ctaInner: {
+    ...ctaBg,
+    borderRadius: RADII.tile,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  ctaText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#ffffff',
+    letterSpacing: 0.2,
   },
   card: {
     backgroundColor: COLORS.card,
@@ -133,6 +197,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.cardBorder,
     padding: 16,
     marginBottom: 12,
+    ...SHADOW.card,
   },
   cardHeader: {
     flexDirection: 'row',

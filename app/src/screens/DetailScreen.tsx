@@ -1,7 +1,8 @@
 import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
-import { COLORS, GROUP_COLORS, RADII } from '../theme';
+import { COLORS, GROUP_COLORS, RADII, SHADOW } from '../theme';
+import { useScale, fs } from '../scale';
 
 export default function DetailScreen({
   exercise,
@@ -11,6 +12,7 @@ export default function DetailScreen({
   onBack: () => void;
 }) {
   const { t, i18n } = useTranslation();
+  const scale = useScale();
   const lang = i18n.language as string;
   const name = lang === 'nl' ? exercise.name_nl || exercise.name_en : exercise.name_en;
 
@@ -34,7 +36,7 @@ export default function DetailScreen({
           resizeMode="cover"
           accessibilityLabel={name}
         />
-        <Text style={styles.name}>{name}</Text>
+        <Text style={[styles.name, { fontSize: fs(scale, 28) }]}>{name}</Text>
         {exercise.aliases && exercise.aliases.length > 0 ? (
           <Text style={styles.aliases}>
             {lang === 'nl' ? exercise.name_en : exercise.name_nl}
@@ -112,9 +114,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.section,
   },
   name: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: '700',
-    letterSpacing: -0.4,
+    letterSpacing: -0.5,
     color: COLORS.text,
     marginTop: 16,
   },
@@ -137,6 +139,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
     padding: 12,
+    ...SHADOW.card,
   },
   metaLabel: {
     fontSize: 11,

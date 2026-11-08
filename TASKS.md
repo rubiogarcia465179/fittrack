@@ -71,7 +71,10 @@ Pendientes con estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado.
       (b) dataset con fotos en GitHub (raw.githubusercontent.com accesible).
 
 ## Fase 7 — Sync en la nube: Supabase (decisión del usuario: gratis y
-## escalable) — PENDIENTE
+## escalable) — ⏸ EN ESPERA (v1 publica con datos SOLO locales)
+- Decision 2026-11-08: la primera versión se publica sin nube; los datos
+  viven en AsyncStorage (`fittrack.data.v1`). Supabase se retoma cuando el
+  usuario lo pida.
 - [ ] Cuenta Supabase (la crea el usuario o me da acceso) + proyecto free
       (500 MB BD, 50k auth; auto-pausa si 1 semana inactivo)
 - [ ] Login **magic link** (sin contraseña)
@@ -82,6 +85,28 @@ Pendientes con estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado.
 - [ ] Export/import JSON local como puente de migración
 - [ ] Documentar en README: costes (0 € en free), privacidad (datos fuera
       del dispositivo), exportar/borrar cuenta
+
+## Fase 7b — Pulido de UX para publicación (2026-11-08) — HECHA
+- [x] Icono de app (1024) + splash (2048×2732) generados
+      (`scripts/make_app_assets.py`) y cableados en `app.json` (iOS
+      splash + Android adaptiveIcon) — requisito de tienda.
+- [x] Iconos de la tabbar y empty states **dibujados con Views**
+      (`src/components/TabIcon.tsx`): emojis (📊🏋️➕🕘) y ✕/← quedaban
+      como cuadros vacíos sin fuente de emoji; ahora son formas propias
+      (bar chart, haltera, +, reloj, X de borrar, target vacío) que
+      renderizan en cualquier plataforma.
+- [x] Sistema de diseño: tokens SHADOW/GRADIENT en `theme.ts`; tipografía
+  fluida `useScale()` (`src/scale.ts`, base 393px → máx 1,12× en iPhone 18);
+  títulos 32px, subtítulos 15px, metadatos 13px, inputs 16px; tarjetas con
+  sombra suave Apple; CTA "Guardar sesión" y CTAs de empty states con
+  degradado azul vertical + sombra.
+- [x] Tabbar: icono en gris tenue → azul activo (sin bloque de fondo),
+  activeOpacity 0.5.
+- [x] Empty states con marca circular + CTA "Empezar una sesión" (dashboard
+  e historial) — onboarding del primer uso.
+- [x] Verificación: tsc 0; expo export web OK; harnesses Chromium
+  devices/geometry/check-scroll/dup-scroll → 0 fallos en 6 dispositivos;
+  tests/run.js 78/78; bundle-check BUNDLE_OK.
 
 ## Testing en el host (documentado en README.md)
 - [x] Web: `cd web && npm ci && npm run build && npm run preview -- --host`

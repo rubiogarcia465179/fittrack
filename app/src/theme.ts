@@ -34,3 +34,24 @@ export const RADII = {
   field: 12,
   pill: 980,
 };
+
+/** Sombras suaves (estilo Apple: difusas y bajas). */
+export const SHADOW = {
+  card: {
+    shadowColor: '#1d1d1f',
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 2,
+  },
+  cta: {
+    shadowColor: 'rgba(0, 113, 227, 0.35)',
+    shadowOpacity: 1,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 6,
+  },
+};
+
+/** Gradiente de la CTA principal (degradado vertical azul Apple). */
+export const GRADIENT_STOPS = ['#0a84ff', '#0055d4'];

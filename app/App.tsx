@@ -16,6 +16,7 @@ import { loadExercises, type Exercise } from './src/data';
 import { store, type Session } from './src/store';
 import { sortByDate } from './src/lib/gym';
 import { COLORS } from './src/theme';
+import TabIcon from './src/components/TabIcon';
 import LangSwitcher from './src/components/LangSwitcher';
 import DashboardScreen from './src/screens/DashboardScreen';
 import LibraryScreen from './src/screens/LibraryScreen';
@@ -25,12 +26,7 @@ import HistoryScreen from './src/screens/HistoryScreen';
 
 type Tab = 'dashboard' | 'library' | 'session' | 'history';
 
-const TAB_ICONS: Record<Tab, string> = {
-  dashboard: '📊',
-  library: '🏋️',
-  session: '➕',
-  history: '🕘',
-};
+const TABS: Tab[] = ['dashboard', 'library', 'session', 'history'];
 
 export default function App() {
   const { t } = useTranslation();
@@ -108,6 +104,7 @@ export default function App() {
             sessions={sessions}
             onOpenExercise={openExercise}
             onOpenHistory={() => setTab('history')}
+            onStartSession={() => setTab('session')}
           />
         ) : tab === 'library' ? (
           <LibraryScreen exercises={exercises} onOpenExercise={openExercise} />
@@ -119,6 +116,7 @@ export default function App() {
             exercises={exercises}
             onDeleted={handleDeleted}
             onOpenExercise={openExercise}
+            onStartSession={() => setTab('session')}
           />
         )}
       </View>
@@ -126,23 +124,27 @@ export default function App() {
       {/* Tabbar: SafeAreaView ya añade el inset inferior (home indicator);
           se reduce el padding extra en iOS para no tapar el indicador. */}
       <View style={styles.tabbar}>
-        {(Object.keys(TAB_ICONS) as Tab[]).map((tb) => (
-          <TouchableOpacity
-            key={tb}
-            style={[styles.tab, tab === tb && !detail && styles.tabActive]}
-            accessibilityRole="button"
-            accessibilityState={{ selected: tab === tb }}
-            onPress={() => {
-              setDetailId(null);
-              setTab(tb);
-            }}
-          >
-            <Text style={styles.tabIcon}>{TAB_ICONS[tb]}</Text>
-            <Text style={[styles.tabLabel, tab === tb && styles.tabLabelActive]}>
-              {t(`nav_${tb === 'library' ? 'exercises' : tb}`)}
-            </Text>
-          </TouchableOpacity>
-        ))}
+        {TABS.map((tb) => {
+          const active = tab === tb && !detail;
+          return (
+            <TouchableOpacity
+              key={tb}
+              style={[styles.tab, active && styles.tabActive]}
+              accessibilityRole="button"
+              accessibilityState={{ selected: active }}
+              activeOpacity={0.5}
+              onPress={() => {
+                setDetailId(null);
+                setTab(tb);
+              }}
+            >
+              <TabIcon name={tb} color={active ? COLORS.blue : COLORS.dim} />
+              <Text style={[styles.tabLabel, active && styles.tabLabelActive]}>
+                {t(`nav_${tb === 'library' ? 'exercises' : tb}`)}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     </SafeAreaView>
   );
@@ -198,14 +200,10 @@ const styles = StyleSheet.create({
   tab: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: 8,
+    paddingTop: 12,
   },
-  tabActive: {
-    backgroundColor: 'rgba(0, 113, 227, 0.06)',
-  },
-  tabIcon: {
-    fontSize: 22,
-  },
+  tabActive: {},
   tabLabel: {
     fontSize: 13,
     color: COLORS.secondary,
