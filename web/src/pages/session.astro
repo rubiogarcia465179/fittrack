@@ -1,0 +1,241 @@
+---
+/**
+ * Registro de sesión (/session/) — cliente: elegir ejercicios, añadir
+ * sets (reps + peso), guardar en localStorage. 0 red.
+ */
+import Layout from '../components/Layout.astro';
+import exData from '../data/exercises.json';
+
+const ex = exData.exercises;
+---
+
+<Layout
+  Title="FitTrack — Sesión"
+  TitleKey="sess_title"
+  Active="nav_session"
+  Description="Registra una sesión de gimnasio: ejercicios, series, repeticiones y peso."
+>
+  <h1 class="PageTitle" data-i18n="sess_title">Sesión</h1>
+  <p class="PageSub" data-i18n="sess_sub">Registra tu entreno: ejercicios, series, repeticiones y peso.</p>
+
+  <!-- Fecha + peso corporal -->
+  <div class="mt-6 grid grid-cols-2 gap-3 md:max-w-md">
+    <div>
+      <label class="FieldLabel" for="s-date" data-i18n="sess_date">Fecha</label>
+      <input id="s-date" class="Field" type="date" />
+    </div>
+    <div>
+      <label class="FieldLabel" for="s-weight" data-i18n="sess_bodyweight">Peso corporal (opcional, kg)</label>
+      <input id="s-weight" class="Field" type="number" min="0" max="400" step="0.1" inputmode="decimal" />
+    </div>
+  </div>
+
+  <!-- Búsqueda de ejercicio -->
+  <div class="mt-8">
+    <label class="FieldLabel" for="s-search" data-i18n="sess_pick">Elige un ejercicio</label>
+    <input
+      id="s-search"
+      class="Field"
+      type="search"
+      data-i18n-ph="sess_search_ph"
+      placeholder="Busca ejercicio o grupo muscular…"
+    />
+  </div>
+  <ul id="s-results" class="mt-3 flex flex-col gap-2" aria-label="Resultados de ejercicios">
+    {
+      ex.slice(0, 6).map((e) => (
+        <li>
+          <button class="ExRow w-full text-left" data-add={e.id} data-name={e.name_en} data-group={e.muscle_group}>
+            <img class="ExRowImg" src={e.image} alt="" loading="lazy" />
+            <span class="truncate text-[15px] font-semibold">{e.name_en}</span>
+            <span class="ml-auto shrink-0 text-[12px] text-AppDim">+ Añadir</span>
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+
+  <!-- Sesión en construcción -->
+  <section aria-label="Sesión en curso" class="mt-10">
+    <h2 class="text-[20px] font-semibold tracking-apple" data-i18n="sess_save">Guardar sesión</h2>
+    <div id="s-exercises" class="mt-4 flex flex-col gap-4">
+      <p id="s-empty" class="text-[14px] text-AppSubtext" data-i18n="sess_no_exercises">Añade un ejercicio primero.</p>
+    </div>
+
+    <div class="mt-6">
+      <label class="FieldLabel" for="s-notes" data-i18n="sess_notes">Notas</label>
+      <textarea id="s-notes" class="Field min-h-[72px]" data-i18n-ph="sess_notes_ph" placeholder="p. ej. '5 kg menos que la semana pasada'"></textarea>
+    </div>
+
+    <div class="mt-6 flex gap-3">
+      <button id="s-save" class="BtnPrimary" data-i18n="sess_save">Guardar sesión</button>
+      <a class="BtnSecondary" href="/dashboard/" data-i18n="cancel">Cancelar</a>
+    </div>
+    <p id="s-saved" class="mt-3 text-[14px] font-medium text-AppGreen" hidden>
+      <span data-i18n="sess_saved">Sesión guardada</span> — <span data-i18n="sess_saved_hint">Vela en tu resumen.</span>
+    </p>
+  </section>
+
+  <script type="module" define:vars={{ ex }}>
+    const { searchExercises, oneRm, uid, normalizeSession } = window.FTGym;
+    const T = window.FT_I18N.t;
+    const EX = ex;
+
+    const byId = Object.fromEntries(EX.map((e) => [e.id, e]));
+    const container = document.getElementById('s-exercises');
+    const emptyMsg = document.getElementById('s-empty');
+    const results = document.getElementById('s-results');
+    const search = document.getElementById('s-search');
+    const savedMsg = document.getElementById('s-saved');
+
+    // estado en memoria: [{ exercise_id, sets: [{reps, weight_kg}] }]
+    let session = [];
+
+    // fecha de hoy por defecto
+    const dateInput = document.getElementById('s-date');
+    dateInput.value = new Date().toISOString().slice(0, 10);
+
+    function name(e) {
+      const L = window.FT_I18N.getLang();
+      return (L === 'nl' ? e.name_nl : e.name_en) || e.name_en;
+    }
+
+    function renderResults() {
+      const q = search.value;
+      const items = searchExercises(EX, q, 'all', 'all').slice(0, 12);
+      results.textContent = '';
+      for (const e of items) {
+        const li = document.createElement('li');
+        const b = document.createElement('button');
+        b.className = 'ExRow w-full text-left';
+        b.type = 'button';
+        b.innerHTML =
+          '<img class="ExRowImg" src="' + e.image + '" alt="" loading="lazy" />' +
+          '<span class="min-w-0 flex-1 truncate text-[15px] font-semibold"></span>' +
+          '<span class="shrink-0 text-[12px] text-AppLink font-medium">+ ' + T('sess_add_exercise') + '</span>';
+        b.querySelector('.font-semibold').textContent = name(e);
+        b.addEventListener('click', () => addExercise(e.id));
+        li.appendChild(b);
+        results.appendChild(li);
+      }
+    }
+
+    function addExercise(id) {
+      const existing = session.find((x) => x.exercise_id === id);
+      if (existing) {
+        existing.sets.push({ reps: 10, weight_kg: 20 });
+      } else {
+        session.push({ exercise_id: id, sets: [{ reps: 10, weight_kg: 20 }] });
+      }
+      render();
+    }
+
+    function setRow(exBlock, i, s) {
+      const row = document.createElement('div');
+      row.className = 'flex items-center gap-3';
+      const num = document.createElement('span');
+      num.className = 'w-8 text-[13px] font-semibold text-AppSubtext';
+      num.textContent = T('sess_set') + ' ' + (i + 1);
+      const mk = (labelKey, fieldKey, val, step) => {
+        const inp = document.createElement('input');
+        inp.className = 'Field w-24';
+        inp.type = 'number';
+        inp.min = '0';
+        inp.step = step;
+        inp.inputMode = 'decimal';
+        inp.value = val;
+        inp.setAttribute('aria-label', T(labelKey));
+        inp.addEventListener('input', () => {
+          s[fieldKey] = parseFloat(inp.value) || 0;
+        });
+        return inp;
+      };
+      row.append(num, mk('sess_reps', 'reps', s.reps, 1), mk('sess_weight', 'weight_kg', s.weight_kg, 2.5));
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'text-[13px] text-red-600 hover:underline';
+      del.setAttribute('aria-label', T('delete'));
+      del.textContent = '×';
+      del.addEventListener('click', () => { s.__remove = true; render(); });
+      row.appendChild(del);
+      return row;
+    }
+
+    function render() {
+      container.textContent = '';
+      emptyMsg.hidden = session.length > 0;
+      // limpia sets marcados para borrar
+      for (const exb of session) exb.sets = exb.sets.filter((s) => !s.__remove);
+      session = session.filter((exb) => exb.sets.length > 0);
+
+      for (const exb of session) {
+        const meta = byId[exb.exercise_id];
+        const block = document.createElement('article');
+        block.className = 'Card';
+        const head = document.createElement('div');
+        head.className = 'flex items-center justify-between gap-3';
+        const title = document.createElement('p');
+        title.className = 'text-[16px] font-semibold';
+        title.textContent = meta ? name(meta) : exb.exercise_id;
+        const pr = document.createElement('p');
+        pr.className = 'text-[12px] text-AppSubtext';
+        const best = Math.max(0, ...exb.sets.map((s) => oneRm(s.weight_kg, s.reps)));
+        pr.textContent = '1RM ≈ ' + (best > 0 ? best.toFixed(1) + ' kg' : '—');
+        const delEx = document.createElement('button');
+        delEx.type = 'button';
+        delEx.className = 'text-[13px] text-red-600 hover:underline shrink-0';
+        delEx.textContent = T('delete');
+        delEx.setAttribute('aria-label', T('delete'));
+        delEx.addEventListener('click', () => {
+          session = session.filter((x) => x !== exb);
+          render();
+        });
+        head.append(title, pr, delEx);
+        block.appendChild(head);
+
+        const sets = document.createElement('div');
+        sets.className = 'mt-3 flex flex-col gap-2';
+        exb.sets.forEach((s, i) => sets.appendChild(setRow(block, i, s)));
+        block.appendChild(sets);
+
+        const addSet = document.createElement('button');
+        addSet.type = 'button';
+        addSet.className = 'mt-3 text-[14px] font-medium text-AppLink hover:underline';
+        addSet.textContent = '+ ' + T('sess_add_set');
+        addSet.addEventListener('click', () => {
+          const last = exb.sets[exb.sets.length - 1];
+          exb.sets.push({ reps: last ? last.reps : 10, weight_kg: last ? last.weight_kg : 20 });
+          render();
+        });
+        block.appendChild(addSet);
+        container.appendChild(block);
+      }
+    }
+
+    document.getElementById('s-save').addEventListener('click', () => {
+      try {
+        const s = normalizeSession({
+          date: dateInput.value,
+          exercises: session,
+          notes: document.getElementById('s-notes').value,
+          body_weight_kg: parseFloat(document.getElementById('s-weight').value) || null,
+        });
+        window.FTStore.addSession(s);
+        window.dispatchEvent(new CustomEvent('ft-data-changed'));
+        savedMsg.hidden = false;
+        session = [];
+        document.getElementById('s-notes').value = '';
+        document.getElementById('s-weight').value = '';
+        render();
+        setTimeout(() => { savedMsg.hidden = true; }, 4000);
+      } catch (err) {
+        window.alert(err.message);
+      }
+    });
+
+    search.addEventListener('input', renderResults);
+    window.addEventListener('ft-lang-change', () => { renderResults(); render(); });
+    renderResults();
+    render();
+  </script>
+</Layout>

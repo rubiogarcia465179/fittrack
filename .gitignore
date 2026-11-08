@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.expo/
+build/
+*.log
+*.hbc
+node_modules/.cache/
+__pycache__/
+*.pyc
+.DS_Store

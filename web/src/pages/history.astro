@@ -1,0 +1,109 @@
+---
+/**
+ * Historial (/history/) — lista de sesiones guardadas (localStorage)
+ * con detalle y opción de borrado. 0 red.
+ */
+import Layout from '../components/Layout.astro';
+import exData from '../data/exercises.json';
+
+const names = Object.fromEntries(exData.exercises.map((e) => [e.id, e.name_en]));
+---
+
+<Layout
+  Title="FitTrack — Historial"
+  TitleKey="hist_title"
+  Active="nav_history"
+  Description="Historial de sesiones de gimnasio."
+>
+  <h1 class="PageTitle" data-i18n="hist_title">Historial</h1>
+  <p class="PageSub" data-i18n="hist_sub">Todas tus sesiones, de más reciente a anterior.</p>
+
+  <div id="hist-list" class="mt-8 flex flex-col gap-4">
+    <p class="text-[14px] text-AppSubtext" data-i18n="hist_empty">Aún no hay sesiones en tu historial.</p>
+  </div>
+
+  <script type="module" define:vars={{ names }}>
+    const { sortByDate, sessionVolume, oneRm } = window.FTGym;
+    const T = window.FT_I18N.t;
+    const NAMES = names;
+
+    const list = document.getElementById('hist-list');
+
+    function name(id) {
+      return NAMES[id] || id;
+    }
+
+    function render() {
+      list.textContent = '';
+      const sessions = sortByDate(window.FTStore.sessions());
+      if (!sessions.length) {
+        const p = document.createElement('p');
+        p.className = 'text-[14px] text-AppSubtext';
+        p.setAttribute('data-i18n', 'hist_empty');
+        p.textContent = T('hist_empty');
+        list.appendChild(p);
+        return;
+      }
+      for (const s of sessions) {
+        const card = document.createElement('article');
+        card.className = 'Card';
+        const head = document.createElement('div');
+        head.className = 'flex flex-wrap items-center gap-x-4 gap-y-1';
+        const date = document.createElement('p');
+        date.className = 'text-[17px] font-semibold';
+        date.textContent = s.date;
+        const meta = document.createElement('p');
+        meta.className = 'text-[13px] text-AppSubtext';
+        const setsTotal = s.exercises.reduce((a, e) => a + e.sets.length, 0);
+        meta.textContent = s.exercises.length + ' ' + T('hist_exercises') +
+          ' · ' + setsTotal + ' ' + T('hist_sets_total') +
+          ' · ' + Math.round(sessionVolume(s)).toLocaleString('es-ES') + ' kg ' + T('hist_volume');
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'BtnDanger ml-auto';
+        del.textContent = T('hist_delete');
+        del.setAttribute('aria-label', T('hist_delete'));
+        del.addEventListener('click', () => {
+          window.FTStore.deleteSession(s.id);
+          window.dispatchEvent(new CustomEvent('ft-data-changed'));
+          render();
+        });
+        head.append(date, meta, del);
+        card.appendChild(head);
+
+        const details = document.createElement('div');
+        details.className = 'mt-3 flex flex-col gap-2';
+        for (const ex of s.exercises) {
+          const row = document.createElement('div');
+          row.className = 'flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg bg-AppSection/70 px-3 py-2';
+          const nm = document.createElement('span');
+          nm.className = 'text-[14px] font-semibold min-w-[160px]';
+          nm.textContent = name(ex.exercise_id);
+          row.appendChild(nm);
+          const setEls = ex.sets.map((st, i) => {
+            const chip = document.createElement('span');
+            chip.className = 'rounded-pill bg-AppCard border border-AppBorder/70 px-2.5 py-1 text-[13px]';
+            chip.textContent = st.weight_kg + ' kg × ' + st.reps +
+              (oneRm(st.weight_kg, st.reps) > 0 ? ' (1RM ' + oneRm(st.weight_kg, st.reps).toFixed(0) + ')' : '');
+            chip.setAttribute('aria-label', T('sess_set') + ' ' + (i + 1) + ': ' + chip.textContent);
+            return chip;
+          });
+          row.append(...setEls);
+          details.appendChild(row);
+        }
+        if (s.notes) {
+          const notes = document.createElement('p');
+          notes.className = 'mt-1 text-[13px] text-AppSubtext';
+          notes.textContent = '✎ ' + s.notes;
+          card.appendChild(notes);
+        }
+        card.appendChild(details);
+        list.appendChild(card);
+      }
+    }
+
+    render();
+    window.addEventListener('ft-lang-change', render);
+    window.addEventListener('ft-data-changed', render);
+  </script>
+</Layout>

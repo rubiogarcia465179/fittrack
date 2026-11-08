@@ -1,0 +1,144 @@
+---
+/**
+ * Biblioteca de ejercicios (/exercises/) — SSR de la base completa +
+ * búsqueda/filtros en cliente (0 red). Detalle: instrucciones + imagen.
+ */
+import Layout from '../components/Layout.astro';
+import { GROUPS, EQUIPMENT } from '../lib/gym.js';
+import exData from '../data/exercises.json';
+
+const ex = exData.exercises;
+const count = ex.length;
+const source = exData.source;
+const srcLabel = source === 'seed' ? 'seed (placeholder)' : 'real';
+---
+
+<Layout
+  Title="FitTrack — Ejercicios"
+  TitleKey="ex_title"
+  Active="nav_exercises"
+  Description="Biblioteca de ejercicios con instrucciones e imágenes."
+>
+  <h1 class="PageTitle" data-i18n="ex_title">Ejercicios</h1>
+  <p class="PageSub">
+    <span data-i18n="ex_sub">Mira cómo hacer cada ejercicio correctamente.</span>
+    <span class="text-AppDim" id="count-label">{count} · {srcLabel}</span>
+  </p>
+
+  <!-- Búsqueda -->
+  <div class="mt-6">
+    <label class="sr-only" for="ex-search">Buscar ejercicio</label>
+    <input
+      id="ex-search"
+      class="Field"
+      type="search"
+      data-i18n-ph="ex_search_ph"
+      placeholder="Busca un ejercicio…"
+    />
+  </div>
+
+  <!-- Filtros -->
+  <div class="mt-4 flex flex-wrap gap-2" role="group" aria-label="Filtrar por grupo muscular">
+    <button class="Chip ChipActive" data-group="all" data-i18n="ex_filter_all">Todos</button>
+    {
+      GROUPS.map((g) => (
+        <button class="Chip" data-group={g} data-i18n={'group_' + g}>{g}</button>
+      ))
+    }
+  </div>
+  <div class="mt-2 flex flex-wrap gap-2" role="group" aria-label="Filtrar por material">
+    <button class="Chip ChipActive" data-equipment="all" data-i18n="ex_filter_all">Todos</button>
+    {
+      EQUIPMENT.map((e) => (
+        <button class="Chip" data-equipment={e} data-i18n={'equip_' + e}>{e}</button>
+      ))
+    }
+  </div>
+
+  <p class="mt-4 text-[13px] text-AppSubtext" id="results-count" aria-live="polite">
+    {count} ejercicios encontrados
+  </p>
+
+  <!-- Lista (SSR completo) -->
+  <ul id="ex-list" class="mt-3 flex flex-col gap-3">
+    {
+      ex.map((e) => (
+        <li>
+          <a class="ExRow" href={'/exercises/' + e.id + '/'}>
+            <img class="ExRowImg" src={e.image} alt={e.name_en} loading="lazy" />
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[16px] font-semibold">{e.name_en}</p>
+              <p class="truncate text-[13px] text-AppSubtext">
+                <span data-i18n={'group_' + e.muscle_group}>{e.muscle_group}</span>
+                {' · '}
+                <span data-i18n={'equip_' + e.equipment}>{e.equipment}</span>
+                {' · '}
+                <span data-i18n={'level_' + e.level}>{e.level}</span>
+              </p>
+            </div>
+            <span aria-hidden="true" class="text-AppDim">›</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <script type="module" define:vars={{ ex }}>
+    const { searchExercises } = window.FTGym;
+    const T = window.FT_I18N.t;
+    const EX = ex;
+
+    const input = document.getElementById('ex-search');
+    const list = document.getElementById('ex-list');
+    const countEl = document.getElementById('results-count');
+    let group = 'all';
+    let equipment = 'all';
+
+    function name(e) {
+      const L = window.FT_I18N.getLang();
+      return (L === 'nl' ? e.name_nl : e.name_en) || e.name_en;
+    }
+
+    function render() {
+      const results = searchExercises(EX, input.value, group, equipment);
+      countEl.textContent = results.length + ' ' + T('ex_found');
+      list.textContent = '';
+      for (const e of results) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.className = 'ExRow';
+        a.href = '/exercises/' + e.id + '/';
+        a.innerHTML =
+          '<img class="ExRowImg" src="' + e.image + '" alt="" loading="lazy" />' +
+          '<div class="min-w-0 flex-1">' +
+          '<p class="truncate text-[16px] font-semibold"></p>' +
+          '<p class="truncate text-[13px] text-AppSubtext">' +
+          '<span data-g="' + e.muscle_group + '"></span> · <span data-e="' + e.equipment + '"></span> · <span data-l="' + e.level + '"></span>' +
+          '</p></div><span aria-hidden="true" class="text-AppDim">›</span>';
+        a.querySelector('.font-semibold').textContent = name(e);
+        a.querySelector('[data-g]').textContent = T('group_' + e.muscle_group);
+        a.querySelector('[data-e]').textContent = T('equip_' + e.equipment);
+        a.querySelector('[data-l]').textContent = T('level_' + e.level);
+        li.appendChild(a);
+        list.appendChild(li);
+      }
+    }
+
+    input.addEventListener('input', render);
+    document.querySelectorAll('[data-group]').forEach((b) => {
+      b.addEventListener('click', () => {
+        group = b.getAttribute('data-group');
+        document.querySelectorAll('[data-group]').forEach((x) => x.classList.toggle('ChipActive', x === b));
+        render();
+      });
+    });
+    document.querySelectorAll('[data-equipment]').forEach((b) => {
+      b.addEventListener('click', () => {
+        equipment = b.getAttribute('data-equipment');
+        document.querySelectorAll('[data-equipment]').forEach((x) => x.classList.toggle('ChipActive', x === b));
+        render();
+      });
+    });
+    window.addEventListener('ft-lang-change', render);
+  </script>
+</Layout>

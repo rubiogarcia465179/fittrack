@@ -1,0 +1,147 @@
+---
+/**
+ * Home (/) — réplica de la home de apple.com:
+ *   1) Hero pequeño y centrado (etiqueta + titular + subtítulo + 2 CTAs).
+ *   2) Grid 2×2 de tiles de portada (alternando fondos claro/oscuro,
+ *      radio 18px, CTA "texto ›" con chevrón).
+ *   3) Franja gris con la fuente de los datos.
+ *
+ * SSR en español (idioma por defecto); /js/i18n.js lo reescribe al abrir
+ * (0 red). El dashboard con métricas vive en /dashboard/.
+ */
+import Layout from '../components/Layout.astro';
+
+// Tiles 2×2 (estructura de la home de apple.com).
+// Apple alterna tiles claros y oscuros; lo replicamos: 2 claros + 2 oscuros.
+const Tiles = [
+  {
+    bg: 'bg-AppBg text-AppText',
+    href: '/exercises/',
+    key_t: 'tile_1_t',
+    key_d: 'tile_1_d',
+    key_cta: 'tile_1_cta',
+  },
+  {
+    bg: 'tile-dark',
+    href: '/session/',
+    key_t: 'tile_2_t',
+    key_d: 'tile_2_d',
+    key_cta: 'tile_2_cta',
+  },
+  {
+    bg: 'tile-gray',
+    href: '/dashboard/',
+    key_t: 'tile_3_t',
+    key_d: 'tile_3_d',
+    key_cta: 'tile_3_cta',
+  },
+  {
+    bg: 'tile-navy',
+    href: '/history/',
+    key_t: 'tile_4_t',
+    key_d: 'tile_4_d',
+    key_cta: 'tile_4_cta',
+  },
+];
+
+// Textos por defecto (ES) para el SSR; i18n.js los sustituye al abrir.
+const t = {
+  hero_tag: 'NUEVO',
+  hero_title: 'Tu progreso en el gym. Una app.',
+  hero_sub: '226 ejercicios reales (wger, CC-BY-SA), registro de sesiones y dashboard — todo se guarda en tu dispositivo, sin cuenta.',
+  hero_cta_session: 'Empezar una sesión',
+  hero_cta_exercises: 'Ver ejercicios',
+  tile_1_t: 'Ejercicios',
+  tile_1_d: '226 ejercicios reales con instrucciones, grupo muscular y nivel.',
+  tile_1_cta: 'Ver la biblioteca',
+  tile_2_t: 'Sesión',
+  tile_2_d: 'Registra tu entreno: ejercicios, series, repeticiones y peso.',
+  tile_2_cta: 'Empezar sesión',
+  tile_3_t: 'Resumen',
+  tile_3_d: 'Volumen, racha, nuevas marcas y tu evolución de peso de un vistazo.',
+  tile_3_cta: 'Ver tu progreso',
+  tile_4_t: 'Historial',
+  tile_4_d: 'Todas tus sesiones, de más reciente a anterior, con volumen por sesión.',
+  tile_4_cta: 'Ver historial',
+  data_title: 'Nuestra data proviene de',
+  data_note: '226 ejercicios · licencia CC-BY-SA · wger.de',
+};
+---
+
+<Layout
+  Title="FitTrack"
+  TitleKey="app_name"
+  Description="FitTrack — monitor de progreso de gimnasio: ejercicios, sesiones y dashboard."
+  Active="nav_dashboard"
+>
+  <!-- Hero (pequeño y centrado, como la franja superior de apple.com) -->
+  <section class="mx-auto max-w-hero px-5 pt-10 pb-10 text-center md:pt-14">
+    <p class="HeroTag" data-i18n="hero_tag">{t.hero_tag}</p>
+    <h1 class="HeroTitle mt-2" data-i18n="hero_title">{t.hero_title}</h1>
+    <p class="HeroSub mx-auto mt-3 max-w-[46ch]" data-i18n="hero_sub">
+      {t.hero_sub}
+    </p>
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
+      <a href="/session/" class="BtnLink group" data-i18n="hero_cta_session">
+        {t.hero_cta_session}
+        <span class="BtnLinkChevron" aria-hidden="true">›</span>
+      </a>
+      <a href="/exercises/" class="BtnLink group" data-i18n="hero_cta_exercises">
+        {t.hero_cta_exercises}
+        <span class="BtnLinkChevron" aria-hidden="true">›</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Grid 2×2 de tiles de portada -->
+  <section class="mx-auto max-w-wrap px-5 pb-16">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      {
+        Tiles.map((tile) => (
+          <a
+            href={tile.href}
+            class={['Tile group', tile.bg].join(' ')}
+            aria-label={t[tile.key_t]}
+          >
+            <h2 class="TileTitle" data-i18n={tile.key_t}>{t[tile.key_t]}</h2>
+            <p
+              class={['TileSub', tile.bg === 'bg-AppBg text-AppText' ? '' : 'TileSubLight'].join(' ')}
+              data-i18n={tile.key_d}
+            >
+              {t[tile.key_d]}
+            </p>
+            <span class="TileCta">
+              <span
+                class={tile.bg === 'bg-AppBg text-AppText' ? 'BtnLink group' : 'TileLink group'}
+                data-i18n={tile.key_cta}
+              >
+                {t[tile.key_cta]}
+                <span
+                  class={tile.bg === 'bg-AppBg text-AppText' ? 'BtnLinkChevron' : 'TileLinkChevron'}
+                  aria-hidden="true"
+                >
+                  ›
+                </span>
+              </span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Fuente de datos (sección gris, como las franjas de apple.com) -->
+  <section class="bg-AppGray py-16 md:py-20">
+    <div class="mx-auto max-w-narrow px-5 text-center">
+      <p class="HeroTag" data-i18n="home_data_title">{t.data_title}</p>
+      <div class="mt-8">
+        <span class="text-[28px] font-semibold tracking-apple text-AppText/70">
+          wger.de
+        </span>
+      </div>
+      <p class="mt-6 text-[13px] text-AppDim" data-i18n="home_data_note">
+        {t.data_note}
+      </p>
+    </div>
+  </section>
+</Layout>
