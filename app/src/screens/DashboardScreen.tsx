@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -23,6 +24,9 @@ import { COLORS, GROUP_COLORS, RADII, SHADOW, GRADIENT_STOPS } from '../theme';
 import { useScale, fs } from '../scale';
 import BarChart, { type Bar } from '../components/BarChart';
 import { EmptyMarkGlyph } from '../components/TabIcon';
+import { MonthCalendar, type DayStat } from '../components/Calendar';
+import { DataSection } from '../components/DataSection';
+import { plural } from '../lib/plural';
 
 export default function DashboardScreen({
   exercises,
@@ -30,15 +34,57 @@ export default function DashboardScreen({
   onOpenExercise,
   onOpenHistory,
   onStartSession,
+  onExport,
+  onClearAll,
+  onDataChanged,
 }: {
   exercises: ExerciseRow[];
   sessions: Session[]; // ordenadas de más reciente a más antigua
   onOpenExercise: (id: string) => void;
   onOpenHistory: () => void;
   onStartSession: () => void;
+  onExport: () => Promise<string>;
+  onClearAll: () => Promise<void>;
+  onDataChanged: () => void;
 }) {
   const { t, i18n } = useTranslation();
   const scale = useScale();
+
+  // Calendario de actividad: mes actual por defecto, navegable mes a mes.
+  const todayD = new Date();
+  const [calM, setCalM] = useState<number>(todayD.getMonth());
+  const [calY, setCalY] = useState<number>(todayD.getFullYear());
+
+  const goPrev = () => {
+    if (calM === 0) {
+      setCalM(11);
+      setCalY((y) => y - 1);
+    } else {
+      setCalM((m) => m - 1);
+    }
+  };
+  const goNext = () => {
+    if (calM === 11) {
+      setCalM(0);
+      setCalY((y) => y + 1);
+    } else {
+      setCalM((m) => m + 1);
+    }
+  };
+  const goToday = () => {
+    setCalM(todayD.getMonth());
+    setCalY(todayD.getFullYear());
+  };
+
+  // Días con actividad -> nº de series (verde = entrenaste, rojo = no).
+  const dayMap = useMemo(() => {
+    const m: Record<string, DayStat> = {};
+    for (const s of sessions) {
+      const sets = sessionSets(s);
+      m[s.date] = { sets: (m[s.date]?.sets ?? 0) + sets };
+    }
+    return m;
+  }, [sessions]);
 
   const weekVolume = weeklyVolume(sessions, 4);
   const currentWeek = weekStart(todayISO());
@@ -127,7 +173,7 @@ export default function DashboardScreen({
               <View style={styles.recentLeft}>
                 <Text style={styles.recentDate}>{s.date}</Text>
                 <Text style={styles.recentMeta} numberOfLines={1}>
-                  {s.exercises.length} {t('hist_exercises')} · {sessionSets(s)} {t('hist_sets_total')}
+                  {plural(s.exercises.length, t, 'hist_exercise', 'hist_exercises')} · {plural(sessionSets(s), t, 'hist_set', 'hist_sets_total')}
                 </Text>
               </View>
               <View style={styles.recentRight} accessibilityElementsHidden>
@@ -153,6 +199,39 @@ export default function DashboardScreen({
           </TouchableOpacity>
         </>
       )}
+      {sessions.length > 0 ? (
+        <View style={styles.calendarCard}>
+          <View style={styles.calendarHead}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.calendarTitle}>{t('dash_calendar')}</Text>
+              <Text style={styles.calendarSub}>{t('cal_sub')}</Text>
+            </View>
+          </View>
+          <MonthCalendar
+            lang={lang}
+            month={calM}
+            year={calY}
+            onPrev={goPrev}
+            onNext={goNext}
+            onToday={goToday}
+            today={{ y: todayD.getFullYear(), m: todayD.getMonth(), d: todayD.getDate() }}
+            days={dayMap}
+            todayLabel={t('cal_today')}
+          />
+          <View style={styles.legend}>
+            <View style={styles.legendRow}>
+              <View style={[styles.legendDot, { backgroundColor: '#34c759' }]} />
+              <Text style={styles.legendText}>{t('cal_exercised')}</Text>
+            </View>
+            <View style={styles.legendRow}>
+              <View style={[styles.legendDot, { backgroundColor: '#fdeae8', borderWidth: 1, borderColor: '#f2b8b4' }]} />
+              <Text style={styles.legendText}>{t('cal_rest')}</Text>
+            </View>
+          </View>
+        </View>
+      ) : null}
+
+      <DataSection t={t} onExport={onExport} onClear={onClearAll} onDone={onDataChanged} />
     </ScrollView>
   );
 }
@@ -308,6 +387,51 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     marginTop: 22,
     marginBottom: 10,
+  },
+  calendarCard: {
+    backgroundColor: COLORS.card,
+    borderRadius: RADII.tile,
+    borderWidth: 1,
+    borderColor: COLORS.cardBorder,
+    padding: 16,
+    marginTop: 22,
+    ...SHADOW.card,
+  },
+  calendarHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  calendarTitle: {
+    fontSize: 19,
+    fontWeight: '700',
+    color: COLORS.text,
+  },
+  calendarSub: {
+    fontSize: 13,
+    color: COLORS.secondary,
+    marginTop: 3,
+  },
+  legend: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 20,
+    marginTop: 14,
+  },
+  legendRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  legendDot: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+  },
+  legendText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: COLORS.secondary,
   },
   recentRow: {
     flexDirection: 'row',

@@ -108,6 +108,37 @@ Pendientes con estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado.
   devices/geometry/check-scroll/dup-scroll → 0 fallos en 6 dispositivos;
   tests/run.js 78/78; bundle-check BUNDLE_OK.
 
+## Fase 7c — Features de publicación + UX (2026-11-08) — HECHA
+- [x] **Pickers de valores** (`src/components/PickerSheet.tsx`): peso,
+  reps, duración y peso corporal se eligen tocando chips grandes (sin
+  teclado), con valor propio ("Otro valor" + Usar) y CTA a pantalla
+  completa. 3 series por defecto al añadir un ejercicio; los valores se
+  prellenan con los últimos usados (menos toques).
+- [x] **Borrar entradas**: por serie (botón X roja ≥44px) y por ejercicio
+  (link "Eliminar") — ya existentes, rediseñados con targets grandes.
+- [x] **Exportar JSON** (`store.exportData` + `DataSection`): copia todo
+  el dataset al portapapeles con confirmación inline ("Datos copiados").
+- [x] **Borrar todos los datos** (`store.clearAll` + `ConfirmDialog`):
+  diálogo de confirmación propio (Modal) → `onDataChanged` limpia el
+  estado. Reemplaza a `Alert.alert`, que es **no-op en react-native-web**.
+- [x] **Calendario** en la pestaña Resumen (`src/components/Calendar.tsx`):
+  verde = entrenaste (nº de series), rojo suave = no entrenaste, anillo
+  azul = hoy, navegación ‹ › por meses, celdas auto-adaptadas al ancho.
+- [x] **Horizontal / tablet**: contenido centrado con max-width 640
+  (`useWide` en `scale.ts`), biblioteca a 2 columnas, sin desbordes en
+  landscape en 6 tamaños; `orientation: "default"` en `app.json`.
+- [x] **Plural correcto** (`lib/plural.ts`): "1 ejercicio" / "3
+  ejercicios", "1 serie" / "3 series" en dashboard, historial, sesión y
+  diálogos; fecha legible "Nov 8" (fmtDay) en vez de ISO.
+- [x] Bugs corregidos en el loop de 5 iteraciones: `cal_today` perdido en
+  el bundle i18n (archivos sin extensión); `Alert.alert()` no-op en web;
+  chips 70–100 cortados por la fila "Otro valor" → hoja `maxHeight:85%`
+  con rejilla scrollable; etiqueta "Serie 1/2/3" recuperada.
+- [x] Verificación: tsc 0; expo export web OK; bundle-check BUNDLE_OK
+  3.14 MB; tests/run.js 78/78; Chromium devices/geometry/dup-scroll2/
+  wide-flow → 0 fallos en iPhone 16/17/18, iPhone SE, Galaxy S24/S25
+  (portrait + landscape).
+
 ## Testing en el host (documentado en README.md)
 - [x] Web: `cd web && npm ci && npm run build && npm run preview -- --host`
 - [x] App: `cd app && npm ci && npx expo start` + Expo Go (QR) — Android e

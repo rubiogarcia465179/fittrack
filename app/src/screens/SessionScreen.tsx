@@ -5,6 +5,7 @@ import {
   TextInput,
   ScrollView,
   Image,
+  Pressable,
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
@@ -17,101 +18,66 @@ import { store } from '../store';
 import { COLORS, RADII, SHADOW, GRADIENT_STOPS } from '../theme';
 import { useScale, fs } from '../scale';
 import { XGlyph } from '../components/TabIcon';
+import { PickerSheet, fmtNum } from '../components/PickerSheet';
+import { plural } from '../lib/plural';
+
+/** '2026-11-08' -> 'Nov 8' (mes corto + día). Local, sin Intl. */
+const M_SHORT_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const M_SHORT_ES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const M_SHORT_FR = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+export function fmtDay(iso: string, lang: string): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  if (!y || !m || !d) return iso;
+  const arr = lang === 'es' ? M_SHORT_ES : lang === 'fr' ? M_SHORT_FR : M_SHORT_EN;
+  return `${arr[m - 1]} ${d}`;
+}
 
 interface DraftExercise {
   exercise_id: string;
   sets: SetLog[];
 }
 
-/**
- * Stepper reutilizable: [−] [valor editable] [+].
- * Tap = 1 paso; mantener pulsado repite (450 ms de delay, ~110 ms/paso).
- * El valor sigue siendo editable por teclado (mismo TextInput de antes).
- */
-function Stepper({
+/** Casilla de valor grande (reps, peso, duración…): se toca y elige desde
+ *  una hoja con valores — sin teclado, a un toque. */
+function ValueBox({
   value,
-  step,
-  onDelta,
-  onText,
-  label,
-  inputMode,
-  inputStyle,
+  unit,
+  onPress,
+  accent,
 }: {
-  value: number;
-  step: number;
-  onDelta: (delta: number) => void;
-  onText: (raw: string) => void;
-  label: string;
-  inputMode: 'numeric' | 'decimal';
-  inputStyle?: object;
+  value: string;
+  unit: string;
+  onPress: () => void;
+  accent?: boolean;
 }) {
-  const cb = useRef(onDelta);
-  cb.current = onDelta;
-  const holdT = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const holdI = useRef<ReturnType<typeof setInterval> | null>(null);
-  const held = useRef(false);
-
-  // Tap → 1 paso (onPress, que sí se dispara en web y nativo).
-  const tap = (delta: number) => {
-    if (!held.current) cb.current(delta);
-  };
-  // Mantener pulsado: tras 450 ms repite cada ~110 ms.
-  const begin = (delta: number) => {
-    held.current = false;
-    if (holdT.current) return; // ya sosteniendo
-    holdT.current = setTimeout(() => {
-      held.current = true;
-      cb.current(delta);
-      holdI.current = setInterval(() => cb.current(delta), 110);
-    }, 450);
-  };
-  const end = () => {
-    if (holdT.current) {
-      clearTimeout(holdT.current);
-      holdT.current = null;
-    }
-    if (holdI.current) {
-      clearInterval(holdI.current);
-      holdI.current = null;
-    }
-  };
-
-  const btn = (delta: number, sign: string) => (
-    <TouchableOpacity
-      style={styles.stepBtn}
-      accessibilityRole="button"
-      accessibilityLabel={label + ' ' + sign}
-      onPress={() => tap(delta)}
-      onPressIn={() => begin(delta)}
-      onPressOut={end}
-      hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-      activeOpacity={0.6}
-    >
-      <Text style={styles.stepBtnText}>{sign}</Text>
-    </TouchableOpacity>
-  );
-
+  const scale = useScale();
   return (
-    <View style={styles.stepperRow}>
-      {btn(-step, '−')}
-      <TextInput
-        style={[styles.setField, inputStyle]}
-        value={String(value)}
-        onChangeText={onText}
-        inputMode={inputMode}
-        textAlign="center"
-        accessibilityLabel={label}
-      />
-      {btn(step, '+')}
-    </View>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${value} ${unit}`}
+      onPress={onPress}
+      style={[
+        styles.valueBox,
+        accent && { backgroundColor: COLORS.blue },
+      ]}
+    >
+      <Text style={[styles.valueBoxNum, { fontSize: fs(scale, 19), color: accent ? '#fff' : COLORS.text }]}>
+        {value}
+      </Text>
+      <Text style={[styles.valueBoxUnit, { fontSize: fs(scale, 12), color: accent ? 'rgba(255,255,255,0.85)' : COLORS.secondary }]}>
+        {unit}
+      </Text>
+    </Pressable>
   );
 }
 
 export default function SessionScreen({
   exercises,
+  sessions,
   onSaved,
 }: {
   exercises: Exercise[];
+  sessions: Session[]; // recientes primero: para prellenar con los últimos valores
   onSaved: (s: Session) => void;
 }) {
   const { t, i18n } = useTranslation();
@@ -119,6 +85,7 @@ export default function SessionScreen({
   const [date, setDate] = useState<string>(todayISO());
   const [dateOpen, setDateOpen] = useState(false);
   const [weightStr, setWeightStr] = useState('');
+  const [duration, setDuration] = useState<number>(0); // 0 = no indicada
   const [notes, setNotes] = useState('');
   const [q, setQ] = useState('');
   const [draft, setDraft] = useState<DraftExercise[]>([]);
@@ -128,6 +95,15 @@ export default function SessionScreen({
   // Offset (y dentro del contenido del ScrollView) de cada tarjeta del draft,
   // capturado en onLayout: permite ir directo a la tarjeta de un ejercicio.
   const cardOffsets = useRef<Record<string, number>>({});
+
+  // Hojas de elección (peso / reps / duración / peso corporal): un toque
+  // sobre el valor, sin teclado.
+  type PickTarget =
+    | { kind: 'reps'; ex: string; idx: number }
+    | { kind: 'weight'; ex: string; idx: number }
+    | { kind: 'duration' }
+    | { kind: 'body' };
+  const [pick, setPick] = useState<PickTarget | null>(null);
 
   const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
   const results = useMemo(
@@ -163,7 +139,21 @@ export default function SessionScreen({
       );
       return;
     }
-    setDraft((d) => [...d, { exercise_id: id, sets: [{ reps: 10, weight_kg: 0 }] }]);
+    // 3 series por defecto: lo estándar en un entrenamiento — no obliga a
+    // pulsar "Añadir serie" dos veces de más. Si el ejercicio ya se hizo en
+    // una sesión anterior, se prellenan con sus últimos pesos y reps.
+    const lastSets = sessions
+      .find((s) => s.exercises.some((e) => e.exercise_id === id))
+      ?.exercises.find((e) => e.exercise_id === id)?.sets;
+    const bases: SetLog[] =
+      lastSets && lastSets.length > 0
+        ? lastSets
+        : [{ reps: 10, weight_kg: 0 }];
+    const fresh: SetLog[] = [];
+    for (let i = 0; i < 3; i++) {
+      fresh.push({ reps: bases[Math.min(i, bases.length - 1)].reps || 10, weight_kg: bases[Math.min(i, bases.length - 1)].weight_kg ?? 0 });
+    }
+    setDraft((d) => [...d, { exercise_id: id, sets: fresh }]);
     setQ('');
     setSaved(false);
     // La tarjeta nueva es la última del draft: desplazarse hasta ella para
@@ -200,7 +190,7 @@ export default function SessionScreen({
       ),
     );
 
-  const setSet = (id: string, idx: number, field: 'reps' | 'weight_kg', raw: string) => {
+  const setSet = (id: string, idx: number, field: 'reps' | 'weight_kg', v: number) => {
     setDraft((d) =>
       d.map((x) =>
         x.exercise_id === id
@@ -212,8 +202,8 @@ export default function SessionScreen({
                       ...s,
                       [field]:
                         field === 'weight_kg'
-                          ? Math.max(0, Number(raw.replace(',', '.')) || 0)
-                          : Math.max(0, Math.round(Number(raw.replace(',', '.')) || 0)),
+                          ? Math.max(0, Math.round(v * 100) / 100)
+                          : Math.max(0, Math.round(v)),
                     }
                   : s,
               ),
@@ -223,23 +213,19 @@ export default function SessionScreen({
     );
   };
 
-  // Paso del stepper (±delta) sin tocar el teclado.
-  const bump = (id: string, idx: number, field: 'reps' | 'weight_kg', delta: number) => {
-    setDraft((d) =>
-      d.map((x) =>
-        x.exercise_id === id
-          ? {
-              ...x,
-              sets: x.sets.map((s, i) => {
-                if (i !== idx) return s;
-                const cur = field === 'reps' ? s.reps : s.weight_kg;
-                const next = Math.max(0, Math.round((cur + delta) * 100) / 100);
-                return field === 'reps' ? { ...s, reps: Math.round(next) } : { ...s, weight_kg: next };
-              }),
-            }
-          : x,
-      ),
-    );
+  // Confirmación de la hoja: aplica el valor según el destino y cierra.
+  const confirmPick = (v: number) => {
+    if (!pick) return;
+    if (pick.kind === 'reps') {
+      setSet(pick.ex, pick.idx, 'reps', v);
+    } else if (pick.kind === 'weight') {
+      setSet(pick.ex, pick.idx, 'weight_kg', v);
+    } else if (pick.kind === 'duration') {
+      setDuration(Math.round(v));
+    } else if (pick.kind === 'body') {
+      setWeightStr(String(v));
+    }
+    setPick(null);
   };
 
   const save = async () => {
@@ -251,12 +237,14 @@ export default function SessionScreen({
         date,
         exercises: draft,
         notes,
+        duration_min: duration > 0 ? duration : null,
         body_weight_kg: bodyWeight > 0 ? bodyWeight : null,
       }) as Session;
       await store.addSession(normalized);
       setDraft([]);
       setNotes('');
       setWeightStr('');
+      setDuration(0);
       setSaved(true);
       onSaved(normalized);
     } catch (e) {
@@ -299,17 +287,27 @@ export default function SessionScreen({
               accessibilityLabel={date}
               onPress={() => setDateOpen((o) => !o)}
             >
-              <Text style={styles.dateText}>{date}</Text>
+              <Text style={styles.dateText}>{fmtDay(date, lang)}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.fieldWrap}>
+            <Text style={styles.fieldLabel}>{t('picker_duration')}</Text>
+            <ValueBox
+              value={duration > 0 ? String(duration) : '—'}
+              unit={t('picker_minutes')}
+              onPress={() => setPick({ kind: 'duration' })}
+              accent={duration > 0}
+            />
+          </View>
+        </View>
+        <View style={styles.fieldsRow}>
+          <View style={styles.fieldWrap}>
             <Text style={styles.fieldLabel}>{t('sess_bodyweight')}</Text>
-            <TextInput
-              style={styles.input}
-              value={weightStr}
-              onChangeText={setWeightStr}
-              inputMode="decimal"
-              accessibilityLabel={t('sess_bodyweight')}
+            <ValueBox
+              value={weightStr ? fmtNum(Number(weightStr)) : '—'}
+              unit="kg"
+              onPress={() => setPick({ kind: 'body' })}
+              accent={weightStr !== ''}
             />
           </View>
         </View>
@@ -335,7 +333,7 @@ export default function SessionScreen({
                 }}
               >
                 <Text style={[styles.dateChipText, d === date && styles.dateChipTextSel]}>
-                  {d}
+                  {d === todayISO() ? t('cal_today') : fmtDay(d, lang)}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -417,34 +415,36 @@ export default function SessionScreen({
                 </View>
                 {d.sets.map((s, i) => (
                   <View key={i} style={styles.setRow}>
-                    <Text style={styles.setNum}>
-                      {t('sess_set')} {i + 1}
-                    </Text>
-                    <Stepper
-                      value={s.reps}
-                      step={1}
-                      label={t('sess_reps')}
-                      inputMode="numeric"
-                      onDelta={(delta) => bump(d.exercise_id, i, 'reps', delta)}
-                      onText={(v) => setSet(d.exercise_id, i, 'reps', v)}
-                    />
-                    <Stepper
-                      value={s.weight_kg}
-                      step={2.5}
-                      label={t('sess_weight')}
-                      inputMode="decimal"
-                      onDelta={(delta) => bump(d.exercise_id, i, 'weight_kg', delta)}
-                      onText={(v) => setSet(d.exercise_id, i, 'weight_kg', v)}
-                    />
-                    <TouchableOpacity
-                      style={styles.setRemoveBtn}
-                      accessibilityRole="button"
-                      accessibilityLabel={t('delete')}
-                      onPress={() => removeSet(d.exercise_id, i)}
-                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                    >
-                      <XGlyph size={14} color={COLORS.red} />
-                    </TouchableOpacity>
+                    <View style={styles.setFieldWrap}>
+                      <Text style={styles.setCaption}>{t('sess_set')} {i + 1}</Text>
+                      <ValueBox
+                        value={String(s.reps)}
+                        unit="reps"
+                        onPress={() => setPick({ kind: 'reps', ex: d.exercise_id, idx: i })}
+                        accent={s.reps > 0}
+                      />
+                    </View>
+                    <View style={styles.setFieldWrap}>
+                      <Text style={styles.setCaption}>{t('sess_weight')}</Text>
+                      <ValueBox
+                        value={fmtNum(s.weight_kg)}
+                        unit="kg"
+                        onPress={() => setPick({ kind: 'weight', ex: d.exercise_id, idx: i })}
+                        accent={s.weight_kg > 0}
+                      />
+                    </View>
+                    <View style={styles.setDelWrap}>
+                      <Text style={styles.setCaption}>{t('delete')}</Text>
+                      <TouchableOpacity
+                        style={styles.setRemoveBtn}
+                        accessibilityRole="button"
+                        accessibilityLabel={t('delete')}
+                        onPress={() => removeSet(d.exercise_id, i)}
+                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                      >
+                        <XGlyph size={18} color={COLORS.red} />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 ))}
                 <TouchableOpacity
@@ -474,6 +474,54 @@ export default function SessionScreen({
         {error ? <Text style={styles.error}>{error}</Text> : null}
       </ScrollView>
 
+      {/* Hoja de valores (peso / reps / duración / peso corporal). */}
+      {pick ? (
+        <PickerSheet
+          open
+          title={
+            pick.kind === 'reps'
+              ? t('picker_reps')
+              : pick.kind === 'weight'
+                ? t('picker_weight')
+                : pick.kind === 'duration'
+                  ? t('picker_duration')
+                  : t('sess_bodyweight')
+          }
+          unit={pick.kind === 'reps' ? 'reps' : pick.kind === 'weight' ? 'kg' : pick.kind === 'duration' ? t('picker_minutes') : 'kg'}
+          values={
+            pick.kind === 'reps'
+              ? [5, 8, 10, 12, 15, 20, 25, 30]
+              : pick.kind === 'weight'
+                ? [0, 2.5, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 90, 100]
+                : pick.kind === 'duration'
+                  ? [15, 20, 30, 40, 45, 50, 60, 75, 90]
+                  : [45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 100]
+          }
+          value={
+            pick.kind === 'reps'
+              ? draft.find((x) => x.exercise_id === pick!.ex)?.sets[pick!.idx]?.reps ?? 0
+              : pick.kind === 'weight'
+                ? draft.find((x) => x.exercise_id === pick!.ex)?.sets[pick!.idx]?.weight_kg ?? 0
+                : pick.kind === 'duration'
+                  ? duration
+                  : Number(weightStr) || 0
+          }
+          custom={
+            pick.kind === 'reps'
+              ? { min: 1, max: 200, step: 1 }
+              : pick.kind === 'weight'
+                ? { min: 0, max: 500, step: 2.5 }
+                : pick.kind === 'duration'
+                  ? { min: 1, max: 600, step: 5 }
+                  : { min: 10, max: 400, step: 1 }
+          }
+          labelCustom={t('other_value')}
+          labelUse={t('use_value')}
+          onSelect={() => undefined}
+          onConfirm={confirmPick}
+        />
+      ) : null}
+
       {/* Barra fija de guardado: siempre visible, sin hacer scroll. */}
       <View style={styles.footer}>
         {saved ? (
@@ -482,7 +530,7 @@ export default function SessionScreen({
           </Text>
         ) : (
           <Text style={styles.footerCount} numberOfLines={1}>
-            {draft.length} {t('hist_exercises')} · {totalSets} {t('hist_sets_total')}
+            {plural(draft.length, t, 'hist_exercise', 'hist_exercises')} · {plural(totalSets, t, 'hist_set', 'hist_sets_total')}
           </Text>
         )}
         <TouchableOpacity
@@ -706,57 +754,54 @@ const styles = StyleSheet.create({
   },
   setRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    marginBottom: 8,
+    alignItems: 'flex-end',
+    gap: 10,
+    marginBottom: 10,
   },
-  setNum: {
-    fontSize: 12,
+  setFieldWrap: {
+    flex: 1,
+    gap: 5,
+  },
+  setDelWrap: {
+    flex: 0.55,
+    gap: 5,
+  },
+  setCaption: {
+    fontSize: 11,
+    fontWeight: '600',
     color: COLORS.dim,
-    width: 44,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
   },
-  stepperRow: {
+  valueBox: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    minWidth: 0,
-  },
-  stepBtn: {
-    width: 30,
-    height: 34,
-    borderRadius: 10,
-    backgroundColor: COLORS.section,
-    borderWidth: 1,
-    borderColor: COLORS.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  stepBtnText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: COLORS.text,
-    lineHeight: 18,
-  },
-  setField: {
-    flex: 1,
-    minWidth: 0, // el input HTML tiene min-width por defecto; sin esto la fila
-    // del set desborda en móvil (medido a 393px)
     backgroundColor: COLORS.fieldBg,
-    borderRadius: 10,
+    borderRadius: RADII.field,
     borderWidth: 1,
     borderColor: COLORS.border,
-    paddingHorizontal: 4,
-    paddingVertical: 10,
-    fontSize: 14,
-    color: COLORS.text,
-    minHeight: 34,
-  },
-  setRemoveBtn: {
     paddingHorizontal: 10,
     paddingVertical: 12,
-    // target táctil ≥ 44px (iOS HIG)
-    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'center',
+    minHeight: 56,
+  },
+  valueBoxNum: {
+    fontWeight: '700',
+  },
+  valueBoxUnit: {
+    marginLeft: 6,
+    fontWeight: '500',
+  },
+  setRemoveBtn: {
+    flex: 1,
+    height: 56,
+    borderRadius: RADII.field,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 59, 48, 0.35)',
+    backgroundColor: 'rgba(255, 59, 48, 0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   addSet: {
     alignSelf: 'flex-start',

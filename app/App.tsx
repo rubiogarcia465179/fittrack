@@ -16,6 +16,7 @@ import { loadExercises, type Exercise } from './src/data';
 import { store, type Session } from './src/store';
 import { sortByDate } from './src/lib/gym';
 import { COLORS } from './src/theme';
+import { useWide } from './src/scale';
 import TabIcon from './src/components/TabIcon';
 import LangSwitcher from './src/components/LangSwitcher';
 import DashboardScreen from './src/screens/DashboardScreen';
@@ -35,14 +36,9 @@ export default function App() {
   const [exercises] = useState<Exercise[]>(() => loadExercises());
   const [sessions, setSessions] = useState<Session[]>([]);
   const [detailId, setDetailId] = useState<string | null>(null);
-  const [wide, setWide] = useState<boolean>(() => Dimensions.get('window').width >= 480);
-
-  // El tagline del header solo cabe en pantallas anchas; se muestra u oculta
-  // al rotar / cambiar de dispositivo.
-  useEffect(() => {
-    const sub = Dimensions.addEventListener('change', (d: { window: { width: number; height: number } }) => setWide(d.window.width >= 480));
-    return () => sub.remove();
-  }, []);
+  // Pantalla ancha (tablet / horizontal / PC): el contenido se centra con un
+  // ancho máximo — la app conserva su maquetación de móvil, más cómoda de leer.
+  const wide = useWide();
 
   // Carga inicial: sesiones + idioma persistido.
   useEffect(() => {
@@ -73,6 +69,15 @@ export default function App() {
     await store.deleteSession(id);
     setSessions((prev) => prev.filter((s) => s.id !== id));
   };
+  // Export / borrado total (pestaña Resumen).
+  const handleExport = () => store.toJson();
+  const handleClearAll = async () => {
+    await store.clearAll();
+    setSessions([]);
+  };
+  const handleDataChanged = () => {
+    void store.sessions().then((x) => setSessions(sortByDate(x)));
+  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -96,20 +101,25 @@ export default function App() {
       </View>
 
       <View style={styles.body}>
-        {detail ? (
-          <DetailScreen exercise={detail} onBack={() => setDetailId(null)} />
-        ) : tab === 'dashboard' ? (
+        <View style={styles.wideWrap}>
+          <View style={styles.wideInner}>
+            {detail ? (
+              <DetailScreen exercise={detail} onBack={() => setDetailId(null)} />
+            ) : tab === 'dashboard' ? (
           <DashboardScreen
             exercises={exercises}
             sessions={sessions}
             onOpenExercise={openExercise}
             onOpenHistory={() => setTab('history')}
             onStartSession={() => setTab('session')}
+            onExport={handleExport}
+            onClearAll={handleClearAll}
+            onDataChanged={handleDataChanged}
           />
         ) : tab === 'library' ? (
           <LibraryScreen exercises={exercises} onOpenExercise={openExercise} />
         ) : tab === 'session' ? (
-          <SessionScreen exercises={exercises} onSaved={handleSaved} />
+          <SessionScreen exercises={exercises} sessions={sessions} onSaved={handleSaved} />
         ) : (
           <HistoryScreen
             sessions={sessions}
@@ -119,6 +129,8 @@ export default function App() {
             onStartSession={() => setTab('session')}
           />
         )}
+          </View>
+        </View>
       </View>
 
       {/* Tabbar: SafeAreaView ya añade el inset inferior (home indicator);
@@ -188,6 +200,16 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   body: {
+    flex: 1,
+  },
+  wideWrap: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  wideInner: {
+    width: '100%',
+    maxWidth: 640,
+    alignSelf: 'center',
     flex: 1,
   },
   tabbar: {

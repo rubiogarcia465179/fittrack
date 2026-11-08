@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import { searchExercises, GROUPS, EQUIPMENT } from '../lib/gym';
 import { COLORS, GROUP_COLORS, RADII, SHADOW } from '../theme';
-import { useScale, fs } from '../scale';
+import { useScale, fs, useWide } from '../scale';
 
 function Chips<T extends string>({
   title,
@@ -78,6 +78,7 @@ export default function LibraryScreen({
 }) {
   const { t, i18n } = useTranslation();
   const scale = useScale();
+  const wide = useWide();
   const [q, setQ] = useState('');
   const [group, setGroup] = useState<string>('all');
   const [equip, setEquip] = useState<string>('all');
@@ -136,30 +137,32 @@ export default function LibraryScreen({
           {results.length} {t('ex_found')}
         </Text>
 
-        {results.map((e) => (
-          <TouchableOpacity
-            key={e.id}
-            style={styles.row}
-            accessibilityRole="button"
-            accessibilityLabel={nameOf(e)}
-            onPress={() => onOpenExercise(e.id)}
-            activeOpacity={0.7}
-          >
-            <Image source={e.imageAsset} style={styles.thumb} resizeMode="cover" />
-            <View style={styles.rowText}>
-              <Text style={styles.rowName} numberOfLines={1}>
-                {nameOf(e)}
-              </Text>
-              <Text style={styles.rowMeta} numberOfLines={1}>
-                {t(`group_${e.muscle_group}`)} · {t(`equip_${e.equipment}`)} · {t(`level_${e.level}`)}
-              </Text>
-            </View>
-            <View
-              style={[styles.dot, { backgroundColor: GROUP_COLORS[e.muscle_group] || COLORS.dim }]}
-              accessibilityElementsHidden
-            />
-          </TouchableOpacity>
-        ))}
+        <View style={wide ? styles.rowsWide : undefined}>
+          {results.map((e) => (
+            <TouchableOpacity
+              key={e.id}
+              style={[styles.row, wide && styles.rowWide]}
+              accessibilityRole="button"
+              accessibilityLabel={nameOf(e)}
+              onPress={() => onOpenExercise(e.id)}
+              activeOpacity={0.7}
+            >
+              <Image source={e.imageAsset} style={styles.thumb} resizeMode="cover" />
+              <View style={styles.rowText}>
+                <Text style={styles.rowName} numberOfLines={1}>
+                  {nameOf(e)}
+                </Text>
+                <Text style={styles.rowMeta} numberOfLines={1}>
+                  {t(`group_${e.muscle_group}`)} · {t(`equip_${e.equipment}`)} · {t(`level_${e.level}`)}
+                </Text>
+              </View>
+              <View
+                style={[styles.dot, { backgroundColor: GROUP_COLORS[e.muscle_group] || COLORS.dim }]}
+                accessibilityElementsHidden
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
     </View>
   );
@@ -233,6 +236,16 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: COLORS.dim,
     marginBottom: 12,
+  },
+  rowsWide: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  rowWide: {
+    flexBasis: '48%',
+    flexGrow: 1,
+    marginBottom: 0,
   },
   row: {
     flexDirection: 'row',

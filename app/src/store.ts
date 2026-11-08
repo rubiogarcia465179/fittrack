@@ -74,4 +74,13 @@ export const store = {
     d.sessions = d.sessions.filter((x) => x.id !== id);
     await write(d);
   },
+  /** JSON completo de los datos (exportación). */
+  async toJson(): Promise<string> {
+    const d = await read();
+    return JSON.stringify({ app: 'fittrack', version: 1, exported_at: new Date().toISOString(), ...d }, null, 2);
+  },
+  /** Borra TODOS los datos (sesiones incluidas). */
+  async clearAll(): Promise<void> {
+    await write(emptyData());
+  },
 };

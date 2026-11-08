@@ -24,3 +24,18 @@ export function useScale() {
 export function fs(scale: number, px: number) {
   return Math.round(px * scale * 10) / 10;
 }
+
+/** true en pantallas anchas (≥ 480px: tablet, móvil en horizontal, PC).
+ *  Se usa para activar maquetaciones de dos columnas y centrar el contenido. */
+export function useWide() {
+  const [wide, setWide] = useState(
+    () => Dimensions.get('window').width >= 480,
+  );
+  useEffect(() => {
+    const sub = Dimensions.addEventListener('change', (d: { window: { width: number; height: number } }) =>
+      setWide(d.window.width >= 480),
+    );
+    return () => sub.remove();
+  }, []);
+  return wide;
+}

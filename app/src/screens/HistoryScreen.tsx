@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   View,
   Text,
@@ -5,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  Alert,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
@@ -14,6 +14,8 @@ import { sessionVolume, sessionSets, sortByDate } from '../lib/gym';
 import { COLORS, RADII, SHADOW } from '../theme';
 import { useScale, fs } from '../scale';
 import { EmptyMarkGlyph } from '../components/TabIcon';
+import { plural } from '../lib/plural';
+import { ConfirmDialog } from '../components/ConfirmDialog';
 
 export default function HistoryScreen({
   sessions,
@@ -30,21 +32,19 @@ export default function HistoryScreen({
 }) {
   const { t, i18n } = useTranslation();
   const scale = useScale();
+  // Sesión pendiente de borrado (diálogo propio: Alert no funciona en web).
+  const [toDelete, setToDelete] = useState<Session | null>(null);
   const list = sortByDate(sessions);
   const lang = i18n.language as string;
   const byId = new Map(exercises.map((e) => [e.id, e]));
   const nameOf = (e?: { name_en: string; name_nl: string }) =>
     e ? (lang === 'nl' ? e.name_nl || e.name_en : e.name_en) : '';
 
-  const confirmDelete = (s: Session) => {
-    Alert.alert(t('hist_delete'), s.date, [
-      { text: t('cancel'), style: 'cancel' },
-      { text: t('delete'), style: 'destructive', onPress: () => onDeleted(s.id) },
-    ]);
-  };
+  const confirmDelete = (s: Session) => setToDelete(s);
 
   return (
-    <ScrollView contentContainerStyle={styles.body}>
+    <>
+      <ScrollView contentContainerStyle={styles.body}>
       <Text style={[styles.title, { fontSize: fs(scale, 32) }]} numberOfLines={1}>
         {t('hist_title')}
       </Text>
@@ -84,8 +84,8 @@ export default function HistoryScreen({
             </View>
             <View style={styles.cardMeta}>
               <Text style={styles.cardMetaText}>
-                {s.exercises.length} {t('hist_exercises')} · {sessionSets(s)}{' '}
-                {t('hist_sets_total')}
+                {plural(s.exercises.length, t, 'hist_exercise', 'hist_exercises')} · {plural(sessionSets(s), t, 'hist_set', 'hist_sets_total')}
+                {s.duration_min ? ` · ${s.duration_min} ${t('picker_minutes')}` : ''}
               </Text>
               <Text style={styles.cardVolume}>
                 {Math.round(sessionVolume(s)).toLocaleString(lang)} kg {t('hist_volume')}
@@ -118,7 +118,23 @@ export default function HistoryScreen({
           </View>
         ))
       )}
-    </ScrollView>
+      </ScrollView>
+      {toDelete ? (
+        <ConfirmDialog
+          visible
+          title={t('hist_delete')}
+          message={`${toDelete.date} · ${plural(toDelete.exercises.length, t, 'hist_exercise', 'hist_exercises')}`}
+          confirmLabel={t('delete')}
+          cancelLabel={t('cancel')}
+          destructive
+          onConfirm={() => {
+            onDeleted(toDelete.id);
+            setToDelete(null);
+          }}
+          onCancel={() => setToDelete(null)}
+        />
+      ) : null}
+    </>
   );
 }
 

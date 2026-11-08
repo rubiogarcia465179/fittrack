@@ -145,6 +145,33 @@ tarea.
   check-scroll/dup-scroll → 0 fallos en los 6 dispositivos; tsc 0;
   expo export web OK; bundle-check.js BUNDLE_OK 3.08 MB; tests/run.js 78/78.
 
+- 2026-11-08 — **Iteraciones 6–10: features de publicación + UX** (loop
+  "implementar→verificar→corregir" ×5, verificado en Chromium real):
+  (1) **Pickers de valores** — peso / reps / duración / peso corporal se
+  eligen tocando una hoja de chips grandes (sin teclado) con valor propio;
+  3 series por defecto al añadir un ejercicio y prellenado con los últimos
+  valores usados en esa misma sesión. (2) **Borrar entradas**: por serie
+  (X roja ≥44px) y por ejercicio. (3) **Exportar JSON** (copia al
+  portapapeles con confirmación inline). (4) **Borrar todos los datos**
+  (diálogo de confirmación propio, dos pasos). (5) **Calendario** en la
+  pestaña Resumen: verde = entrenaste (con nº de series), rojo = no
+  entrenaste, anillo azul = hoy, navegación por meses, celdas
+  auto-adaptadas al ancho. (6) **Horizontal/tablet**: contenido centrado
+  (max-width 640), biblioteca a 2 columnas, sin desbordes en 6 tamaños en
+  landscape (orientation "default" en app.json). (7) Plural correcto
+  ("1 ejercicio" / "3 ejercicios", helper `lib/plural.ts`) y fecha legible
+  ("Nov 8" en vez de ISO). Bugs reales corregidos en el loop: `cal_today`
+  escrito a archivos sin extensión (se perdía en el bundle de i18n);
+  `Alert.alert()` es **no-op en react-native-web** (export/borrar no
+  confirmaban en web) → reemplazado por `ConfirmDialog` (Modal propio)
+  que funciona en web y nativa; la hoja de pickers se superponía a la
+  rejilla con muchos valores (chips 70–100 cortados) → `maxHeight:85%` +
+  rejilla con scroll; etiqueta "Serie 1/2/3" recuperada. Verificación
+  final: tsc 0; expo export web OK; bundle-check.js BUNDLE_OK 3.14 MB;
+  tests/run.js 78/78; Chromium devices/geometry/dup-scroll2/wide-flow →
+  **0 FALLOS** en iPhone 16/17/18, iPhone SE, Galaxy S24/S25 (portrait y
+  landscape).
+
 - 2026-11-08 — Pulido de UX para publicación (Fase 7b, ver TASKS.md):
   icono 1024 + splash 2048×2732 (`scripts/make_app_assets.py`, cableados en
   app.json: iOS splash + Android adaptiveIcon); iconos de tabbar y empty
