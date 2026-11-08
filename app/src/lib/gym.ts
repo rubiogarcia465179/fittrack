@@ -33,6 +33,7 @@ export interface ExerciseLike {
 export interface SessionLike {
   id?: string;
   date: string;
+  type?: 'training' | 'benchmark';
   exercises: ExerciseLike[];
   notes?: string;
   duration_min?: number | null;
@@ -256,6 +257,7 @@ export function normalizeSession(s: SessionLike): SessionLike {
   return {
     id: s.id || uid(),
     date: s.date,
+    type: s.type || 'training',
     exercises,
     notes: s.notes ? String(s.notes).slice(0, 500) : '',
     duration_min: s.duration_min ? Math.max(1, Math.round(Number(s.duration_min))) : null,

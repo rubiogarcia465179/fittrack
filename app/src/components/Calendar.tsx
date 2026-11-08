@@ -1,9 +1,10 @@
 /** Calendario de actividad (pestaña Resumen): meses completos con cada día
- *  verde (entrenaste) o rojo suave (no entrenaste), anillo azul en el día de
- *  hoy y navegación mes a mes. Celdas grandes y tapables. */
+ *  verde (entrenaste) o rojo suave (no entrenaste), anillo en el día de hoy y
+ *  navegación mes a mes. Celdas grandes y tapables, auto-adaptadas al ancho. */
 import { useMemo, useState } from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
-import { COLORS, RADII } from '../theme';
+import { RADII } from '../theme';
+import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
 
 const MONTH_NAMES: Record<string, string[]> = {
@@ -51,6 +52,7 @@ export function MonthCalendar({
   days,
   todayLabel,
 }: MonthCalendarProps) {
+  const { p } = useTheme();
   const scale = useScale();
   const months = MONTH_NAMES[lang] ?? MONTH_NAMES.en;
   const week = WEEKDAYS[lang] ?? WEEKDAYS.en;
@@ -82,12 +84,15 @@ export function MonthCalendar({
           accessibilityRole="button"
           accessibilityLabel="Mes anterior"
           onPress={onPrev}
-          style={styles.navBtn}
+          style={({ pressed }) => [
+            styles.navBtn,
+            { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
+          ]}
         >
-          <Text style={[styles.arrow, { fontSize: fs(scale, 24), color: COLORS.secondary }]}>‹</Text>
+          <Text style={[styles.arrow, { fontSize: fs(scale, 24), color: p.secondary }]}>‹</Text>
         </Pressable>
         <View style={styles.monthWrap}>
-          <Text style={[styles.month, { fontSize: fs(scale, 20), color: COLORS.text }]}>
+          <Text style={[styles.month, { fontSize: fs(scale, 20), color: p.text }]}>
             {months[month]} {year}
           </Text>
           {isThisMonth ? (
@@ -95,11 +100,12 @@ export function MonthCalendar({
               accessibilityRole="button"
               accessibilityLabel={todayLabel}
               onPress={onToday}
-              style={[styles.todayPill, { borderRadius: RADII.pill, backgroundColor: COLORS.fieldBg }]}
+              style={({ pressed }) => [
+                styles.todayPill,
+                { borderRadius: RADII.pill, backgroundColor: p.fieldBg, opacity: pressed ? 0.75 : 1, transition: 'opacity 90ms ease' },
+              ]}
             >
-              <Text style={[styles.todayPillText, { fontSize: fs(scale, 13), color: COLORS.secondary }]}>
-                {todayLabel}
-              </Text>
+              <Text style={[styles.todayPillText, { fontSize: fs(scale, 13), color: p.secondary }]}>{todayLabel}</Text>
             </Pressable>
           ) : null}
         </View>
@@ -107,9 +113,12 @@ export function MonthCalendar({
           accessibilityRole="button"
           accessibilityLabel="Mes siguiente"
           onPress={onNext}
-          style={styles.navBtn}
+          style={({ pressed }) => [
+            styles.navBtn,
+            { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
+          ]}
         >
-          <Text style={[styles.arrow, { fontSize: fs(scale, 24), color: COLORS.secondary }]}>›</Text>
+          <Text style={[styles.arrow, { fontSize: fs(scale, 24), color: p.secondary }]}>›</Text>
         </Pressable>
       </View>
 
@@ -120,7 +129,7 @@ export function MonthCalendar({
             <Text
               style={[
                 styles.weekday,
-                { fontSize: fs(scale, 12), color: COLORS.dim, textAlign: 'center' },
+                { fontSize: fs(scale, 12), color: p.dim, textAlign: 'center' },
               ]}
             >
               {w}
@@ -130,10 +139,7 @@ export function MonthCalendar({
       </View>
 
       {/* Celdas */}
-      <View
-        style={styles.grid}
-        onLayout={(e) => setGridW(e.nativeEvent.layout.width)}
-      >
+      <View style={styles.grid} onLayout={(e) => setGridW(e.nativeEvent.layout.width)}>
         {cells.map((c, i) => {
           if (!c) {
             return <View key={`b${i}`} style={[styles.cell, { width: cell, height: cell }]} />;
@@ -142,16 +148,8 @@ export function MonthCalendar({
           const stat = days[dk];
           const isToday = today.y === year && today.m === month && today.d === c.day;
           const isFuture = isThisMonth && c.day > today.d;
-          const bg = stat
-            ? '#34c759'
-            : isFuture
-              ? 'transparent'
-              : '#fdeae8'; // rojo suave: no entrenaste
-          const color = stat
-            ? '#ffffff'
-            : isFuture
-              ? '#c7c7cc'
-              : '#c62b2b';
+          const bg = stat ? p.green : isFuture ? 'transparent' : 'rgba(196, 60, 42, 0.16)'; // rojo suave: no entrenaste
+          const color = stat ? '#ffffff' : isFuture ? p.dim : p.red;
           return (
             <Pressable
               key={dk}
@@ -160,16 +158,16 @@ export function MonthCalendar({
               onPress={() => {
                 /* tocar el día: hoy nada (sin navegación a sesión todavía) */
               }}
-              style={[
+              style={([
                 styles.dayCell,
                 {
                   width: cell,
                   height: cell,
                   backgroundColor: bg,
                   borderWidth: isToday ? 2 : 0,
-                  borderColor: isToday ? COLORS.blue : 'transparent',
+                  borderColor: isToday ? p.accent : 'transparent',
                 },
-              ]}
+              ] as object)}
             >
               <Text
                 style={[
@@ -213,7 +211,6 @@ const styles = StyleSheet.create({
     width: 46,
     height: 46,
     borderRadius: 23,
-    backgroundColor: COLORS.fieldBg,
     alignItems: 'center',
     justifyContent: 'center',
   },

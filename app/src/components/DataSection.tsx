@@ -4,13 +4,15 @@
  *  (Alert.alert no existe en react-native-web; esto funciona en todo). */
 import { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   Clipboard,
   Pressable,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { COLORS, RADII } from '../theme';
+import { RADII } from '../theme';
+import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
 import { ConfirmDialog } from './ConfirmDialog';
 
@@ -22,9 +24,10 @@ export interface DataSectionProps {
 }
 
 export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) {
+  const { p, SHADOW } = useTheme();
   const scale = useScale();
   const [confirming, setConfirming] = useState(false);
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<'export' | 'clear' | null>(null);
   const [status, setStatus] = useState('');
 
   // El estado de éxito se limpia solo pasados 4 s.
@@ -36,7 +39,7 @@ export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) 
 
   async function exportData() {
     if (busy) return;
-    setBusy(true);
+    setBusy('export');
     setStatus('');
     try {
       const json = await onExport();
@@ -51,78 +54,76 @@ export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) 
     } catch {
       setStatus('');
     } finally {
-      setBusy(false);
+      setBusy(null);
     }
   }
 
   async function confirmClear() {
     if (busy) return;
-    setBusy(true);
+    setBusy('clear');
     try {
       await onClear();
       setConfirming(false);
       onDone();
       setStatus(t('data_cleared'));
     } finally {
-      setBusy(false);
+      setBusy(null);
     }
   }
 
   return (
     <View>
-      <View style={[styles.card, { borderRadius: RADII.tile }]}>
-        <Text style={[styles.title, { fontSize: fs(scale, 19), color: COLORS.text }]}>
-          {t('data_title')}
-        </Text>
-        <Text style={[styles.note, { fontSize: fs(scale, 15), color: COLORS.secondary, marginTop: 6 }]}>
-          {t('data_note')}
-        </Text>
+      <View style={[styles.card, { borderRadius: RADII.tile, backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
+        <Text style={[styles.title, { fontSize: fs(scale, 19), color: p.text }]}>{t('data_title')}</Text>
+        <Text style={[styles.note, { fontSize: fs(scale, 15), color: p.secondary, marginTop: 6 }]}>{t('data_note')}</Text>
         <View style={styles.row}>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={t('data_export')}
-            disabled={busy}
+            disabled={busy != null}
             onPress={exportData}
-            style={[
+            style={({ pressed }) => [
               styles.btn,
               {
                 flex: 1,
                 height: 54,
                 borderRadius: RADII.pill,
-                backgroundColor: COLORS.blue,
+                backgroundColor: p.accent,
+                opacity: pressed ? 0.85 : 1,
+                transition: 'opacity 90ms ease',
               },
             ]}
           >
-            <Text style={[styles.btnText, { fontSize: fs(scale, 17), color: '#fff' }]}>
-              {t('data_export')}
-            </Text>
+            {busy === 'export' ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Text style={[styles.btnText, { fontSize: fs(scale, 17), color: '#fff' }]}>{t('data_export')}</Text>
+            )}
           </Pressable>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={t('data_clear')}
-            disabled={busy}
+            disabled={busy != null}
             onPress={() => setConfirming(true)}
-            style={[
+            style={({ pressed }) => [
               styles.btn,
               {
                 flex: 1,
                 height: 54,
                 borderRadius: RADII.pill,
-                backgroundColor: '#ffffff',
+                backgroundColor: 'transparent',
                 borderWidth: 1.5,
-                borderColor: COLORS.red,
+                borderColor: p.red,
+                opacity: pressed ? 0.75 : 1,
+                transition: 'opacity 90ms ease',
               },
             ]}
           >
-            <Text style={[styles.btnText, { fontSize: fs(scale, 17), color: COLORS.red }]}>
-              {t('data_clear')}
-            </Text>
+            <Text style={[styles.btnText, { fontSize: fs(scale, 17), color: p.red }]}>{t('data_clear')}</Text>
           </Pressable>
         </View>
         {status ? (
-          <Text style={[styles.status, { fontSize: fs(scale, 15), color: COLORS.green }]}>
-            {status}
-          </Text>
+          <Text style={[styles.status, { fontSize: fs(scale, 15), color: p.green }]}>{status}</Text>
         ) : null}
       </View>
 
@@ -134,6 +135,7 @@ export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) 
         confirmLabel={t('data_clear')}
         cancelLabel={t('cancel')}
         destructive
+        loading={busy === 'clear'}
         onConfirm={confirmClear}
         onCancel={() => setConfirming(false)}
       />
@@ -143,13 +145,8 @@ export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) 
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: COLORS.card,
     padding: 16,
-    shadowColor: '#1d1d1f',
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 2,
+    borderWidth: 1,
   },
   title: { fontWeight: '700' },
   note: { lineHeight: 21 },

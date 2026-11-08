@@ -3,7 +3,7 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -20,34 +20,41 @@ import {
   weekStart,
   todayISO,
 } from '../lib/gym';
-import { COLORS, GROUP_COLORS, RADII, SHADOW, GRADIENT_STOPS } from '../theme';
+import { GROUP_COLORS, RADII } from '../theme';
+import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
 import BarChart, { type Bar } from '../components/BarChart';
 import { EmptyMarkGlyph } from '../components/TabIcon';
 import { MonthCalendar, type DayStat } from '../components/Calendar';
 import { DataSection } from '../components/DataSection';
 import { plural } from '../lib/plural';
+import { ExerciseGlyph } from './SessionScreen';
 
 export default function DashboardScreen({
   exercises,
   sessions,
+  benchmarks,
   onOpenExercise,
   onOpenHistory,
   onStartSession,
+  onStartWorkout,
   onExport,
   onClearAll,
   onDataChanged,
 }: {
   exercises: ExerciseRow[];
   sessions: Session[]; // ordenadas de más reciente a más antigua
+  benchmarks: { name_en: string; name_nl: string; estimated_1rm: number }[];
   onOpenExercise: (id: string) => void;
   onOpenHistory: () => void;
   onStartSession: () => void;
+  onStartWorkout: () => void;
   onExport: () => Promise<string>;
   onClearAll: () => Promise<void>;
   onDataChanged: () => void;
 }) {
   const { t, i18n } = useTranslation();
+  const { p, SHADOW } = useTheme();
   const scale = useScale();
 
   // Calendario de actividad: mes actual por defecto, navegable mes a mes.
@@ -98,7 +105,7 @@ export default function DashboardScreen({
     ([g, v]) => ({
       label: t(`group_${g}`),
       value: v,
-      color: GROUP_COLORS[g] || COLORS.dim,
+      color: GROUP_COLORS[g] || p.dim,
     }),
   );
   const weekBars: Bar[] = weekVolume.map((w) => ({
@@ -109,31 +116,43 @@ export default function DashboardScreen({
   const lang = i18n.language as string;
   const nameOf = (e?: { name_en: string; name_nl: string }) =>
     e ? (lang === 'nl' ? e.name_nl || e.name_en : e.name_en) : '';
+  const benchName = (b: { name_en: string; name_nl: string }) =>
+    lang === 'nl' ? b.name_nl || b.name_en : b.name_en;
 
   return (
-    <ScrollView contentContainerStyle={styles.body}>
-      <Text style={styles.title} numberOfLines={1}>
+    <ScrollView contentContainerStyle={[styles.body, { backgroundColor: p.bg }]}>
+      <Text style={[styles.title, { fontSize: fs(scale, 32), color: p.text }]} numberOfLines={1}>
         {t('dash_title')}
       </Text>
-      <Text style={styles.sub}>{t('dash_sub')}</Text>
+      <Text style={[styles.sub, { color: p.secondary }]}>{t('dash_sub')}</Text>
+
+      {/* CTA principal: generar entrenamiento personalizado (nuevo). */}
+      <Pressable
+        style={({ pressed }) => [styles.heroCta, { opacity: pressed ? 0.88 : 1, transform: [{ scale: pressed ? 0.99 : 1 }], transition: 'transform 90ms ease, opacity 90ms ease', backgroundColor: p.accent, ...SHADOW.cta }]}
+        accessibilityRole="button"
+        accessibilityLabel={t('gen_cta')}
+        onPress={onStartWorkout}
+      >
+        <View style={styles.heroRow}>
+          <Text style={[styles.heroText, { color: '#fff' }]}>{t('gen_cta')}</Text>
+          <Text style={styles.heroArrow}>{'→'}</Text>
+        </View>
+      </Pressable>
 
       {sessions.length === 0 ? (
-        <View style={styles.emptyCard}>
-          <View style={styles.emptyMark}>
+        <View style={[styles.emptyCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
+          <View style={[styles.emptyMark, { backgroundColor: p.section }]}>
             <EmptyMarkGlyph size={30} />
           </View>
-          <Text style={styles.emptyTitle}>{t('dash_no_sessions')}</Text>
-          <Text style={styles.emptyHint}>{t('dash_empty_hint')}</Text>
-          <TouchableOpacity
-            style={styles.cta}
+          <Text style={[styles.emptyTitle, { color: p.text }]}>{t('dash_no_sessions')}</Text>
+          <Text style={[styles.emptyHint, { color: p.dim }]}>{t('dash_empty_hint')}</Text>
+          <Pressable
+            style={({ pressed }) => [styles.cta, { opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease', backgroundColor: p.accent }]}
             accessibilityRole="button"
-            activeOpacity={0.85}
             onPress={onStartSession}
           >
-            <View style={styles.ctaInner}>
-              <Text style={styles.ctaText}>{t('hero_cta_session')}</Text>
-            </View>
-          </TouchableOpacity>
+            <Text style={styles.ctaText}>{t('hero_cta_session')}</Text>
+          </Pressable>
         </View>
       ) : (
         <>
@@ -144,9 +163,9 @@ export default function DashboardScreen({
             <Stat value={String(prs)} label={t('stat_pr')} accent={prs > 0} scale={scale} />
           </View>
 
-          <View style={styles.weightRow}>
-            <Text style={styles.statLabel}>{t('stat_weight')}</Text>
-            <Text style={styles.weightValue}>
+          <View style={[styles.weightRow, { backgroundColor: p.section }]}>
+            <Text style={[styles.statLabel, { color: p.secondary }]}>{t('stat_weight')}</Text>
+            <Text style={[styles.weightValue, { color: p.text }]}>
               {weight ? `${weight.toLocaleString(lang)} kg` : t('dash_no_weight')}
             </Text>
           </View>
@@ -160,51 +179,86 @@ export default function DashboardScreen({
             height={110}
           />
 
-          <Text style={styles.sectionTitle}>{t('dash_recent')}</Text>
+          <Text style={[styles.sectionTitle, { color: p.text }]}>{t('dash_recent')}</Text>
           {sessions.slice(0, 5).map((s) => (
-            <TouchableOpacity
+            <Pressable
               key={s.id}
-              style={styles.recentRow}
+              style={({ pressed }) => [styles.recentRow, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card, transform: [{ scale: pressed ? 0.99 : 1 }], transition: 'transform 90ms ease' }]}
               accessibilityRole="button"
               accessibilityLabel={`${s.date}`}
               onPress={onOpenHistory}
-              activeOpacity={0.7}
             >
               <View style={styles.recentLeft}>
-                <Text style={styles.recentDate}>{s.date}</Text>
-                <Text style={styles.recentMeta} numberOfLines={1}>
+                <Text style={[styles.recentDate, { color: p.text }]}>{s.date}</Text>
+                <Text style={[styles.recentMeta, { color: p.secondary }]} numberOfLines={1}>
                   {plural(s.exercises.length, t, 'hist_exercise', 'hist_exercises')} · {plural(sessionSets(s), t, 'hist_set', 'hist_sets_total')}
                 </Text>
               </View>
               <View style={styles.recentRight} accessibilityElementsHidden>
-                <Text style={styles.recentVolume}>
+                <Text style={[styles.recentVolume, { color: p.accent }]}>
                   {Math.round(sessionVolume(s)).toLocaleString(lang)} kg
                 </Text>
-                <Text style={styles.recentNames} numberOfLines={1}>
+                <Text style={[styles.recentNames, { color: p.dim }]} numberOfLines={1}>
                   {s.exercises
                     .map((ex) => nameOf(exercises.find((e) => e.id === ex.exercise_id)))
                     .filter(Boolean)
                     .join(', ')}
                 </Text>
               </View>
-            </TouchableOpacity>
+            </Pressable>
           ))}
-          <TouchableOpacity
-            style={styles.historyLink}
+          <Pressable
+            style={({ pressed }) => [styles.historyLink, { opacity: pressed ? 0.6 : 1, transition: 'opacity 90ms ease' }]}
             accessibilityRole="button"
-            activeOpacity={0.6}
             onPress={onOpenHistory}
           >
-            <Text style={styles.historyLinkText}>{t('hist_title')} →</Text>
-          </TouchableOpacity>
+            <Text style={[styles.historyLinkText, { color: p.accent }]}>{t('hist_title')} →</Text>
+          </Pressable>
         </>
       )}
+
+      {/* Benchmarks: resultados de fuerza guardados (tarea 2). */}
+      <View style={[styles.benchCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card, marginTop: 22 }]}>
+        <View style={styles.calendarHead}>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.calendarTitle, { color: p.text }]}>{t('bench_title')}</Text>
+            <Text style={[styles.calendarSub, { color: p.secondary }]}>{t('bench_sub')}</Text>
+          </View>
+        </View>
+        {benchmarks.length === 0 ? (
+          <View style={styles.benchEmpty}>
+            <ExerciseGlyph label="bench" size={34} color={p.accent} />
+            <Text style={[styles.emptyHint, { color: p.dim }]}>{t('bench_empty')}</Text>
+            <Pressable
+              style={({ pressed }) => [styles.benchCta, { opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' }]}
+              accessibilityRole="button"
+              accessibilityLabel={t('bench_start')}
+              onPress={onStartWorkout}
+            >
+              <Text style={[styles.benchCtaText, { color: p.accent }]}>{t('bench_start')}</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.benchRow}>
+            {benchmarks.map((b) => (
+              <View key={b.name_en} style={styles.benchChip}>
+                <Text style={[styles.benchChipName, { color: p.text }]} numberOfLines={1}>{benchName(b)}</Text>
+                <View style={[styles.benchChipValRow, { backgroundColor: p.section }]}>
+                  <Text style={[styles.benchChipVal, { color: p.accent }]}>{b.estimated_1rm} kg</Text>
+                  <Text style={[styles.benchChipUnit, { color: p.dim }]}>1RM</Text>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+        )}
+      </View>
+
       {sessions.length > 0 ? (
-        <View style={styles.calendarCard}>
+        <View style={[styles.calendarCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
           <View style={styles.calendarHead}>
             <View style={{ flex: 1 }}>
-              <Text style={styles.calendarTitle}>{t('dash_calendar')}</Text>
-              <Text style={styles.calendarSub}>{t('cal_sub')}</Text>
+              <Text style={[styles.calendarTitle, { color: p.text }]}>{t('dash_calendar')}</Text>
+              <Text style={[styles.calendarSub, { color: p.secondary }]}>{t('cal_sub')}</Text>
             </View>
           </View>
           <MonthCalendar
@@ -221,11 +275,11 @@ export default function DashboardScreen({
           <View style={styles.legend}>
             <View style={styles.legendRow}>
               <View style={[styles.legendDot, { backgroundColor: '#34c759' }]} />
-              <Text style={styles.legendText}>{t('cal_exercised')}</Text>
+              <Text style={[styles.legendText, { color: p.secondary }]}>{t('cal_exercised')}</Text>
             </View>
             <View style={styles.legendRow}>
               <View style={[styles.legendDot, { backgroundColor: '#fdeae8', borderWidth: 1, borderColor: '#f2b8b4' }]} />
-              <Text style={styles.legendText}>{t('cal_rest')}</Text>
+              <Text style={[styles.legendText, { color: p.secondary }]}>{t('cal_rest')}</Text>
             </View>
           </View>
         </View>
@@ -247,51 +301,61 @@ function Stat({
   accent?: boolean;
   scale: number;
 }) {
+  const { p, SHADOW } = useTheme();
   return (
-    <View style={styles.stat}>
+    <View style={[styles.stat, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
       <Text
         style={[
           styles.statValue,
-          { fontSize: fs(scale, 26) },
-          accent && { color: COLORS.green },
+          { fontSize: fs(scale, 26), color: p.text },
+          accent && { color: p.green },
         ]}
         numberOfLines={1}
       >
         {value}
       </Text>
-      <Text style={styles.statLabel} numberOfLines={2}>
+      <Text style={[styles.statLabel, { color: p.secondary }]} numberOfLines={2}>
         {label}
       </Text>
     </View>
   );
 }
 
-/** Gradiente CSS vertical de 2 paradas (RN-web lo respeta; en nativo se
- *  pinta de plano con la primera parada si no hubiera soporte). */
-export function ctaGradient(): object {
-  return {
-    backgroundColor: GRADIENT_STOPS[0],
-    background: `linear-gradient(180deg, ${GRADIENT_STOPS[0]} 0%, ${GRADIENT_STOPS[1]} 100%)`,
-  };
-}
-
 const styles = StyleSheet.create({
   body: {
     padding: 20,
     paddingBottom: 32,
-    backgroundColor: COLORS.bg,
   },
   title: {
     fontSize: 32,
     fontWeight: '700',
     letterSpacing: -0.6,
-    color: COLORS.text,
   },
   sub: {
     fontSize: 15,
-    color: COLORS.secondary,
     marginTop: 4,
-    marginBottom: 20,
+    marginBottom: 18,
+  },
+  heroCta: {
+    borderRadius: RADII.tile,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    marginBottom: 18,
+  },
+  heroRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  heroText: {
+    fontSize: 18,
+    fontWeight: '700',
+    letterSpacing: -0.3,
+  },
+  heroArrow: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#fff',
   },
   statGrid: {
     flexDirection: 'row',
@@ -302,29 +366,23 @@ const styles = StyleSheet.create({
   stat: {
     flexBasis: '47%',
     flexGrow: 1,
-    backgroundColor: COLORS.card,
     borderRadius: RADII.tile,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder,
     padding: 14,
-    ...SHADOW.card,
   },
   statValue: {
     fontSize: 26,
     fontWeight: '700',
     letterSpacing: -0.5,
-    color: COLORS.text,
   },
   statLabel: {
     fontSize: 12,
-    color: COLORS.secondary,
     marginTop: 2,
   },
   weightRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: COLORS.section,
     borderRadius: RADII.tile,
     padding: 14,
     marginBottom: 14,
@@ -332,22 +390,17 @@ const styles = StyleSheet.create({
   weightValue: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
   },
   emptyCard: {
-    backgroundColor: COLORS.card,
     borderRadius: RADII.tile + 4,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder,
     padding: 28,
     alignItems: 'center',
-    ...SHADOW.card,
   },
   emptyMark: {
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: COLORS.section,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 14,
@@ -355,25 +408,18 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 17,
     fontWeight: '600',
-    color: COLORS.text,
   },
   emptyHint: {
     fontSize: 13,
-    color: COLORS.dim,
     marginTop: 6,
     textAlign: 'center',
   },
   cta: {
     marginTop: 18,
     borderRadius: RADII.tile,
-    ...SHADOW.cta,
-    width: '100%',
-  },
-  ctaInner: {
-    ...ctaGradient(),
-    borderRadius: RADII.tile,
     paddingVertical: 14,
     alignItems: 'center',
+    width: '100%',
   },
   ctaText: {
     fontSize: 16,
@@ -384,18 +430,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 19,
     fontWeight: '600',
-    color: COLORS.text,
     marginTop: 22,
     marginBottom: 10,
   },
   calendarCard: {
-    backgroundColor: COLORS.card,
     borderRadius: RADII.tile,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder,
     padding: 16,
     marginTop: 22,
-    ...SHADOW.card,
   },
   calendarHead: {
     flexDirection: 'row',
@@ -405,11 +447,9 @@ const styles = StyleSheet.create({
   calendarTitle: {
     fontSize: 19,
     fontWeight: '700',
-    color: COLORS.text,
   },
   calendarSub: {
     fontSize: 13,
-    color: COLORS.secondary,
     marginTop: 3,
   },
   legend: {
@@ -431,19 +471,15 @@ const styles = StyleSheet.create({
   legendText: {
     fontSize: 13,
     fontWeight: '600',
-    color: COLORS.secondary,
   },
   recentRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: COLORS.card,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder,
     padding: 12,
     marginBottom: 8,
-    ...SHADOW.card,
   },
   recentLeft: {
     flexShrink: 1,
@@ -452,11 +488,9 @@ const styles = StyleSheet.create({
   recentDate: {
     fontSize: 14,
     fontWeight: '600',
-    color: COLORS.text,
   },
   recentMeta: {
     fontSize: 12,
-    color: COLORS.secondary,
     marginTop: 2,
     maxWidth: 130,
   },
@@ -467,12 +501,10 @@ const styles = StyleSheet.create({
   recentVolume: {
     fontSize: 14,
     fontWeight: '600',
-    color: COLORS.blue,
     textAlign: 'right',
   },
   recentNames: {
     fontSize: 11,
-    color: COLORS.dim,
     marginTop: 2,
     textAlign: 'right',
   },
@@ -485,6 +517,59 @@ const styles = StyleSheet.create({
   historyLinkText: {
     fontSize: 14,
     fontWeight: '600',
-    color: COLORS.blue,
+  },
+  benchCard: {
+    borderRadius: RADII.tile,
+    borderWidth: 1,
+    padding: 16,
+  },
+  benchEmpty: {
+    alignItems: 'center',
+    paddingVertical: 8,
+    gap: 10,
+  },
+  benchCta: {
+    borderRadius: 999,
+    borderWidth: 1.5,
+    borderColor: '#D9541E',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  benchCtaText: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  benchRow: {
+    gap: 10,
+    paddingVertical: 2,
+  },
+  benchChip: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#e6dfd2',
+    padding: 12,
+    maxWidth: 150,
+  },
+  benchChipName: {
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 6,
+  },
+  benchChipValRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 6,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  benchChipVal: {
+    fontSize: 17,
+    fontWeight: '700',
+  },
+  benchChipUnit: {
+    fontSize: 11,
+    fontWeight: '600',
   },
 });

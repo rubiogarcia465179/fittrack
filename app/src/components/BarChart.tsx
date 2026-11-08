@@ -1,6 +1,6 @@
 /** Barras verticales dibujadas con View (sin react-native-svg). */
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS, SHADOW } from '../theme';
+import { useTheme } from '../theme-context';
 
 export interface Bar {
   label: string;
@@ -19,12 +19,13 @@ export default function BarChart({
   emptyText: string;
   height?: number;
 }) {
+  const { p, SHADOW } = useTheme();
   const max = data.reduce((m, d) => Math.max(m, d.value), 0);
   return (
-    <View style={styles.card} accessibilityLabel={title}>
-      <Text style={styles.title}>{title}</Text>
+    <View style={[styles.card, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]} accessibilityLabel={title}>
+      <Text style={[styles.title, { color: p.text }]}>{title}</Text>
       {max <= 0 ? (
-        <Text style={styles.empty}>{emptyText}</Text>
+        <Text style={[styles.empty, { color: p.dim }]}>{emptyText}</Text>
       ) : (
         <View style={[styles.bars, { height }]}>
           {data.map((d, i) => {
@@ -35,15 +36,17 @@ export default function BarChart({
                   <View
                     style={[
                       styles.bar,
-                      { height: Math.round(pct * (height - 8)), backgroundColor: d.color || COLORS.blue },
+                      {
+                        height: Math.round(pct * (height - 8)),
+                        backgroundColor: d.color || p.accent,                      },
                     ]}
                     accessibilityElementsHidden
                   />
                 </View>
-                <Text style={styles.value} numberOfLines={1}>
+                <Text style={[styles.value, { color: p.secondary }]} numberOfLines={1}>
                   {Math.round(d.value)}
                 </Text>
-                <Text style={styles.label} numberOfLines={1}>
+                <Text style={[styles.label, { color: p.dim }]} numberOfLines={1}>
                   {d.label}
                 </Text>
               </View>
@@ -57,22 +60,17 @@ export default function BarChart({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: COLORS.card,
     borderRadius: 18,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder,
     padding: 16,
-    ...SHADOW.card,
   },
   title: {
     fontSize: 15,
     fontWeight: '600',
-    color: COLORS.text,
     marginBottom: 12,
   },
   empty: {
     fontSize: 13,
-    color: COLORS.dim,
     paddingVertical: 16,
   },
   bars: {
@@ -98,12 +96,10 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 12,
     fontWeight: '600',
-    color: COLORS.secondary,
     marginTop: 6,
   },
   label: {
     fontSize: 11,
-    color: COLORS.dim,
     marginTop: 2,
     maxWidth: 60,
   },

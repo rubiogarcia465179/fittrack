@@ -139,6 +139,64 @@ Pendientes con estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado.
   wide-flow → 0 fallos en iPhone 16/17/18, iPhone SE, Galaxy S24/S25
   (portrait + landscape).
 
+## Fase 8 — Producto: interacción, benchmarks, generación inteligente,
+## material y tema activo (2026-11-08) — HECHA
+- [x] **T1 Retroalimentación inmediata**: estados pressed/selected/
+  disabled/loading/success/error en botones, casillas y hojas (escala +
+  transición, sin librerías: CSS transitions en RN-web + transform);
+  toasts breves sin ruido durante el scroll; confirmación de guardado
+  que sobrevive al cambio de pantalla (toast de app en App.tsx);
+  anti-duplicado: guardar bloqueado mientras se guarda, re-pulsar un
+  ejercicio ya en el draft → scroll a su tarjeta (sin duplicar, sin
+  Alert), botón "Comprobar" del material aplazado deshabilitado hasta
+  el intervalo de reintento.
+- [x] **T2 Benchmark Session**: tipo de sesión "benchmark" en el builder;
+  ejercicios sugeridos por grupo (priorizando máquinas/barra); 1RM
+  estimado (Epley) del mejor set por ejercicio o entrada manual ("1RM
+  manual"); guardado persiste en `profile.benchmarks`; "Marcas" en el
+  Resumen (1RM por ejercicio) y badge en Historial; los benchmarks
+  alimentan los pesos recomendados de futuras sesiones.
+- [x] **T3A Generación de entrenamiento** (`lib/workout.ts` +
+  `WorkoutBuilderScreen.tsx`): builder con tipo, grupos, modo de
+  material, experiencia, intensidad y duración objetivo → plan
+  (ejercicio, grupo, peso recomendado, sets, reps, descanso, duración
+  estimada). Pesos desde 1RM: benchmark > histórico reciente >
+  conservador por material (barra 20 / máquina 20 / cable 15 / mancuerna
+  10 de 1RM base, escalado por reps e intensidad; nunca máximas);
+  siempre sobreescrivable. `generateWorkout` + `weightForExercise` son
+  puros y unit-testeados (32 comprobaciones node).
+- [x] **T3B/C Material ocupado + aplazamiento**: chips Disponible /
+  Ocupado / Indisponible por ejercicio; "Buscar alternativa" propone
+  mismo grupo + mismo patrón de movimiento + modo de material, con peso
+  recalculado (NUNCA copia el peso del ejercicio original si el
+  movimiento/materia cambian); el original se **aplaza temporalmente**
+  (no se borra) con reintento configurable a los 10 min: contador "en
+  10 m", botón "Comprobar" (deshabilitado antes del intervalo),
+  confirmación de disponibilidad manual (sin suponer tracking en vivo),
+  "Volver" restaura el ejercicio sin duplicarlo y "Saltar" lo retira;
+  series y progreso intactos durante sustituciones múltiples.
+- [x] **T4 Modos de material**: Gym completo / Solo mancuernas / Solo
+  peso corporal; el generador Y las alternativas respetan el modo
+  (`fitsMode` + `isBodyweightExercise`); los pesos se adaptan (sin
+  carga en peso corporal); el modo se elige antes de empezar y se puede
+  cambiar en el builder sin perder nada (aún sin sesión).
+- [x] **T5 Sistema de color + estado de workout activo**: tokens crema
+  #F3EEE3 / acento #D9541E / navy #0E1730 (texto secundario gris
+  azulado) en `theme.ts`; dos paletas completas + `ThemeProvider`
+  (`theme-context.tsx`) que recolore toda la app. Al empezar: navy con
+  tipografía clara, banner persistente "Entrenamiento activo" (punto
+  verde, cronómetro, barra de progreso de series, pausar/reanudar,
+  descartar); pausado = ámbar; al guardar o descartar → crema. El estado
+  activo se persiste (AsyncStorage `fittrack.active.v1`), sobrevive a
+  navegación y a refresh, y el indicador no usa solo color (texto +
+  punto + icono en la tabbar).
+- [x] Verificación: tsc 0; tests/run.js 78/78; motor 32/32; Chromium
+  flow-v3 (generar → navy → ocupado → alternativa → benchmark →
+  dispositivo-matrix landscape), refresh-v3 (draft persistido tras
+  refresh + retorno a crema al guardar), dup-verify, devices, geometry,
+  dup-scroll2, wide-flow → **0 FALLOS** en iPhone 16/17/18, iPhone SE,
+  Galaxy S24/S25 (portrait + landscape).
+
 ## Testing en el host (documentado en README.md)
 - [x] Web: `cd web && npm ci && npm run build && npm run preview -- --host`
 - [x] App: `cd app && npm ci && npx expo start` + Expo Go (QR) — Android e

@@ -1,6 +1,6 @@
 /** Hoja inferior con lista grande de valores para elegir (peso, reps,
  *  duración…) — menos clicks y sin teclear: se toca el valor.
- *  Diseño tipo Apple: sheet redondeado, chips grandes, CTA a pantalla. */
+ *  Sheet redondeado, chips grandes con feedback táctil, CTA a pantalla. */
 import { useEffect, useState } from 'react';
 import {
   Modal,
@@ -11,7 +11,8 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { COLORS, RADII, GRADIENT_STOPS } from '../theme';
+import { RADII } from '../theme';
+import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
 import { XGlyph } from './TabIcon';
 
@@ -26,7 +27,6 @@ export interface PickerSheetProps {
   custom?: { min: number; max: number; step: number }; // permite valor personalizado
   labelCustom?: string; // 'Otro valor'
   labelUse?: string; // 'Usar'
-  accent?: string; // color del chip seleccionado (por defecto azul)
 }
 
 /** Formatea 12.5 -> '12,5' (local, sin punto decimal). */
@@ -47,8 +47,8 @@ export function PickerSheet({
   custom,
   labelCustom = 'Otro valor',
   labelUse = 'Usar',
-  accent = COLORS.blue,
 }: PickerSheetProps) {
+  const { p, GRADIENT_STOPS } = useTheme();
   const scale = useScale();
   const [sel, setSel] = useState<number>(value);
   const [txt, setTxt] = useState<string>(
@@ -59,6 +59,7 @@ export function PickerSheet({
       setSel(value);
       setTxt(Number.isInteger(value) ? String(value) : fmtNum(value).replace(',', '.'));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, value]);
 
   const chipW = (343 - 2 * 14 - 2 * 8) / 3; // 3 columnas, márgenes 14
@@ -66,21 +67,20 @@ export function PickerSheet({
 
   return (
     <Modal visible={open} transparent animationType="slide" onRequestClose={() => onConfirm(sel)}>
-      <Pressable
-        style={styles.backdrop}
-        onPress={() => onConfirm(sel)}
-        accessibilityLabel={title}
-      >
-        <View style={styles.sheet}>
+      <Pressable style={[styles.backdrop, { backgroundColor: p.overlay }]} onPress={() => onConfirm(sel)} accessibilityLabel={title}>
+        <View style={[styles.sheet, { backgroundColor: p.card }]}>
           <View style={styles.header}>
-            <Text style={[styles.title, { fontSize: fs(scale, 21), color: COLORS.text }]}>{title}</Text>
+            <Text style={[styles.title, { fontSize: fs(scale, 21), color: p.text }]}>{title}</Text>
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={title}
               onPress={() => onConfirm(sel)}
-              style={styles.closeBtn}
+              style={({ pressed }) => [
+                styles.closeBtn,
+                { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
+              ]}
             >
-              <XGlyph size={15} color={COLORS.secondary} />
+              <XGlyph size={15} color={p.secondary} />
             </Pressable>
           </View>
 
@@ -94,22 +94,21 @@ export function PickerSheet({
                   accessibilityLabel={`${fmtNum(v)}${unit ? ' ' + unit : ''}`}
                   accessibilityState={{ selected: isSel }}
                   onPress={() => setSel(v)}
-                  style={[
+                  style={({ pressed }) => [
                     styles.chip,
                     {
                       width: chipW,
                       borderRadius: RADII.field,
-                      backgroundColor: isSel ? accent : COLORS.fieldBg,
+                      backgroundColor: isSel ? p.accent : p.chipOff,
+                      transform: [{ scale: pressed ? 0.94 : 1 }],
+                      transition: 'transform 80ms ease, background-color 120ms ease',
                     },
                   ]}
                 >
                   <Text
                     style={[
                       styles.chipText,
-                      {
-                        fontSize: fs(scale, 18),
-                        color: isSel ? '#ffffff' : COLORS.text,
-                      },
+                      { fontSize: fs(scale, 18), color: isSel ? '#ffffff' : p.chipOffText },
                     ]}
                   >
                     {fmtNum(v)}
@@ -121,29 +120,18 @@ export function PickerSheet({
 
           {custom && (
             <View style={styles.customRow}>
-              <Text style={[styles.customLabel, { fontSize: fs(scale, 16), color: COLORS.secondary }]}>
-                {labelCustom}
-              </Text>
-              <View style={styles.customInputWrap}>
+              <Text style={[styles.customLabel, { fontSize: fs(scale, 16), color: p.secondary }]}>{labelCustom}</Text>
+              <View style={[styles.customInputWrap, { backgroundColor: p.fieldBg }]}>
                 <TextInput
                   value={txt}
                   onChangeText={setTxt}
                   keyboardType="decimal-pad"
                   placeholder="0"
-                  placeholderTextColor={COLORS.dim}
-                  style={[
-                    styles.customInput,
-                    {
-                      fontSize: fs(scale, 18),
-                      height: 46,
-                      borderRadius: RADII.field,
-                    },
-                  ]}
+                  placeholderTextColor={p.dim}
+                  style={[styles.customInput, { fontSize: fs(scale, 18), height: 46, borderRadius: RADII.field, color: p.text }]}
                 />
                 {unit ? (
-                  <Text style={[styles.customUnit, { fontSize: fs(scale, 15), color: COLORS.dim }]}>
-                    {unit}
-                  </Text>
+                  <Text style={[styles.customUnit, { fontSize: fs(scale, 15), color: p.dim }]}>{unit}</Text>
                 ) : null}
               </View>
               <Pressable
@@ -152,11 +140,13 @@ export function PickerSheet({
                 onPress={() => {
                   if (!Number.isNaN(customVal) && customVal >= custom.min && customVal <= custom.max) setSel(customVal);
                 }}
-                style={[
+                style={({ pressed }) => [
                   styles.useBtn,
                   {
                     borderRadius: RADII.pill,
-                    backgroundColor: !Number.isNaN(customVal) && sel === customVal ? accent : '#0071e3',
+                    backgroundColor: p.accent,
+                    opacity: pressed ? 0.8 : 1,
+                    transition: 'opacity 90ms ease',
                   },
                 ]}
               >
@@ -169,13 +159,15 @@ export function PickerSheet({
             accessibilityRole="button"
             accessibilityLabel={`${title}: ${fmtNum(sel)}`}
             onPress={() => onConfirm(sel)}
-            style={[
+            style={({ pressed }) => [
               styles.confirm,
               {
                 borderRadius: RADII.pill,
                 background: `linear-gradient(180deg, ${GRADIENT_STOPS[0]} 0%, ${GRADIENT_STOPS[1]} 100%)`,
                 backgroundColor: GRADIENT_STOPS[0],
                 height: 56,
+                opacity: pressed ? 0.9 : 1,
+                transition: 'opacity 90ms ease',
               } as object,
             ]}
           >
@@ -192,11 +184,9 @@ export function PickerSheet({
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.35)',
     justifyContent: 'flex-end',
   },
   sheet: {
-    backgroundColor: COLORS.card,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     paddingHorizontal: 14,
@@ -218,7 +208,6 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: COLORS.fieldBg,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -249,13 +238,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.fieldBg,
     borderRadius: RADII.field,
     paddingHorizontal: 14,
   },
   customInput: {
     flex: 1,
-    color: COLORS.text,
   },
   customUnit: { marginLeft: 6 },
   useBtn: {

@@ -1,22 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   SafeAreaView,
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   Platform,
-  Dimensions,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LANG_KEY, type Lang, setLanguage } from './src/i18n';
 import { loadExercises, type Exercise } from './src/data';
-import { store, type Session } from './src/store';
-import { sortByDate } from './src/lib/gym';
-import { COLORS } from './src/theme';
+import { store, type Session, type BenchmarkRef } from './src/store';
+import { sortByDate, uid, todayISO } from './src/lib/gym';
+import { ThemeProvider, useTheme } from './src/theme-context';
+import { RADII } from './src/theme';
 import { useWide } from './src/scale';
+import { newActiveSession, type ActiveSession, type ActiveDraftExercise } from './src/lib/session';
+import type { WorkoutPlan } from './src/lib/workout';
 import TabIcon from './src/components/TabIcon';
 import LangSwitcher from './src/components/LangSwitcher';
 import DashboardScreen from './src/screens/DashboardScreen';
@@ -24,32 +26,75 @@ import LibraryScreen from './src/screens/LibraryScreen';
 import DetailScreen from './src/screens/DetailScreen';
 import SessionScreen from './src/screens/SessionScreen';
 import HistoryScreen from './src/screens/HistoryScreen';
+import WorkoutBuilderScreen from './src/screens/WorkoutBuilderScreen';
 
 type Tab = 'dashboard' | 'library' | 'session' | 'history';
-
 const TABS: Tab[] = ['dashboard', 'library', 'session', 'history'];
+const ACTIVE_KEY = 'fittrack.active.v1';
 
 export default function App() {
+  // La sesión activa ES la fuente del tema: debe vivir por encima del
+  // ThemeProvider, así que App mantiene el estado y Root (dentro del
+  // provider) dibuja la UI.
+  const [active, setActive] = useState<ActiveSession | null>(null);
+  const persistActive = (a: ActiveSession | null) => {
+    setActive(a);
+    if (a) void AsyncStorage.setItem(ACTIVE_KEY, JSON.stringify(a));
+    else void AsyncStorage.removeItem(ACTIVE_KEY);
+  };
+  return (
+    <ThemeProvider active={active != null}>
+      <Root active={active} persistActive={persistActive} />
+    </ThemeProvider>
+  );
+}
+
+function Root({ active, persistActive }: { active: ActiveSession | null; persistActive: (a: ActiveSession | null) => void }) {
   const { t } = useTranslation();
+  const { p } = useTheme();
+  const wide = useWide();
+
   const [tab, setTab] = useState<Tab>('dashboard');
   const [lng, setLng] = useState<Lang>('es');
   const [exercises] = useState<Exercise[]>(() => loadExercises());
   const [sessions, setSessions] = useState<Session[]>([]);
+  const [benchmarks, setBenchmarks] = useState<BenchmarkRef[]>([]);
   const [detailId, setDetailId] = useState<string | null>(null);
-  // Pantalla ancha (tablet / horizontal / PC): el contenido se centra con un
-  // ancho máximo — la app conserva su maquetación de móvil, más cómoda de leer.
-  const wide = useWide();
+  // Feedback de éxito que sobrevive a que el guardado descarta la pantalla
+  // (Task 1: la acción de guardar SIEMPRE deja constancia visible).
+  const [toast, setToast] = useState('');
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const flash = (msg: string) => {
+    setToast(msg);
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(''), 2800);
+  };
 
-  // Carga inicial: sesiones + idioma persistido.
+  // Carga inicial: sesiones + benchmarks + sesión activa persistida + idioma.
   useEffect(() => {
     (async () => {
-      setSessions(sortByDate(await store.sessions()));
-      const saved = await AsyncStorage.getItem(LANG_KEY);
+      const [ss, bm, act, saved] = await Promise.all([
+        store.sessions(),
+        store.benchmarks(),
+        AsyncStorage.getItem(ACTIVE_KEY),
+        AsyncStorage.getItem(LANG_KEY),
+      ]);
+      setSessions(sortByDate(ss));
+      setBenchmarks(bm);
+      if (act) {
+        try {
+          const a = JSON.parse(act) as ActiveSession;
+          if (a && Array.isArray(a.draft)) persistActive(a);
+        } catch {
+          /* datos corruptos: se ignora */
+        }
+      }
       if (saved && ['nl', 'es', 'en', 'fr'].includes(saved)) {
         setLng(saved as Lang);
         setLanguage(saved as Lang);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const pickLang = (l: Lang) => {
@@ -58,41 +103,80 @@ export default function App() {
     void AsyncStorage.setItem(LANG_KEY, l);
   };
 
-  const openExercise = (id: string) => setDetailId(id);
-  const detail = useMemo(
-    () => (detailId ? exercises.find((e) => e.id === detailId) || null : null),
-    [detailId, exercises],
-  );
+  // Plan generado -> entrenamiento activo (tareas 2/3A/4).
+  const startWorkout = (plan: WorkoutPlan, type: 'training' | 'benchmark') => {
+    const draft: ActiveDraftExercise[] = plan.exercises.map((x) => ({
+      exercise_id: x.exercise_id,
+      sets: Array.from({ length: x.sets }, () => ({
+        reps: x.reps,
+        weight_kg: x.recommended_weight_kg,
+      })),
+      equipment_status: 'available' as const,
+      rest_after: x.rest_sec,
+    }));
+    const a = newActiveSession({ type, equipment_mode: plan.equipment_mode, benchmarks }, todayISO, uid);
+    a.draft = draft;
+    persistActive(a);
+  };
 
-  const handleSaved = (s: Session) => setSessions((prev) => sortByDate([s, ...prev]));
+  const handleSaved = (s: Session) => {
+    setSessions((prev) => sortByDate([s, ...prev]));
+    // Al guardar, el entrenamiento activo termina: de vuelta al modo normal.
+    persistActive(null);
+    flash(t(s.type === 'benchmark' ? 'bench_saved' : 'sess_saved') + ' ✓');
+    if (s.type === 'benchmark') {
+      void store.benchmarks().then(setBenchmarks);
+    }
+  };
+
   const handleDeleted = async (id: string) => {
     await store.deleteSession(id);
     setSessions((prev) => prev.filter((s) => s.id !== id));
   };
-  // Export / borrado total (pestaña Resumen).
   const handleExport = () => store.toJson();
   const handleClearAll = async () => {
     await store.clearAll();
     setSessions([]);
+    setBenchmarks([]);
+    persistActive(null);
   };
   const handleDataChanged = () => {
-    void store.sessions().then((x) => setSessions(sortByDate(x)));
+    void Promise.all([store.sessions(), store.benchmarks()]).then(([ss, bm]) => {
+      setSessions(sortByDate(ss));
+      setBenchmarks(bm);
+    });
+  };
+
+  // Benchmarks con nombres para la UI.
+  const benchNamed = useMemo(() => {
+    const byId = new Map(exercises.map((e) => [e.id, e]));
+    return benchmarks.map((b) => {
+      const e = byId.get(b.exercise_id);
+      return {
+        name_en: e?.name_en || b.exercise_id,
+        name_nl: e?.name_nl || b.exercise_id,
+        estimated_1rm: b.estimated_1rm,
+      };
+    });
+  }, [benchmarks, exercises]);
+
+  const openExercise = (id: string) => setDetailId(id);
+  const detail = detailId ? exercises.find((e) => e.id === detailId) || exercises[0] : null;
+  const handleDiscard = () => {
+    persistActive(null);
+    flash(t('sess_discarded'));
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <StatusBar style="dark" />
-      {/* Header 48px, estilo nav de apple.com. En pantallas de móvil el
-          tagline no cabe junto a wordmark + selector de idioma (medido:
-          se recortaba en todos los iPhone), así que solo se muestra en
-          anchos ≥ 480px (tablet/landscape). */}
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: p.bg }]}>
+      <StatusBar style={p.statusBar} />
+      <View style={[styles.header, { backgroundColor: p.headerBg, borderBottomColor: p.border }]}>
         <View style={styles.wordmarkRow}>
-          <Text style={styles.wordmark}>
-            Fit<Text style={styles.wordmarkAccent}>Track</Text>
+          <Text style={[styles.wordmark, { color: p.text }]}>
+            Fit<Text style={[styles.wordmarkAccent, { color: p.accent }]}>Track</Text>
           </Text>
           {wide ? (
-            <Text style={styles.tagline} numberOfLines={1} adjustsFontSizeToFit>
+            <Text style={[styles.tagline, { color: p.secondary }]} numberOfLines={1} adjustsFontSizeToFit>
               {t('tagline')}
             </Text>
           ) : null}
@@ -101,60 +185,92 @@ export default function App() {
       </View>
 
       <View style={styles.body}>
+        {toast ? (
+          <View style={[styles.appToast, { backgroundColor: p.headerBg, borderColor: p.border }]}>
+            <Text style={[styles.appToastText, { color: p.text }]}>{toast}</Text>
+          </View>
+        ) : null}
         <View style={styles.wideWrap}>
           <View style={styles.wideInner}>
             {detail ? (
               <DetailScreen exercise={detail} onBack={() => setDetailId(null)} />
             ) : tab === 'dashboard' ? (
-          <DashboardScreen
-            exercises={exercises}
-            sessions={sessions}
-            onOpenExercise={openExercise}
-            onOpenHistory={() => setTab('history')}
-            onStartSession={() => setTab('session')}
-            onExport={handleExport}
-            onClearAll={handleClearAll}
-            onDataChanged={handleDataChanged}
-          />
-        ) : tab === 'library' ? (
-          <LibraryScreen exercises={exercises} onOpenExercise={openExercise} />
-        ) : tab === 'session' ? (
-          <SessionScreen exercises={exercises} sessions={sessions} onSaved={handleSaved} />
-        ) : (
-          <HistoryScreen
-            sessions={sessions}
-            exercises={exercises}
-            onDeleted={handleDeleted}
-            onOpenExercise={openExercise}
-            onStartSession={() => setTab('session')}
-          />
-        )}
+              <DashboardScreen
+                exercises={exercises}
+                sessions={sessions}
+                benchmarks={benchNamed}
+                onOpenExercise={openExercise}
+                onOpenHistory={() => setTab('history')}
+                onStartSession={() => setTab('session')}
+                onStartWorkout={() => setTab('session')}
+                onExport={handleExport}
+                onClearAll={handleClearAll}
+                onDataChanged={handleDataChanged}
+              />
+            ) : tab === 'library' ? (
+              <LibraryScreen exercises={exercises} onOpenExercise={openExercise} />
+            ) : tab === 'session' ? (
+              active ? (
+                <SessionScreen
+                  exercises={exercises}
+                  sessions={sessions}
+                  session={active}
+                  onSessionChange={persistActive}
+                  onSaved={handleSaved}
+                  onDiscard={handleDiscard}
+                />
+              ) : (
+                <WorkoutBuilderScreen
+                  exercises={exercises}
+                  sessions={sessions}
+                  benchmarks={benchmarks}
+                  onStarted={startWorkout}
+                  onBack={() => setTab('dashboard')}
+                />
+              )
+            ) : (
+              <HistoryScreen
+                sessions={sessions}
+                exercises={exercises}
+                onDeleted={handleDeleted}
+                onOpenExercise={openExercise}
+                onStartSession={() => setTab('session')}
+              />
+            )}
           </View>
         </View>
       </View>
 
-      {/* Tabbar: SafeAreaView ya añade el inset inferior (home indicator);
-          se reduce el padding extra en iOS para no tapar el indicador. */}
-      <View style={styles.tabbar}>
+      <View style={[styles.tabbar, { backgroundColor: p.tabBarBg, borderTopColor: p.border }]}>
         {TABS.map((tb) => {
-          const active = tab === tb && !detail;
+          const isActive = tab === tb && !detail;
           return (
-            <TouchableOpacity
+            <Pressable
               key={tb}
-              style={[styles.tab, active && styles.tabActive]}
+              style={[styles.tab, isActive && styles.tabActive]}
               accessibilityRole="button"
-              accessibilityState={{ selected: active }}
-              activeOpacity={0.5}
+              accessibilityState={{ selected: isActive }}
               onPress={() => {
                 setDetailId(null);
                 setTab(tb);
               }}
             >
-              <TabIcon name={tb} color={active ? COLORS.blue : COLORS.dim} />
-              <Text style={[styles.tabLabel, active && styles.tabLabelActive]}>
+              <View style={styles.tabIconWrap} accessibilityElementsHidden>
+                <TabIcon name={tb} color={isActive ? p.accent : p.dim} />
+                {tb === 'session' && active ? (
+                  <View style={[styles.activeDot, { backgroundColor: '#30D158' }]} />
+                ) : null}
+              </View>
+              <Text
+                style={[
+                  styles.tabLabel,
+                  { color: isActive ? p.accent : p.secondary },
+                  isActive && styles.tabLabelActive,
+                ]}
+              >
                 {t(`nav_${tb === 'library' ? 'exercises' : tb}`)}
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           );
         })}
       </View>
@@ -165,7 +281,6 @@ export default function App() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: COLORS.bg,
   },
   header: {
     height: 48,
@@ -174,9 +289,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 14,
     gap: 8,
-    backgroundColor: 'rgba(251, 251, 253, 0.82)',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: COLORS.border,
   },
   wordmarkRow: {
     flexDirection: 'row',
@@ -189,15 +302,29 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '700',
     letterSpacing: -0.44,
-    color: COLORS.text,
   },
-  wordmarkAccent: {
-    color: COLORS.blue,
-  },
+  wordmarkAccent: {},
   tagline: {
     fontSize: 11,
-    color: COLORS.secondary,
     flexShrink: 1,
+  },
+  appToast: {
+    position: 'absolute',
+    top: 10,
+    left: '50%',
+    transform: [{ translateX: -140 }],
+    width: 280,
+    borderRadius: RADII.card,
+    borderWidth: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    alignItems: 'center',
+    zIndex: 50,
+  },
+  appToastText: {
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
   },
   body: {
     flex: 1,
@@ -214,9 +341,7 @@ const styles = StyleSheet.create({
   },
   tabbar: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(251, 251, 253, 0.96)',
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: COLORS.border,
     paddingBottom: Platform.OS === 'ios' ? 0 : 4,
   },
   tab: {
@@ -226,14 +351,28 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   tabActive: {},
+  tabIconWrap: {
+    width: 34,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  activeDot: {
+    position: 'absolute',
+    top: -2,
+    right: -4,
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: '#fff',
+  },
   tabLabel: {
     fontSize: 13,
-    color: COLORS.secondary,
     marginTop: 2,
     fontWeight: '500',
   },
   tabLabelActive: {
-    color: COLORS.blue,
     fontWeight: '600',
   },
 });

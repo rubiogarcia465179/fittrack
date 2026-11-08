@@ -1,8 +1,9 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { LANGS, LANG_LABELS, type Lang } from '../i18n';
-import { COLORS } from '../theme';
+import { useTheme } from '../theme-context';
 
-/** Botones NL/ES/EN/FR — conmutación instantánea (bundles embebidos, 0 red). */
+/** Botones NL/ES/EN/FR — conmutación instantánea (bundles embebidos, 0 red).
+ *  Feedback táctil inmediato (escala al pulsar) y estado activo nítido. */
 export default function LangSwitcher({
   lng,
   onPick,
@@ -10,22 +11,37 @@ export default function LangSwitcher({
   lng: Lang;
   onPick: (l: Lang) => void;
 }) {
+  const { p } = useTheme();
   return (
     <View style={styles.row} accessibilityLabel="Idioma">
-      {LANGS.map((l) => (
-        <TouchableOpacity
-          key={l}
-          accessibilityRole="button"
-          accessibilityLabel={LANG_LABELS[l]}
-          accessibilityState={{ selected: lng === l }}
-          style={[styles.chip, lng === l && styles.chipActive]}
-          onPress={() => onPick(l)}
-        >
-          <Text style={[styles.chipText, lng === l && styles.chipTextActive]}>
-            {l.toUpperCase()}
-          </Text>
-        </TouchableOpacity>
-      ))}
+      {LANGS.map((l) => {
+        const active = lng === l;
+        return (
+          <Pressable
+            key={l}
+            accessibilityRole="button"
+            accessibilityLabel={LANG_LABELS[l]}
+            accessibilityState={{ selected: active }}
+            android_ripple={{ color: p.accent + '33' }}
+            onPress={() => onPick(l)}
+            onPressIn={() => {}}
+            style={({ pressed }) => [
+              styles.chip,
+              {
+                backgroundColor: active ? p.accent : p.chipOff,
+                borderColor: active ? p.accent : p.border,
+                transform: [{ scale: pressed ? 0.92 : 1 }],
+                transition: 'transform 90ms ease, background-color 120ms ease',
+              },
+              active && styles.chipActive,
+            ]}
+          >
+            <Text style={[styles.chipText, { color: active ? '#fff' : p.secondary }]} numberOfLines={1}>
+              {l.toUpperCase()}
+            </Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 }
@@ -36,24 +52,17 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   chip: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 11,
     paddingVertical: 6,
     borderRadius: 980,
-    backgroundColor: COLORS.section,
     borderWidth: 1,
-    borderColor: COLORS.border,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  chipActive: {
-    backgroundColor: COLORS.blue,
-    borderColor: COLORS.blue,
-  },
+  chipActive: {},
   chipText: {
     fontSize: 12,
-    fontWeight: '600',
-    color: COLORS.secondary,
+    fontWeight: '700',
     letterSpacing: 0.3,
-  },
-  chipTextActive: {
-    color: '#ffffff',
   },
 });

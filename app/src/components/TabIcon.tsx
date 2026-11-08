@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import { COLORS } from '../theme';
+import { DEFAULT } from '../theme';
 
 /**
  * Iconos de la tabbar dibujados con Views (sin fuentes: los emojis no
@@ -7,8 +7,6 @@ import { COLORS } from '../theme';
  * Android, o en web — y quedaban como cuadros vacíos).
  * Cada icono es 24×24 de "tinta" dentro de un contenedor de 24×24.
  */
-
-const S = COLORS.blue; // color de tinta activo (se pasa por prop)
 
 function BarIcon({ color }: { color: string }) {
   return (
@@ -83,7 +81,7 @@ export function EmptyMarkGlyph({ size = 30 }: { size?: number }) {
           height: size,
           borderRadius: size / 2,
           borderWidth: 3,
-          borderColor: COLORS.dim,
+          borderColor: DEFAULT.dim,
         }}
       />
       <View
@@ -92,7 +90,7 @@ export function EmptyMarkGlyph({ size = 30 }: { size?: number }) {
           width: size * 0.32,
           height: size * 0.32,
           borderRadius: size * 0.16,
-          backgroundColor: COLORS.dim,
+          backgroundColor: DEFAULT.dim,
           top: '34%',
           left: '34%',
         }}

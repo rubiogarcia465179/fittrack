@@ -186,3 +186,48 @@ tarea.
   siguiente con todo). Verificación: tsc 0; expo export OK; devices/
   geometry/check-scroll/dup-scroll 0 fallos × 6 dispositivos; run.js 78/78;
   bundle-check BUNDLE_OK.
+
+- 2026-11-08 — **Fase 8: 5 tareas de producto (interacción + benchmarks +
+  generación inteligente + modos de material + tema activo)**:
+  (T1) Retroalimentación inmediata en toda interacción: pressed/selected/
+  disabled/loading/success/error en botones, casillas y hojas; toasts
+  breves (sin notificaciones durante el scroll), confirmación de guardado
+  que sobrevive al cambio de pantalla (toast de app en App.tsx),
+  anti-duplicado (guardar bloqueado mientras se guarda; re-pulsar un
+  ejercicio ya en el draft → scroll a su tarjeta, sin duplicar; botón
+  "Comprobar" de material aplazado deshabilitado hasta el intervalo).
+  (T2) **Benchmark Session**: tipo de sesión nuevo (builder → benchmark),
+  1RM estimado (Epley) del mejor set o entrada manual por ejercicio,
+  "Marcas" en el Resumen con 1RM por ejercicio, badge en Historial,
+  persistencia en `profile.benchmarks`.
+  (T3A) **Generación de entrenamiento**: builder (tipo, grupos, modo de
+  material, experiencia, intensidad, duración objetivo) → plan
+  determinista (ejercicio, grupo, peso recomendado, sets, reps, descanso,
+  duración estimada). Peso desde 1RM (benchmark > histórico >
+  conservador por material, nunca máximas), escalado por reps/intensidad;
+  siempre editable. (T3B/C) **Material ocupado**: estados
+  Disponible/Ocupado/Indisponible por ejercicio; "Buscar alternativa"
+  (mismo grupo + patrón de movimiento + modo de material + peso
+  recalculado, NO copiado); **aplazamiento temporal** (no borrado) con
+  reintento configurable a los 10 min, contador visible, confirmación de
+  disponibilidad (sin suponer tracking en vivo) y sin re-proponer
+  material marcado ocupado. Progreso/series intactas durante todo el
+  proceso. (T4) **Modos de material**: Gym completo / Solo mancuernas /
+  Solo peso corporal — el generador Y las alternativas respetan el modo.
+  (T5) **Sistema de color + estado de workout activo**: tokens crema
+  #F3EEE3 / acento #D9541E / navy #0E1730; al empezar, la app entera
+  pasa a navy (fondo, header, tabbar, textos claros) con banner
+  persistente "Entrenamiento activo" (tiempo, progreso de series,
+  pausar/reanudar, descartar); pausado = ámbar; al guardar/descartar
+  vuelve a crema; sobrevive navegación y refresh (persistido en
+  AsyncStorage `fittrack.active.v1`). Implementación: `theme.ts`
+  (dos paletas + RADII), `theme-context.tsx` (ThemeProvider),
+  `lib/workout.ts` (motor puro), `lib/session.ts` (estado activo),
+  `lib/types.ts`, `WorkoutBuilderScreen.tsx`, store (benchmarks),
+  i18n +70 claves × 4 idiomas. Verificación: tsc 0; tests/run.js
+  78/78; motor 32/32 (unit tests node); Chromium flow-v3/refresh-v3/
+  dup-verify/devices/geometry/dup-scroll2/wide-flow → **0 FALLOS** en
+  iPhone 16/17/18, iPhone SE, Galaxy S24/S25 (portrait y landscape),
+  incluyendo: tema navy al empezar, draft persistido tras refresh,
+  countdown 10 min de reintento, retorno a crema al guardar, alternativas
+  sin duplicar y sin romper el progreso.

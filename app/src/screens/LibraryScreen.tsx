@@ -5,13 +5,14 @@ import {
   TextInput,
   ScrollView,
   Image,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import { searchExercises, GROUPS, EQUIPMENT } from '../lib/gym';
-import { COLORS, GROUP_COLORS, RADII, SHADOW } from '../theme';
+import { GROUP_COLORS, RADII } from '../theme';
+import { useTheme } from '../theme-context';
 import { useScale, fs, useWide } from '../scale';
 
 function Chips<T extends string>({
@@ -27,9 +28,11 @@ function Chips<T extends string>({
   onChange: (v: T) => void;
   colorOf?: (id: T) => string | undefined;
 }) {
+  const { p } = useTheme();
+  const scale = useScale();
   return (
     <View>
-      {title ? <Text style={styles.filterTitle}>{title}</Text> : null}
+      {title ? <Text style={[styles.filterTitle, { fontSize: fs(scale, 13), color: p.secondary }]}>{title}</Text> : null}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -39,29 +42,30 @@ function Chips<T extends string>({
           const active = value === o.id;
           const color = colorOf?.(o.id);
           return (
-            <TouchableOpacity
+            <Pressable
               key={o.id}
               accessibilityRole="button"
               accessibilityState={{ selected: active }}
-              style={[
+              onPress={() => onChange(o.id)}
+              style={({ pressed }) => [
                 styles.chip,
-                active && {
-                  backgroundColor: color || COLORS.blue,
-                  borderColor: color || COLORS.blue,
+                {
+                  backgroundColor: active ? color || p.accent : p.card,
+                  borderColor: active ? color || p.accent : p.border,
+                  transform: [{ scale: pressed ? 0.94 : 1 }],
+                  transition: 'transform 80ms ease, background-color 120ms ease',
                 },
               ]}
-              activeOpacity={0.7}
-              onPress={() => onChange(o.id)}
             >
               <Text
                 style={[
                   styles.chipText,
-                  active && { color: '#ffffff' },
+                  { fontSize: fs(scale, 14), color: active ? '#ffffff' : p.text },
                 ]}
               >
                 {o.label}
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           );
         })}
       </ScrollView>
@@ -77,6 +81,7 @@ export default function LibraryScreen({
   onOpenExercise: (id: string) => void;
 }) {
   const { t, i18n } = useTranslation();
+  const { p, SHADOW } = useTheme();
   const scale = useScale();
   const wide = useWide();
   const [q, setQ] = useState('');
@@ -93,13 +98,13 @@ export default function LibraryScreen({
     lang === 'nl' ? e.name_nl || e.name_en : e.name_en;
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, { backgroundColor: p.bg }]}>
       {/* Búsqueda pegajosa: siempre visible al hacer scroll. */}
-      <View style={styles.searchBox}>
+      <View style={[styles.searchBox, { backgroundColor: p.headerBg, borderBottomColor: p.border }]}>
         <TextInput
-          style={styles.search}
+          style={[styles.search, { backgroundColor: p.fieldBg, borderColor: p.border, color: p.text, fontSize: fs(scale, 16) }]}
           placeholder={t('ex_search_ph')}
-          placeholderTextColor={COLORS.dim}
+          placeholderTextColor={p.dim}
           value={q}
           onChangeText={setQ}
           autoCorrect={false}
@@ -107,11 +112,11 @@ export default function LibraryScreen({
         />
       </View>
 
-      <ScrollView contentContainerStyle={styles.body}>
-        <Text style={[styles.title, { fontSize: fs(scale, 32) }]} numberOfLines={1}>
+      <ScrollView contentContainerStyle={[styles.body, { backgroundColor: p.bg }]}>
+        <Text style={[styles.title, { fontSize: fs(scale, 32), color: p.text }]} numberOfLines={1}>
           {t('ex_title')}
         </Text>
-        <Text style={styles.sub}>{t('ex_sub')}</Text>
+        <Text style={[styles.sub, { color: p.secondary }]}>{t('ex_sub')}</Text>
 
         <Chips
           title={t('ex_filter_group')}
@@ -133,34 +138,41 @@ export default function LibraryScreen({
           onChange={setEquip}
         />
 
-        <Text style={styles.count}>
-          {results.length} {t('ex_found')}
-        </Text>
+        <Text style={[styles.count, { color: p.dim }]}>{results.length} {t('ex_found')}</Text>
 
         <View style={wide ? styles.rowsWide : undefined}>
           {results.map((e) => (
-            <TouchableOpacity
+            <Pressable
               key={e.id}
-              style={[styles.row, wide && styles.rowWide]}
+              style={({ pressed }) => [
+                styles.row,
+                wide && styles.rowWide,
+                {
+                  backgroundColor: p.card,
+                  borderColor: p.cardBorder,
+                  ...SHADOW.card,
+                  transform: [{ scale: pressed ? 0.98 : 1 }],
+                  transition: 'transform 90ms ease',
+                },
+              ]}
               accessibilityRole="button"
               accessibilityLabel={nameOf(e)}
               onPress={() => onOpenExercise(e.id)}
-              activeOpacity={0.7}
             >
-              <Image source={e.imageAsset} style={styles.thumb} resizeMode="cover" />
+              <Image source={e.imageAsset} style={[styles.thumb, { backgroundColor: p.section }]} resizeMode="cover" />
               <View style={styles.rowText}>
-                <Text style={styles.rowName} numberOfLines={1}>
+                <Text style={[styles.rowName, { color: p.text }]} numberOfLines={1}>
                   {nameOf(e)}
                 </Text>
-                <Text style={styles.rowMeta} numberOfLines={1}>
+                <Text style={[styles.rowMeta, { color: p.secondary }]} numberOfLines={1}>
                   {t(`group_${e.muscle_group}`)} · {t(`equip_${e.equipment}`)} · {t(`level_${e.level}`)}
                 </Text>
               </View>
               <View
-                style={[styles.dot, { backgroundColor: GROUP_COLORS[e.muscle_group] || COLORS.dim }]}
+                style={[styles.dot, { backgroundColor: GROUP_COLORS[e.muscle_group] || p.dim }]}
                 accessibilityElementsHidden
               />
-            </TouchableOpacity>
+            </Pressable>
           ))}
         </View>
       </ScrollView>
@@ -171,47 +183,36 @@ export default function LibraryScreen({
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: COLORS.bg,
   },
   searchBox: {
     paddingHorizontal: 16,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.97)',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: COLORS.border,
   },
   search: {
-    backgroundColor: COLORS.fieldBg,
     borderRadius: RADII.field,
     borderWidth: 1,
-    borderColor: COLORS.border,
     paddingHorizontal: 14,
     paddingVertical: 12,
-    fontSize: 16,
-    color: COLORS.text,
   },
   body: {
     padding: 20,
     paddingBottom: 32,
-    backgroundColor: COLORS.bg,
   },
   title: {
     fontSize: 32,
     fontWeight: '700',
     letterSpacing: -0.6,
-    color: COLORS.text,
   },
   sub: {
     fontSize: 15,
-    color: COLORS.secondary,
     marginTop: 4,
     marginBottom: 16,
   },
   filterTitle: {
     fontSize: 13,
     fontWeight: '600',
-    color: COLORS.secondary,
     marginBottom: 8,
   },
   chips: {
@@ -223,18 +224,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 9,
     borderRadius: 980,
-    backgroundColor: COLORS.card,
     borderWidth: 1,
-    borderColor: COLORS.border,
   },
   chipText: {
     fontSize: 14,
     fontWeight: '500',
-    color: COLORS.text,
   },
   count: {
     fontSize: 13,
-    color: COLORS.dim,
     marginBottom: 12,
   },
   rowsWide: {
@@ -250,19 +247,15 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: COLORS.card,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder,
     padding: 12,
     marginBottom: 10,
-    ...SHADOW.card,
   },
   thumb: {
     width: 56,
     height: 56,
     borderRadius: 10,
-    backgroundColor: COLORS.section,
   },
   rowText: {
     flex: 1,
@@ -271,11 +264,9 @@ const styles = StyleSheet.create({
   rowName: {
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text,
   },
   rowMeta: {
     fontSize: 13,
-    color: COLORS.secondary,
     marginTop: 2,
   },
   dot: {

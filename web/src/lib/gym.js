@@ -194,6 +194,7 @@ export function normalizeSession(s) {
   const out = {
     id: s.id || uid(),
     date: s.date,
+    type: s.type || 'training',
     exercises,
     notes: s.notes ? String(s.notes).slice(0, 500) : '',
     duration_min: s.duration_min ? Math.max(1, Math.round(Number(s.duration_min))) : null,

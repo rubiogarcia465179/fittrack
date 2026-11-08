@@ -4,14 +4,15 @@ import {
   Text,
   ScrollView,
   Image,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import type { Session } from '../store';
 import { sessionVolume, sessionSets, sortByDate } from '../lib/gym';
-import { COLORS, RADII, SHADOW } from '../theme';
+import { RADII } from '../theme';
+import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
 import { EmptyMarkGlyph } from '../components/TabIcon';
 import { plural } from '../lib/plural';
@@ -31,6 +32,7 @@ export default function HistoryScreen({
   onStartSession: () => void;
 }) {
   const { t, i18n } = useTranslation();
+  const { p, SHADOW } = useTheme();
   const scale = useScale();
   // Sesión pendiente de borrado (diálogo propio: Alert no funciona en web).
   const [toDelete, setToDelete] = useState<Session | null>(null);
@@ -44,77 +46,82 @@ export default function HistoryScreen({
 
   return (
     <>
-      <ScrollView contentContainerStyle={styles.body}>
-      <Text style={[styles.title, { fontSize: fs(scale, 32) }]} numberOfLines={1}>
+      <ScrollView contentContainerStyle={[styles.body, { backgroundColor: p.bg }]}>
+      <Text style={[styles.title, { fontSize: fs(scale, 32), color: p.text }]} numberOfLines={1}>
         {t('hist_title')}
       </Text>
-      <Text style={styles.sub}>{t('hist_sub')}</Text>
+      <Text style={[styles.sub, { color: p.secondary }]}>{t('hist_sub')}</Text>
 
       {list.length === 0 ? (
-        <View style={styles.emptyCard}>
-          <View style={styles.emptyMark}>
+        <View style={[styles.emptyCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
+          <View style={[styles.emptyMark, { backgroundColor: p.section }]}>
             <EmptyMarkGlyph size={30} />
           </View>
-          <Text style={styles.emptyTitle}>{t('hist_empty')}</Text>
-          <TouchableOpacity
-            style={styles.cta}
+          <Text style={[styles.emptyTitle, { color: p.dim }]}>{t('hist_empty')}</Text>
+          <Pressable
+            style={({ pressed }) => [styles.cta, { opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' }]}
             accessibilityRole="button"
-            activeOpacity={0.85}
             onPress={onStartSession}
           >
-            <View style={styles.ctaInner}>
+            <View style={[styles.ctaInner, { backgroundColor: p.accent }]} >
               <Text style={styles.ctaText}>{t('hero_cta_session')}</Text>
             </View>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       ) : (
         list.map((s) => (
-          <View key={s.id} style={styles.card}>
+          <View key={s.id} style={[styles.card, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
             <View style={styles.cardHeader}>
-              <Text style={styles.cardDate}>{s.date}</Text>
-              <TouchableOpacity
-                style={styles.deleteBtn}
+              <View style={styles.dateWrap}>
+                <Text style={[styles.cardDate, { color: p.text }]}>{s.date}</Text>
+                {s.type === 'benchmark' ? (
+                  <View style={[styles.typeBadge, { backgroundColor: p.accent }]}>
+                    <Text style={styles.typeBadgeText}>{t('bench_badge')}</Text>
+                  </View>
+                ) : null}
+              </View>
+              <Pressable
+                style={({ pressed }) => [styles.deleteBtn, { opacity: pressed ? 0.6 : 1, transition: 'opacity 90ms ease' }]}
                 accessibilityRole="button"
                 accessibilityLabel={t('hist_delete')}
                 onPress={() => confirmDelete(s)}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
-                <Text style={styles.delete}>{t('delete')}</Text>
-              </TouchableOpacity>
+                <Text style={[styles.delete, { color: p.red }]}>{t('delete')}</Text>
+              </Pressable>
             </View>
             <View style={styles.cardMeta}>
-              <Text style={styles.cardMetaText}>
+              <Text style={[styles.cardMetaText, { color: p.secondary }]}>
                 {plural(s.exercises.length, t, 'hist_exercise', 'hist_exercises')} · {plural(sessionSets(s), t, 'hist_set', 'hist_sets_total')}
                 {s.duration_min ? ` · ${s.duration_min} ${t('picker_minutes')}` : ''}
               </Text>
-              <Text style={styles.cardVolume}>
+              <Text style={[styles.cardVolume, { color: p.accent }]}>
                 {Math.round(sessionVolume(s)).toLocaleString(lang)} kg {t('hist_volume')}
               </Text>
             </View>
             {s.exercises.map((ex) => {
               const e = byId.get(ex.exercise_id);
               return (
-                <TouchableOpacity
+                <Pressable
                   key={ex.exercise_id}
-                  style={styles.exRow}
+                  style={({ pressed }) => [styles.exRow, { borderTopColor: p.cardBorder, opacity: pressed ? 0.75 : 1, transition: 'opacity 90ms ease' }]}
                   accessibilityRole="button"
                   accessibilityLabel={nameOf(e)}
                   onPress={() => e && onOpenExercise(e.id)}
-                  activeOpacity={0.7}
                 >
                   {e ? (
-                    <Image source={e.imageAsset} style={styles.exThumb} resizeMode="cover" />
+                    <Image source={e.imageAsset} style={[styles.exThumb, { backgroundColor: p.section }]} resizeMode="cover" />
                   ) : null}
-                  <Text style={styles.exName} numberOfLines={1}>
+                  <Text style={[styles.exName, { color: p.text }]} numberOfLines={1}>
                     {nameOf(e) || ex.exercise_id}
                   </Text>
-                  <Text style={styles.exSets}>
+                  <Text style={[styles.exSets, { color: p.dim }]}>
                     {ex.sets.map((st) => `${st.reps}×${st.weight_kg}kg`).join(' · ')}
                   </Text>
-                </TouchableOpacity>
+                </Pressable>
               );
             })}
-            {s.notes ? <Text style={styles.notes}>{s.notes}</Text> : null}
+            {s.notes ? <Text style={[styles.notes, { color: p.secondary }]}>{s.notes}</Text> : null}
           </View>
         ))
       )}
@@ -138,64 +145,45 @@ export default function HistoryScreen({
   );
 }
 
-const ctaBg = {
-  backgroundColor: '#0a84ff',
-  background: 'linear-gradient(180deg, #0a84ff 0%, #0055d4 100%)',
-} as object;
-
 const styles = StyleSheet.create({
   body: {
     padding: 20,
     paddingBottom: 40,
-    backgroundColor: COLORS.bg,
   },
   title: {
     fontSize: 32,
     fontWeight: '700',
     letterSpacing: -0.6,
-    color: COLORS.text,
   },
   sub: {
     fontSize: 15,
-    color: COLORS.secondary,
     marginTop: 4,
     marginBottom: 16,
   },
   emptyCard: {
-    backgroundColor: COLORS.card,
     borderRadius: 22,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder,
     padding: 28,
     alignItems: 'center',
-    ...SHADOW.card,
   },
   emptyMark: {
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: COLORS.section,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 14,
   },
   emptyTitle: {
     fontSize: 16,
-    color: COLORS.dim,
     textAlign: 'center',
   },
   cta: {
     marginTop: 18,
     borderRadius: RADII.tile,
-    shadowColor: 'rgba(0, 113, 227, 0.35)',
-    shadowOpacity: 1,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 6,
     width: '100%',
   },
   ctaInner: {
-    ...ctaBg,
     borderRadius: RADII.tile,
     paddingVertical: 14,
     alignItems: 'center',
@@ -207,18 +195,30 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
   card: {
-    backgroundColor: COLORS.card,
     borderRadius: RADII.tile,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder,
     padding: 16,
     marginBottom: 12,
-    ...SHADOW.card,
   },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  dateWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  typeBadge: {
+    borderRadius: 999,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+  },
+  typeBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#fff',
   },
   deleteBtn: {
     paddingHorizontal: 10,
@@ -228,12 +228,10 @@ const styles = StyleSheet.create({
   cardDate: {
     fontSize: 17,
     fontWeight: '700',
-    color: COLORS.text,
   },
   delete: {
     fontSize: 12,
     fontWeight: '600',
-    color: COLORS.red,
   },
   cardMeta: {
     flexDirection: 'row',
@@ -243,12 +241,10 @@ const styles = StyleSheet.create({
   },
   cardMetaText: {
     fontSize: 12,
-    color: COLORS.secondary,
   },
   cardVolume: {
     fontSize: 12,
     fontWeight: '600',
-    color: COLORS.blue,
   },
   exRow: {
     flexDirection: 'row',
@@ -256,30 +252,25 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 2,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: COLORS.cardBorder,
   },
   exThumb: {
     width: 36,
     height: 36,
     borderRadius: 8,
-    backgroundColor: COLORS.section,
   },
   exName: {
     flex: 1,
     fontSize: 14,
     fontWeight: '600',
-    color: COLORS.text,
     marginLeft: 10,
   },
   exSets: {
     fontSize: 12,
-    color: COLORS.dim,
     maxWidth: 120,
     textAlign: 'right',
   },
   notes: {
     fontSize: 13,
-    color: COLORS.secondary,
     fontStyle: 'italic',
     marginTop: 8,
   },
