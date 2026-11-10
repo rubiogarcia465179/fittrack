@@ -92,13 +92,20 @@ function makeEl(tag) {
     },
 
     appendChild(c) {
+      c.parentNode = this;
       this.children.push(c);
       return c;
     },
     append(...cs) {
       cs.forEach((c) => {
-        if (typeof c === 'string') this.children.push(parseHTML(c)[0]);
-        else this.children.push(c);
+        if (typeof c === 'string') {
+          const el = parseHTML(c)[0];
+          el.parentNode = this;
+          this.children.push(el);
+        } else {
+          c.parentNode = this;
+          this.children.push(c);
+        }
       });
     },
     addEventListener(ev, fn) {
@@ -118,9 +125,32 @@ function makeEl(tag) {
     getBoundingClientRect() {
       return { top: 0, left: 0, width: 100, height: 100 };
     },
+    get lastChild() {
+      return this.children.length ? this.children[this.children.length - 1] : null;
+    },
+    get firstChild() {
+      return this.children.length ? this.children[0] : null;
+    },
+    insertBefore(c, ref) {
+      c.parentNode = this;
+      const i = ref ? this.children.indexOf(ref) : -1;
+      if (i < 0) this.children.push(c);
+      else this.children.splice(i, 0, c);
+      return c;
+    },
+    remove() {
+      if (this.parentNode) {
+        const i = this.parentNode.children.indexOf(this);
+        if (i >= 0) this.parentNode.children.splice(i, 1);
+      }
+    },
+    removeChild(c) {
+      const i = this.children.indexOf(c);
+      if (i >= 0) this.children.splice(i, 1);
+      return c;
+    },
   };
   el.classList = {
-    _set: null,
     add(...cs) {
       const cur = new Set(String(el.attrs.class || '').split(/\s+/).filter(Boolean));
       cs.forEach((c) => cur.add(c));
@@ -132,16 +162,34 @@ function makeEl(tag) {
       el.attrs.class = [...cur].join(' ');
     },
     toggle(c, force) {
-      const has = String(el.attrs.class || '').split(/\s+/).includes(c);
+      const has = String(el.attrs.class || '').split(/\s+/).filter(Boolean).includes(c);
       const want = force === undefined ? !has : force;
       if (want) this.add(c);
       else this.remove(c);
       return want;
     },
     contains(c) {
-      return String(el.attrs.class || '').split(/\s+/).includes(c);
+      return String(el.attrs.class || '').split(/\s+/).filter(Boolean).includes(c);
     },
   };
+  // className setter: mantener attrs.class + classList sincronizados.
+  Object.defineProperty(el, 'className', {
+    get() {
+      return el.attrs.class || '';
+    },
+    set(v) {
+      el.attrs.class = String(v);
+    },
+  });
+  // type property: las páginas lo asignan como prop (inp.type = 'search').
+  Object.defineProperty(el, 'type', {
+    get() {
+      return el.attrs.type || '';
+    },
+    set(v) {
+      el.attrs.type = String(v);
+    },
+  });
   return el;
 }
 
@@ -289,6 +337,11 @@ function loadPage(route) {
       (events.global[e.type] || []).slice().forEach((fn) => fn(e));
     },
     setTimeout: (fn) => 0,
+    clearTimeout: () => {},
+    setInterval: (fn) => 1,
+    clearInterval: () => {},
+    requestAnimationFrame: (fn) => { fn(); return 0; },
+    cancelAnimationFrame: () => {},
     Date,
     Math,
     JSON,
@@ -303,6 +356,11 @@ function loadPage(route) {
     console,
     CustomEvent: window.CustomEvent,
     setTimeout: window.setTimeout,
+    clearTimeout: window.clearTimeout,
+    setInterval: window.setInterval,
+    clearInterval: window.clearInterval,
+    requestAnimationFrame: window.requestAnimationFrame,
+    cancelAnimationFrame: window.cancelAnimationFrame,
     Date,
     Math,
     JSON,
@@ -386,79 +444,109 @@ function main() {
     );
   }
 
-  console.log('== runtime: /session/ — crear y guardar sesión ==');
+  console.log('== runtime: /session/ — crear y guardar sesión (flujo wizard) ==');
   const ses = loadPage('session');
-  const results = ses.byId['s-results'];
-  const container = ses.byId['s-exercises'];
-  const emptyMsg = ses.byId['s-empty'];
+  const view = ses.byId['view'];
+  const body = ses.bodyRoot;
 
-  ok(results.children.length > 0, 'resultados iniciales visibles (' + results.children.length + ')');
-  ok(!emptyMsg.hidden, 'mensaje "añade un ejercicio" visible al inicio');
+  // helpers: buscar botones por texto en el DOM actual
+  const btns = () => walkAll(body).filter((e) => e.tagName === 'BUTTON');
+  const clickByText = (re) => {
+    const b = btns().find((x) => re.test(x.textContent));
+    if (!b) throw new Error('botón no encontrado: ' + re);
+    b.click();
+    return b;
+  };
 
-  // añadir un ejercicio (primer resultado)
-  const firstBtn = results.children[0].querySelector('button') || results.children[0];
-  firstBtn.click();
-  ok(container.children.length === 1, 'después de añadir: 1 bloque de ejercicio');
-  ok(emptyMsg.hidden, 'mensaje vacío oculto');
+  ok(view.textContent.includes('¿Qué quieres hacer?') || ses.byId['page-title'].textContent.includes('¿Qué quieres hacer?'),
+    'arranque: título "¿Qué quieres hacer?" renderizado');
+  ok(btns().some((b) => b.textContent.includes('Recomiéndame un entreno')), 'arranque: card "Recomiéndame un entreno"');
+  ok(btns().some((b) => b.textContent.includes('Añado mis datos yo')), 'arranque: card "Añado mis datos yo"');
 
-  // añadir otra vez -> mismo ejercicio, +1 set
-  const firstBtn2 = results.children[0].querySelector('button') || results.children[0];
-  firstBtn2.click();
-  const block1 = container.children[0];
-  const setsBefore = block1.querySelector('.mt-3.flex') ? 2 : 2;
+  // wizard: entrenamiento
+  clickByText(/Recomiéndame un entreno/);
+  ok(walkAll(body).some((e) => e.textContent === 'Paso 1 de 6'), 'wizard: paso 1 de 6 (tipo)');
+  clickByText(/Entrenamiento/);
+  clickByText(/^Siguiente$/);
+  ok(walkAll(body).some((e) => e.textContent === 'Paso 2 de 6'), 'wizard: paso 2 (objetivo)');
+  clickByText(/Crear músculo/);
+  clickByText(/^Siguiente$/);
+  ok(walkAll(body).some((e) => e.textContent === 'Paso 3 de 6'), 'wizard: paso 3 (grupos)');
+  clickByText(/Pecho/);
+  clickByText(/Espalda/);
+  clickByText(/^Siguiente$/);
+  ok(walkAll(body).some((e) => e.textContent === 'Paso 4 de 6'), 'wizard: paso 4 (duración)');
+  clickByText(/30 min/);
+  clickByText(/^Siguiente$/);
+  ok(walkAll(body).some((e) => e.textContent === 'Paso 5 de 6'), 'wizard: paso 5 (material)');
+  clickByText(/Gym completo/);
+  clickByText(/^Siguiente$/);
+  ok(walkAll(body).some((e) => e.textContent === 'Paso 6 de 6'), 'wizard: paso 6 (revisión)');
 
-  // "añadir serie"
-  const addSetBtn = [...qselAll(container, 'button')].find((b) =>
-    b.textContent.includes('Añadir') || b.textContent.toLowerCase().includes('set') || b.textContent.includes('+')
-  );
-  ok(!!addSetBtn, 'botón añadir serie existe');
-  if (addSetBtn) {
-    addSetBtn.click();
-    const block2 = container.children[0];
-    const rowsNow = qselAll(block2, '.mt-3.flex').length;
-    ok(true, 'tras añadir serie, bloques renderizados: ' + container.children.length);
-  }
+  // empezar (review -> confirm)
+  clickByText(/Empezar entrenamiento/);
+  ok(btns().some((b) => b.textContent === 'Guardar'), 'confirmación: diálogo con botón Guardar');
+  clickByText(/^Guardar$/);
+  ok(body.classList.contains('workout-active'), 'sesión activa: body.workout-active');
+  ok(!!ses.storage._m['fittrack.active.v1'], 'sesión activa: persistida en fittrack.active.v1');
+  const cards = walkAll(view).filter((e) => e.tagName === 'ARTICLE');
+  ok(cards.length >= 1, 'sesión activa: tarjetas de ejercicio (' + cards.length + ')');
 
-  // editar reps/peso del primer set
-  const numInputs = qselAll(container, 'input');
-  ok(numInputs.length >= 2, 'inputs de reps/peso presentes (' + numInputs.length + ')');
-  if (numInputs.length >= 2) {
-    numInputs[0].value = '12';
-    numInputs[0].listeners.input[0]({ target: numInputs[0] });
-    numInputs[1].value = '80';
-    numInputs[1].listeners.input[0]({ target: numInputs[1] });
-  }
+  // "Hecha" en la primera serie
+  const doneBtn = btns().find((b) => b.textContent.includes('pendiente'));
+  ok(!!doneBtn, 'serie: botón "Hecha" (pendiente)');
+  doneBtn.click();
+  ok(btns().some((b) => b.textContent.includes('hecha')), 'serie: marcada "Hecha"');
 
-  // fecha por defecto
-  const dateInput = ses.byId['s-date'];
-  ok(/^\d{4}-\d{2}-\d{2}$/.test(dateInput.value), 'fecha por defecto: ' + dateInput.value);
+  // añadir serie
+  const setsBefore = walkAll(view).filter((e) => e.classList && e.classList.contains('ValueBox')).length;
+  clickByText(/Añadir serie/);
+  const setsAfter = walkAll(view).filter((e) => e.classList && e.classList.contains('ValueBox')).length;
+  ok(setsAfter >= setsBefore + 2, 'añadir serie: más ValueBox (' + setsBefore + '->' + setsAfter + ')');
 
-  // GUARDAR
-  const saveBtn = ses.byId['s-save'];
-  ok(!!saveBtn, 'botón guardar existe');
-  saveBtn.click();
+  // hoja de valor: abrir y elegir 12 reps
+  const repsBox = btns().find((b) => b.textContent.replace(/\D/g, '') === '' && b.getAttribute('aria-label') === 'Reps') ||
+    btns().find((b) => b.getAttribute('aria-label') === 'Reps');
+  ok(!!repsBox, 'serie: ValueBox Reps');
+  repsBox.click();
+  ok(walkAll(body).some((e) => e.textContent === 'Elegir repeticiones'), 'hoja de valor: "Elegir repeticiones"');
+  const chip12 = btns().find((b) => b.textContent === '12');
+  chip12.click();
+  ok(!walkAll(body).some((e) => e.textContent === 'Elegir repeticiones'), 'hoja de valor: cerrada tras elegir');
+
+  // búsqueda (hoja)
+  clickByText(/Añadir ejercicio/);
+  const sheetSearch = walkAll(body).find((e) => e.tagName === 'INPUT' && e.getAttribute('type') === 'search');
+  ok(!!sheetSearch, 'búsqueda: hoja con input');
+  sheetSearch.value = 'push';
+  (sheetSearch.listeners.input || [() => {}])[0]({ target: sheetSearch });
+  const results = walkAll(ses.byId['sheet-root']).filter((e) => e.classList && e.classList.contains('ExRow'));
+  ok(results.length >= 1, 'búsqueda: "push" -> ' + results.length + ' resultados');
+  results[0].click();
+  ok(btns().some((b) => b.textContent.includes('Añadir ejercicio')), 'búsqueda: hoja cerrada tras añadir');
+
+  // guardar
+  const notes = ses.byId['active-notes'];
+  if (notes) notes.value = 'runtime test';
+  const bw = ses.byId['active-bw'];
+  if (bw) bw.value = '78';
+  clickByText(/Guardar sesión/);
   const raw = ses.storage._m['fittrack.data.v1'];
   ok(!!raw, 'localStorage fittrack.data.v1 escrito tras guardar');
   let saved = null;
-  try {
-    saved = JSON.parse(raw);
-  } catch (e) {
-    /* noop */
-  }
+  try { saved = JSON.parse(raw); } catch (e) { /* noop */ }
   ok(saved && Array.isArray(saved.sessions) && saved.sessions.length === 1, '1 sesión guardada');
   if (saved && saved.sessions.length) {
     const s = saved.sessions[0];
-    ok(s.date === dateInput.value, 'fecha de la sesión guardada: ' + s.date);
-    ok(Array.isArray(s.exercises) && s.exercises.length === 1, '1 ejercicio en la sesión');
-    if (s.exercises.length) {
-      const exr = s.exercises[0];
-      ok(Array.isArray(exr.sets) && exr.sets.length >= 2, 'sets guardados: ' + exr.sets.length);
-      ok(exr.sets[0].reps === 12 && exr.sets[0].weight_kg === 80, 'vals editados guardados (12 reps / 80 kg)');
-    }
-    // mensaje de éxito visible
-    const savedMsg = ses.byId['s-saved'];
-    ok(!savedMsg.hidden, 'mensaje "Sesión guardada" visible');
+    ok(/\d{4}-\d{2}-\d{2}$/.test(s.date), 'fecha de la sesión guardada: ' + s.date);
+    ok(Array.isArray(s.exercises) && s.exercises.length >= 1, 'ejercicios guardados: ' + s.exercises.length);
+    const totalSets = s.exercises.reduce((a, e) => a + e.sets.length, 0);
+    ok(totalSets >= 1, 'sets guardados: ' + totalSets);
+    ok(s.type === 'training', 'type=training');
   }
+  ok(!ses.storage._m['fittrack.active.v1'], 'guardar: sesión activa borrada (volver a crema)');
+  ok(!body.classList.contains('workout-active'), 'guardar: body sin workout-active');
+  ok(walkAll(body).some((e) => e.textContent.includes('Sesión guardada')), 'resumen: "Sesión guardada"');
 
   console.log('== runtime: /history/ — ver y borrar ==');
   const hist = loadPage('history');

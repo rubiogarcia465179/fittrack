@@ -1,0 +1,63 @@
+---
+/**
+ * Tus datos (/data/) — exportar (JSON) y borrar todos los datos (localStorage).
+ * Paridad con la app: nota "se guarda solo en este dispositivo", exportar a
+ * portapapeles / descarga, y borrado con confirmación.
+ */
+import Layout from '../components/Layout.astro';
+---
+
+<Layout
+  Title="FitTrack — Tus datos"
+  TitleKey="data_title"
+  Active="data"
+  Description="Exporta o borra tus datos. Todo se guarda solo en este dispositivo."
+>
+  <h1 class="PageTitle" data-i18n="data_title">Tus datos</h1>
+  <p class="PageSub" data-i18n="data_note">Todo se guarda solo en este dispositivo — sin cuenta, sin nube.</p>
+
+  <div class="mt-8 flex flex-col gap-3 max-w-narrow">
+    <button id="d-export" class="BtnPrimary w-full" data-i18n="data_export">Exportar datos (JSON)</button>
+    <button id="d-clear" class="BtnDanger w-full" data-i18n="data_clear">Borrar todos los datos</button>
+    <p id="d-msg" class="text-[14px] font-medium text-center" aria-live="polite" hidden></p>
+  </div>
+
+  <script type="module">
+    const T = window.FT_I18N.t;
+    const msg = document.getElementById('d-msg');
+
+    function flash(text, cls) {
+      msg.hidden = false;
+      msg.textContent = text;
+      msg.style.color = cls === 'green' ? 'var(--green)' : 'var(--text)';
+      clearTimeout(msg._h);
+      msg._h = setTimeout(() => { msg.hidden = true; }, 4000);
+    }
+
+    document.getElementById('d-export').addEventListener('click', async () => {
+      const json = window.FTStore.exportData();
+      let ok2 = false;
+      try {
+        await navigator.clipboard.writeText(json);
+        ok2 = true;
+      } catch (e) {
+        // fallback: descarga
+        const blob = new Blob([json], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'fittrack-data.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
+      flash(T('data_copied') + (ok2 ? '' : ' (descarga)'), 'green');
+    });
+
+    document.getElementById('d-clear').addEventListener('click', () => {
+      if (!window.confirm(T('data_clear_confirm'))) return;
+      window.FTStore.clearAll();
+      if (window.FTSession) window.FTSession.applyActiveTheme();
+      window.dispatchEvent(new CustomEvent('ft-data-changed'));
+      flash(T('data_cleared'), 'green');
+    });
+  </script>
+</Layout>

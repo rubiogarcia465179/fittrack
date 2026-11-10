@@ -197,6 +197,49 @@ Pendientes con estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado.
   dup-scroll2, wide-flow → **0 FALLOS** en iPhone 16/17/18, iPhone SE,
   Galaxy S24/S25 (portrait + landscape).
 
+## Fase 9c — Paridad web (la web al nivel de la app)
+- [x] **Sistema de diseño premium** (`global.css` + `tailwind.config.js`):
+  crema #F3EEE3 / acento naranja #D9541E / texto navy #182440, Montserrat
+  (self-hosted + Google fallback), cards radio 20px con hairline, botones
+  pill con degradado, y tema navy `body.workout-active` por variables CSS
+  (una clase recolorea TODA la web, igual que el ThemeProvider de la app).
+- [x] **Sesión = paridad de la app** (`session.astro`, client-rendered):
+  arranque "¿Qué quieres hacer?" (Recomiéndame / Manual); **wizard 6 pasos**
+  (tipo→objetivo→grupos→duración→material→revisión) con progreso 3 estados;
+  generación determinista; **benchmark 5 pasos** (sin objetivo); sesión
+  activa navy con banner+cronómetro+progreso, ejercicios con **ValueBox**
+  (hoja de valor con rejilla + "otro valor"), **"Hecha" por serie**,
+  estado de material (disponible/ocupado/fuera) + alternativas, **sugerir
+  ejercicio**, **búsqueda en hoja**, notas + peso corporal, guardar con
+  resumen (ejercicios/series/volumen/PRs) y retorno a crema.
+- [x] **Motor de workout en web** (`public/js/workout.js`, puerto 1:1 de
+  `workout.ts`): `generateWorkout`, `suggestAlternatives`,
+  `suggestNextExercise`, `weightForExercise`, `weightFromOneRm`,
+  `recentRows`… **verificado de paridad** contra el TS compilado
+  (24 fixtures × funciones + exhaustivos: 0 diffs).
+- [x] **i18n web regenerado desde `i18n/*.json`** (`generate_web_i18n.py`):
+  234 claves (antes 105) — misma fuente única que la app, 4 bundles,
+  plantillas `{{var}}` (react-i18next). `store.js` con sesiones +
+  benchmarks + **sesión activa** (`fittrack.active.v1`) + export/clear.
+- [x] **Páginas nuevas**: `/benchmarks/` (1RM por ejercicio + fija manual)
+  y `/data/` (export JSON a portapapeles/descarga + borrar todo con
+  confirmación). Sin enlaces muertos en el footer.
+- [x] **Nav premium**: cabecera sticky hairline+blur, logo barra, nav de
+  íconos con active-underline, 4 lenguajes que **cabitan a 393px**
+  (wordmark oculto en móvil). `<meta theme-color>` sigue al tema.
+- [x] **QA web**: `tests/runtime.js` actualizado al flujo wizard
+  (DOM emulado sobre `dist/` real: **50/50**) + harness Chromium
+  `web-flow.js` (**50 comprobaciones, 0 fallos, 0 errores de consola**)
+  cubriendo: arranque, wizard 6+5 pasos, sesión navy, ValueBox, Hecha,
+  añadir serie, búsqueda, sugerir, alternativas, guardar+resumen,
+  persistencia, dashboard, historial, biblioteca, benchmark, marcas,
+  datos e i18n.
+- [x] **Bug corregido** en `store.js.read()`: `Object.assign(null, …)`
+  lanzaba → `FTStore.active()` siempre devolvía `null` (el tema navy
+  nunca activaba y la sesión activa no sobrevivía al refresh).
+- [ ] **Cuenta nube (Supabase)** — Fase "nube" (pendiente, necesita acceso
+  del usuario). La web ya está lista para añadir la misma cuenta en cliente.
+
 ## Testing en el host (documentado en README.md)
 - [x] Web: `cd web && npm ci && npm run build && npm run preview -- --host`
 - [x] App: `cd app && npm ci && npx expo start` + Expo Go (QR) — Android e

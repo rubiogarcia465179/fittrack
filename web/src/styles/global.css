@@ -2,7 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base — tipografía y métricas de estilo Apple. */
+/* =========================================================================
+   FitTrack — sistema de diseño PREMIUM (paridad con app/src/theme.ts)
+   Dos temas con variables CSS: por defecto crema cálido; al empezar una
+   sesión (body.workout-active) toda la web se recolorea a navy oscuro,
+   igual que la app (ThemeProvider). Una clase lo recolorea TODO.
+   ========================================================================= */
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url('/fonts/Montserrat.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: italic;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url('/fonts/Montserrat-Italic.ttf') format('truetype');
+}
+
+:root {
+  --bg: #f3eee3;
+  --section: #ece5d8;
+  --card: #fffcf6;
+  --card-border: #e3daca;
+  --text: #182440;
+  --secondary: #5c6a85;
+  --dim: #646c82;
+  --border: #d8cfbe;
+  --accent: #d9541e;
+  --accent-dark: #b8430f;
+  --link: #b8430f;
+  --green: #2e7d44;
+  --red: #c43c2a;
+  --field: #efe8da;
+  --chip-off: #e7dfce;
+  --header: rgba(255, 252, 246, 0.82);
+  --shadow: rgba(24, 36, 64, 0.06);
+  --shadow-cta: rgba(217, 84, 30, 0.35);
+  --overlay: rgba(24, 36, 64, 0.42);
+  color-scheme: light;
+}
+
+body.workout-active {
+  --bg: #0e1730;
+  --section: #0a1224;
+  --card: #182342;
+  --card-border: #26345c;
+  --text: #f3eee3;
+  --secondary: #a9b6d1;
+  --dim: #8896b5;
+  --border: #2a3a63;
+  --accent: #f0622b;
+  --accent-dark: #d9541e;
+  --link: #ff8a50;
+  --green: #4cc97a;
+  --red: #ff6b57;
+  --field: #20305a;
+  --chip-off: #22335c;
+  --header: rgba(14, 23, 48, 0.86);
+  --shadow: rgba(0, 0, 0, 0.35);
+  --shadow-cta: rgba(240, 98, 43, 0.45);
+  --overlay: rgba(4, 8, 18, 0.55);
+  color-scheme: dark;
+}
+
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;
@@ -10,192 +77,468 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply font-app bg-AppBg text-AppText antialiased;
+    @apply font-app;
+    background: var(--bg);
+    color: var(--text);
     font-size: 17px;
     line-height: 1.47;
+    transition: background 200ms ease, color 200ms ease;
   }
   ::selection {
-    background: rgba(0, 113, 227, 0.25);
+    background: rgba(217, 84, 30, 0.25);
   }
   :focus-visible {
-    outline: 3px solid rgba(0, 113, 227, 0.4);
+    outline: 3px solid rgba(217, 84, 30, 0.4);
     outline-offset: 2px;
     border-radius: 8px;
+  }
+  h1, h2, h3, h4 {
+    letter-spacing: -0.015em;
   }
 }
 
 @layer components {
-  /* ---- Nav (barra superior estilo apple.com) ---- */
+  /* ---- Nav (sticky, hairline, blur — igual que la cabecera de la app) ---- */
   .Nav {
-    @apply fixed inset-x-0 top-0 z-50 h-nav bg-AppNearWhite/80 backdrop-blur-xl
-           saturate-[1.8] transition-colors;
+    @apply fixed inset-x-0 top-0 z-50 h-nav backdrop-blur-xl transition-colors;
+    background: var(--header);
+    border-bottom: 1px solid var(--border);
   }
+  .Wordmark {
+    @apply text-[18px] font-bold tracking-tight;
+    color: var(--text);
+  }
+  .WordmarkAccent { color: var(--accent); }
   .NavLink {
-    @apply text-[13px] leading-none text-AppText/70 hover:text-AppText
-           transition-colors;
+    @apply text-[14px] leading-none transition-colors;
+    color: var(--secondary);
   }
+  .NavLink:hover { color: var(--text); }
   .NavLinkActive {
-    @apply text-AppText font-semibold;
+    @apply font-bold;
+    color: var(--text);
+    box-shadow: inset 0 -2px 0 var(--accent);
   }
   .LangBtn {
-    @apply text-[11px] leading-none text-AppText/40 hover:text-AppText
-           transition-colors rounded px-1 py-0.5;
+    @apply text-[11px] font-semibold leading-none rounded-full px-2 py-1 transition-colors;
+    color: var(--dim);
   }
   .lang-btn.active {
-    @apply text-AppText font-semibold bg-AppGray;
+    background: var(--accent);
+    color: #fff;
   }
-  /* Botón hamburguesa (solo móvil, como el icono de apple.com) */
   .NavBurger {
-    @apply ml-auto flex h-8 w-8 items-center justify-center rounded text-AppText/80
-           active:bg-AppGray;
+    @apply ml-auto flex h-9 w-9 items-center justify-center rounded-full active:opacity-60;
+    color: var(--text);
   }
-  /* Menú móvil a pantalla completa (como el menú de apple.com en móvil) */
   .MobileMenu {
-    @apply fixed inset-0 z-[60] flex flex-col bg-AppNearWhite/95 backdrop-blur-2xl
-           saturate-[1.8] pt-14;
+    @apply fixed inset-0 z-[60] flex flex-col pt-16 backdrop-blur-2xl;
+    background: var(--card);
   }
   .MobileMenuClose {
-    @apply absolute right-4 top-3 flex h-9 w-9 items-center justify-center
-           text-[28px] leading-none text-AppText/60 active:bg-AppGray rounded-full;
+    @apply absolute right-4 top-3 flex h-10 w-10 items-center justify-center text-[26px] leading-none rounded-full active:opacity-60;
+    color: var(--secondary);
   }
   .MobileMenuLink {
-    @apply text-[28px] font-semibold tracking-apple text-AppText py-4
-           border-b border-AppBorder/50 active:bg-AppGray;
+    @apply text-[26px] font-bold py-4 border-b transition-colors;
+    color: var(--text);
+    border-color: var(--card-border);
   }
   .MobileMenuLangs {
-    @apply mt-auto pb-16 flex justify-center gap-6;
+    @apply mt-auto pb-16 flex justify-center gap-5;
   }
-  .MobileMenuLang {
-    @apply text-[13px] text-AppText/50;
+
+  /* ---- Encabezados de página ---- */
+  .PageTitle {
+    @apply text-[32px] md:text-[40px] font-extrabold leading-[1.08];
+    color: var(--text);
   }
-  .MobileMenuLangActive {
-    @apply text-AppText font-semibold;
+  .PageSub {
+    @apply mt-2 text-[16px];
+    color: var(--secondary);
+    max-width: 46ch;
+  }
+
+  /* ---- Cards (radio 20, hairline, sombra suave — cajas apple) ---- */
+  .Card {
+    @apply rounded-card p-5;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 14px var(--shadow);
+  }
+  .CardTitle {
+    @apply text-[16px] font-bold;
+    color: var(--text);
+  }
+  .CardSub {
+    @apply mt-0.5 text-[13px];
+    color: var(--secondary);
+  }
+
+  /* ---- Stats ---- */
+  .StatCard {
+    @apply rounded-card p-4;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 14px var(--shadow);
+  }
+  .StatLabel {
+    @apply text-[11px] font-semibold uppercase tracking-[0.08em];
+    color: var(--secondary);
+  }
+  .StatValue {
+    @apply mt-1 text-[26px] md:text-[30px] font-extrabold leading-none;
+    color: var(--text);
+  }
+  .StatHint {
+    @apply mt-1.5 text-[13px];
+    color: var(--dim);
+  }
+
+  /* ---- Botones (CTA con degradado naranja + sombra, pill) ---- */
+  .BtnPrimary {
+    @apply inline-flex items-center justify-center gap-2 rounded-pill px-6 py-3
+           text-[15px] font-bold text-white transition active:scale-[0.98];
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    box-shadow: 0 6px 16px var(--shadow-cta);
+  }
+  .BtnPrimary:hover { filter: brightness(1.05); }
+  .BtnPrimary:disabled { opacity: 0.5; box-shadow: none; }
+  .BtnSecondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-pill px-5 py-2.5
+           text-[15px] font-semibold transition active:scale-[0.98];
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .BtnDanger {
+    @apply inline-flex items-center justify-center rounded-pill px-4 py-2 text-[14px] font-semibold transition;
+    color: var(--red);
+    border: 1px solid color-mix(in srgb, var(--red) 40%, transparent);
+    background: transparent;
+  }
+  .BtnDanger:hover { background: color-mix(in srgb, var(--red) 10%, transparent); }
+
+  /* ---- Formulario ---- */
+  .Field {
+    @apply w-full rounded-field px-3.5 py-2.5 text-[15px];
+    background: var(--field);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .Field::placeholder { color: var(--dim); }
+  .FieldLabel {
+    @apply block text-[13px] font-semibold mb-1.5;
+    color: var(--secondary);
+  }
+
+  /* ---- Chips ---- */
+  .Chip {
+    @apply inline-flex items-center rounded-pill px-3.5 py-1.5 text-[13px] font-semibold transition active:scale-[0.96];
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .ChipActive {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* ---- Filas de ejercicio ---- */
+  .ExRow {
+    @apply flex items-center gap-4 rounded-card p-4 text-left w-full transition;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+  }
+  .ExRow:hover { box-shadow: 0 4px 14px var(--shadow); }
+  .ExRowImg {
+    @apply w-20 h-14 rounded-lg object-cover shrink-0;
+    border: 1px solid var(--card-border);
+  }
+  .ExRowName {
+    @apply text-[15px] font-bold min-w-0 truncate;
+    color: var(--text);
+  }
+  .ExRowMeta {
+    @apply text-[12px];
+    color: var(--dim);
+  }
+  .ExRowCta {
+    @apply shrink-0 text-[13px] font-bold;
+    color: var(--accent);
   }
 
   /* ---- Home: hero + tiles (estilo apple.com) ---- */
   .HeroTag {
-    @apply text-[12px] font-semibold uppercase tracking-[0.18em] text-AppDim;
+    @apply text-[12px] font-bold uppercase tracking-[0.18em];
+    color: var(--dim);
   }
   .HeroTitle {
-    @apply text-[28px] md:text-[44px] font-semibold tracking-apple
-           leading-[1.16] text-AppText;
+    @apply text-[30px] md:text-[46px] font-extrabold leading-[1.12];
+    color: var(--text);
   }
   .HeroSub {
-    @apply text-[17px] md:text-[21px] text-AppSecondary font-normal
-           leading-[1.42];
+    @apply text-[17px] md:text-[20px];
+    color: var(--secondary);
   }
   .BtnLink {
-    @apply inline-flex items-center gap-0.5 text-[17px] text-AppLink
-           hover:underline;
+    @apply inline-flex items-center gap-0.5 text-[17px] font-bold;
+    color: var(--link);
   }
   .BtnLinkChevron {
-    @apply text-AppLink transition-transform group-hover:translate-x-0.5;
+    @apply transition-transform;
+    color: var(--link);
   }
   .Tile {
     @apply rounded-tile overflow-hidden flex flex-col items-center text-center
            px-8 py-14 md:py-20;
   }
-  .tile-dark {
-    background: #000000;
-    color: #f5f5f7;
-  }
-  .tile-gray {
-    background: #f5f5f7;
-    color: #1d1d1f;
-  }
-  .tile-navy {
-    background: #0b1f3a;
-    color: #f5f5f7;
-  }
+  .tile-light { background: var(--card); color: var(--text); border: 1px solid var(--card-border); }
+  .tile-cream { background: var(--section); color: var(--text); }
+  .tile-navy { background: #0e1730; color: #f3eee3; }
+  .tile-orange { background: linear-gradient(160deg, #d9541e, #b8430f); color: #fff; }
   .TileTitle {
-    @apply text-[24px] md:text-[32px] font-semibold tracking-apple
-           leading-[1.1] mt-5;
+    @apply text-[24px] md:text-[32px] font-extrabold leading-[1.1] mt-5;
   }
   .TileSub {
-    @apply text-[15px] md:text-[19px] mt-3 max-w-[26ch] opacity-70;
-  }
-  .TileSubLight {
-    color: currentColor;
+    @apply text-[15px] md:text-[18px] mt-3 max-w-[26ch];
     opacity: 0.72;
   }
-  .TileCta {
-    @apply mt-6;
-  }
+  .TileCta { @apply mt-6; }
   .TileLink {
-    @apply inline-flex items-center gap-0.5 text-[17px] text-white hover:underline;
+    @apply inline-flex items-center gap-0.5 text-[17px] font-bold;
+    color: currentColor;
   }
-  .TileLinkChevron {
-    @apply text-white transition-transform group-hover:translate-x-0.5;
+  .TileLinkChevron { @apply transition-transform; color: currentColor; }
+  .group:hover .TileLinkChevron, .group:hover .BtnLinkChevron { transform: translateX(0.25rem); }
+
+  /* ---- ValueBox (casilla de valor: se toca y abre la hoja) ---- */
+  .ValueBox {
+    @apply rounded-field px-3 py-2 text-center transition active:scale-[0.96];
+    background: var(--field);
+    border: 1px solid var(--border);
+    min-width: 74px;
+  }
+  .ValueBoxNum {
+    @apply text-[19px] font-extrabold leading-none;
+    color: var(--text);
+  }
+  .ValueBoxUnit {
+    @apply text-[11px] font-semibold mt-0.5;
+    color: var(--secondary);
+  }
+  .ValueBoxActive {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .ValueBoxActive .ValueBoxNum, .ValueBoxActive .ValueBoxUnit { color: #fff; }
+  .ValueBoxDone {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .ValueBoxDone .ValueBoxNum, .ValueBoxDone .ValueBoxUnit { color: #fff; }
+
+  /* ---- Hoja inferior (bottom sheet) ---- */
+  .SheetBackdrop {
+    @apply fixed inset-0 z-40;
+    background: var(--overlay);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+  .SheetBackdrop.open { opacity: 1; pointer-events: auto; }
+  .Sheet {
+    @apply fixed inset-x-0 bottom-0 z-50 flex flex-col;
+    background: var(--card);
+    border-top: 1px solid var(--card-border);
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -8px 30px var(--shadow);
+    max-height: 85%;
+    transform: translateY(105%);
+    transition: transform 220ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .Sheet.open { transform: translateY(0); }
+  .SheetHandle {
+    @apply mx-auto mt-2.5 h-1.5 w-10 rounded-full;
+    background: var(--border);
+  }
+  .SheetTitle {
+    @apply text-[18px] font-extrabold;
+    color: var(--text);
+  }
+  .SheetSub {
+    @apply text-[13px];
+    color: var(--secondary);
+  }
+  .ChipGrid {
+    @apply grid gap-2 overflow-y-auto px-6 py-4;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .SheetChip {
+    @apply rounded-field py-3 text-center text-[16px] font-bold transition active:scale-[0.95];
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .SheetChipActive {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
   }
 
-  /* ---- Botones ---- */
-  .BtnPrimary {
-    @apply inline-flex items-center justify-center rounded-pill bg-AppBlue
-           text-white text-[15px] font-medium px-5 py-2.5
-           hover:bg-[#0077ed] active:scale-[0.98] transition;
+  /* ---- Toast ---- */
+  .Toast {
+    @apply fixed left-1/2 z-[70] -translate-x-1/2 rounded-pill px-5 py-3
+           text-[14px] font-bold text-white flex items-center gap-2;
+    background: var(--text);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    transform: translate(-50%, 12px);
+    transition: opacity 200ms ease, transform 200ms ease;
+    pointer-events: none;
   }
-  .BtnSecondary {
-    @apply inline-flex items-center justify-center rounded-pill border border-AppBorder
-           bg-AppCard text-AppText text-[15px] font-medium px-5 py-2.5
-           hover:bg-AppGray active:scale-[0.98] transition;
-  }
-  .BtnDanger {
-    @apply inline-flex items-center justify-center rounded-pill border border-red-300
-           text-red-600 text-[14px] font-medium px-4 py-2 hover:bg-red-50 transition;
-  }
-
-  /* ---- Encabezados de página ---- */
-  .PageTitle {
-    @apply text-[32px] md:text-[40px] font-semibold tracking-apple
-           leading-[1.08];
-  }
-  .PageSub {
-    @apply mt-2 text-[17px] text-AppSecondary max-w-wrap;
+  .Toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .ToastDot {
+    @apply h-2 w-2 rounded-full;
+    background: var(--green);
   }
 
-  /* ---- Cards / stats ---- */
-  .Card {
-    @apply rounded-tile bg-AppCard border border-AppBorder/70 shadow-card
-           p-5;
+  /* ---- Banner de sesión activa (navy) ---- */
+  .ActiveBanner {
+    @apply flex items-center gap-3 rounded-card px-4 py-3;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 14px var(--shadow);
   }
-  .StatCard {
-    @apply rounded-tile bg-AppSection border border-AppBorder/60 p-5;
+  .ActiveBannerDot {
+    @apply h-2.5 w-2.5 rounded-full;
+    background: #30d158;
+    box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.5);
+    animation: pulse 2s infinite;
   }
-  .StatLabel {
-    @apply text-[12px] font-medium uppercase tracking-[0.08em] text-AppSubtext;
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.45); }
+    70% { box-shadow: 0 0 0 8px rgba(48, 209, 88, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(48, 209, 88, 0); }
   }
-  .StatValue {
-    @apply mt-1 text-[28px] md:text-[32px] font-semibold tracking-apple
-           leading-none;
+  .ActiveBannerLabel {
+    @apply text-[13px] font-bold uppercase tracking-[0.06em];
+    color: var(--text);
   }
-  .StatHint {
-    @apply mt-1.5 text-[13px] text-AppSubtext;
+  .ActiveBannerTime {
+    @apply text-[15px] font-extrabold tabular-nums;
+    color: var(--text);
   }
-
-  /* ---- Formulario ---- */
-  .Field {
-    @apply w-full rounded-field border border-AppBorder bg-AppCard px-3 py-2.5
-           text-[15px] text-AppText placeholder:text-AppDim;
+  .ProgressBar {
+    @apply h-1.5 w-full rounded-full overflow-hidden;
+    background: var(--section);
   }
-  .FieldLabel {
-    @apply block text-[13px] font-medium text-AppSubtext mb-1.5;
-  }
-
-  /* ---- Chips de filtro ---- */
-  .Chip {
-    @apply inline-flex items-center rounded-pill border border-AppBorder bg-AppCard
-           px-3 py-1.5 text-[13px] text-AppText/80 hover:bg-AppGray transition;
-  }
-  .ChipActive {
-    @apply border-AppBlue bg-AppBlue/10 text-AppLink font-semibold;
+  .ProgressBarFill {
+    @apply h-full rounded-full transition-all duration-300;
+    background: var(--green);
   }
 
-  /* ---- Filas de ejercicio ---- */
-  .ExRow {
-    @apply flex items-center gap-4 rounded-tile bg-AppCard border border-AppBorder/70
-           p-4 hover:shadow-card transition;
+  /* ---- Calendario ---- */
+  .CalGrid {
+    @apply grid grid-cols-7 gap-1.5;
   }
-  .ExRowImg {
-    @apply w-20 h-14 rounded-lg object-cover shrink-0 border border-AppBorder/50;
+  .CalHead {
+    @apply text-center text-[11px] font-bold;
+    color: var(--dim);
+  }
+  .CalCell {
+    @apply aspect-square rounded-field flex items-center justify-center text-[13px] font-semibold;
+    background: var(--section);
+    color: var(--text);
+  }
+  .CalCellRest {
+    background: color-mix(in srgb, var(--red) 8%, var(--section));
+    color: var(--secondary);
+  }
+  .CalCellWorkout {
+    background: var(--green);
+    color: #fff;
+  }
+  .CalCellToday {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .CalCellEmpty { background: transparent; }
+
+  /* ---- Estado: material (disponible/ocupado/fuera) ---- */
+  .StatusChip {
+    @apply inline-flex items-center rounded-pill px-3.5 py-1.5 text-[12px] font-bold transition active:scale-[0.96];
+    background: transparent;
+    color: var(--secondary);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .StatusChipActive {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* ---- "Hecha" (círculo de completado por serie) ---- */
+  .DoneBtn {
+    @apply flex flex-col items-center gap-1 transition active:scale-[0.94];
+  }
+  .DoneCircle {
+    @apply h-9 w-9 rounded-full flex items-center justify-center transition;
+    background: transparent;
+    border: 2px solid var(--border);
+    color: var(--dim);
+  }
+  .DoneBtnActive .DoneCircle {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+  }
+  .DoneLabel {
+    @apply text-[11px] font-semibold;
+    color: var(--dim);
+  }
+
+  /* ---- Empty state ---- */
+  .EmptyMark {
+    @apply mx-auto h-16 w-16 rounded-full flex items-center justify-center;
+    background: var(--section);
+    color: var(--dim);
+  }
+  .EmptyHint {
+    @apply text-[14px];
+    color: var(--dim);
+    max-width: 34ch;
+    margin: 0 auto;
+  }
+
+  /* ---- Detalle de ejercicio ---- */
+  .StepList {
+    @apply flex flex-col gap-3;
+  }
+  .StepItem {
+    @apply flex gap-3 items-start;
+  }
+  .StepNum {
+    @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[13px] font-extrabold;
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* ---- Sugerido ---- */
+  .SuggestCard {
+    @apply rounded-card p-4 border border-dashed;
+    border-color: var(--border);
+    background: transparent;
+  }
+  .SuggestBtn {
+    @apply inline-flex items-center rounded-pill px-4 py-2 text-[14px] font-bold transition active:scale-[0.96];
+    background: var(--accent);
+    color: #fff;
+  }
+  .SuggestSkip {
+    @apply inline-flex items-center rounded-pill px-4 py-2 text-[14px] font-semibold transition;
+    color: var(--secondary);
   }
 }

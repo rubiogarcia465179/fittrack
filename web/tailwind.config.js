@@ -1,30 +1,39 @@
 /** @type {import('tailwindcss').Config} */
+// FitTrack — tokens de diseño PREMIUM (igual que la app, theme.ts DEFAULT):
+// crema cálido + acento naranja + texto azul marino. Montserrat.
 export default {
   content: ['./src/**/*.{astro,js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      // Tokens de estilo Apple.
       colors: {
-        AppBlue: '#0071e3',
-        AppLink: '#0066cc',
-        AppGreen: '#248a3d',
-        AppBg: '#ffffff',
-        AppGray: '#f5f5f7',
-        AppSection: '#f5f5f7',
-        AppNearWhite: '#fbfbfd',
-        AppText: '#1d1d1f',
-        AppSecondary: '#6e6e73',
-        AppSubtext: '#6e6e73',
-        AppDim: '#86868b',
-        AppBorder: '#d2d2d7',
-        AppCard: '#ffffff',
+        AppBg: '#F3EEE3',       // crema
+        AppSection: '#ECE5D8',  // crema sección
+        AppNearWhite: '#FFFCF6',
+        AppCard: '#FFFCF6',     // tarjeta
+        AppGray: '#ECE5D8',
+        AppText: '#182440',     // azul marino
+        AppSecondary: '#5C6A85',
+        AppSubtext: '#5C6A85',
+        AppDim: '#646C82',      // atenuado (contraste AA)
+        AppBorder: '#D8CFBE',
+        AppCardBorder: '#E3DACA',
+        AppBlue: '#D9541E',     // acento naranja
+        AppAccentDark: '#B8430F',
+        AppLink: '#B8430F',
+        AppGreen: '#2E7D44',
+        AppRed: '#C43C2A',
+        AppFieldBg: '#EFE8DA',
+        AppNavy: '#0E1730',     // tema activo (sesión en curso)
+        AppNavyCard: '#182342',
+        AppNavyText: '#F3EEE3',
+        AppNavyDim: '#8896B5',
+        AppNavyBorder: '#2A3A63',
       },
       fontFamily: {
         app: [
+          'Montserrat',
           '-apple-system',
           'BlinkMacSystemFont',
-          '"SF Pro Display"',
-          '"SF Pro Text"',
           'system-ui',
           '"Segoe UI"',
           'Roboto',
@@ -34,26 +43,28 @@ export default {
         ],
       },
       borderRadius: {
-        tile: '1.125rem',
-        field: '0.75rem',
+        card: '20px',
+        tile: '18px',
+        field: '12px',
         pill: '980px',
       },
       boxShadow: {
-        card: '0 2px 12px rgba(0, 0, 0, 0.08)',
-        lift: '0 12px 32px rgba(0, 0, 0, 0.14)',
-        seg: '0 1px 3px rgba(0, 0, 0, 0.12)',
+        card: '0 4px 14px rgba(24, 36, 64, 0.06)',
+        lift: '0 12px 32px rgba(24, 36, 64, 0.14)',
+        cta: '0 6px 16px rgba(217, 84, 30, 0.35)',
       },
       maxWidth: {
         wrap: '70rem',
         hero: '44rem',
         narrow: '38rem',
+        app: '640px', // ancho máximo de contenido (como la app en tablet)
       },
       letterSpacing: {
         apple: '-0.015em',
         tighter2: '-0.02em',
       },
       height: {
-        nav: '48px',
+        nav: '52px',
       },
     },
   },

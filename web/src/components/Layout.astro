@@ -1,46 +1,110 @@
 ---
 /**
- * Layout base de la web FitTrack.
- * - CSS global (Tailwind) inlineado en el <head> (sin flash de estilos).
- * - Nav + <slot/> + Footer.
- * - i18n en el <head> (sin defer): el idioma se aplica antes del paint,
- *   sin red (bundles embebidos en js/i18n.js).
+ * Layout — marco premium (crema + naranja + Montserrat), paridad con la app.
+ * - Cabecera sticky con logo, nav de íconos y selector de idioma.
+ * - body.workout-active recolorea TODA la web a navy al empezar sesión
+ *   (paridad app: ThemeProvider); el <meta theme-color> sigue al tema.
  */
-import Nav from './Nav.astro';
 import '../styles/global.css';
 
-const {
-  Title = 'FitTrack',
-  TitleKey = 'app_name',
-  Description = 'FitTrack — monitor de progreso de gimnasio: ejercicios, sesiones y dashboard.',
-  Active = '',
-} = Astro.props;
----
+interface Props {
+  Title: string;
+  Active: string;
+  Description?: string;
+}
 
+const { Title, Active, Description = '' } = Astro.props;
+// Las páginas pasan "nav_dashboard" / "nav_history"; las nav keys son
+// "dashboard" / "history" (y el detalle de ejercicio -> "exercises").
+const active = String(Active || '').replace(/^nav_/, '').replace('ex_detail', 'exercises');
+
+const nav = [
+  { key: 'dashboard', href: '/', icon: 'M3 12h4l3 8 4-16 3 8h4' },
+  { key: 'exercises', href: '/exercises/', icon: 'M4 6h16M4 12h16M4 18h10' },
+  { key: 'session', href: '/session/', icon: 'M12 3v18M8 7l-4 5 4 5M16 7l4 5-4 5' },
+  { key: 'history', href: '/history/', icon: 'M12 8v4l3 3M21 12a9 9 0 1 1-9-9 9 9 0 0 1 9 9z' },
+];
+---
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-i18n={TitleKey}>{Title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{Title}</title>
     <meta name="description" content={Description} />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#F3EEE3" id="meta-theme" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <!-- i18n en el <head> (sin defer) para evitar el parpadeo de idioma. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <script src="/js/i18n.js" is:inline></script>
     <script src="/js/store.js" is:inline></script>
     <script src="/js/gym.js" is:inline></script>
+    <script src="/js/workout.js" is:inline></script>
   </head>
+
   <body>
-    <Nav active={Active} />
-    <main class="mx-auto max-w-wrap px-5 pb-20 pt-20 md:px-8">
+    <header class="Nav">
+      <div class="mx-auto flex h-full max-w-app items-center gap-3 px-4 md:px-6">
+        <a class="Wordmark flex items-center gap-2" href="/" aria-label="FitTrack — inicio">
+          <svg class="h-5 w-5 shrink-0" style="color: var(--accent)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 10v4M20 10v4M7 8v8M17 8v8M2 12h2M20 12h2M4.5 12h15" />
+          </svg>
+          <span class="hidden sm:inline">Fit<span class="WordmarkAccent">Track</span></span>
+        </a>
+        <nav class="ml-auto flex items-center gap-0 sm:gap-2" aria-label="Principal">
+          {
+            nav.map((n) => (
+              <a
+                href={n.href}
+                class={`flex h-9 items-center gap-1.5 rounded-full px-1.5 sm:px-3 ${
+                  active === n.key ? 'NavLink NavLinkActive' : 'NavLink'
+                }`}
+                aria-current={active === n.key ? 'page' : 'false'}
+                title={`nav_${n.key}`}
+              >
+                <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d={n.icon} />
+                </svg>
+                <span class="hidden md:inline" data-i18n={`nav_${n.key}`}>{n.key}</span>
+              </a>
+            ))
+          }
+        </nav>
+        <div class="flex items-center gap-0.5 sm:gap-1" role="group" aria-label="Idioma">
+          {
+            [['NL', 'nl'], ['ES', 'es'], ['EN', 'en'], ['FR', 'fr']].map(([label, code]) => (
+              <button type="button" class="lang-btn LangBtn px-1.5 sm:px-2" data-lang={code} aria-pressed={code === 'es'}>{label}</button>
+            ))
+          }
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-app px-4 pb-16 pt-[68px] md:px-6">
       <slot />
     </main>
-    <footer class="border-t border-AppBorder/60 bg-AppSection/60 py-10">
-      <div class="mx-auto flex max-w-wrap flex-col gap-2 px-5 text-[13px] text-AppSubtext md:px-8">
-        <p data-i18n="footer">FitTrack — se guarda en tu dispositivo, sin cuenta.</p>
-        <p data-i18n="footer_note">Base de ejercicios: seed (placeholder) — ver PROGRESS.md.</p>
-      </div>
+
+    <footer class="border-t py-8 text-center" style="border-color: var(--border); color: var(--secondary)">
+      <p class="mx-auto max-w-narrow" data-i18n="footer">FitTrack — se guarda en tu dispositivo, sin cuenta.</p>
+      <p class="mx-auto mt-2 max-w-narrow text-[13px]" style="color: var(--dim)" data-i18n="footer_note">
+        Base de ejercicios: datos reales de wger (CC-BY-SA) — ver PROGRESS.md.
+      </p>
+      <nav class="mt-3 flex items-center justify-center gap-5 text-[14px] font-semibold" aria-label="Más">
+        <a href="/benchmarks/" style="color: var(--link)" data-i18n="bench_title">Marcas</a>
+        <a href="/data/" style="color: var(--link)" data-i18n="data_title">Tus datos</a>
+      </nav>
     </footer>
+
+    <script>
+      function syncTheme() {
+        const on = document.body.classList.contains('workout-active');
+        const meta = document.getElementById('meta-theme');
+        if (meta) meta.setAttribute('content', on ? '#0E1730' : '#F3EEE3');
+      }
+      new MutationObserver(syncTheme).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      syncTheme();
+      if (window.FTSession) FTSession.applyActiveTheme();
+    </script>
   </body>
 </html>

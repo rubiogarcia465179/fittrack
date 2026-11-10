@@ -1,7 +1,15 @@
 ---
 /**
- * Registro de sesión (/session/) — cliente: elegir ejercicios, añadir
- * sets (reps + peso), guardar en localStorage. 0 red.
+ * Sesión (/session/) — paridad con la app:
+ *   1. Arranque: "¿Qué quieres hacer?" con dos caminos (Recomiéndame / Manual).
+ *   2. Wizard paso a paso (tipo→objetivo→grupos→duración→material→revisión)
+ *      con progreso de 3 estados y generación determinista (FTWorkout).
+ *   3. Sesión activa: tema navy (body.workout-active), ejercicios con series,
+ *      ValueBox que abren hoja de valor, "Hecha" por serie, estado de
+ *      material (disponible/ocupado/fuera), sugerir, buscar, guardar.
+ *   4. Benchmark: 1RM manual o estimado (Epley) por ejercicio.
+ *   La sesión en curso persiste en localStorage (FTStore.active) y sobrevive
+ *   al refresh, igual que la app (fittrack.active.v1).
  */
 import Layout from '../components/Layout.astro';
 import exData from '../data/exercises.json';
@@ -11,231 +19,847 @@ const ex = exData.exercises;
 
 <Layout
   Title="FitTrack — Sesión"
-  TitleKey="sess_title"
-  Active="nav_session"
-  Description="Registra una sesión de gimnasio: ejercicios, series, repeticiones y peso."
+  Active="session"
+  Description="Empieza una sesión: FitTrack elige ejercicios y pesos, o regístrala a mano."
 >
-  <h1 class="PageTitle" data-i18n="sess_title">Sesión</h1>
-  <p class="PageSub" data-i18n="sess_sub">Registra tu entreno: ejercicios, series, repeticiones y peso.</p>
+  <h1 class="PageTitle" id="page-title" data-i18n="start_pick">¿Qué quieres hacer?</h1>
+  <p class="PageSub" id="page-sub" data-i18n="start_reco_d"></p>
 
-  <!-- Fecha + peso corporal -->
-  <div class="mt-6 grid grid-cols-2 gap-3 md:max-w-md">
-    <div>
-      <label class="FieldLabel" for="s-date" data-i18n="sess_date">Fecha</label>
-      <input id="s-date" class="Field" type="date" />
-    </div>
-    <div>
-      <label class="FieldLabel" for="s-weight" data-i18n="sess_bodyweight">Peso corporal (opcional, kg)</label>
-      <input id="s-weight" class="Field" type="number" min="0" max="400" step="0.1" inputmode="decimal" />
-    </div>
-  </div>
+  <div id="view" class="mt-6"></div>
 
-  <!-- Búsqueda de ejercicio -->
-  <div class="mt-8">
-    <label class="FieldLabel" for="s-search" data-i18n="sess_pick">Elige un ejercicio</label>
-    <input
-      id="s-search"
-      class="Field"
-      type="search"
-      data-i18n-ph="sess_search_ph"
-      placeholder="Busca ejercicio o grupo muscular…"
-    />
-  </div>
-  <ul id="s-results" class="mt-3 flex flex-col gap-2" aria-label="Resultados de ejercicios">
-    {
-      ex.slice(0, 6).map((e) => (
-        <li>
-          <button class="ExRow w-full text-left" data-add={e.id} data-name={e.name_en} data-group={e.muscle_group}>
-            <img class="ExRowImg" src={e.image} alt="" loading="lazy" />
-            <span class="truncate text-[15px] font-semibold">{e.name_en}</span>
-            <span class="ml-auto shrink-0 text-[12px] text-AppDim">+ Añadir</span>
-          </button>
-        </li>
-      ))
-    }
-  </ul>
-
-  <!-- Sesión en construcción -->
-  <section aria-label="Sesión en curso" class="mt-10">
-    <h2 class="text-[20px] font-semibold tracking-apple" data-i18n="sess_save">Guardar sesión</h2>
-    <div id="s-exercises" class="mt-4 flex flex-col gap-4">
-      <p id="s-empty" class="text-[14px] text-AppSubtext" data-i18n="sess_no_exercises">Añade un ejercicio primero.</p>
-    </div>
-
-    <div class="mt-6">
-      <label class="FieldLabel" for="s-notes" data-i18n="sess_notes">Notas</label>
-      <textarea id="s-notes" class="Field min-h-[72px]" data-i18n-ph="sess_notes_ph" placeholder="p. ej. '5 kg menos que la semana pasada'"></textarea>
-    </div>
-
-    <div class="mt-6 flex gap-3">
-      <button id="s-save" class="BtnPrimary" data-i18n="sess_save">Guardar sesión</button>
-      <a class="BtnSecondary" href="/dashboard/" data-i18n="cancel">Cancelar</a>
-    </div>
-    <p id="s-saved" class="mt-3 text-[14px] font-medium text-AppGreen" hidden>
-      <span data-i18n="sess_saved">Sesión guardada</span> — <span data-i18n="sess_saved_hint">Vela en tu resumen.</span>
-    </p>
-  </section>
+  <!-- Hoja de valor / búsqueda / diálogo -->
+  <div id="sheet-root"></div>
+  <div id="toast" class="Toast" role="status" aria-live="polite"></div>
 
   <script type="module" define:vars={{ ex }}>
-    const { searchExercises, oneRm, uid, normalizeSession } = window.FTGym;
-    const T = window.FT_I18N.t;
     const EX = ex;
-
+    const G = window.FTGym;
+    const W = window.FTWorkout;
+    const Store = window.FTStore;
+    const Session = window.FTSession;
+    const I18N = window.FT_I18N;
+    const T = (k, v) => I18N.t(k, v);
     const byId = Object.fromEntries(EX.map((e) => [e.id, e]));
-    const container = document.getElementById('s-exercises');
-    const emptyMsg = document.getElementById('s-empty');
-    const results = document.getElementById('s-results');
-    const search = document.getElementById('s-search');
-    const savedMsg = document.getElementById('s-saved');
+    const name = (e) => (I18N.getLang() === 'nl' ? e.name_nl : e.name_en) || e.name_en;
 
-    // estado en memoria: [{ exercise_id, sets: [{reps, weight_kg}] }]
-    let session = [];
+    const view = document.getElementById('view');
+    const title = document.getElementById('page-title');
+    const sub = document.getElementById('page-sub');
 
-    // fecha de hoy por defecto
-    const dateInput = document.getElementById('s-date');
-    dateInput.value = new Date().toISOString().slice(0, 10);
+    // ---------------- Estado ----------------
+    const state = {
+      screen: 'start', // start | wizard | active
+      type: 'training',
+      goal: 'build_muscle',
+      groups: [],
+      duration: 40,
+      mode: 'full_gym',
+      step: 0,
+      plan: null,
+      draft: [], // [{ exercise_id, sets: [{reps, weight_kg, done}], status }]
+      benchmarks: Store.profile().benchmarks,
+      startedAt: null,
+    };
+    let tickTimer = null;
 
-    function name(e) {
-      const L = window.FT_I18N.getLang();
-      return (L === 'nl' ? e.name_nl : e.name_en) || e.name_en;
-    }
+    const pages = () => (state.type === 'benchmark' ? ['type', 'groups', 'duration', 'mode', 'review'] : ['type', 'goal', 'groups', 'duration', 'mode', 'review']);
 
-    function renderResults() {
-      const q = search.value;
-      const items = searchExercises(EX, q, 'all', 'all').slice(0, 12);
-      results.textContent = '';
-      for (const e of items) {
-        const li = document.createElement('li');
-        const b = document.createElement('button');
-        b.className = 'ExRow w-full text-left';
-        b.type = 'button';
-        b.innerHTML =
-          '<img class="ExRowImg" src="' + e.image + '" alt="" loading="lazy" />' +
-          '<span class="min-w-0 flex-1 truncate text-[15px] font-semibold"></span>' +
-          '<span class="shrink-0 text-[12px] text-AppLink font-medium">+ ' + T('sess_add_exercise') + '</span>';
-        b.querySelector('.font-semibold').textContent = name(e);
-        b.addEventListener('click', () => addExercise(e.id));
-        li.appendChild(b);
-        results.appendChild(li);
-      }
-    }
-
-    function addExercise(id) {
-      const existing = session.find((x) => x.exercise_id === id);
-      if (existing) {
-        existing.sets.push({ reps: 10, weight_kg: 20 });
+    // ---------------- Persistencia de sesión activa ----------------
+    function persistActive() {
+      if (state.screen === 'active' && state.draft.length) {
+        Store.setActive({ started_at: state.startedAt, type: state.type, draft: state.draft, meta: { goal: state.goal, groups: state.groups, duration: state.duration, mode: state.mode } });
       } else {
-        session.push({ exercise_id: id, sets: [{ reps: 10, weight_kg: 20 }] });
+        Store.setActive(null);
       }
-      render();
+      Session.applyActiveTheme();
     }
 
-    function setRow(exBlock, i, s) {
-      const row = document.createElement('div');
-      row.className = 'flex items-center gap-3';
-      const num = document.createElement('span');
-      num.className = 'w-8 text-[13px] font-semibold text-AppSubtext';
-      num.textContent = T('sess_set') + ' ' + (i + 1);
-      const mk = (labelKey, fieldKey, val, step) => {
-        const inp = document.createElement('input');
-        inp.className = 'Field w-24';
-        inp.type = 'number';
-        inp.min = '0';
-        inp.step = step;
-        inp.inputMode = 'decimal';
-        inp.value = val;
-        inp.setAttribute('aria-label', T(labelKey));
-        inp.addEventListener('input', () => {
-          s[fieldKey] = parseFloat(inp.value) || 0;
+    // ---------------- Utilidades ----------------
+    const el = (tag, cls, txt) => {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (txt != null) e.textContent = txt;
+      return e;
+    };
+    function toast(msg, ok = true) {
+      const t = document.getElementById('toast');
+      t.textContent = '';
+      const dot = document.createElement('span');
+      dot.className = 'ToastDot';
+      const label = document.createElement('span');
+      label.textContent = msg;
+      t.appendChild(dot);
+      t.appendChild(label);
+      t.classList.add('show');
+      clearTimeout(t._h);
+      t._h = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+    function recentRows() {
+      return W.recentRows(Store.sessions().filter((s) => s.type !== 'benchmark'));
+    }
+
+    // ---------------- VISTA: ARRANQUE ----------------
+    function renderStart() {
+      title.textContent = T('start_pick');
+      sub.style.display = 'none';
+      view.textContent = '';
+      const wrap = el('div', 'flex flex-col gap-4');
+
+      const card = (kind) => {
+        const accent = kind === 'reco';
+        const c = el('button', 'Card group flex items-start gap-4 text-left w-full transition active:scale-[0.99]');
+        c.type = 'button';
+        c.style.borderColor = accent ? 'var(--accent)' : 'var(--card-border)';
+        if (accent) { c.style.borderTopWidth = '1.5px'; c.style.boxShadow = '0 10px 26px var(--shadow-cta)'; }
+        const badge = el('div', 'flex h-11 w-11 shrink-0 items-center justify-center rounded-full');
+        badge.style.background = accent ? 'var(--accent)' : 'var(--section)';
+        badge.style.color = accent ? '#fff' : 'var(--text)';
+        badge.innerHTML = accent
+          ? '<svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+          : '<svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+        const body = el('div', 'min-w-0');
+        body.appendChild(el('h2', 'text-[19px] font-bold', accent ? T('start_reco_t') : T('start_manual_t')));
+        body.appendChild(el('p', 'mt-1 text-[14px]', accent ? T('start_reco_d') : T('start_manual_d')));
+        c.append(badge, body);
+        c.addEventListener('click', () => {
+          if (kind === 'manual') { startManual(); return; }
+          state.type = 'training';
+          state.screen = 'wizard';
+          state.step = 0;
+          renderWizard();
         });
-        return inp;
+        return c;
       };
-      row.append(num, mk('sess_reps', 'reps', s.reps, 1), mk('sess_weight', 'weight_kg', s.weight_kg, 2.5));
-      const del = document.createElement('button');
-      del.type = 'button';
-      del.className = 'text-[13px] text-red-600 hover:underline';
-      del.setAttribute('aria-label', T('delete'));
-      del.textContent = '×';
-      del.addEventListener('click', () => { s.__remove = true; render(); });
-      row.appendChild(del);
+
+      wrap.appendChild(card('reco'));
+      wrap.appendChild(card('manual'));
+      view.appendChild(wrap);
+    }
+
+    function startManual() {
+      state.screen = 'active';
+      state.draft = [];
+      state.startedAt = new Date().toISOString();
+      title.textContent = T('sess_title');
+      sub.textContent = T('sess_sub');
+      persistActive();
+      renderActive();
+    }
+
+    // ---------------- VISTA: WIZARD ----------------
+    function dots() {
+      const pg = pages();
+      const row = el('div', 'flex items-center justify-center gap-1.5');
+      pg.forEach((_, i) => {
+        const d = el('span', 'rounded-full transition-all');
+        if (i < state.step) { d.style.width = '7px'; d.style.height = '7px'; d.style.background = 'var(--dim)'; }
+        else if (i === state.step) { d.style.width = '22px'; d.style.height = '7px'; d.style.background = 'var(--accent)'; }
+        else { d.style.width = '7px'; d.style.height = '7px'; d.style.background = 'transparent'; d.style.border = '1.5px solid var(--border)'; }
+        row.appendChild(d);
+      });
       return row;
     }
 
-    function render() {
-      container.textContent = '';
-      emptyMsg.hidden = session.length > 0;
-      // limpia sets marcados para borrar
-      for (const exb of session) exb.sets = exb.sets.filter((s) => !s.__remove);
-      session = session.filter((exb) => exb.sets.length > 0);
-
-      for (const exb of session) {
-        const meta = byId[exb.exercise_id];
-        const block = document.createElement('article');
-        block.className = 'Card';
-        const head = document.createElement('div');
-        head.className = 'flex items-center justify-between gap-3';
-        const title = document.createElement('p');
-        title.className = 'text-[16px] font-semibold';
-        title.textContent = meta ? name(meta) : exb.exercise_id;
-        const pr = document.createElement('p');
-        pr.className = 'text-[12px] text-AppSubtext';
-        const best = Math.max(0, ...exb.sets.map((s) => oneRm(s.weight_kg, s.reps)));
-        pr.textContent = '1RM ≈ ' + (best > 0 ? best.toFixed(1) + ' kg' : '—');
-        const delEx = document.createElement('button');
-        delEx.type = 'button';
-        delEx.className = 'text-[13px] text-red-600 hover:underline shrink-0';
-        delEx.textContent = T('delete');
-        delEx.setAttribute('aria-label', T('delete'));
-        delEx.addEventListener('click', () => {
-          session = session.filter((x) => x !== exb);
-          render();
-        });
-        head.append(title, pr, delEx);
-        block.appendChild(head);
-
-        const sets = document.createElement('div');
-        sets.className = 'mt-3 flex flex-col gap-2';
-        exb.sets.forEach((s, i) => sets.appendChild(setRow(block, i, s)));
-        block.appendChild(sets);
-
-        const addSet = document.createElement('button');
-        addSet.type = 'button';
-        addSet.className = 'mt-3 text-[14px] font-medium text-AppLink hover:underline';
-        addSet.textContent = '+ ' + T('sess_add_set');
-        addSet.addEventListener('click', () => {
-          const last = exb.sets[exb.sets.length - 1];
-          exb.sets.push({ reps: last ? last.reps : 10, weight_kg: last ? last.weight_kg : 20 });
-          render();
-        });
-        block.appendChild(addSet);
-        container.appendChild(block);
+    function chipGrid(items, selected, onToggle, multi = true) {
+      const g = el('div', 'grid grid-cols-2 gap-2.5 md:grid-cols-3');
+      for (const it of items) {
+        const on = selected.includes(it.value);
+        const b = el('button', `Chip ${on ? 'ChipActive' : ''} justify-start`);
+        b.type = 'button';
+        b.innerHTML = `<span class="text-[15px] font-semibold">${it.label}</span>${it.sub ? `<span class="mt-0.5 block text-[12px] opacity-70">${it.sub}</span>` : ''}`;
+        b.addEventListener('click', () => onToggle(it.value, multi));
+        g.appendChild(b);
       }
+      return g;
     }
 
-    document.getElementById('s-save').addEventListener('click', () => {
-      try {
-        const s = normalizeSession({
-          date: dateInput.value,
-          exercises: session,
-          notes: document.getElementById('s-notes').value,
-          body_weight_kg: parseFloat(document.getElementById('s-weight').value) || null,
-        });
-        window.FTStore.addSession(s);
-        window.dispatchEvent(new CustomEvent('ft-data-changed'));
-        savedMsg.hidden = false;
-        session = [];
-        document.getElementById('s-notes').value = '';
-        document.getElementById('s-weight').value = '';
-        render();
-        setTimeout(() => { savedMsg.hidden = true; }, 4000);
-      } catch (err) {
-        window.alert(err.message);
-      }
-    });
+    function renderWizard() {
+      const pg = pages();
+      title.textContent = T('gen_title');
+      sub.textContent = T('gen_sub');
+      view.textContent = '';
+      const wrap = el('div', 'flex flex-col gap-5');
+      wrap.appendChild(dots());
+      wrap.appendChild(el('p', 'text-center text-[13px] font-semibold', T('wiz_step', { n: state.step + 1, m: pg.length })));
 
-    search.addEventListener('input', renderResults);
-    window.addEventListener('ft-lang-change', () => { renderResults(); render(); });
-    renderResults();
-    render();
+      const page = pg[state.step];
+      const body = el('div', 'Card');
+      let heading;
+
+      if (page === 'type') {
+        heading = T('gen_type');
+        const two = el('div', 'flex flex-col gap-3');
+        const opt = (t, d, val) => {
+          const b = el('button', 'Card flex items-start gap-3 text-left p-4 transition active:scale-[0.99]');
+          b.type = 'button';
+          b.style.border = state.type === val ? '2px solid var(--accent)' : '1px solid var(--card-border)';
+          const radio = el('span', 'mt-0.5 h-5 w-5 shrink-0 rounded-full flex items-center justify-center');
+          radio.style.border = '2px solid ' + (state.type === val ? 'var(--accent)' : 'var(--border)');
+          if (state.type === val) radio.appendChild(el('span', 'h-3 w-3 rounded-full'));
+          radio.lastChild && (radio.lastChild.style.background = 'var(--accent)');
+          const bd = el('div');
+          bd.appendChild(el('span', 'block text-[16px] font-bold', t));
+          bd.appendChild(el('span', 'block mt-0.5 text-[13px]', d));
+          b.append(radio, bd);
+          b.addEventListener('click', () => { state.type = val; state.step = 0; renderWizard(); });
+          return b;
+        };
+        two.appendChild(opt(T('gen_type_training'), T('gen_type_training_hint'), 'training'));
+        two.appendChild(opt(T('gen_type_bench'), T('gen_type_bench_hint'), 'benchmark'));
+        body.appendChild(two);
+      } else if (page === 'goal') {
+        heading = T('wiz_goal');
+        const goals = [['strength', 'goal_strength'], ['build_muscle', 'goal_build_muscle'], ['definition', 'goal_definition'], ['lose_fat', 'goal_lose_fat'], ['lose_weight', 'goal_lose_weight'], ['endurance', 'goal_endurance']];
+        body.appendChild(chipGrid(
+          goals.map(([v, k]) => ({ value: v, label: T(k), sub: T(k + '_d') })),
+          [state.goal],
+          (v) => { state.goal = v; renderWizard(); },
+          false,
+        ));
+      } else if (page === 'groups') {
+        heading = T('gen_groups');
+        body.appendChild(el('p', 'text-[13px] mb-3', T('gen_groups_hint')));
+        const groups = G.GROUPS.filter((g) => g !== 'cardio' && g !== 'full_body');
+        body.appendChild(chipGrid(
+          groups.map((g) => ({ value: g, label: T('group_' + g) })),
+          state.groups,
+          (v) => {
+            const i = state.groups.indexOf(v);
+            if (i >= 0) state.groups.splice(i, 1); else state.groups.push(v);
+            renderWizard();
+          },
+          true,
+        ));
+      } else if (page === 'duration') {
+        heading = T('gen_duration');
+        const durs = [20, 30, 40, 50, 60, 75, 90];
+        body.appendChild(chipGrid(
+          durs.map((d) => ({ value: String(d), label: d + ' ' + T('gen_min') })),
+          [String(state.duration)],
+          (v) => { state.duration = parseInt(v, 10); renderWizard(); },
+          false,
+        ));
+      } else if (page === 'mode') {
+        heading = T('gen_mode');
+        body.appendChild(el('p', 'text-[13px] mb-3', T('gen_mode_hint')));
+        const modes = [['full_gym', 'mode_full', 'mode_full_hint'], ['dumbbells', 'mode_dumbbells', 'mode_dumbbells_hint'], ['bodyweight', 'mode_bodyweight', 'mode_bodyweight_hint']];
+        body.appendChild(chipGrid(
+          modes.map(([v, l, h]) => ({ value: v, label: T(l), sub: T(h) })),
+          [state.mode],
+          (v) => { state.mode = v; renderWizard(); },
+          false,
+        ));
+      } else {
+        // review
+        heading = T('wiz_review');
+        const plan = buildPlan();
+        body.appendChild(reviewBody(plan));
+      }
+
+      if (heading) body.insertBefore(el('h2', 'text-[18px] font-bold mb-4', heading), body.firstChild);
+      wrap.appendChild(body);
+
+      const foot = el('div', 'mt-2 flex items-center gap-3');
+      const back = el('button', 'BtnSecondary flex-1', T('back'));
+      back.type = 'button';
+      back.addEventListener('click', () => {
+        if (state.step === 0) { state.screen = 'start'; renderStart(); }
+        else { state.step -= 1; renderWizard(); }
+      });
+      const next = el('button', 'BtnPrimary flex-[2]', page === 'review' ? T('gen_start') : T('wiz_next'));
+      next.type = 'button';
+      next.addEventListener('click', () => {
+        if (page === 'review') { confirmStart(); return; }
+        state.step += 1;
+        renderWizard();
+      });
+      if (page === 'type') back.style.display = 'none';
+      foot.append(back, next);
+      wrap.appendChild(foot);
+      view.appendChild(wrap);
+    }
+
+    function buildPlan() {
+      if (state.type === 'benchmark') {
+        const groups = state.groups.length ? state.groups : ['chest', 'back', 'legs', 'shoulders'];
+        return { exercises: W.suggestedBenchmarks(groups, EX, 3).map((id) => ({ exercise_id: id, sets: 1, reps: 8, recommended_weight_kg: 0, weight_source: 'benchmark' })) };
+      }
+      const groups = state.groups.length ? state.groups : ['chest', 'back', 'shoulders', 'legs'];
+      return W.generateWorkout({
+        groups,
+        equipment_mode: state.mode,
+        duration_min: state.duration,
+        experience: 'intermediate',
+        intensity: 'moderate',
+        goal: state.goal,
+        benchmarks: state.benchmarks,
+        exercises: EX,
+        recent: recentRows(),
+      });
+    }
+
+    function reviewBody(plan) {
+      const b = el('div', 'flex flex-col gap-3');
+      b.appendChild(el('p', 'text-[13px] text-AppSubtext', T('gen_plan')));
+      for (const pe of plan.exercises) {
+        const e = byId[pe.exercise_id];
+        if (!e) continue;
+        const row = el('div', 'flex items-center gap-3 rounded-card p-3');
+        row.style.background = 'var(--section)';
+        row.appendChild(el('span', 'text-[15px] font-semibold flex-1', name(e)));
+        const meta = el('span', 'text-[13px]');
+        meta.style.color = 'var(--dim)';
+        meta.textContent = pe.sets + '×' + pe.reps + (pe.recommended_weight_kg > 0 ? ' · ' + pe.recommended_weight_kg + ' kg' : '');
+        row.appendChild(meta);
+        b.appendChild(row);
+      }
+      if (!state.benchmarks.length && state.type === 'training') b.appendChild(el('p', 'mt-1 text-[12px]', T('gen_no_bench_hint')));
+      return b;
+    }
+
+    function confirmStart() {
+      const dlg = el('div', 'Sheet fixed inset-0 z-50 flex items-end');
+      dlg.style.background = 'var(--overlay)';
+      const card = el('div', 'mx-4 mb-4 rounded-card p-5');
+      card.style.background = 'var(--card)';
+      card.appendChild(el('h3', 'text-[18px] font-bold mb-2', T('gen_start_q')));
+      const f = el('div', 'mt-4 flex gap-3');
+      const cancel = el('button', 'BtnSecondary flex-1', T('cancel'));
+      cancel.addEventListener('click', () => dlg.remove());
+      const go = el('button', 'BtnPrimary flex-[2]', T('save'));
+      go.addEventListener('click', () => {
+        dlg.remove();
+        beginSession();
+      });
+      f.append(cancel, go);
+      card.appendChild(f);
+      dlg.appendChild(card);
+      document.getElementById('sheet-root').appendChild(dlg);
+    }
+
+    function beginSession() {
+      const plan = buildPlan();
+      state.screen = 'active';
+      state.startedAt = new Date().toISOString();
+      if (state.type === 'benchmark') {
+        state.draft = plan.exercises.map((pe) => ({ exercise_id: pe.exercise_id, status: 'available', sets: [{ reps: 8, weight_kg: 0, done: false, _bench: true }] }));
+      } else {
+        state.draft = plan.exercises.map((pe) => ({
+          exercise_id: pe.exercise_id,
+          status: 'available',
+          sets: Array.from({ length: pe.sets }, () => ({ reps: pe.reps, weight_kg: pe.recommended_weight_kg, done: false })),
+        }));
+      }
+      title.textContent = state.type === 'benchmark' ? T('bench_title') : T('sess_title');
+      sub.textContent = state.type === 'benchmark' ? T('bench_sub') : T('sess_sub');
+      persistActive();
+      renderActive();
+    }
+
+    // ---------------- VISTA: SESIÓN ACTIVA ----------------
+    function renderActive() {
+      view.textContent = '';
+      const wrap = el('div', 'flex flex-col gap-4');
+
+      // Banner de tiempo
+      const banner = el('div', 'ActiveBanner');
+      banner.appendChild(el('span', 'ActiveBannerDot'));
+      banner.appendChild(el('span', 'ActiveBannerLabel', state.type === 'benchmark' ? T('bench_title') : T('workout_active')));
+      const timer = el('span', 'ActiveBannerTime ml-auto');
+      banner.appendChild(timer);
+      const progress = el('div', 'ProgressBar mt-3');
+      const fill = el('div', 'ProgressBarFill');
+      progress.appendChild(fill);
+      banner.appendChild(progress);
+      wrap.appendChild(banner);
+      updateTimer(timer, fill);
+      clearInterval(tickTimer);
+      tickTimer = setInterval(() => updateTimer(timer, fill), 1000);
+
+      if (state.draft.length === 0) {
+        const empty = el('div', 'text-center py-10');
+        empty.appendChild(el('p', 'EmptyHint', T('sess_no_exercises')));
+        wrap.appendChild(empty);
+      }
+
+      // Tarjetas de ejercicio
+      for (const d of state.draft) wrap.appendChild(exerciseCard(d));
+
+      // Añadir / sugerir / buscar
+      const actions = el('div', 'grid grid-cols-2 gap-3');
+      if (state.type === 'training') {
+        actions.appendChild(el('button', 'BtnPrimary col-span-1 flex items-center justify-center', T('sess_add')));
+        actions.lastChild.addEventListener('click', openSearch);
+        actions.appendChild(el('button', 'BtnSecondary col-span-1 flex items-center justify-center', T('sess_suggest')));
+        actions.lastChild.addEventListener('click', openSuggest);
+      } else {
+        const add = el('button', 'BtnPrimary col-span-2 flex items-center justify-center', T('sess_add'));
+        add.addEventListener('click', openSearch);
+        actions.appendChild(add);
+      }
+      wrap.appendChild(actions);
+
+      // Notas + peso corporal (solo entrenamiento)
+      if (state.type === 'training') {
+        const form = el('div', 'Card flex flex-col gap-4');
+        const notes = document.createElement('textarea');
+        notes.id = 'active-notes';
+        notes.className = 'Field min-h-[64px]';
+        notes.setAttribute('data-i18n-ph', 'sess_notes_ph');
+        notes.setAttribute('aria-label', T('sess_notes'));
+        notes.placeholder = T('sess_notes_ph');
+        const bw = document.createElement('input');
+        bw.id = 'active-bw';
+        bw.className = 'Field';
+        bw.type = 'number';
+        bw.min = '0';
+        bw.step = '0.1';
+        bw.inputMode = 'decimal';
+        bw.setAttribute('aria-label', T('sess_bodyweight'));
+        const bwrow = el('div');
+        bwrow.appendChild(el('label', 'FieldLabel', T('sess_bodyweight')));
+        bwrow.appendChild(bw);
+        form.appendChild(el('label', 'FieldLabel', T('sess_notes')));
+        form.appendChild(notes);
+        form.appendChild(bwrow);
+        wrap.appendChild(form);
+      }
+
+      // Guardar
+      const save = el('button', 'BtnPrimary w-full text-[17px] py-3.5', state.type === 'benchmark' ? T('bench_save') : T('sess_save'));
+      save.addEventListener('click', () => saveSession());
+      wrap.appendChild(save);
+
+      // Descartar
+      const disc = el('button', 'BtnDanger mx-auto', T('sess_discard'));
+      disc.addEventListener('click', () => {
+        const dlg = el('div', 'fixed inset-0 z-50 flex items-end');
+        dlg.style.background = 'var(--overlay)';
+        const card = el('div', 'mx-4 mb-4 rounded-card p-5');
+        card.style.background = 'var(--card)';
+        card.appendChild(el('h3', 'text-[18px] font-bold mb-2', T('sess_discard_q')));
+        card.appendChild(el('p', 'text-[14px]', T('sess_discard_msg')));
+        const f = el('div', 'mt-4 flex gap-3');
+        const c = el('button', 'BtnSecondary flex-1', T('cancel'));
+        c.addEventListener('click', () => dlg.remove());
+        const d = el('button', 'BtnDanger flex-1', T('sess_discard'));
+        d.addEventListener('click', () => {
+          dlg.remove();
+          Store.setActive(null);
+          Session.applyActiveTheme();
+          state.screen = 'start';
+          renderStart();
+        });
+        f.append(c, d);
+        card.appendChild(f);
+        dlg.appendChild(card);
+        document.getElementById('sheet-root').appendChild(dlg);
+      });
+      wrap.appendChild(disc);
+
+      view.appendChild(wrap);
+    }
+
+    function updateTimer(timer, fill) {
+      const secs = Session.elapsedSec();
+      timer.textContent = Session.fmtTime(secs);
+      const total = state.draft.reduce((a, d) => a + d.sets.length, 0);
+      const done = state.draft.reduce((a, d) => a + d.sets.filter((s) => s.done).length, 0);
+      if (fill) fill.style.width = total ? Math.round((done / total) * 100) + '%' : '0%';
+    }
+
+    function exerciseCard(d) {
+      const e = byId[d.exercise_id];
+      const card = el('article', 'Card');
+      const head = el('div', 'flex items-center gap-3');
+      head.appendChild(el('img', 'h-14 w-20 shrink-0 rounded-lg object-cover', null));
+      head.lastChild.src = e.image;
+      head.lastChild.alt = '';
+      const nm = el('div', 'min-w-0 flex-1');
+      nm.appendChild(el('p', 'text-[16px] font-bold truncate', name(e)));
+      nm.appendChild(el('p', 'text-[12px]', T('group_' + e.muscle_group) + ' · ' + T('equip_' + e.equipment)));
+      head.appendChild(nm);
+      card.appendChild(head);
+
+      // Estado de material
+      const status = el('div', 'mt-3 flex flex-wrap gap-2');
+      const map = [['available', 'status_available'], ['busy', 'status_busy'], ['unavailable', 'status_unavailable']];
+      for (const [val, k] of map) {
+        const b = el('button', `StatusChip ${d.status === val ? 'StatusChipActive' : ''}`);
+        b.type = 'button';
+        b.textContent = T(k);
+        b.addEventListener('click', () => { d.status = val; if (val === 'busy') openAlternatives(d); persistActive(); renderActive(); });
+        status.appendChild(b);
+      }
+      card.appendChild(status);
+
+      // Series
+      const sets = el('div', 'mt-4 flex flex-col gap-2.5');
+      d.sets.forEach((s, i) => sets.appendChild(setRow(d, s, i)));
+      card.appendChild(sets);
+
+      // Añadir serie (solo entrenamiento)
+      if (state.type === 'training') {
+        const add = el('button', 'mt-3 text-[14px] font-bold');
+        add.style.color = 'var(--link)';
+        add.textContent = '+ ' + T('sess_add_set');
+        add.addEventListener('click', () => {
+          const last = d.sets[d.sets.length - 1];
+          d.sets.push({ reps: last ? last.reps : 10, weight_kg: last ? last.weight_kg : 0, done: false });
+          persistActive();
+          renderActive();
+        });
+        card.appendChild(add);
+      }
+
+      // Eliminar ejercicio
+      const rm = el('button', 'mt-3 text-[13px] font-semibold');
+      rm.style.color = 'var(--red)';
+      rm.textContent = T('delete');
+      rm.addEventListener('click', () => {
+        state.draft = state.draft.filter((x) => x !== d);
+        persistActive();
+        renderActive();
+      });
+      card.appendChild(rm);
+      return card;
+    }
+
+    function setRow(d, s, i) {
+      const row = el('div', 'flex items-center gap-2.5');
+      row.appendChild(el('span', 'w-6 text-[12px] font-bold text-right', String(i + 1)));
+      row.style.color = 'var(--dim)';
+
+      if (s._bench) {
+        // Benchmark: peso + reps → 1RM
+        row.appendChild(valueBox('Peso (kg)', s.weight_kg, 'kg', () => openValue(d, s, 'weight_kg')));
+        row.appendChild(valueBox('Reps', s.reps, '', () => openValue(d, s, 'reps')));
+        const or = G.oneRm(s.weight_kg, s.reps);
+        const est = el('span', 'ml-auto text-[13px] font-bold', '1RM ≈ ' + (or > 0 ? Math.round(or * 10) / 10 : '—') + ' kg');
+        est.style.color = 'var(--link)';
+        row.appendChild(est);
+      } else {
+        row.appendChild(valueBox('Reps', s.reps, '', () => openValue(d, s, 'reps')));
+        row.appendChild(valueBox('Peso', s.weight_kg, 'kg', () => openValue(d, s, 'weight_kg')));
+        // "Hecha"
+        const done = el('button', `DoneBtn ml-auto ${s.done ? 'DoneBtnActive' : ''}`);
+        done.type = 'button';
+        done.setAttribute('aria-label', s.done ? T('set_done') : T('set_pending'));
+        const circ = el('span', 'DoneCircle flex items-center justify-center');
+        if (s.done) circ.innerHTML = '<svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
+        done.appendChild(circ);
+        done.appendChild(el('span', 'DoneLabel', s.done ? T('set_done') : T('set_pending')));
+        done.addEventListener('click', () => { s.done = !s.done; persistActive(); renderActive(); });
+        row.appendChild(done);
+      }
+      return row;
+    }
+
+    function valueBox(label, val, unit, onOpen) {
+      const b = el('button', 'ValueBox flex-1');
+      b.type = 'button';
+      b.setAttribute('aria-label', label);
+      b.appendChild(el('span', 'ValueBoxNum', val > 0 ? String(val) : '—'));
+      if (unit) b.appendChild(el('span', 'ValueBoxUnit', unit));
+      b.addEventListener('click', onOpen);
+      return b;
+    }
+
+    // ---------------- HOJA DE VALOR ----------------
+    function openValue(d, s, field) {
+      const isWeight = field === 'weight_kg';
+      const titleKey = isWeight ? 'picker_weight' : 'picker_reps';
+      const values = isWeight ? [0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 50] : [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 18, 20, 25, 30];
+      const cur = s[field];
+
+      const backdrop = el('div', 'SheetBackdrop open');
+      const sheet = el('div', 'Sheet open');
+      sheet.appendChild(el('div', 'SheetHandle'));
+      const hd = el('div', 'px-6 pt-1 pb-3');
+      hd.appendChild(el('h3', 'SheetTitle', T(titleKey)));
+      hd.appendChild(el('p', 'SheetSub mt-0.5', isWeight ? 'kg' : T('sess_reps')));
+      sheet.appendChild(hd);
+
+      const grid = el('div', 'ChipGrid');
+      for (const v of values) {
+        const c = el('button', `SheetChip ${cur === v ? 'SheetChipActive' : ''}`);
+        c.type = 'button';
+        c.textContent = v + (isWeight ? ' kg' : '');
+        c.addEventListener('click', () => apply(s, field, v, backdrop, sheet));
+        grid.appendChild(c);
+      }
+      // Otro valor
+      const other = el('div', 'px-6 py-3 border-t flex items-center gap-3');
+      other.style.borderColor = 'var(--card-border)';
+      other.appendChild(el('span', 'text-[14px] font-semibold flex-1', T('other_value')));
+      const inp = document.createElement('input');
+      inp.type = 'number';
+      inp.className = 'Field w-28 text-center';
+      inp.min = '0';
+      inp.step = isWeight ? '0.5' : '1';
+      inp.inputMode = 'decimal';
+      inp.value = cur > 0 ? cur : '';
+      const use = el('button', 'BtnPrimary px-4 py-2', T('use_value'));
+      use.addEventListener('click', () => {
+        const v = parseFloat(inp.value);
+        if (!isNaN(v) && v > 0) apply(s, field, v, backdrop, sheet);
+      });
+      other.append(inp, use);
+      sheet.append(grid, other);
+
+      const close = (ev) => { if (ev.target === backdrop) { backdrop.remove(); sheet.remove(); } };
+      backdrop.addEventListener('click', close);
+
+      function apply(s2, f2, v) {
+        s2[f2] = v;
+        persistActive();
+        backdrop.remove();
+        sheet.remove();
+        renderActive();
+      }
+
+      const root = document.getElementById('sheet-root');
+      root.appendChild(backdrop);
+      root.appendChild(sheet);
+      requestAnimationFrame(() => sheet.classList.add('open'));
+    }
+
+    // ---------------- HOJA DE BÚSQUEDA ----------------
+    function openSearch() {
+      const backdrop = el('div', 'SheetBackdrop open');
+      const sheet = el('div', 'Sheet open');
+      sheet.appendChild(el('div', 'SheetHandle'));
+      const hd = el('div', 'px-6 pt-1 pb-3');
+      const inp = document.createElement('input');
+      inp.type = 'search';
+      inp.className = 'Field';
+      inp.setAttribute('data-i18n-ph', 'sess_search_ph');
+      inp.placeholder = T('sess_search_ph');
+      inp.setAttribute('aria-label', T('sess_search_ph'));
+      hd.appendChild(inp);
+      sheet.appendChild(hd);
+      const list = el('div', 'overflow-y-auto px-3 pb-6 max-h-[55vh]');
+      sheet.appendChild(list);
+
+      function render(q) {
+        list.textContent = '';
+        const items = G.searchExercises(EX, q || '', 'all', 'all').slice(0, 30);
+        for (const e2 of items) {
+          const row = el('button', 'ExRow w-full text-left');
+          row.type = 'button';
+          row.appendChild(el('img', 'ExRowImg'));
+          row.lastChild.src = e2.image;
+          const nm = el('span', 'ExRowName flex-1', name(e2));
+          row.appendChild(nm);
+          row.appendChild(el('span', 'ExRowCta', '+ ' + T('sess_add_exercise')));
+          row.addEventListener('click', () => {
+            let existing = state.draft.find((x) => x.exercise_id === e2.id);
+            if (!existing) {
+              existing = { exercise_id: e2.id, status: 'available', sets: [{ reps: 10, weight_kg: 0, done: false }] };
+              state.draft.push(existing);
+            } else existing.sets.push({ reps: 10, weight_kg: 0, done: false });
+            persistActive();
+            backdrop.remove();
+            sheet.remove();
+            renderActive();
+            toast(T('sess_added'));
+          });
+          list.appendChild(row);
+        }
+        if (!items.length) list.appendChild(el('p', 'EmptyHint mx-auto mt-6', '—'));
+      }
+      inp.addEventListener('input', () => render(inp.value));
+      render('');
+      const root = document.getElementById('sheet-root');
+      root.appendChild(backdrop);
+      root.appendChild(sheet);
+      inp.focus();
+    }
+
+    // ---------------- SUGERIR ----------------
+    function openSuggest() {
+      const inSession = state.draft.map((d) => d.exercise_id);
+      const pick2 = W.suggestNextExercise(EX, { mode: state.mode, groups: state.meta?.groups || state.groups, benchmarks: state.benchmarks, recent: recentRows(), exclude: inSession });
+      showSuggest(pick2, inSession, 0);
+    }
+    function showSuggest(e2, exclude, attempt) {
+      if (!e2) { toast(T('suggest_skip')); return; }
+      const backdrop = el('div', 'SheetBackdrop open');
+      const sheet = el('div', 'Sheet open');
+      sheet.appendChild(el('div', 'SheetHandle'));
+      const hd = el('div', 'px-6 pt-1 pb-2');
+      hd.appendChild(el('h3', 'SheetTitle', T('sess_suggest')));
+      hd.appendChild(el('p', 'SheetSub mt-0.5', T('suggest_hint')));
+      sheet.appendChild(hd);
+      const card = el('div', 'SuggestCard mx-4 mb-2');
+      card.appendChild(el('img', 'h-16 w-24 rounded-lg object-cover mb-2'));
+      card.lastChild.src = e2.image;
+      card.appendChild(el('p', 'text-[16px] font-bold', name(e2)));
+      card.appendChild(el('p', 'text-[13px] mt-0.5', T('group_' + e2.muscle_group) + ' · ' + T('equip_' + e2.equipment)));
+      const f = el('div', 'mt-3 flex items-center gap-2');
+      const use = el('button', 'SuggestBtn', T('suggest_use'));
+      use.addEventListener('click', () => {
+        const w = W.weightForExercise(e2, { benchmarks: state.benchmarks, recent: recentRows(), mode: state.mode, reps: 10 });
+        state.draft.push({ exercise_id: e2.id, status: 'available', sets: [{ reps: 10, weight_kg: w ? w.weight_kg : 0, done: false }] });
+        persistActive();
+        backdrop.remove();
+        sheet.remove();
+        renderActive();
+        toast(T('sess_added'));
+      });
+      const other = el('button', 'SuggestSkip', T('suggest_another'));
+      other.addEventListener('click', () => {
+        backdrop.remove();
+        sheet.remove();
+        const next = W.suggestNextExercise(EX, { mode: state.mode, benchmarks: state.benchmarks, recent: recentRows(), exclude: [...exclude, e2.id] });
+        showSuggest(next, [...exclude, e2.id], attempt + 1);
+      });
+      const skip = el('button', 'SuggestSkip', T('suggest_skip'));
+      skip.addEventListener('click', () => { backdrop.remove(); sheet.remove(); });
+      f.append(use, other, skip);
+      card.appendChild(f);
+      sheet.appendChild(card);
+      const root = document.getElementById('sheet-root');
+      root.appendChild(backdrop);
+      root.appendChild(sheet);
+    }
+
+    // ---------------- ALTERNATIVAS (material ocupado) ----------------
+    function openAlternatives(d) {
+      const e2 = byId[d.exercise_id];
+      const alts = W.suggestAlternatives(e2, EX, { mode: state.mode, benchmarks: state.benchmarks, recent: recentRows(), exclude: state.draft.filter((x) => x !== d).map((x) => x.exercise_id), limit: 3 });
+      if (!alts.length) { toast(T('alt_none')); renderActive(); return; }
+      const backdrop = el('div', 'SheetBackdrop open');
+      const sheet = el('div', 'Sheet open');
+      sheet.appendChild(el('div', 'SheetHandle'));
+      sheet.appendChild(el('div', 'px-6 pt-1 pb-2'));
+      sheet.lastChild.appendChild(el('h3', 'SheetTitle', T('postponed_title')));
+      sheet.lastChild.appendChild(el('p', 'SheetSub mt-0.5', T('postponed_sub')));
+      for (const a of alts) {
+        const row = el('button', 'ExRow w-full text-left mx-3 mb-2');
+        row.type = 'button';
+        row.appendChild(el('img', 'ExRowImg'));
+        row.lastChild.src = a.image;
+        row.appendChild(el('span', 'ExRowName flex-1', name(a)));
+        row.appendChild(el('span', 'ExRowCta', T('alt_use')));
+        row.addEventListener('click', () => {
+          const w = W.weightForExercise(a, { benchmarks: state.benchmarks, recent: recentRows(), mode: state.mode, reps: 10 });
+          d.exercise_id = a.id;
+          d.status = 'available';
+          d.sets = [{ reps: 10, weight_kg: w ? w.weight_kg : 0, done: false }];
+          persistActive();
+          backdrop.remove();
+          sheet.remove();
+          renderActive();
+        });
+        sheet.appendChild(row);
+      }
+      const back = el('button', 'SuggestSkip mx-3 mb-5 block', T('postponed_do_now'));
+      back.addEventListener('click', () => { d.status = 'available'; persistActive(); backdrop.remove(); sheet.remove(); renderActive(); });
+      sheet.appendChild(back);
+      const root = document.getElementById('sheet-root');
+      root.appendChild(backdrop);
+      root.appendChild(sheet);
+    }
+
+    // ---------------- GUARDAR ----------------
+    function saveSession() {
+      const date = new Date().toISOString().slice(0, 10);
+      if (state.type === 'benchmark') {
+        const bench = { ...Object.fromEntries((Store.profile().benchmarks || []).map((b) => [b.exercise_id, b.estimated_1rm])) };
+        let saved = 0;
+        for (const d of state.draft) {
+          for (const s of d.sets) {
+            const or = G.oneRm(s.weight_kg, s.reps);
+            if (or > 0) { bench[d.exercise_id] = Math.round(or * 10) / 10; saved++; }
+          }
+        }
+        Store.setBenchmarks(Object.entries(bench).map(([id, r]) => ({ exercise_id: id, estimated_1rm: r })));
+        Store.setActive(null);
+        Session.applyActiveTheme();
+        state.benchmarks = Store.profile().benchmarks;
+        state.screen = 'start';
+        renderStart();
+        toast(T('bench_saved') + (saved ? ' · ' + saved : ''));
+        return;
+      }
+      // Entrenamiento
+      const exercises = state.draft.map((d) => ({ exercise_id: d.exercise_id, sets: d.sets.map((s) => ({ reps: s.reps, weight_kg: s.weight_kg, done: s.done })) })).filter((x) => x.sets.length);
+      if (!exercises.length) { toast(T('sess_no_exercises')); return; }
+      const s = G.normalizeSession({
+        date,
+        exercises,
+        notes: (document.getElementById('active-notes')?.value || '').trim(),
+        body_weight_kg: parseFloat(document.getElementById('active-bw')?.value) || null,
+        duration_min: Math.round(Session.elapsedSec() / 60),
+      });
+      s.type = 'training';
+      Store.addSession(s);
+      const prs = G.newPrs(s, Store.sessions());
+      Store.setActive(null);
+      Session.applyActiveTheme();
+      state.screen = 'start';
+      renderStart();
+      showSummary(s, prs);
+    }
+
+    function showSummary(s, prs) {
+      const backdrop = el('div', 'SheetBackdrop open');
+      const sheet = el('div', 'Sheet open items-end');
+      sheet.appendChild(el('div', 'SheetHandle'));
+      const hd = el('div', 'px-6 pt-1 pb-3 text-center');
+      hd.appendChild(el('div', 'mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full'));
+      hd.lastChild.style.background = 'var(--green)';
+      hd.lastChild.innerHTML = '<svg viewBox="0 0 24 24" class="h-7 w-7 text-white" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
+      hd.appendChild(el('h3', 'SheetTitle', T('sess_saved')));
+      const stats = el('div', 'grid grid-cols-3 gap-3 mt-4');
+      const setN = s.exercises.reduce((a, x) => a + x.sets.length, 0);
+      const vol = G.sessionVolume(s);
+      const stat = (l, v) => { const c = el('div', 'rounded-field p-3 text-center'); c.style.background = 'var(--section)'; c.appendChild(el('p', 'text-[11px] font-bold uppercase', l)); c.appendChild(el('p', 'mt-1 text-[22px] font-extrabold', v)); return c; };
+      stats.appendChild(stat(T('hist_exercises'), String(s.exercises.length)));
+      stats.appendChild(stat(T('hist_sets_total'), String(setN)));
+      stats.appendChild(stat(T('hist_volume'), (Math.round(vol / 100) / 10) + ' t'));
+      hd.appendChild(stats);
+      if (prs.length) {
+        const p = el('div', 'mt-3 rounded-field p-3 text-center');
+        p.style.background = 'var(--section)';
+        p.appendChild(el('p', 'text-[11px] font-bold uppercase', T('stat_pr')));
+        p.appendChild(el('p', 'mt-1 text-[16px] font-bold', prs.length + ' · ' + prs.map((x) => Math.round(x.one_rm) + ' kg').join(', ')));
+        hd.appendChild(p);
+      }
+      const f = el('div', 'px-6 py-4 flex gap-3');
+      const dash = el('a', 'BtnPrimary flex-1 text-center', T('dash_title') + ' →');
+      dash.href = '/dashboard/';
+      f.appendChild(dash);
+      sheet.append(hd, f);
+      backdrop.addEventListener('click', () => { backdrop.remove(); sheet.remove(); });
+      const root = document.getElementById('sheet-root');
+      root.appendChild(backdrop);
+      root.appendChild(sheet);
+    }
+
+    // ---------------- Arranque ----------------
+    (function init() {
+      const active = Store.active();
+      if (active && active.draft && active.draft.length) {
+        state.screen = 'active';
+        state.draft = active.draft;
+        state.type = active.type || 'training';
+        state.startedAt = active.started_at;
+        state.meta = active.meta;
+        title.textContent = state.type === 'benchmark' ? T('bench_title') : T('sess_title');
+        sub.textContent = state.type === 'benchmark' ? T('bench_sub') : T('sess_sub');
+        Session.applyActiveTheme();
+        renderActive();
+      } else {
+        renderStart();
+      }
+    })();
+
+    window.addEventListener('ft-lang-change', () => {
+      if (state.screen === 'start') renderStart();
+      else if (state.screen === 'wizard') renderWizard();
+      else renderActive();
+    });
   </script>
 </Layout>

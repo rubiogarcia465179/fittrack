@@ -1,0 +1,88 @@
+---
+/**
+ * Marcas (/benchmarks/) — 1RM por ejercicio (localStorage), referencia de los
+ * pesos recomendados. Paridad con la app: lista de marcas + "Empezar un
+ * benchmark" (redirige al wizard de sesión en modo benchmark) + fijar 1RM
+ * manual.
+ */
+import Layout from '../components/Layout.astro';
+import exData from '../data/exercises.json';
+
+const ex = exData.exercises;
+const names = Object.fromEntries(ex.map((e) => [e.id, e.name_en]));
+---
+
+<Layout
+  Title="FitTrack — Marcas"
+  TitleKey="bench_title"
+  Active="benchmarks"
+  Description="Tu 1RM por ejercicio: la referencia de tus pesos recomendados."
+>
+  <h1 class="PageTitle" data-i18n="bench_title">Marcas</h1>
+  <p class="PageSub" data-i18n="bench_sub">Tu 1RM por ejercicio — la referencia de tus pesos recomendados.</p>
+
+  <div class="mt-6 flex flex-col gap-3">
+    <a class="BtnPrimary" href="/session/" data-i18n="bench_start">Empezar un benchmark</a>
+    <p class="text-[13px] text-AppSubtext" data-i18n="bench_suggested_hint">
+      Compuestos por grupo. Registra tu serie más fuerte y FitTrack estima tu 1RM.
+    </p>
+  </div>
+
+  <section aria-label="Marcas" class="mt-8">
+    <h2 class="text-[20px] font-semibold" data-i18n="bench_1rm_auto">1RM estimado</h2>
+    <div id="bench-list" class="mt-4 flex flex-col gap-2.5">
+      <p class="text-[14px] text-AppSubtext" data-i18n="bench_empty">Aún no hay marcas. Haz una para tener pesos personalizados.</p>
+    </div>
+  </section>
+
+  <script type="module" define:vars={{ names }}>
+    const T = window.FT_I18N.t;
+    const NAMES = names;
+    const list = document.getElementById('bench-list');
+
+    function name(id) { return NAMES[id] || id; }
+
+    function render() {
+      list.textContent = '';
+      const bench = window.FTStore.profile().benchmarks || [];
+      if (!bench.length) {
+        const p = document.createElement('p');
+        p.className = 'text-[14px] text-AppSubtext';
+        p.setAttribute('data-i18n', 'bench_empty');
+        p.textContent = T('bench_empty');
+        list.appendChild(p);
+        return;
+      }
+      const sorted = [...bench].sort((a, b) => (a.exercise_id || '').localeCompare(b.exercise_id));
+      for (const b of sorted) {
+        const row = document.createElement('div');
+        row.className = 'Card flex items-center gap-3 p-4';
+        row.appendChild(el2('span', 'text-[15px] font-semibold flex-1', name(b.exercise_id)));
+        const val = el2('span', 'text-[22px] font-extrabold', Math.round(b.estimated_1rm * 10) / 10 + ' kg');
+        val.style.color = 'var(--link)';
+        row.appendChild(val);
+        const set = document.createElement('button');
+        set.type = 'button';
+        set.className = 'BtnSecondary px-3 py-1.5 text-[13px]';
+        set.textContent = T('bench_manual');
+        set.setAttribute('aria-label', T('bench_1rm') + ' ' + name(b.exercise_id));
+        set.addEventListener('click', () => {
+          const v = window.prompt(T('bench_1rm') + ' — ' + name(b.exercise_id) + ' (kg)', String(b.estimated_1rm));
+          const n = parseFloat(v);
+          if (isNaN(n) || n <= 0) return;
+          const next = (window.FTStore.profile().benchmarks || []).map((x) => x.exercise_id === b.exercise_id ? { exercise_id: x.exercise_id, estimated_1rm: Math.round(n * 10) / 10 } : x);
+          window.FTStore.setBenchmarks(next);
+          window.dispatchEvent(new CustomEvent('ft-data-changed'));
+          render();
+        });
+        row.appendChild(set);
+        list.appendChild(row);
+      }
+    }
+    function el2(tag, cls, txt) { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+
+    render();
+    window.addEventListener('ft-lang-change', render);
+    window.addEventListener('ft-data-changed', render);
+  </script>
+</Layout>

@@ -269,3 +269,28 @@ tarea.
   dup-verify + dup-scroll2 + refresh-v3 + wide-flow → **0 FALLOS** en las
   6 matrices de dispositivos; capturas del repo regeneradas; video
   `docs/screenshots/video-iphone16.webm` (31 s, VP9) del flujo completo.
+
+- 2026-11-10 — **Fase 9c: Paridad web (Astro al nivel de la app)**: la web
+  estaba en "Fase 2 básica" (inputs numéricos, sin wizard ni tema activo);
+  ahora replica la UX premium de la app:
+  (1) **Sistema de diseño** — crema/naranja/navy + Montserrat (self-hosted),
+  cards radio 20px hairline, y tema navy `body.workout-active` por
+  variables CSS (una clase recolorea toda la web, como el ThemeProvider).
+  (2) **Sesión** (`session.astro`) — arranque "¿Qué quieres hacer?",
+  **wizard 6 pasos** (5 en benchmark) con progreso de 3 estados, generación
+  determinista, sesión activa navy (banner+cronómetro+progreso), ValueBox
+  con hoja de valor, "Hecha" por serie, estado de material + alternativas,
+  sugerir, búsqueda en hoja, notas+peso corporal, guardar con resumen (PRs)
+  y retorno a crema.
+  (3) **Motor `workout.js`** puerto 1:1 de `workout.ts`, verificado de
+  paridad contra el TS compilado (0 diffs).
+  (4) **i18n web 234 claves** regenerado desde `i18n/*.json` (fuente única
+  con la app; antes 105) + `store.js` con sesión activa persistente y
+  export/clear.
+  (5) **Páginas nuevas** `/benchmarks/` y `/data/` (export JSON + borrar).
+  (6) **Bug real corregido**: `store.js.read()` hacía `Object.assign(null,
+  …)` → `FTStore.active()` siempre devolvía `null`; el tema navy nunca
+  activaba y la sesión activa no sobrevivía al refresh.
+  Verificación: tests/run.js 78/78; tests/runtime.js 50/50 (DOM emulado
+  sobre `dist/` actualizado al flujo wizard); harness Chromium web-flow.js
+  **50 comprobaciones, 0 fallos, 0 errores de consola**; build 233 páginas.
