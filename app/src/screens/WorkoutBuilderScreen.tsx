@@ -190,11 +190,23 @@ export default function WorkoutBuilderScreen({
               style={[
                 styles.dot,
                 {
-                  backgroundColor: i <= idx ? p.accent : p.border,
-                  transform: [{ scale: i === idx ? 1.25 : 1 }],
+                  // tres estados: anterior (relleno tenue), actual (anillo
+                  // acento + núcleo), siguiente (contorno). El actual queda
+                  // reconocible de un vistazo.
+                  backgroundColor:
+                    i === idx ? 'transparent' : i < idx ? p.accent : p.bg,
+                  borderColor:
+                    i === idx ? p.accent : i < idx ? p.accent : p.border,
+                  borderWidth: 2,
+                  opacity: i < idx && i !== idx ? 0.55 : 1,
+                  transform: [{ scale: i === idx ? 1.35 : 1 }],
                 },
               ]}
-            />
+            >
+              {i === idx ? (
+                <View style={[styles.dotCore, { backgroundColor: p.accent }]} />
+              ) : null}
+            </View>
           ))}
         </View>
         <Text style={[styles.stepCount, { color: p.dim }]}>{t('wiz_step', { n: idx + 1, m: total })}</Text>
@@ -324,7 +336,10 @@ export default function WorkoutBuilderScreen({
                       },
                     ]}
                   >
-                    <Text style={[styles.chipText, { fontSize: fs(scale, 15), color: active ? '#fff' : p.text }]} numberOfLines={1}>
+                    <Text
+                      style={[styles.chipText, { fontSize: fs(scale, 14), color: active ? '#fff' : p.text }]}
+                      numberOfLines={2}
+                    >
                       {t(`group_${g}`)}
                     </Text>
                   </Pressable>
@@ -534,7 +549,8 @@ const styles = StyleSheet.create({
   backBtn: { paddingHorizontal: 4 },
   back: { fontSize: 15, fontWeight: '600' },
   dots: { flexDirection: 'row', gap: 5, flex: 1, justifyContent: 'center' },
-  dot: { width: 8, height: 8, borderRadius: 4 },
+  dot: { width: 8, height: 8, borderRadius: 4, alignItems: 'center', justifyContent: 'center' },
+  dotCore: { width: 6, height: 6, borderRadius: 3 },
   stepCount: { fontSize: 12, fontWeight: '600' },
   body: { padding: 18, paddingBottom: 24, gap: 12 },
   stepHead: { gap: 4, marginTop: 4 },

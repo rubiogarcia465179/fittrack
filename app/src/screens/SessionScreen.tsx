@@ -1633,13 +1633,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     marginTop: 10,
+    justifyContent: 'center',
   },
   statusChip: {
-    flex: 1,
     borderRadius: 999,
     borderWidth: 1,
     paddingVertical: 8,
+    paddingHorizontal: 13,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   statusChipText: {
     fontSize: 12,

@@ -14,4 +14,9 @@ solo locales, Montserrat embebida, sin red.
 | 06 | Sesión con series | Filas de serie (reps/peso) con círculo "Hecha" (tap para marcar completada) |
 | 07 | Picker de valor | Hoja inferior: handle, rejilla responsiva de chips (sin overflow), confirmación abajo |
 
+**Video** — `video-iphone16.webm`: grabación de 31 s (iPhone 16, 393×852, VP9)
+del flujo completo: dashboard → biblioteca → detalle → arranque → wizard
+paso a paso → sesión activa (tema navy) → hoja de reps → marcar "Hecha" →
+añadir serie → sugerir ejercicio → guardar → historial → resumen.
+
 Nota: las capturas se renuevan en cada batería de QA (ver `REQUIREMENTS.md`, R-26).

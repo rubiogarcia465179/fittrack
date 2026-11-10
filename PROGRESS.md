@@ -231,3 +231,41 @@ tarea.
   incluyendo: tema navy al empezar, draft persistido tras refresh,
   countdown 10 min de reintento, retorno a crema al guardar, alternativas
   sin duplicar y sin romper el progreso.
+
+- 2026-11-08 — **Fase 9: UX premium + wizard paso a paso (R-14..R-26)**:
+  arranque de sesión con dos caminos claros; wizard de generación paso a
+  paso (6 pasos, Atrás, puntos de progreso, revisión con plan generado);
+  "Sugerir ejercicio" en sesión y lista de 226 en bottom sheet bajo
+  demanda; Montserrat embebida (nativa + web); cajas estilo apple (radio,
+  hairline, shadow); picker de peso responsivo sin overflow; barra inferior
+  compacta icon-first; dashboard compacto (stats+actividad sin scroll en
+  iPhone SE); progreso por flag `done` por serie; postergación dirigida por
+  el usuario. Verificación: 78/78 + motor 43/43 + tsc 0 + expo export OK +
+  smoke-v1 + harnesses Chromium 0 FALLOS + capturas verificadas.
+
+- 2026-11-10 — **Pulido de accesibilidad y detalles (dogfood visual)**:
+  tras grabar el flujo completo en video (Chromium, iPhone 16) y revisar
+  fotograma a fotograma, se corrigieron:
+  (1) **Contraste de `dim`** — el texto "atenuado" quedaba por debajo de
+  WCAG AA en ambas paletas (crema 2.6–3.0:1, navy 3.7:1 sobre tarjeta).
+  Nuevos valores medidos: `DEFAULT.dim #646C82` (5.1:1 tarjeta / 4.5:1
+  fondo) y `WORKOUT.dim #8896B5` (5.2:1 tarjeta / 6.0:1 fondo) → legibilidad
+  de metadatos, etiquetas de serie y placeholders mejorada en ambos temas.
+  (2) **Puntos de progreso del wizard** — ahora tres estados
+  reconocibles: anteriores (relleno tenue), actual (anillo acento + núcleo,
+  mayor tamaño), siguientes (contorno); antes solo "relleno vs borde" sin
+  distinguir el paso en curso.
+  (3) **Chips de estado de material** — "Disponible/Ocupado/Fuera de
+  servicio" ya no se fuerzan a ancho igual (flex:1), que hacía "Fuera de
+  servicio" saltar a dos líneas; ahora caben en una línea y se centran.
+  (4) **Chips de grupos musculares del wizard** — "Cuerpo completo" se
+  truncaba a "Cuerpo co…" (numberOfLines=1); ahora permite 2 líneas con
+  fuente 14 y sin truncar.
+  Además: **harnesses de QA actualizados al flujo real** (start screen +
+  wizard de 6 pasos + hoja de búsqueda) — antes probaban el builder
+  antiguo directo y fallaban por desajuste, no por bug; `flow.js` con
+  `startWorkout/openSearch/searchAndAdd` compartidos. Verificación:
+  tsc 0; tests/run.js 78/78; motor 43/43; smoke-v1 + devices + geometry +
+  dup-verify + dup-scroll2 + refresh-v3 + wide-flow → **0 FALLOS** en las
+  6 matrices de dispositivos; capturas del repo regeneradas; video
+  `docs/screenshots/video-iphone16.webm` (31 s, VP9) del flujo completo.
