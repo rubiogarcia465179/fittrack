@@ -43,6 +43,8 @@ export type ActiveSession = {
   date: string;
   duration_min?: number;
   body_weight_kg?: number;
+  /** Altura personal (cm) si el usuario la registra en esta sesión. */
+  height_cm?: number;
   notes?: string;
   draft: ActiveDraftExercise[];
   postponed: PostponedExercise[];

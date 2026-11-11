@@ -199,6 +199,7 @@ export function normalizeSession(s) {
     notes: s.notes ? String(s.notes).slice(0, 500) : '',
     duration_min: s.duration_min ? Math.max(1, Math.round(Number(s.duration_min))) : null,
     body_weight_kg: s.body_weight_kg ? Math.round(Number(s.body_weight_kg) * 100) / 100 : null,
+    height_cm: s.height_cm ? Math.round(Number(s.height_cm) * 10) / 10 : null,
     created_at: s.created_at || new Date().toISOString(),
   };
   return out;

@@ -1,13 +1,23 @@
-/** Contexto de tema: expone la paleta activa (DEFAULT o WORKOUT) para que
- *  cada pantalla recolore sola cuando la sesión cambia de estado. */
+/** Contexto de tema: expone la paleta activa (DEFAULT o WORKOUT) + degradados
+ *  premium para que cada pantalla recolore sola cuando la sesión cambia de
+ *  estado. */
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
-import { DEFAULT, WORKOUT, shadowFor, gradientStops, type Palette } from './theme';
+import {
+  DEFAULT,
+  WORKOUT,
+  GRADIENTS,
+  shadowFor,
+  gradientStops,
+  type Palette,
+  type GradientStops,
+} from './theme';
 
 export interface ThemeState {
   p: Palette;
   active: boolean; // sesión en curso
   SHADOW: { card: object; cta: object };
   GRADIENT_STOPS: string[];
+  GRADIENT: GradientStops;
 }
 
 const Ctx = createContext<ThemeState | null>(null);
@@ -25,6 +35,7 @@ export function ThemeProvider({
       active,
       SHADOW: shadowFor(active ? WORKOUT : DEFAULT),
       GRADIENT_STOPS: gradientStops(active ? WORKOUT : DEFAULT),
+      GRADIENT: GRADIENTS[active ? 'workout' : 'default'],
     }),
     [active],
   );

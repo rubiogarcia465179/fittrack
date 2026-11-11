@@ -60,6 +60,40 @@ function ClockIcon({ color }: { color: string }) {
   );
 }
 
+function ScaleIcon({ color }: { color: string }) {
+  // "Perfil": balanza de baño (base + esfera + aguja).
+  return (
+    <View style={box}>
+      <View
+        style={{
+          position: 'absolute',
+          left: 5,
+          top: 4,
+          width: 14,
+          height: 14,
+          borderRadius: 7,
+          borderWidth: 3,
+          borderColor: color,
+        }}
+      />
+      <View
+        style={[
+          bar,
+          {
+            width: 2,
+            height: 5,
+            backgroundColor: color,
+            left: 11,
+            top: 7,
+            transform: [{ rotate: '40deg' }],
+          },
+        ]}
+      />
+      <View style={[bar, { width: 16, height: 3, borderRadius: 1.5, backgroundColor: color, left: 4, top: 19 }]} />
+    </View>
+  );
+}
+
 const box = {
   width: 24,
   height: 24,
@@ -173,12 +207,13 @@ export function TabIcon({
   name,
   color,
 }: {
-  name: 'dashboard' | 'library' | 'session' | 'history';
+  name: 'dashboard' | 'library' | 'session' | 'history' | 'profile';
   color: string;
 }) {
   if (name === 'dashboard') return <BarIcon color={color} />;
   if (name === 'library') return <PlateIcon color={color} />;
   if (name === 'session') return <PlusIcon color={color} />;
+  if (name === 'profile') return <ScaleIcon color={color} />;
   return <ClockIcon color={color} />;
 }
 

@@ -94,7 +94,8 @@ adb install android/app/build/outputs/apk/debug/app-debug.apk
 Web); útil para probar la UI sin instalar nada. (La web principal es
 `web/`; esta sirve para ejercitar la app.)
 
-Checklist en el móvil: 4 pestañas (Dashboard, Exercises, Session, History),
+Checklist en el móvil: 5 pestañas (Dashboard, Exercises, Session, History,
+Profile),
 conmutación NL/ES/EN/FR instantánea, crear sesión con sets/reps/peso,
 borrar del historial, volver a abrir la app y ver que las sesiones
 persisten (AsyncStorage).
@@ -219,7 +220,7 @@ computadora en el iPhone.
 principal también va genial en el navegador del iPhone (es
 mobile-first): abre `http://IP-DEL-HOST:4321/` de la web de Astro.
 
-Mismo checklist que Android: 4 pestañas, cambio de idioma instantáneo,
+Mismo checklist que Android: 5 pestañas, cambio de idioma instantáneo,
 crear sesión, borrar del historial, persistencia al reabrir (AsyncStorage).
 
 ## Tests

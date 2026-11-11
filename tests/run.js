@@ -223,7 +223,7 @@ same((m) => m.newPrs(S2, [S1, S2]), [], 'newPrs');
 same((m) => m.groupTotals([S2, S1], ALL.exercises, 14), [], 'groupTotals');
 same((m) => m.weightTrend([S1, S2]), [], 'weightTrend');
 same((m) => m.searchExercises(ALL.exercises, 'row', 'back', 'barbell'), [], 'searchExercises');
-same((m) => m.normalizeSession({ id: 'p', date: todayISO(0), exercises: [{ exercise_id: 'x', sets: [{ reps: 3, weight_kg: 12.345 }]}] }), [], 'normalizeSession');
+same((m) => m.normalizeSession({ id: 'p', date: todayISO(0), created_at: '2026-11-10T12:00:00.000Z', exercises: [{ exercise_id: 'x', sets: [{ reps: 3, weight_kg: 12.345 }]}] }), [], 'normalizeSession');
 same((m) => m.sortByDate([S2, S1]), [], 'sortByDate');
 
 // ------------------------------------------------------------- typecheck

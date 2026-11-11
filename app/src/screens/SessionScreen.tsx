@@ -32,6 +32,7 @@ import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
 import { XGlyph, CheckGlyph } from '../components/TabIcon';
 import { PickerSheet, fmtNum } from '../components/PickerSheet';
+import { Gradient } from '../components/Gradient';
 import { plural } from '../lib/plural';
 import {
   suggestAlternatives,
@@ -182,7 +183,7 @@ export default function SessionScreen({
   onDiscard: () => void;
 }) {
   const { t, i18n } = useTranslation();
-  const { p, SHADOW } = useTheme();
+  const { p, SHADOW, GRADIENT } = useTheme();
   const scale = useScale();
 
   const [date, setDate] = useState<string>(session.date || todayISO());
@@ -190,6 +191,7 @@ export default function SessionScreen({
   const [weightStr, setWeightStr] = useState<string>(
     session.body_weight_kg ? String(session.body_weight_kg) : '',
   );
+  const [heightStr, setHeightStr] = useState<string>(session.height_cm ? String(session.height_cm) : '');
   const [duration, setDuration] = useState<number>(session.duration_min ?? 0);
   const [notes, setNotes] = useState<string>(session.notes || '');
   const [q, setQ] = useState('');
@@ -208,18 +210,23 @@ export default function SessionScreen({
   // congela y solo refresca cada 30 s para no desperdiciar energía).
   const now = useNow(session.paused ? 30000 : 1000);
 
-  // Hojas de elección (peso / reps / duración / peso corporal / 1RM).
+  // Hojas de elección (peso / reps / duración / peso corporal / altura / 1RM).
   type PickTarget =
     | { kind: 'reps'; ex: string; idx: number }
     | { kind: 'weight'; ex: string; idx: number }
     | { kind: 'duration' }
     | { kind: 'body' }
+    | { kind: 'height' }
     | { kind: 'bench'; ex: string };
   const [pick, setPick] = useState<PickTarget | null>(null);
   // R-15: sugerencia de ejercicio (el que sigue). R-16: búsqueda bajo demanda.
   const [suggestedId, setSuggestedId] = useState<string | null>(null);
   const [suggestIdx, setSuggestIdx] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
+  // Campos secundarios (fecha, duración, peso, altura, notas) PLEGADOS por
+  // defecto: la sesión muestra solo lo importante para entrenar. El
+  // usuario expande "Detalles" cuando quiera ajustarlos.
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
   const recent = useMemo(() => recentRows(sessions), [sessions]);
@@ -246,12 +253,13 @@ export default function SessionScreen({
       date,
       duration_min: duration > 0 ? duration : undefined,
       body_weight_kg: Number(weightStr.replace(',', '.')) || undefined,
+      height_cm: Number(heightStr.replace(',', '.')) || undefined,
       notes,
       draft,
       postponed,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, duration, weightStr, notes, draft, postponed]);
+  }, [date, duration, weightStr, heightStr, notes, draft, postponed]);
 
   // ---- progreso: series COMPLETADAS (marcadas por el usuario) / totales ----
   // Los valores prellenados (sugeridos) NO cuentan: solo marca la serie
@@ -523,6 +531,7 @@ export default function SessionScreen({
     else if (pick.kind === 'weight') setSet(pick.ex, pick.idx, 'weight_kg', v);
     else if (pick.kind === 'duration') setDuration(Math.round(v));
     else if (pick.kind === 'body') setWeightStr(String(v));
+    else if (pick.kind === 'height') setHeightStr(String(v));
     else if (pick.kind === 'bench') setBenchValue(pick.ex, v);
     setPick(null);
   };
@@ -534,6 +543,7 @@ export default function SessionScreen({
     setSaving(true);
     try {
       const bodyWeight = Number(weightStr.replace(',', '.'));
+      const heightVal = Number(heightStr.replace(',', '.'));
       const normalized = normalizeSession({
         id: session.id,
         date,
@@ -542,6 +552,7 @@ export default function SessionScreen({
         notes,
         duration_min: duration > 0 ? duration : null,
         body_weight_kg: bodyWeight > 0 ? bodyWeight : null,
+        height_cm: heightVal > 0 ? heightVal : null,
       }) as Session;
       await store.addSession(normalized);
       // Benchmark: 1RM de cada ejercicio (el mejor set + ajuste manual).
@@ -565,6 +576,7 @@ export default function SessionScreen({
       setPostponed([]);
       setNotes('');
       setWeightStr('');
+      setHeightStr('');
       setDuration(0);
       setBenchManual({});
       setSaved(true);
@@ -601,6 +613,16 @@ export default function SessionScreen({
       </Pressable>
     );
   };
+
+  // Resumen compacto de los campos secundarios, visible aunque estén plegados.
+  const detailsSummary = [
+    fmtDay(date, lang),
+    duration > 0 ? `${duration} ${t('picker_minutes')}` : null,
+    weightStr ? `${fmtNum(Number(weightStr))} kg` : null,
+    heightStr ? `${fmtNum(Number(heightStr))} cm` : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   return (
     // Con el teclado abierto, el contenedor se encoge (iOS: height; Android:
@@ -665,74 +687,148 @@ export default function SessionScreen({
         </Text>
         <Text style={[styles.sub, { color: p.secondary }]}>{t('sess_sub')}</Text>
 
-        <View style={styles.fieldsRow}>
-          <View style={styles.fieldWrap}>
-            <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_date')}</Text>
-            <Pressable
-              style={({ pressed }) => [
-                styles.dateBox,
-                {
-                  backgroundColor: p.fieldBg,
-                  borderColor: dateOpen ? p.accent : p.border,
-                  transform: [{ scale: pressed ? 0.97 : 1 }],
-                  transition: 'transform 80ms ease',
-                },
-              ]}
-              accessibilityRole="button"
-              accessibilityLabel={date}
-              onPress={() => setDateOpen((o) => !o)}
-            >
-              <Text style={[styles.dateText, { color: p.text }]}>{fmtDay(date, lang)}</Text>
-            </Pressable>
-          </View>
-          <View style={styles.fieldWrap}>
-            <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('picker_duration')}</Text>
-            <ValueBox
-              value={duration > 0 ? String(duration) : '—'}
-              unit={t('picker_minutes')}
-              onPress={() => setPick({ kind: 'duration' })}
-              accent={duration > 0}
-            />
-          </View>
-        </View>
-        <View style={styles.fieldsRow}>
-          <View style={styles.fieldWrap}>
-            <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_bodyweight')}</Text>
-            <ValueBox
-              value={weightStr ? fmtNum(Number(weightStr)) : '—'}
-              unit="kg"
-              onPress={() => setPick({ kind: 'body' })}
-              accent={weightStr !== ''}
-            />
-          </View>
-        </View>
-        {dateOpen ? (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.dateRow}>
-            {recentDays.map((d) => (
-              <Pressable
-                key={d}
-                style={({ pressed }) => [
-                  styles.dateChip,
+        {/* "Detalles": los campos secundarios (fecha, duración, peso, altura,
+            notas) van plegados por defecto — la pantalla solo muestra lo
+            importante para entrenar. */}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('sess_details')}
+          accessibilityState={{ expanded: detailsOpen }}
+          onPress={() => setDetailsOpen((o) => !o)}
+          style={({ pressed }) => [
+            styles.detailsToggle,
+            {
+              backgroundColor: p.card,
+              borderColor: detailsOpen ? p.accent : p.cardBorder,
+              opacity: pressed ? 0.85 : 1,
+              transition: 'opacity 90ms ease',
+            },
+          ]}
+        >
+          <Text style={[styles.detailsSummary, { color: p.secondary }]} numberOfLines={1}>
+            {detailsSummary}
+          </Text>
+          <View style={styles.detailsLabelWrap}>
+            <Text style={[styles.detailsLabel, { color: detailsOpen ? p.accent : p.dim }]}>
+              {t('sess_details')}
+            </Text>
+            {/* Chevron dibujado (el glifo ▾/▴ no está en la cobertura de
+                fuentes de todos los dispositivos). */}
+            <View style={styles.detailsArrowWrap}>
+              <View
+                style={[
+                  styles.detailsArrowBar,
                   {
-                    backgroundColor: d === date ? p.accent : p.card,
-                    borderColor: d === date ? p.accent : p.border,
-                    transform: [{ scale: pressed ? 0.94 : 1 }],
-                    transition: 'transform 80ms ease',
+                    backgroundColor: detailsOpen ? p.accent : p.dim,
+                    transform: [{ rotate: detailsOpen ? '-42deg' : '42deg' }],
                   },
                 ]}
-                accessibilityRole="button"
-                accessibilityLabel={d}
-                onPress={() => {
-                  setDate(d);
-                  setDateOpen(false);
-                }}
-              >
-                <Text style={[styles.dateChipText, { color: d === date ? '#fff' : p.text }]}>
-                  {d === todayISO() ? t('cal_today') : fmtDay(d, lang)}
-                </Text>
-              </Pressable>
-            ))}
-          </ScrollView>
+              />
+              <View
+                style={[
+                  styles.detailsArrowBar,
+                  {
+                    backgroundColor: detailsOpen ? p.accent : p.dim,
+                    transform: [{ rotate: detailsOpen ? '42deg' : '-42deg' }],
+                  },
+                ]}
+              />
+            </View>
+          </View>
+        </Pressable>
+
+        {detailsOpen ? (
+          <View style={styles.detailsBody}>
+            <View style={styles.fieldsRow}>
+              <View style={styles.fieldWrap}>
+                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_date')}</Text>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.dateBox,
+                    {
+                      backgroundColor: p.fieldBg,
+                      borderColor: dateOpen ? p.accent : p.border,
+                      transform: [{ scale: pressed ? 0.97 : 1 }],
+                      transition: 'transform 80ms ease',
+                    },
+                  ]}
+                  accessibilityRole="button"
+                  accessibilityLabel={date}
+                  onPress={() => setDateOpen((o) => !o)}
+                >
+                  <Text style={[styles.dateText, { color: p.text }]}>{fmtDay(date, lang)}</Text>
+                </Pressable>
+              </View>
+              <View style={styles.fieldWrap}>
+                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('picker_duration')}</Text>
+                <ValueBox
+                  value={duration > 0 ? String(duration) : '—'}
+                  unit={t('picker_minutes')}
+                  onPress={() => setPick({ kind: 'duration' })}
+                  accent={duration > 0}
+                />
+              </View>
+            </View>
+            <View style={styles.fieldsRow}>
+              <View style={styles.fieldWrap}>
+                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_bodyweight')}</Text>
+                <ValueBox
+                  value={weightStr ? fmtNum(Number(weightStr)) : '—'}
+                  unit="kg"
+                  onPress={() => setPick({ kind: 'body' })}
+                  accent={weightStr !== ''}
+                />
+              </View>
+              <View style={styles.fieldWrap}>
+                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_height')}</Text>
+                <ValueBox
+                  value={heightStr ? fmtNum(Number(heightStr)) : '—'}
+                  unit="cm"
+                  onPress={() => setPick({ kind: 'height' })}
+                  accent={heightStr !== ''}
+                />
+              </View>
+            </View>
+            {dateOpen ? (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.dateRow}>
+                {recentDays.map((d) => (
+                  <Pressable
+                    key={d}
+                    style={({ pressed }) => [
+                      styles.dateChip,
+                      {
+                        backgroundColor: d === date ? p.accent : p.card,
+                        borderColor: d === date ? p.accent : p.border,
+                        transform: [{ scale: pressed ? 0.94 : 1 }],
+                        transition: 'transform 80ms ease',
+                      },
+                    ]}
+                    accessibilityRole="button"
+                    accessibilityLabel={d}
+                    onPress={() => {
+                      setDate(d);
+                      setDateOpen(false);
+                    }}
+                  >
+                    <Text style={[styles.dateChipText, { color: d === date ? '#fff' : p.text }]}>
+                      {d === todayISO() ? t('cal_today') : fmtDay(d, lang)}
+                    </Text>
+                  </Pressable>
+                ))}
+              </ScrollView>
+            ) : null}
+            <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_notes')}</Text>
+            <TextInput
+              testID="active-notes"
+              style={[styles.notes, { backgroundColor: p.fieldBg, borderColor: p.border, color: p.text }]}
+              placeholder={t('sess_notes_ph')}
+              placeholderTextColor={p.dim}
+              value={notes}
+              onChangeText={setNotes}
+              multiline
+              accessibilityLabel={t('sess_notes')}
+            />
+          </View>
         ) : null}
 
         {/* ejercicio: sugerencia o búsqueda (sin scroll: todo a un toque) */}
@@ -1095,17 +1191,7 @@ export default function SessionScreen({
           </View>
         ) : null}
 
-        <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_notes')}</Text>
-        <TextInput
-          style={[styles.notes, { backgroundColor: p.fieldBg, borderColor: p.border, color: p.text }]}
-          placeholder={t('sess_notes_ph')}
-          placeholderTextColor={p.dim}
-          value={notes}
-          onChangeText={setNotes}
-          multiline
-          accessibilityLabel={t('sess_notes')}
-        />
-
+        {/* (las notas viven ahora dentro de "Detalles") */}
         {error ? <Text style={[styles.error, { color: p.red }]}>{error}</Text> : null}
       </ScrollView>
 
@@ -1117,7 +1203,7 @@ export default function SessionScreen({
         </View>
       ) : null}
 
-      {/* Hoja de valores (peso / reps / duración / peso corporal / 1RM). */}
+      {/* Hoja de valores (peso / reps / duración / peso corporal / altura / 1RM). */}
       {pick ? (
         <PickerSheet
           open
@@ -1128,11 +1214,13 @@ export default function SessionScreen({
                 ? t('picker_weight')
                 : pick.kind === 'duration'
                   ? t('picker_duration')
-                  : pick.kind === 'bench'
-                    ? t('bench_1rm')
-                    : t('sess_bodyweight')
+                  : pick.kind === 'height'
+                    ? t('sess_height')
+                    : pick.kind === 'bench'
+                      ? t('bench_1rm')
+                      : t('sess_bodyweight')
           }
-          unit={pick.kind === 'reps' ? 'reps' : 'kg'}
+          unit={pick.kind === 'reps' ? 'reps' : pick.kind === 'height' ? 'cm' : 'kg'}
           values={
             pick.kind === 'reps'
               ? [5, 8, 10, 12, 15, 20, 25, 30]
@@ -1140,9 +1228,11 @@ export default function SessionScreen({
                 ? [0, 2.5, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 90, 100]
                 : pick.kind === 'duration'
                   ? [15, 20, 30, 40, 45, 50, 60, 75, 90]
-                  : pick.kind === 'bench'
-                    ? [20, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200, 220, 250]
-                    : [45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 100]
+                  : pick.kind === 'height'
+                    ? [150, 155, 160, 165, 170, 175, 180, 185, 190]
+                    : pick.kind === 'bench'
+                      ? [20, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200, 220, 250]
+                      : [45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 100]
           }
           value={
             pick.kind === 'reps'
@@ -1151,9 +1241,11 @@ export default function SessionScreen({
                 ? draft.find((x) => x.exercise_id === pick!.ex)?.sets[pick!.idx]?.weight_kg ?? 0
                 : pick.kind === 'duration'
                   ? duration
-                  : pick.kind === 'bench'
-                    ? benchManual[pick.ex] ?? 0
-                    : Number(weightStr) || 0
+                  : pick.kind === 'height'
+                    ? Number(heightStr) || 0
+                    : pick.kind === 'bench'
+                      ? benchManual[pick.ex] ?? 0
+                      : Number(weightStr) || 0
           }
           custom={
             pick.kind === 'reps'
@@ -1162,9 +1254,11 @@ export default function SessionScreen({
                 ? { min: 0, max: 500, step: 2.5 }
                 : pick.kind === 'duration'
                   ? { min: 1, max: 600, step: 5 }
-                  : pick.kind === 'bench'
-                    ? { min: 5, max: 500, step: 2.5 }
-                    : { min: 10, max: 400, step: 1 }
+                  : pick.kind === 'height'
+                    ? { min: 100, max: 230, step: 1 }
+                    : pick.kind === 'bench'
+                      ? { min: 5, max: 500, step: 2.5 }
+                      : { min: 10, max: 400, step: 1 }
           }
           labelCustom={t('other_value')}
           labelUse={t('use_value')}
@@ -1274,14 +1368,15 @@ export default function SessionScreen({
         )}
         <Pressable
           style={({ pressed }) => [
-            styles.saveBtn,
-            { backgroundColor: p.accent, opacity: draft.length === 0 || saving ? 0.4 : pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
+            { opacity: draft.length === 0 || saving ? 0.4 : pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
           ]}
           accessibilityRole="button"
           disabled={draft.length === 0 || saving}
           onPress={save}
         >
-          <Text style={styles.saveBtnText}>{saving ? t('saving') : isBenchmark ? t('bench_save') : t('sess_save')}</Text>
+          <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
+            <Text style={styles.saveBtnText}>{saving ? t('saving') : isBenchmark ? t('bench_save') : t('sess_save')}</Text>
+          </Gradient>
         </Pressable>
       </View>
     </KeyboardAvoidingView>
@@ -1291,7 +1386,8 @@ export default function SessionScreen({
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#0E1526',
+    // El fondo es el degradado premium (lo pinta App); aquí transparente.
+    backgroundColor: 'transparent',
   },
   activeBanner: {
     paddingHorizontal: 16,
@@ -1369,7 +1465,8 @@ const styles = StyleSheet.create({
   body: {
     padding: 20,
     paddingBottom: 24,
-    backgroundColor: '#0E1526',
+    // El fondo es el degradado premium (lo pinta App); aquí transparente.
+    backgroundColor: 'transparent',
   },
   title: {
     fontSize: 32,
@@ -1388,6 +1485,50 @@ const styles = StyleSheet.create({
   },
   fieldWrap: {
     flex: 1,
+  },
+  // "Detalles": barra plegable con los campos secundarios.
+  detailsToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+    borderRadius: RADII.field,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    marginBottom: 14,
+  },
+  detailsSummary: {
+    flex: 1,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  detailsLabelWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  detailsLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  detailsArrowWrap: {
+    width: 12,
+    height: 7,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  detailsArrowBar: {
+    width: 8,
+    height: 2.4,
+    borderRadius: 1.2,
+  },
+  detailsBody: {
+    gap: 0,
+    marginBottom: 14,
   },
   fieldLabel: {
     fontSize: 13,
@@ -1974,10 +2115,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
   },
-  saveBtn: {
+  saveBtnBox: {
     borderRadius: RADII.tile,
+  },
+  saveBtn: {
     paddingVertical: 14,
     paddingHorizontal: 26,
+    alignItems: 'center',
   },
   saveBtnText: {
     fontSize: 15,

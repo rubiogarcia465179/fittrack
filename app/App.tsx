@@ -21,17 +21,19 @@ import { newActiveSession, type ActiveSession, type ActiveDraftExercise } from '
 import type { WorkoutPlan } from './src/lib/workout';
 import TabIcon from './src/components/TabIcon';
 import LangSwitcher from './src/components/LangSwitcher';
+import { Gradient } from './src/components/Gradient';
 import DashboardScreen from './src/screens/DashboardScreen';
 import LibraryScreen from './src/screens/LibraryScreen';
 import DetailScreen from './src/screens/DetailScreen';
 import SessionScreen from './src/screens/SessionScreen';
 import HistoryScreen from './src/screens/HistoryScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 import WorkoutBuilderScreen from './src/screens/WorkoutBuilderScreen';
 import SessionStartScreen from './src/screens/SessionStartScreen';
 import { loadFonts, MONT } from './src/lib/fonts';
 
-type Tab = 'dashboard' | 'library' | 'session' | 'history';
-const TABS: Tab[] = ['dashboard', 'library', 'session', 'history'];
+type Tab = 'dashboard' | 'library' | 'session' | 'history' | 'profile';
+const TABS: Tab[] = ['dashboard', 'library', 'session', 'history', 'profile'];
 const ACTIVE_KEY = 'fittrack.active.v1';
 
 export default function App() {
@@ -53,7 +55,7 @@ export default function App() {
 
 function Root({ active, persistActive }: { active: ActiveSession | null; persistActive: (a: ActiveSession | null) => void }) {
   const { t } = useTranslation();
-  const { p } = useTheme();
+  const { p, GRADIENT } = useTheme();
   const wide = useWide();
 
   const [tab, setTab] = useState<Tab>('dashboard');
@@ -187,6 +189,11 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
     flash(t('sess_discarded'));
   };
 
+  // Fondo premium: la sesión activa pinta un degradado navy profundo en
+  // TODA la app (reconocible al instante); la pestaña Perfil usa un crema
+  // sutil. El resto usa el color plano de la paleta.
+  const bgColors = active || tab === 'profile' ? GRADIENT.bg : null;
+
   return (
     <SafeAreaView
       style={[
@@ -198,6 +205,7 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
         } as any,
       ]}
     >
+      {bgColors ? <Gradient colors={bgColors} style={styles.appBg} /> : null}
       <StatusBar style={p.statusBar} />
       <View style={[styles.header, { backgroundColor: p.headerBg, borderBottomColor: p.border }]}>
         <View style={styles.wordmarkRow}>
@@ -262,7 +270,7 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
                   onManual={startManualSession}
                 />
               )
-            ) : (
+            ) : tab === 'history' ? (
               <HistoryScreen
                 sessions={sessions}
                 exercises={exercises}
@@ -270,6 +278,8 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
                 onOpenExercise={openExercise}
                 onStartSession={() => setTab('session')}
               />
+            ) : (
+              <ProfileScreen sessions={sessions} onHeightLogged={() => {}} />
             )}
           </View>
         </View>
@@ -316,6 +326,13 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
+  },
+  appBg: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   header: {
     height: 48,

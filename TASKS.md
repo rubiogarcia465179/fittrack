@@ -240,6 +240,36 @@ Pendientes con estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado.
 - [ ] **Cuenta nube (Supabase)** — Fase "nube" (pendiente, necesita acceso
   del usuario). La web ya está lista para añadir la misma cuenta en cliente.
 
+## Fase 10 — Sesión simplificada + Perfil (peso/altura) + tema premium
+- [x] **Sesión activa simplificada**: la pantalla, una vez iniciada, ya
+  muestra solo lo importante (estado, cronómetro, ejercicios con series,
+  "Hecha", añadir/sugerir, guardar). Los campos secundarios (fecha,
+  duración, peso corporal, altura, notas) se plegan tras una barra
+  "Detalles" (con resumen del valor actual) — el usuario los expande si
+  quiere, sin forzar nada.
+- [x] **Perfil: 5ª pestaña** con datos estables en el tiempo, opcionales.
+  - Peso corporal (leído de las sesiones) con tendencia + IMC si hay altura.
+  - Altura (nuevo) con tendencia y botón "Registrar" (hoja de valores, cm).
+  - Si el usuario no los usa, la pestaña queda vacía (sin forzar).
+- [x] **Modelo de datos**: `Session.height_cm`, `Profile.height_entries[]`,
+  `store.logHeight()/heightHistory()`; `normalizeSession` conserva `height_cm`
+  (app `gym.ts` + web `gym.js` a la paridad).
+- [x] **Tema premium**: la sesión activa (y la pestaña Perfil) pinta un
+  **degradado** en todo el fondo — navy profundo `#182656 → #070D1D` (sesión)
+  y crema sutil `#F5F0E6 → #EEE7D9` (perfil) — y la CTA "Guardar sesión" usa
+  un **degradado naranja** `#F05B1F → #BC3D06`. Acentos naranja oscurecidos
+  (`#C44A0D`/`#F05B1F`). Componente `Gradient` con entrada `.web.tsx`
+  (CSS, porque `react-native-linear-gradient` no tiene build web y su
+  `requireNativeComponent` rompía el bundle) y entrada nativa (LinearGradient).
+- [x] **i18n**: +17 claves (perfil + detalles) en los 4 bundles
+  (249 claves) + espejos `app/src/i18n-data` y `web/src/i18n` + `web/public/js/i18n.js`.
+- [x] **QA**: `tsc` 0; `tests/run.js` 78/78 (estable 10/10 — corregido flaky
+  de `normalizeSession` por `created_at`); `tests/runtime.js` 50/50; 7
+  harnesses Chromium app **0 FALLOS** (geometry/wide-flow/refresh-v3
+  actualizados: "Detalles" expandible + navy nuevo); web `astro build` 233
+  páginas + `web-flow.js` 50 comprobaciones, 0 fallos. Capturas del repo
+  regeneradas (01–09, +08 detalles y +09 perfil).
+
 ## Testing en el host (documentado en README.md)
 - [x] Web: `cd web && npm ci && npm run build && npm run preview -- --host`
 - [x] App: `cd app && npm ci && npx expo start` + Expo Go (QR) — Android e

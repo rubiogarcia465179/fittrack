@@ -3,14 +3,15 @@
  *
  * Dos paletas:
  *  - `DEFAULT`  → modo normal, fondo crema #F3EEE3, texto azul marino oscuro,
- *                 acento naranja #D9541E. Cálido, minimal, calmado.
- *  - `WORKOUT`  → sesión en curso, fondo azul marino oscuro, tipografía clara
- *                 de alto contraste, acento naranja más vivo. El cambio es
- *                 intencionado y reconocible de un vistazo.
+ *                 acento naranja profundo #C44A0D. Cálido, minimal, calmado.
+ *  - `WORKOUT`  → sesión en curso, fondo azul marino profundo (degradado
+ *                 #080D1C → #182656), tipografía clara de alto contraste,
+ *                 acento naranja intenso. El cambio es intencionado y
+ *                 reconocible de un vistazo.
  *
- * El resto de la app consume los tokens a través de `useTheme()` (contexto en
- * App.tsx), de modo que cambiar el estado de la sesión recolorea TODO sin
- * tocar cada pantalla.
+ * Los degradados premium (fondo de sesión y CTA principal) se definen en
+ * `GRADIENTS`; la app los consume vía `useTheme()` de modo que cambiar el
+ * estado de la sesión recolorea TODO sin tocar cada pantalla.
  */
 
 export interface Palette {
@@ -36,6 +37,13 @@ export interface Palette {
   statusBar: 'dark' | 'light';
 }
 
+export interface GradientStops {
+  /** Fondo del modo sesión (de arriba a abajo). */
+  bg: string[];
+  /** Barra de acción / CTA (de arriba a abajo). */
+  cta: string[];
+}
+
 /** Modo normal: crema cálido + acento naranja. */
 export const DEFAULT: Palette = {
   bg: '#F3EEE3',
@@ -46,9 +54,9 @@ export const DEFAULT: Palette = {
   secondary: '#5C6A85',
   dim: '#646C82',
   border: '#D8CFBE',
-  accent: '#D9541E',
-  accentDark: '#B8430F',
-  link: '#B8430F',
+  accent: '#C44A0D',
+  accentDark: '#A63D08',
+  link: '#A63D08',
   green: '#2E7D44',
   red: '#C43C2A',
   fieldBg: '#EFE8DA',
@@ -60,32 +68,44 @@ export const DEFAULT: Palette = {
   statusBar: 'dark',
 };
 
-/** Sesión en curso: azul marino oscuro + texto claro. */
+/** Sesión en curso: azul marino profundo + texto claro. */
 export const WORKOUT: Palette = {
-  bg: '#0E1730',
-  section: '#0A1224',
-  card: '#182342',
-  cardBorder: '#26345C',
-  text: '#F3EEE3',
+  bg: '#0A1228',
+  section: '#070E1F',
+  card: '#141F3E',
+  cardBorder: '#243259',
+  text: '#F4EFE5',
   secondary: '#A9B6D1',
-  dim: '#8896B5',
-  border: '#2A3A63',
-  accent: '#F0622B',
-  accentDark: '#D9541E',
+  dim: '#8A97B7',
+  border: '#283A66',
+  accent: '#F05B1F',
+  accentDark: '#C2440A',
   link: '#FF8A50',
   green: '#4CC97A',
   red: '#FF6B57',
-  fieldBg: '#20305A',
+  fieldBg: '#1D2A4E',
   chipOff: '#22335C',
-  chipOffText: '#F3EEE3',
+  chipOffText: '#F4EFE5',
   overlay: 'rgba(4, 8, 18, 0.55)',
-  headerBg: 'rgba(14, 23, 48, 0.86)',
-  tabBarBg: 'rgba(14, 23, 48, 0.96)',
+  headerBg: 'rgba(10, 18, 40, 0.82)',
+  tabBarBg: 'rgba(10, 18, 40, 0.92)',
   statusBar: 'light',
 };
 
 /** Compatibilidad: alias del acento clásico (algunos estilos aún lo citan). */
 export const COLORS: Palette = DEFAULT;
+
+/** Degradados premium por estado (navegación y CTA). */
+export const GRADIENTS: Record<'default' | 'workout', GradientStops> = {
+  default: {
+    bg: ['#F5F0E6', '#EEE7D9'],
+    cta: ['#D9541E', '#B04007'],
+  },
+  workout: {
+    bg: ['#182656', '#070D1D'],
+    cta: ['#F05B1F', '#BC3D06'],
+  },
+};
 
 /** Colores por grupo muscular (compartidos por ambos estados). */
 export const GROUP_COLORS: Record<string, string> = {
@@ -119,7 +139,7 @@ export function shadowFor(p: Palette) {
       elevation: 2,
     },
     cta: {
-      shadowColor: dark ? 'rgba(240,98,43,0.45)' : 'rgba(217,84,30,0.35)',
+      shadowColor: dark ? 'rgba(240,91,31,0.45)' : 'rgba(217,84,30,0.35)',
       shadowOpacity: 1,
       shadowRadius: 12,
       shadowOffset: { width: 0, height: 6 },

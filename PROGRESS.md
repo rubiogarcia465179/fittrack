@@ -294,3 +294,31 @@ tarea.
   Verificación: tests/run.js 78/78; tests/runtime.js 50/50 (DOM emulado
   sobre `dist/` actualizado al flujo wizard); harness Chromium web-flow.js
   **50 comprobaciones, 0 fallos, 0 errores de consola**; build 233 páginas.
+- 2026-11-10 — **Fase 10: Sesión simplificada + pestaña Perfil + tema
+  premium (degradados)**: petición del usuario — (1) la pantalla de sesión
+  activa era "menos simple que la página por defecto": ahora solo muestra lo
+  importante (estado, cronómetro, ejercicios/series, "Hecha", añadir/sugerir,
+  guardar); los campos secundarios (fecha, duración, peso corporal, **altura
+  personal**, notas) se plegan tras una barra **"Detalles"** (con resumen del
+  valor actual y chevron), expandible a un toque. (2) **Nueva 5ª pestaña
+  "Perfil"** para datos estables en el tiempo, opcionales: peso corporal
+  (leído de las sesiones) con tendencia + IMC, y **altura** con tendencia y
+  botón "Registrar" (hoja de valores, cm); si el usuario no los usa, la
+  pestaña queda vacía sin forzar nada. (3) **Tema premium**: la sesión activa
+  (y la pestaña Perfil) pinta un **degradado** en todo el fondo — navy
+  profundo `#182656 → #070D1D` y crema sutil `#F5F0E6 → #EEE7D9` — y la CTA
+  "Guardar sesión" usa un **degradado naranja** `#F05B1F → #BC3D06`; acentos
+  naranja oscurecidos (`#C44A0D`/`#F05B1F`). Componente `Gradient` con
+  entrada `.web.tsx` (CSS) porque `react-native-linear-gradient` no tiene
+  build web (su `requireNativeComponent` rompía el bundle) y entrada nativa.
+  Modelo: `Session.height_cm`, `Profile.height_entries[]`,
+  `store.logHeight()/heightHistory()`; `normalizeSession` conserva
+  `height_cm` (app `gym.ts` ≡ web `gym.js`). i18n: +17 claves (249) en los 4
+  bundles + espejos.
+  Verificación: `tsc` 0; `tests/run.js` **78/78 estable 10/10** (corregido
+  flaky de `normalizeSession`: la paridad TS≡JS llamaba `new Date()` dos
+  veces y cruzaba milisegundos → ahora `created_at` explícito); `runtime.js`
+  50/50; 7 harnesses Chromium **0 FALLOS** (geometry/wide-flow/refresh-v3
+  adaptados a "Detalles" expandible + navy nuevo); web `astro build` 233
+  páginas + `web-flow.js` 50 comprobaciones, 0 fallos. Capturas del repo
+  regeneradas 01–09 (+08 detalles, +09 perfil).

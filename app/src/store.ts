@@ -35,6 +35,8 @@ export interface Session {
   notes?: string;
   duration_min?: number | null;
   body_weight_kg?: number | null;
+  /** Altura personal en cm (opcional; se registra si el usuario la lleva). */
+  height_cm?: number | null;
   created_at?: string;
 }
 
@@ -51,10 +53,18 @@ export type BenchmarkRef = { exercise_id: string; estimated_1rm: number };
 export type Experience = 'beginner' | 'intermediate' | 'advanced';
 export type Intensity = 'low' | 'moderate' | 'high';
 
+/** Entrada del perfil para datos que evolucionan en el tiempo (altura). */
+export interface ProfileEntry {
+  date: string; // ISO yyyy-mm-dd
+  value: number; // cm
+}
+
 export interface Profile {
   benchmarks: Benchmark[];
   experience: Experience;
   intensity: Intensity;
+  /** Alturas registradas (la última = la actual). Opcional. */
+  height_entries?: ProfileEntry[];
 }
 
 export interface Data {
@@ -142,6 +152,21 @@ export const store = {
   async removeBenchmark(exerciseId: string): Promise<Profile> {
     const d = await read();
     d.profile.benchmarks = d.profile.benchmarks.filter((b) => b.exercise_id !== exerciseId);
+    await write(d);
+    return d.profile;
+  },
+  /** Alturas registradas, de la más reciente a la más antigua. */
+  async heightHistory(): Promise<ProfileEntry[]> {
+    const p = (await read()).profile;
+    return (p.height_entries || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+  },
+  /** Registra una altura (reemplaza la del mismo día; la actual = la última). */
+  async logHeight(value: number, date: string): Promise<Profile> {
+    const d = await read();
+    const entries = (d.profile.height_entries || []).filter((e) => e.date !== date);
+    entries.push({ date, value });
+    entries.sort((a, b) => (a.date < b.date ? 1 : -1));
+    d.profile.height_entries = entries;
     await write(d);
     return d.profile;
   },
