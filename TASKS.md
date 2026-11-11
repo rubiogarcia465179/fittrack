@@ -270,6 +270,39 @@ Pendientes con estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado.
   páginas + `web-flow.js` 50 comprobaciones, 0 fallos. Capturas del repo
   regeneradas (01–09, +08 detalles y +09 perfil).
 
+## Fase 11 — Flujo "ejercicio actual" + cajas uniformes + mp4
+- [x] **Sesión aún más intuitiva** (pedido del usuario: "ejercicio actual,
+  acabarlo, y después el siguiente que la app te indica, o sugerir nuevo
+  del mismo grupo muscular"):
+  - Cada tarjeta de ejercicio lleva un **foco "ACTUAL"**: franja superior
+    "● AHORA · Ejercicio N de M" + línea "Siguiente: [nombre completo]"
+    (la app indica el que sigue según el plan) + borde naranja.
+  - Botón **"Acabar ejercicio"** en la tarjeta actual: avanza al siguiente
+    (scroll + toast "Siguiente: X"). En el último: "¡Sesión completada!".
+  - El resto de tarjetas quedan **atenuadas** (opacity 0.58) con botón
+    "Ir allí" (salta el foco) → menos cosas en pantalla, foco claro.
+  - **"Sugerir ejercicio"** ahora sugiere del **mismo grupo muscular** que
+    el ejercicio actual (reutiliza `suggestNextExercise` con `groups`).
+  - Al añadir un ejercicio (búsqueda/sugerencia) el foco salta a él.
+  - Las píldoras de estado (Disponible/Ocupado/Fuera de servicio) se
+    muestran **solo en el ejercicio actual** (donde se entrena de verdad).
+- [x] **Cajas uniformes**: el box de Fecha de "Detalles" medía 45px de alto
+  frente a 62px de los ValueBox (reps/kg) — ahora mismo tamaño (ValueBox con
+  valor + unidad), todas las cajas de "Detalles" iguales.
+- [x] **Colores premium confirmados** (medido en vivo): fondo sesión
+  `linear-gradient(rgb(24,38,86) → rgb(7,13,29))`; CTA
+  `linear-gradient(rgb(240,91,31) → rgb(188,61,6))`.
+- [x] **Video en MP4** (`docs/screenshots/video-iphone16.mp4`, H.264 34 s,
+  con el paso "Acabar ejercicio") + webm. `record-video.js` copia ahora el
+  .webm más reciente por mtime (antes copiaba uno viejo de grabaciones
+  previas).
+- [x] **i18n**: +9 claves (258) en 4 bundles + espejos.
+- [x] **QA**: 7 harnesses Chromium **0 FALLOS** (dup-verify/dup-scroll2
+  adaptados a la franja de foco — excluyen "AHORA/Siguiente:" al detectar el
+  nombre de tarjeta); `tests/run.js` 78/78; `runtime.js` 50/50; web build
+  233 páginas + `web-flow.js` 50 comprobaciones 0 fallos; capturas 01–09 y
+  video mp4/webm regenerados.
+
 ## Testing en el host (documentado en README.md)
 - [x] Web: `cd web && npm ci && npm run build && npm run preview -- --host`
 - [x] App: `cd app && npm ci && npx expo start` + Expo Go (QR) — Android e

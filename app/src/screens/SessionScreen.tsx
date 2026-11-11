@@ -221,12 +221,16 @@ export default function SessionScreen({
   const [pick, setPick] = useState<PickTarget | null>(null);
   // R-15: sugerencia de ejercicio (el que sigue). R-16: búsqueda bajo demanda.
   const [suggestedId, setSuggestedId] = useState<string | null>(null);
-  const [suggestIdx, setSuggestIdx] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
   // Campos secundarios (fecha, duración, peso, altura, notas) PLEGADOS por
   // defecto: la sesión muestra solo lo importante para entrenar. El
   // usuario expande "Detalles" cuando quiera ajustarlos.
   const [detailsOpen, setDetailsOpen] = useState(false);
+
+  // Foco en el EJERCICIO ACTUAL: el usuario entrena de arriba a abajo.
+  // `currentIndex` señala cuál es "el de ahora"; "Acabar ejercicio"
+  // lo avanza al siguiente y la app indica cuál es ese siguiente.
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
   const recent = useMemo(() => recentRows(sessions), [sessions]);
@@ -292,8 +296,7 @@ export default function SessionScreen({
   const addExercise = (id: string) => {
     if (draft.some((d) => d.exercise_id === id)) {
       setQ('');
-      const off = cardOffsets.current[id] ?? 0;
-      setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, off - 24), animated: true }), 60);
+      jumpToExercise(id); // sin duplicar: enfoca el que ya está
       return;
     }
     const ex = byId.get(id);
@@ -321,8 +324,9 @@ export default function SessionScreen({
     setDraft((d) => [...d, { exercise_id: id, sets: fresh }]);
     setQ('');
     setSaved(false);
+    setCurrentIndex(draft.length); // el foco salta al ejercicio recién añadido
     flash(t('sess_added'));
-    setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 60);
+    setTimeout(() => scrollRef.current?.scrollTo({ y: scrollRef.current?.scrollHeight ?? 0, animated: true }), 60);
   };
 
   const removeExercise = (id: string) =>
@@ -364,6 +368,60 @@ export default function SessionScreen({
     const i = suggestList.indexOf(suggestedId);
     const next = suggestList[(i + 1) % suggestList.length];
     setSuggestedId(next === suggestedId ? null : next);
+  };
+
+  // ---- foco en el ejercicio actual ----
+  // El índice siempre apunta dentro del draft (se ajusta al añadir/borrar).
+  useEffect(() => {
+    if (draft.length === 0) {
+      if (currentIndex !== 0) setCurrentIndex(0);
+      return;
+    }
+    if (currentIndex >= draft.length) setCurrentIndex(draft.length - 1);
+  }, [draft.length, currentIndex]);
+
+  const currentId = draft[currentIndex]?.exercise_id ?? null;
+
+  // El ejercicio que SIGUE según el plan (lo indica la app al "acabar").
+  const nextInPlan = draft[currentIndex + 1] ? byId.get(draft[currentIndex + 1].exercise_id) ?? null : null;
+
+  const finishExercise = () => {
+    const idx = currentIndex;
+    if (idx + 1 < draft.length) {
+      setCurrentIndex(idx + 1);
+      const off = cardOffsets.current[draft[idx + 1].exercise_id] ?? 0;
+      setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, off - 24), animated: true }), 60);
+      flash(t('sess_next', { name: nameOf(nextInPlan ?? undefined) }));
+      return;
+    }
+    flash(t('sess_done_all'));
+  };
+
+  const jumpToExercise = (id: string) => {
+    const i = draft.findIndex((x) => x.exercise_id === id);
+    if (i < 0) return;
+    setCurrentIndex(i);
+    const off = cardOffsets.current[id] ?? 0;
+    setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, off - 24), animated: true }), 60);
+  };
+
+  // Sugerir del MISMO grupo muscular que el ejercicio actual.
+  const sameGroupSuggest = () => {
+    const cur = currentId ? byId.get(currentId) : null;
+    if (!cur) return;
+    const cand = suggestNextExercise(exercises, {
+      mode: session.equipment_mode,
+      groups: [cur.muscle_group],
+      benchmarks: session.benchmarks,
+      recent,
+      exclude: draft.map((x) => x.exercise_id),
+    });
+    if (cand) {
+      setSuggestedId(cand.id);
+      flash(`${t('sess_group_hint', { group: t(`group_${cand.muscle_group}`) })}`);
+    } else {
+      requestSuggestion();
+    }
   };
 
   // ---- R-16: búsqueda bajo demanda (hoja inferior) ----
@@ -757,6 +815,7 @@ export default function SessionScreen({
                   onPress={() => setDateOpen((o) => !o)}
                 >
                   <Text style={[styles.dateText, { color: p.text }]}>{fmtDay(date, lang)}</Text>
+                  <Text style={[styles.dateUnit, { color: p.secondary }]}>fecha</Text>
                 </Pressable>
               </View>
               <View style={styles.fieldWrap}>
@@ -896,7 +955,7 @@ export default function SessionScreen({
         ) : (
           <Pressable
             accessibilityRole="button"
-            onPress={requestSuggestion}
+            onPress={() => (currentId ? sameGroupSuggest() : requestSuggestion())}
             style={({ pressed }) => [
               styles.suggestGhost,
               {
@@ -917,17 +976,53 @@ export default function SessionScreen({
         {draft.length === 0 ? (
           <Text style={[styles.empty, { color: p.dim }]}>{t('sess_no_exercises')}</Text>
         ) : (
-          draft.map((d) => {
+          draft.map((d, di) => {
             const ex = byId.get(d.exercise_id);
             const est1rm = Math.round(Math.max(...d.sets.map((s) => oneRm(s.weight_kg, s.reps)), 0));
+            const isCurrent = di === currentIndex;
+            const isLast = di === draft.length - 1;
             return (
               <View
                 key={d.exercise_id}
-                style={[styles.draftCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}
+                style={[
+                  styles.draftCard,
+                  {
+                    backgroundColor: p.card,
+                    borderColor: isCurrent ? p.accent : p.cardBorder,
+                    borderWidth: isCurrent ? 2 : 1,
+                    opacity: isCurrent ? 1 : 0.58,
+                    ...SHADOW.card,
+                  },
+                ]}
                 onLayout={(e) => {
                   cardOffsets.current[d.exercise_id] = e.nativeEvent.layout.y;
                 }}
               >
+                {/* Foco: solo el ejercicio ACTUAL marca con la franja superior. */}
+                {isCurrent ? (
+                  <View
+                    style={[
+                      styles.focusStrip,
+                      { borderColor: p.accent, borderLeftColor: p.accent },
+                    ]}
+                  >
+                    <View style={styles.nowWrap}>
+                      <View style={[styles.nowDot, { backgroundColor: p.accent }]} />
+                      <Text style={[styles.nowText, { color: p.accent }]}>{t('sess_now')}</Text>
+                      <Text style={[styles.posText, { color: p.secondary }]}>
+                        {t('sess_pos', { n: di + 1, m: draft.length })}
+                      </Text>
+                    </View>
+                    {nextInPlan ? (
+                      <View style={styles.nextRow}>
+                        <Text style={[styles.nextLabel, { color: p.dim }]}>{t('sess_next_prefix')}</Text>
+                        <Text style={[styles.nextName, { color: p.secondary }]} numberOfLines={1}>
+                          {nameOf(nextInPlan)}
+                        </Text>
+                      </View>
+                    ) : null}
+                  </View>
+                ) : null}
                 <View style={styles.draftHeader}>
                   <View style={styles.draftTitleWrap}>
                     <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} />
@@ -951,12 +1046,15 @@ export default function SessionScreen({
                   </Text>
                 ) : null}
 
-                {/* estado del material */}
-                <View style={styles.statusRow}>
-                  {statusChip(d.exercise_id, 'available', t('status_available'))}
-                  {statusChip(d.exercise_id, 'busy', t('status_busy'))}
-                  {statusChip(d.exercise_id, 'unavailable', t('status_unavailable'))}
-                </View>
+                {/* estado del material: solo en el ejercicio ACTUAL (donde
+                    de verdad se entrena) — en el resto es ruido. */}
+                {isCurrent ? (
+                  <View style={styles.statusRow}>
+                    {statusChip(d.exercise_id, 'available', t('status_available'))}
+                    {statusChip(d.exercise_id, 'busy', t('status_busy'))}
+                    {statusChip(d.exercise_id, 'unavailable', t('status_unavailable'))}
+                  </View>
+                ) : null}
 
                 {/* benchmark: 1RM */}
                 {isBenchmark ? (
@@ -1060,6 +1158,31 @@ export default function SessionScreen({
                 >
                   <Text style={[styles.addSetText, { color: p.accent }]}>+ {t('sess_add_set')}</Text>
                 </Pressable>
+                {/* Foco: "Acabar ejercicio" (avanza al siguiente) o "Ir allí". */}
+                {isCurrent ? (
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.finishBtn,
+                      { backgroundColor: p.accent, opacity: isLast ? 0.6 : pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
+                    ]}
+                    accessibilityRole="button"
+                    accessibilityLabel={isLast ? t('sess_done_all') : t('sess_finish')}
+                    onPress={finishExercise}
+                  >
+                    <Text style={[styles.finishBtnText, { color: '#fff' }]}>
+                      {isLast ? t('sess_done_all') : t('sess_finish')}
+                    </Text>
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    style={({ pressed }) => [styles.goBtn, { opacity: pressed ? 0.7 : 1, borderColor: p.border }]}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${t('sess_go_to')}: ${ex ? nameOf(ex) : d.exercise_id}`}
+                    onPress={() => jumpToExercise(d.exercise_id)}
+                  >
+                    <Text style={[styles.goBtnText, { color: p.secondary }]}>{t('sess_go_to')}</Text>
+                  </Pressable>
+                )}
               </View>
             );
           })
@@ -1535,17 +1658,24 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 6,
   },
+  // La caja de fecha usa las mismas métricas que un ValueBox (reps/kg) para
+  // que las cajas de "Detalles" queden todas del mismo tamaño.
   dateBox: {
+    width: '100%', // misma fila que la caja de duración → mismos anchos
     borderRadius: RADII.field,
     borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 12,
   },
   dateText: {
-    fontSize: 15,
-    fontWeight: '600',
+    fontSize: 19,
+    fontWeight: '700',
+  },
+  dateUnit: {
+    fontSize: 12,
+    marginTop: 2,
   },
   dateRow: {
     gap: 8,
@@ -1863,6 +1993,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   benchBox: {
+    width: '100%', // la fila 1RM tiene dos columnas → cajas del mismo ancho
     borderRadius: RADII.field,
     borderWidth: 1,
     paddingHorizontal: 10,
@@ -1916,6 +2047,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   valueBox: {
+    width: '100%', // el box llena su columna (flex:1) → mismo ancho que su vecino
     borderRadius: RADII.field,
     borderWidth: 1,
     alignItems: 'center',
@@ -1949,6 +2081,72 @@ const styles = StyleSheet.create({
   },
   addSetText: {
     fontSize: 14,
+    fontWeight: '700',
+  },
+  // ---- Foco en el ejercicio actual ----
+  focusStrip: {
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderWidth: 1,
+    borderLeftWidth: 3,
+  },
+  nowWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  nowDot: {
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+  },
+  nowText: {
+    fontSize: 13,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+  },
+  posText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  nextRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 6,
+    paddingLeft: 17, // alineado con el texto "AHORA" (punto + gap)
+  },
+  nextLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  nextName: {
+    fontSize: 13,
+    fontWeight: '700',
+    flexShrink: 1,
+  },
+  finishBtn: {
+    marginTop: 10,
+    borderRadius: 12,
+    paddingVertical: 13,
+    alignItems: 'center',
+  },
+  finishBtnText: {
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  goBtn: {
+    marginTop: 10,
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  goBtnText: {
+    fontSize: 13,
     fontWeight: '700',
   },
   postponedCard: {

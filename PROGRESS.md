@@ -322,3 +322,30 @@ tarea.
   adaptados a "Detalles" expandible + navy nuevo); web `astro build` 233
   páginas + `web-flow.js` 50 comprobaciones, 0 fallos. Capturas del repo
   regeneradas 01–09 (+08 detalles, +09 perfil).
+- 2026-11-11 — **Fase 11: Flujo "ejercicio actual" + cajas uniformes + mp4**:
+  petición del usuario — la sesión, mientras se entrena, debía ser **más
+  intuitiva y con menos cosas en pantalla**: "ejercicio actual, acabarlo, y
+  después el siguiente (que la app te indica), o sugerir uno nuevo del mismo
+  grupo muscular". (1) **Foco en el ejercicio ACTUAL**: cada tarjeta del
+  plan es la "actual" según un índice; la actual marca con una franja
+  superior "● AHORA · Ejercicio N de M" + línea **"Siguiente: [nombre
+  completo]"** (la app indica el que sigue según el plan) + borde naranja;
+  un botón **"Acabar ejercicio"** avanza al siguiente (scroll + toast) — en
+  el último, "¡Sesión completada!". El resto de tarjetas queda **atenuado**
+  (opacity 0.58) con botón **"Ir allí"** (salta el foco). "Sugerir
+  ejercicio" ahora propone del **mismo grupo muscular** que el actual
+  (reutiliza `suggestNextExercise` con `groups`). Al añadir un ejercicio el
+  foco salta a él. Las píldoras de estado (Disponible/Ocupado/Fuera de
+  servicio) se muestran **solo en el ejercicio actual** — el resto, ruido.
+  (2) **Cajas uniformes**: el box de Fecha de "Detalles" medía 45px vs 62px
+  de los ValueBox (reps/kg) → ahora mismo tamaño (valor + unidad).
+  (3) **Colores premium confirmados** (medido en vivo): fondo sesión
+  `linear-gradient(rgb(24,38,86)→rgb(7,13,29))`, CTA
+  `linear-gradient(rgb(240,91,31)→rgb(188,61,6))`. (4) **Video MP4**
+  (`docs/screenshots/video-iphone16.mp4`, H.264, 34 s, con "Acabar
+  ejercicio") + webm; `record-video.js` copia el .webm más reciente por
+  mtime (antes copiaba uno viejo). i18n: +9 claves (258).
+  Verificación: 7 harnesses Chromium **0 FALLOS** (dup-verify/dup-scroll2
+  adaptados a la franja de foco); `tests/run.js` 78/78; `runtime.js` 50/50;
+  web build 233 páginas + `web-flow.js` 50 comprobaciones 0 fallos;
+  capturas 01–09 y video mp4/webm regenerados.
