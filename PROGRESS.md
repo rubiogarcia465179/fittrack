@@ -328,24 +328,37 @@ tarea.
   después el siguiente (que la app te indica), o sugerir uno nuevo del mismo
   grupo muscular". (1) **Foco en el ejercicio ACTUAL**: cada tarjeta del
   plan es la "actual" según un índice; la actual marca con una franja
-  superior "● AHORA · Ejercicio N de M" + línea **"Siguiente: [nombre
-  completo]"** (la app indica el que sigue según el plan) + borde naranja;
-  un botón **"Acabar ejercicio"** avanza al siguiente (scroll + toast) — en
-  el último, "¡Sesión completada!". El resto de tarjetas queda **atenuado**
-  (opacity 0.58) con botón **"Ir allí"** (salta el foco). "Sugerir
-  ejercicio" ahora propone del **mismo grupo muscular** que el actual
-  (reutiliza `suggestNextExercise` con `groups`). Al añadir un ejercicio el
-  foco salta a él. Las píldoras de estado (Disponible/Ocupado/Fuera de
-  servicio) se muestran **solo en el ejercicio actual** — el resto, ruido.
+  superior "● AHORA · Ejercicio N de M" + borde naranja y la app centra la
+  tarjeta en la parte visible al montar y al avanzar (scroll de foco).
+  **La acción "Acabar ejercicio" vive en la barra fija inferior** (siempre
+  visible, sin scroll) junto a "Guardar sesión", con la leyenda
+  **"Siguiente: [nombre completo]"** sobre los botones (en el último,
+  "Último ejercicio" → al pulsar, "¡Sesión completada!" + avance). El resto
+  de tarjetas queda **atenuado** (opacity 0.58) con botón **"Ir allí"**
+  (salta el foco). "Sugerir ejercicio" ahora propone del **mismo grupo
+  muscular** que el actual (reutiliza `suggestNextExercise` con `groups`).
+  Al añadir un ejercicio el foco salta a él. Las píldoras de estado
+  (Disponible/Ocupado/Fuera de servicio) se muestran **solo en el ejercicio
+  actual** — el resto, ruido.
   (2) **Cajas uniformes**: el box de Fecha de "Detalles" medía 45px vs 62px
   de los ValueBox (reps/kg) → ahora mismo tamaño (valor + unidad).
-  (3) **Colores premium confirmados** (medido en vivo): fondo sesión
-  `linear-gradient(rgb(24,38,86)→rgb(7,13,29))`, CTA
-  `linear-gradient(rgb(240,91,31)→rgb(188,61,6))`. (4) **Video MP4**
-  (`docs/screenshots/video-iphone16.mp4`, H.264, 34 s, con "Acabar
-  ejercicio") + webm; `record-video.js` copia el .webm más reciente por
-  mtime (antes copiaba uno viejo). i18n: +9 claves (258).
-  Verificación: 7 harnesses Chromium **0 FALLOS** (dup-verify/dup-scroll2
-  adaptados a la franja de foco); `tests/run.js` 78/78; `runtime.js` 50/50;
-  web build 233 páginas + `web-flow.js` 50 comprobaciones 0 fallos;
-  capturas 01–09 y video mp4/webm regenerados.
+  (3) **Colores premium en APP Y WEB (paridad)**: la web seguía con el navy
+  plano viejo (`#0E1730`) sin degradado; ahora `body.workout-active` usa
+  el mismo navy premium que la app — fondo
+  `linear-gradient(#182656 → #070D1D)` (attachment fixed), acento
+  `#F05B1F`, CTA `#F05B1F → #BC3D06`, `--bg #070D1D` — y el `meta
+  theme-color` sigue al tema (`#070D1D`). Medido en vivo: app
+  `linear-gradient(rgb(24,38,86)→rgb(7,13,29))` y web idéntico.
+  (4) **Video MP4** (`docs/screenshots/video-iphone16.mp4`, H.264, 33 s,
+  con "Acabar ejercicio" en la barra fija) + webm; `record-video.js` copia
+  el .webm más reciente por mtime. i18n: +10 claves (259) en 4 bundles +
+  espejos.
+  Verificación: 7 harnesses Chromium **0 FALLOS** (geometry adaptado a la
+  barra fija en 2 filas: leyenda arriba, botones abajo; dup-verify/
+  dup-scroll2 adaptados a la franja de foco; smoke/devices/refresh-v3/
+  wide-flow con reintento de navegación — `networkidle` daba
+  ERR_EMPTY_RESPONSE con http.server mono-proceso bajo carga);
+  `tests/run.js` 78/78; `runtime.js` 50/50; web build 233 páginas +
+  `web-flow.js` **51 comprobaciones, 0 fallos** (nuevas aserciones:
+  theme-color premium + fondo degradado); capturas 01–09 y video mp4/webm
+  regenerados con el diseño final.

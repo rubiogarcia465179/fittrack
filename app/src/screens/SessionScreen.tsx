@@ -10,7 +10,7 @@
  * El estado vive en App (persistido): al navegar o recargar la página el
  * entrenamiento sigue donde estaba, y la app pinta el tema "workout".
  */
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -326,7 +326,7 @@ export default function SessionScreen({
     setSaved(false);
     setCurrentIndex(draft.length); // el foco salta al ejercicio recién añadido
     flash(t('sess_added'));
-    setTimeout(() => scrollRef.current?.scrollTo({ y: scrollRef.current?.scrollHeight ?? 0, animated: true }), 60);
+    setTimeout(() => focusScroll(id), 60);
   };
 
   const removeExercise = (id: string) =>
@@ -384,13 +384,38 @@ export default function SessionScreen({
 
   // El ejercicio que SIGUE según el plan (lo indica la app al "acabar").
   const nextInPlan = draft[currentIndex + 1] ? byId.get(draft[currentIndex + 1].exercise_id) ?? null : null;
+  const isLastExercise = currentIndex >= draft.length - 1;
+
+  // Scroll de foco: centra la tarjeta ACTUAL en la parte superior de la zona
+  // visible (franja "AHORA" + nombre del ejercicio siempre a la vista). La
+  // acción "Acabar ejercicio" vive en la barra fija, así no hay que scrollear
+  // para llegar al final de la tarjeta.
+  const focusScroll = useCallback((id: string) => {
+    const off = cardOffsets.current[id];
+    if (off == null) return;
+    scrollRef.current?.scrollTo({ y: Math.max(0, off - 12), animated: true });
+  }, []);
+
+  // Al montar la sesión (draft ya preparado), centra el ejercicio actual.
+  const focusedOnce = useRef(false);
+  useEffect(() => {
+    if (draft.length === 0) return;
+    if (focusedOnce.current) return;
+    focusedOnce.current = true;
+    const id = draft[currentIndex]?.exercise_id;
+    if (!id) return;
+    const t1 = setTimeout(() => focusScroll(id), 150);
+    const t2 = setTimeout(() => focusScroll(id), 450); // 2ª pasada: layout final
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const finishExercise = () => {
     const idx = currentIndex;
     if (idx + 1 < draft.length) {
       setCurrentIndex(idx + 1);
-      const off = cardOffsets.current[draft[idx + 1].exercise_id] ?? 0;
-      setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, off - 24), animated: true }), 60);
+      const nid = draft[idx + 1].exercise_id;
+      setTimeout(() => focusScroll(nid), 60);
       flash(t('sess_next', { name: nameOf(nextInPlan ?? undefined) }));
       return;
     }
@@ -401,8 +426,7 @@ export default function SessionScreen({
     const i = draft.findIndex((x) => x.exercise_id === id);
     if (i < 0) return;
     setCurrentIndex(i);
-    const off = cardOffsets.current[id] ?? 0;
-    setTimeout(() => scrollRef.current?.scrollTo({ y: Math.max(0, off - 24), animated: true }), 60);
+    setTimeout(() => focusScroll(id), 60);
   };
 
   // Sugerir del MISMO grupo muscular que el ejercicio actual.
@@ -1013,14 +1037,6 @@ export default function SessionScreen({
                         {t('sess_pos', { n: di + 1, m: draft.length })}
                       </Text>
                     </View>
-                    {nextInPlan ? (
-                      <View style={styles.nextRow}>
-                        <Text style={[styles.nextLabel, { color: p.dim }]}>{t('sess_next_prefix')}</Text>
-                        <Text style={[styles.nextName, { color: p.secondary }]} numberOfLines={1}>
-                          {nameOf(nextInPlan)}
-                        </Text>
-                      </View>
-                    ) : null}
                   </View>
                 ) : null}
                 <View style={styles.draftHeader}>
@@ -1158,22 +1174,9 @@ export default function SessionScreen({
                 >
                   <Text style={[styles.addSetText, { color: p.accent }]}>+ {t('sess_add_set')}</Text>
                 </Pressable>
-                {/* Foco: "Acabar ejercicio" (avanza al siguiente) o "Ir allí". */}
-                {isCurrent ? (
-                  <Pressable
-                    style={({ pressed }) => [
-                      styles.finishBtn,
-                      { backgroundColor: p.accent, opacity: isLast ? 0.6 : pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
-                    ]}
-                    accessibilityRole="button"
-                    accessibilityLabel={isLast ? t('sess_done_all') : t('sess_finish')}
-                    onPress={finishExercise}
-                  >
-                    <Text style={[styles.finishBtnText, { color: '#fff' }]}>
-                      {isLast ? t('sess_done_all') : t('sess_finish')}
-                    </Text>
-                  </Pressable>
-                ) : (
+                {/* El "Acabar ejercicio" vive en la barra fija inferior (siempre
+                    visible, sin scroll). Aquí solo "Ir allí" en los demás. */}
+                {isCurrent ? null : (
                   <Pressable
                     style={({ pressed }) => [styles.goBtn, { opacity: pressed ? 0.7 : 1, borderColor: p.border }]}
                     accessibilityRole="button"
@@ -1478,29 +1481,49 @@ export default function SessionScreen({
         </View>
       ) : null}
 
-      {/* Barra fija de guardado: siempre visible, sin hacer scroll. */}
+      {/* Barra fija: arriba, la leyenda de la acción del momento
+          ("Siguiente: X" / "Último ejercicio"); abajo, los botones.
+          Siempre visible, sin scroll. */}
       <View style={[styles.footer, { backgroundColor: p.headerBg, borderTopColor: p.border }]}>
-        {saved ? (
-          <Text style={[styles.savedText, { color: p.green }]} numberOfLines={2}>
-            {t('sess_saved')} — {t('sess_saved_hint')}
-          </Text>
-        ) : (
-          <Text style={[styles.footerCount, { color: p.secondary }]} numberOfLines={1}>
-            {plural(draft.length, t, 'hist_exercise', 'hist_exercises')} · {plural(totalSets, t, 'hist_set', 'hist_sets_total')}
-          </Text>
-        )}
-        <Pressable
-          style={({ pressed }) => [
-            { opacity: draft.length === 0 || saving ? 0.4 : pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
-          ]}
-          accessibilityRole="button"
-          disabled={draft.length === 0 || saving}
-          onPress={save}
+        <Text
+          style={[styles.footerCaption, { color: saved ? p.green : p.secondary }]}
+          numberOfLines={saved ? 2 : 1}
         >
-          <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
-            <Text style={styles.saveBtnText}>{saving ? t('saving') : isBenchmark ? t('bench_save') : t('sess_save')}</Text>
-          </Gradient>
-        </Pressable>
+          {saved
+            ? `${t('sess_saved')} — ${t('sess_saved_hint')}`
+            : currentId
+              ? isLastExercise
+                ? t('sess_last_hint')
+                : `${t('sess_next_prefix')} ${nameOf(nextInPlan ?? undefined)}`
+              : `${plural(draft.length, t, 'hist_exercise', 'hist_exercises')} · ${plural(totalSets, t, 'hist_set', 'hist_sets_total')}`}
+        </Text>
+        <View style={styles.footerBtns}>
+          {currentId ? (
+            <Pressable
+              style={({ pressed }) => [
+                styles.finishBtn,
+                { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
+              ]}
+              accessibilityRole="button"
+              accessibilityLabel={isLastExercise ? t('sess_done_all') : t('sess_finish')}
+              onPress={finishExercise}
+            >
+              <Text style={[styles.finishBtnText, { color: '#fff' }]}>{t('sess_finish')}</Text>
+            </Pressable>
+          ) : null}
+          <Pressable
+            style={({ pressed }) => [
+              { flex: 1, opacity: draft.length === 0 || saving ? 0.4 : pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
+            ]}
+            accessibilityRole="button"
+            disabled={draft.length === 0 || saving}
+            onPress={save}
+          >
+            <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
+              <Text style={styles.saveBtnText}>{saving ? t('saving') : isBenchmark ? t('bench_save') : t('sess_save')}</Text>
+            </Gradient>
+          </Pressable>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -2112,13 +2135,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
-  nextRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    marginTop: 6,
-    paddingLeft: 17, // alineado con el texto "AHORA" (punto + gap)
-  },
   nextLabel: {
     fontSize: 12,
     fontWeight: '600',
@@ -2129,9 +2145,9 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   finishBtn: {
-    marginTop: 10,
     borderRadius: 12,
-    paddingVertical: 13,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
     alignItems: 'center',
   },
   finishBtnText: {
@@ -2295,18 +2311,21 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   footer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 12,
+    flexDirection: 'column',
+    gap: 8,
     borderTopWidth: 1,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingTop: 8,
+    paddingBottom: 12,
   },
-  footerCount: {
-    flex: 1,
+  footerCaption: {
     fontSize: 13,
     fontWeight: '600',
+  },
+  footerBtns: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   savedText: {
     flex: 1,
@@ -2314,6 +2333,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   saveBtnBox: {
+    flex: 1,
     borderRadius: RADII.tile,
   },
   saveBtn: {

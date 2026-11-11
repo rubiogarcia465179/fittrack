@@ -192,6 +192,7 @@
   "sess_go_to": "Y aller",
   "sess_group_hint": "même groupe musculaire : {{group}}",
   "sess_height": "Taille",
+  "sess_last_hint": "Dernier exercice",
   "sess_next": "Suivant : {{name}}",
   "sess_next_prefix": "Suivant :",
   "sess_no_exercises": "Ajoutez d'abord un exercice.",

@@ -192,6 +192,7 @@
   "sess_go_to": "Ga ernaar",
   "sess_group_hint": "zelfde spiergroep: {{group}}",
   "sess_height": "Lengte",
+  "sess_last_hint": "Laatste oefening",
   "sess_next": "Volgende: {{name}}",
   "sess_next_prefix": "Volgende:",
   "sess_no_exercises": "Voeg eerst een oefening toe.",

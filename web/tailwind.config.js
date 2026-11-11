@@ -23,7 +23,7 @@ export default {
         AppGreen: '#2E7D44',
         AppRed: '#C43C2A',
         AppFieldBg: '#EFE8DA',
-        AppNavy: '#0E1730',     // tema activo (sesión en curso)
+        AppNavy: '#070D1D',     // tema activo (sesión en curso; fondo base del degradado)
         AppNavyCard: '#182342',
         AppNavyText: '#F3EEE3',
         AppNavyDim: '#8896B5',

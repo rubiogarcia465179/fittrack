@@ -48,16 +48,16 @@
 }
 
 body.workout-active {
-  --bg: #0e1730;
+  --bg: #070d1d;
   --section: #0a1224;
   --card: #182342;
   --card-border: #26345c;
-  --text: #f3eee3;
+  --text: #f4efe5;
   --secondary: #a9b6d1;
-  --dim: #8896b5;
-  --border: #2a3a63;
-  --accent: #f0622b;
-  --accent-dark: #d9541e;
+  --dim: #8a97b7;
+  --border: #283a66;
+  --accent: #f05b1f;
+  --accent-dark: #bc3d06;
   --link: #ff8a50;
   --green: #4cc97a;
   --red: #ff6b57;
@@ -83,6 +83,12 @@ body.workout-active {
     font-size: 17px;
     line-height: 1.47;
     transition: background 200ms ease, color 200ms ease;
+  }
+  /* Tema premium de sesión: fondo navy profundo con degradado (paridad
+     app: GRADIENTS.workout.bg #182656 → #070D1D, `Gradient` de la app). */
+  body.workout-active {
+    background-image: linear-gradient(180deg, #182656 0%, #070d1d 100%);
+    background-attachment: fixed;
   }
   ::selection {
     background: rgba(217, 84, 30, 0.25);

@@ -100,7 +100,7 @@ const nav = [
       function syncTheme() {
         const on = document.body.classList.contains('workout-active');
         const meta = document.getElementById('meta-theme');
-        if (meta) meta.setAttribute('content', on ? '#0E1730' : '#F3EEE3');
+        if (meta) meta.setAttribute('content', on ? '#070D1D' : '#F3EEE3');
       }
       new MutationObserver(syncTheme).observe(document.body, { attributes: true, attributeFilter: ['class'] });
       syncTheme();

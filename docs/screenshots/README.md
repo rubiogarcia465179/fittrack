@@ -10,8 +10,8 @@ solo locales, Montserrat embebida, sin red.
 | 02 | Arranque de sesión | Dos caminos claros: "Recomiéndame un entreno" / "Añado mis datos yo" |
 | 03 | Wizard — objetivo | Paso a paso: cada objetivo define su esquema series×reps (músculo 3×10·90s, fuerza 4×5·150s, …) |
 | 04 | Wizard — revisión | Plan generado con pesos desde benchmarks + botón "Empezar entrenamiento" |
-| 05 | Sesión activa | Tema navy con degradado, progreso "0/18 series hechas", tarjeta **ACTUAL** (AHORA + "Siguiente: …"), sugerir/añadir |
-| 06 | Sesión con foco | Flujo "ejercicio actual": el 2º ejercicio en foco, el 1º atenuado con botón "Ir allí", serie "Hecha" + serie añadida |
+| 05 | Sesión activa | Tema navy con degradado, progreso, tarjeta **ACTUAL** (franja AHORA) y barra fija inferior con leyenda "Siguiente: …" + **"Acabar ejercicio"** + "Guardar sesión" |
+| 06 | Sesión con foco | Flujo "ejercicio actual": el 2º en foco, el 1º atenuado con "Ir allí"; barra fija "Último ejercicio" + **"Acabar ejercicio"** |
 | 07 | Picker de valor | Hoja inferior: handle, rejilla responsiva de chips (sin overflow), confirmación abajo |
 | 08 | Detalles | Campos secundarios plegados/expandibles: fecha, duración, peso corporal, altura, notas (cajas del mismo tamaño) |
 | 09 | Perfil | 5ª pestaña: peso corporal (de las sesiones) + altura con tendencia y "Registrar" — opcional |
