@@ -28,6 +28,10 @@ import type { Lang } from '../i18n';
 import { Image } from 'react-native';
 import { canPickPhoto, pickPhoto } from '../lib/pickPhoto';
 import { loadHomePhoto, saveHomePhoto } from '../lib/homePhoto';
+import { effectiveRecords } from '../lib/records';
+import type { BenchmarkRef } from '../store';
+import type { ExerciseRow } from '../lib/gym';
+import { exName } from '../lib/names';
 import { Chevron } from '../components/Chevron';
 
 /** Temas a la vista; el resto, en "Más temas". */
@@ -54,6 +58,9 @@ export default function ProfileScreen({
   onPickNationality,
   useFlag,
   onToggleFlag,
+  exercises,
+  benchmarks,
+  onStartBenchmark,
 }: {
   sessions: Session[]; // recientes primero
   onHeightLogged: () => void;
@@ -64,6 +71,11 @@ export default function ProfileScreen({
   onClearAll: () => Promise<void>;
   onDataChanged: () => void;
   onProfileChanged?: (p: Profile) => void;
+  /** Ejercicios (nombres) y marcas del test, para "Marcas personales". */
+  exercises: ExerciseRow[];
+  benchmarks: BenchmarkRef[];
+  /** "Establecer marcas": arranca la sesión de test con los 5 clásicos. */
+  onStartBenchmark: () => void;
   /** Tema visual (Noche, Día, Ámbar, Neón, Rubí). */
   themeId: ThemeId;
   onPickTheme: (id: ThemeId) => void;
@@ -190,6 +202,17 @@ export default function ProfileScreen({
     }
   };
 
+  // Marcas personales: test de marcas + mejores series (gana el mayor).
+  const exById = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
+  const records = useMemo(
+    () =>
+      [...effectiveRecords(sessions, benchmarks, (id) => exById.get(id)?.muscle_group === 'cardio').values()]
+        .filter((r) => r.kg > 0 && exById.has(r.exercise_id))
+        .sort((a, b) => b.kg - a.kg)
+        .slice(0, 5),
+    [sessions, benchmarks, exById],
+  );
+
   const card = { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card };
   const year = new Date().getFullYear();
 
@@ -222,10 +245,46 @@ export default function ProfileScreen({
         </View>
         {bmi ? (
           <Text style={[styles.energyNote, { color: p.secondary }]}>
-            {t('profile_bmi')} ≈ {Math.round(bmi * 10) / 10}
+            {t('profile_bmi')} ≈ {fmtNum(Math.round(bmi * 10) / 10)}
           </Text>
         ) : null}
         {weightTrend.length >= 2 ? <TrendCard title={t('profile_trend')} data={weightTrend} unit="kg" p={p} /> : null}
+      </View>
+
+      {/* ---- Marcas personales: salen de los datos (sesiones o test) ---- */}
+      <View style={[styles.card, card]}>
+        <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('home_prs')}</Text>
+        {records.length ? (
+          <View style={{ marginTop: 6 }}>
+            {records.map((r) => (
+              <View key={r.exercise_id} style={[styles.recRow, { borderBottomColor: p.border }]}>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.recName, { color: p.text }]} numberOfLines={1}>
+                    {exName(exById.get(r.exercise_id), lang)}
+                  </Text>
+                  <Text style={[styles.flagSub, { color: p.secondary }]} numberOfLines={1}>
+                    {r.source === 'sessions' && r.best_date
+                      ? t('records_from_sessions', { date: fmtDay(r.best_date, lang) })
+                      : t('records_from_test')}
+                  </Text>
+                </View>
+                <Text style={[styles.recVal, { color: p.text }]}>
+                  {fmtNum(r.kg)} <Text style={{ color: p.secondary, fontWeight: '600' }}>kg</Text>
+                </Text>
+              </View>
+            ))}
+          </View>
+        ) : (
+          <Text style={[styles.energyNote, { color: p.secondary }]}>{t('records_empty')}</Text>
+        )}
+        <Pressable
+          accessibilityRole="button"
+          onPress={onStartBenchmark}
+          style={({ pressed }) => [styles.photoBtn, styles.recBtn, { borderColor: p.border, opacity: pressed ? 0.7 : 1 }]}
+        >
+          <Text style={[styles.photoBtnText, { color: p.text }]}>{t('records_test_btn')}</Text>
+        </Pressable>
+        <Text style={[styles.flagSub, { color: p.secondary, marginTop: 8 }]}>{t('records_test_sub')}</Text>
       </View>
 
       {/* ---- 2. Calorías: un número; la explicación, plegada ---- */}
@@ -819,6 +878,10 @@ const styles = StyleSheet.create({
   },
   photoRow: { flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 14, paddingTop: 14, borderTopWidth: StyleSheet.hairlineWidth },
   photoEmpty: { borderStyle: 'dashed', borderWidth: 1 },
+  recRow: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 52, paddingVertical: 8, borderBottomWidth: StyleSheet.hairlineWidth },
+  recName: { fontSize: 15, fontWeight: '600' },
+  recVal: { fontSize: 17, fontWeight: '800', fontVariant: ['tabular-nums'] },
+  recBtn: { alignSelf: 'flex-start', marginTop: 14 },
   bodyRow: { flexDirection: 'row', alignItems: 'stretch', marginTop: 10, marginBottom: 4 },
   bodyCol: { flex: 1, alignItems: 'flex-start', gap: 6, paddingHorizontal: 4 },
   bodyLabel: { fontSize: 13, fontWeight: '600' },

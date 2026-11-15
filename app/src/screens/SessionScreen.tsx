@@ -1262,20 +1262,9 @@ export default function SessionScreen({
                         <Text style={[styles.benchBoxNum, { color: p.text }]}>{est1rm > 0 ? `${est1rm} kg` : '—'}</Text>
                       </View>
                     </View>
-                    <View style={styles.benchCol}>
-                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('bench_1rm')}</Text>
-                      <Pressable
-                        accessibilityRole="button"
-                        onPress={() => setPick({ kind: 'bench', ex: d.exercise_id })}
-                        style={({ pressed }) => [
-                          styles.benchBox,
-                          { backgroundColor: p.fieldBg, borderColor: p.border, transform: [{ scale: pressed ? 0.97 : 1 }] },
-                        ]}
-                      >
-                        <Text style={[styles.benchBoxNum, { color: benchManual[d.exercise_id] ? p.accent : p.dim }]}>
-                          {benchManual[d.exercise_id] ? `${benchManual[d.exercise_id]} kg` : t('bench_manual')}
-                        </Text>
-                      </Pressable>
+                    {/* Las marcas salen de los datos: sin 1RM manual. */}
+                    <View style={[styles.benchCol, { flex: 2, justifyContent: 'flex-end' }]}>
+                      <Text style={[styles.setCaption, { color: p.secondary, lineHeight: 18 }]}>{t('bench_hint')}</Text>
                     </View>
                   </View>
                 ) : null}

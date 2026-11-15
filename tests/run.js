@@ -170,6 +170,23 @@ eq(wlib.isBodyweightExercise(byId.get('back_squat')), false, 'back_squat (wger "
 eq(wlib.isBodyweightExercise(byId.get('crunches')), true, 'crunches = peso corporal (el nombre manda)');
 eq(wlib.isBodyweightExercise(byId.get('crunches_with_cable')), false, 'crunches_with_cable = con carga (polea)');
 
+// records.ts: marcas efectivas y días de récord (círculo verde).
+const rTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/records.ts'), 'utf8');
+const rOut = ts.transpileModule(rTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } });
+fs.writeFileSync(path.join(tmp, 'records_app.mjs'), rOut.outputText.replace(/from '\.\/gym'/g, "from './gym_app.mjs'"));
+const rec = await import(path.join(tmp, 'records_app.mjs'));
+const noCardio = () => false;
+const R1 = { id: 'r1', date: '2026-01-01', exercises: [{ exercise_id: 'bench_press', sets: [{ reps: 5, weight_kg: 80 }] }] };
+const R2 = { id: 'r2', date: '2026-01-08', exercises: [{ exercise_id: 'bench_press', sets: [{ reps: 5, weight_kg: 85 }] }] };
+const R3 = { id: 'r3', date: '2026-01-15', exercises: [{ exercise_id: 'bench_press', sets: [{ reps: 5, weight_kg: 70 }] }] };
+eq([...rec.recordDays([R1, R2, R3], [], noCardio)], ['2026-01-08'], 'recordDays: solo el día que supera la marca previa (la 1.ª vez no cuenta)');
+eq([...rec.recordDays([R1], [{ exercise_id: 'bench_press', estimated_1rm: 90 }], noCardio)], ['2026-01-01'], 'recordDays: supera la marca del test');
+const effR = rec.effectiveRecords([R1, R2], [{ exercise_id: 'bench_press', estimated_1rm: 120 }], noCardio).get('bench_press');
+eq([effR.kg, effR.source], [120, 'manual'], 'effectiveRecords: gana el test si es mayor');
+const effS = rec.effectiveRecords([R1, R2], [{ exercise_id: 'bench_press', estimated_1rm: 90 }], noCardio).get('bench_press');
+eq([effS.kg, effS.source, effS.best_date], [99, 'sessions', '2026-01-08'], 'effectiveRecords: si lo superas entrenando, manda la sesión (85×5 → 99 kg)');
+eq(rec.BENCHMARK_TEST.every((id) => byId.has(id)), true, 'BENCHMARK_TEST: los 5 clásicos existen en la base');
+
 const todayISO = web.todayISO;
 const mk = (id, date, exercises, extra = {}) => ({
   id, date,

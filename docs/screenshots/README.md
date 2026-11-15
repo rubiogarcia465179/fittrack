@@ -6,28 +6,31 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 
 | # | Pantalla | Qué muestra |
 |---|----------|-------------|
-| 01 | Inicio | "Hoy toca: …" (grupos del día), "Empezar sesión", marcas personales, calendario |
-| 02 | Inicio · más | Filas Historial y Ejercicios; actividad (hora del entreno) |
-| 03 | Tu entreno de hoy | Hoja previa: duración, intensidad, energía, objetivo |
-| 04 | Entreno generado | Sesión creada por la hoja (nunca 0 kg en ejercicios con carga) |
-| 05 | Sesión activa | "Añadir ejercicio" y "Detalles"; ejercicio actual; "Más opciones" plegado |
-| 06 | Más opciones | Sugerir ejercicio · ¿Máquina ocupada? · Quitar ejercicio |
-| 07 | ¿Cómo se hace? | Foto (de ejemplo, marcada), qué entrena, 3 pasos en español |
-| 08 | Descanso | Cuenta atrás tras completar una serie (+15 s, Saltar) |
-| 09 | Cardio | min · km · intensidad; "Terminar y guardar" |
-| 10 | Valoración | Energía y sensación (1–5) |
-| 11 | Historial | Desde Inicio (con "atrás"); fechas localizadas |
-| 12 | Historial · un día | Al tocar un día del calendario: solo ese día + "Ver todas" |
-| 13 | Ejercicios | Desde Inicio (con "atrás"); icono por grupo |
-| 14 | Perfil | Cuerpo (peso y altura) + calorías en una línea |
-| 15 | Calorías | "¿Qué es esto?" desplegado: basal, gasto diario, método |
-| 16 | Apariencia | Noche · Día · Más (temas extra y bandera); Foto de Inicio (opcional) |
-| 17 | Tema Día | Inicio en el tema inverso |
-| 18 | Tema Ámbar | Inicio en azul medianoche + ámbar |
-| 19 | Tema España | Inicio con los colores de la bandera (rojo y amarillo) |
-| 20 | Ejercicios FR | Cambio de idioma instantáneo (nombres incluidos) |
-| 21 | Ejercicios NL | Ídem en neerlandés |
-| 22 | ¿Cómo se hace? NL | Los pasos siguen el idioma elegido |
+| 01 | Inicio | "Hoy toca: …" + Cambiar, objetivo y duración, "Empezar sesión", mapa del cuerpo de la semana |
+| 02 | Inicio · Cambiar | Tras un toque en "Cambiar": el siguiente bloque |
+| 03 | Inicio · más | Marcas personales, calendario con día de récord en verde, filas Historial / Ejercicios |
+| 04 | Tu entreno de hoy | Hoja previa: duración, intensidad, energía, objetivo |
+| 05 | Entreno generado | Sesión creada por la hoja (nunca 0 kg en ejercicios con carga) |
+| 06 | Sesión activa | "Añadir ejercicio" y "Detalles"; ejercicio actual; "Más opciones" plegado |
+| 07 | Más opciones | Sugerir ejercicio · ¿Máquina ocupada? · Quitar ejercicio |
+| 08 | ¿Cómo se hace? | Foto (de ejemplo, marcada), qué entrena, 3 pasos en español |
+| 09 | Descanso | Cuenta atrás tras completar una serie (+15 s, Saltar) |
+| 10 | Cardio | min · km · intensidad; "Terminar y guardar" |
+| 11 | Valoración | Energía y sensación (1–5) |
+| 12 | Historial | Desde Inicio (con "atrás"); fechas localizadas |
+| 13 | Historial · un día | Al tocar un día del calendario: solo ese día + "Ver todas" |
+| 14 | Ejercicios | Desde Inicio (con "atrás"); icono por grupo |
+| 15 | Perfil | Cuerpo (peso y altura) + Marcas personales con su origen |
+| 16 | Calorías | "¿Qué es esto?" desplegado: basal, gasto diario, método |
+| 17 | Apariencia | Noche · Día · Más (temas extra y bandera); Foto de Inicio (opcional) |
+| 18 | Tema Día | Inicio en el tema inverso (cuerpo con líneas oscuras) |
+| 19 | Tema Ámbar | Inicio en azul medianoche + ámbar |
+| 20 | Tema España | Inicio con los colores de la bandera (rojo y amarillo) |
+| 21 | Ejercicios FR | Cambio de idioma instantáneo (nombres incluidos) |
+| 22 | Ejercicios NL | Ídem en neerlandés |
+| 23 | ¿Cómo se hace? NL | Los pasos siguen el idioma elegido |
+| 24 | Test de marcas | "Establecer marcas": los 5 clásicos, calentamiento + serie de test, 1RM estimado |
+| 25 | Silueta mujer | El mapa del cuerpo sigue al Perfil (mujer, IMC ≈ 22) |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 

@@ -5,9 +5,9 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 
 ## Estado actual (2026-11-15)
 
-> Fases 11c + 11d **commiteadas** en `main` (prueba "Steve Jobs" = **SÍ**,
-> evaluada como versión 2.0 por decisión del usuario). Siguiente: Fase 15
-> (InstaGym). Ver `TASKS.md` → "Cómo continuar".
+> `main` = versión "Foco a 10" (rama `SteveJobs` fusionada; la anterior en
+> `v1`) + Fase 11e (Hoy toca con Cambiar, marcas desde datos, días de récord
+> en verde, mapa del cuerpo SVG). Siguiente: Fase 15 (InstaGym).
 
 | Área | Estado |
 |---|---|
@@ -18,22 +18,22 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Idioma | **Todo en el idioma elegido** (NL/ES/EN/FR): interfaz, nombres de ejercicio, pasos "cómo se hace" (226 × 4), fechas; cambio instantáneo |
 | Datos | 226 ejercicios reales de wger; iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
 | Web (Astro) | Atrasada: lógica al día, diseño de la 11c (no el monocromo X); pasos por idioma copiados a `web/src/data/howto/` pero sin usar |
-| i18n | NL/ES/EN/FR, **365 claves**, espejos idénticos |
+| i18n | NL/ES/EN/FR, **388 claves**, espejos idénticos |
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación (2026-11-15, WSL del host, commit "foto de Inicio en Perfil")
+## Última verificación (2026-11-15, WSL del host, commit Fase 11e)
 
 - `npx tsc --noEmit` (app) → **0 errores**.
-- `node tests/run.js` → **115/115, 0 fallos** (nuevos: pasos en 4 idiomas ×
-  226 + espejos; peso corporal vs carga de `back_squat`/`crunches`).
+- `node tests/run.js` → **120/120, 0 fallos** (nuevos: marcas efectivas,
+  días de récord, BENCHMARK_TEST).
 - `npx expo export --platform web --output-dir /tmp/ft-dist` → OK.
-- Capturas **01–21** (`docs/screenshots/`) con Chrome headless → **0 errores
-  de consola**, revisadas (hoja de contactos + una a una las cambiadas);
-  vídeo `video-iphone16.mp4` regenerado (229 fotogramas, 4,1 MB).
+- Capturas **01–25** (`docs/screenshots/`) con Chrome headless → **0 errores
+  de consola**, revisadas (hoja de contactos + una a una las nuevas);
+  vídeo `video-iphone16.mp4` regenerado (276 fotogramas, 5,8 MB).
 - `web/`: `npm run build` no ejecutado (falta `web/node_modules`, ⛔ `npm ci`).
-- iPhone real: probado por el usuario (2026-11-15).
-- **Prueba "Steve Jobs": SÍ** como versión 2.0 (ver Log 2026-11-15 "noche, 5").
+- iPhone real: probado por el usuario (2026-11-15) antes de la Fase 11e.
+- **Prueba "Steve Jobs": SÍ** (ver Log 2026-11-15 "noche, 8").
 
 ## Decisiones vigentes
 
@@ -551,3 +551,22 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   pestañas; una tarea por pantalla; lo raro, plegado; nada decorativo ni de
   stock. Pendiente que no bloquea: fotos reales (Fase 13), web (⛔ `npm ci`).
   **No se commitea hasta que el usuario lo vea** (último commit `37d851e`).
+
+- 2026-11-15 (noche, 8) — **Ramas + Fase 11e.** Ramas: `v1` (37d851e, versión
+  anterior), `SteveJobs` (68c4ec6, "Foco a 10"), fusionada en `main`
+  (d99d3c5); SPEC/AGENTS al día (b40e9b4). Fase 11e: "Hoy toca" con
+  **Cambiar** + regla del lunes + objetivo/duración; **marcas desde datos**
+  (`lib/records.ts`) y test **"Establecer marcas"** (5 clásicos: banca,
+  sentadilla, peso muerto, press militar, curl con barra) desde Perfil; sin 1RM
+  manual; el generador usa la marca efectiva; **días de récord en verde**
+  (`#00E676`); **mapa del cuerpo** semanal con **react-native-svg**
+  (aprobado): curvas Bézier, frente/espalda, hombre/mujer, IMC; sustituye al
+  histograma. Máquinas Matrix de Basic-Fit: investigado (Basic-Fit confirma
+  Matrix, sin lista pública) y **descartado por el usuario**. 12 claves i18n
+  nuevas (388). Verificación arriba.
+  **Veredicto `/stevejobs analyze`: SÍ.** La primera pantalla dice qué toca
+  y deja cambiarlo con un toque (default inteligente + salida fácil, sin
+  menús); el cuerpo responde de un vistazo "¿qué me queda esta semana?";
+  las marcas son reales. Reserva: el rojo de "3+" se lee como alarma
+  (anotado en TASKS, decide el usuario). Primera versión del cuerpo hecha con
+  Views → rechazada por "robot"; rehecha en SVG.

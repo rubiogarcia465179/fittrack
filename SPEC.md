@@ -53,7 +53,13 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    sin foto de stock).
 2. **"Hoy toca: <grupos>"** (p. ej. "Piernas y core"): el bloque de grupos
    (empuje / tirón / pierna) que hace más tiempo que no entrenas — el mismo
-   que generará la hoja. Con un entreno en curso: "Entreno en curso".
+   que generará la hoja. Debajo, el objetivo y la duración que se usarán
+   ("Crear músculo · 45 min"). **"Cambiar"** pasa al siguiente bloque con un
+   toque (por defecto no hay que decidir nada: cero fatiga de decisión).
+   **Lunes**: el empuje (pecho) va al final, porque en muchos gimnasios es "el
+   día de pecho" y los bancos se llenan (convención popular, explicada en una
+   línea solo cuando cambia la propuesta). Con un entreno en curso: "Entreno
+   en curso".
 3. **"Empezar sesión"** (blanco) → **hoja "Tu entreno de hoy"**: duración
    (30/45/60/75 min), intensidad (suave/moderada/fuerte), **energía de hoy**
    (baja/normal/alta; baja = intensidad un nivel menos) y objetivo (crear
@@ -61,14 +67,22 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    **"Continuar al entreno"** genera el plan. Recuerda la última elección.
    Con un entreno en curso: "Continuar entreno". **Un solo camino para
    empezar** (sin asistente ni "Personalizar entreno").
-4. **Marcas personales**: las 3 mejores (1RM estimado, Epley, de la mejor
-   serie o del benchmark) en tarjetas blancas; "Ver todo" despliega el resto.
-5. **Calendario** del mes (lunes primero, círculos): días entrenados con el
-   acento, hoy con anillo, leyenda "Día entrenado · N". **Tocar un día
-   entrenado abre el Historial de ese día** (con "Ver todas").
-6. Filas: **Historial** ("N sesiones este mes") y **Ejercicios** ("226
+4. **Esta semana — mapa del cuerpo** (ilustración vectorial, frente y
+   espalda, negra con contorno blanco del tema): cada grupo se colorea por las
+   sesiones de esta semana que lo trabajaron — 1 verde, 2 naranja, 3+ rojo;
+   sin entrenar, solo la línea anatómica. La silueta sigue al Perfil: hombre /
+   mujer (sin dato, intermedia) y proporciones según el IMC (cerca de ~22,
+   forma en V atlética; cambios suaves, nunca caricatura ni etiqueta).
+5. **Marcas personales**: las 3 mejores (1RM estimado) en tarjetas blancas;
+   "Ver todo" despliega el resto. **Salen siempre de datos**: la mejor serie
+   guardada (Epley) o el test "Establecer marcas" de Perfil; gana el mayor.
+6. **Calendario** del mes (lunes primero, círculos): días entrenados con el
+   acento, **días de récord en verde llamativo** (`#00E676`, texto negro),
+   hoy con anillo; leyenda "Día entrenado · N · Récord · N". Un día de récord
+   = una sesión que supera la marca previa (la primera vez no cuenta).
+   **Tocar un día entrenado abre el Historial de ese día** (con "Ver todas").
+7. Filas: **Historial** ("N sesiones este mes") y **Ejercicios** ("226
    ejercicios, con cómo se hacen").
-7. **Actividad**: un gráfico, a qué hora entrenas (franjas de 3 h).
 - Sin fecha, sin racha, sin volumen (decisiones del usuario).
 
 ### Entrenar (sesión)
@@ -119,13 +133,22 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 ### Perfil (6 tarjetas)
 1. **Cuerpo**: peso y altura juntos (cada uno con "+ Registrar"), IMC y
    evolución del peso.
+- **Marcas personales**: las 5 mejores con su origen ("De tu entreno del
+  14 nov" / "Del test de marcas"); **"Establecer marcas"** abre una sesión de
+  test con los 5 clásicos para compararte con amigos (press de banca,
+  sentadilla, peso muerto, press militar, curl de bíceps con barra): serie de
+  calentamiento (10 al 60 %) + serie de test (tantas reps como puedas, máx.
+  12). Al guardar, el 1RM estimado de cada uno pasa a ser la marca y fija los
+  pesos recomendados. Sin introducción manual: todo sale de datos.
 2. **Calorías diarias**: un número (gasto diario estimado) y
    **"¿Qué es esto?"** que despliega el metabolismo basal, la explicación
    sencilla y el método (Mifflin-St Jeor × actividad de las últimas 4
    semanas; estimación ±10 %, no médica).
-3. **Sobre ti**: sexo, año de nacimiento, nivel, **objetivo principal**
-   (crear músculo, fuerza, perder grasa, perder peso, definición,
-   resistencia; decide series, reps y descanso) y nacionalidad (20 países).
+3. **Sobre ti**: sexo (también da forma a la silueta de Inicio), año de
+   nacimiento, nivel, **objetivo principal** (crear músculo, fuerza, perder
+   grasa, perder peso, definición, resistencia; decide series, reps y
+   descanso — `GOAL_SCHEME` — y es el que muestra "Hoy toca") y
+   nacionalidad (20 países).
 4. **Apariencia**: Noche (por defecto) · Día (inverso) · **Más** → Ámbar,
    Neón, Rubí y el interruptor "Usar los colores de mi país" (solo colores,
    nunca emblemas); **Foto de Inicio** opcional (Elegir / Cambiar / Quitar).

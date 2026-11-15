@@ -9,8 +9,9 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
 2. Trabaja **en el orden de esta lista**, de arriba abajo.
 3. **No commitees** hasta cerrar una fase y que la prueba "Steve Jobs" dé
    **sí** (`CLAUDE.md §2`; se evalúa como **versión 2.0**). Estado al
-   2026-11-15: Fases 11c/11d commiteadas; **versión "Foco a 10" aplicada
-   SIN commit, esperando el visto bueno del usuario** (Fase 11d). Después: **Fase 15
+   2026-11-15: versión "Foco a 10" en `main` (ramas `v1` y `SteveJobs`) +
+   Fase 11e (Hoy toca con Cambiar, marcas desde datos, días de récord, mapa
+   del cuerpo SVG). Después: **Fase 15
    (InstaGym)**, luego Fase 14 (por qué se usa + favoritos con cita), paridad
    web (⛔ `npm ci`) y Fase 13 cuando lleguen las fotos.
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
@@ -69,11 +70,25 @@ Hecho en esta pasada:
 - [x] Recorte "Foco a 10" **aplicado y mejorado** (`docs/FOCO-1.0.md`):
       3 pestañas, Inicio "Hoy toca" sin foto de stock, calendario → día,
       "Más opciones" en la sesión, Perfil en 6 tarjetas. Prueba Jobs: **SÍ**.
-- ⛔ **SIN COMMIT: el usuario tiene que verlo** (capturas 01–22 y vídeo) y
-  decir si se queda. Sí → commit + actualizar SPEC/AGENTS; no → volver a
-  `37d851e`.
+- [x] El usuario la aprobó: rama `SteveJobs` fusionada en `main`
+      (`d99d3c5`); la anterior queda en la rama `v1` (`37d851e`).
 - ⛔ Fotos reales por ejercicio (Fase 13, las genera el usuario). No bloquean
   el commit: la foto de ejemplo va marcada.
+
+### Fase 11e — Inicio que decide por ti, marcas reales y mapa del cuerpo ✅
+- [x] "Hoy toca" + **Cambiar** (un toque) + regla del lunes (pecho al final)
+      + línea con objetivo y duración.
+- [x] Marcas personales **solo desde datos**: mejor serie (Epley) o test
+      **"Establecer marcas"** en Perfil con los 5 clásicos; el generador usa
+      la marca efectiva.
+- [x] Días de récord en **verde llamativo** en el calendario (+ leyenda).
+- [x] **Mapa del cuerpo** semanal (SVG, frente/espalda, hombre/mujer, IMC):
+      1 verde · 2 naranja · 3+ rojo. Sustituye al histograma de actividad.
+- [x] IMC con coma decimal en ES/FR/NL.
+- [ ] (Jobs, opcional) Revisar el rojo de "3+": en interfaces el rojo
+      significa error; entrenar 3 veces es bueno. Decide el usuario.
+- ⏸ Máquinas Matrix de Basic-Fit: **descartado por el usuario** (Basic-Fit
+  confirma la marca Matrix en su web, pero no publica la lista de máquinas).
 
 ### Fase 15 — InstaGym (sustituye a Historial) ← SIGUIENTE
 - [ ] Feed tipo Instagram (estilo X): cada sesión con su resumen (fecha,

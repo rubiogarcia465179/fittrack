@@ -7,36 +7,30 @@
  *  3. Marcas personales (3 tarjetas blancas + "Ver todo").
  *  4. Calendario del mes (días entrenados en blanco; tocar un día abre el
  *     Historial).
- *  5. Filas: Historial y Ejercicios (pantallas con "atrás").
- *  6. Actividad: a qué hora entrenas (un solo gráfico).
+ *  5. Esta semana: mapa del cuerpo (frente/espalda) con los grupos que ya
+ *     trabajaste (1 verde · 2 naranja · 3+ rojo); silueta según el Perfil.
+ *  6. Filas: Historial y Ejercicios (pantallas con "atrás").
  * Sin fecha, sin "sesiones esta semana" ni racha (se ven en el calendario) y
  * sin volumen (decisiones del usuario 2026-11-15).
  */
 import { useEffect, useMemo, useState } from 'react';
 import { View, Text, ScrollView, Pressable, StyleSheet, Image } from 'react-native';
-import { exName, type Named } from '../lib/names';
+import { exName } from '../lib/names';
 import { useTranslation } from 'react-i18next';
 import type { ExerciseRow } from '../lib/gym';
-import type { Session } from '../store';
-import { sessionSets, todayISO, oneRm } from '../lib/gym';
+import type { Session, BenchmarkRef } from '../store';
+import { effectiveRecords, recordDays } from '../lib/records';
+import { sessionSets, todayISO, weekStart } from '../lib/gym';
+import { BodyMap, type Sex } from '../components/BodyMap';
+import { store } from '../store';
 import { RADII } from '../theme';
 import { useTheme } from '../theme-context';
 import { MonthCalendar, type DayStat } from '../components/Calendar';
 import { Gradient } from '../components/Gradient';
 import { Chevron } from '../components/Chevron';
 import { loadHomePhoto } from '../lib/homePhoto';
-import { nextSplit, splitLabel } from '../lib/nextSplit';
+import { splitLabel } from '../lib/nextSplit';
 
-/** Franjas horarias del histograma (hora local de guardado de la sesión). */
-const HOUR_BINS = [
-  { label: '6', from: 5, to: 9 },
-  { label: '9', from: 9, to: 12 },
-  { label: '12', from: 12, to: 15 },
-  { label: '15', from: 15, to: 18 },
-  { label: '18', from: 18, to: 21 },
-  { label: '21', from: 21, to: 24 },
-  { label: '0', from: 0, to: 5 },
-];
 
 export default function DashboardScreen({
   exercises,
@@ -44,14 +38,27 @@ export default function DashboardScreen({
   benchmarks,
   activeWorkout,
   onStartSession,
+  todayGroups,
+  todayMeta,
+  mondayNote,
+  onChangeSplit,
   onOpenHistory,
   onOpenLibrary,
 }: {
   exercises: ExerciseRow[];
   sessions: Session[]; // ordenadas de más reciente a más antigua
-  benchmarks: { name_en: string; name_nl: string; name_es?: string; name_fr?: string; estimated_1rm: number }[];
+  /** Marcas del test (profile.benchmarks); se combinan con las sesiones. */
+  benchmarks: BenchmarkRef[];
   activeWorkout: boolean;
   onStartSession: () => void;
+  /** Bloque de hoy (lo decide App con nextSplit; la hoja usa el mismo). */
+  todayGroups: string[];
+  /** "Crear músculo · 45 min": objetivo y duración que usará la hoja. */
+  todayMeta: string;
+  /** Lunes: se apartó el pecho (bancos llenos) → una línea que lo explica. */
+  mondayNote: boolean;
+  /** "Cambiar": pasa al siguiente bloque con un toque. */
+  onChangeSplit: () => void;
   /** Sin fecha: todo el historial; con fecha: solo ese día. */
   onOpenHistory: (date?: string) => void;
   onOpenLibrary: () => void;
@@ -77,59 +84,63 @@ export default function DashboardScreen({
     setCalM(todayD.getMonth());
     setCalY(todayD.getFullYear());
   };
+  // Marcas personales (test de marcas + mejores series; gana el mayor) y días
+  // en que se batió una marca (círculo verde en el calendario).
+  const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
+  const isCardioId = (id: string) => byId.get(id)?.muscle_group === 'cardio';
+  const prs = useMemo(
+    () =>
+      [...effectiveRecords(sessions, benchmarks, isCardioId).values()]
+        .filter((r) => r.kg > 0 && byId.has(r.exercise_id))
+        .sort((a, b) => b.kg - a.kg)
+        .map((r) => ({ key: r.exercise_id, name: exName(byId.get(r.exercise_id)!, lang), kg: Math.round(r.kg) })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sessions, benchmarks, byId, lang],
+  );
+  const prDays = useMemo(
+    () => recordDays(sessions, benchmarks, isCardioId),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sessions, benchmarks, byId],
+  );
   const dayMap = useMemo(() => {
     const m: Record<string, DayStat> = {};
-    for (const s of sessions) m[s.date] = { sets: (m[s.date]?.sets ?? 0) + sessionSets(s) };
+    for (const s of sessions) m[s.date] = { sets: (m[s.date]?.sets ?? 0) + sessionSets(s), pr: prDays.has(s.date) };
     return m;
-  }, [sessions]);
+  }, [sessions, prDays]);
 
   const monthPrefix = todayISO().slice(0, 7);
   const sessionsThisMonth = sessions.filter((s) => s.date.startsWith(monthPrefix)).length;
-  const nameOf = (e: Named) => exName(e, lang);
 
-  // Marcas personales: 1RM estimado (Epley) de la mejor serie de cada
-  // ejercicio + benchmarks (gana el mayor). Sin cardio.
-  const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
-  const prs = useMemo(() => {
-    const best = new Map<string, { key: string; name: string; kg: number }>();
-    for (const s of sessions) {
-      for (const ex of s.exercises) {
-        const e = byId.get(ex.exercise_id);
-        if (!e || e.muscle_group === 'cardio') continue;
-        for (const st of ex.sets) {
-          const r = oneRm(st.weight_kg, st.reps);
-          const cur = best.get(e.name_en);
-          if (r > 0 && (!cur || r > cur.kg)) best.set(e.name_en, { key: e.name_en, name: nameOf(e), kg: r });
-        }
-      }
-    }
-    for (const b of benchmarks) {
-      const cur = best.get(b.name_en);
-      if (!cur || b.estimated_1rm > cur.kg) best.set(b.name_en, { key: b.name_en, name: nameOf(b), kg: b.estimated_1rm });
-    }
-    return [...best.values()].sort((a, b) => b.kg - a.kg).map((x) => ({ ...x, kg: Math.round(x.kg) }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessions, benchmarks, byId, lang]);
 
-  // Actividad: sesiones por franja horaria (a qué hora entrenas).
-  const activity = useMemo(() => {
-    const hours = HOUR_BINS.map(() => 0);
+
+  // Esta semana: sesiones por grupo (una sesión cuenta una vez por grupo).
+  const weekCounts = useMemo(() => {
+    const from = weekStart(todayISO());
+    const c: Record<string, number> = {};
     for (const s of sessions) {
-      if (s.created_at) {
-        const h = new Date(s.created_at).getHours();
-        const i = HOUR_BINS.findIndex((b) => h >= b.from && h < b.to);
-        if (i >= 0) hours[i] += 1;
-      }
+      if (s.date < from) continue;
+      const gs = new Set(s.exercises.map((x) => byId.get(x.exercise_id)?.muscle_group).filter(Boolean) as string[]);
+      for (const g of gs) c[g] = (c[g] ?? 0) + 1;
     }
-    return { hours };
+    return c;
+  }, [sessions, byId]);
+  // Silueta: sexo e IMC del Perfil (peso: Perfil o sesiones, el más reciente).
+  const [body, setBody] = useState<{ sex: Sex; bmi: number | null }>({ sex: undefined, bmi: null });
+  useEffect(() => {
+    void store.profile().then((pr) => {
+      const ws = [
+        ...(pr.weight_entries || []),
+        ...sessions.filter((x) => x.body_weight_kg && x.body_weight_kg > 0).map((x) => ({ date: x.date, value: x.body_weight_kg as number })),
+      ].sort((a, b) => (a.date < b.date ? 1 : -1));
+      const hs = (pr.height_entries || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+      const w = ws[0]?.value;
+      const h = hs[0]?.value;
+      setBody({ sex: pr.sex, bmi: w && h ? w / Math.pow(h / 100, 2) : null });
+    });
   }, [sessions]);
 
   // Qué toca hoy (mismo cálculo que la hoja rápida).
-  const todayLabel = useMemo(
-    () => splitLabel(nextSplit(sessions, new Map(exercises.map((e) => [e.id, e.muscle_group]))), t),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [sessions, exercises, lang],
-  );
+  const todayLabel = splitLabel(todayGroups, t);
 
   return (
     <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
@@ -142,11 +153,28 @@ export default function DashboardScreen({
 
       {/* ---- 2. Qué toca hoy ---- */}
       <View style={[styles.today, photo ? { marginTop: 20 } : null]} accessible accessibilityRole="header">
-        <Text style={[styles.todayLabel, { color: p.secondary }]}>
-          {activeWorkout ? t('home_in_progress') : t('home_today')}
-        </Text>
+        <View style={styles.todayHead}>
+          <Text style={[styles.todayLabel, { color: p.secondary }]}>
+            {activeWorkout ? t('home_in_progress') : t('home_today')}
+          </Text>
+          {activeWorkout ? null : (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t('home_change_split')}
+              onPress={onChangeSplit}
+              hitSlop={10}
+              style={({ pressed }) => [styles.changeBtn, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
+            >
+              <Text style={[styles.changeText, { color: p.text }]}>{t('home_change_split')}</Text>
+            </Pressable>
+          )}
+        </View>
         {activeWorkout ? null : (
-          <Text style={[styles.todayTitle, { color: p.text }]}>{todayLabel}</Text>
+          <>
+            <Text style={[styles.todayTitle, { color: p.text }]}>{todayLabel}</Text>
+            <Text style={[styles.todayMeta, { color: p.secondary }]}>{todayMeta}</Text>
+            {mondayNote ? <Text style={[styles.todayMeta, { color: p.secondary }]}>{t('home_monday_note')}</Text> : null}
+          </>
         )}
       </View>
 
@@ -163,6 +191,15 @@ export default function DashboardScreen({
           </Text>
         </Gradient>
       </Pressable>
+
+      {/* ---- Esta semana: qué músculos llevas y cuáles te quedan ---- */}
+      <SectionHead title={t('home_week_body')} />
+      <BodyMap
+        sex={body.sex}
+        bmi={body.bmi}
+        counts={weekCounts}
+        labels={{ front: t('body_front'), back: t('body_back'), legend: t('body_legend') }}
+      />
 
       {/* ---- 3. Marcas personales ---- */}
       <SectionHead
@@ -231,12 +268,6 @@ export default function DashboardScreen({
       </View>
 
       {/* ---- 6. Actividad ---- */}
-      <SectionHead title={t('home_activity')} />
-      <Histogram
-        title={t('home_by_hour')}
-        bars={HOUR_BINS.map((b, i) => ({ label: `${b.label}h`, value: activity.hours[i] }))}
-        empty={t('dash_no_sessions')}
-      />
     </ScrollView>
   );
 }
@@ -296,41 +327,6 @@ function Row({ title, sub, onPress }: { title: string; sub: string; onPress: () 
   );
 }
 
-/** Histograma monocromo: barras blancas, recuento encima, etiqueta debajo. */
-function Histogram({ title, bars, empty }: { title: string; bars: { label: string; value: number }[]; empty: string }) {
-  const { p } = useTheme();
-  const max = Math.max(0, ...bars.map((b) => b.value));
-  const H = 84;
-  return (
-    <View
-      style={[styles.histo, { borderColor: p.border }]}
-      accessible
-      accessibilityLabel={`${title}: ${bars.map((b) => `${b.label} ${b.value}`).join(', ')}`}
-    >
-      <Text style={[styles.histoTitle, { color: p.text }]}>{title}</Text>
-      {max === 0 ? (
-        <Text style={[styles.empty, { color: p.secondary, paddingHorizontal: 0 }]}>{empty}</Text>
-      ) : (
-        <View style={styles.histoBars}>
-          {bars.map((b, i) => (
-            <View key={b.label + i} style={styles.histoCol}>
-              <Text style={[styles.histoVal, { color: b.value ? p.text : 'transparent' }]}>{b.value}</Text>
-              <View style={[styles.histoTrack, { height: H }]}>
-                <View
-                  style={[
-                    styles.histoBar,
-                    { height: b.value ? Math.max(6, Math.round((b.value / max) * H)) : 2, backgroundColor: b.value ? p.accent : p.border },
-                  ]}
-                />
-              </View>
-              <Text style={[styles.histoLabel, { color: p.secondary }]}>{b.label}</Text>
-            </View>
-          ))}
-        </View>
-      )}
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   body: {
@@ -350,7 +346,11 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   today: { paddingTop: 8, paddingHorizontal: 2 },
+  todayHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 36 },
   todayLabel: { fontSize: 13, fontWeight: '600', letterSpacing: 1.2, textTransform: 'uppercase' },
+  changeBtn: { minHeight: 34, paddingHorizontal: 14, borderRadius: 17, borderWidth: 1, justifyContent: 'center' },
+  changeText: { fontSize: 14, fontWeight: '600' },
+  todayMeta: { fontSize: 15, marginTop: 6, lineHeight: 20 },
   todayTitle: { fontSize: 30, fontWeight: '800', letterSpacing: -0.6, lineHeight: 36, marginTop: 6 },
   ctaWrap: {
     marginTop: 18,

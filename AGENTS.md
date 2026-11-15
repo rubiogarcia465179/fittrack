@@ -36,9 +36,25 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 - **Un solo camino para empezar**: "Empezar sesión" → `QuickStartSheet`.
   `WorkoutBuilderScreen` (asistente) se conserva en el código pero **no se
   usa** (está en la rama `v1`).
-- **"Hoy toca"**: `app/src/lib/nextSplit.ts` (`nextSplit`, `splitLabel`)
-  es la única fuente de qué grupos tocan; Inicio y la hoja rápida la usan
-  los dos, para que nunca se contradigan.
+- **"Hoy toca"**: `app/src/lib/nextSplit.ts` (`orderedSplits`, `nextSplit`,
+  `mondayPushSkipped`, `splitLabel`) es la única fuente de qué grupos tocan.
+  `App.tsx` guarda `splitSkip` ("Cambiar") y pasa `todayGroups` a Inicio;
+  la hoja rápida usa el mismo bloque. Regla del lunes: el empuje va al final.
+- **Marcas personales**: `app/src/lib/records.ts` es la única fuente
+  (`effectiveRecords` = máx(test, mejor serie Epley), `recordDays` = días de
+  récord para el calendario, `recordsAsBenchmarks` para el generador,
+  `BENCHMARK_TEST` = los 5 clásicos). Nunca calcules marcas a mano en una
+  pantalla. Las marcas no se escriben a mano: salen de sesiones o del test
+  (sesión `type: 'benchmark'` que arranca `startBenchmark` en `App.tsx`).
+- **Calendario**: `DayStat.pr` → círculo `RECORD_GREEN` (`#00E676`, texto
+  negro) en todos los temas.
+- **Mapa del cuerpo**: `app/src/components/BodyMap.tsx` con
+  **react-native-svg** (dependencia aprobada por el usuario el 2026-11-15).
+  Silueta de curvas Bézier en un viewBox 200 × 440 simétrico (`x(dx) = 100 +
+  s·dx`); `bodyShape(sex, bmi)` da las proporciones; colores de calor
+  `HEAT` (1 verde, 2 naranja, 3+ rojo). Usa `p.bg`/`p.text` para que
+  funcione en todos los temas. Las formas de `View` no sirven para esto
+  (quedan "de robot").
 - **Ramas**: `main` (actual), `SteveJobs` (versión "Foco a 10", ya
   fusionada) y `v1` (versión anterior, 5 pestañas). Por defecto se trabaja y
   commitea en `main` (`CLAUDE.md §1`).
@@ -108,6 +124,9 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   exponencial ante 429/503, máx. 8 reintentos.
 
 ## 4. Entorno y dependencias
+
+- Dependencias aprobadas recientes: `expo-haptics`, `expo-image-picker`,
+  `react-native-svg` (15.16.0, 2026-11-15). Cualquier otra, preguntar.
 
 - Se trabaja en el host del usuario (Windows + WSL Ubuntu 24.04, repo en
   `~/fittrack`). Ejecuta node/npm/tsc **dentro de WSL**

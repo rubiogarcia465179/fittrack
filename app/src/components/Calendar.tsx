@@ -24,9 +24,15 @@ const WEEKDAYS: Record<string, string[]> = {
   nl: ['M', 'D', 'W', 'D', 'V', 'Z', 'Z'],
 };
 const LEGEND: Record<string, string> = { en: 'Workout day', es: 'Día entrenado', fr: "Jour d'entraînement", nl: 'Trainingsdag' };
+const LEGEND_PR: Record<string, string> = { en: 'Record', es: 'Récord', fr: 'Record', nl: 'Record' };
+/** Verde llamativo para los días de récord (petición del usuario), igual en
+ *  todos los temas; texto negro encima (contraste > 10:1). */
+export const RECORD_GREEN = '#00E676';
 
 export interface DayStat {
   sets: number;
+  /** Ese día se batió una marca personal. */
+  pr?: boolean;
 }
 
 export interface MonthCalendarProps {
@@ -71,6 +77,7 @@ export function MonthCalendar({ lang, month, year, onPrev, onNext, onToday, toda
 
   const isThisMonth = today.y === year && today.m === month;
   const trainedThisMonth = cells.filter((c) => c && days[key(year, month, c.day)]).length;
+  const prThisMonth = cells.filter((c) => c && days[key(year, month, c.day)]?.pr).length;
 
   return (
     <View>
@@ -115,7 +122,7 @@ export function MonthCalendar({ lang, month, year, onPrev, onNext, onToday, toda
             <Pressable
               key={dk}
               accessibilityRole="button"
-              accessibilityLabel={`${c.day} ${months[month]}${stat ? `, ${LEGEND[lang] ?? LEGEND.en}` : ''}`}
+              accessibilityLabel={`${c.day} ${months[month]}${stat ? `, ${LEGEND[lang] ?? LEGEND.en}` : ''}${stat?.pr ? `, ${LEGEND_PR[lang] ?? LEGEND_PR.en}` : ''}`}
               disabled={!stat || !onPickDay}
               onPress={() => onPickDay?.(dk)}
               style={[styles.cell, { width: cell, height: dot }]}
@@ -127,7 +134,7 @@ export function MonthCalendar({ lang, month, year, onPrev, onNext, onToday, toda
                     width: dot,
                     height: dot,
                     borderRadius: dot / 2,
-                    backgroundColor: stat ? p.accent : 'transparent',
+                    backgroundColor: stat?.pr ? RECORD_GREEN : stat ? p.accent : 'transparent',
                     borderWidth: isToday && !stat ? 1.5 : 0,
                     borderColor: p.text,
                   },
@@ -137,7 +144,7 @@ export function MonthCalendar({ lang, month, year, onPrev, onNext, onToday, toda
                   style={[
                     styles.dayNum,
                     {
-                      color: stat ? p.onAccent : isToday ? p.text : isFuture ? p.border : p.secondary,
+                      color: stat?.pr ? '#000000' : stat ? p.onAccent : isToday ? p.text : isFuture ? p.border : p.secondary,
                       fontWeight: stat || isToday ? '700' : '500',
                     },
                   ]}
@@ -156,6 +163,14 @@ export function MonthCalendar({ lang, month, year, onPrev, onNext, onToday, toda
         <Text style={[styles.legendText, { color: p.secondary }]}>
           {LEGEND[lang] ?? LEGEND.en} · {trainedThisMonth}
         </Text>
+        {prThisMonth ? (
+          <>
+            <View style={[styles.legendDot, { backgroundColor: RECORD_GREEN, marginLeft: 14 }]} />
+            <Text style={[styles.legendText, { color: p.secondary }]}>
+              {LEGEND_PR[lang] ?? LEGEND_PR.en} · {prThisMonth}
+            </Text>
+          </>
+        ) : null}
       </View>
     </View>
   );

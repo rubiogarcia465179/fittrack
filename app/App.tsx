@@ -18,7 +18,8 @@ import { ThemeProvider, useTheme } from './src/theme-context';
 import { RADII, THEME_IDS, type ThemeId } from './src/theme';
 import { COUNTRY_BY_CODE, type CountryCode } from './src/theme-flags';
 import { newActiveSession, type ActiveSession, type ActiveDraftExercise } from './src/lib/session';
-import { generateWorkout, recentRows, type WorkoutPlan } from './src/lib/workout';
+import { generateWorkout, recentRows, weightForExercise, type WorkoutPlan } from './src/lib/workout';
+import { effectiveRecords, recordsAsBenchmarks, BENCHMARK_TEST } from './src/lib/records';
 import type { Goal, Intensity } from './src/lib/types';
 import { QuickStartSheet, type QuickStartOptions } from './src/components/QuickStartSheet';
 import TabIcon from './src/components/TabIcon';
@@ -31,7 +32,7 @@ import HistoryScreen from './src/screens/HistoryScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import SessionStartScreen from './src/screens/SessionStartScreen';
 import { loadFonts, MONT } from './src/lib/fonts';
-import { nextSplit } from './src/lib/nextSplit';
+import { nextSplit, mondayPushSkipped } from './src/lib/nextSplit';
 import { BackBar } from './src/components/BackBar';
 
 // 3 pestañas (Inicio · Entrenar · Perfil). Historial y Ejercicios se abren
@@ -238,6 +239,12 @@ function Root({
       if (profile?.goal) setQs((q) => ({ ...q, goal: profile.goal as Goal }));
     });
   }, [profile?.goal]);
+  // "Hoy toca": propuesta por defecto + "Cambiar" (un toque, sin menús).
+  const [splitSkip, setSplitSkip] = useState(0);
+  const todaySplit = useMemo(
+    () => nextSplit(sessions, new Map(exercises.map((e) => [e.id, e.muscle_group])), splitSkip),
+    [sessions, exercises, splitSkip],
+  );
   const openQuickStart = () => {
     if (active) {
       setTab('session');
@@ -252,7 +259,8 @@ function Root({
     // Energía baja → un nivel menos de intensidad (nunca por debajo de suave).
     const order: Intensity[] = ['low', 'moderate', 'high'];
     const intensity = qs.energy === 'low' ? order[Math.max(0, order.indexOf(qs.intensity) - 1)] : qs.intensity;
-    const split = nextSplit(sessions, new Map(exercises.map((e) => [e.id, e.muscle_group])));
+    const split = todaySplit;
+    setSplitSkip(0);
     const plan = generateWorkout({
       groups: split,
       equipment_mode: 'full_gym',
@@ -260,11 +268,52 @@ function Root({
       experience: profile?.experience || 'intermediate',
       intensity,
       goal: qs.goal,
-      benchmarks,
+      benchmarks: effBench,
       exercises,
       recent: recentRows(sessions),
     });
     startWorkout(plan, 'training');
+    setTab('session');
+  };
+
+  // Marcas efectivas: test de marcas + mejores series de las sesiones.
+  const isCardioId = (id: string) => exercises.find((e) => e.id === id)?.muscle_group === 'cardio';
+  const effBench = useMemo(
+    () => recordsAsBenchmarks(effectiveRecords(sessions, benchmarks, isCardioId)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sessions, benchmarks, exercises],
+  );
+
+  // "Establecer marcas" (desde Perfil): sesión benchmark con los 5 clásicos
+  // (BENCHMARK_TEST). Cada uno: calentamiento ligero (10 reps al 60 %) +
+  // serie de test (8 reps al peso recomendado). Al guardar, el 1RM estimado
+  // de cada ejercicio pasa a ser la marca.
+  const startBenchmark = () => {
+    if (active) {
+      setTab('session');
+      return;
+    }
+    const ids = BENCHMARK_TEST;
+    const recent = recentRows(sessions);
+    const round25 = (v: number) => Math.max(0, Math.round(v / 2.5) * 2.5);
+    const draft: ActiveDraftExercise[] = ids
+      .map((id) => exercises.find((e) => e.id === id))
+      .filter((e): e is Exercise => !!e)
+      .map((e) => {
+        const w = weightForExercise(e, { benchmarks: effBench, recent, reps: 8 })?.weight_kg ?? 0;
+        return {
+          exercise_id: e.id,
+          sets: [
+            { reps: 10, weight_kg: round25(w * 0.6) },
+            { reps: 8, weight_kg: w },
+          ],
+          equipment_status: 'available' as const,
+          rest_after: 120,
+        };
+      });
+    const a = newActiveSession({ type: 'benchmark', equipment_mode: 'full_gym', benchmarks: effBench }, todayISO, uid);
+    a.draft = draft;
+    persistActive(a);
     setTab('session');
   };
 
@@ -296,20 +345,6 @@ function Root({
     });
   };
 
-  // Benchmarks con nombres para la UI.
-  const benchNamed = useMemo(() => {
-    const byId = new Map(exercises.map((e) => [e.id, e]));
-    return benchmarks.map((b) => {
-      const e = byId.get(b.exercise_id);
-      return {
-        name_en: e?.name_en || b.exercise_id,
-        name_nl: e?.name_nl || b.exercise_id,
-        name_es: e?.name_es,
-        name_fr: e?.name_fr,
-        estimated_1rm: b.estimated_1rm,
-      };
-    });
-  }, [benchmarks, exercises]);
 
   const openExercise = (id: string) => setDetailId(id);
   const detail = detailId ? exercises.find((e) => e.id === detailId) || exercises[0] : null;
@@ -353,9 +388,13 @@ function Root({
               <DashboardScreen
                 exercises={exercises}
                 sessions={sessions}
-                benchmarks={benchNamed}
+                benchmarks={benchmarks}
                 activeWorkout={active != null}
                 onStartSession={openQuickStart}
+                todayGroups={todaySplit}
+                todayMeta={`${t(`goal_${qs.goal}`)} · ${qs.duration} min`}
+                mondayNote={splitSkip === 0 && mondayPushSkipped(sessions, new Map(exercises.map((e) => [e.id, e.muscle_group])))}
+                onChangeSplit={() => setSplitSkip((n) => n + 1)}
                 onOpenHistory={(d) => {
                   setHistDate(d || null);
                   setTab('history');
@@ -399,6 +438,9 @@ function Root({
             ) : (
               <ProfileScreen
                 sessions={sessions}
+                exercises={exercises}
+                benchmarks={benchmarks}
+                onStartBenchmark={startBenchmark}
                 onHeightLogged={() => {}}
                 lng={lng}
                 onPickLang={pickLang}

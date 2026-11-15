@@ -272,3 +272,15 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-70 [DONE·sin commit] Aplicar el recorte "Foco a 10" (`docs/FOCO-1.0.md`) como versión mejorada, para verla y que pase la prueba Jobs — Jobs SÍ; esperando visto bueno
 ### R-71 [DONE·sin commit] Simplificar Perfil (6 tarjetas) e Inicio ("Hoy toca", filas, un gráfico)
 ### R-72 [DONE·sin commit] "¿Quitar la foto de Inicio o ponerla de fondo?" → quitada la de stock (auténtico o nada; de fondo resta contraste); tu foto solo si la eliges en Perfil
+
+## Pasada 2026-11-15 (noche, 8)
+
+### R-73 [DONE] Ramas: commitear la versión "Foco a 10" en `SteveJobs`, dejar la anterior en `v1`, fusionar `SteveJobs` en `main` y actualizar SPEC y AGENTS
+### R-74 [DONE] "¿Y si no quiero Piernas y core hoy?" → "Cambiar" (un toque); propuesta por defecto sin decisiones
+### R-75 [DONE] Evitar las horas punta típicas: el lunes (día de pecho) el empuje va al final, con una línea que lo explica
+### R-76 [DONE] Confirmar que el objetivo (perder peso / ganar músculo) cambia series y reps → sí (`GOAL_SCHEME`); ahora se ve en "Hoy toca"
+### R-77 [DROPPED] Máquinas Matrix de Basic-Fit en la base — el usuario lo descartó
+### R-78 [DONE] Marcas personales: por defecto desde datos (sesiones) y test "Establecer marcas" desde Perfil con ejercicios típicos para compararse (press de banca, sentadilla, peso muerto, press militar, curl de bíceps)
+### R-79 [DONE] Día de récord = círculo verde llamativo en el calendario
+### R-80 [DONE] Mapa del cuerpo en Inicio: negro con contorno blanco; grupos de la semana 1 verde · 2 naranja · 3 rojo; hombre/mujer según Perfil; forma según IMC (mejor cerca del IMC sano)
+### R-81 [DONE] Siluetas mucho más suaves, como arte → `react-native-svg` (aprobado) y curvas Bézier
