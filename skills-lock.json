@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "skills": {
+    "accessibility": {
+      "source": "affaan-m/ECC",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "skills/accessibility/SKILL.md",
+      "computedHash": "27e00a84ec716335fe622e40e8d53b6c3216b819af1fc1ef22030ed4cb570ecb"
+    },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "ef491197f40a60e4e6b2ef7b71b7959bd919d9f173a4e591e6212b3ec8037b04"
+    },
+    "iphone-duo-react-native": {
+      "source": "mirzaaghazadeh/iphone-duo-skills",
+      "sourceType": "github",
+      "skillPath": "skills/iphone-duo-react-native/SKILL.md",
+      "computedHash": "495ba494e2316d229bd679afa1abe0a5506b49d8daf78c7eb95f3ef4e1fcfaaf"
+    },
+    "security-audit": {
+      "source": "cloudflare/security-audit-skill",
+      "sourceType": "github",
+      "skillPath": "skills/security-audit/SKILL.md",
+      "computedHash": "8513eb3b2c39b8d05ef4f47b32ef4d18280b93a5efb91d8df6272f7435034af5"
+    }
+  }
+}

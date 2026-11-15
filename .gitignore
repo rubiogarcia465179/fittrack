@@ -9,3 +9,6 @@ __pycache__/
 *.pyc
 .DS_Store
 .gh-relay.py
+
+# Metadatos de Windows (descargas)
+*:Zone.Identifier
