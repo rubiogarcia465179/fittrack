@@ -18,7 +18,7 @@ fittrack/
 ├── AGENTS.md  SPEC.md  PROGRESS.md  TASKS.md  README.md
 ├── data/      ← base de ejercicios (JSON, source: real) + imágenes
 ├── scripts/   ← sync_data.py, fetch_exercises_wger_pypi.py, generadores
-├── i18n/      ← bundles nl/es/en/fr (275 claves)
+├── i18n/      ← bundles nl/es/en/fr (312 claves)
 ├── tests/     ← node tests/run.js
 ├── web/       ← Astro 4 (static) + Tailwind 3.4   → su package.json AQUÍ
 └── app/       ← Expo SDK 58 / React Native 0.88   → su package.json AQUÍ

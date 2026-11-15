@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LANG_KEY, type Lang, setLanguage } from './src/i18n';
 import { loadExercises, type Exercise } from './src/data';
-import { store, type Session, type BenchmarkRef } from './src/store';
+import { store, type Session, type BenchmarkRef, type Profile } from './src/store';
 import { sortByDate, uid, todayISO } from './src/lib/gym';
 import { ThemeProvider, useTheme } from './src/theme-context';
 import { RADII } from './src/theme';
@@ -69,6 +69,11 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
   const [exercises] = useState<Exercise[]>(() => loadExercises());
   const [sessions, setSessions] = useState<Session[]>([]);
   const [benchmarks, setBenchmarks] = useState<BenchmarkRef[]>([]);
+  // Perfil (datos fijos): el asistente lo usa como valores por defecto.
+  const [profile, setProfile] = useState<Profile | null>(null);
+  useEffect(() => {
+    void store.profile().then(setProfile);
+  }, []);
   const [detailId, setDetailId] = useState<string | null>(null);
   // Feedback de éxito que sobrevive a que el guardado descarta la pantalla
   // (Task 1: la acción de guardar SIEMPRE deja constancia visible).
@@ -117,10 +122,13 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
   const startWorkout = (plan: WorkoutPlan, type: 'training' | 'benchmark') => {
     const draft: ActiveDraftExercise[] = plan.exercises.map((x) => ({
       exercise_id: x.exercise_id,
-      sets: Array.from({ length: x.sets }, () => ({
-        reps: x.reps,
-        weight_kg: x.recommended_weight_kg,
-      })),
+      // Cardio (Fase 12) se registra por tiempo: un bloque de 20 min moderados.
+      sets: exercises.find((e) => e.id === x.exercise_id)?.muscle_group === 'cardio'
+        ? [{ reps: 0, weight_kg: 0, duration_min: 20, intensity: 'moderate' as const }]
+        : Array.from({ length: x.sets }, () => ({
+            reps: x.reps,
+            weight_kg: x.recommended_weight_kg,
+          })),
       equipment_status: 'available' as const,
       rest_after: x.rest_sec,
     }));
@@ -245,6 +253,8 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
                   benchmarks={benchmarks}
                   onStarted={startWorkout}
                   onBack={() => setBuilding(false)}
+                  defaultGoal={profile?.goal}
+                  defaultExperience={profile?.experience}
                 />
               ) : (
                 <SessionStartScreen
@@ -269,6 +279,7 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
                 onExport={handleExport}
                 onClearAll={handleClearAll}
                 onDataChanged={handleDataChanged}
+                onProfileChanged={setProfile}
               />
             )}
           </View>

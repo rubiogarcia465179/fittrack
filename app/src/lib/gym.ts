@@ -21,10 +21,15 @@ export function setVolume(set: { weight_kg?: number; reps?: number }): number {
   return (Number(set?.weight_kg) || 0) * (Number(set?.reps) || 0);
 }
 
+export type CardioIntensity = 'easy' | 'moderate' | 'hard';
 export interface SetLike {
   reps: number;
   weight_kg: number;
   rpe?: number | null;
+  /** Cardio (Fase 12): minutos, km opcionales e intensidad. */
+  duration_min?: number;
+  distance_km?: number;
+  intensity?: CardioIntensity;
 }
 export interface ExerciseLike {
   exercise_id: string;
@@ -39,6 +44,9 @@ export interface SessionLike {
   duration_min?: number | null;
   body_weight_kg?: number | null;
   height_cm?: number | null;
+  /** Valoración opcional al terminar (1–5). */
+  energy?: number | null;
+  feeling?: number | null;
   created_at?: string;
 }
 
@@ -246,16 +254,25 @@ export function normalizeSession(s: SessionLike): SessionLike {
     .map((ex) => ({
       exercise_id: String(ex.exercise_id),
       sets: (ex.sets || [])
-        .map((st) => ({
-          reps: Math.max(0, Math.round(Number(st.reps) || 0)),
-          weight_kg: Math.max(0, Math.round((Number(st.weight_kg) || 0) * 100) / 100),
-          rpe: st.rpe ? Math.round(Number(st.rpe) * 10) / 10 : null,
-        }))
-        .filter((st) => st.reps > 0 || st.weight_kg > 0),
+        .map((st) => {
+          const o: SetLike = {
+            reps: Math.max(0, Math.round(Number(st.reps) || 0)),
+            weight_kg: Math.max(0, Math.round((Number(st.weight_kg) || 0) * 100) / 100),
+            rpe: st.rpe ? Math.round(Number(st.rpe) * 10) / 10 : null,
+          };
+          // Cardio: solo se guardan los campos con valor (sesiones de fuerza intactas).
+          const dm = Number(st.duration_min) || 0;
+          if (dm > 0) o.duration_min = Math.round(dm * 10) / 10;
+          const km = Number(st.distance_km) || 0;
+          if (km > 0) o.distance_km = Math.round(km * 100) / 100;
+          if (st.intensity === 'easy' || st.intensity === 'moderate' || st.intensity === 'hard') o.intensity = st.intensity;
+          return o;
+        })
+        .filter((st) => st.reps > 0 || st.weight_kg > 0 || (st.duration_min || 0) > 0),
     }))
     .filter((ex) => ex.sets.length > 0);
   if (!exercises.length) throw new Error('sesión sin ejercicios con sets');
-  return {
+  const out: SessionLike = {
     id: s.id || uid(),
     date: s.date,
     type: s.type || 'training',
@@ -266,6 +283,24 @@ export function normalizeSession(s: SessionLike): SessionLike {
     height_cm: s.height_cm ? Math.round(Number(s.height_cm) * 10) / 10 : null,
     created_at: s.created_at || new Date().toISOString(),
   };
+  const energy = level5(s.energy);
+  if (energy) out.energy = energy;
+  const feeling = level5(s.feeling);
+  if (feeling) out.feeling = feeling;
+  return out;
+}
+
+/** Valor 1–5 entero, o null si no es válido. */
+function level5(v: unknown): number | null {
+  const n = Math.round(Number(v));
+  return n >= 1 && n <= 5 ? n : null;
+}
+
+/** Minutos de cardio de una sesión (suma de `duration_min` de sus sets). */
+export function sessionCardioMinutes(session: SessionLike | null | undefined): number {
+  let m = 0;
+  for (const ex of session?.exercises || []) for (const st of ex.sets || []) m += Number(st.duration_min) || 0;
+  return m;
 }
 
 export function uid(): string {

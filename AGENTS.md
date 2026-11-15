@@ -32,6 +32,9 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   agrupadas con separadores finos, hojas inferiores para elegir valores,
   ajustes (idioma, datos) en Perfil.
 - **Durante el entreno**, solo el ejercicio actual se muestra completo.
+- **Tema de entreno negro** (no navy): degradado carbón → negro de fondo y
+  degradado naranja en la acción principal (`GRADIENTS.workout` en
+  `app/src/theme.ts` ≡ `body.workout-active` en `web/src/styles/global.css`).
 - **Iconos dibujados** (Views/SVG). Nunca glifos Unicode ni emoji como icono:
   Montserrat no los tiene y salen como "tofu" (□).
 - Objetivos táctiles ≥ 44 pt; contraste AA; `accessibilityLabel` /
@@ -63,13 +66,16 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   Windows falla con rutas UNC.
 - **No añadas dependencias** sin aprobación del usuario. Si una tarea las
   necesita, márcala ⛔ en `TASKS.md` con el comando exacto.
-- Estado conocido (2026-11-15): en `app/node_modules` faltan
-  `react-native-linear-gradient` (declarada en `package.json`) y
-  `@expo/metro-runtime` (necesaria para `expo export --platform web`).
-  Consecuencia: `tsc` da 1 error de módulo y no se pueden generar capturas
-  ni vídeo hasta ejecutar `npm install` en `app/` con red.
-- Los harnesses de Chromium de fases anteriores vivían en `/tmp/qa` y ya no
-  existen; `app/qa/` conserva shims y `devices.js`.
+- Estado (2026-11-15): `app/node_modules` completo (se instalaron
+  `react-native-linear-gradient` y `@expo/metro-runtime` con aprobación del
+  usuario). `web/node_modules` **no** está instalado (`cd web && npm ci`
+  pendiente de aprobación).
+- Desde Git Bash de Windows, las rutas `/tmp/...` dentro de `wsl.exe sh -c`
+  se reescriben: usa `MSYS_NO_PATHCONV=1`.
+- Capturas y vídeo: harness versionado en `app/qa/shots/` (`shoot.js`
+  + `scenario.js` con Node de Windows y Chrome headless; `make-video.js`
+  con ffmpeg temporal de `imageio-ffmpeg` en un venv de `/tmp`). Guía en
+  `docs/screenshots/README.md`.
 
 ## 5. Verificación antes de decir "hecho"
 
@@ -79,7 +85,12 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 | Tests | `node tests/run.js` | 0 fallos (incluye paridad i18n y tsc) |
 | Web | `cd web && npm run build && npm run preview -- --host` | build verde, HTTP 200 en rutas y assets |
 | App web | `cd app && npx expo export --platform web` | export OK |
-| Visual | capturas en `docs/screenshots/` (iPhone 16, 393×852) | regeneradas si cambió la UI |
+| Visual | `app/qa/shots/shoot.js` → `docs/screenshots/` (iPhone 16) | capturas revisadas una a una, 0 errores de consola |
+| Vídeo | `app/qa/shots/make-video.js` → `docs/screenshots/video-iphone16.mp4` | regenerado |
+
+**Regla del usuario (2026-11-15): en CADA commit se regeneran las capturas y
+el vídeo** de `docs/screenshots/` con el diseño del commit. Si la UI cambió,
+añade el paso nuevo a `app/qa/shots/scenario.js`. Se commitea en `main`.
 
 Si algo no se puede ejecutar, dilo con el error real; no lo des por bueno.
 

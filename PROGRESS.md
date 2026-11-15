@@ -8,26 +8,26 @@ la historia completa está en el **Log** (abajo) y en git.
 | Área | Estado |
 |---|---|
 | Datos | 226 ejercicios reales de wger (CC-BY-SA); imágenes placeholder |
-| App (Expo SDK 58) | 5 pestañas; sesión con asistente, benchmarks, material ocupado; **Resumen y Sesión simplificados (Fase 11b)** |
-| Web (Astro) | Paridad hasta Fase 11; **pendiente** paridad de la Fase 11b |
-| i18n | NL/ES/EN/FR, **275 claves**, espejos idénticos |
+| App (Expo SDK 58) | 5 pestañas; Resumen y Sesión simplificados; **tema de entreno negro**; **cardio, valoración al terminar, Perfil con datos fijos y calorías (Fase 12)** |
+| Web (Astro) | Tema negro y lógica (`gym.js`) al día; **pendiente** paridad de pantallas de 11b/12 |
+| i18n | NL/ES/EN/FR, **312 claves**, espejos idénticos |
+| Fotos (Fase 13) | Prompts listos (678) en `docs/fotos/`; esperando las imágenes del usuario |
 | Nube (Supabase) | ⏸ en espera (v1 solo local) |
-| Siguiente | Fase 12 (más datos) y Fase 13 (fotos) — ver `TASKS.md` |
 
 ## Última verificación (2026-11-15, WSL del host)
 
-- `npx tsc --noEmit` (app) → **1 error, de entorno**: falta el módulo
-  `react-native-linear-gradient` en `node_modules` (está en `package.json`).
-  El error previo `TS2698` de `SessionScreen.tsx` (spread de
-  `StyleSheet.absoluteFill`) quedó corregido.
-- `node tests/run.js` → **76/77**: el único fallo es la comprobación de
-  `tsc` (mismo error de entorno). Paridad i18n (275 claves × 4 + espejos):
-  OK.
-- `npx expo export --platform web` → **no ejecutable**: falta
-  `@expo/metro-runtime`. Sin build web no hay capturas ni vídeo nuevos; las
-  de `docs/screenshots/` son de la Fase 11 (diseño anterior).
-- Intento de restaurar ambos paquetes desde la caché npm (`--offline`,
-  `--no-save`): `ENOTCACHED`. `package.json`/lock sin cambios.
+- `npx tsc --noEmit` (app) → **0 errores**.
+- `node tests/run.js` → **96/96, 0 fallos** (incluye 18 nuevas: cardio y
+  valoración en `normalizeSession`, paridad TS ≡ JS, Mifflin-St Jeor,
+  factor de actividad, TDEE, kcal de cardio).
+- `npx expo export --platform web` → OK.
+- Capturas 01–10 (`docs/screenshots/`) con Chrome headless sobre ese
+  export: **0 errores de consola**, revisadas una a una; el recorrido
+  incluye guardar una sesión con cardio y valoración y verla en Historial.
+- Vídeo `video-iphone16.mp4`: H.264 786×1704, 30 fps, 27 s (decodificado
+  sin errores).
+- `cd web && npm run build` → **no ejecutado**: `astro: not found`
+  (`web/node_modules` sin instalar).
 
 ## Decisiones vigentes
 
@@ -37,13 +37,17 @@ la historia completa está en el **Log** (abajo) y en git.
 - Gráficas e iconos dibujados con `View`/`div` (sin `react-native-svg`, sin
   glifos de fuente).
 - Diseño: una acción principal por pantalla, divulgación progresiva,
-  patrones de iOS; ajustes (idioma, datos) en Perfil (Fase 11b).
+  patrones de iOS; ajustes en Perfil; entreno en negro con degradados.
+- Cardio se guarda en la misma estructura de series (`duration_min`,
+  `distance_km`, `intensity`; reps = kg = 0): sin migración de datos.
+- Calorías: Mifflin-St Jeor × factor de actividad deducido de las sesiones
+  (no se pregunta), mostrado como estimación.
+- Capturas y vídeo se regeneran en cada commit (regla del usuario).
 
 ## Bloqueos
 
-- ⛔ Capturas/vídeo y `tsc` limpio: `cd app && npm install` con red.
-- ⛔ Fotos de ejercicios (Fase 13): falta una vía de generación de imágenes
-  o un banco de fotos con licencia.
+- ⛔ Build de la web: `cd web && npm ci` (pendiente de aprobación).
+- ⛔ Fotos de ejercicios (Fase 13): las genera el usuario con los prompts.
 - ⛔ Fotos reales de wger: `static.wger.de` ya no existe en DNS.
 
 ## Log
@@ -348,3 +352,36 @@ la historia completa está en el **Log** (abajo) y en git.
   Docs reescritos: `SPEC.md` (simple, completo), `AGENTS.md` (entorno real,
   reglas de diseño, skills instaladas), `TASKS.md` (activo arriba, hecho
   resumido), `PROGRESS.md` (estado al día).
+- 2026-11-15 (tarde) — **Fase 12 + tema negro + capturas/vídeo**.
+  (1) **Tema de entreno negro** (petición: "negro en vez de navy, con
+  degradado en el negro y el naranja"): `WORKOUT` con grises neutros de iOS
+  oscuro, fondo `#2A2A30 → #000000`, CTA `#F55E14 → #B83A08` (texto blanco
+  legible en todo el degradado); misma paleta en `body.workout-active` de
+  la web y `theme-color` `#000000`.
+  (2) **Cardio** (decisión del usuario: minutos + km + intensidad): filas
+  `nº · min · km · intensidad · hecha`, intensidad que se cambia tocando,
+  kcal estimadas con METs del Compendium (4/7/10) si hay peso; bloque por
+  defecto de 20 min (o el último hecho) al añadir o desde el asistente;
+  minutos de cardio de la semana en el Resumen; Historial con
+  "20 min · 3 km · Fuerte". `normalizeSession` conserva los campos de
+  cardio solo si tienen valor (sesiones de fuerza idénticas a antes).
+  (3) **Valoración al terminar**: "Terminar" abre una hoja con energía y
+  sensación (1–5) → "Guardar sesión" o "Finalizar sin valorar".
+  (4) **Perfil**: Sobre ti (sexo, año de nacimiento, nivel, objetivo; el
+  asistente arranca con nivel y objetivo), peso registrable en Perfil y
+  **calorías diarias** (petición: "de manera muy científica"): metabolismo
+  basal Mifflin-St Jeor (Frankenfield 2005: la ecuación más precisa) ×
+  factor de actividad deducido de las sesiones de las últimas 4 semanas
+  (`app/src/lib/energy.ts`, puro y testeado).
+  (5) **Bugs**: `store.migrate()` perdía `height_entries` en cada lectura
+  (solo sobrevivía la última altura); "Añadir/Sugerir ejercicio" salían
+  aplastados (fila sin `flexDirection: 'row'`); botones de "Tus datos"
+  desbordaban el texto (ahora apilados a todo el ancho).
+  (6) **Dependencias** (aprobado por el usuario): `npx expo install
+  @expo/metro-runtime react-native-linear-gradient` → `package.json` +1
+  dependencia, lock actualizado, 4 avisos moderados de `npm audit`.
+  (7) **Capturas y vídeo** regenerados con un harness nuevo versionado
+  (`app/qa/shots/`: CDP sin dependencias + ffmpeg temporal).
+  (8) **Fase 13**: `scripts/make_photo_prompts.js` → 678 prompts en
+  `docs/fotos/` con el estilo de `data/images/ejemplo/`.
+  i18n: +37 claves (312). Verificación: ver "Última verificación".

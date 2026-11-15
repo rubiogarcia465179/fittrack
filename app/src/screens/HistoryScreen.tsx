@@ -116,11 +116,24 @@ export default function HistoryScreen({
                     {nameOf(e) || ex.exercise_id}
                   </Text>
                   <Text style={[styles.exSets, { color: p.dim }]}>
-                    {ex.sets.map((st) => `${st.reps}×${st.weight_kg}kg`).join(' · ')}
+                    {ex.sets
+                      .map((st) =>
+                        st.duration_min
+                          ? `${st.duration_min} min${st.distance_km ? ` · ${st.distance_km} km` : ''}${st.intensity ? ` · ${t(`int_${st.intensity}`)}` : ''}`
+                          : `${st.reps}×${st.weight_kg}kg`,
+                      )
+                      .join(' · ')}
                   </Text>
                 </Pressable>
               );
             })}
+            {s.energy || s.feeling ? (
+              <Text style={[styles.notes, { color: p.secondary }]}>
+                {[s.energy ? t('hist_energy', { n: s.energy }) : null, s.feeling ? t('hist_feeling', { n: s.feeling }) : null]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </Text>
+            ) : null}
             {s.notes ? <Text style={[styles.notes, { color: p.secondary }]}>{s.notes}</Text> : null}
           </View>
         ))

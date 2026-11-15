@@ -5,7 +5,7 @@
 /* =========================================================================
    FitTrack — sistema de diseño PREMIUM (paridad con app/src/theme.ts)
    Dos temas con variables CSS: por defecto crema cálido; al empezar una
-   sesión (body.workout-active) toda la web se recolorea a navy oscuro,
+   sesión (body.workout-active) toda la web se recolorea a negro (con degradado),
    igual que la app (ThemeProvider). Una clase lo recolorea TODO.
    ========================================================================= */
 
@@ -48,25 +48,26 @@
 }
 
 body.workout-active {
-  --bg: #070d1d;
-  --section: #0a1224;
-  --card: #182342;
-  --card-border: #26345c;
-  --text: #f4efe5;
-  --secondary: #a9b6d1;
-  --dim: #8a97b7;
-  --border: #283a66;
-  --accent: #f05b1f;
-  --accent-dark: #bc3d06;
-  --link: #ff8a50;
-  --green: #4cc97a;
-  --red: #ff6b57;
-  --field: #20305a;
-  --chip-off: #22335c;
-  --header: rgba(14, 23, 48, 0.86);
-  --shadow: rgba(0, 0, 0, 0.35);
-  --shadow-cta: rgba(240, 98, 43, 0.45);
-  --overlay: rgba(4, 8, 18, 0.55);
+  /* Negro estilizado (paridad con WORKOUT de app/src/theme.ts). */
+  --bg: #000000;
+  --section: #0a0a0c;
+  --card: #1c1c1f;
+  --card-border: #2e2e33;
+  --text: #f5f5f7;
+  --secondary: #aeaeb2;
+  --dim: #8e8e93;
+  --border: #3a3a3f;
+  --accent: #ff6a1f;
+  --accent-dark: #c2410c;
+  --link: #ff9a5c;
+  --green: #32d74b;
+  --red: #ff453a;
+  --field: #26262a;
+  --chip-off: #2c2c30;
+  --header: rgba(18, 18, 20, 0.88);
+  --shadow: rgba(0, 0, 0, 0.5);
+  --shadow-cta: rgba(245, 94, 20, 0.4);
+  --overlay: rgba(0, 0, 0, 0.6);
   color-scheme: dark;
 }
 
@@ -84,10 +85,10 @@ body.workout-active {
     line-height: 1.47;
     transition: background 200ms ease, color 200ms ease;
   }
-  /* Tema premium de sesión: fondo navy profundo con degradado (paridad
-     app: GRADIENTS.workout.bg #182656 → #070D1D, `Gradient` de la app). */
+  /* Tema de sesión: negro con degradado (paridad app:
+     GRADIENTS.workout.bg #2A2A30 → #000000, `Gradient` de la app). */
   body.workout-active {
-    background-image: linear-gradient(180deg, #182656 0%, #070d1d 100%);
+    background-image: linear-gradient(180deg, #2a2a30 0%, #000000 100%);
     background-attachment: fixed;
   }
   ::selection {
@@ -410,7 +411,7 @@ body.workout-active {
     background: var(--green);
   }
 
-  /* ---- Banner de sesión activa (navy) ---- */
+  /* ---- Banner de sesión activa ---- */
   .ActiveBanner {
     @apply flex items-center gap-3 rounded-card px-4 py-3;
     background: var(--card);

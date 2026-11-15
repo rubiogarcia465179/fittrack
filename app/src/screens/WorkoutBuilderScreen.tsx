@@ -50,12 +50,17 @@ export default function WorkoutBuilderScreen({
   benchmarks,
   onStarted,
   onBack,
+  defaultGoal,
+  defaultExperience,
 }: {
   exercises: Exercise[];
   sessions: Session[];
   benchmarks: { exercise_id: string; estimated_1rm: number }[];
   onStarted: (plan: WorkoutPlan, type: 'training' | 'benchmark') => void;
   onBack: () => void;
+  /** Del Perfil (Fase 12): el asistente arranca con tu objetivo y nivel. */
+  defaultGoal?: Goal;
+  defaultExperience?: Experience;
 }) {
   const { t, i18n } = useTranslation();
   const { p, SHADOW } = useTheme();
@@ -64,9 +69,9 @@ export default function WorkoutBuilderScreen({
 
   const [kind, setKind] = useState<'training' | 'benchmark'>('training');
   const [idx, setIdx] = useState(0);
-  const [goal, setGoal] = useState<Goal>('build_muscle');
+  const [goal, setGoal] = useState<Goal>(defaultGoal || 'build_muscle');
   const [mode, setMode] = useState<EquipmentMode>('full_gym');
-  const [exp, setExp] = useState<Experience>('intermediate');
+  const [exp, setExp] = useState<Experience>(defaultExperience || 'intermediate');
   const [intensity, setIntensity] = useState<Intensity>('moderate');
   const [duration, setDuration] = useState(40);
   const [groups, setGroups] = useState<string[]>([]);

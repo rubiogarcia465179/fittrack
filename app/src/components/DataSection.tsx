@@ -85,8 +85,9 @@ export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) 
             style={({ pressed }) => [
               styles.btn,
               {
-                flex: 1,
-                height: 54,
+                alignSelf: 'stretch',
+                minHeight: 50,
+                paddingHorizontal: 16,
                 borderRadius: RADII.pill,
                 backgroundColor: p.accent,
                 opacity: pressed ? 0.85 : 1,
@@ -97,7 +98,7 @@ export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) 
             {busy === 'export' ? (
               <ActivityIndicator size="small" color="#fff" />
             ) : (
-              <Text style={[styles.btnText, { fontSize: fs(scale, 17), color: '#fff' }]}>{t('data_export')}</Text>
+              <Text style={[styles.btnText, { fontSize: fs(scale, 16), color: '#fff' }]}>{t('data_export')}</Text>
             )}
           </Pressable>
           <Pressable
@@ -108,8 +109,9 @@ export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) 
             style={({ pressed }) => [
               styles.btn,
               {
-                flex: 1,
-                height: 54,
+                alignSelf: 'stretch',
+                minHeight: 50,
+                paddingHorizontal: 16,
                 borderRadius: RADII.pill,
                 backgroundColor: 'transparent',
                 borderWidth: 1.5,
@@ -119,7 +121,7 @@ export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) 
               },
             ]}
           >
-            <Text style={[styles.btnText, { fontSize: fs(scale, 17), color: p.red }]}>{t('data_clear')}</Text>
+            <Text style={[styles.btnText, { fontSize: fs(scale, 16), color: p.red }]}>{t('data_clear')}</Text>
           </Pressable>
         </View>
         {status ? (
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
   title: { fontWeight: '700' },
   note: { lineHeight: 21 },
   row: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     gap: 10,
     marginTop: 14,
   },

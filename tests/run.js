@@ -226,6 +226,38 @@ same((m) => m.searchExercises(ALL.exercises, 'row', 'back', 'barbell'), [], 'sea
 same((m) => m.normalizeSession({ id: 'p', date: todayISO(0), created_at: '2026-11-10T12:00:00.000Z', exercises: [{ exercise_id: 'x', sets: [{ reps: 3, weight_kg: 12.345 }]}] }), [], 'normalizeSession');
 same((m) => m.sortByDate([S2, S1]), [], 'sortByDate');
 
+// ------------------------------------------- Fase 12: cardio + valoración
+section('Fase 12 — cardio, valoración y calorías');
+const CARDIO = { id: 'c', date: todayISO(0), created_at: '2026-11-15T10:00:00.000Z', energy: 4, feeling: 9,
+  exercises: [{ exercise_id: 'run_treadmill', sets: [{ reps: 0, weight_kg: 0, duration_min: 25.04, distance_km: 4.256, intensity: 'hard' }, { reps: 0, weight_kg: 0 }] }] };
+const nc = web.normalizeSession(CARDIO);
+eq(nc.exercises[0].sets.length, 1, 'normalizeSession conserva la serie de cardio y descarta la vacía');
+eq(nc.exercises[0].sets[0].duration_min, 25, 'cardio: minutos redondeados a 1 decimal');
+eq(nc.exercises[0].sets[0].distance_km, 4.26, 'cardio: km redondeados a 2 decimales');
+eq(nc.exercises[0].sets[0].intensity, 'hard', 'cardio: intensidad conservada');
+eq(nc.energy, 4, 'valoración: energía 1–5 conservada');
+eq(nc.feeling, undefined, 'valoración: fuera de rango (9) se descarta');
+eq('energy' in norm, false, 'sesión sin valoración no añade campos');
+eq(web.sessionCardioMinutes(nc), 25, 'sessionCardioMinutes');
+same((m) => m.normalizeSession(CARDIO), [], 'normalizeSession (cardio + valoración)');
+same((m) => m.sessionCardioMinutes(CARDIO), [], 'sessionCardioMinutes');
+
+const energyTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/energy.ts'), 'utf8');
+const energyJs = ts.transpileModule(energyTs, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }).outputText;
+const energyMod = { exports: {} };
+new Function('module', 'exports', energyJs)(energyMod, energyMod.exports);
+const E = energyMod.exports;
+// Mifflin-St Jeor: hombre 80 kg, 180 cm, 30 años → 10·80 + 6,25·180 − 5·30 + 5 = 1780
+eq(Math.round(E.mifflinStJeor(80, 180, 30, 'male')), 1780, 'Mifflin-St Jeor hombre (1780)');
+eq(Math.round(E.mifflinStJeor(60, 165, 30, 'female')), 1320, 'Mifflin-St Jeor mujer (1320,25 → 1320)');
+eq(E.activityFromTraining(0, 0).factor, 1.2, 'actividad: sin sesiones → sedentaria ×1,2');
+eq(E.activityFromTraining(12, 0).factor, 1.55, 'actividad: 3 sesiones/semana → moderada ×1,55');
+eq(E.activityFromTraining(8, 600).factor, 1.55, 'actividad: 2/semana + 150 min cardio/semana → moderada');
+const est = E.estimateEnergy({ weight_kg: 80, height_cm: 180, birth_year: 1996, sex: 'male', sessions_28d: 12, cardio_min_28d: 0, year: 2026 });
+eq(est && est.tdee, Math.round(1780 * 1.55), 'TDEE = BMR × factor');
+eq(E.estimateEnergy({ weight_kg: 80, height_cm: null, birth_year: 1996, sessions_28d: 0, cardio_min_28d: 0 }), null, 'sin altura → sin cálculo');
+eq(E.cardioKcal(30, 70, 'moderate'), 245, 'kcal cardio: MET 7 × 70 kg × 0,5 h = 245');
+
 // ------------------------------------------------------------- typecheck
 section('typecheck — tsc --noEmit (app/)');
 let tscOk = true;

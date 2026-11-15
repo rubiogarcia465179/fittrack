@@ -4,10 +4,10 @@
  * Dos paletas:
  *  - `DEFAULT`  → modo normal, fondo crema #F3EEE3, texto azul marino oscuro,
  *                 acento naranja profundo #C44A0D. Cálido, minimal, calmado.
- *  - `WORKOUT`  → sesión en curso, fondo azul marino profundo (degradado
- *                 #080D1C → #182656), tipografía clara de alto contraste,
- *                 acento naranja intenso. El cambio es intencionado y
- *                 reconocible de un vistazo.
+ *  - `WORKOUT`  → sesión en curso, fondo NEGRO con degradado (carbón
+ *                 #2A2A30 → negro #000000), tipografía clara de alto
+ *                 contraste, acento naranja con degradado. El cambio es
+ *                 intencionado y reconocible de un vistazo.
  *
  * Los degradados premium (fondo de sesión y CTA principal) se definen en
  * `GRADIENTS`; la app los consume vía `useTheme()` de modo que cambiar el
@@ -68,27 +68,28 @@ export const DEFAULT: Palette = {
   statusBar: 'dark',
 };
 
-/** Sesión en curso: azul marino profundo + texto claro. */
+/** Sesión en curso: negro (degradado carbón → negro) + naranja con
+ *  degradado. Grises neutros de iOS en modo oscuro. */
 export const WORKOUT: Palette = {
-  bg: '#0A1228',
-  section: '#070E1F',
-  card: '#141F3E',
-  cardBorder: '#243259',
-  text: '#F4EFE5',
-  secondary: '#A9B6D1',
-  dim: '#8A97B7',
-  border: '#283A66',
-  accent: '#F05B1F',
-  accentDark: '#C2440A',
-  link: '#FF8A50',
-  green: '#4CC97A',
-  red: '#FF6B57',
-  fieldBg: '#1D2A4E',
-  chipOff: '#22335C',
-  chipOffText: '#F4EFE5',
-  overlay: 'rgba(4, 8, 18, 0.55)',
-  headerBg: 'rgba(10, 18, 40, 0.82)',
-  tabBarBg: 'rgba(10, 18, 40, 0.92)',
+  bg: '#000000',
+  section: '#0A0A0C',
+  card: '#1C1C1F',
+  cardBorder: '#2E2E33',
+  text: '#F5F5F7',
+  secondary: '#AEAEB2',
+  dim: '#8E8E93',
+  border: '#3A3A3F',
+  accent: '#FF6A1F',
+  accentDark: '#C2410C',
+  link: '#FF9A5C',
+  green: '#32D74B',
+  red: '#FF453A',
+  fieldBg: '#26262A',
+  chipOff: '#2C2C30',
+  chipOffText: '#F5F5F7',
+  overlay: 'rgba(0, 0, 0, 0.6)',
+  headerBg: 'rgba(18, 18, 20, 0.88)',
+  tabBarBg: 'rgba(12, 12, 14, 0.94)',
   statusBar: 'light',
 };
 
@@ -102,8 +103,10 @@ export const GRADIENTS: Record<'default' | 'workout', GradientStops> = {
     cta: ['#D9541E', '#B04007'],
   },
   workout: {
-    bg: ['#182656', '#070D1D'],
-    cta: ['#F05B1F', '#BC3D06'],
+    // Negro estilizado: carbón arriba → negro puro abajo.
+    bg: ['#2A2A30', '#000000'],
+    // Naranja profundo: el texto blanco mantiene contraste en toda la CTA.
+    cta: ['#F55E14', '#B83A08'],
   },
 };
 

@@ -8,6 +8,8 @@
  *  viejos (sin profile / sin type) se normalizan al leer.
  */
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import type { CardioIntensity } from './lib/gym';
+import type { Goal } from './lib/types';
 
 const KEY = 'fittrack.data.v1';
 
@@ -18,6 +20,10 @@ export interface SetLog {
   /** Serie COMPLETADA (el usuario la marcó). Sin esto, el progreso
    *  confundiría los valores sugeridos con series ya hechas. */
   done?: boolean;
+  /** Cardio (Fase 12): minutos, km opcionales e intensidad. */
+  duration_min?: number;
+  distance_km?: number;
+  intensity?: CardioIntensity;
 }
 
 export interface ExerciseLog {
@@ -37,6 +43,9 @@ export interface Session {
   body_weight_kg?: number | null;
   /** Altura personal en cm (opcional; se registra si el usuario la lleva). */
   height_cm?: number | null;
+  /** Valoración opcional al terminar (1–5): energía del día y sensación. */
+  energy?: number | null;
+  feeling?: number | null;
   created_at?: string;
 }
 
@@ -59,12 +68,20 @@ export interface ProfileEntry {
   value: number; // cm
 }
 
+export type Sex = 'male' | 'female' | 'other';
+
 export interface Profile {
   benchmarks: Benchmark[];
   experience: Experience;
   intensity: Intensity;
   /** Alturas registradas (la última = la actual). Opcional. */
   height_entries?: ProfileEntry[];
+  /** Pesos registrados desde Perfil (además del peso anotado en sesiones). */
+  weight_entries?: ProfileEntry[];
+  /** Datos fijos (Fase 12), todos opcionales. */
+  sex?: Sex;
+  birth_year?: number;
+  goal?: Goal;
 }
 
 export interface Data {
@@ -84,7 +101,11 @@ function migrate(d: Partial<Data> | null): Data {
     profile: { ...base.profile },
   };
   if (d.profile) {
+    // Conserva TODOS los campos del perfil (antes se perdían height_entries
+    // en cada lectura y solo sobrevivía la última altura).
     out.profile = {
+      ...base.profile,
+      ...d.profile,
       benchmarks: Array.isArray(d.profile.benchmarks) ? d.profile.benchmarks : [],
       experience: d.profile.experience || base.profile.experience,
       intensity: d.profile.intensity || base.profile.intensity,
@@ -167,6 +188,21 @@ export const store = {
     entries.push({ date, value });
     entries.sort((a, b) => (a.date < b.date ? 1 : -1));
     d.profile.height_entries = entries;
+    await write(d);
+    return d.profile;
+  },
+  /** Pesos registrados desde Perfil, del más reciente al más antiguo. */
+  async weightHistory(): Promise<ProfileEntry[]> {
+    const p = (await read()).profile;
+    return (p.weight_entries || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+  },
+  /** Registra un peso corporal (reemplaza el del mismo día). */
+  async logWeight(value: number, date: string): Promise<Profile> {
+    const d = await read();
+    const entries = (d.profile.weight_entries || []).filter((e) => e.date !== date);
+    entries.push({ date, value });
+    entries.sort((a, b) => (a.date < b.date ? 1 : -1));
+    d.profile.weight_entries = entries;
     await write(d);
     return d.profile;
   },

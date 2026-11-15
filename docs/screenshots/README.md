@@ -1,31 +1,34 @@
-# FitTrack — Capturas (iPhone 16, 393×852)
+# FitTrack — Capturas y vídeo (iPhone 16, 393×852 @2x)
 
-Capturas reales del build web de producción (`expo export --platform web`),
-generadas con Chromium real (viewport iPhone 16) durante el QA. V1: datos
-solo locales, Montserrat embebida, sin red.
-
-> **Desactualizadas (2026-11-15):** muestran el diseño de la Fase 11. El
-> Resumen y la Sesión se simplificaron en la Fase 11b (ver `PROGRESS.md`);
-> regenerarlas requiere `cd app && npm install` (faltan dependencias para
-> `expo export --platform web`).
+Capturas reales del build web de la app (`expo export --platform web`) en
+Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
+**Se regeneran en cada commit** (regla de `AGENTS.md`).
 
 | # | Pantalla | Qué muestra |
 |---|----------|-------------|
-| 01 | Dashboard | Resumen con datos: stats, actividad (sin scroll), gráfico, últimas sesiones, marcas |
-| 02 | Arranque de sesión | Dos caminos claros: "Recomiéndame un entreno" / "Añado mis datos yo" |
-| 03 | Wizard — objetivo | Paso a paso: cada objetivo define su esquema series×reps (músculo 3×10·90s, fuerza 4×5·150s, …) |
-| 04 | Wizard — revisión | Plan generado con pesos desde benchmarks + botón "Empezar entrenamiento" |
-| 05 | Sesión activa | Tema navy con degradado, progreso, tarjeta **ACTUAL** (franja AHORA) y barra fija inferior con leyenda "Siguiente: …" + **"Acabar ejercicio"** + "Guardar sesión" |
-| 06 | Sesión con foco | Flujo "ejercicio actual": el 2º en foco, el 1º atenuado con "Ir allí"; barra fija "Último ejercicio" + **"Acabar ejercicio"** |
-| 07 | Picker de valor | Hoja inferior: handle, rejilla responsiva de chips (sin overflow), confirmación abajo |
-| 08 | Detalles | Campos secundarios plegados/expandibles: fecha, duración, peso corporal, altura, notas (cajas del mismo tamaño) |
-| 09 | Perfil | 5ª pestaña: peso corporal (de las sesiones) + altura con tendencia y "Registrar" — opcional |
+| 01 | Resumen | Acción principal, "Esta semana" (sesiones · volumen · días seguidos), nuevas marcas, gráfica semanal, últimas sesiones |
+| 02 | Más estadísticas | Grupos musculares, marcas 1RM y calendario de actividad (plegados por defecto) |
+| 03 | Arranque | "Recomiéndame un entreno" / "Añado mis datos yo" |
+| 04 | Sesión activa | Tema negro con degradado; ejercicio actual completo, el resto en una línea; barra fija "Terminar" + "Siguiente ejercicio" |
+| 05 | Máquina ocupada | "¿Máquina ocupada?" despliega Ocupado / Fuera de servicio |
+| 06 | Cardio | Ejercicio de cardio: min · km · intensidad · hecha, kcal estimadas; último ejercicio → "Terminar y guardar" |
+| 07 | Valoración | Hoja opcional al terminar: energía y sensación (1–5), "Guardar sesión" o "Finalizar sin valorar" |
+| 08 | Historial | La sesión guardada con cardio ("20 min · 3 km · Fuerte") y valoración |
+| 09 | Perfil | Sobre ti (sexo, año, nivel, objetivo), peso con tendencia |
+| 10 | Calorías y ajustes | Gasto diario y metabolismo basal (Mifflin-St Jeor × actividad real), idioma, tus datos |
 
-**Video** — `video-iphone16.mp4` (H.264) y `video-iphone16.webm` (VP9): grabación
-de 34 s (iPhone 16, 393×852) del flujo completo: dashboard → biblioteca →
-detalle → arranque → wizard paso a paso → sesión activa (navy degradado) →
-**"Acabar ejercicio"** (flujo de ejercicio actual: la app indica el siguiente
-y aténúa los demás) → hoja de reps → marcar "Hecha" → añadir serie → sugerir
-del mismo grupo muscular → guardar → historial → resumen.
+**Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps, ~27 s): el mismo
+recorrido que las capturas, grabado con el screencast de Chrome.
 
-Nota: las capturas se renuevan en cada batería de QA (ver `REQUIREMENTS.md`, R-26).
+## Regenerar
+
+```bash
+# 1. Build web de la app (WSL)
+cd ~/fittrack/app && npx expo export --platform web --output-dir /tmp/ft-dist
+# 2. Capturas + fotogramas (Windows, Node ≥ 22 + Chrome)
+node app/qa/shots/shoot.js \\wsl.localhost\Ubuntu-24.04\tmp\ft-dist docs/screenshots --frames <dir-temporal>
+# 3. Vídeo (WSL; ffmpeg temporal vía imageio-ffmpeg, ver make-video.js)
+FFMPEG=<ruta-ffmpeg> node app/qa/shots/make-video.js <dir-temporal> docs/screenshots/video-iphone16.mp4
+```
+El recorrido está en `app/qa/shots/scenario.js` (añade pasos ahí cuando
+cambie la UI).

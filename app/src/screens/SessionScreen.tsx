@@ -25,7 +25,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import type { Session, SetLog } from '../store';
-import { searchExercises, normalizeSession, uid, todayISO, oneRm } from '../lib/gym';
+import { searchExercises, normalizeSession, uid, todayISO, oneRm, latestWeight, type CardioIntensity } from '../lib/gym';
+import { cardioKcal } from '../lib/energy';
 import { store } from '../store';
 import { GROUP_COLORS, RADII } from '../theme';
 import { useTheme } from '../theme-context';
@@ -191,6 +192,56 @@ function PlayGlyph({ color = '#fff' }: { color?: string }) {
   );
 }
 
+/** Escala 1–5 con extremos rotulados (valoración opcional al terminar). */
+function RatingRow({
+  label,
+  low,
+  high,
+  value,
+  onChange,
+}: {
+  label: string;
+  low: string;
+  high: string;
+  value: number | null;
+  onChange: (v: number | null) => void;
+}) {
+  const { p } = useTheme();
+  return (
+    <View style={styles.ratingBlock}>
+      <Text style={[styles.ratingLabel, { color: p.text }]}>{label}</Text>
+      <View style={styles.ratingRow} accessibilityRole="radiogroup" accessibilityLabel={label}>
+        {[1, 2, 3, 4, 5].map((n) => {
+          const on = value === n;
+          return (
+            <Pressable
+              key={n}
+              accessibilityRole="radio"
+              accessibilityLabel={`${label}: ${n}/5`}
+              accessibilityState={{ checked: on }}
+              onPress={() => onChange(on ? null : n)}
+              style={({ pressed }) => [
+                styles.ratingDot,
+                {
+                  backgroundColor: on ? p.accent : p.fieldBg,
+                  borderColor: on ? p.accent : p.border,
+                  transform: [{ scale: pressed ? 0.92 : 1 }],
+                },
+              ]}
+            >
+              <Text style={[styles.ratingNum, { color: on ? '#fff' : p.text }]}>{n}</Text>
+            </Pressable>
+          );
+        })}
+      </View>
+      <View style={styles.ratingEnds}>
+        <Text style={[styles.ratingEnd, { color: p.secondary }]}>{low}</Text>
+        <Text style={[styles.ratingEnd, { color: p.secondary }]}>{high}</Text>
+      </View>
+    </View>
+  );
+}
+
 /** Tick ligero para el cronómetro (1 s; no gasta recursos). */
 function useNow(ms: number): number {
   const [now, setNow] = useState(() => Date.now());
@@ -248,6 +299,8 @@ export default function SessionScreen({
   type PickTarget =
     | { kind: 'reps'; ex: string; idx: number }
     | { kind: 'weight'; ex: string; idx: number }
+    | { kind: 'cmin'; ex: string; idx: number }
+    | { kind: 'ckm'; ex: string; idx: number }
     | { kind: 'duration' }
     | { kind: 'body' }
     | { kind: 'height' }
@@ -271,6 +324,26 @@ export default function SessionScreen({
   useEffect(() => setEquipOpen(false), [currentIndex]);
 
   const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
+  const isCardio = (id: string) => byId.get(id)?.muscle_group === 'cardio';
+  /** Serie por defecto de cardio: lo último que hizo en ese ejercicio, o 20 min moderados. */
+  const cardioSet = (id: string): SetLog => {
+    const last = sessions
+      .find((s) => s.exercises.some((e) => e.exercise_id === id))
+      ?.exercises.find((e) => e.exercise_id === id)?.sets?.[0];
+    return {
+      reps: 0,
+      weight_kg: 0,
+      duration_min: last?.duration_min || 20,
+      ...(last?.distance_km ? { distance_km: last.distance_km } : {}),
+      intensity: last?.intensity || 'moderate',
+    };
+  };
+
+  // Valoración opcional al terminar (energía y sensación, 1–5).
+  const [checkinOpen, setCheckinOpen] = useState(false);
+  const [energy, setEnergy] = useState<number | null>(null);
+  const [feeling, setFeeling] = useState<number | null>(null);
+  const bodyKg = Number(weightStr.replace(',', '.')) || latestWeight(sessions) || 0;
   const recent = useMemo(() => recentRows(sessions), [sessions]);
   const results = useMemo(
     () => searchExercises(exercises, q, 'all', 'all').slice(0, 12),
@@ -338,6 +411,15 @@ export default function SessionScreen({
       return;
     }
     const ex = byId.get(id);
+    if (isCardio(id)) {
+      setDraft((d) => [...d, { exercise_id: id, sets: [cardioSet(id)] }]);
+      setQ('');
+      setSaved(false);
+      setCurrentIndex(draft.length);
+      flash(t('sess_added'));
+      setTimeout(() => focusScroll(id), 60);
+      return;
+    }
     const rec = ex
       ? weightForExercise(ex, {
           benchmarks: session.benchmarks,
@@ -498,12 +580,14 @@ export default function SessionScreen({
         x.exercise_id === id
           ? {
               ...x,
+              // La nueva serie copia la anterior (fuerza o cardio), sin marcar.
               sets: [
                 ...x.sets,
-                {
-                  reps: x.sets[x.sets.length - 1]?.reps ?? 10,
-                  weight_kg: x.sets[x.sets.length - 1]?.weight_kg ?? 0,
-                },
+                x.sets.length > 0
+                  ? { ...x.sets[x.sets.length - 1], done: false }
+                  : isCardio(id)
+                    ? cardioSet(id)
+                    : { reps: 10, weight_kg: 0 },
               ],
             }
           : x,
@@ -517,7 +601,24 @@ export default function SessionScreen({
       ),
     );
 
-  const setSet = (id: string, idx: number, field: 'reps' | 'weight_kg', v: number) => {
+  /** Cardio: cambia la intensidad de una serie (suave → moderada → fuerte). */
+  const cycleIntensity = (id: string, idx: number) => {
+    const order: CardioIntensity[] = ['easy', 'moderate', 'hard'];
+    setDraft((d) =>
+      d.map((x) =>
+        x.exercise_id === id
+          ? {
+              ...x,
+              sets: x.sets.map((s, i) =>
+                i === idx ? { ...s, intensity: order[(order.indexOf(s.intensity || 'moderate') + 1) % 3] } : s,
+              ),
+            }
+          : x,
+      ),
+    );
+  };
+
+  const setSet = (id: string, idx: number, field: 'reps' | 'weight_kg' | 'duration_min' | 'distance_km', v: number) => {
     setDraft((d) =>
       d.map((x) =>
         x.exercise_id === id
@@ -528,7 +629,7 @@ export default function SessionScreen({
                   ? {
                       ...s,
                       [field]:
-                        field === 'weight_kg'
+                        field === 'weight_kg' || field === 'distance_km'
                           ? Math.max(0, Math.round(v * 100) / 100)
                           : Math.max(0, Math.round(v)),
                     }
@@ -607,11 +708,13 @@ export default function SessionScreen({
             {
               exercise_id: altId,
               equipment_status: 'available',
-              sets: [
-                { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
-                { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
-                { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
-              ],
+              sets: isCardio(altId)
+                ? [cardioSet(altId)]
+                : [
+                    { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
+                    { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
+                    { reps: 10, weight_kg: rec?.weight_kg ?? 0 },
+                  ],
             },
           ],
     );
@@ -649,6 +752,8 @@ export default function SessionScreen({
     if (!pick) return;
     if (pick.kind === 'reps') setSet(pick.ex, pick.idx, 'reps', v);
     else if (pick.kind === 'weight') setSet(pick.ex, pick.idx, 'weight_kg', v);
+    else if (pick.kind === 'cmin') setSet(pick.ex, pick.idx, 'duration_min', v);
+    else if (pick.kind === 'ckm') setSet(pick.ex, pick.idx, 'distance_km', v);
     else if (pick.kind === 'duration') setDuration(Math.round(v));
     else if (pick.kind === 'body') setWeightStr(String(v));
     else if (pick.kind === 'height') setHeightStr(String(v));
@@ -657,8 +762,15 @@ export default function SessionScreen({
   };
 
   // ---- guardar ----
-  const save = async () => {
+  /** "Terminar" abre primero la valoración opcional; guardar no depende de ella. */
+  const finish = () => {
+    if (saving || draft.length === 0) return;
+    setCheckinOpen(true);
+  };
+
+  const save = async (rating?: { energy: number | null; feeling: number | null }) => {
     if (saving) return;
+    setCheckinOpen(false);
     setError('');
     setSaving(true);
     try {
@@ -673,6 +785,8 @@ export default function SessionScreen({
         duration_min: duration > 0 ? duration : null,
         body_weight_kg: bodyWeight > 0 ? bodyWeight : null,
         height_cm: heightVal > 0 ? heightVal : null,
+        energy: rating?.energy ?? null,
+        feeling: rating?.feeling ?? null,
       }) as Session;
       await store.addSession(normalized);
       // Benchmark: 1RM de cada ejercicio (el mejor set + ajuste manual).
@@ -818,9 +932,13 @@ export default function SessionScreen({
             // ---- Resto de ejercicios: UNA fila compacta (tocar = ir allí) ----
             if (!isCurrent) {
               const first = d.sets[0];
-              const summary = first
-                ? `${d.sets.length} × ${first.reps} · ${fmtNum(first.weight_kg)} kg`
-                : plural(0, t, 'hist_set', 'hist_sets_total');
+              const cardioMin = d.sets.reduce((a, s) => a + (s.duration_min || 0), 0);
+              const cardioKm = d.sets.reduce((a, s) => a + (s.distance_km || 0), 0);
+              const summary = !first
+                ? plural(0, t, 'hist_set', 'hist_sets_total')
+                : isCardio(d.exercise_id)
+                  ? `${fmtNum(cardioMin)} min${cardioKm > 0 ? ` · ${fmtNum(cardioKm)} km` : ''}`
+                  : `${d.sets.length} × ${first.reps} · ${fmtNum(first.weight_kg)} kg`;
               return (
                 <Pressable
                   key={d.exercise_id}
@@ -884,6 +1002,9 @@ export default function SessionScreen({
                   <Text style={[styles.draftMeta, { color: p.secondary }]} numberOfLines={1}>
                     {t(`group_${ex.muscle_group}`)} · {t(`equip_${ex.equipment}`)}
                     {!isBenchmark && est1rm > 0 ? ` · 1RM ≈ ${est1rm} kg` : ''}
+                    {isCardio(d.exercise_id) && bodyKg > 0
+                      ? ` · ≈ ${d.sets.reduce((a, s) => a + cardioKcal(s.duration_min || 0, bodyKg, s.intensity), 0)} kcal`
+                      : ''}
                   </Text>
                 ) : null}
 
@@ -914,6 +1035,82 @@ export default function SessionScreen({
                   </View>
                 ) : null}
 
+                {isCardio(d.exercise_id) ? (
+                  <>
+                    {/* Cardio: minutos · km · intensidad · hecha. */}
+                    <View style={styles.colHead} accessibilityElementsHidden importantForAccessibility="no">
+                      <Text style={[styles.colHeadNum, { color: p.secondary }]}>{t('sess_set')}</Text>
+                      <Text style={[styles.colHeadField, { color: p.secondary }]}>min</Text>
+                      <Text style={[styles.colHeadField, { color: p.secondary }]}>km</Text>
+                      <Text style={[styles.colHeadInt, { color: p.secondary }]} numberOfLines={1}>{t('cardio_intensity')}</Text>
+                      <Text style={[styles.colHeadDone, { color: p.secondary }]}>{t('sess_set_done')}</Text>
+                    </View>
+                    {d.sets.map((s, i) => (
+                      <View key={i} style={styles.setRow}>
+                        <Text style={[styles.setNum, { color: s.done ? p.green : p.secondary }]}>{i + 1}</Text>
+                        <View style={styles.setFieldWrap}>
+                          <ValueBox
+                            value={fmtNum(s.duration_min || 0)}
+                            unit="min"
+                            onPress={() => setPick({ kind: 'cmin', ex: d.exercise_id, idx: i })}
+                            done={!!s.done}
+                            compact
+                          />
+                        </View>
+                        <View style={styles.setFieldWrap}>
+                          <ValueBox
+                            value={s.distance_km ? fmtNum(s.distance_km) : '—'}
+                            unit="km"
+                            onPress={() => setPick({ kind: 'ckm', ex: d.exercise_id, idx: i })}
+                            done={!!s.done}
+                            compact
+                          />
+                        </View>
+                        <Pressable
+                          accessibilityRole="button"
+                          accessibilityLabel={`${t('cardio_intensity')}: ${t(`int_${s.intensity || 'moderate'}`)}`}
+                          onPress={() => cycleIntensity(d.exercise_id, i)}
+                          style={({ pressed }) => [
+                            styles.intChip,
+                            {
+                              borderColor: s.intensity === 'hard' ? p.accent : p.border,
+                              backgroundColor: s.intensity === 'hard' ? p.accent : p.fieldBg,
+                              transform: [{ scale: pressed ? 0.95 : 1 }],
+                            },
+                          ]}
+                        >
+                          <Text
+                            style={[styles.intChipText, { color: s.intensity === 'hard' ? '#fff' : p.text }]}
+                            numberOfLines={1}
+                            adjustsFontSizeToFit
+                          >
+                            {t(`int_${s.intensity || 'moderate'}`)}
+                          </Text>
+                        </Pressable>
+                        <View style={styles.setDoneWrap}>
+                          <Pressable
+                            style={({ pressed }) => [
+                              styles.doneCircle,
+                              {
+                                borderColor: s.done ? p.green : p.border,
+                                backgroundColor: s.done ? p.green : 'transparent',
+                                transform: [{ scale: pressed ? 0.9 : 1 }],
+                              },
+                            ]}
+                            accessibilityRole="checkbox"
+                            accessibilityLabel={`${t('sess_set')} ${i + 1}: ${fmtNum(s.duration_min || 0)} min`}
+                            accessibilityState={{ checked: !!s.done }}
+                            onPress={() => toggleSetDone(d.exercise_id, i)}
+                            hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+                          >
+                            {s.done ? <CheckGlyph size={18} color="#fff" /> : null}
+                          </Pressable>
+                        </View>
+                      </View>
+                    ))}
+                  </>
+                ) : (
+                  <>
                 {/* Cabecera de columnas UNA vez (no en cada serie). */}
                 <View style={styles.colHead} accessibilityElementsHidden importantForAccessibility="no">
                   <Text style={[styles.colHeadNum, { color: p.secondary }]}>{t('sess_set')}</Text>
@@ -963,6 +1160,8 @@ export default function SessionScreen({
                     </View>
                   </View>
                 ))}
+                  </>
+                )}
 
                 {/* Series: añadir / quitar la última (sin una X por fila). */}
                 <View style={styles.setActions}>
@@ -1386,7 +1585,11 @@ export default function SessionScreen({
         <PickerSheet
           open
           title={
-            pick.kind === 'reps'
+            pick.kind === 'cmin'
+              ? t('picker_duration')
+              : pick.kind === 'ckm'
+                ? t('picker_distance')
+                : pick.kind === 'reps'
               ? t('picker_reps')
               : pick.kind === 'weight'
                 ? t('picker_weight')
@@ -1398,9 +1601,13 @@ export default function SessionScreen({
                       ? t('bench_1rm')
                       : t('sess_bodyweight')
           }
-          unit={pick.kind === 'reps' ? 'reps' : pick.kind === 'height' ? 'cm' : 'kg'}
+          unit={pick.kind === 'cmin' ? 'min' : pick.kind === 'ckm' ? 'km' : pick.kind === 'reps' ? 'reps' : pick.kind === 'height' ? 'cm' : 'kg'}
           values={
-            pick.kind === 'reps'
+            pick.kind === 'cmin'
+              ? [5, 10, 15, 20, 25, 30, 40, 45, 60, 90]
+              : pick.kind === 'ckm'
+                ? [1, 2, 3, 4, 5, 6, 8, 10, 15, 20]
+                : pick.kind === 'reps'
               ? [5, 8, 10, 12, 15, 20, 25, 30]
               : pick.kind === 'weight'
                 ? [0, 2.5, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 90, 100]
@@ -1413,7 +1620,11 @@ export default function SessionScreen({
                       : [45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 100]
           }
           value={
-            pick.kind === 'reps'
+            pick.kind === 'cmin'
+              ? draft.find((x) => x.exercise_id === pick!.ex)?.sets[pick!.idx]?.duration_min ?? 0
+              : pick.kind === 'ckm'
+                ? draft.find((x) => x.exercise_id === pick!.ex)?.sets[pick!.idx]?.distance_km ?? 0
+                : pick.kind === 'reps'
               ? draft.find((x) => x.exercise_id === pick!.ex)?.sets[pick!.idx]?.reps ?? 0
               : pick.kind === 'weight'
                 ? draft.find((x) => x.exercise_id === pick!.ex)?.sets[pick!.idx]?.weight_kg ?? 0
@@ -1426,7 +1637,11 @@ export default function SessionScreen({
                       : Number(weightStr) || 0
           }
           custom={
-            pick.kind === 'reps'
+            pick.kind === 'cmin'
+              ? { min: 1, max: 300, step: 1 }
+              : pick.kind === 'ckm'
+                ? { min: 0, max: 100, step: 0.5 }
+                : pick.kind === 'reps'
               ? { min: 1, max: 200, step: 1 }
               : pick.kind === 'weight'
                 ? { min: 0, max: 500, step: 2.5 }
@@ -1504,6 +1719,50 @@ export default function SessionScreen({
         </Modal>
       ) : null}
 
+      {/* Valoración opcional al terminar (Fase 12): rellenar o finalizar sin más. */}
+      {checkinOpen ? (
+        <Modal visible transparent animationType="slide" onRequestClose={() => setCheckinOpen(false)}>
+          <Pressable style={styles.searchBack} onPress={() => setCheckinOpen(false)} accessibilityLabel={t('cancel')} />
+          <View style={[styles.searchSheet, styles.checkinSheet, { backgroundColor: p.card }]}>
+            <View style={styles.searchHandle} />
+            <Text style={[styles.searchTitle, { color: p.text }]} accessibilityRole="header">{t('checkin_title')}</Text>
+            <Text style={[styles.checkinSub, { color: p.secondary }]}>{t('checkin_sub')}</Text>
+            <RatingRow
+              label={t('checkin_energy')}
+              low={t('checkin_low')}
+              high={t('checkin_high')}
+              value={energy}
+              onChange={setEnergy}
+            />
+            <RatingRow
+              label={t('checkin_feeling')}
+              low={t('checkin_bad')}
+              high={t('checkin_great')}
+              value={feeling}
+              onChange={setFeeling}
+            />
+            <Pressable
+              style={({ pressed }) => [{ marginTop: 20, opacity: saving ? 0.4 : pressed ? 0.85 : 1 }]}
+              accessibilityRole="button"
+              disabled={saving}
+              onPress={() => save({ energy, feeling })}
+            >
+              <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
+                <Text style={styles.saveBtnText}>{isBenchmark ? t('bench_save') : t('sess_save')}</Text>
+              </Gradient>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [styles.textBtn, { marginTop: 6, opacity: pressed ? 0.6 : 1 }]}
+              accessibilityRole="button"
+              disabled={saving}
+              onPress={() => save()}
+            >
+              <Text style={[styles.textBtnLabel, { color: p.secondary }]}>{t('checkin_skip')}</Text>
+            </Pressable>
+          </View>
+        </Modal>
+      ) : null}
+
       {/* Confirmación de descartar el entrenamiento activo */}
       {confirmDiscard ? (
         <View style={styles.modalBack} pointerEvents="box-none">
@@ -1561,7 +1820,7 @@ export default function SessionScreen({
                 accessibilityRole="button"
                 accessibilityLabel={isBenchmark ? t('bench_save') : t('sess_save')}
                 disabled={saving}
-                onPress={save}
+                onPress={finish}
               >
                 <Text style={[styles.endBtnText, { color: p.text }]} numberOfLines={1}>
                   {saving ? t('saving') : t('sess_end')}
@@ -1585,7 +1844,7 @@ export default function SessionScreen({
               style={({ pressed }) => [{ flex: 1, opacity: draft.length === 0 || saving ? 0.4 : pressed ? 0.85 : 1 }]}
               accessibilityRole="button"
               disabled={draft.length === 0 || saving}
-              onPress={save}
+              onPress={finish}
             >
               <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
                 <Text style={styles.saveBtnText} numberOfLines={1} adjustsFontSizeToFit>
@@ -1774,6 +2033,7 @@ const styles = StyleSheet.create({
   },
   // R-15: fila de acción + sugerencia
   actionRow: {
+    flexDirection: 'row',
     marginTop: 12,
   },
   actionBtn: {
@@ -2221,6 +2481,71 @@ const styles = StyleSheet.create({
   valueBoxUnit: {
     fontSize: 12,
     marginTop: 2,
+  },
+  // ---- Cardio ----
+  colHeadInt: {
+    width: 96,
+    fontSize: 12,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  intChip: {
+    width: 96,
+    minHeight: 48,
+    borderRadius: RADII.field,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 6,
+  },
+  intChipText: {
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  // ---- Valoración al terminar ----
+  checkinSheet: {
+    paddingHorizontal: 20,
+    paddingBottom: 28,
+  },
+  checkinSub: {
+    fontSize: 14,
+    marginTop: 4,
+  },
+  ratingBlock: {
+    marginTop: 20,
+  },
+  ratingLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 10,
+  },
+  ratingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  ratingDot: {
+    flex: 1,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ratingNum: {
+    fontSize: 17,
+    fontWeight: '700',
+    fontVariant: ['tabular-nums'],
+  },
+  ratingEnds: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 6,
+    paddingHorizontal: 4,
+  },
+  ratingEnd: {
+    fontSize: 13,
+    fontWeight: '500',
   },
   // Footer: "Terminar" secundario (contorno) junto a la acción principal.
   endBtn: {

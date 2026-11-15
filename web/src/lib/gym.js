@@ -182,12 +182,21 @@ export function normalizeSession(s) {
     .map((ex) => ({
       exercise_id: String(ex.exercise_id),
       sets: (ex.sets || [])
-        .map((st) => ({
-          reps: Math.max(0, Math.round(Number(st.reps) || 0)),
-          weight_kg: Math.max(0, Math.round((Number(st.weight_kg) || 0) * 100) / 100),
-          rpe: st.rpe ? Math.round(Number(st.rpe) * 10) / 10 : null,
-        }))
-        .filter((st) => st.reps > 0 || st.weight_kg > 0),
+        .map((st) => {
+          const o = {
+            reps: Math.max(0, Math.round(Number(st.reps) || 0)),
+            weight_kg: Math.max(0, Math.round((Number(st.weight_kg) || 0) * 100) / 100),
+            rpe: st.rpe ? Math.round(Number(st.rpe) * 10) / 10 : null,
+          };
+          // Cardio: solo se guardan los campos con valor (sesiones de fuerza intactas).
+          const dm = Number(st.duration_min) || 0;
+          if (dm > 0) o.duration_min = Math.round(dm * 10) / 10;
+          const km = Number(st.distance_km) || 0;
+          if (km > 0) o.distance_km = Math.round(km * 100) / 100;
+          if (st.intensity === 'easy' || st.intensity === 'moderate' || st.intensity === 'hard') o.intensity = st.intensity;
+          return o;
+        })
+        .filter((st) => st.reps > 0 || st.weight_kg > 0 || (st.duration_min || 0) > 0),
     }))
     .filter((ex) => ex.sets.length > 0);
   if (!exercises.length) throw new Error('sesión sin ejercicios con sets');
@@ -202,7 +211,24 @@ export function normalizeSession(s) {
     height_cm: s.height_cm ? Math.round(Number(s.height_cm) * 10) / 10 : null,
     created_at: s.created_at || new Date().toISOString(),
   };
+  const energy = level5(s.energy);
+  if (energy) out.energy = energy;
+  const feeling = level5(s.feeling);
+  if (feeling) out.feeling = feeling;
   return out;
+}
+
+/** Valor 1–5 entero, o null si no es válido. */
+function level5(v) {
+  const n = Math.round(Number(v));
+  return n >= 1 && n <= 5 ? n : null;
+}
+
+/** Minutos de cardio de una sesión (suma de `duration_min` de sus sets). */
+export function sessionCardioMinutes(session) {
+  let m = 0;
+  for (const ex of (session && session.exercises) || []) for (const st of ex.sets || []) m += Number(st.duration_min) || 0;
+  return m;
 }
 
 export function uid() {

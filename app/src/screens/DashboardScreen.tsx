@@ -23,6 +23,7 @@ import {
   newPrs,
   weekStart,
   todayISO,
+  sessionCardioMinutes,
 } from '../lib/gym';
 import { GROUP_COLORS, RADII } from '../theme';
 import { useTheme } from '../theme-context';
@@ -84,7 +85,9 @@ export default function DashboardScreen({
 
   const weekVolume = weeklyVolume(sessions, 4);
   const currentWeek = weekStart(todayISO());
-  const sessionsThisWeek = sessions.filter((s) => weekStart(s.date) === currentWeek).length;
+  const thisWeek = sessions.filter((s) => weekStart(s.date) === currentWeek);
+  const sessionsThisWeek = thisWeek.length;
+  const cardioThisWeek = thisWeek.reduce((a, s) => a + sessionCardioMinutes(s), 0);
   const volumeThisWeek = weekVolume[weekVolume.length - 1]?.volume ?? 0;
   const streak = streakDays(sessions);
   const prs = sessions.length ? newPrs(sessions[0], sessions).length : 0;
@@ -146,6 +149,9 @@ export default function DashboardScreen({
             <View style={[styles.vRule, { backgroundColor: p.cardBorder }]} />
             <Metric value={String(streak)} label={t('stat_streak_short')} />
           </View>
+          {cardioThisWeek > 0 ? (
+            <Text style={[styles.prLine, { color: p.text }]}>{t('dash_cardio_line', { n: Math.round(cardioThisWeek) })}</Text>
+          ) : null}
           {prs > 0 ? (
             <Text style={[styles.prLine, { color: p.green }]}>{t('dash_prs_line', { n: prs })}</Text>
           ) : null}

@@ -12,8 +12,8 @@ Leyenda de verificación:
 
 Resumen rápido:
 - **Entregado y verificado: R-01 … R-26.**
-- **R-27 … R-30 (Fase 11b, 2026-11-15)**: implementados; verificación parcial (ver al final).
-- Pendiente: Fase 12 y 13 (`TASKS.md`); Fase 7 (Supabase) en espera.
+- **R-27 … R-35 (Fases 11b y 12, 2026-11-15)**: entregados; capturas y vídeo regenerados.
+- Pendiente: R-36 (fotos, Fase 13), paridad web; Fase 7 (Supabase) en espera.
 
 ---
 
@@ -181,21 +181,41 @@ Resumen rápido:
 Petición: "la pantalla al empezar la sesión estaba sobrecargada; quiero toda la funcionalidad
 pero simple, como apple.com y las apps de iPhone".
 
-### R-27 [DONE·parcial] Resumen con una sola acción principal
+### R-27 [DONE] Resumen con una sola acción principal
 - "Empezar una sesión" / "Continuar entreno" siempre visible; "Esta semana" en una fila;
   una gráfica; últimas sesiones en lista; el resto tras "Más estadísticas".
-- Verificación: repo (tsc del archivo, tests) ✔ · visual ⛔ (sin build web, ver PROGRESS).
+- Verificación: repo ✔ · visual ✔ (capturas 01–02).
 
-### R-28 [DONE·parcial] Ajustes en Perfil, sin cabecera global
+### R-28 [DONE] Ajustes en Perfil, sin cabecera global
 - Idioma (nombres completos) y "Tus datos" en Perfil; cada pantalla con título grande.
-- Verificación: repo ✔ · visual ⛔.
+- Verificación: repo ✔ · visual ✔.
 
-### R-29 [DONE·parcial] Sesión centrada en el ejercicio actual
+### R-29 [DONE] Sesión centrada en el ejercicio actual
 - Ejercicio actual completo; los demás en una línea; columnas únicas; sin X por serie;
   "¿Máquina ocupada?" plegado; añadir/sugerir/detalles al final.
-- Verificación: repo ✔ · visual ⛔ · iPhone real pendiente.
+- Verificación: repo ✔ · visual ✔ · iPhone real pendiente.
 
-### R-30 [DONE·parcial] Una acción principal en la barra fija + iconos sin tofu
+### R-30 [DONE] Una acción principal en la barra fija + iconos sin tofu
 - "Siguiente ejercicio" → "Terminar y guardar"; "Terminar" secundaria; pausa/reanudar/cerrar
   dibujados.
-- Verificación: repo ✔ · visual ⛔.
+- Verificación: repo ✔ · visual ✔.
+
+## FASE 12 + tema negro (2026-11-15)
+
+### R-31 [DONE] Tema de entreno negro con degradados
+- Fondo carbón → negro y CTA con degradado naranja, en app y web. Verificación: visual ✔ (capturas 04–07).
+
+### R-32 [DONE] Cardio: minutos + km + intensidad
+- Registro, kcal estimadas, minutos en el Resumen, Historial. Verificación: repo ✔ (tests) · visual ✔ (06, 08).
+
+### R-33 [DONE] Valoración opcional al terminar la sesión
+- Energía y sensación 1–5; "Finalizar sin valorar". Verificación: repo ✔ · visual ✔ (07, 08).
+
+### R-34 [DONE] Perfil con datos fijos + calorías diarias
+- Sexo, año, nivel, objetivo, peso; Mifflin-St Jeor × actividad real. Verificación: repo ✔ (tests de fórmula) · visual ✔ (09, 10).
+
+### R-35 [DONE] Capturas y vídeo en cada commit
+- Harness `app/qa/shots/`; regla en `AGENTS.md`. Verificación: capturas 01–10 + mp4 de este commit.
+
+### R-36 [TODO] Fotos de ejercicios (Fase 13)
+- Prompts listos (`docs/fotos/PROMPTS.md`, 678). Pendiente: imágenes del usuario e integración.

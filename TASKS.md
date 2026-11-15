@@ -5,50 +5,60 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
 
 ## Ahora
 
-### Fase 11b — Simplificación de Resumen y Sesión (impeccable, 2026-11-15)
-- [x] Resumen: una acción principal ("Empezar" / "Continuar entreno"),
-      "Esta semana" en una fila, una gráfica, últimas sesiones en lista
-      agrupada; grupos, marcas, calendario y peso tras "Más estadísticas".
-- [x] Sin barra de marca global; idioma y "Tus datos" movidos a Perfil.
-- [x] Sesión activa: ejercicio actual primero; los demás en filas de una
-      línea; cabecera de columnas única; sin X por serie (quitar la última);
-      "¿Máquina ocupada?" plegado; añadir/sugerir/detalles al final.
-- [x] Barra fija con UNA acción principal ("Siguiente ejercicio" →
-      "Terminar y guardar"); "Terminar" como secundaria.
-- [x] Iconos de pausa/reanudar/cerrar dibujados (antes salían como □).
-- [x] i18n: +16 claves (275) en los 4 bundles y espejos.
-- [ ] Paridad web: llevar el mismo Resumen y la misma sesión a
-      `web/src/pages/dashboard.astro` y `session.astro`.
-- ⛔ Capturas 01–09 y vídeo: hace falta `cd app && npm install` con red
-      (faltan `react-native-linear-gradient` y `@expo/metro-runtime`).
-- [ ] Revisión en iPhone real (Expo Go) de la nueva sesión.
-
-### Fase 12 — Añadir datos
-- [ ] **Cardio como ejercicio**: los 12 ejercicios de cardio existen pero se
-      registran como reps × kg. Registrar por **tiempo** (y distancia
-      opcional); poder elegir cardio en el asistente y en "Añadir
-      ejercicio"; contar los minutos de cardio en el Resumen.
-      *Decisión pendiente del usuario: campos exactos (minutos, km, ritmo,
-      nivel).*
-- [ ] **Valoración al terminar la sesión**: tras "Terminar y guardar", una
-      hoja opcional con energía del día y cómo te has sentido; botón
-      "Guardar" y botón "Omitir" (guardar la sesión no depende de ella).
-      Guardar en la sesión (`energy?`, `feeling?`) y mostrarlo en Historial.
-- [ ] **Perfil con datos fijos**: idioma ✔ (hecho en 11b), peso ✔, altura ✔.
-      *Decisión pendiente del usuario: qué otros datos (p. ej. año de
-      nacimiento, sexo, nivel de experiencia, objetivo).*
-- [ ] Paridad web de los tres puntos + tests de paridad TS ≡ JS del
-      modelo de sesión.
-
 ### Fase 13 — Fotos de los ejercicios
-- [ ] 3 imágenes por ejercicio (226 × 3 = 678) que muestren cómo se hace,
-      con flechas o círculos en lo importante. Referencia de estilo:
-      `data/images/ejemplo/` (3 imágenes de ejemplo generadas con IA).
-- ⛔ Desde esta sesión no se pueden generar imágenes fotorrealistas: hace
-      falta un servicio de generación de imágenes (con clave y coste) o un
-      banco de fotos con licencia. Decidir la vía con el usuario.
-- [ ] Al aplicarlo: actualizar `image` (pasa a lista de 3), detalle con
-      carrusel, `source_note` declarando que son generadas (regla de oro).
+- [x] Prompts para las 678 imágenes (226 ejercicios × 3: posición inicial,
+      movimiento, técnica clave) con el estilo de `data/images/ejemplo/` y
+      flechas/círculos naranjas sin texto → `docs/fotos/PROMPTS.md` y
+      `docs/fotos/prompts.json` (`node scripts/make_photo_prompts.js`).
+- [ ] **Usuario**: generar las imágenes (ChatGPT) y guardarlas como
+      `data/images/photos/<id>-1.png … -3.png`. Se puede ir por lotes.
+- [ ] **Agente**, al recibir lotes: `image` pasa a lista de 3 en
+      `data/exercises/all.json`, carrusel en el detalle (app y web), sync a
+      `app/` y `web/`, `source_note` declarando "generadas con IA" (regla de
+      oro), comprimir a WebP/JPEG para no inflar el bundle.
+- Nota: desde la sesión del agente no se pueden generar imágenes
+  fotorrealistas (sin generador de imágenes).
+
+### Paridad web (Fases 11b y 12)
+- [ ] `web/src/pages/dashboard.astro`: mismo Resumen simplificado.
+- [ ] `web/src/pages/session.astro`: ejercicio actual + filas compactas,
+      barra fija con una acción, cardio (min/km/intensidad), valoración.
+- [ ] Perfil web: datos fijos y calorías (portar `app/src/lib/energy.ts`).
+- [x] Tema negro con degradados en la web (`global.css`, `theme-color`).
+- [x] `normalizeSession` / `sessionCardioMinutes` idénticos en `gym.js`
+      (tests de paridad).
+- ⛔ Verificar `npm run build` de la web: falta `web/node_modules`
+      (`cd web && npm ci`, pendiente de aprobación).
+
+### Revisión en dispositivo
+- [ ] Probar en iPhone real (Expo Go) la sesión nueva, el cardio y la
+      valoración.
+
+## Hecho recientemente
+
+### Fase 12 — Añadir datos (2026-11-15)
+- [x] **Cardio**: registro por minutos + km + intensidad (suave / moderada /
+      fuerte); al añadir cardio o elegirlo en el asistente se crea un bloque
+      de 20 min (o el último que hiciste); kcal estimadas con METs; minutos
+      de cardio de la semana en el Resumen; Historial "20 min · 3 km · Fuerte".
+- [x] **Valoración al terminar**: hoja opcional con energía y sensación
+      (1–5); "Guardar sesión" o "Finalizar sin valorar"; visible en
+      Historial.
+- [x] **Perfil — Sobre ti**: sexo, año de nacimiento, nivel, objetivo (el
+      asistente arranca con nivel y objetivo); peso registrable en Perfil.
+- [x] **Calorías diarias**: Mifflin-St Jeor × actividad real de 4 semanas
+      (`app/src/lib/energy.ts`, con tests).
+- [x] Fix: el perfil perdía `height_entries` en cada lectura (`migrate`).
+- [x] i18n: +37 claves (312).
+
+### Fase 11b — Simplificación + tema negro (2026-11-15)
+- [x] Resumen con una acción principal; resto tras "Más estadísticas".
+- [x] Sin barra de marca global; idioma y "Tus datos" en Perfil.
+- [x] Sesión: ejercicio actual primero, resto en filas de una línea, barra
+      fija con una acción principal, iconos dibujados (sin □).
+- [x] **Tema de entreno negro** con degradado carbón → negro y CTA con
+      degradado naranja (app y web), en lugar del navy.
+- [x] Capturas 01–10 y vídeo regenerados (`app/qa/shots/`).
 
 ## En espera
 
@@ -62,9 +72,9 @@ Decisión 2026-11-08: la v1 se publica solo con datos locales.
 ### Deuda técnica
 - [ ] `SafeAreaView` está obsoleto en RN 0.88 → `react-native-safe-area-context`
       (necesita aprobación: dependencia nueva).
-- [ ] Recrear los harnesses de Chromium (los de `/tmp/qa` se perdieron) en
-      `app/qa/` y versionarlos.
+- [x] Harness de capturas/vídeo versionado en `app/qa/shots/`.
 - [ ] Hoja de valores: añadir "+/−" fino para pesos fuera de la rejilla.
+- [ ] `npm audit`: 4 avisos moderados en `app/` tras la instalación.
 
 ## Hecho (resumen)
 
@@ -86,6 +96,8 @@ Decisión 2026-11-08: la v1 se publica solo con datos locales.
 - Fase 10 — Sesión con "Detalles" plegados, pestaña Perfil (peso/altura),
   degradados premium.
 - Fase 11 — Flujo "ejercicio actual" + barra fija + vídeo mp4.
+- Fase 11b — Simplificación (impeccable) + tema negro.
+- Fase 12 — Cardio, valoración al terminar, Perfil con datos fijos y calorías.
 
 ## Probar en el host (guía en README.md)
 - Web: `cd web && npm ci && npm run build && npm run preview -- --host`
