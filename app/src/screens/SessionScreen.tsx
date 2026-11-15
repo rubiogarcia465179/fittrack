@@ -22,6 +22,7 @@ import {
   KeyboardAvoidingView,
   Modal,
 } from 'react-native';
+import { exName } from '../lib/names';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import type { Session, SetLog } from '../store';
@@ -32,9 +33,13 @@ import { GROUP_COLORS, RADII } from '../theme';
 import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
 import { XGlyph, CheckGlyph } from '../components/TabIcon';
+import { Chevron } from '../components/Chevron';
+import { ExerciseHowTo } from '../components/ExerciseHowTo';
+import { tapLight, success } from '../lib/haptics';
 import { PickerSheet, fmtNum } from '../components/PickerSheet';
 import { Gradient } from '../components/Gradient';
 import { plural } from '../lib/plural';
+import { GroupGlyph } from '../components/GroupGlyph';
 import {
   suggestAlternatives,
   suggestNextExercise,
@@ -45,19 +50,40 @@ import {
 } from '../lib/workout';
 import type { ActiveSession, ActiveDraftExercise, PostponedExercise } from '../lib/session';
 
-/** '2026-11-08' -> 'Nov 8' (mes corto + día). Local, sin Intl. */
-const M_SHORT_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const M_SHORT_ES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-const M_SHORT_FR = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+/** '2026-11-08' -> 'Nov 8' (EN) · '8 nov' (ES/FR/NL). Local, sin Intl. */
+const M_SHORT: Record<string, string[]> = {
+  en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  es: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+  fr: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
+  nl: ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
+};
 export function fmtDay(iso: string, lang: string): string {
   const [y, m, d] = iso.split('-').map(Number);
   if (!y || !m || !d) return iso;
-  const arr = lang === 'es' ? M_SHORT_ES : lang === 'fr' ? M_SHORT_FR : M_SHORT_EN;
-  return `${arr[m - 1]} ${d}`;
+  const l = (lang || 'en').slice(0, 2);
+  const arr = M_SHORT[l] || M_SHORT.en;
+  return l === 'en' ? `${arr[m - 1]} ${d}` : `${d} ${arr[m - 1]}`;
 }
 
-/** Glifo decorativo por grupo muscular (sin fuentes: solo Views).
- *  Se usa en tarjetas de workout y en empty states. */
+/** Día de la semana corto (índice getUTCDay: 0 = domingo). */
+const WD_SHORT: Record<string, string[]> = {
+  en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  es: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+  fr: ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'],
+  nl: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
+};
+/** '2026-11-15' -> 'sáb 15 nov' (año solo si no es el actual). */
+export function fmtDate(iso: string, lang: string): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  if (!y || !m || !d) return iso;
+  const l = (lang || 'en').slice(0, 2);
+  const wd = (WD_SHORT[l] || WD_SHORT.en)[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
+  const year = y !== new Date().getFullYear() ? ` ${y}` : '';
+  return `${wd} ${fmtDay(iso, l)}${year}`;
+}
+
+/** Icono de línea por grupo muscular (ver components/GroupGlyph.tsx).
+ *  Se usa en tarjetas de entreno, historial, biblioteca y empty states. */
 export function ExerciseGlyph({
   label,
   size = 24,
@@ -68,47 +94,7 @@ export function ExerciseGlyph({
   color?: string;
 }) {
   const c = color || GROUP_COLORS[(label as string) in GROUP_COLORS ? (label as string) : 'legs'];
-  return (
-    <View style={{ width: size, height: size, position: 'relative', opacity: 0.9 }} accessibilityElementsHidden>
-      {label === 'bench' ? (
-        <>
-          <View style={{ position: 'absolute', left: size * 0.1, right: size * 0.1, top: size * 0.42, height: 3, borderRadius: 2, backgroundColor: c }} />
-          <View style={{ position: 'absolute', left: size * 0.06, top: size * 0.22, width: 4, height: size * 0.56, borderRadius: 2, backgroundColor: c }} />
-          <View style={{ position: 'absolute', right: size * 0.06, top: size * 0.22, width: 4, height: size * 0.56, borderRadius: 2, backgroundColor: c }} />
-          <View style={{ position: 'absolute', left: size * 0.16, top: size * 0.18, width: 5, height: size * 0.64, borderRadius: 2, backgroundColor: c, opacity: 0.7 }} />
-          <View style={{ position: 'absolute', right: size * 0.16, top: size * 0.18, width: 5, height: size * 0.64, borderRadius: 2, backgroundColor: c, opacity: 0.7 }} />
-        </>
-      ) : label === 'chest' || label === 'shoulders' ? (
-        <>
-          <View style={{ position: 'absolute', left: size * 0.2, top: size * 0.3, width: size * 0.6, height: size * 0.34, borderRadius: 6, backgroundColor: c }} />
-          <View style={{ position: 'absolute', left: size * 0.05, top: size * 0.26, width: 4, height: size * 0.42, borderRadius: 2, backgroundColor: c, opacity: 0.7 }} />
-          <View style={{ position: 'absolute', right: size * 0.05, top: size * 0.26, width: 4, height: size * 0.42, borderRadius: 2, backgroundColor: c, opacity: 0.7 }} />
-        </>
-      ) : label === 'back' ? (
-        <>
-          <View style={{ position: 'absolute', left: size * 0.12, right: size * 0.12, top: size * 0.2, height: 3, borderRadius: 2, backgroundColor: c }} />
-          <View style={{ position: 'absolute', left: size * 0.28, top: size * 0.2, width: 3, height: size * 0.4, backgroundColor: c }} />
-          <View style={{ position: 'absolute', right: size * 0.28, top: size * 0.2, width: 3, height: size * 0.4, backgroundColor: c }} />
-          <View style={{ position: 'absolute', left: size * 0.2, top: size * 0.5, width: size * 0.6, height: 4, borderRadius: 2, backgroundColor: c, opacity: 0.7 }} />
-        </>
-      ) : label === 'legs' ? (
-        <>
-          <View style={{ position: 'absolute', left: size * 0.3, top: size * 0.15, width: size * 0.4, height: size * 0.22, borderRadius: 5, backgroundColor: c }} />
-          <View style={{ position: 'absolute', left: size * 0.32, top: size * 0.4, width: 5, height: size * 0.45, borderRadius: 2, backgroundColor: c }} />
-          <View style={{ position: 'absolute', right: size * 0.32, top: size * 0.4, width: 5, height: size * 0.45, borderRadius: 2, backgroundColor: c }} />
-        </>
-      ) : label === 'cardio' ? (
-        <>
-          <View style={{ position: 'absolute', left: size * 0.12, top: size * 0.45, width: size * 0.5, height: 3, borderRadius: 2, backgroundColor: c }} />
-          <View style={{ position: 'absolute', left: size * 0.62, top: size * 0.45, width: size * 0.2, height: 3, borderRadius: 2, backgroundColor: c, opacity: 0.5 }} />
-          <View style={{ position: 'absolute', left: size * 0.4, top: size * 0.28, width: 6, height: 6, borderRadius: 3, backgroundColor: c }} />
-          <View style={{ position: 'absolute', left: size * 0.62, top: size * 0.32, width: 4, height: 4, borderRadius: 2, backgroundColor: c, opacity: 0.7 }} />
-        </>
-      ) : (
-        <View style={{ position: 'absolute', left: 0, right: 0, top: size * 0.35, height: 4, borderRadius: 2, backgroundColor: c }} />
-      )}
-    </View>
-  );
+  return <GroupGlyph group={label} size={size} color={c} />;
 }
 
 /** Casilla de valor grande (reps, peso, duración…): se toca y elige desde
@@ -151,11 +137,11 @@ function ValueBox({
         },
       ]}
     >
-      <Text style={[styles.valueBoxNum, { fontSize: fs(scale, compact ? 20 : 19), color: active ? '#fff' : p.text }]}>
+      <Text style={[styles.valueBoxNum, { fontSize: fs(scale, compact ? 20 : 19), color: active ? p.onAccent : p.text }]}>
         {value}
       </Text>
       {compact ? null : (
-        <Text style={[styles.valueBoxUnit, { fontSize: fs(scale, 12), color: active ? 'rgba(255,255,255,0.85)' : p.secondary }]}>
+        <Text style={[styles.valueBoxUnit, { fontSize: fs(scale, 12), color: active ? p.onAccent : p.secondary }]}>
           {unit}
         </Text>
       )}
@@ -189,6 +175,74 @@ function PlayGlyph({ color = '#fff' }: { color?: string }) {
         borderLeftColor: color,
       }}
     />
+  );
+}
+
+
+/** Acceso rápido: círculo con icono de línea blanco + rótulo corto debajo. */
+function QuickAction({
+  label,
+  onPress,
+  active = false,
+  children,
+}: {
+  label: string;
+  onPress: () => void;
+  active?: boolean;
+  children: React.ReactNode;
+}) {
+  const { p } = useTheme();
+  return (
+    <View style={styles.quickItem}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        accessibilityState={{ expanded: active }}
+        onPress={onPress}
+        style={({ pressed }) => [
+          styles.quickCircle,
+          {
+            backgroundColor: p.card,
+            borderColor: active ? p.text : p.border,
+            transform: [{ scale: pressed ? 0.94 : 1 }],
+          },
+        ]}
+      >
+        {children}
+      </Pressable>
+      <Text style={[styles.quickLabel, { color: p.secondary }]} numberOfLines={1}>
+        {label}
+      </Text>
+    </View>
+  );
+}
+
+/** Iconos de línea blancos dibujados con Views (sin glifos de fuente). */
+function PlusGlyph({ color = '#fff' }: { color?: string }) {
+  return (
+    <View style={{ width: 20, height: 20 }} accessibilityElementsHidden>
+      <View style={{ position: 'absolute', left: 0, top: 9, width: 20, height: 2, borderRadius: 1, backgroundColor: color }} />
+      <View style={{ position: 'absolute', left: 9, top: 0, width: 2, height: 20, borderRadius: 1, backgroundColor: color }} />
+    </View>
+  );
+}
+function WandGlyph({ color = '#fff' }: { color?: string }) {
+  return (
+    <View style={{ width: 22, height: 22 }} accessibilityElementsHidden>
+      <View style={{ position: 'absolute', left: 1, top: 10, width: 17, height: 2, borderRadius: 1, backgroundColor: color, transform: [{ rotate: '-45deg' }] }} />
+      <View style={{ position: 'absolute', right: 1, top: 1, width: 6, height: 6, borderWidth: 1.5, borderColor: color, transform: [{ rotate: '45deg' }] }} />
+      <View style={{ position: 'absolute', left: 3, top: 2, width: 3, height: 3, borderRadius: 1.5, backgroundColor: color }} />
+    </View>
+  );
+}
+function SlidersGlyph({ color = '#fff', bg = '#000' }: { color?: string; bg?: string }) {
+  return (
+    <View style={{ width: 22, height: 18 }} accessibilityElementsHidden>
+      <View style={{ position: 'absolute', left: 0, right: 0, top: 4, height: 2, borderRadius: 1, backgroundColor: color }} />
+      <View style={{ position: 'absolute', left: 0, right: 0, top: 12, height: 2, borderRadius: 1, backgroundColor: color }} />
+      <View style={{ position: 'absolute', left: 4, top: 1, width: 8, height: 8, borderRadius: 4, borderWidth: 1.5, borderColor: color, backgroundColor: bg }} />
+      <View style={{ position: 'absolute', right: 3, top: 9, width: 8, height: 8, borderRadius: 4, borderWidth: 1.5, borderColor: color, backgroundColor: bg }} />
+    </View>
   );
 }
 
@@ -229,7 +283,7 @@ function RatingRow({
                 },
               ]}
             >
-              <Text style={[styles.ratingNum, { color: on ? '#fff' : p.text }]}>{n}</Text>
+              <Text style={[styles.ratingNum, { color: on ? p.onAccent : p.text }]}>{n}</Text>
             </Pressable>
           );
         })}
@@ -321,6 +375,12 @@ export default function SessionScreen({
   // "¿Máquina ocupada?": las opciones Ocupado / Fuera de servicio solo se
   // despliegan cuando hacen falta (antes: 3 chips fijos en cada ejercicio).
   const [equipOpen, setEquipOpen] = useState(false);
+  // Hoja "¿Cómo se hace?" del ejercicio actual (id) o null.
+  const [howToId, setHowToId] = useState<string | null>(null);
+  // Descanso entre series: instante de fin + duración total (para la barra).
+  // Se guarda en la sesión activa: sobrevive a cambiar de pestaña.
+  const [restUntil, setRestUntil] = useState<number | null>(session.rest_until ?? null);
+  const [restTotal, setRestTotal] = useState<number>(session.rest_total ?? 90);
   useEffect(() => setEquipOpen(false), [currentIndex]);
 
   const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
@@ -359,7 +419,7 @@ export default function SessionScreen({
 
   const lang = i18n.language as string;
   const nameOf = (e?: { name_en: string; name_nl: string }) =>
-    e ? (lang === 'nl' ? e.name_nl || e.name_en : e.name_en) : '';
+    exName(e, lang);
 
   // ---- persistencia del estado en App (sobrevive a navegación/refresh) ----
   useEffect(() => {
@@ -372,9 +432,11 @@ export default function SessionScreen({
       notes,
       draft,
       postponed,
+      rest_until: restUntil ?? undefined,
+      rest_total: restTotal,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, duration, weightStr, heightStr, notes, draft, postponed]);
+  }, [date, duration, weightStr, heightStr, notes, draft, postponed, restUntil, restTotal]);
 
   // ---- progreso: series COMPLETADAS (marcadas por el usuario) / totales ----
   // Los valores prellenados (sugeridos) NO cuentan: solo marca la serie
@@ -392,6 +454,12 @@ export default function SessionScreen({
   const elapsedSec = Math.floor(elapsedMs / 1000);
   const elapsedLabel =
     elapsedSec < 60 ? `${elapsedSec}s` : `${Math.floor(elapsedSec / 60)}m ${elapsedSec % 60}s`;
+  // Reloj grande del banner: m:ss (o h:mm:ss a partir de una hora).
+  const pad2 = (n: number) => String(n).padStart(2, '0');
+  const clockLabel =
+    elapsedSec >= 3600
+      ? `${Math.floor(elapsedSec / 3600)}:${pad2(Math.floor((elapsedSec % 3600) / 60))}:${pad2(elapsedSec % 60)}`
+      : `${Math.floor(elapsedSec / 60)}:${pad2(elapsedSec % 60)}`;
 
   const isBenchmark = session.type === 'benchmark';
 
@@ -521,6 +589,8 @@ export default function SessionScreen({
   useEffect(() => {
     if (draft.length === 0) return;
     if (focusedOnce.current) return;
+    // En el primer ejercicio no hace falta saltar: así se ve la foto y los accesos rápidos.
+    if (currentIndex === 0) { focusedOnce.current = true; return; }
     focusedOnce.current = true;
     const id = draft[currentIndex]?.exercise_id;
     if (!id) return;
@@ -643,6 +713,8 @@ export default function SessionScreen({
 
   /** Marcar/desmarcar una serie como COMPLETADA (progreso real). */
   const toggleSetDone = (id: string, idx: number) => {
+    const d0 = draft.find((x) => x.exercise_id === id);
+    const wasDone = !!d0?.sets[idx]?.done;
     setDraft((d) =>
       d.map((x) =>
         x.exercise_id === id
@@ -650,7 +722,30 @@ export default function SessionScreen({
           : x,
       ),
     );
+    // Al COMPLETAR una serie de fuerza empieza el descanso del plan
+    // (rest_after) o 90 s por defecto. Desmarcar no lo inicia.
+    if (!wasDone) tapLight(); // háptico al completar una serie
+    if (!wasDone && d0 && !isCardio(id)) startRest(d0.rest_after || 90);
   };
+
+  // ---- Temporizador de descanso (estado declarado arriba; se persiste) ----
+  const startRest = (sec: number) => {
+    setRestTotal(sec);
+    setRestUntil(Date.now() + sec * 1000);
+  };
+  const addRest = (sec: number) => {
+    setRestTotal((tt) => tt + sec);
+    setRestUntil((u) => (u ?? Date.now()) + sec * 1000);
+  };
+  const restLeft = restUntil ? Math.max(0, Math.ceil((restUntil - now) / 1000)) : 0;
+  useEffect(() => {
+    if (restUntil && now >= restUntil) {
+      setRestUntil(null);
+      success(); // háptico al terminar el descanso
+      flash(t('rest_done'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [now, restUntil]);
 
   const setBenchValue = (id: string, v: number) =>
     setBenchManual((m) => ({ ...m, [id]: Math.round(v) }));
@@ -789,6 +884,7 @@ export default function SessionScreen({
         feeling: rating?.feeling ?? null,
       }) as Session;
       await store.addSession(normalized);
+      success();
       // Benchmark: 1RM de cada ejercicio (el mejor set + ajuste manual).
       if (isBenchmark) {
         const entries: { exercise_id: string; estimated_1rm: number }[] = [];
@@ -843,7 +939,7 @@ export default function SessionScreen({
           },
         ]}
       >
-        <Text style={[styles.statusChipText, { color: active ? '#fff' : p.secondary }]}>{label}</Text>
+        <Text style={[styles.statusChipText, { color: active ? p.onAccent : p.secondary }]}>{label}</Text>
       </Pressable>
     );
   };
@@ -863,53 +959,33 @@ export default function SessionScreen({
     // padding) para que el campo en foco y la barra de guardado queden
     // siempre alcanzables, sin solapar el teclado.
     <KeyboardAvoidingView style={styles.root} behavior="padding">
-      {/* ---- banner de entrenamiento activo (siempre visible) ---- */}
-      {/* Banner mínimo: cronómetro grande + series hechas + pausa/terminar.
-          El tema navy ya dice "estás entrenando"; no hace falta rótulo. */}
+      {/* ---- Cabecera del entreno (estilo X): cerrar · título + series ----
+          Sin reloj ni batería (decisión del usuario): solo lo que importa.
+          Debajo, una línea fina de progreso de series completadas. */}
       <View style={styles.activeBanner}>
-        <View style={styles.activeRow}>
-          <View
-            style={styles.activeTimeWrap}
-            accessible
-            accessibilityLabel={`${session.paused ? t('workout_paused') : t('workout_active')}: ${elapsedLabel}. ${doneSets}/${totalSets} ${t('workout_sets_done')}`}
-          >
-            <View style={[styles.activeDot, { backgroundColor: session.paused ? '#FFD60A' : '#30D158' }]} />
-            <Text style={styles.activeTime}>{elapsedLabel}</Text>
-            <Text style={styles.activeSets} numberOfLines={1}>
-              {session.paused ? t('workout_paused') : `${doneSets}/${totalSets} ${t('workout_sets_done')}`}
-            </Text>
-          </View>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={session.paused ? t('workout_resume') : t('workout_pause')}
-            onPress={() => {
-              if (session.paused) {
-                onSessionChange({
-                  ...session,
-                  paused: false,
-                  paused_total_ms: (session.paused_total_ms || 0) + (Date.now() - (session.paused_since || Date.now())),
-                  paused_since: undefined,
-                });
-              } else {
-                onSessionChange({ ...session, paused: true, paused_since: Date.now() });
-              }
-            }}
-            style={({ pressed }) => [styles.pauseBtn, { opacity: pressed ? 0.7 : 1 }]}
-          >
-            {session.paused ? <PlayGlyph /> : <PauseGlyph />}
-          </Pressable>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t('sess_discard')}
-            onPress={() => setConfirmDiscard(true)}
-            style={({ pressed }) => [styles.pauseBtn, { opacity: pressed ? 0.7 : 1 }]}
-          >
-            <XGlyph size={14} color="#fff" />
-          </Pressable>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('sess_discard')}
+          onPress={() => setConfirmDiscard(true)}
+          style={({ pressed }) => [styles.pauseBtn, { opacity: pressed ? 0.7 : 1, borderColor: p.border, backgroundColor: p.card }]}
+        >
+          <XGlyph size={14} color={p.text} />
+        </Pressable>
+        <View
+          style={styles.activeCenter}
+          accessible
+          accessibilityRole="header"
+          accessibilityLabel={`${isBenchmark ? t('bench_title') : t('sess_title')}. ${doneSets}/${totalSets} ${t('workout_sets_done')}`}
+        >
+          <Text style={[styles.activeTitle, { color: p.text }]}>{isBenchmark ? t('bench_title') : t('sess_title')}</Text>
+          <Text style={[styles.activeSets, { color: p.secondary }]} numberOfLines={1}>
+            {doneSets}/{totalSets} {t('workout_sets_done')}
+          </Text>
         </View>
-        <View style={styles.progressTrack} accessibilityElementsHidden importantForAccessibility="no">
-          <View style={[styles.progressFill, { width: `${Math.round(progress * 100)}%`, backgroundColor: '#30D158' }]} />
-        </View>
+        <View style={styles.bannerSpacer} />
+      </View>
+      <View style={[styles.progressLine, { backgroundColor: p.border }]} accessibilityElementsHidden importantForAccessibility="no">
+        <View style={[styles.progressLineFill, { width: `${Math.round(progress * 100)}%`, backgroundColor: p.text }]} />
       </View>
 
       <ScrollView
@@ -919,6 +995,156 @@ export default function SessionScreen({
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
       >
+        {/* ---- Accesos rápidos (la foto vive solo en Main: "auténtico o nada") ---- */}
+        <View style={styles.quickRow}>
+          <QuickAction label={t('sess_add')} onPress={openSearch}>
+            <PlusGlyph color={p.text} />
+          </QuickAction>
+          <QuickAction label={t('sess_suggest')} onPress={() => (currentId ? sameGroupSuggest() : requestSuggestion())}>
+            <WandGlyph color={p.text} />
+          </QuickAction>
+          <QuickAction label={t('sess_details')} onPress={() => setDetailsOpen((o) => !o)} active={detailsOpen}>
+            <SlidersGlyph color={p.text} bg={p.card} />
+          </QuickAction>
+        </View>
+        {/* sugerencia (R-15): el ejercicio que sigue, con 1 toque */}
+        {suggested ? (
+          <View style={[styles.suggestCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
+            <View style={styles.suggestHead}>
+              <ExerciseGlyph label={suggested.muscle_group} size={22} color={p.text} />
+              <View style={styles.suggestTitleWrap}>
+                <Text style={[styles.suggestName, { color: p.text }]} numberOfLines={1}>
+                  {nameOf(suggested)}
+                </Text>
+                <Text style={[styles.suggestMeta, { color: p.dim }]}>
+                  {t(`group_${suggested.muscle_group}`)}{suggested.equipment !== 'other' ? ` · ${t(`equip_${suggested.equipment}`)}` : ''}
+                </Text>
+              </View>
+            </View>
+            <Text style={[styles.suggestHint, { color: p.secondary }]}>{t('suggest_hint')}</Text>
+            <View style={styles.suggestBtns}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => {
+                  addExercise(suggested.id);
+                  setSuggestedId(null);
+                }}
+                style={({ pressed }) => [
+                  styles.suggestUse,
+                  { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
+                ]}
+              >
+                <Text style={[styles.suggestUseText, { color: p.onAccent, fontWeight: '700' }]}>{t('suggest_use')}</Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={requestSuggestion}
+                style={({ pressed }) => [
+                  styles.suggestSkip,
+                  { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
+                ]}
+              >
+                <Text style={[styles.suggestSkipText, { color: p.secondary, fontWeight: '600' }]}>{t('suggest_another')}</Text>
+              </Pressable>
+            </View>
+          </View>
+        ) : null}
+
+        {detailsOpen ? (
+          <View style={styles.detailsBody}>
+            <View style={styles.fieldsRow}>
+              <View style={styles.fieldWrap}>
+                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_date')}</Text>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.dateBox,
+                    {
+                      backgroundColor: p.fieldBg,
+                      borderColor: dateOpen ? p.accent : p.border,
+                      transform: [{ scale: pressed ? 0.97 : 1 }],
+                      transition: 'transform 80ms ease',
+                    },
+                  ]}
+                  accessibilityRole="button"
+                  accessibilityLabel={date}
+                  onPress={() => setDateOpen((o) => !o)}
+                >
+                  <Text style={[styles.dateText, { color: p.text }]}>{fmtDay(date, lang)}</Text>
+                  <Text style={[styles.dateUnit, { color: p.secondary }]}>{t('field_date')}</Text>
+                </Pressable>
+              </View>
+              <View style={styles.fieldWrap}>
+                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('picker_duration')}</Text>
+                <ValueBox
+                  value={duration > 0 ? String(duration) : '—'}
+                  unit={t('picker_minutes')}
+                  onPress={() => setPick({ kind: 'duration' })}
+                  accent={duration > 0}
+                />
+              </View>
+            </View>
+            <View style={styles.fieldsRow}>
+              <View style={styles.fieldWrap}>
+                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_bodyweight')}</Text>
+                <ValueBox
+                  value={weightStr ? fmtNum(Number(weightStr)) : '—'}
+                  unit="kg"
+                  onPress={() => setPick({ kind: 'body' })}
+                  accent={weightStr !== ''}
+                />
+              </View>
+              <View style={styles.fieldWrap}>
+                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_height')}</Text>
+                <ValueBox
+                  value={heightStr ? fmtNum(Number(heightStr)) : '—'}
+                  unit="cm"
+                  onPress={() => setPick({ kind: 'height' })}
+                  accent={heightStr !== ''}
+                />
+              </View>
+            </View>
+            {dateOpen ? (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.dateRow}>
+                {recentDays.map((d) => (
+                  <Pressable
+                    key={d}
+                    style={({ pressed }) => [
+                      styles.dateChip,
+                      {
+                        backgroundColor: d === date ? p.accent : p.card,
+                        borderColor: d === date ? p.accent : p.border,
+                        transform: [{ scale: pressed ? 0.94 : 1 }],
+                        transition: 'transform 80ms ease',
+                      },
+                    ]}
+                    accessibilityRole="button"
+                    accessibilityLabel={d}
+                    onPress={() => {
+                      setDate(d);
+                      setDateOpen(false);
+                    }}
+                  >
+                    <Text style={[styles.dateChipText, { color: d === date ? p.onAccent : p.text }]}>
+                      {d === todayISO() ? t('cal_today') : fmtDay(d, lang)}
+                    </Text>
+                  </Pressable>
+                ))}
+              </ScrollView>
+            ) : null}
+            <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_notes')}</Text>
+            <TextInput
+              testID="active-notes"
+              style={[styles.notes, { backgroundColor: p.fieldBg, borderColor: p.border, color: p.text }]}
+              placeholder={t('sess_notes_ph')}
+              placeholderTextColor={p.dim}
+              value={notes}
+              onChangeText={setNotes}
+              multiline
+              accessibilityLabel={t('sess_notes')}
+            />
+          </View>
+        ) : null}
+
         {draft.length === 0 ? (
           <Text style={[styles.empty, { color: p.dim }]}>{t('sess_no_exercises')}</Text>
         ) : (
@@ -950,10 +1176,10 @@ export default function SessionScreen({
                   }}
                   style={({ pressed }) => [
                     styles.compactRow,
-                    { backgroundColor: pressed ? p.fieldBg : p.card, borderColor: p.cardBorder },
+                    { backgroundColor: pressed ? p.card : 'transparent' },
                   ]}
                 >
-                  <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={20} />
+                  <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} color={p.text} />
                   <View style={styles.compactMain}>
                     <Text style={[styles.compactName, { color: p.text }]} numberOfLines={1}>
                       {ex ? nameOf(ex) : d.exercise_id}
@@ -964,13 +1190,14 @@ export default function SessionScreen({
                   </View>
                   {allDone ? (
                     <View style={[styles.compactDone, { backgroundColor: p.green }]}>
-                      <CheckGlyph size={14} color="#fff" />
+                      <CheckGlyph size={14} color={p.onAccent} />
                     </View>
                   ) : (
                     <Text style={[styles.compactCount, { color: p.secondary }]}>
                       {doneCount}/{d.sets.length}
                     </Text>
                   )}
+                  <Chevron color={p.dim} />
                 </Pressable>
               );
             }
@@ -979,14 +1206,14 @@ export default function SessionScreen({
             return (
               <View
                 key={d.exercise_id}
-                style={[styles.draftCard, { backgroundColor: p.card, borderColor: p.accent, ...SHADOW.card }]}
+                style={[styles.draftCard, { backgroundColor: p.card, borderColor: p.cardBorder }]}
                 onLayout={(e) => {
                   cardOffsets.current[d.exercise_id] = e.nativeEvent.layout.y;
                 }}
               >
                 <View style={styles.draftHeader}>
                   <View style={styles.draftTitleWrap}>
-                    <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} />
+                    <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} color={p.text} />
                     <Text style={[styles.draftName, { color: p.text }]} numberOfLines={2} accessibilityRole="header">
                       {ex ? nameOf(ex) : d.exercise_id}
                     </Text>
@@ -1000,12 +1227,27 @@ export default function SessionScreen({
                 </View>
                 {ex ? (
                   <Text style={[styles.draftMeta, { color: p.secondary }]} numberOfLines={1}>
-                    {t(`group_${ex.muscle_group}`)} · {t(`equip_${ex.equipment}`)}
+                    {t(`group_${ex.muscle_group}`)}{ex.equipment !== 'other' ? ` · ${t(`equip_${ex.equipment}`)}` : ''}
                     {!isBenchmark && est1rm > 0 ? ` · 1RM ≈ ${est1rm} kg` : ''}
                     {isCardio(d.exercise_id) && bodyKg > 0
                       ? ` · ≈ ${d.sets.reduce((a, s) => a + cardioKcal(s.duration_min || 0, bodyKg, s.intensity), 0)} kcal`
                       : ''}
                   </Text>
+                ) : null}
+
+                {/* ¿Cómo se hace? → hoja con fotos, qué entrena y pasos. */}
+                {ex ? (
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel={`${t('howto_button')}: ${nameOf(ex)}`}
+                    onPress={() => setHowToId(ex.id)}
+                    style={({ pressed }) => [styles.howBtn, { borderColor: p.border, opacity: pressed ? 0.7 : 1 }]}
+                  >
+                    <View style={[styles.howIcon, { borderColor: p.text }]}>
+                      <Text style={[styles.howIconText, { color: p.text }]}>i</Text>
+                    </View>
+                    <Text style={[styles.howText, { color: p.text }]}>{t('howto_button')}</Text>
+                  </Pressable>
                 ) : null}
 
                 {/* benchmark: 1RM */}
@@ -1014,7 +1256,7 @@ export default function SessionScreen({
                     <View style={styles.benchCol}>
                       <Text style={[styles.setCaption, { color: p.secondary }]}>{t('bench_1rm_auto')}</Text>
                       <View style={[styles.benchBox, { backgroundColor: p.fieldBg, borderColor: p.border }]}>
-                        <Text style={[styles.benchBoxNum, { color: p.accent }]}>{est1rm > 0 ? `${est1rm} kg` : '—'}</Text>
+                        <Text style={[styles.benchBoxNum, { color: p.text }]}>{est1rm > 0 ? `${est1rm} kg` : '—'}</Text>
                       </View>
                     </View>
                     <View style={styles.benchCol}>
@@ -1080,7 +1322,7 @@ export default function SessionScreen({
                           ]}
                         >
                           <Text
-                            style={[styles.intChipText, { color: s.intensity === 'hard' ? '#fff' : p.text }]}
+                            style={[styles.intChipText, { color: s.intensity === 'hard' ? p.onAccent : p.text }]}
                             numberOfLines={1}
                             adjustsFontSizeToFit
                           >
@@ -1103,7 +1345,7 @@ export default function SessionScreen({
                             onPress={() => toggleSetDone(d.exercise_id, i)}
                             hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
                           >
-                            {s.done ? <CheckGlyph size={18} color="#fff" /> : null}
+                            {s.done ? <CheckGlyph size={18} color={p.onAccent} /> : null}
                           </Pressable>
                         </View>
                       </View>
@@ -1155,7 +1397,7 @@ export default function SessionScreen({
                         onPress={() => toggleSetDone(d.exercise_id, i)}
                         hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
                       >
-                        {s.done ? <CheckGlyph size={18} color="#fff" /> : null}
+                        {s.done ? <CheckGlyph size={18} color={p.onAccent} /> : null}
                       </Pressable>
                     </View>
                   </View>
@@ -1170,7 +1412,7 @@ export default function SessionScreen({
                     accessibilityRole="button"
                     onPress={() => addSet(d.exercise_id)}
                   >
-                    <Text style={[styles.textBtnLabel, { color: p.accent }]}>+ {t('sess_add_set')}</Text>
+                    <Text style={[styles.textBtnLabel, { color: p.text }]}>+ {t('sess_add_set')}</Text>
                   </Pressable>
                   {d.sets.length > 1 ? (
                     <Pressable
@@ -1198,7 +1440,7 @@ export default function SessionScreen({
                     accessibilityRole="button"
                     onPress={() => removeExercise(d.exercise_id)}
                   >
-                    <Text style={[styles.footLink, { color: p.red }]}>{t('sess_remove_ex')}</Text>
+                    <Text style={[styles.footLink, { color: p.secondary }]}>{t('sess_remove_ex')}</Text>
                   </Pressable>
                 </View>
                 {equipOpen ? (
@@ -1238,7 +1480,7 @@ export default function SessionScreen({
               return (
                 <View key={pp.exercise_id} style={[styles.postponedRow, { borderTopColor: p.cardBorder }]}>
                   <View style={styles.postponedInfo}>
-                    <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} />
+                    <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} color={p.text} />
                     <View style={styles.postponedNames}>
                       <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
                         {ex ? nameOf(ex) : pp.exercise_id}
@@ -1252,9 +1494,9 @@ export default function SessionScreen({
                   {/* sugerencia actual (o el original cuando el ciclo vuelve) */}
                   {showOriginal ? (
                     <View style={[styles.postponedSug, { borderColor: p.accent, backgroundColor: p.section }]}>
-                      <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} />
+                      <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} color={p.text} />
                       <View style={styles.postponedNames}>
-                        <Text style={[styles.postponedName, { color: p.accent }]} numberOfLines={1}>
+                        <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
                           {ex ? nameOf(ex) : pp.exercise_id}
                         </Text>
                         <Text style={[styles.postponedWait, { color: p.secondary }]}>{t('postponed_original')}</Text>
@@ -1268,18 +1510,18 @@ export default function SessionScreen({
                           { backgroundColor: p.accent, borderWidth: 0, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' },
                         ]}
                       >
-                        <Text style={[styles.postponedBtnText, { color: '#fff' }]}>{t('postponed_do_now')}</Text>
+                        <Text style={[styles.postponedBtnText, { color: p.onAccent }]}>{t('postponed_do_now')}</Text>
                       </Pressable>
                     </View>
                   ) : currentAlt ? (
                     <View style={[styles.postponedSug, { borderColor: p.border, backgroundColor: p.section }]}>
-                      <ExerciseGlyph label={currentAlt.muscle_group} size={18} />
+                      <ExerciseGlyph label={currentAlt.muscle_group} size={18} color={p.text} />
                       <View style={styles.postponedNames}>
                         <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
                           {nameOf(currentAlt)}
                         </Text>
                         <Text style={[styles.postponedWait, { color: p.dim }]} numberOfLines={1}>
-                          {t(`equip_${currentAlt.equipment}`)}
+                          {currentAlt.equipment !== 'other' ? t(`equip_${currentAlt.equipment}`) : t(`group_${currentAlt.muscle_group}`)}
                         </Text>
                       </View>
                       <Pressable
@@ -1291,7 +1533,7 @@ export default function SessionScreen({
                           { backgroundColor: p.accent, borderWidth: 0, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' },
                         ]}
                       >
-                        <Text style={[styles.postponedBtnText, { color: '#fff' }]}>{t('alt_use')}</Text>
+                        <Text style={[styles.postponedBtnText, { color: p.onAccent }]}>{t('alt_use')}</Text>
                       </Pressable>
                     </View>
                   ) : (
@@ -1338,236 +1580,6 @@ export default function SessionScreen({
           </View>
         ) : null}
 
-        {/* ---- Ajustes al final: añadir/sugerir y Detalles (la lista de ejercicios va primero) ---- */}
-        {/* Añadir / Sugerir: una fila, dos botones iguales. Con la sesión
-            vacía, "Añadir ejercicio" es LA acción (relleno de acento). */}
-        <View style={[styles.actionRow, { gap: 10 }]}>
-          <Pressable
-            accessibilityRole="button"
-            onPress={openSearch}
-            style={({ pressed }) => [
-              styles.actionBtn,
-              {
-                flex: 1,
-                backgroundColor: draft.length === 0 ? p.accent : p.card,
-                borderColor: draft.length === 0 ? p.accent : p.cardBorder,
-                borderWidth: 1,
-                opacity: pressed ? 0.8 : 1,
-              },
-            ]}
-          >
-            <Text
-              style={[styles.actionBtnText, { color: draft.length === 0 ? '#fff' : p.text, fontWeight: '600' }]}
-              numberOfLines={1}
-              adjustsFontSizeToFit
-            >
-              + {t('sess_add')}
-            </Text>
-          </Pressable>
-          {suggested ? null : (
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => (currentId ? sameGroupSuggest() : requestSuggestion())}
-              style={({ pressed }) => [
-                styles.actionBtn,
-                { flex: 1, backgroundColor: p.card, borderColor: p.cardBorder, borderWidth: 1, opacity: pressed ? 0.8 : 1 },
-              ]}
-            >
-              <Text style={[styles.actionBtnText, { color: p.accent, fontWeight: '600' }]} numberOfLines={1} adjustsFontSizeToFit>
-                {t('sess_suggest')}
-              </Text>
-            </Pressable>
-          )}
-        </View>
-
-        {/* sugerencia (R-15): el ejercicio que sigue, con 1 toque */}
-        {suggested ? (
-          <View style={[styles.suggestCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
-            <View style={styles.suggestHead}>
-              <ExerciseGlyph label={suggested.muscle_group} size={22} />
-              <View style={styles.suggestTitleWrap}>
-                <Text style={[styles.suggestName, { color: p.text }]} numberOfLines={1}>
-                  {nameOf(suggested)}
-                </Text>
-                <Text style={[styles.suggestMeta, { color: p.dim }]}>
-                  {t(`group_${suggested.muscle_group}`)} · {t(`equip_${suggested.equipment}`)}
-                </Text>
-              </View>
-            </View>
-            <Text style={[styles.suggestHint, { color: p.secondary }]}>{t('suggest_hint')}</Text>
-            <View style={styles.suggestBtns}>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => {
-                  addExercise(suggested.id);
-                  setSuggestedId(null);
-                }}
-                style={({ pressed }) => [
-                  styles.suggestUse,
-                  { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
-                ]}
-              >
-                <Text style={[styles.suggestUseText, { color: '#fff', fontWeight: '700' }]}>{t('suggest_use')}</Text>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                onPress={requestSuggestion}
-                style={({ pressed }) => [
-                  styles.suggestSkip,
-                  { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
-                ]}
-              >
-                <Text style={[styles.suggestSkipText, { color: p.secondary, fontWeight: '600' }]}>{t('suggest_another')}</Text>
-              </Pressable>
-            </View>
-          </View>
-        ) : null}
-
-        {/* "Detalles": los campos secundarios (fecha, duración, peso, altura,
-            notas) van plegados por defecto — la pantalla solo muestra lo
-            importante para entrenar. */}
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t('sess_details')}
-          accessibilityState={{ expanded: detailsOpen }}
-          onPress={() => setDetailsOpen((o) => !o)}
-          style={({ pressed }) => [
-            styles.detailsToggle,
-            {
-              backgroundColor: p.card,
-              borderColor: detailsOpen ? p.accent : p.cardBorder,
-              opacity: pressed ? 0.85 : 1,
-              transition: 'opacity 90ms ease',
-            },
-          ]}
-        >
-          <Text style={[styles.detailsSummary, { color: p.secondary }]} numberOfLines={1}>
-            {detailsSummary}
-          </Text>
-          <View style={styles.detailsLabelWrap}>
-            <Text style={[styles.detailsLabel, { color: detailsOpen ? p.accent : p.dim }]}>
-              {t('sess_details')}
-            </Text>
-            {/* Chevron dibujado (el glifo ▾/▴ no está en la cobertura de
-                fuentes de todos los dispositivos). */}
-            <View style={styles.detailsArrowWrap}>
-              <View
-                style={[
-                  styles.detailsArrowBar,
-                  {
-                    backgroundColor: detailsOpen ? p.accent : p.dim,
-                    transform: [{ rotate: detailsOpen ? '-42deg' : '42deg' }],
-                  },
-                ]}
-              />
-              <View
-                style={[
-                  styles.detailsArrowBar,
-                  {
-                    backgroundColor: detailsOpen ? p.accent : p.dim,
-                    transform: [{ rotate: detailsOpen ? '42deg' : '-42deg' }],
-                  },
-                ]}
-              />
-            </View>
-          </View>
-        </Pressable>
-
-        {detailsOpen ? (
-          <View style={styles.detailsBody}>
-            <View style={styles.fieldsRow}>
-              <View style={styles.fieldWrap}>
-                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_date')}</Text>
-                <Pressable
-                  style={({ pressed }) => [
-                    styles.dateBox,
-                    {
-                      backgroundColor: p.fieldBg,
-                      borderColor: dateOpen ? p.accent : p.border,
-                      transform: [{ scale: pressed ? 0.97 : 1 }],
-                      transition: 'transform 80ms ease',
-                    },
-                  ]}
-                  accessibilityRole="button"
-                  accessibilityLabel={date}
-                  onPress={() => setDateOpen((o) => !o)}
-                >
-                  <Text style={[styles.dateText, { color: p.text }]}>{fmtDay(date, lang)}</Text>
-                  <Text style={[styles.dateUnit, { color: p.secondary }]}>fecha</Text>
-                </Pressable>
-              </View>
-              <View style={styles.fieldWrap}>
-                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('picker_duration')}</Text>
-                <ValueBox
-                  value={duration > 0 ? String(duration) : '—'}
-                  unit={t('picker_minutes')}
-                  onPress={() => setPick({ kind: 'duration' })}
-                  accent={duration > 0}
-                />
-              </View>
-            </View>
-            <View style={styles.fieldsRow}>
-              <View style={styles.fieldWrap}>
-                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_bodyweight')}</Text>
-                <ValueBox
-                  value={weightStr ? fmtNum(Number(weightStr)) : '—'}
-                  unit="kg"
-                  onPress={() => setPick({ kind: 'body' })}
-                  accent={weightStr !== ''}
-                />
-              </View>
-              <View style={styles.fieldWrap}>
-                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_height')}</Text>
-                <ValueBox
-                  value={heightStr ? fmtNum(Number(heightStr)) : '—'}
-                  unit="cm"
-                  onPress={() => setPick({ kind: 'height' })}
-                  accent={heightStr !== ''}
-                />
-              </View>
-            </View>
-            {dateOpen ? (
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.dateRow}>
-                {recentDays.map((d) => (
-                  <Pressable
-                    key={d}
-                    style={({ pressed }) => [
-                      styles.dateChip,
-                      {
-                        backgroundColor: d === date ? p.accent : p.card,
-                        borderColor: d === date ? p.accent : p.border,
-                        transform: [{ scale: pressed ? 0.94 : 1 }],
-                        transition: 'transform 80ms ease',
-                      },
-                    ]}
-                    accessibilityRole="button"
-                    accessibilityLabel={d}
-                    onPress={() => {
-                      setDate(d);
-                      setDateOpen(false);
-                    }}
-                  >
-                    <Text style={[styles.dateChipText, { color: d === date ? '#fff' : p.text }]}>
-                      {d === todayISO() ? t('cal_today') : fmtDay(d, lang)}
-                    </Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
-            ) : null}
-            <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_notes')}</Text>
-            <TextInput
-              testID="active-notes"
-              style={[styles.notes, { backgroundColor: p.fieldBg, borderColor: p.border, color: p.text }]}
-              placeholder={t('sess_notes_ph')}
-              placeholderTextColor={p.dim}
-              value={notes}
-              onChangeText={setNotes}
-              multiline
-              accessibilityLabel={t('sess_notes')}
-            />
-          </View>
-        ) : null}
-
         {/* (las notas viven ahora dentro de "Detalles") */}
         {error ? <Text style={[styles.error, { color: p.red }]}>{error}</Text> : null}
       </ScrollView>
@@ -1575,7 +1587,7 @@ export default function SessionScreen({
       {/* ---- toast de confirmación ---- */}
       {toast ? (
         <View style={styles.toast} pointerEvents="none">
-          <View style={[styles.toastDot, { backgroundColor: '#30D158' }]} />
+          <View style={[styles.toastDot, { backgroundColor: p.accent }]} />
           <Text style={styles.toastText}>{toast}</Text>
         </View>
       ) : null}
@@ -1711,7 +1723,7 @@ export default function SessionScreen({
                   <Text style={[styles.resultName, { color: p.text }]} numberOfLines={1}>
                     {nameOf(e)}
                   </Text>
-                  <Text style={[styles.resultAdd, { color: p.accent }]}>+ {t('sess_add_exercise')}</Text>
+                  <Text style={[styles.resultAdd, { color: p.secondary }]}>+ {t('sess_add_exercise')}</Text>
                 </Pressable>
               ))}
             </ScrollView>
@@ -1748,7 +1760,7 @@ export default function SessionScreen({
               onPress={() => save({ energy, feeling })}
             >
               <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
-                <Text style={styles.saveBtnText}>{isBenchmark ? t('bench_save') : t('sess_save')}</Text>
+                <Text style={[styles.saveBtnText, { color: p.onAccent }]}>{isBenchmark ? t('bench_save') : t('sess_save')}</Text>
               </Gradient>
             </Pressable>
             <Pressable
@@ -1762,6 +1774,8 @@ export default function SessionScreen({
           </View>
         </Modal>
       ) : null}
+
+      {howToId && byId.get(howToId) ? <ExerciseHowTo exercise={byId.get(howToId)!} onClose={() => setHowToId(null)} /> : null}
 
       {/* Confirmación de descartar el entrenamiento activo */}
       {confirmDiscard ? (
@@ -1796,10 +1810,43 @@ export default function SessionScreen({
           ("Siguiente: X" / "Último ejercicio"); abajo, los botones.
           Siempre visible, sin scroll. */}
       <View style={[styles.footer, { backgroundColor: p.headerBg, borderTopColor: p.border }]}>
+        {/* Descanso en curso: cuenta atrás grande + barra + "+15 s" / "Saltar". */}
+        {restUntil && restLeft > 0 ? (
+          <View style={styles.restBox} accessible accessibilityLiveRegion="polite" accessibilityLabel={`${t('rest_title')}: ${restLeft} s`}>
+            <View style={styles.restTop}>
+              <Text style={[styles.restLabel, { color: p.secondary }]}>{t('rest_title')}</Text>
+              <Text style={[styles.restTime, { color: p.text }]}>
+                {Math.floor(restLeft / 60)}:{String(restLeft % 60).padStart(2, '0')}
+              </Text>
+              <View style={styles.restBtns}>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => addRest(15)}
+                  style={({ pressed }) => [styles.restBtn, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
+                >
+                  <Text style={[styles.restBtnText, { color: p.text }]}>+15 s</Text>
+                </Pressable>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => setRestUntil(null)}
+                  style={({ pressed }) => [styles.restBtn, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
+                >
+                  <Text style={[styles.restBtnText, { color: p.text }]}>{t('rest_skip')}</Text>
+                </Pressable>
+              </View>
+            </View>
+            <View style={[styles.restTrack, { backgroundColor: p.fieldBg }]}>
+              <Gradient
+                colors={GRADIENT.cta}
+                style={[styles.restFill, { width: `${Math.max(2, Math.round((restLeft / Math.max(1, restTotal)) * 100))}%` }]}
+              />
+            </View>
+          </View>
+        ) : null}
         {/* Leyenda solo cuando aporta: qué viene después, o el guardado. */}
-        {saved || (currentId && !isLastExercise) ? (
+        {!(restUntil && restLeft > 0) && (saved || (currentId && !isLastExercise)) ? (
           <Text
-            style={[styles.footerCaption, { color: saved ? p.green : p.secondary }]}
+            style={[styles.footerCaption, { color: saved ? p.text : p.secondary }]}
             numberOfLines={saved ? 2 : 1}
           >
             {saved
@@ -1832,7 +1879,7 @@ export default function SessionScreen({
                 onPress={finishExercise}
               >
                 <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
-                  <Text style={styles.saveBtnText} numberOfLines={1} adjustsFontSizeToFit>
+                  <Text style={[styles.saveBtnText, { color: p.onAccent }]} numberOfLines={1} adjustsFontSizeToFit>
                     {t('sess_next_ex')}
                   </Text>
                 </Gradient>
@@ -1847,7 +1894,7 @@ export default function SessionScreen({
               onPress={finish}
             >
               <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
-                <Text style={styles.saveBtnText} numberOfLines={1} adjustsFontSizeToFit>
+                <Text style={[styles.saveBtnText, { color: p.onAccent }]} numberOfLines={1} adjustsFontSizeToFit>
                   {saving ? t('saving') : isBenchmark ? t('bench_save') : currentId ? t('sess_finish_save') : t('sess_save')}
                 </Text>
               </Gradient>
@@ -1865,63 +1912,108 @@ const styles = StyleSheet.create({
     // El fondo es el degradado premium (lo pinta App); aquí transparente.
     backgroundColor: 'transparent',
   },
+  // ---- Estado del entreno: [X]  batería + reloj / series  [pausa] ----
   activeBanner: {
-    paddingHorizontal: 16,
-    paddingTop: 10,
-    paddingBottom: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.12)',
-    backgroundColor: 'rgba(255,255,255,0.06)',
-  },
-  activeRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    paddingBottom: 10,
+    gap: 12,
   },
-  activeTimeWrap: {
+  activeCenter: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 8,
+    alignItems: 'center',
     minWidth: 0,
   },
-  activeDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    alignSelf: 'center',
+  statusLine: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
-  activeTime: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#fff',
-    letterSpacing: -0.4,
-    fontVariant: ['tabular-nums'],
+  battery: {
+    width: 58,
+    height: 24,
+    borderRadius: 7,
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.4)',
+    padding: 2,
+    justifyContent: 'center',
+  },
+  batteryFill: {
+    height: '100%',
+    borderRadius: 4,
+  },
+  activeTitle: {
+    fontSize: 17,
+    fontWeight: '800',
+    letterSpacing: -0.2,
+  },
+  bannerSpacer: {
+    width: 44,
+  },
+  progressLine: {
+    height: 2,
+  },
+  progressLineFill: {
+    height: 2,
   },
   activeSets: {
-    flexShrink: 1,
     fontSize: 13,
-    fontWeight: '600',
-    color: 'rgba(255,255,255,0.72)',
+    fontWeight: '500',
+    marginTop: 1,
   },
   pauseBtn: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: 'rgba(255,255,255,0.14)',
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.22)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  progressTrack: {
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    marginTop: 10,
+  // ---- Foto de cabecera + accesos rápidos ----
+  hero: {
+    marginHorizontal: -20,
+    marginTop: -20,
+    height: 230,
     overflow: 'hidden',
   },
-  progressFill: {
-    height: 4,
-    borderRadius: 2,
+  heroImg: {
+    width: '100%',
+    height: '100%',
+  },
+  heroFade: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  },
+  quickRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 8,
+    marginBottom: 18,
+  },
+  quickItem: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 8,
+  },
+  quickCircle: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    borderWidth: 1.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  quickLabel: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: 'rgba(255,255,255,0.7)',
   },
   scroll: {
     flex: 1,
@@ -2194,24 +2286,27 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   // Ejercicios que no son el actual: una fila compacta.
+  // Fila plana (sin tarjeta): icono de línea · TÍTULO en mayúsculas ·
+  // subtítulo gris · estado · chevron.
   compactRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
-    minHeight: 60,
-    borderRadius: RADII.field + 2,
-    borderWidth: 1,
-    paddingHorizontal: 14,
+    gap: 14,
+    minHeight: 62,
+    borderRadius: RADII.field,
+    paddingHorizontal: 6,
     paddingVertical: 10,
-    marginBottom: 10,
+    marginBottom: 2,
   },
   compactMain: {
     flex: 1,
     minWidth: 0,
   },
   compactName: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
   },
   compactSub: {
     fontSize: 13,
@@ -2301,6 +2396,8 @@ const styles = StyleSheet.create({
   draftName: {
     fontSize: 17,
     fontWeight: '700',
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
     flexShrink: 1,
   },
   draftRemoveBtn: {
@@ -2547,6 +2644,54 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
   },
+  // ---- Descanso entre series (en la barra fija, sobre los botones) ----
+  restBox: {
+    gap: 8,
+  },
+  restTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  restLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+  },
+  restTime: {
+    flex: 1,
+    fontSize: 28,
+    fontWeight: '600',
+    letterSpacing: -0.5,
+    fontVariant: ['tabular-nums'],
+  },
+  restBtns: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  restBtn: {
+    minHeight: 40,
+    minWidth: 64,
+    borderRadius: 20,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  restBtnText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  restTrack: {
+    height: 4,
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  restFill: {
+    height: 4,
+    borderRadius: 2,
+  },
   // Footer: "Terminar" secundario (contorno) junto a la acción principal.
   endBtn: {
     minHeight: 52,
@@ -2744,6 +2889,35 @@ const styles = StyleSheet.create({
   saveBtnText: {
     fontSize: 17,
     fontWeight: '700',
-    color: '#ffffff',
+    color: '#000000', // botón blanco, texto negro
+  },
+  // ---- "¿Cómo se hace?" ----
+  howBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 8,
+    minHeight: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    marginTop: 12,
+  },
+  howIcon: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    borderWidth: 1.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  howIconText: {
+    fontSize: 11,
+    fontWeight: '800',
+    lineHeight: 13,
+  },
+  howText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

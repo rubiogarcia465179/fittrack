@@ -14,12 +14,16 @@
     'wall sit', 'crawling', 'inchworm', 'high knee', 'burpee',
   ];
   var MACHINE_HINTS = ['machine', 'cable', 'pulley', 'lat pulldown', 'pulldown', 'rope', 'bar attachment'];
+  var FREE_WEIGHT_HINTS = ['barbell', 'dumbbell', 'kettlebell'];
 
   function isBodyweightExercise(e) {
     if (e.equipment === 'bodyweight') return true;
     if (e.equipment === 'barbell' || e.equipment === 'dumbbell') return false;
     var hay = [e.name_en, e.name_nl].concat((e.instructions || []).slice(0, 2)).join(' ').toLowerCase();
     if (MACHINE_HINTS.some(function (m) { return hay.indexOf(m) >= 0; })) return false;
+    var name = [e.name_en, e.name_nl].join(' ').toLowerCase();
+    if (BODY_WEIGHT_HINTS.some(function (h) { return name.indexOf(h) >= 0; })) return true;
+    if (FREE_WEIGHT_HINTS.some(function (m) { return hay.indexOf(m) >= 0; })) return false;
     return BODY_WEIGHT_HINTS.some(function (h) { return hay.indexOf(h) >= 0; });
   }
 
@@ -44,7 +48,7 @@
       case 'machine': return 20;
       case 'cable': return 15;
       case 'dumbbell': return 10;
-      default: return 0;
+      default: return 15; // "otro" no corporal (ya filtrado): nunca 0 kg (paridad con app)
     }
   }
 

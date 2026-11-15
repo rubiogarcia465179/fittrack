@@ -210,6 +210,8 @@ export interface ExerciseRow {
   id: string;
   name_en: string;
   name_nl: string;
+  name_es?: string;
+  name_fr?: string;
   aliases?: string[];
   muscle_group: string;
   secondary_muscles?: string[];
@@ -240,7 +242,7 @@ export function searchExercises<T extends ExerciseRow>(
     if (equipment !== 'all' && e.equipment !== equipment) return false;
     if (!needle) return true;
     const hay = [
-      e.name_en, e.name_nl, e.muscle_group, e.equipment,
+      e.name_en, e.name_nl, e.name_es, e.name_fr, e.muscle_group, e.equipment,
       ...(e.aliases || []),
     ].join(' ').toLowerCase();
     return hay.includes(needle);

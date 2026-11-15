@@ -12,7 +12,8 @@ Leyenda de verificación:
 
 Resumen rápido:
 - **Entregado y verificado: R-01 … R-26.**
-- **R-27 … R-35 (Fases 11b y 12, 2026-11-15)**: entregados; capturas y vídeo regenerados.
+- **R-27 … R-35 (Fases 11b y 12)**: entregados.
+- **R-37 … R-53 (Fases 11c/11d)**: la mayoría hechos, sin commit (prueba Jobs en NO); pendientes R-47…R-51.
 - Pendiente: R-36 (fotos, Fase 13), paridad web; Fase 7 (Supabase) en espera.
 
 ---
@@ -219,3 +220,50 @@ pero simple, como apple.com y las apps de iPhone".
 
 ### R-36 [TODO] Fotos de ejercicios (Fase 13)
 - Prompts listos (`docs/fotos/PROMPTS.md`, 678). Pendiente: imágenes del usuario e integración.
+
+## FASES 11c / 11d — Inicio, estilo X, prueba "Steve Jobs" (2026-11-15, sin commit)
+
+### R-37 [DONE] Inicio sin volumen, sin título y con un botón directo
+- "Empezar sesión" en la portada; nada de "RESUMEN" arriba; volumen fuera.
+### R-38 [DONE] Calendario de días de entreno en Inicio
+### R-39 [DONE] Marcas personales (PRs) resumidas en Inicio
+- 3 mejores 1RM en tarjetas blancas + "Ver todo".
+### R-40 [DONE] Hoja previa al entreno recomendado
+- Duración, intensidad, energía de hoy, objetivo → "Continuar al entreno".
+### R-41 [DONE] Estilo X monocromo en toda la app
+- Negro puro, botones blancos con texto negro, calendario/marcas en blanco con texto negro.
+### R-42 [DONE] Barra inferior como la de X
+### R-43 [DONE] Sin hora ni batería en ninguna pantalla
+### R-44 [DONE] Colores uniformes (sin mezcla verde/gris/naranja; sin texto naranja)
+### R-45 [DONE] Temporizador de descanso entre series (feedback "Steve Jobs")
+### R-46 [DONE] Detalles de confianza: nunca 0 kg, sin "Otro", pestaña localizada
+### R-47 [TODO] Nombres de ejercicios en el idioma de la app (Fase 14)
+### R-48 [TODO·⛔] Hápticos al marcar series (`expo-haptics`, aprobación)
+### R-49 [DONE] Probar en iPhone real (usuario, 2026-11-15; ver R-68)
+### R-50 [TODO] InstaGym: fotos y comentarios por sesión, feed tipo Instagram; calendario → sesión (Fase 15; ⛔ `expo-image-picker`)
+### R-51 [TODO] Biblioteca: explicación, músculo, por qué se usa y favoritos de atletas con cita verificable (Fase 14)
+### R-52 [DONE] Proceso: CLAUDE.md con prueba "Steve Jobs" antes de cada commit, capturas+vídeo, commits solo por fase y los 6 documentos actualizados en cada commit para traspaso a otro agente
+### R-53 [DONE] `docs/EJERCICIOS.md` con los 226 nombres en inglés
+
+## Pasada 2026-11-15 (noche, 2) — sin commit
+
+### R-54 [DONE] Nombres de ejercicios traducidos (ES/FR) — cierra R-47
+### R-55 [DONE] Inicio: foto + empezar arriba; sin fecha/semana/racha; calendario rediseñado; histograma de actividad al final
+### R-56 [DONE·parcial] Foto propia en Inicio (web hecho; iPhone ⛔ `expo-image-picker`)
+### R-57 [DONE] Temas en Perfil: inverso (Día) + 3 temas de dos colores opuestos (Ámbar, Neón, Rubí)
+### R-58 [DONE] Nacionalidad (20 países) + opción aparte para usar los colores de la bandera como tema
+### R-59 [DONE] Explicación sencilla de calorías diarias vs metabolismo basal
+### R-60 [TODO] Explicación de cada ejercicio para principiantes (cómo se hace, músculos) — Fase 14
+### R-61 [DONE] Skill `stevejobs` (`/stevejobs`, `/SteveJobs`): analyze · suggest · review · cut · keynote · ship
+
+## Pasada 2026-11-15 (noche, 4) — sin commit
+
+### R-62 [DONE] Todo lo escrito en el idioma elegido, con un dataset por idioma y cambio instantáneo — cierra R-60 (pasos)
+- Pasos "cómo se hace" NL/ES/EN/FR (226 × 3) en `data/exercises/howto/`; fechas y meses localizados.
+- Verificación: tests 115/115 (cobertura 4 × 226 + espejos), capturas 07 (ES) y 21 (NL).
+### R-63 [DONE·aparcado] "¿Qué harías para subir el foco a 10?" → propuesta guardada en `docs/FOCO-1.0.md`; el usuario la aparca ("ignorar por ahora")
+### R-64 [DONE] Iconos distintos por grupo muscular en biblioteca/historial/sesión (punto Jobs)
+### R-65 [DONE] Nunca 0 kg en sentadilla trasera (bug de clasificación peso corporal)
+### R-66 [DONE] La prueba Steve Jobs evalúa FitTrack como **versión 2.0** (este nº de funciones es aceptable) — regla en `CLAUDE.md §2.5`
+### R-67 [DONE] Commitear aunque falten las fotos reales (la de ejemplo va marcada; Fase 13 sigue pendiente)
+### R-68 [DONE] Prueba en iPhone real — hecha por el usuario (2026-11-15); cierra R-49

@@ -1,54 +1,65 @@
 # PROGRESS
 
-Estado de FitTrack y cómo se verificó. Se actualiza al cerrar cada tarea;
-la historia completa está en el **Log** (abajo) y en git.
+Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
+(`CLAUDE.md §2.6`); la historia completa está en el **Log** (abajo) y en git.
 
 ## Estado actual (2026-11-15)
 
+> Fases 11c + 11d **commiteadas** en `main` (prueba "Steve Jobs" = **SÍ**,
+> evaluada como versión 2.0 por decisión del usuario). Siguiente: Fase 15
+> (InstaGym). Ver `TASKS.md` → "Cómo continuar".
+
 | Área | Estado |
 |---|---|
-| Datos | 226 ejercicios reales de wger (CC-BY-SA); imágenes placeholder |
-| App (Expo SDK 58) | 5 pestañas; Resumen y Sesión simplificados; **tema de entreno negro**; **cardio, valoración al terminar, Perfil con datos fijos y calorías (Fase 12)** |
-| Web (Astro) | Tema negro y lógica (`gym.js`) al día; **pendiente** paridad de pantallas de 11b/12 |
-| i18n | NL/ES/EN/FR, **312 claves**, espejos idénticos |
-| Fotos (Fase 13) | Prompts listos (678) en `docs/fotos/`; esperando las imágenes del usuario |
-| Nube (Supabase) | ⏸ en espera (v1 solo local) |
+| Diseño | **Monocromo estilo X** en toda la app (negro/blanco/gris, botones blancos con texto negro, barra inferior X con iconos propios, sin reloj ni batería) |
+| Inicio | Foto (cambiable) + "Empezar sesión" → hoja "Tu entreno de hoy", marcas personales, calendario, histogramas de actividad |
+| Sesión | Ejercicio actual, descanso con cuenta atrás, hoja "¿Cómo se hace?", cardio, valoración, hápticos |
+| Perfil | Datos fijos + calorías (explicadas) + temas (Noche/Día/Ámbar/Neón/Rubí) + nacionalidad y tema de bandera + idioma y datos |
+| Idioma | **Todo en el idioma elegido** (NL/ES/EN/FR): interfaz, nombres de ejercicio, pasos "cómo se hace" (226 × 4), fechas; cambio instantáneo |
+| Datos | 226 ejercicios reales de wger; iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
+| Web (Astro) | Atrasada: lógica al día, diseño de la 11c (no el monocromo X); pasos por idioma copiados a `web/src/data/howto/` pero sin usar |
+| i18n | NL/ES/EN/FR, **362 claves**, espejos idénticos |
+| Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
+| Nube | ⏸ en espera |
 
-## Última verificación (2026-11-15, WSL del host)
+## Última verificación (2026-11-15, WSL del host, commit Fases 11c + 11d)
 
 - `npx tsc --noEmit` (app) → **0 errores**.
-- `node tests/run.js` → **96/96, 0 fallos** (incluye 18 nuevas: cardio y
-  valoración en `normalizeSession`, paridad TS ≡ JS, Mifflin-St Jeor,
-  factor de actividad, TDEE, kcal de cardio).
-- `npx expo export --platform web` → OK.
-- Capturas 01–10 (`docs/screenshots/`) con Chrome headless sobre ese
-  export: **0 errores de consola**, revisadas una a una; el recorrido
-  incluye guardar una sesión con cardio y valoración y verla en Historial.
-- Vídeo `video-iphone16.mp4`: H.264 786×1704, 30 fps, 27 s (decodificado
-  sin errores).
-- `cd web && npm run build` → **no ejecutado**: `astro: not found`
-  (`web/node_modules` sin instalar).
+- `node tests/run.js` → **115/115, 0 fallos** (nuevos: pasos en 4 idiomas ×
+  226 + espejos; peso corporal vs carga de `back_squat`/`crunches`).
+- `npx expo export --platform web --output-dir /tmp/ft-dist` → OK.
+- Capturas **01–21** (`docs/screenshots/`) con Chrome headless → **0 errores
+  de consola**, revisadas (hoja de contactos + una a una las cambiadas);
+  vídeo `video-iphone16.mp4` regenerado (227 fotogramas, 4,1 MB).
+- `web/`: `npm run build` no ejecutado (falta `web/node_modules`, ⛔ `npm ci`).
+- iPhone real: probado por el usuario (2026-11-15).
+- **Prueba "Steve Jobs": SÍ** como versión 2.0 (ver Log 2026-11-15 "noche, 5").
 
 ## Decisiones vigentes
 
 - Sin backend: AsyncStorage (app) y localStorage (web).
-- Lógica de la app (`app/src/lib/gym.ts`) = puerto 1:1 de
-  `web/src/lib/gym.js`; `tests/run.js` comprueba la paridad.
-- Gráficas e iconos dibujados con `View`/`div` (sin `react-native-svg`, sin
-  glifos de fuente).
-- Diseño: una acción principal por pantalla, divulgación progresiva,
-  patrones de iOS; ajustes en Perfil; entreno en negro con degradados.
-- Cardio se guarda en la misma estructura de series (`duration_min`,
-  `distance_km`, `intensity`; reps = kg = 0): sin migración de datos.
-- Calorías: Mifflin-St Jeor × factor de actividad deducido de las sesiones
-  (no se pregunta), mostrado como estimación.
-- Capturas y vídeo se regeneran en cada commit (regla del usuario).
+- `app/src/lib/gym.ts` = puerto 1:1 de `web/src/lib/gym.js` (tests de paridad).
+- Iconos y gráficas dibujados con `View` (sin glifos de fuente, sin SVG).
+- Diseño: tema monocromo estilo X; el acento es el blanco (`p.onAccent` =
+  negro para texto sobre él); una acción principal por pantalla; sin volumen;
+  sin reloj ni batería.
+- Idioma: los 4 idiomas van en el bundle (interfaz, nombres y pasos), sin red.
+  Pasos "cómo se hace" redactados localmente y declarados en la UI.
+- Entreno recomendado: hoja previa (duración, intensidad, energía, objetivo);
+  energía baja = intensidad un nivel menos; bloque de grupos menos entrenado.
+- Descanso: `rest_after` del plan o 90 s; hápticos con `expo-haptics`.
+- Cardio en la misma estructura de series (`duration_min`, `distance_km`,
+  `intensity`; reps = kg = 0).
+- Calorías: Mifflin-St Jeor × actividad deducida de las sesiones.
+- Commits solo al cerrar fase + capturas/vídeo + prueba Jobs en sí + 6 docs.
+- La prueba Jobs juzga FitTrack como **versión 2.0** (funciones actuales OK);
+  fotos de ejemplo marcadas no bloquean; recorte 1.0 aparcado en
+  `docs/FOCO-1.0.md`.
 
-## Bloqueos
+## Bloqueos (necesitan al usuario)
 
-- ⛔ Build de la web: `cd web && npm ci` (pendiente de aprobación).
-- ⛔ Fotos de ejercicios (Fase 13): las genera el usuario con los prompts.
-- ⛔ Fotos reales de wger: `static.wger.de` ya no existe en DNS.
+- ⛔ Fotos de ejercicios: las genera el usuario con `docs/fotos/PROMPTS.md`.
+- ⛔ `cd web && npm ci` para compilar la web (paridad de diseño).
 
 ## Log
 - 2026-10-31 — Repo inicializado; estructura base y docs (Fase 0).
@@ -385,3 +396,130 @@ la historia completa está en el **Log** (abajo) y en git.
   (8) **Fase 13**: `scripts/make_photo_prompts.js` → 678 prompts en
   `docs/fotos/` con el estilo de `data/images/ejemplo/`.
   i18n: +37 claves (312). Verificación: ver "Última verificación".
+- 2026-11-15 (noche) — **Fases 11c + 11d (SIN COMMIT): Inicio, estilo X
+  monocromo, descanso, hoja de inicio, prueba "Steve Jobs"**. Peticiones del
+  usuario en esta pasada (todas en `REQUIREMENTS.md` R-37…R-52):
+  (1) **Inicio** (antes Resumen/Main): portada sin título; sin volumen;
+  "Empezar sesión" directo; calendario con días de entreno; marcas
+  personales visibles (3 tarjetas blancas, 1RM de historial + benchmarks).
+  (2) **Hoja "Tu entreno de hoy"** al empezar un entreno recomendado:
+  duración, intensidad, energía de hoy y objetivo → "Continuar al entreno"
+  (`QuickStartSheet.tsx`; recuerda la última elección).
+  (3) **Estilo**: primero coche/Tesla (11c, gris + naranja, foto de fondo,
+  barra flotante tipo Instagram) y después, a petición del usuario,
+  **monocromo estilo X** en toda la app (11d): negro puro, texto blanco,
+  gris secundario, botones blancos con texto negro, barra inferior X de
+  ancho completo y solo iconos, sin reloj ni batería. Nuevo token
+  `onAccent` en la paleta; barrido de todos los `'#fff'` sobre el acento.
+  (4) **Prueba "Steve Jobs"** pedida por el usuario y añadida a `CLAUDE.md`
+  como paso obligatorio antes de cada commit. Veredicto inicial NO (dos
+  lenguajes de diseño, sin temporizador de descanso, 0 kg, "Otro", nombres
+  en inglés, "Main", foto repetida, placeholders, sin hápticos, sin probar
+  en iPhone). Arreglado: tema único, **temporizador de descanso**
+  (`rest_after`/90 s, +15 s, Saltar, `Vibration`), nunca 0 kg
+  (`conservativeOneRm('other')` = 15 en app y web), "Otro" oculto, pestaña
+  "Inicio/Home/Start/Accueil", foto solo en Inicio, iconos de línea en
+  lugar de placeholders (biblioteca, historial, detalle). Veredicto actual:
+  **NO** (pendiente: nombres traducidos → Fase 14; hápticos ⛔; iPhone ⛔;
+  paridad web).
+  (5) **Docs para traspaso**: `CLAUDE.md` con "Si acabas de llegar al repo"
+  y la regla de actualizar los 6 documentos en cada commit; `SPEC.md`
+  reescrito con la visión actual; `TASKS.md` con "Cómo continuar" y el
+  orden de trabajo; `AGENTS.md` con el tema único y `onAccent`.
+  (6) **Extras**: `docs/EJERCICIOS.md` (226 nombres en inglés,
+  `scripts/make_exercise_list.js`); harness con `tapLabel` y detección de
+  elementos tapados.
+  Verificación: ver "Última verificación" arriba.
+- 2026-11-15 (noche, 2) — **SIN COMMIT. Cierre de puntos Jobs + Inicio +
+  temas + nacionalidad + skill `stevejobs`**.
+  (1) **Nombres ES/FR** de los 226 ejercicios: traducción local en
+  `data/exercises/names-i18n.json`, fusionada con
+  `scripts/merge_exercise_names.js` (falla si falta un id; `source_note` lo
+  declara); `exName()` en toda la app; la búsqueda encuentra ES/FR (app y web).
+  (2) **Inicio**: foto + "Empezar sesión" arriba; foto propia opcional
+  ("Cambiar foto", web con `pickPhoto.web.ts`; iPhone ⛔ `expo-image-picker`);
+  sin fecha ni semana ni racha; calendario rediseñado (lunes primero, círculos,
+  cabecera ligera, leyenda); **Actividad**: histogramas de hora del entreno
+  (desde `created_at`) y de día de la semana. Historial sin volumen.
+  (3) **Temas** en Perfil: Noche, Día (inverso exacto), Ámbar, Neón, Rubí
+  (pares complementarios). **Nacionalidad** (20 países, mini-bandera) +
+  interruptor aparte "Usar los colores de mi país" (`theme-flags.ts`;
+  oscuro teñido + acento vivo; Japón/Canadá en claro). Barrido de colores
+  fijos → tokens (`p.onAccent`, `p.card`…), para que Día y banderas no se
+  rompan.
+  (4) Explicación sencilla de **metabolismo basal vs gasto diario** en Perfil.
+  (5) **Skill `stevejobs`** (`.claude/skills/stevejobs/SKILL.md`) + comando
+  `/SteveJobs` (`.claude/commands/SteveJobs.md`); `CLAUDE.md §2.5` la usa.
+  Verificación: tsc 0; tests 96/96; export web OK; 17 capturas sin errores
+  de consola (incluye Día, Ámbar y bandera de España); vídeo regenerado.
+  **Prueba "Steve Jobs": NO** — solo quedan bloqueos del usuario: hápticos
+  (⛔ `expo-haptics`), prueba en iPhone real, y la web sin el diseño nuevo
+  (⛔ `npm ci`).
+- 2026-11-15 (noche, 3) — **SIN COMMIT.** Bandera de España en rojo y amarillo
+  reales (todas las banderas ahora reconocibles: fondo = color de la bandera
+  oscurecido al 45 %, España 62 %); cambio de idioma verificado con capturas
+  (FR y NL, nombres de ejercicio incluidos); hoja **"¿Cómo se hace?"** en la
+  sesión (fotos de ejemplo marcadas, qué entrena con 11 músculos traducidos,
+  pasos de wger) y `scripts/make_photo_map.js` para añadir fotos reales;
+  **`expo-haptics` y `expo-image-picker` instalados** (aprobado): háptico al
+  marcar serie / fin de descanso / guardar, y foto propia también en iPhone;
+  **iconos propios** de la barra (estilo Instagram: contorno/relleno);
+  equipo traducido ("Barbell"→"Barra", "Cable"→"Polea"/"Kabel").
+  Verificación: tsc 0; tests 96/96; 20 capturas sin errores; vídeo al día
+  (antes del arreglo de "Barra").
+  **/SteveJobs analyze: NO** — imágenes de ejemplo repetidas e iconos iguales
+  en la biblioteca (autenticidad), pasos en inglés dentro de la app en otros
+  idiomas, demasiadas funciones para una 1.0 (foco), sin probar en iPhone
+  real. Detalle y lista "Para pasar a SÍ" en TASKS (Fase 11d).
+
+- 2026-11-15 (noche, 4) — **SIN COMMIT. Idioma completo, iconos por grupo.**
+
+Petición: "todo lo escrito debe cambiar al idioma elegido" (la hoja "¿Cómo se
+hace?" salía en inglés) + "¿qué harías para subir el foco a 10?".
+
+Hecho:
+- Pasos "cómo se hace" para principiantes en **NL/ES/EN/FR** (226 × 3,
+  `data/exercises/howto/*.json`, redactados localmente) →
+  `scripts/sync_howto.js` → `app/src/howto.ts` (`howtoFor`). Usados en la hoja
+  de la sesión y en el detalle del ejercicio. Nota de fuente en la UI
+  ("Explicación sencilla redactada por FitTrack").
+- Fechas localizadas: Historial ya no muestra `2026-11-15` sino "dom 15 nov";
+  meses en neerlandés (antes caían al inglés); campo "fecha" de la sesión
+  traducido (`field_date`).
+- Iconos de línea **distintos por grupo** (`GroupGlyph`): pecho, espalda en V,
+  piernas, hombros (press), brazos (bíceps), core (abdominales), cardio
+  (pulso). Antes core/pecho/brazos eran el mismo "—".
+- Bug: `back_squat` (wger "other") se sugería con **0 kg** porque su texto dice
+  "Dip under the bar" ("dip" = peso corporal). Heurística corregida en app y
+  web; solo cambia `back_squat` (verificado sobre los 226); 3 tests nuevos.
+- Captura nueva **21-howto-nl** (pasos en neerlandés).
+
+Verificación: tsc 0 errores · tests 115/115 · export web OK · 21 capturas, 0
+errores de consola · vídeo 227 fotogramas.
+
+**Veredicto `/stevejobs analyze`: NO.** Motivos (por orden):
+1. Foco: 5 pestañas, 5 temas + 20 banderas, marcas + benchmarks, histogramas,
+   "¿Máquina ocupada?", asistente aparte y hoja rápida — demasiadas ideas
+   buenas para una 1.0 (principio 1).
+2. La misma foto de ejemplo en los 226 ejercicios: marcada con honestidad,
+   pero sigue siendo un placeholder en el momento clave (principio 7).
+3. Nunca probada en un iPhone real (principio 10).
+Lo que ya aprobaría: un solo lenguaje visual, el idioma completo y la hoja de
+inicio rápido. Puntuación media 6,4/10 (foco 4).
+Para pasar a SÍ → `TASKS.md` Fase 11d.
+
+- 2026-11-15 (noche, 5) — **Commit Fases 11c + 11d.** Decisiones del usuario:
+  evaluar FitTrack como **versión 2.0** (este número de funciones es
+  aceptable), commitear aunque falten las fotos reales (la de ejemplo va
+  marcada) y guardar el recorte 1.0 en `docs/FOCO-1.0.md` sin aplicarlo. El
+  usuario probó la app en un iPhone real.
+  **Veredicto `/stevejobs analyze` (marco 2.0): SÍ.** Motivos: un solo
+  lenguaje visual de la primera a la última pantalla; el flujo central sigue
+  en 2 toques (Empezar sesión → Continuar al entreno) y las funciones extra
+  quedan en segundo plano; todo en el idioma elegido; nada falso (la foto de
+  ejemplo lo dice); probado en el dispositivo real. Pendiente que no bloquea:
+  fotos reales (Fase 13), paridad de diseño de la web (⛔ `npm ci`), "por qué
+  se usa" por ejercicio (Fase 14). Puntuación media 7,6/10 (foco 7 como 2.0,
+  autenticidad 7 por la foto de ejemplo).
+  Verificación: tsc 0 · tests 115/115 · export web OK · 21 capturas, 0 errores
+  de consola · vídeo 227 fotogramas.

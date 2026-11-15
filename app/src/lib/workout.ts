@@ -85,12 +85,19 @@ const BODY_WEIGHT_HINTS = [
 ];
 
 const MACHINE_HINTS = ['machine', 'cable', 'pulley', 'lat pulldown', 'pulldown', 'rope', 'bar attachment'];
+// Peso libre explícito: carga aunque el texto diga "dip under the bar" (back_squat).
+const FREE_WEIGHT_HINTS = ['barbell', 'dumbbell', 'kettlebell'];
 
 export function isBodyweightExercise(e: ExerciseRow): boolean {
   if (e.equipment === 'bodyweight') return true;
   if (e.equipment === 'barbell' || e.equipment === 'dumbbell') return false;
   const hay = [e.name_en, e.name_nl, ...((e.instructions || []).slice(0, 2))].join(' ').toLowerCase();
   if (MACHINE_HINTS.some((m) => hay.includes(m))) return false;
+  // El NOMBRE manda ("Crunches" sigue siendo peso corporal aunque el texto
+  // mencione una mancuerna opcional); si no, peso libre en el texto = carga.
+  const name = [e.name_en, e.name_nl].join(' ').toLowerCase();
+  if (BODY_WEIGHT_HINTS.some((h) => name.includes(h))) return true;
+  if (FREE_WEIGHT_HINTS.some((m) => hay.includes(m))) return false;
   return BODY_WEIGHT_HINTS.some((h) => hay.includes(h));
 }
 
@@ -128,7 +135,9 @@ export function conservativeOneRm(equipment: string): number {
     case 'machine': return 20;
     case 'cable': return 15;
     case 'dumbbell': return 10;
-    default: return 0; // sin carga: peso corporal
+    // "Otro" que NO es peso corporal (ya se filtró antes): kettlebell, barra
+    // en clasificación rara de wger… → base prudente, nunca 0 kg.
+    default: return 15;
   }
 }
 

@@ -20,7 +20,8 @@ export function Gradient({
       style={[
         {
           overflow: 'hidden',
-          background: `linear-gradient(180deg, ${colors[0]} 0%, ${colors[colors.length - 1]} 100%)`,
+          // Todas las paradas, repartidas uniformemente (igual que LinearGradient nativo).
+          background: `linear-gradient(180deg, ${colors.join(', ')})`,
         } as ViewStyle,
         style as StyleProp<ViewStyle>,
       ]}

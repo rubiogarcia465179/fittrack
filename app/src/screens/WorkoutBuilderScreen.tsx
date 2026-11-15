@@ -14,6 +14,7 @@ import {
   Pressable,
   StyleSheet,
 } from 'react-native';
+import { exName } from '../lib/names';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import type { Session } from '../store';
@@ -89,7 +90,7 @@ export default function WorkoutBuilderScreen({
   const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
   const nameOf = (id: string) => {
     const e = byId.get(id);
-    return e ? (lang === 'nl' ? e.name_nl || e.name_en : e.name_en) : id;
+    return e ? exName(e, lang) : id;
   };
 
   const toggleGroup = (g: string) =>
@@ -159,7 +160,7 @@ export default function WorkoutBuilderScreen({
               },
             ]}
           >
-            <Text style={[styles.chipText, { fontSize: fs(scale, 15), color: active ? '#fff' : p.text }]} numberOfLines={1}>
+            <Text style={[styles.chipText, { fontSize: fs(scale, 15), color: active ? p.onAccent : p.text }]} numberOfLines={1}>
               {labelOf(o)}
             </Text>
           </Pressable>
@@ -301,7 +302,7 @@ export default function WorkoutBuilderScreen({
                         },
                       ]}
                     >
-                      {active ? <View style={styles.goalRadioDot} /> : null}
+                      {active ? <View style={[styles.goalRadioDot, { backgroundColor: p.onAccent }]} /> : null}
                     </View>
                     <View style={styles.goalTexts}>
                       <Text style={[styles.goalName, { fontSize: fs(scale, 17), color: p.text, fontWeight: '700' }]}>
@@ -342,7 +343,7 @@ export default function WorkoutBuilderScreen({
                     ]}
                   >
                     <Text
-                      style={[styles.chipText, { fontSize: fs(scale, 14), color: active ? '#fff' : p.text }]}
+                      style={[styles.chipText, { fontSize: fs(scale, 14), color: active ? p.onAccent : p.text }]}
                       numberOfLines={2}
                     >
                       {t(`group_${g}`)}
@@ -376,10 +377,10 @@ export default function WorkoutBuilderScreen({
                       },
                     ]}
                   >
-                    <Text style={[styles.durNum, { fontSize: fs(scale, 17), color: active ? '#fff' : p.text, fontWeight: '700' }]}>
+                    <Text style={[styles.durNum, { fontSize: fs(scale, 17), color: active ? p.onAccent : p.text, fontWeight: '700' }]}>
                       {d}
                     </Text>
-                    <Text style={[styles.durUnit, { fontSize: fs(scale, 11), color: active ? 'rgba(255,255,255,0.85)' : p.dim }]}>
+                    <Text style={[styles.durUnit, { fontSize: fs(scale, 11), color: active ? p.onAccent : p.dim }]}>
                       {t('gen_min')}
                     </Text>
                   </Pressable>
@@ -418,7 +419,7 @@ export default function WorkoutBuilderScreen({
                     <View
                       style={[styles.goalRadio, { borderColor: active ? p.accent : p.border, backgroundColor: active ? p.accent : 'transparent' }]}
                     >
-                      {active ? <View style={styles.goalRadioDot} /> : null}
+                      {active ? <View style={[styles.goalRadioDot, { backgroundColor: p.onAccent }]} /> : null}
                     </View>
                     <Text style={[styles.modeName, { fontSize: fs(scale, 16), color: p.text, fontWeight: '700' }]}>
                       {t(m.labelKey)}
@@ -455,13 +456,13 @@ export default function WorkoutBuilderScreen({
                     const ex = byId.get(e.exercise_id);
                     return (
                       <View key={e.exercise_id} style={[styles.planRow, { borderTopColor: p.cardBorder }]}>
-                        <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} />
+                        <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} color={p.text} />
                         <View style={styles.planInfo}>
                           <Text style={[styles.planName, { fontSize: fs(scale, 15), color: p.text }]} numberOfLines={1}>
                             {nameOf(e.exercise_id)}
                           </Text>
                           <Text style={[styles.planMeta2, { fontSize: fs(scale, 12), color: p.dim }]}>
-                            {t(`group_${ex?.muscle_group || 'legs'}`)} · {t(`equip_${ex?.equipment || 'other'}`)}
+                            {t(`group_${ex?.muscle_group || 'legs'}`)}{ex && ex.equipment !== 'other' ? ` · ${t(`equip_${ex.equipment}`)}` : ''}
                           </Text>
                         </View>
                         <View style={styles.planRight}>
@@ -503,7 +504,7 @@ export default function WorkoutBuilderScreen({
             },
           ]}
         >
-          <Text style={[styles.ctaText, { fontSize: fs(scale, 17), color: '#fff', fontWeight: '700' }]}>
+          <Text style={[styles.ctaText, { fontSize: fs(scale, 17), color: p.onAccent, fontWeight: '700' }]}>
             {page === 'review' ? t('gen_start') : t('wiz_next')}
           </Text>
         </Pressable>
@@ -525,7 +526,7 @@ export default function WorkoutBuilderScreen({
               }}
               style={({ pressed }) => [styles.modalBtn, { backgroundColor: p.green, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' }]}
             >
-              <Text style={[styles.modalBtnText, { color: '#fff', fontWeight: '700' }]}>{t('gen_start')}</Text>
+              <Text style={[styles.modalBtnText, { color: p.onAccent, fontWeight: '700' }]}>{t('gen_start')}</Text>
             </Pressable>
             <Pressable
               accessibilityRole="button"
@@ -571,7 +572,7 @@ const styles = StyleSheet.create({
   goalList: { gap: 8 },
   goalRow: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: RADII.field, borderWidth: 1.5, paddingVertical: 12, paddingHorizontal: 12 },
   goalRadio: { width: 24, height: 24, borderRadius: 12, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
-  goalRadioDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#fff' },
+  goalRadioDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#000000' },
   goalTexts: { flex: 1, gap: 2 },
   goalName: { letterSpacing: -0.2 },
   goalDesc: {},

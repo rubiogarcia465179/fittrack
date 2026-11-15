@@ -8,12 +8,15 @@ import {
   Pressable,
   StyleSheet,
 } from 'react-native';
+import { exName } from '../lib/names';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import { searchExercises, GROUPS, EQUIPMENT } from '../lib/gym';
 import { GROUP_COLORS, RADII } from '../theme';
 import { useTheme } from '../theme-context';
 import { useScale, fs, useWide } from '../scale';
+import { ExerciseGlyph } from './SessionScreen';
+import { Chevron } from '../components/Chevron';
 
 function Chips<T extends string>({
   title,
@@ -60,7 +63,7 @@ function Chips<T extends string>({
               <Text
                 style={[
                   styles.chipText,
-                  { fontSize: fs(scale, 14), color: active ? '#ffffff' : p.text },
+                  { fontSize: fs(scale, 14), color: active ? p.onAccent : p.text },
                 ]}
               >
                 {o.label}
@@ -95,7 +98,7 @@ export default function LibraryScreen({
 
   const lang = i18n.language as string;
   const nameOf = (e: { name_en: string; name_nl: string }) =>
-    lang === 'nl' ? e.name_nl || e.name_en : e.name_en;
+    exName(e, lang);
 
   return (
     <View style={[styles.root, { backgroundColor: p.bg }]}>
@@ -148,30 +151,32 @@ export default function LibraryScreen({
                 styles.row,
                 wide && styles.rowWide,
                 {
-                  backgroundColor: p.card,
-                  borderColor: p.cardBorder,
-                  ...SHADOW.card,
-                  transform: [{ scale: pressed ? 0.98 : 1 }],
-                  transition: 'transform 90ms ease',
+                  // Lista plana estilo X: sin tarjeta, separador fino.
+                  backgroundColor: pressed ? p.card : 'transparent',
+                  borderWidth: 0,
+                  borderBottomWidth: StyleSheet.hairlineWidth,
+                  borderColor: p.border,
+                  borderRadius: 0,
                 },
               ]}
               accessibilityRole="button"
               accessibilityLabel={nameOf(e)}
               onPress={() => onOpenExercise(e.id)}
             >
-              <Image source={e.imageAsset} style={[styles.thumb, { backgroundColor: p.section }]} resizeMode="cover" />
+              {/* Icono de línea por grupo (sin monigotes placeholder; las
+                  fotos reales llegarán con la Fase 13). */}
+              <View style={[styles.thumb, styles.glyphBox, { borderColor: p.border }]} accessibilityElementsHidden>
+                <ExerciseGlyph label={e.muscle_group} size={26} color={p.text} />
+              </View>
               <View style={styles.rowText}>
                 <Text style={[styles.rowName, { color: p.text }]} numberOfLines={1}>
                   {nameOf(e)}
                 </Text>
                 <Text style={[styles.rowMeta, { color: p.secondary }]} numberOfLines={1}>
-                  {t(`group_${e.muscle_group}`)} · {t(`equip_${e.equipment}`)} · {t(`level_${e.level}`)}
+                  {t(`group_${e.muscle_group}`)}{e.equipment !== 'other' ? ` · ${t(`equip_${e.equipment}`)}` : ''} · {t(`level_${e.level}`)}
                 </Text>
               </View>
-              <View
-                style={[styles.dot, { backgroundColor: GROUP_COLORS[e.muscle_group] || p.dim }]}
-                accessibilityElementsHidden
-              />
+              <Chevron color={p.dim} />
             </Pressable>
           ))}
         </View>
@@ -181,6 +186,12 @@ export default function LibraryScreen({
 }
 
 const styles = StyleSheet.create({
+  glyphBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: StyleSheet.hairlineWidth,
+    backgroundColor: 'transparent',
+  },
   root: {
     flex: 1,
   },

@@ -39,8 +39,8 @@ export default function SessionStartScreen({
         {tint === 'accent' ? (
           // flecha "→" dibujada
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ width: 16, height: 3, borderRadius: 2, backgroundColor: '#fff' }} />
-            <View style={{ width: 0, height: 0, borderTopWidth: 5, borderBottomWidth: 5, borderLeftWidth: 7, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#fff', marginLeft: -2 }} />
+            <View style={{ width: 16, height: 3, borderRadius: 2, backgroundColor: p.onAccent }} />
+            <View style={{ width: 0, height: 0, borderTopWidth: 5, borderBottomWidth: 5, borderLeftWidth: 7, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: p.onAccent, marginLeft: -2 }} />
           </View>
         ) : (
           // "+" dibujado (añadir manual)

@@ -1,0 +1,146 @@
+/**
+ * Hoja "¿Cómo se hace?" (durante la sesión): fotos (hasta 3, deslizables),
+ * qué entrena (grupo principal + músculos secundarios) y los pasos.
+ * - Fotos: `photosFor(id)` (app/src/exercisePhotos.ts, generado por
+ *   scripts/make_photo_map.js desde data/images/photos/<id>-1..3.jpg). Sin
+ *   fotos propias → imagen de ejemplo, marcada como tal (regla de oro).
+ * - Pasos: howtoFor(id, idioma) — explicación sencilla en NL/ES/EN/FR
+ *   (data/exercises/howto/, redactada por FitTrack; ver app/src/howto.ts).
+ */
+import { useState } from 'react';
+import { Dimensions, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { useTheme } from '../theme-context';
+import { exName } from '../lib/names';
+import { photosFor } from '../exercisePhotos';
+import { howtoFor } from '../howto';
+import type { ExerciseRow } from '../lib/gym';
+
+export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; onClose: () => void }) {
+  const { t, i18n } = useTranslation();
+  const { p } = useTheme();
+  const lang = i18n.language as string;
+  const { images, placeholder } = photosFor(exercise.id);
+  const width = Math.min(Dimensions.get('window').width, 640) - 40;
+  const [page, setPage] = useState(0);
+  const secondary = exercise.secondary_muscles || [];
+
+  return (
+    <Modal visible transparent animationType="slide" onRequestClose={onClose}>
+      <Pressable style={[styles.back, { backgroundColor: p.overlay }]} onPress={onClose} accessibilityLabel={t('howto_close')} />
+      <View style={[styles.sheet, { backgroundColor: p.bg, borderColor: p.border }]}>
+        <View style={[styles.handle, { backgroundColor: p.border }]} />
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          <Text style={[styles.title, { color: p.text }]} accessibilityRole="header">
+            {exName(exercise, lang)}
+          </Text>
+
+          {/* Fotos */}
+          <ScrollView
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={(e) => setPage(Math.round(e.nativeEvent.contentOffset.x / width))}
+            onScroll={(e) => setPage(Math.round(e.nativeEvent.contentOffset.x / width))}
+            scrollEventThrottle={64}
+            style={[styles.photos, { width }]}
+          >
+            {images.map((src, i) => (
+              <View key={i} style={{ width }}>
+                <Image source={src} style={[styles.photo, { width, borderColor: p.border }]} resizeMode="cover" accessibilityLabel={`${exName(exercise, lang)} ${i + 1}/${images.length}`} />
+                {placeholder ? (
+                  <View style={styles.badge}>
+                    <Text style={styles.badgeText}>{t('howto_sample_photo')}</Text>
+                  </View>
+                ) : null}
+              </View>
+            ))}
+          </ScrollView>
+          <View style={styles.dots} accessibilityElementsHidden>
+            {images.map((_, i) => (
+              <View key={i} style={[styles.dot, { backgroundColor: i === page ? p.text : p.border }]} />
+            ))}
+          </View>
+
+          {/* Qué entrena */}
+          <Text style={[styles.section, { color: p.secondary }]}>{t('howto_trains')}</Text>
+          <View style={styles.chips}>
+            <View style={[styles.chip, { backgroundColor: p.accent }]}>
+              <Text style={[styles.chipText, { color: p.onAccent }]}>{t(`group_${exercise.muscle_group}`)}</Text>
+            </View>
+            {secondary.map((m) => (
+              <View key={m} style={[styles.chip, { borderColor: p.border, borderWidth: 1 }]}>
+                <Text style={[styles.chipText, { color: p.text }]}>{t(`muscle_${m}`, { defaultValue: m })}</Text>
+              </View>
+            ))}
+          </View>
+
+          {/* Cómo se hace */}
+          <Text style={[styles.section, { color: p.secondary }]}>{t('howto_steps')}</Text>
+          {howtoFor(exercise.id, lang, exercise.instructions).map((line, i) => (
+            <View key={i} style={styles.step}>
+              <Text style={[styles.stepNum, { color: p.onAccent, backgroundColor: p.accent }]}>{i + 1}</Text>
+              <Text style={[styles.stepText, { color: p.text }]}>{line}</Text>
+            </View>
+          ))}
+          <Text style={[styles.note, { color: p.secondary }]}>{t('howto_lang_note')}</Text>
+
+          <Pressable
+            accessibilityRole="button"
+            onPress={onClose}
+            style={({ pressed }) => [styles.close, { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1 }]}
+          >
+            <Text style={[styles.closeText, { color: p.onAccent }]}>{t('howto_close')}</Text>
+          </Pressable>
+        </ScrollView>
+      </View>
+    </Modal>
+  );
+}
+
+const styles = StyleSheet.create({
+  back: { flex: 1 },
+  sheet: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 0,
+    maxHeight: '90%',
+  },
+  handle: { width: 40, height: 4, borderRadius: 2, alignSelf: 'center', marginTop: 8 },
+  content: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 28 },
+  title: { fontSize: 22, fontWeight: '800', letterSpacing: -0.4, marginBottom: 14 },
+  photos: { alignSelf: 'center' },
+  photo: { height: 240, borderRadius: 16, borderWidth: StyleSheet.hairlineWidth },
+  badge: {
+    position: 'absolute',
+    left: 10,
+    top: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 12,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+  },
+  badgeText: { color: '#FFFFFF', fontSize: 12, fontWeight: '600' },
+  dots: { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 10 },
+  dot: { width: 7, height: 7, borderRadius: 4 },
+  section: { fontSize: 13, fontWeight: '600', letterSpacing: 1.2, textTransform: 'uppercase', marginTop: 22, marginBottom: 10 },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  chip: { minHeight: 34, borderRadius: 17, paddingHorizontal: 14, alignItems: 'center', justifyContent: 'center' },
+  chipText: { fontSize: 14, fontWeight: '600' },
+  step: { flexDirection: 'row', gap: 12, marginBottom: 12, alignItems: 'flex-start' },
+  stepNum: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    textAlign: 'center',
+    lineHeight: 24,
+    fontSize: 13,
+    fontWeight: '800',
+    overflow: 'hidden',
+  },
+  stepText: { flex: 1, fontSize: 15, lineHeight: 22 },
+  note: { fontSize: 13, lineHeight: 18, marginTop: 4 },
+  close: { marginTop: 22, minHeight: 50, borderRadius: 25, alignItems: 'center', justifyContent: 'center' },
+  closeText: { fontSize: 16, fontWeight: '700' },
+});

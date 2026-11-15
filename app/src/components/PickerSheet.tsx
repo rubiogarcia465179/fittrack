@@ -108,7 +108,7 @@ export function PickerSheet({
                   <Text
                     style={[
                       styles.chipText,
-                      { fontSize: fs(scale, 18), color: isSel ? '#ffffff' : p.chipOffText },
+                      { fontSize: fs(scale, 18), color: isSel ? p.onAccent : p.chipOffText },
                     ]}
                   >
                     {fmtNum(v)}
@@ -150,7 +150,7 @@ export function PickerSheet({
                   },
                 ]}
               >
-                <Text style={{ color: '#fff', fontWeight: '600', fontSize: fs(scale, 16) }}>{labelUse}</Text>
+                <Text style={{ color: p.onAccent, fontWeight: '600', fontSize: fs(scale, 16) }}>{labelUse}</Text>
               </Pressable>
             </View>
           )}
@@ -171,7 +171,7 @@ export function PickerSheet({
               } as object,
             ]}
           >
-            <Text style={[styles.confirmText, { fontSize: fs(scale, 19), color: '#fff' }]}>
+            <Text style={[styles.confirmText, { fontSize: fs(scale, 19), color: p.onAccent }]}>
               {unit ? `${fmtNum(sel)} ${unit}` : String(fmtNum(sel))}
             </Text>
           </Pressable>

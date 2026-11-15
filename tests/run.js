@@ -132,6 +132,19 @@ for (const l of LANGS) {
   eq(webCopy, bundles[l], 'web/src/i18n/' + l + '.json == i18n/' + l + '.json');
 }
 
+// ------------------------------------------- "cómo se hace" por idioma
+section('howto — pasos en los 4 idiomas');
+for (const l of LANGS) {
+  const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/exercises/howto', l + '.json'), 'utf8'));
+  const bad = ids.filter((id) => !Array.isArray(src[id]) || src[id].length < 2 || !src[id].every((s) => typeof s === 'string' && s.trim()));
+  eq(bad, [], 'howto/' + l + '.json: ' + EXPECTED_COUNT + ' ejercicios con ≥2 pasos');
+  eq(Object.keys(src).filter((id) => !byId.has(id)), [], 'howto/' + l + '.json: sin ids desconocidos');
+  for (const mirror of ['app/src/data/howto', 'web/src/data/howto']) {
+    const copy = JSON.parse(fs.readFileSync(path.join(ROOT, mirror, l + '.json'), 'utf8'));
+    eq(copy, Object.fromEntries(ids.map((id) => [id, src[id]])), mirror + '/' + l + '.json sincronizado (node scripts/sync_howto.js)');
+  }
+}
+
 // ------------------------------------------------------- lógica (web ESM)
 async function main() {
 section('logic — vectores sobre web/src/lib/gym.js');
@@ -146,6 +159,16 @@ fs.writeFileSync(path.join(tmp, 'gym_app.mjs'), out.outputText);
 
 const web = await import(path.join(tmp, 'gym_web.mjs'));
 const app = await import(path.join(tmp, 'gym_app.mjs'));
+
+// workout.ts (app): clasificación peso corporal / carga — nunca 0 kg en un
+// ejercicio con barra aunque wger lo marque "other" (back_squat: "Dip under the bar").
+const wTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/workout.ts'), 'utf8');
+const wOut = ts.transpileModule(wTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } });
+fs.writeFileSync(path.join(tmp, 'workout_app.mjs'), wOut.outputText.replace(/from '\.\/gym'/g, "from './gym_app.mjs'"));
+const wlib = await import(path.join(tmp, 'workout_app.mjs'));
+eq(wlib.isBodyweightExercise(byId.get('back_squat')), false, 'back_squat (wger "other") = con carga, no peso corporal');
+eq(wlib.isBodyweightExercise(byId.get('crunches')), true, 'crunches = peso corporal (el nombre manda)');
+eq(wlib.isBodyweightExercise(byId.get('crunches_with_cable')), false, 'crunches_with_cable = con carga (polea)');
 
 const todayISO = web.todayISO;
 const mk = (id, date, exercises, extra = {}) => ({

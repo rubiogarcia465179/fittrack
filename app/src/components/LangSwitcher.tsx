@@ -38,7 +38,7 @@ export default function LangSwitcher({
             ]}
           >
             <Text
-              style={[styles.chipText, full && styles.chipTextFull, { color: active ? '#fff' : p.text }]}
+              style={[styles.chipText, full && styles.chipTextFull, { color: active ? p.onAccent : p.text }]}
               numberOfLines={1}
             >
               {full ? LANG_LABELS[l] : l.toUpperCase()}

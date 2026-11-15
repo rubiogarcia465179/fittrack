@@ -50,6 +50,9 @@ export type ActiveSession = {
   postponed: PostponedExercise[];
   /** Benchmarks vigentes (para recomendar pesos). */
   benchmarks: { exercise_id: string; estimated_1rm: number }[];
+  /** Descanso entre series en curso: instante de fin (ms) y duración total (s). */
+  rest_until?: number;
+  rest_total?: number;
 };
 
 export function newActiveSession(

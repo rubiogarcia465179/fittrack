@@ -2,7 +2,7 @@
   "dataset": "fittrack.exercises",
   "version": 3,
   "source": "real",
-  "source_note": "Base: dataset de wger (CC-BY-SA, créditos: https://wger.de/about), extraído de la wheel de PyPI `wger 2.1` (sha256 eeb67b4184137b83…); la API de wger.de sigue bloqueada por el proxy del sandbox. name_nl y level son curados localmente (wger no publica NL ni dificultad); 16 ejercicios sin instrucción en wger llevan pasos generados localmente. Imágenes: placeholders generados (fotos de wger en static.wger.de, inaccesible). Atribución por ejercicio en campos `license`/`credit`.",
+  "source_note": "Base: dataset de wger (CC-BY-SA, créditos: https://wger.de/about), extraído de la wheel de PyPI `wger 2.1` (sha256 eeb67b4184137b83…); la API de wger.de sigue bloqueada por el proxy del sandbox. name_nl y level son curados localmente (wger no publica NL ni dificultad); 16 ejercicios sin instrucción en wger llevan pasos generados localmente. Imágenes: placeholders generados (fotos de wger en static.wger.de, inaccesible). Atribución por ejercicio en campos `license`/`credit`. name_es/name_fr: traducciones locales curadas (no de wger), en data/exercises/names-i18n.json.",
   "generated_at": "2026-10-31",
   "count": 226,
   "groups": [
@@ -46,7 +46,9 @@
       "source_id": "wger-exercisebase-9",
       "source_url": "https://wger.de (exercise base pk 9)",
       "license": "CC-BY-SA 4",
-      "credit": "deusinvictus"
+      "credit": "deusinvictus",
+      "name_es": "Swing con kettlebell a dos manos",
+      "name_fr": "Swing kettlebell à deux mains"
     },
     {
       "id": "barbell_ab_rollout",
@@ -71,7 +73,9 @@
       "source_id": "wger-exercisebase-41",
       "source_url": "https://wger.de (exercise base pk 41)",
       "license": "CC-BY-SA 4",
-      "credit": "sevae"
+      "credit": "sevae",
+      "name_es": "Rueda abdominal con barra",
+      "name_fr": "Roulement abdominal à la barre"
     },
     {
       "id": "cable_woodchoppers",
@@ -93,7 +97,9 @@
       "source_id": "wger-exercisebase-145",
       "source_url": "https://wger.de (exercise base pk 145)",
       "license": "CC-BY-SA 3",
-      "credit": "robhoyt"
+      "credit": "robhoyt",
+      "name_es": "Leñador en polea",
+      "name_fr": "Bûcheron à la poulie"
     },
     {
       "id": "crunches",
@@ -117,7 +123,9 @@
       "source_id": "wger-exercisebase-167",
       "source_url": "https://wger.de (exercise base pk 167)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Crunch abdominal",
+      "name_fr": "Crunch"
     },
     {
       "id": "crunches_on_machine",
@@ -142,7 +150,9 @@
       "source_id": "wger-exercisebase-172",
       "source_url": "https://wger.de (exercise base pk 172)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Crunch en máquina",
+      "name_fr": "Crunch à la machine"
     },
     {
       "id": "crunches_with_cable",
@@ -166,7 +176,9 @@
       "source_id": "wger-exercisebase-173",
       "source_url": "https://wger.de (exercise base pk 173)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Crunch en polea",
+      "name_fr": "Crunch à la poulie"
     },
     {
       "id": "crunches_with_legs_up",
@@ -185,7 +197,9 @@
       "source_id": "wger-exercisebase-174",
       "source_url": "https://wger.de (exercise base pk 174)",
       "license": "CC-BY-SA 4",
-      "credit": "krisbbb"
+      "credit": "krisbbb",
+      "name_es": "Crunch con piernas elevadas",
+      "name_fr": "Crunch jambes levées"
     },
     {
       "id": "deadbug",
@@ -209,7 +223,9 @@
       "source_id": "wger-exercisebase-178",
       "source_url": "https://wger.de (exercise base pk 178)",
       "license": "CC-BY-SA 4",
-      "credit": "Metin"
+      "credit": "Metin",
+      "name_es": "Bicho muerto (dead bug)",
+      "name_fr": "Dead bug"
     },
     {
       "id": "flutter_kicks",
@@ -233,7 +249,9 @@
       "source_id": "wger-exercisebase-235",
       "source_url": "https://wger.de (exercise base pk 235)",
       "license": "CC-BY-SA 4",
-      "credit": "nate303303"
+      "credit": "nate303303",
+      "name_es": "Patadas alternas",
+      "name_fr": "Battements de jambes"
     },
     {
       "id": "full_sit_outs",
@@ -256,7 +274,9 @@
       "source_id": "wger-exercisebase-260",
       "source_url": "https://wger.de (exercise base pk 260)",
       "license": "CC-BY-SA 4",
-      "credit": "http://www.realsimple.com/health/fitness-exercise/"
+      "credit": "http://www.realsimple.com/health/fitness-exercise/",
+      "name_es": "Sit-outs completos",
+      "name_fr": "Sit-outs complets"
     },
     {
       "id": "hanging_leg_raises",
@@ -275,7 +295,9 @@
       "source_id": "wger-exercisebase-283",
       "source_url": "https://wger.de (exercise base pk 283)",
       "license": "CC-BY-SA 3",
-      "credit": "robhoyt"
+      "credit": "robhoyt",
+      "name_es": "Elevación de piernas colgado",
+      "name_fr": "Relevé de jambes suspendu"
     },
     {
       "id": "hollow_hold",
@@ -296,7 +318,9 @@
       "source_id": "wger-exercisebase-297",
       "source_url": "https://wger.de (exercise base pk 297)",
       "license": "CC0",
-      "credit": "Behrooz"
+      "credit": "Behrooz",
+      "name_es": "Hollow hold (posición hueca)",
+      "name_fr": "Hollow hold"
     },
     {
       "id": "incline_plank_with_alternate_floor_touch",
@@ -318,7 +342,9 @@
       "source_id": "wger-exercisebase-312",
       "source_url": "https://wger.de (exercise base pk 312)",
       "license": "CC-BY-SA 3",
-      "credit": "Mahoney"
+      "credit": "Mahoney",
+      "name_es": "Plancha inclinada tocando el suelo alterno",
+      "name_fr": "Planche inclinée avec touche alternée au sol"
     },
     {
       "id": "l_hold",
@@ -337,7 +363,9 @@
       "source_id": "wger-exercisebase-382",
       "source_url": "https://wger.de (exercise base pk 382)",
       "license": "CC-BY-SA 3",
-      "credit": "bizyguy"
+      "credit": "bizyguy",
+      "name_es": "L-sit (escuadra)",
+      "name_fr": "L-sit (équerre)"
     },
     {
       "id": "leg_raises_lying",
@@ -363,7 +391,9 @@
       "source_id": "wger-exercisebase-377",
       "source_url": "https://wger.de (exercise base pk 377)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Elevación de piernas tumbado",
+      "name_fr": "Relevé de jambes allongé"
     },
     {
       "id": "leg_raises_standing",
@@ -386,7 +416,9 @@
       "source_id": "wger-exercisebase-378",
       "source_url": "https://wger.de (exercise base pk 378)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Elevación de piernas de pie",
+      "name_fr": "Relevé de jambes debout"
     },
     {
       "id": "negative_crunches",
@@ -409,7 +441,9 @@
       "source_id": "wger-exercisebase-427",
       "source_url": "https://wger.de (exercise base pk 427)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Crunch negativo",
+      "name_fr": "Crunch négatif"
     },
     {
       "id": "overhand_cable_curl",
@@ -428,7 +462,9 @@
       "source_id": "wger-exercisebase-439",
       "source_url": "https://wger.de (exercise base pk 439)",
       "license": "CC-BY-SA 3",
-      "credit": "ThisGirl0819"
+      "credit": "ThisGirl0819",
+      "name_es": "Curl en polea agarre prono",
+      "name_fr": "Curl à la poulie prise pronation"
     },
     {
       "id": "plank",
@@ -456,7 +492,9 @@
       "source_id": "wger-exercisebase-458",
       "source_url": "https://wger.de (exercise base pk 458)",
       "license": "CC-BY-SA 3",
-      "credit": "YYCfit / BFad07"
+      "credit": "YYCfit / BFad07",
+      "name_es": "Plancha",
+      "name_fr": "Planche"
     },
     {
       "id": "reverse_plank",
@@ -475,7 +513,9 @@
       "source_id": "wger-exercisebase-500",
       "source_url": "https://wger.de (exercise base pk 500)",
       "license": "CC-BY-SA 4",
-      "credit": "spacetowaste"
+      "credit": "spacetowaste",
+      "name_es": "Plancha invertida",
+      "name_fr": "Planche inversée"
     },
     {
       "id": "roman_chair",
@@ -496,7 +536,9 @@
       "source_id": "wger-exercisebase-505",
       "source_url": "https://wger.de (exercise base pk 505)",
       "license": "CC-BY-SA 3",
-      "credit": "MaddieBeasley"
+      "credit": "MaddieBeasley",
+      "name_es": "Silla romana",
+      "name_fr": "Chaise romaine"
     },
     {
       "id": "scissors",
@@ -518,7 +560,9 @@
       "source_id": "wger-exercisebase-545",
       "source_url": "https://wger.de (exercise base pk 545)",
       "license": "CC-BY-SA 4",
-      "credit": "vkylamba"
+      "credit": "vkylamba",
+      "name_es": "Tijeras",
+      "name_fr": "Ciseaux"
     },
     {
       "id": "side_crunch",
@@ -539,7 +583,9 @@
       "source_id": "wger-exercisebase-576",
       "source_url": "https://wger.de (exercise base pk 576)",
       "license": "CC-BY-SA 3",
-      "credit": "kwrindy"
+      "credit": "kwrindy",
+      "name_es": "Crunch lateral",
+      "name_fr": "Crunch latéral"
     },
     {
       "id": "side_plank",
@@ -559,7 +605,9 @@
       "source_id": "wger-exercisebase-580",
       "source_url": "https://wger.de (exercise base pk 580)",
       "license": "CC-BY-SA 4",
-      "credit": "http://www.bodybuilding.com/"
+      "credit": "http://www.bodybuilding.com/",
+      "name_es": "Plancha lateral",
+      "name_fr": "Planche latérale"
     },
     {
       "id": "sit_ups",
@@ -584,7 +632,9 @@
       "source_id": "wger-exercisebase-591",
       "source_url": "https://wger.de (exercise base pk 591)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Abdominales completos (sit-ups)",
+      "name_fr": "Redressements assis"
     },
     {
       "id": "splinter_sit_ups",
@@ -606,7 +656,9 @@
       "source_id": "wger-exercisebase-607",
       "source_url": "https://wger.de (exercise base pk 607)",
       "license": "CC-BY-SA 3",
-      "credit": "djblitzd"
+      "credit": "djblitzd",
+      "name_es": "Sit-ups splinter",
+      "name_fr": "Redressements assis splinter"
     },
     {
       "id": "trunk_rotation_with_cable",
@@ -627,7 +679,9 @@
       "source_id": "wger-exercisebase-672",
       "source_url": "https://wger.de (exercise base pk 672)",
       "license": "CC-BY-SA 4",
-      "credit": "Robertcoop"
+      "credit": "Robertcoop",
+      "name_es": "Rotación de tronco en polea",
+      "name_fr": "Rotation du tronc à la poulie"
     },
     {
       "id": "turkish_get_up",
@@ -647,7 +701,9 @@
       "source_id": "wger-exercisebase-675",
       "source_url": "https://wger.de (exercise base pk 675)",
       "license": "CC-BY-SA 4",
-      "credit": "dookie1481"
+      "credit": "dookie1481",
+      "name_es": "Levantamiento turco",
+      "name_fr": "Relevé turc"
     },
     {
       "id": "axe_hold",
@@ -666,7 +722,9 @@
       "source_id": "wger-exercisebase-31",
       "source_url": "https://wger.de (exercise base pk 31)",
       "license": "CC-BY-SA 3",
-      "credit": "GrosseHund"
+      "credit": "GrosseHund",
+      "name_es": "Sujeción de hacha",
+      "name_fr": "Maintien de hache"
     },
     {
       "id": "barbell_triceps_extension",
@@ -691,7 +749,9 @@
       "source_id": "wger-exercisebase-50",
       "source_url": "https://wger.de (exercise base pk 50)",
       "license": "CC-BY-SA 4",
-      "credit": "sevae"
+      "credit": "sevae",
+      "name_es": "Extensión de tríceps con barra",
+      "name_fr": "Extension triceps à la barre"
     },
     {
       "id": "bench_press_narrow_grip",
@@ -718,7 +778,9 @@
       "source_id": "wger-exercisebase-76",
       "source_url": "https://wger.de (exercise base pk 76)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Press de banca agarre estrecho",
+      "name_fr": "Développé couché prise serrée"
     },
     {
       "id": "biceps_curl_with_cable",
@@ -741,7 +803,9 @@
       "source_id": "wger-exercisebase-95",
       "source_url": "https://wger.de (exercise base pk 95)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Curl de bíceps en polea",
+      "name_fr": "Curl biceps à la poulie"
     },
     {
       "id": "biceps_curls_with_barbell",
@@ -765,7 +829,9 @@
       "source_id": "wger-exercisebase-91",
       "source_url": "https://wger.de (exercise base pk 91)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Curl de bíceps con barra",
+      "name_fr": "Curl biceps à la barre"
     },
     {
       "id": "biceps_curls_with_dumbbell",
@@ -791,7 +857,9 @@
       "source_id": "wger-exercisebase-92",
       "source_url": "https://wger.de (exercise base pk 92)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Curl de bíceps con mancuerna",
+      "name_fr": "Curl biceps aux haltères"
     },
     {
       "id": "biceps_curls_with_sz_bar",
@@ -815,7 +883,9 @@
       "source_id": "wger-exercisebase-94",
       "source_url": "https://wger.de (exercise base pk 94)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Curl de bíceps con barra Z",
+      "name_fr": "Curl biceps à la barre EZ"
     },
     {
       "id": "body_ups",
@@ -839,7 +909,9 @@
       "source_id": "wger-exercisebase-112",
       "source_url": "https://wger.de (exercise base pk 112)",
       "license": "CC-BY-SA 4",
-      "credit": "cal.zabel"
+      "credit": "cal.zabel",
+      "name_es": "Body-ups",
+      "name_fr": "Body-ups"
     },
     {
       "id": "close_grip_bench_press",
@@ -860,7 +932,9 @@
       "source_id": "wger-exercisebase-157",
       "source_url": "https://wger.de (exercise base pk 157)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Press de banca con agarre cerrado",
+      "name_fr": "Développé couché prise serrée (barre)"
     },
     {
       "id": "curl_su_panca_a_45",
@@ -880,7 +954,9 @@
       "source_id": "wger-exercisebase-175",
       "source_url": "https://wger.de (exercise base pk 175)",
       "license": "CC-BY-SA 4",
-      "credit": "csequino"
+      "credit": "csequino",
+      "name_es": "Curl en banco a 45°",
+      "name_fr": "Curl sur banc à 45°"
     },
     {
       "id": "deadhang",
@@ -899,7 +975,9 @@
       "source_id": "wger-exercisebase-182",
       "source_url": "https://wger.de (exercise base pk 182)",
       "license": "CC-BY-SA 4",
-      "credit": "2dPREtEZP221u68Akf0JImv5L48"
+      "credit": "2dPREtEZP221u68Akf0JImv5L48",
+      "name_es": "Colgado pasivo",
+      "name_fr": "Suspension passive"
     },
     {
       "id": "dips_1",
@@ -922,7 +1000,9 @@
       "source_id": "wger-exercisebase-195",
       "source_url": "https://wger.de (exercise base pk 195)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Fondos",
+      "name_fr": "Dips"
     },
     {
       "id": "dips_between_two_benches",
@@ -946,7 +1026,9 @@
       "source_id": "wger-exercisebase-197",
       "source_url": "https://wger.de (exercise base pk 197)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Fondos entre dos bancos",
+      "name_fr": "Dips entre deux bancs"
     },
     {
       "id": "dumbbell_concentration_curl",
@@ -970,7 +1052,9 @@
       "source_id": "wger-exercisebase-202",
       "source_url": "https://wger.de (exercise base pk 202)",
       "license": "CC-BY-SA 3",
-      "credit": "http://www.exrx.net/WeightExercises/Brachialis/DBC"
+      "credit": "http://www.exrx.net/WeightExercises/Brachialis/DBC",
+      "name_es": "Curl concentrado con mancuerna",
+      "name_fr": "Curl concentré à l'haltère"
     },
     {
       "id": "dumbbell_incline_curl",
@@ -993,7 +1077,9 @@
       "source_id": "wger-exercisebase-204",
       "source_url": "https://wger.de (exercise base pk 204)",
       "license": "CC-BY-SA 4",
-      "credit": "ExRx"
+      "credit": "ExRx",
+      "name_es": "Curl inclinado con mancuernas",
+      "name_fr": "Curl incliné aux haltères"
     },
     {
       "id": "dumbbell_triceps_extension",
@@ -1019,7 +1105,9 @@
       "source_id": "wger-exercisebase-211",
       "source_url": "https://wger.de (exercise base pk 211)",
       "license": "CC-BY-SA 3",
-      "credit": "tuninx"
+      "credit": "tuninx",
+      "name_es": "Extensión de tríceps con mancuerna",
+      "name_fr": "Extension triceps à l'haltère"
     },
     {
       "id": "dumbbells_on_scott_machine",
@@ -1042,7 +1130,9 @@
       "source_id": "wger-exercisebase-208",
       "source_url": "https://wger.de (exercise base pk 208)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Curl con mancuernas en banco Scott",
+      "name_fr": "Curl aux haltères au pupitre Larry Scott"
     },
     {
       "id": "french_press_skullcrusher_dumbbells",
@@ -1066,7 +1156,9 @@
       "source_id": "wger-exercisebase-245",
       "source_url": "https://wger.de (exercise base pk 245)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Press francés con mancuernas",
+      "name_fr": "Barre au front aux haltères"
     },
     {
       "id": "french_press_skullcrusher_sz_bar",
@@ -1090,7 +1182,9 @@
       "source_id": "wger-exercisebase-246",
       "source_url": "https://wger.de (exercise base pk 246)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Press francés con barra Z",
+      "name_fr": "Barre au front à la barre EZ"
     },
     {
       "id": "hammercurls",
@@ -1114,7 +1208,9 @@
       "source_id": "wger-exercisebase-272",
       "source_url": "https://wger.de (exercise base pk 272)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Curl martillo",
+      "name_fr": "Curl marteau"
     },
     {
       "id": "hammercurls_on_cable",
@@ -1139,7 +1235,9 @@
       "source_id": "wger-exercisebase-275",
       "source_url": "https://wger.de (exercise base pk 275)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Curl martillo en polea",
+      "name_fr": "Curl marteau à la poulie"
     },
     {
       "id": "hand_grip",
@@ -1158,7 +1256,9 @@
       "source_id": "wger-exercisebase-279",
       "source_url": "https://wger.de (exercise base pk 279)",
       "license": "CC-BY-SA 4",
-      "credit": "vince63"
+      "credit": "vince63",
+      "name_es": "Hand grip (pinza de agarre)",
+      "name_fr": "Pince de préhension"
     },
     {
       "id": "hercules_pillars",
@@ -1179,7 +1279,9 @@
       "source_id": "wger-exercisebase-284",
       "source_url": "https://wger.de (exercise base pk 284)",
       "license": "CC-BY-SA 3",
-      "credit": "GrosseHund"
+      "credit": "GrosseHund",
+      "name_es": "Pilares de Hércules",
+      "name_fr": "Piliers d'Hercule"
     },
     {
       "id": "military_press_1",
@@ -1201,7 +1303,9 @@
       "source_id": "wger-exercisebase-418",
       "source_url": "https://wger.de (exercise base pk 418)",
       "license": "CC-BY-SA 3",
-      "credit": "mbozi1"
+      "credit": "mbozi1",
+      "name_es": "Press militar",
+      "name_fr": "Développé militaire"
     },
     {
       "id": "pike_push_ups",
@@ -1222,7 +1326,9 @@
       "source_id": "wger-exercisebase-454",
       "source_url": "https://wger.de (exercise base pk 454)",
       "license": "CC-BY-SA 4",
-      "credit": "Nash"
+      "credit": "Nash",
+      "name_es": "Flexiones en pica",
+      "name_fr": "Pompes en pike"
     },
     {
       "id": "preacher_curls",
@@ -1246,7 +1352,9 @@
       "source_id": "wger-exercisebase-465",
       "source_url": "https://wger.de (exercise base pk 465)",
       "license": "CC-BY-SA 3",
-      "credit": "cgoob883"
+      "credit": "cgoob883",
+      "name_es": "Curl predicador",
+      "name_fr": "Curl au pupitre"
     },
     {
       "id": "push_ups",
@@ -1274,7 +1382,9 @@
       "source_id": "wger-exercisebase-482",
       "source_url": "https://wger.de (exercise base pk 482)",
       "license": "CC-BY-SA 3",
-      "credit": "maxamillion1414"
+      "credit": "maxamillion1414",
+      "name_es": "Flexiones",
+      "name_fr": "Pompes"
     },
     {
       "id": "reverse_bar_curl",
@@ -1293,7 +1403,9 @@
       "source_id": "wger-exercisebase-493",
       "source_url": "https://wger.de (exercise base pk 493)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Curl invertido con barra",
+      "name_fr": "Curl inversé à la barre"
     },
     {
       "id": "reverse_curl",
@@ -1315,7 +1427,9 @@
       "source_id": "wger-exercisebase-495",
       "source_url": "https://wger.de (exercise base pk 495)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Curl invertido",
+      "name_fr": "Curl inversé"
     },
     {
       "id": "ring_dips",
@@ -1334,7 +1448,9 @@
       "source_id": "wger-exercisebase-501",
       "source_url": "https://wger.de (exercise base pk 501)",
       "license": "CC-BY-SA 4",
-      "credit": "Nash"
+      "credit": "Nash",
+      "name_es": "Fondos en anillas",
+      "name_fr": "Dips aux anneaux"
     },
     {
       "id": "seated_triceps_press",
@@ -1355,7 +1471,9 @@
       "source_id": "wger-exercisebase-549",
       "source_url": "https://wger.de (exercise base pk 549)",
       "license": "CC-BY-SA 4",
-      "credit": "richmr2174@gmail.com"
+      "credit": "richmr2174@gmail.com",
+      "name_es": "Press de tríceps sentado",
+      "name_fr": "Extension triceps assis"
     },
     {
       "id": "single_arm_preacher_curl",
@@ -1375,7 +1493,9 @@
       "source_id": "wger-exercisebase-584",
       "source_url": "https://wger.de (exercise base pk 584)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Curl predicador a una mano",
+      "name_fr": "Curl au pupitre à un bras"
     },
     {
       "id": "smith_machine_close_grip_bench_press",
@@ -1396,7 +1516,9 @@
       "source_id": "wger-exercisebase-598",
       "source_url": "https://wger.de (exercise base pk 598)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Press de banca agarre cerrado en Smith",
+      "name_fr": "Développé couché prise serrée à la Smith"
     },
     {
       "id": "standing_bicep_curl",
@@ -1416,7 +1538,9 @@
       "source_id": "wger-exercisebase-621",
       "source_url": "https://wger.de (exercise base pk 621)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Curl de bíceps de pie",
+      "name_fr": "Curl biceps debout"
     },
     {
       "id": "standing_rope_forearm",
@@ -1440,7 +1564,9 @@
       "source_id": "wger-exercisebase-623",
       "source_url": "https://wger.de (exercise base pk 623)",
       "license": "CC-BY-SA 4",
-      "credit": "pwiltrout"
+      "credit": "pwiltrout",
+      "name_es": "Enrollador de antebrazo de pie",
+      "name_fr": "Enrouleur d'avant-bras debout"
     },
     {
       "id": "tricep_dumbbell_kickback",
@@ -1466,7 +1592,9 @@
       "source_id": "wger-exercisebase-655",
       "source_url": "https://wger.de (exercise base pk 655)",
       "license": "CC-BY-SA 3",
-      "credit": "http://www.bodybuilding.com/"
+      "credit": "http://www.bodybuilding.com/",
+      "name_es": "Patada de tríceps con mancuerna",
+      "name_fr": "Kickback triceps à l'haltère"
     },
     {
       "id": "triceps_bench_press_one_barbell",
@@ -1489,7 +1617,9 @@
       "source_id": "wger-exercisebase-657",
       "source_url": "https://wger.de (exercise base pk 657)",
       "license": "CC-BY-SA 3",
-      "credit": "Horal_cz"
+      "credit": "Horal_cz",
+      "name_es": "Press de tríceps en banco con barra",
+      "name_fr": "Développé triceps sur banc à la barre"
     },
     {
       "id": "triceps_dips",
@@ -1508,7 +1638,9 @@
       "source_id": "wger-exercisebase-658",
       "source_url": "https://wger.de (exercise base pk 658)",
       "license": "CC-BY-SA 3",
-      "credit": "Mahoney"
+      "credit": "Mahoney",
+      "name_es": "Fondos de tríceps",
+      "name_fr": "Dips triceps"
     },
     {
       "id": "triceps_extensions_on_cable",
@@ -1531,7 +1663,9 @@
       "source_id": "wger-exercisebase-659",
       "source_url": "https://wger.de (exercise base pk 659)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Extensión de tríceps en polea",
+      "name_fr": "Extension triceps à la poulie"
     },
     {
       "id": "triceps_extensions_on_cable_with_bar",
@@ -1554,7 +1688,9 @@
       "source_id": "wger-exercisebase-660",
       "source_url": "https://wger.de (exercise base pk 660)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Extensión de tríceps en polea con barra",
+      "name_fr": "Extension triceps à la poulie avec barre"
     },
     {
       "id": "triceps_machine",
@@ -1577,7 +1713,9 @@
       "source_id": "wger-exercisebase-661",
       "source_url": "https://wger.de (exercise base pk 661)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Máquina de tríceps",
+      "name_fr": "Machine à triceps"
     },
     {
       "id": "wall_pushup",
@@ -1600,7 +1738,9 @@
       "source_id": "wger-exercisebase-713",
       "source_url": "https://wger.de (exercise base pk 713)",
       "license": "CC-BY-SA 3",
-      "credit": "Dexter"
+      "credit": "Dexter",
+      "name_es": "Flexiones en pared",
+      "name_fr": "Pompes au mur"
     },
     {
       "id": "z_curls",
@@ -1624,7 +1764,9 @@
       "source_id": "wger-exercisebase-729",
       "source_url": "https://wger.de (exercise base pk 729)",
       "license": "CC-BY-SA 4",
-      "credit": "nate303303"
+      "credit": "nate303303",
+      "name_es": "Curl Zottman",
+      "name_fr": "Curl Zottman"
     },
     {
       "id": "bent_over_barbell_row",
@@ -1648,7 +1790,9 @@
       "source_id": "wger-exercisebase-80",
       "source_url": "https://wger.de (exercise base pk 80)",
       "license": "CC-BY-SA 4",
-      "credit": "warchildmd"
+      "credit": "warchildmd",
+      "name_es": "Remo inclinado con barra",
+      "name_fr": "Rowing buste penché à la barre"
     },
     {
       "id": "bent_over_rowing",
@@ -1677,7 +1821,9 @@
       "source_id": "wger-exercisebase-83",
       "source_url": "https://wger.de (exercise base pk 83)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Remo inclinado",
+      "name_fr": "Rowing buste penché"
     },
     {
       "id": "bent_over_rowing_reverse",
@@ -1704,7 +1850,9 @@
       "source_id": "wger-exercisebase-84",
       "source_url": "https://wger.de (exercise base pk 84)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Remo inclinado agarre supino",
+      "name_fr": "Rowing buste penché prise supination"
     },
     {
       "id": "bentover_dumbbell_rows",
@@ -1729,7 +1877,9 @@
       "source_id": "wger-exercisebase-81",
       "source_url": "https://wger.de (exercise base pk 81)",
       "license": "CC-BY-SA 4",
-      "credit": "sebk"
+      "credit": "sebk",
+      "name_es": "Remo inclinado con mancuernas",
+      "name_fr": "Rowing buste penché aux haltères"
     },
     {
       "id": "chin_up",
@@ -1751,7 +1901,9 @@
       "source_id": "wger-exercisebase-152",
       "source_url": "https://wger.de (exercise base pk 152)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Dominada supina",
+      "name_fr": "Traction en supination"
     },
     {
       "id": "chin_ups",
@@ -1770,7 +1922,9 @@
       "source_id": "wger-exercisebase-154",
       "source_url": "https://wger.de (exercise base pk 154)",
       "license": "CC-BY-SA 3",
-      "credit": "oliser67"
+      "credit": "oliser67",
+      "name_es": "Dominadas supinas",
+      "name_fr": "Tractions en supination"
     },
     {
       "id": "close_grip_lat_pull_down",
@@ -1792,7 +1946,9 @@
       "source_id": "wger-exercisebase-158",
       "source_url": "https://wger.de (exercise base pk 158)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Jalón al pecho agarre estrecho",
+      "name_fr": "Tirage vertical prise serrée"
     },
     {
       "id": "deadlifts",
@@ -1820,7 +1976,9 @@
       "source_id": "wger-exercisebase-184",
       "source_url": "https://wger.de (exercise base pk 184)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Peso muerto",
+      "name_fr": "Soulevé de terre"
     },
     {
       "id": "deficit_deadlift",
@@ -1850,7 +2008,9 @@
       "source_id": "wger-exercisebase-189",
       "source_url": "https://wger.de (exercise base pk 189)",
       "license": "CC-BY-SA 4",
-      "credit": "bobbyprince89"
+      "credit": "bobbyprince89",
+      "name_es": "Peso muerto en déficit",
+      "name_fr": "Soulevé de terre en déficit"
     },
     {
       "id": "hip_raise_lying",
@@ -1875,7 +2035,9 @@
       "source_id": "wger-exercisebase-292",
       "source_url": "https://wger.de (exercise base pk 292)",
       "license": "CC-BY-SA 4",
-      "credit": "James Mackay"
+      "credit": "James Mackay",
+      "name_es": "Elevación de cadera tumbado",
+      "name_fr": "Relevé de bassin allongé"
     },
     {
       "id": "hyperextensions",
@@ -1896,7 +2058,9 @@
       "source_id": "wger-exercisebase-301",
       "source_url": "https://wger.de (exercise base pk 301)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Hiperextensiones",
+      "name_fr": "Hyperextensions"
     },
     {
       "id": "incline_dumbbell_row",
@@ -1921,7 +2085,9 @@
       "source_id": "wger-exercisebase-310",
       "source_url": "https://wger.de (exercise base pk 310)",
       "license": "CC-BY-SA 4",
-      "credit": "cal.zabel"
+      "credit": "cal.zabel",
+      "name_es": "Remo con mancuernas en banco inclinado",
+      "name_fr": "Rowing aux haltères sur banc incliné"
     },
     {
       "id": "lat_pull_down_leaning_back",
@@ -1940,7 +2106,9 @@
       "source_id": "wger-exercisebase-354",
       "source_url": "https://wger.de (exercise base pk 354)",
       "license": "CC-BY-SA 3",
-      "credit": "drthurlow"
+      "credit": "drthurlow",
+      "name_es": "Jalón al pecho inclinado hacia atrás",
+      "name_fr": "Tirage vertical buste incliné"
     },
     {
       "id": "lat_pull_down_straight_back",
@@ -1959,7 +2127,9 @@
       "source_id": "wger-exercisebase-355",
       "source_url": "https://wger.de (exercise base pk 355)",
       "license": "CC-BY-SA 3",
-      "credit": "drthurlow"
+      "credit": "drthurlow",
+      "name_es": "Jalón al pecho con espalda recta",
+      "name_fr": "Tirage vertical dos droit"
     },
     {
       "id": "leverage_machine_iso_row",
@@ -1978,7 +2148,9 @@
       "source_id": "wger-exercisebase-380",
       "source_url": "https://wger.de (exercise base pk 380)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Remo iso-lateral en máquina",
+      "name_fr": "Rowing iso-latéral à la machine"
     },
     {
       "id": "long_pulley_low_row",
@@ -2006,7 +2178,9 @@
       "source_id": "wger-exercisebase-394",
       "source_url": "https://wger.de (exercise base pk 394)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Remo en polea baja",
+      "name_fr": "Tirage horizontal poulie basse"
     },
     {
       "id": "long_pulley_narrow",
@@ -2034,7 +2208,9 @@
       "source_id": "wger-exercisebase-395",
       "source_url": "https://wger.de (exercise base pk 395)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Remo en polea baja agarre estrecho",
+      "name_fr": "Tirage horizontal prise serrée"
     },
     {
       "id": "mgm_machine",
@@ -2055,7 +2231,9 @@
       "source_id": "wger-exercisebase-414",
       "source_url": "https://wger.de (exercise base pk 414)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Máquina MGM",
+      "name_fr": "Machine MGM"
     },
     {
       "id": "muscle_up",
@@ -2079,7 +2257,9 @@
       "source_id": "wger-exercisebase-423",
       "source_url": "https://wger.de (exercise base pk 423)",
       "license": "CC-BY-SA 4",
-      "credit": "arson"
+      "credit": "arson",
+      "name_es": "Muscle-up",
+      "name_fr": "Muscle-up"
     },
     {
       "id": "pendelay_rows",
@@ -2102,7 +2282,9 @@
       "source_id": "wger-exercisebase-448",
       "source_url": "https://wger.de (exercise base pk 448)",
       "license": "CC-BY-SA 3",
-      "credit": "Nallitnas"
+      "credit": "Nallitnas",
+      "name_es": "Remo Pendlay",
+      "name_fr": "Rowing Pendlay"
     },
     {
       "id": "prone_scapular_retraction_arms_at_side",
@@ -2123,7 +2305,9 @@
       "source_id": "wger-exercisebase-468",
       "source_url": "https://wger.de (exercise base pk 468)",
       "license": "CC-BY-SA 4",
-      "credit": "donaddon"
+      "credit": "donaddon",
+      "name_es": "Retracción escapular boca abajo (brazos a los lados)",
+      "name_fr": "Rétraction scapulaire allongé (bras le long du corps)"
     },
     {
       "id": "pull_ups_on_machine",
@@ -2150,7 +2334,9 @@
       "source_id": "wger-exercisebase-477",
       "source_url": "https://wger.de (exercise base pk 477)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Dominadas asistidas en máquina",
+      "name_fr": "Tractions assistées à la machine"
     },
     {
       "id": "pull_ups",
@@ -2177,7 +2363,9 @@
       "source_id": "wger-exercisebase-475",
       "source_url": "https://wger.de (exercise base pk 475)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Dominadas",
+      "name_fr": "Tractions"
     },
     {
       "id": "rack_deadlift",
@@ -2201,7 +2389,9 @@
       "source_id": "wger-exercisebase-484",
       "source_url": "https://wger.de (exercise base pk 484)",
       "license": "CC-BY-SA 3",
-      "credit": "Mahoney"
+      "credit": "Mahoney",
+      "name_es": "Peso muerto desde soportes",
+      "name_fr": "Soulevé de terre partiel (rack pull)"
     },
     {
       "id": "renegade_row",
@@ -2223,7 +2413,9 @@
       "source_id": "wger-exercisebase-490",
       "source_url": "https://wger.de (exercise base pk 490)",
       "license": "CC0",
-      "credit": "fletchgraham"
+      "credit": "fletchgraham",
+      "name_es": "Remo renegado",
+      "name_fr": "Rowing renégat"
     },
     {
       "id": "row",
@@ -2246,7 +2438,9 @@
       "source_id": "wger-exercisebase-508",
       "source_url": "https://wger.de (exercise base pk 508)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Remo",
+      "name_fr": "Rowing"
     },
     {
       "id": "rowing_lying_on_bench",
@@ -2267,7 +2461,9 @@
       "source_id": "wger-exercisebase-510",
       "source_url": "https://wger.de (exercise base pk 510)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Remo tumbado en banco",
+      "name_fr": "Rowing allongé sur banc"
     },
     {
       "id": "rowing_seated",
@@ -2290,7 +2486,9 @@
       "source_id": "wger-exercisebase-512",
       "source_url": "https://wger.de (exercise base pk 512)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Remo sentado",
+      "name_fr": "Rowing assis"
     },
     {
       "id": "rowing_t_bar",
@@ -2318,7 +2516,9 @@
       "source_id": "wger-exercisebase-513",
       "source_url": "https://wger.de (exercise base pk 513)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Remo en barra T",
+      "name_fr": "Rowing à la barre T"
     },
     {
       "id": "shotgun_row",
@@ -2342,7 +2542,9 @@
       "source_id": "wger-exercisebase-562",
       "source_url": "https://wger.de (exercise base pk 562)",
       "license": "CC-BY-SA 4",
-      "credit": "cal.zabel"
+      "credit": "cal.zabel",
+      "name_es": "Remo shotgun a una mano",
+      "name_fr": "Rowing shotgun à un bras"
     },
     {
       "id": "side_dumbbell_trunk_flexion",
@@ -2363,7 +2565,9 @@
       "source_id": "wger-exercisebase-577",
       "source_url": "https://wger.de (exercise base pk 577)",
       "license": "CC-BY-SA 3",
-      "credit": "GiglioRosso"
+      "credit": "GiglioRosso",
+      "name_es": "Flexión lateral de tronco con mancuerna",
+      "name_fr": "Flexion latérale du tronc à l'haltère"
     },
     {
       "id": "straight_arm_pull_down_bar_attachment",
@@ -2386,7 +2590,9 @@
       "source_id": "wger-exercisebase-628",
       "source_url": "https://wger.de (exercise base pk 628)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Pullover en polea con barra",
+      "name_fr": "Pull-over à la poulie avec barre"
     },
     {
       "id": "straight_arm_pull_down_rope_attachment",
@@ -2409,7 +2615,9 @@
       "source_id": "wger-exercisebase-629",
       "source_url": "https://wger.de (exercise base pk 629)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Pullover en polea con cuerda",
+      "name_fr": "Pull-over à la poulie avec corde"
     },
     {
       "id": "superman",
@@ -2430,7 +2638,9 @@
       "source_id": "wger-exercisebase-636",
       "source_url": "https://wger.de (exercise base pk 636)",
       "license": "CC-BY-SA 4",
-      "credit": "baldurmen"
+      "credit": "baldurmen",
+      "name_es": "Superman",
+      "name_fr": "Superman"
     },
     {
       "id": "underhand_lat_pull_down",
@@ -2453,7 +2663,9 @@
       "source_id": "wger-exercisebase-684",
       "source_url": "https://wger.de (exercise base pk 684)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Jalón al pecho agarre supino",
+      "name_fr": "Tirage vertical prise supination"
     },
     {
       "id": "v_bar_pulldown",
@@ -2472,7 +2684,9 @@
       "source_id": "wger-exercisebase-695",
       "source_url": "https://wger.de (exercise base pk 695)",
       "license": "CC-BY-SA 4",
-      "credit": "apeschel"
+      "credit": "apeschel",
+      "name_es": "Jalón con barra en V",
+      "name_fr": "Tirage vertical barre en V"
     },
     {
       "id": "wall_slides",
@@ -2493,7 +2707,9 @@
       "source_id": "wger-exercisebase-716",
       "source_url": "https://wger.de (exercise base pk 716)",
       "license": "CC-BY-SA 4",
-      "credit": "Whythebigpaws"
+      "credit": "Whythebigpaws",
+      "name_es": "Deslizamientos en pared",
+      "name_fr": "Glissements au mur"
     },
     {
       "id": "wide_grip_pulldown",
@@ -2512,7 +2728,9 @@
       "source_id": "wger-exercisebase-723",
       "source_url": "https://wger.de (exercise base pk 723)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Jalón al pecho agarre ancho",
+      "name_fr": "Tirage vertical prise large"
     },
     {
       "id": "calf_press_using_leg_press_machine",
@@ -2535,7 +2753,9 @@
       "source_id": "wger-exercisebase-146",
       "source_url": "https://wger.de (exercise base pk 146)",
       "license": "CC-BY-SA 4",
-      "credit": "nate303303"
+      "credit": "nate303303",
+      "name_es": "Gemelos en prensa",
+      "name_fr": "Mollets à la presse"
     },
     {
       "id": "calf_raises",
@@ -2556,7 +2776,9 @@
       "source_id": "wger-exercisebase-147",
       "source_url": "https://wger.de (exercise base pk 147)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Elevación de gemelos",
+      "name_fr": "Extensions des mollets"
     },
     {
       "id": "calf_raises_on_hackenschmitt_machine",
@@ -2581,7 +2803,9 @@
       "source_id": "wger-exercisebase-148",
       "source_url": "https://wger.de (exercise base pk 148)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Gemelos en máquina Hack",
+      "name_fr": "Mollets à la machine Hack"
     },
     {
       "id": "sitting_calf_raises",
@@ -2604,7 +2828,9 @@
       "source_id": "wger-exercisebase-590",
       "source_url": "https://wger.de (exercise base pk 590)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Gemelos sentado",
+      "name_fr": "Mollets assis"
     },
     {
       "id": "skipping_standard",
@@ -2624,7 +2850,9 @@
       "source_id": "wger-exercisebase-595",
       "source_url": "https://wger.de (exercise base pk 595)",
       "license": "CC-BY-SA 4",
-      "credit": "Cerin"
+      "credit": "Cerin",
+      "name_es": "Saltar a la comba",
+      "name_fr": "Corde à sauter"
     },
     {
       "id": "standing_calf_raises",
@@ -2648,7 +2876,9 @@
       "source_id": "wger-exercisebase-622",
       "source_url": "https://wger.de (exercise base pk 622)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Gemelos de pie",
+      "name_fr": "Mollets debout"
     },
     {
       "id": "bear_walk",
@@ -2677,7 +2907,9 @@
       "source_id": "wger-exercisebase-57",
       "source_url": "https://wger.de (exercise base pk 57)",
       "license": "CC-BY-SA 4",
-      "credit": "nate303303"
+      "credit": "nate303303",
+      "name_es": "Paso de oso",
+      "name_fr": "Marche de l'ours"
     },
     {
       "id": "bench_press",
@@ -2706,7 +2938,9 @@
       "source_id": "wger-exercisebase-73",
       "source_url": "https://wger.de (exercise base pk 73)",
       "license": "CC-BY-SA 3",
-      "credit": "sistab2"
+      "credit": "sistab2",
+      "name_es": "Press de banca",
+      "name_fr": "Développé couché"
     },
     {
       "id": "benchpress_dumbbells",
@@ -2733,7 +2967,9 @@
       "source_id": "wger-exercisebase-75",
       "source_url": "https://wger.de (exercise base pk 75)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Press de banca con mancuernas",
+      "name_fr": "Développé couché aux haltères"
     },
     {
       "id": "burpees",
@@ -2752,7 +2988,9 @@
       "source_id": "wger-exercisebase-132",
       "source_url": "https://wger.de (exercise base pk 132)",
       "license": "CC-BY-SA 4",
-      "credit": "er0355"
+      "credit": "er0355",
+      "name_es": "Burpees",
+      "name_fr": "Burpees"
     },
     {
       "id": "butterfly",
@@ -2776,7 +3014,9 @@
       "source_id": "wger-exercisebase-135",
       "source_url": "https://wger.de (exercise base pk 135)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Contractor de pecho (butterfly)",
+      "name_fr": "Butterfly (pec deck)"
     },
     {
       "id": "butterfly_narrow_grip",
@@ -2800,7 +3040,9 @@
       "source_id": "wger-exercisebase-137",
       "source_url": "https://wger.de (exercise base pk 137)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Contractor de pecho agarre estrecho",
+      "name_fr": "Butterfly prise serrée"
     },
     {
       "id": "cable_cross_over",
@@ -2822,7 +3064,9 @@
       "source_id": "wger-exercisebase-141",
       "source_url": "https://wger.de (exercise base pk 141)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Cruce de poleas",
+      "name_fr": "Écarté à la poulie vis-à-vis"
     },
     {
       "id": "cross_bench_dumbbell_pullovers",
@@ -2846,7 +3090,9 @@
       "source_id": "wger-exercisebase-161",
       "source_url": "https://wger.de (exercise base pk 161)",
       "license": "CC-BY-SA 3",
-      "credit": "powerade69"
+      "credit": "powerade69",
+      "name_es": "Pullover con mancuerna cruzado en banco",
+      "name_fr": "Pull-over à l'haltère en travers du banc"
     },
     {
       "id": "decline_bench_press_barbell",
@@ -2870,7 +3116,9 @@
       "source_id": "wger-exercisebase-185",
       "source_url": "https://wger.de (exercise base pk 185)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Press declinado con barra",
+      "name_fr": "Développé décliné à la barre"
     },
     {
       "id": "decline_bench_press_dumbbell",
@@ -2893,7 +3141,9 @@
       "source_id": "wger-exercisebase-186",
       "source_url": "https://wger.de (exercise base pk 186)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Press declinado con mancuernas",
+      "name_fr": "Développé décliné aux haltères"
     },
     {
       "id": "decline_pushups",
@@ -2918,7 +3168,9 @@
       "source_id": "wger-exercisebase-188",
       "source_url": "https://wger.de (exercise base pk 188)",
       "license": "CC-BY-SA 3",
-      "credit": "aszc"
+      "credit": "aszc",
+      "name_es": "Flexiones declinadas",
+      "name_fr": "Pompes déclinées"
     },
     {
       "id": "dips_2",
@@ -2938,7 +3190,9 @@
       "source_id": "wger-exercisebase-194",
       "source_url": "https://wger.de (exercise base pk 194)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Fondos (pecho)",
+      "name_fr": "Dips (pectoraux)"
     },
     {
       "id": "extenseurs_face",
@@ -2957,7 +3211,9 @@
       "source_id": "wger-exercisebase-221",
       "source_url": "https://wger.de (exercise base pk 221)",
       "license": "CC-BY-SA 4",
-      "credit": "geantvert"
+      "credit": "geantvert",
+      "name_es": "Extensores frontales",
+      "name_fr": "Extenseurs - face"
     },
     {
       "id": "fly_with_cable",
@@ -2978,7 +3234,9 @@
       "source_id": "wger-exercisebase-237",
       "source_url": "https://wger.de (exercise base pk 237)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Aperturas en polea",
+      "name_fr": "Écarté à la poulie"
     },
     {
       "id": "fly_with_dumbbells",
@@ -3002,7 +3260,9 @@
       "source_id": "wger-exercisebase-238",
       "source_url": "https://wger.de (exercise base pk 238)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Aperturas con mancuernas",
+      "name_fr": "Écarté couché aux haltères"
     },
     {
       "id": "fly_with_dumbbells_decline_bench",
@@ -3026,7 +3286,9 @@
       "source_id": "wger-exercisebase-239",
       "source_url": "https://wger.de (exercise base pk 239)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Aperturas con mancuernas en banco declinado",
+      "name_fr": "Écarté aux haltères sur banc décliné"
     },
     {
       "id": "incline_bench_press",
@@ -3047,7 +3309,9 @@
       "source_id": "wger-exercisebase-305",
       "source_url": "https://wger.de (exercise base pk 305)",
       "license": "CC-BY-SA 3",
-      "credit": "Mahoney"
+      "credit": "Mahoney",
+      "name_es": "Press inclinado con barra",
+      "name_fr": "Développé incliné à la barre"
     },
     {
       "id": "incline_dumbbell_flye",
@@ -3068,7 +3332,9 @@
       "source_id": "wger-exercisebase-308",
       "source_url": "https://wger.de (exercise base pk 308)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Aperturas inclinadas con mancuernas",
+      "name_fr": "Écarté incliné aux haltères"
     },
     {
       "id": "incline_dumbbell_press",
@@ -3087,7 +3353,9 @@
       "source_id": "wger-exercisebase-309",
       "source_url": "https://wger.de (exercise base pk 309)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Press inclinado con mancuernas",
+      "name_fr": "Développé incliné aux haltères"
     },
     {
       "id": "incline_pushups",
@@ -3108,7 +3376,9 @@
       "source_id": "wger-exercisebase-313",
       "source_url": "https://wger.de (exercise base pk 313)",
       "license": "CC-BY-SA 3",
-      "credit": "kwrindy"
+      "credit": "kwrindy",
+      "name_es": "Flexiones inclinadas",
+      "name_fr": "Pompes inclinées"
     },
     {
       "id": "isometric_wipers",
@@ -3132,7 +3402,9 @@
       "source_id": "wger-exercisebase-314",
       "source_url": "https://wger.de (exercise base pk 314)",
       "license": "CC-BY-SA 4",
-      "credit": "cal.zabel"
+      "credit": "cal.zabel",
+      "name_es": "Limpiaparabrisas isométrico",
+      "name_fr": "Essuie-glaces isométriques"
     },
     {
       "id": "leverage_machine_chest_press",
@@ -3151,7 +3423,9 @@
       "source_id": "wger-exercisebase-379",
       "source_url": "https://wger.de (exercise base pk 379)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Press de pecho en máquina",
+      "name_fr": "Développé pectoraux à la machine"
     },
     {
       "id": "pause_bench",
@@ -3175,7 +3449,9 @@
       "source_id": "wger-exercisebase-445",
       "source_url": "https://wger.de (exercise base pk 445)",
       "license": "CC0",
-      "credit": "Mens Fitness"
+      "credit": "Mens Fitness",
+      "name_es": "Press de banca con pausa",
+      "name_fr": "Développé couché avec pause"
     },
     {
       "id": "perfect_push_up",
@@ -3194,7 +3470,9 @@
       "source_id": "wger-exercisebase-450",
       "source_url": "https://wger.de (exercise base pk 450)",
       "license": "CC-BY-SA 3",
-      "credit": "OGhTebfCxhexZXuf35mUxV9C--A"
+      "credit": "OGhTebfCxhexZXuf35mUxV9C--A",
+      "name_es": "Flexión perfecta",
+      "name_fr": "Pompe parfaite"
     },
     {
       "id": "pushups",
@@ -3218,7 +3496,9 @@
       "source_id": "wger-exercisebase-480",
       "source_url": "https://wger.de (exercise base pk 480)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Flexiones (pecho)",
+      "name_fr": "Pompes (pectoraux)"
     },
     {
       "id": "reverse_grip_bench_press",
@@ -3239,7 +3519,9 @@
       "source_id": "wger-exercisebase-498",
       "source_url": "https://wger.de (exercise base pk 498)",
       "license": "CC-BY-SA 4",
-      "credit": "bl0sh"
+      "credit": "bl0sh",
+      "name_es": "Press de banca agarre invertido",
+      "name_fr": "Développé couché prise inversée"
     },
     {
       "id": "side_to_side_push_ups",
@@ -3258,7 +3540,9 @@
       "source_id": "wger-exercisebase-583",
       "source_url": "https://wger.de (exercise base pk 583)",
       "license": "CC-BY-SA 4",
-      "credit": "nate303303"
+      "credit": "nate303303",
+      "name_es": "Flexiones de lado a lado",
+      "name_fr": "Pompes latérales alternées"
     },
     {
       "id": "upper_body",
@@ -3281,7 +3565,9 @@
       "source_id": "wger-exercisebase-687",
       "source_url": "https://wger.de (exercise base pk 687)",
       "license": "CC-BY-SA 4",
-      "credit": "Vazco"
+      "credit": "Vazco",
+      "name_es": "Tren superior",
+      "name_fr": "Haut du corps"
     },
     {
       "id": "upper_external_oblique",
@@ -3300,7 +3586,9 @@
       "source_id": "wger-exercisebase-688",
       "source_url": "https://wger.de (exercise base pk 688)",
       "license": "CC-BY-SA 3",
-      "credit": "http://www.carinatum.com/"
+      "credit": "http://www.carinatum.com/",
+      "name_es": "Oblicuo externo superior",
+      "name_fr": "Oblique externe supérieur"
     },
     {
       "id": "back_squat",
@@ -3324,7 +3612,9 @@
       "source_id": "wger-exercisebase-34",
       "source_url": "https://wger.de (exercise base pk 34)",
       "license": "CC-BY-SA 4",
-      "credit": "axel"
+      "credit": "axel",
+      "name_es": "Sentadilla trasera",
+      "name_fr": "Squat arrière"
     },
     {
       "id": "barbell_hack_squats",
@@ -3345,7 +3635,9 @@
       "source_id": "wger-exercisebase-43",
       "source_url": "https://wger.de (exercise base pk 43)",
       "license": "CC-BY-SA 4",
-      "credit": "BePieToday"
+      "credit": "BePieToday",
+      "name_es": "Sentadilla hack con barra",
+      "name_fr": "Hack squat à la barre"
     },
     {
       "id": "barbell_lunges",
@@ -3370,7 +3662,9 @@
       "source_id": "wger-exercisebase-46",
       "source_url": "https://wger.de (exercise base pk 46)",
       "license": "CC-BY-SA 4",
-      "credit": "Mikko Ruohola"
+      "credit": "Mikko Ruohola",
+      "name_es": "Zancadas con barra",
+      "name_fr": "Fentes à la barre"
     },
     {
       "id": "braced_squat",
@@ -3395,7 +3689,9 @@
       "source_id": "wger-exercisebase-124",
       "source_url": "https://wger.de (exercise base pk 124)",
       "license": "CC-BY-SA 4",
-      "credit": "sevae"
+      "credit": "sevae",
+      "name_es": "Sentadilla con disco al pecho",
+      "name_fr": "Squat avec disque contre la poitrine"
     },
     {
       "id": "cycling",
@@ -3422,7 +3718,9 @@
       "source_id": "wger-exercisebase-177",
       "source_url": "https://wger.de (exercise base pk 177)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Ciclismo",
+      "name_fr": "Vélo"
     },
     {
       "id": "dumbbell_goblet_squat",
@@ -3446,7 +3744,9 @@
       "source_id": "wger-exercisebase-203",
       "source_url": "https://wger.de (exercise base pk 203)",
       "license": "CC-BY-SA 4",
-      "credit": "ataraxie67"
+      "credit": "ataraxie67",
+      "name_es": "Sentadilla goblet con mancuerna",
+      "name_fr": "Goblet squat à l'haltère"
     },
     {
       "id": "dumbbell_lunges_standing",
@@ -3472,7 +3772,9 @@
       "source_id": "wger-exercisebase-205",
       "source_url": "https://wger.de (exercise base pk 205)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Zancadas con mancuernas en el sitio",
+      "name_fr": "Fentes sur place aux haltères"
     },
     {
       "id": "dumbbell_lunges_walking",
@@ -3498,7 +3800,9 @@
       "source_id": "wger-exercisebase-206",
       "source_url": "https://wger.de (exercise base pk 206)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Zancadas caminando con mancuernas",
+      "name_fr": "Fentes marchées aux haltères"
     },
     {
       "id": "front_squats",
@@ -3521,7 +3825,9 @@
       "source_id": "wger-exercisebase-257",
       "source_url": "https://wger.de (exercise base pk 257)",
       "license": "CC-BY-SA 3",
-      "credit": "sistab2"
+      "credit": "sistab2",
+      "name_es": "Sentadilla frontal",
+      "name_fr": "Squat avant"
     },
     {
       "id": "glute_bridge",
@@ -3544,7 +3850,9 @@
       "source_id": "wger-exercisebase-265",
       "source_url": "https://wger.de (exercise base pk 265)",
       "license": "CC-BY-SA 4",
-      "credit": "tdprice12"
+      "credit": "tdprice12",
+      "name_es": "Puente de glúteos",
+      "name_fr": "Pont fessier"
     },
     {
       "id": "good_mornings",
@@ -3565,7 +3873,9 @@
       "source_id": "wger-exercisebase-268",
       "source_url": "https://wger.de (exercise base pk 268)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Buenos días con barra",
+      "name_fr": "Good morning"
     },
     {
       "id": "high_knee_jumps",
@@ -3591,7 +3901,9 @@
       "source_id": "wger-exercisebase-285",
       "source_url": "https://wger.de (exercise base pk 285)",
       "license": "CC-BY-SA 4",
-      "credit": "nate303303"
+      "credit": "nate303303",
+      "name_es": "Saltos con rodillas al pecho",
+      "name_fr": "Sauts genoux hauts"
     },
     {
       "id": "high_knees",
@@ -3612,7 +3924,9 @@
       "source_id": "wger-exercisebase-288",
       "source_url": "https://wger.de (exercise base pk 288)",
       "license": "CC0",
-      "credit": "BNolet"
+      "credit": "BNolet",
+      "name_es": "Rodillas arriba",
+      "name_fr": "Montées de genoux"
     },
     {
       "id": "hindu_squats",
@@ -3636,7 +3950,9 @@
       "source_id": "wger-exercisebase-291",
       "source_url": "https://wger.de (exercise base pk 291)",
       "license": "CC-BY-SA 4",
-      "credit": "Vilhelmo"
+      "credit": "Vilhelmo",
+      "name_es": "Sentadillas hindúes",
+      "name_fr": "Squats hindous"
     },
     {
       "id": "hip_thrust",
@@ -3660,7 +3976,9 @@
       "source_id": "wger-exercisebase-294",
       "source_url": "https://wger.de (exercise base pk 294)",
       "license": "CC-BY-SA 4",
-      "credit": "Bret Contreras"
+      "credit": "Bret Contreras",
+      "name_es": "Hip thrust (empuje de cadera)",
+      "name_fr": "Hip thrust"
     },
     {
       "id": "jogging",
@@ -3679,7 +3997,9 @@
       "source_id": "wger-exercisebase-319",
       "source_url": "https://wger.de (exercise base pk 319)",
       "license": "CC-BY-SA 4",
-      "credit": "Papazit"
+      "credit": "Papazit",
+      "name_es": "Trotar",
+      "name_fr": "Footing"
     },
     {
       "id": "jumping_jacks",
@@ -3698,7 +4018,9 @@
       "source_id": "wger-exercisebase-320",
       "source_url": "https://wger.de (exercise base pk 320)",
       "license": "CC-BY-SA 4",
-      "credit": "student1234"
+      "credit": "student1234",
+      "name_es": "Saltos de tijera (jumping jacks)",
+      "name_fr": "Jumping jacks"
     },
     {
       "id": "kettlebell_swings",
@@ -3724,7 +4046,9 @@
       "source_id": "wger-exercisebase-331",
       "source_url": "https://wger.de (exercise base pk 331)",
       "license": "CC-BY-SA 3",
-      "credit": "J120290,cerin"
+      "credit": "J120290,cerin",
+      "name_es": "Swing con kettlebell",
+      "name_fr": "Swing kettlebell"
     },
     {
       "id": "leg_curl",
@@ -3745,7 +4069,9 @@
       "source_id": "wger-exercisebase-364",
       "source_url": "https://wger.de (exercise base pk 364)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Curl femoral",
+      "name_fr": "Leg curl"
     },
     {
       "id": "leg_curls_laying",
@@ -3769,7 +4095,9 @@
       "source_id": "wger-exercisebase-365",
       "source_url": "https://wger.de (exercise base pk 365)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Curl femoral tumbado",
+      "name_fr": "Leg curl allongé"
     },
     {
       "id": "leg_curls_sitting",
@@ -3790,7 +4118,9 @@
       "source_id": "wger-exercisebase-366",
       "source_url": "https://wger.de (exercise base pk 366)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Curl femoral sentado",
+      "name_fr": "Leg curl assis"
     },
     {
       "id": "leg_curls_standing",
@@ -3813,7 +4143,9 @@
       "source_id": "wger-exercisebase-367",
       "source_url": "https://wger.de (exercise base pk 367)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Curl femoral de pie",
+      "name_fr": "Leg curl debout"
     },
     {
       "id": "leg_extension_1",
@@ -3837,7 +4169,9 @@
       "source_id": "wger-exercisebase-368",
       "source_url": "https://wger.de (exercise base pk 368)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Extensión de cuádriceps",
+      "name_fr": "Leg extension"
     },
     {
       "id": "leg_extension_2",
@@ -3861,7 +4195,9 @@
       "source_id": "wger-exercisebase-369",
       "source_url": "https://wger.de (exercise base pk 369)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Extensión de cuádriceps (variante)",
+      "name_fr": "Leg extension (variante)"
     },
     {
       "id": "leg_extension_3",
@@ -3882,7 +4218,9 @@
       "source_id": "wger-exercisebase-370",
       "source_url": "https://wger.de (exercise base pk 370)",
       "license": "CC-BY-SA 3",
-      "credit": "kwrindy"
+      "credit": "kwrindy",
+      "name_es": "Extensión de cuádriceps (máquina)",
+      "name_fr": "Leg extension (machine)"
     },
     {
       "id": "leg_press",
@@ -3903,7 +4241,9 @@
       "source_id": "wger-exercisebase-371",
       "source_url": "https://wger.de (exercise base pk 371)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Prensa de piernas",
+      "name_fr": "Presse à cuisses"
     },
     {
       "id": "leg_press_on_hackenschmidt_machine",
@@ -3926,7 +4266,9 @@
       "source_id": "wger-exercisebase-375",
       "source_url": "https://wger.de (exercise base pk 375)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Prensa en máquina Hack",
+      "name_fr": "Presse à la machine Hack"
     },
     {
       "id": "leg_presses_narrow",
@@ -3953,7 +4295,9 @@
       "source_id": "wger-exercisebase-373",
       "source_url": "https://wger.de (exercise base pk 373)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Prensa de piernas pies juntos",
+      "name_fr": "Presse à cuisses pieds serrés"
     },
     {
       "id": "leg_presses_wide",
@@ -3978,7 +4322,9 @@
       "source_id": "wger-exercisebase-374",
       "source_url": "https://wger.de (exercise base pk 374)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Prensa de piernas pies abiertos",
+      "name_fr": "Presse à cuisses pieds écartés"
     },
     {
       "id": "leg_raise",
@@ -3998,7 +4344,9 @@
       "source_id": "wger-exercisebase-376",
       "source_url": "https://wger.de (exercise base pk 376)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Elevación de piernas",
+      "name_fr": "Relevé de jambes"
     },
     {
       "id": "low_box_squat_wide_stance",
@@ -4021,7 +4369,9 @@
       "source_id": "wger-exercisebase-397",
       "source_url": "https://wger.de (exercise base pk 397)",
       "license": "CC-BY-SA 4",
-      "credit": "taylorbarbell"
+      "credit": "taylorbarbell",
+      "name_es": "Sentadilla a cajón bajo con apertura amplia",
+      "name_fr": "Box squat bas en écart large"
     },
     {
       "id": "overhead_squat",
@@ -4040,7 +4390,9 @@
       "source_id": "wger-exercisebase-441",
       "source_url": "https://wger.de (exercise base pk 441)",
       "license": "CC-BY-SA 4",
-      "credit": "geraldbaeck"
+      "credit": "geraldbaeck",
+      "name_es": "Sentadilla con barra sobre la cabeza",
+      "name_fr": "Squat bras tendus au-dessus de la tête"
     },
     {
       "id": "pistol_squat",
@@ -4065,7 +4417,9 @@
       "source_id": "wger-exercisebase-456",
       "source_url": "https://wger.de (exercise base pk 456)",
       "license": "CC-BY-SA 3",
-      "credit": "minifigmaster125"
+      "credit": "minifigmaster125",
+      "name_es": "Sentadilla pistol (a una pierna)",
+      "name_fr": "Pistol squat"
     },
     {
       "id": "romanian_deadlift",
@@ -4084,7 +4438,9 @@
       "source_id": "wger-exercisebase-507",
       "source_url": "https://wger.de (exercise base pk 507)",
       "license": "CC-BY-SA 4",
-      "credit": "pjwirth"
+      "credit": "pjwirth",
+      "name_es": "Peso muerto rumano",
+      "name_fr": "Soulevé de terre roumain"
     },
     {
       "id": "run",
@@ -4103,7 +4459,9 @@
       "source_id": "wger-exercisebase-527",
       "source_url": "https://wger.de (exercise base pk 527)",
       "license": "CC-BY-SA 4",
-      "credit": "BeLikeWater"
+      "credit": "BeLikeWater",
+      "name_es": "Correr",
+      "name_fr": "Course"
     },
     {
       "id": "run_interval_training",
@@ -4122,7 +4480,9 @@
       "source_id": "wger-exercisebase-529",
       "source_url": "https://wger.de (exercise base pk 529)",
       "license": "CC-BY-SA 4",
-      "credit": "BeLikeWater"
+      "credit": "BeLikeWater",
+      "name_es": "Correr por intervalos",
+      "name_fr": "Course fractionnée"
     },
     {
       "id": "run_treadmill",
@@ -4141,7 +4501,9 @@
       "source_id": "wger-exercisebase-530",
       "source_url": "https://wger.de (exercise base pk 530)",
       "license": "CC-BY-SA 3",
-      "credit": "foguinho.peruca"
+      "credit": "foguinho.peruca",
+      "name_es": "Correr en cinta",
+      "name_fr": "Course sur tapis"
     },
     {
       "id": "speed_deadlift",
@@ -4160,7 +4522,9 @@
       "source_id": "wger-exercisebase-604",
       "source_url": "https://wger.de (exercise base pk 604)",
       "license": "CC-BY-SA 4",
-      "credit": "MrSteele"
+      "credit": "MrSteele",
+      "name_es": "Peso muerto explosivo",
+      "name_fr": "Soulevé de terre de vitesse"
     },
     {
       "id": "squat_jumps",
@@ -4181,7 +4545,9 @@
       "source_id": "wger-exercisebase-614",
       "source_url": "https://wger.de (exercise base pk 614)",
       "license": "CC-BY-SA 3",
-      "credit": "OGhTebfCxhexZXuf35mUxV9C--A"
+      "credit": "OGhTebfCxhexZXuf35mUxV9C--A",
+      "name_es": "Sentadillas con salto",
+      "name_fr": "Squats sautés"
     },
     {
       "id": "squat_thrust",
@@ -4205,7 +4571,9 @@
       "source_id": "wger-exercisebase-616",
       "source_url": "https://wger.de (exercise base pk 616)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Squat thrust",
+      "name_fr": "Squat thrust"
     },
     {
       "id": "squats",
@@ -4232,7 +4600,9 @@
       "source_id": "wger-exercisebase-615",
       "source_url": "https://wger.de (exercise base pk 615)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Sentadillas",
+      "name_fr": "Squats"
     },
     {
       "id": "stationary_bike",
@@ -4251,7 +4621,9 @@
       "source_id": "wger-exercisebase-624",
       "source_url": "https://wger.de (exercise base pk 624)",
       "license": "CC-BY-SA 4",
-      "credit": "intelman"
+      "credit": "intelman",
+      "name_es": "Bicicleta estática",
+      "name_fr": "Vélo d'appartement"
     },
     {
       "id": "stiff_legged_deadlifts",
@@ -4272,7 +4644,9 @@
       "source_id": "wger-exercisebase-627",
       "source_url": "https://wger.de (exercise base pk 627)",
       "license": "CC-BY-SA 3",
-      "credit": "tuckerm"
+      "credit": "tuckerm",
+      "name_es": "Peso muerto con piernas rígidas",
+      "name_fr": "Soulevé de terre jambes tendues"
     },
     {
       "id": "sumo_deadlift",
@@ -4296,7 +4670,9 @@
       "source_id": "wger-exercisebase-630",
       "source_url": "https://wger.de (exercise base pk 630)",
       "license": "CC-BY-SA 4",
-      "credit": "magdy"
+      "credit": "magdy",
+      "name_es": "Peso muerto sumo",
+      "name_fr": "Soulevé de terre sumo"
     },
     {
       "id": "sumo_squats",
@@ -4320,7 +4696,9 @@
       "source_id": "wger-exercisebase-632",
       "source_url": "https://wger.de (exercise base pk 632)",
       "license": "CC-BY-SA 4",
-      "credit": "sophialj"
+      "credit": "sophialj",
+      "name_es": "Sentadilla sumo",
+      "name_fr": "Squat sumo"
     },
     {
       "id": "thruster",
@@ -4344,7 +4722,9 @@
       "source_id": "wger-exercisebase-650",
       "source_url": "https://wger.de (exercise base pk 650)",
       "license": "CC0",
-      "credit": "BeLikeWater"
+      "credit": "BeLikeWater",
+      "name_es": "Thruster",
+      "name_fr": "Thruster"
     },
     {
       "id": "wall_squat",
@@ -4366,7 +4746,9 @@
       "source_id": "wger-exercisebase-718",
       "source_url": "https://wger.de (exercise base pk 718)",
       "license": "CC0",
-      "credit": "Blablabla"
+      "credit": "Blablabla",
+      "name_es": "Sentadilla isométrica en pared",
+      "name_fr": "Chaise au mur"
     },
     {
       "id": "weighted_step",
@@ -4385,7 +4767,9 @@
       "source_id": "wger-exercisebase-721",
       "source_url": "https://wger.de (exercise base pk 721)",
       "license": "CC-BY-SA 4",
-      "credit": "jigglychipmunk"
+      "credit": "jigglychipmunk",
+      "name_es": "Step con peso",
+      "name_fr": "Step lesté"
     },
     {
       "id": "weighted_step_ups",
@@ -4404,7 +4788,9 @@
       "source_id": "wger-exercisebase-722",
       "source_url": "https://wger.de (exercise base pk 722)",
       "license": "CC0",
-      "credit": "jigglychipmunk"
+      "credit": "jigglychipmunk",
+      "name_es": "Subidas al cajón con peso",
+      "name_fr": "Montées sur banc lestées"
     },
     {
       "id": "arnold_shoulder_press",
@@ -4426,7 +4812,9 @@
       "source_id": "wger-exercisebase-20",
       "source_url": "https://wger.de (exercise base pk 20)",
       "license": "CC-BY-SA 3",
-      "credit": "trzr23"
+      "credit": "trzr23",
+      "name_es": "Press Arnold",
+      "name_fr": "Développé Arnold"
     },
     {
       "id": "bent_high_pulls",
@@ -4446,7 +4834,9 @@
       "source_id": "wger-exercisebase-79",
       "source_url": "https://wger.de (exercise base pk 79)",
       "license": "CC-BY-SA 3",
-      "credit": "lakerbeezel"
+      "credit": "lakerbeezel",
+      "name_es": "Remo alto inclinado",
+      "name_fr": "Tirage haut buste penché"
     },
     {
       "id": "bent_over_lateral_raises",
@@ -4469,7 +4859,9 @@
       "source_id": "wger-exercisebase-82",
       "source_url": "https://wger.de (exercise base pk 82)",
       "license": "CC-BY-SA 4",
-      "credit": "apeschel"
+      "credit": "apeschel",
+      "name_es": "Elevaciones laterales inclinado",
+      "name_fr": "Élévations latérales buste penché"
     },
     {
       "id": "butterfly_reverse",
@@ -4490,7 +4882,9 @@
       "source_id": "wger-exercisebase-139",
       "source_url": "https://wger.de (exercise base pk 139)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Contractor inverso (deltoides posterior)",
+      "name_fr": "Butterfly inversé"
     },
     {
       "id": "cable_external_rotation",
@@ -4512,7 +4906,9 @@
       "source_id": "wger-exercisebase-142",
       "source_url": "https://wger.de (exercise base pk 142)",
       "license": "CC-BY-SA 3",
-      "credit": "lauroernesto"
+      "credit": "lauroernesto",
+      "name_es": "Rotación externa en polea",
+      "name_fr": "Rotation externe à la poulie"
     },
     {
       "id": "diagonal_shoulder_press",
@@ -4536,7 +4932,9 @@
       "source_id": "wger-exercisebase-193",
       "source_url": "https://wger.de (exercise base pk 193)",
       "license": "CC-BY-SA 4",
-      "credit": "oboema"
+      "credit": "oboema",
+      "name_es": "Press de hombro diagonal",
+      "name_fr": "Développé épaules en diagonale"
     },
     {
       "id": "facepull",
@@ -4562,7 +4960,9 @@
       "source_id": "wger-exercisebase-222",
       "source_url": "https://wger.de (exercise base pk 222)",
       "license": "CC-BY-SA 4",
-      "credit": "abeworld"
+      "credit": "abeworld",
+      "name_es": "Face pull",
+      "name_fr": "Face pull"
     },
     {
       "id": "front_raises",
@@ -4589,7 +4989,9 @@
       "source_id": "wger-exercisebase-256",
       "source_url": "https://wger.de (exercise base pk 256)",
       "license": "CC-BY-SA 3",
-      "credit": "Manu, wikipedia"
+      "credit": "Manu, wikipedia",
+      "name_es": "Elevaciones frontales",
+      "name_fr": "Élévations frontales"
     },
     {
       "id": "handstand_pushup",
@@ -4611,7 +5013,9 @@
       "source_id": "wger-exercisebase-282",
       "source_url": "https://wger.de (exercise base pk 282)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Flexiones en pino",
+      "name_fr": "Pompes en équilibre"
     },
     {
       "id": "high_pull",
@@ -4634,7 +5038,9 @@
       "source_id": "wger-exercisebase-289",
       "source_url": "https://wger.de (exercise base pk 289)",
       "license": "CC-BY-SA 3",
-      "credit": "Mahoney"
+      "credit": "Mahoney",
+      "name_es": "Remo alto",
+      "name_fr": "Tirage haut"
     },
     {
       "id": "lateral_raises",
@@ -4657,7 +5063,9 @@
       "source_id": "wger-exercisebase-348",
       "source_url": "https://wger.de (exercise base pk 348)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Elevaciones laterales",
+      "name_fr": "Élévations latérales"
     },
     {
       "id": "lateral_raises_on_cable_one_armed",
@@ -4680,7 +5088,9 @@
       "source_id": "wger-exercisebase-349",
       "source_url": "https://wger.de (exercise base pk 349)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Elevación lateral en polea a una mano",
+      "name_fr": "Élévation latérale à la poulie à un bras"
     },
     {
       "id": "lateral_to_front_raises",
@@ -4704,7 +5114,9 @@
       "source_id": "wger-exercisebase-351",
       "source_url": "https://wger.de (exercise base pk 351)",
       "license": "CC-BY-SA 4",
-      "credit": "nate303303"
+      "credit": "nate303303",
+      "name_es": "Elevaciones laterales a frontales",
+      "name_fr": "Élévations latérales vers frontales"
     },
     {
       "id": "lying_rotator_cuff_exercise",
@@ -4728,7 +5140,9 @@
       "source_id": "wger-exercisebase-406",
       "source_url": "https://wger.de (exercise base pk 406)",
       "license": "CC-BY-SA 4",
-      "credit": "Trix"
+      "credit": "Trix",
+      "name_es": "Ejercicio de manguito rotador tumbado",
+      "name_fr": "Exercice de la coiffe des rotateurs allongé"
     },
     {
       "id": "military_press_2",
@@ -4754,7 +5168,9 @@
       "source_id": "wger-exercisebase-416",
       "source_url": "https://wger.de (exercise base pk 416)",
       "license": "CC-BY-SA 3",
-      "credit": "Wikipedia"
+      "credit": "Wikipedia",
+      "name_es": "Press militar (de pie)",
+      "name_fr": "Développé militaire (debout)"
     },
     {
       "id": "power_clean",
@@ -4775,7 +5191,9 @@
       "source_id": "wger-exercisebase-463",
       "source_url": "https://wger.de (exercise base pk 463)",
       "license": "CC-BY-SA 3",
-      "credit": "sistab2"
+      "credit": "sistab2",
+      "name_es": "Cargada de potencia",
+      "name_fr": "Épaulé en puissance"
     },
     {
       "id": "push_press",
@@ -4796,7 +5214,9 @@
       "source_id": "wger-exercisebase-478",
       "source_url": "https://wger.de (exercise base pk 478)",
       "license": "CC-BY-SA 3",
-      "credit": "sistab2"
+      "credit": "sistab2",
+      "name_es": "Push press",
+      "name_fr": "Push press"
     },
     {
       "id": "rear_delt_raises",
@@ -4815,7 +5235,9 @@
       "source_id": "wger-exercisebase-487",
       "source_url": "https://wger.de (exercise base pk 487)",
       "license": "CC-BY-SA 3",
-      "credit": "YYCfit"
+      "credit": "YYCfit",
+      "name_es": "Elevaciones para deltoides posterior",
+      "name_fr": "Élévations deltoïdes postérieurs"
     },
     {
       "id": "shoulder_fly",
@@ -4839,7 +5261,9 @@
       "source_id": "wger-exercisebase-564",
       "source_url": "https://wger.de (exercise base pk 564)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Aperturas de hombro",
+      "name_fr": "Écarté épaules"
     },
     {
       "id": "shoulder_press_barbell",
@@ -4863,7 +5287,9 @@
       "source_id": "wger-exercisebase-566",
       "source_url": "https://wger.de (exercise base pk 566)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Press de hombro con barra",
+      "name_fr": "Développé épaules à la barre"
     },
     {
       "id": "shoulder_press_dumbbells",
@@ -4887,7 +5313,9 @@
       "source_id": "wger-exercisebase-567",
       "source_url": "https://wger.de (exercise base pk 567)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Press de hombro con mancuernas",
+      "name_fr": "Développé épaules aux haltères"
     },
     {
       "id": "shoulder_press_on_machine",
@@ -4908,7 +5336,9 @@
       "source_id": "wger-exercisebase-568",
       "source_url": "https://wger.de (exercise base pk 568)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Press de hombro en máquina",
+      "name_fr": "Développé épaules à la machine"
     },
     {
       "id": "shoulder_press_on_multi_press",
@@ -4930,7 +5360,9 @@
       "source_id": "wger-exercisebase-569",
       "source_url": "https://wger.de (exercise base pk 569)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Press de hombro en Smith",
+      "name_fr": "Développé épaules à la Smith"
     },
     {
       "id": "shoulder_shrug",
@@ -4952,7 +5384,9 @@
       "source_id": "wger-exercisebase-570",
       "source_url": "https://wger.de (exercise base pk 570)",
       "license": "CC0",
-      "credit": "BFad07"
+      "credit": "BFad07",
+      "name_es": "Encogimiento de hombros",
+      "name_fr": "Haussement d'épaules"
     },
     {
       "id": "shrugs_barbells",
@@ -4976,7 +5410,9 @@
       "source_id": "wger-exercisebase-571",
       "source_url": "https://wger.de (exercise base pk 571)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Encogimientos con barra",
+      "name_fr": "Shrugs à la barre"
     },
     {
       "id": "shrugs_dumbbells",
@@ -5000,7 +5436,9 @@
       "source_id": "wger-exercisebase-572",
       "source_url": "https://wger.de (exercise base pk 572)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Encogimientos con mancuernas",
+      "name_fr": "Shrugs aux haltères"
     },
     {
       "id": "side_raise",
@@ -5023,7 +5461,9 @@
       "source_id": "wger-exercisebase-581",
       "source_url": "https://wger.de (exercise base pk 581)",
       "license": "CC0",
-      "credit": "tobahl"
+      "credit": "tobahl",
+      "name_es": "Elevación lateral",
+      "name_fr": "Élévation latérale"
     },
     {
       "id": "side_lying_external_rotation",
@@ -5047,7 +5487,9 @@
       "source_id": "wger-exercisebase-578",
       "source_url": "https://wger.de (exercise base pk 578)",
       "license": "CC-BY-SA 4",
-      "credit": "apeschel"
+      "credit": "apeschel",
+      "name_es": "Rotación externa tumbado de lado",
+      "name_fr": "Rotation externe couché sur le côté"
     },
     {
       "id": "snach",
@@ -5069,7 +5511,9 @@
       "source_id": "wger-exercisebase-599",
       "source_url": "https://wger.de (exercise base pk 599)",
       "license": "CC0",
-      "credit": "Mens Fitness"
+      "credit": "Mens Fitness",
+      "name_es": "Arrancada",
+      "name_fr": "Arraché"
     },
     {
       "id": "upright_row_w_dumbbells",
@@ -5091,7 +5535,9 @@
       "source_id": "wger-exercisebase-694",
       "source_url": "https://wger.de (exercise base pk 694)",
       "license": "CC-BY-SA 4",
-      "credit": "koreyhinton"
+      "credit": "koreyhinton",
+      "name_es": "Remo al mentón con mancuernas",
+      "name_fr": "Tirage menton aux haltères"
     },
     {
       "id": "upright_row_on_multi_press",
@@ -5116,7 +5562,9 @@
       "source_id": "wger-exercisebase-691",
       "source_url": "https://wger.de (exercise base pk 691)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Remo al mentón en Smith",
+      "name_fr": "Tirage menton à la Smith"
     },
     {
       "id": "upright_row_sz_bar",
@@ -5141,7 +5589,9 @@
       "source_id": "wger-exercisebase-693",
       "source_url": "https://wger.de (exercise base pk 693)",
       "license": "CC-BY-SA 3",
-      "credit": "wger.de"
+      "credit": "wger.de",
+      "name_es": "Remo al mentón con barra Z",
+      "name_fr": "Tirage menton à la barre EZ"
     },
     {
       "id": "wall_handstand",
@@ -5160,7 +5610,9 @@
       "source_id": "wger-exercisebase-711",
       "source_url": "https://wger.de (exercise base pk 711)",
       "license": "CC-BY-SA 4",
-      "credit": "Nash"
+      "credit": "Nash",
+      "name_es": "Pino en pared",
+      "name_fr": "Équilibre contre le mur"
     }
   ]
 }

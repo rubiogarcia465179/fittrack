@@ -1,24 +1,29 @@
-/** Calendario de actividad (pestaña Resumen): meses completos con cada día
- *  verde (entrenaste) o rojo suave (no entrenaste), anillo en el día de hoy y
- *  navegación mes a mes. Celdas grandes y tapables, auto-adaptadas al ancho. */
+/** Calendario de actividad (Inicio) — estilo X, monocromo y simple:
+ *  - Cabecera ligera: mes a la izquierda; "Hoy" (si no es el mes actual) y
+ *    flechas a la derecha.
+ *  - Semana de lunes a domingo, iniciales en gris.
+ *  - Día entrenado: círculo blanco con número negro. Hoy: anillo blanco.
+ *    Resto: número gris. Debajo, una leyenda mínima.
+ *  Celdas auto-adaptadas al ancho real (onLayout). */
 import { useMemo, useState } from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
-import { RADII } from '../theme';
 import { useTheme } from '../theme-context';
-import { useScale, fs } from '../scale';
+import { Chevron } from './Chevron';
 
 const MONTH_NAMES: Record<string, string[]> = {
   en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-  es: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
-  fr: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
-  nl: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+  es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+  fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+  nl: ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'],
 };
+/** Lunes primero. */
 const WEEKDAYS: Record<string, string[]> = {
-  en: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-  es: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-  fr: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
-  nl: ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za'],
+  en: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+  es: ['L', 'M', 'X', 'J', 'V', 'S', 'D'],
+  fr: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+  nl: ['M', 'D', 'W', 'D', 'V', 'Z', 'Z'],
 };
+const LEGEND: Record<string, string> = { en: 'Workout day', es: 'Día entrenado', fr: "Jour d'entraînement", nl: 'Trainingsdag' };
 
 export interface DayStat {
   sets: number;
@@ -35,37 +40,27 @@ export interface MonthCalendarProps {
   /** 'yyyy-mm-dd' -> stats del día */
   days: Record<string, DayStat>;
   todayLabel: string; // t('cal_today')
+  /** Tocar un día entrenado (futuro: abrir la sesión en InstaGym). */
+  onPickDay?: (iso: string) => void;
 }
 
 function key(y: number, m: number, d: number) {
   return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
 }
 
-export function MonthCalendar({
-  lang,
-  month,
-  year,
-  onPrev,
-  onNext,
-  onToday,
-  today,
-  days,
-  todayLabel,
-}: MonthCalendarProps) {
+const GAP = 4;
+
+export function MonthCalendar({ lang, month, year, onPrev, onNext, onToday, today, days, todayLabel, onPickDay }: MonthCalendarProps) {
   const { p } = useTheme();
-  const scale = useScale();
   const months = MONTH_NAMES[lang] ?? MONTH_NAMES.en;
   const week = WEEKDAYS[lang] ?? WEEKDAYS.en;
 
-  // Celdas auto-medidas: el ancho del calendario depende del ancho real de la
-  // tarjeta (márgenes del cuerpo + padding), así que se mide en onLayout y el
-  // lado de cada celda se calcula (7 columnas, gap 4) — siempre cabe, en
-  // cualquier ancho de teléfono.
-  const [gridW, setGridW] = useState<number>(() => Math.max(240, Dimensions.get('window').width - 52));
-  const cell = Math.max(30, Math.floor((gridW - 6 * gap) / 7));
+  const [gridW, setGridW] = useState<number>(() => Math.max(240, Dimensions.get('window').width - 58));
+  const cell = Math.max(30, Math.floor((gridW - 6 * GAP) / 7));
+  const dot = Math.min(cell, 40);
 
   const cells = useMemo(() => {
-    const firstDow = new Date(year, month, 1).getDay();
+    const firstDow = (new Date(year, month, 1).getDay() + 6) % 7; // lunes = 0
     const n = new Date(year, month + 1, 0).getDate();
     const out: ({ day: number } | null)[] = [];
     for (let i = 0; i < firstDow; i++) out.push(null);
@@ -75,175 +70,172 @@ export function MonthCalendar({
   }, [year, month]);
 
   const isThisMonth = today.y === year && today.m === month;
+  const trainedThisMonth = cells.filter((c) => c && days[key(year, month, c.day)]).length;
 
   return (
     <View>
-      {/* Cabecera: mes + flechas */}
-      <View style={styles.headerRow}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Mes anterior"
-          onPress={onPrev}
-          style={({ pressed }) => [
-            styles.navBtn,
-            { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
-          ]}
-        >
-          <Text style={[styles.arrow, { fontSize: fs(scale, 24), color: p.secondary }]}>‹</Text>
-        </Pressable>
-        <View style={styles.monthWrap}>
-          <Text style={[styles.month, { fontSize: fs(scale, 20), color: p.text }]}>
-            {months[month]} {year}
-          </Text>
-          {isThisMonth ? (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={todayLabel}
-              onPress={onToday}
-              style={({ pressed }) => [
-                styles.todayPill,
-                { borderRadius: RADII.pill, backgroundColor: p.fieldBg, opacity: pressed ? 0.75 : 1, transition: 'opacity 90ms ease' },
-              ]}
-            >
-              <Text style={[styles.todayPillText, { fontSize: fs(scale, 13), color: p.secondary }]}>{todayLabel}</Text>
+      {/* Cabecera */}
+      <View style={styles.header}>
+        <Text style={[styles.month, { color: p.text }]} accessibilityRole="header">
+          {months[month]} {year}
+        </Text>
+        <View style={styles.nav}>
+          {!isThisMonth ? (
+            <Pressable accessibilityRole="button" accessibilityLabel={todayLabel} onPress={onToday} style={styles.todayBtn} hitSlop={8}>
+              <Text style={[styles.todayText, { color: p.text }]}>{todayLabel}</Text>
             </Pressable>
           ) : null}
+          <Pressable accessibilityRole="button" accessibilityLabel="‹" onPress={onPrev} style={styles.navBtn} hitSlop={6}>
+            <Chevron color={p.text} dir="left" />
+          </Pressable>
+          <Pressable accessibilityRole="button" accessibilityLabel="›" onPress={onNext} style={styles.navBtn} hitSlop={6}>
+            <Chevron color={p.text} dir="right" />
+          </Pressable>
         </View>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Mes siguiente"
-          onPress={onNext}
-          style={({ pressed }) => [
-            styles.navBtn,
-            { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
-          ]}
-        >
-          <Text style={[styles.arrow, { fontSize: fs(scale, 24), color: p.secondary }]}>›</Text>
-        </Pressable>
       </View>
 
       {/* Días de la semana */}
       <View style={styles.weekRow}>
-        {week.map((w) => (
-          <View key={w} style={[styles.cell, { width: cell, height: 18 }]}>
-            <Text
-              style={[
-                styles.weekday,
-                { fontSize: fs(scale, 12), color: p.dim, textAlign: 'center' },
-              ]}
-            >
-              {w}
-            </Text>
-          </View>
+        {week.map((w, i) => (
+          <Text key={w + i} style={[styles.weekday, { width: cell, color: p.secondary }]}>
+            {w}
+          </Text>
         ))}
       </View>
 
       {/* Celdas */}
       <View style={styles.grid} onLayout={(e) => setGridW(e.nativeEvent.layout.width)}>
         {cells.map((c, i) => {
-          if (!c) {
-            return <View key={`b${i}`} style={[styles.cell, { width: cell, height: cell }]} />;
-          }
+          if (!c) return <View key={`b${i}`} style={{ width: cell, height: dot }} />;
           const dk = key(year, month, c.day);
           const stat = days[dk];
-          const isToday = today.y === year && today.m === month && today.d === c.day;
+          const isToday = isThisMonth && today.d === c.day;
           const isFuture = isThisMonth && c.day > today.d;
-          const bg = stat ? p.green : isFuture ? 'transparent' : 'rgba(196, 60, 42, 0.16)'; // rojo suave: no entrenaste
-          const color = stat ? '#ffffff' : isFuture ? p.dim : p.red;
           return (
             <Pressable
               key={dk}
               accessibilityRole="button"
-              accessibilityLabel={`${months[month]} ${c.day}${stat ? `, ${stat.sets} series` : ''}`}
-              onPress={() => {
-                /* tocar el día: hoy nada (sin navegación a sesión todavía) */
-              }}
-              style={([
-                styles.dayCell,
-                {
-                  width: cell,
-                  height: cell,
-                  backgroundColor: bg,
-                  borderWidth: isToday ? 2 : 0,
-                  borderColor: isToday ? p.accent : 'transparent',
-                },
-              ] as object)}
+              accessibilityLabel={`${c.day} ${months[month]}${stat ? `, ${LEGEND[lang] ?? LEGEND.en}` : ''}`}
+              disabled={!stat || !onPickDay}
+              onPress={() => onPickDay?.(dk)}
+              style={[styles.cell, { width: cell, height: dot }]}
             >
-              <Text
+              <View
                 style={[
-                  styles.dayNum,
+                  styles.dot,
                   {
-                    fontSize: fs(scale, 15),
-                    color,
-                    fontWeight: stat || isToday ? '700' : '400',
+                    width: dot,
+                    height: dot,
+                    borderRadius: dot / 2,
+                    backgroundColor: stat ? p.accent : 'transparent',
+                    borderWidth: isToday && !stat ? 1.5 : 0,
+                    borderColor: p.text,
                   },
                 ]}
               >
-                {c.day}
-              </Text>
-              {stat ? (
                 <Text
                   style={[
-                    styles.daySets,
-                    { fontSize: fs(scale, 10), color: 'rgba(255,255,255,0.9)' },
+                    styles.dayNum,
+                    {
+                      color: stat ? p.onAccent : isToday ? p.text : isFuture ? p.border : p.secondary,
+                      fontWeight: stat || isToday ? '700' : '500',
+                    },
                   ]}
                 >
-                  {stat.sets}
+                  {c.day}
                 </Text>
-              ) : null}
+              </View>
             </Pressable>
           );
         })}
+      </View>
+
+      {/* Leyenda mínima */}
+      <View style={styles.legend}>
+        <View style={[styles.legendDot, { backgroundColor: p.accent }]} />
+        <Text style={[styles.legendText, { color: p.secondary }]}>
+          {LEGEND[lang] ?? LEGEND.en} · {trainedThisMonth}
+        </Text>
       </View>
     </View>
   );
 }
 
-const gap = 4;
 const styles = StyleSheet.create({
-  headerRow: {
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 12,
+    paddingLeft: 4,
+  },
+  month: {
+    fontSize: 17,
+    fontWeight: '800',
+    letterSpacing: -0.2,
+  },
+  nav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+  },
+  todayBtn: {
+    paddingHorizontal: 10,
+    minHeight: 36,
+    justifyContent: 'center',
+  },
+  todayText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
   navBtn: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 40,
+    height: 36,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  monthWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  month: { fontWeight: '700' },
-  arrow: { textAlign: 'center' },
-  todayPill: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-  },
-  todayPillText: { fontWeight: '600' },
   weekRow: {
     flexDirection: 'row',
-    gap,
-    marginBottom: 4,
+    gap: GAP,
+    marginBottom: 6,
+  },
+  weekday: {
+    textAlign: 'center',
+    fontSize: 12,
+    fontWeight: '600',
   },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap,
+    gap: GAP,
+    rowGap: 6,
   },
-  cell: {},
-  weekday: { padding: 0 },
-  dayCell: {
-    borderRadius: 14,
+  cell: {
     alignItems: 'center',
     justifyContent: 'center',
-    overflow: 'hidden',
   },
-  dayNum: {},
-  daySets: { marginTop: -1 },
+  dot: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dayNum: {
+    fontSize: 15,
+    fontVariant: ['tabular-nums'],
+  },
+  legend: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 12,
+    paddingLeft: 4,
+  },
+  legendDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  legendText: {
+    fontSize: 13,
+    fontWeight: '500',
+  },
 });

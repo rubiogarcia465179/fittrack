@@ -9,7 +9,7 @@
  * Todo es opcional: si no se rellena, la pantalla no fuerza nada.
  */
 import { useEffect, useMemo, useState } from 'react';
-import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Pressable, StyleSheet, Switch, Modal } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '../store';
 import { store, type Profile, type ProfileEntry, type Sex } from '../store';
@@ -22,6 +22,8 @@ import { fmtDay } from './SessionScreen';
 import { PickerSheet, fmtNum } from '../components/PickerSheet';
 import LangSwitcher from '../components/LangSwitcher';
 import { DataSection } from '../components/DataSection';
+import { THEMES, THEME_IDS, type ThemeId } from '../theme';
+import { COUNTRIES, COUNTRY_BY_CODE, countryName, type Country, type CountryCode } from '../theme-flags';
 import type { Lang } from '../i18n';
 
 /** Máximo nº de barras de tendencia (los últimos registros). */
@@ -39,6 +41,12 @@ export default function ProfileScreen({
   onClearAll,
   onDataChanged,
   onProfileChanged,
+  themeId,
+  onPickTheme,
+  nationality,
+  onPickNationality,
+  useFlag,
+  onToggleFlag,
 }: {
   sessions: Session[]; // recientes primero
   onHeightLogged: () => void;
@@ -49,7 +57,16 @@ export default function ProfileScreen({
   onClearAll: () => Promise<void>;
   onDataChanged: () => void;
   onProfileChanged?: (p: Profile) => void;
+  /** Tema visual (Noche, Día, Ámbar, Neón, Rubí). */
+  themeId: ThemeId;
+  onPickTheme: (id: ThemeId) => void;
+  /** Nacionalidad (opcional) y, aparte, usar su bandera como tema. */
+  nationality: CountryCode | null;
+  onPickNationality: (c: CountryCode) => void;
+  useFlag: boolean;
+  onToggleFlag: (on: boolean) => void;
 }) {
+  const [natOpen, setNatOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const { p, SHADOW } = useTheme();
   const scale = useScale();
@@ -157,6 +174,19 @@ export default function ProfileScreen({
         <Field label={t('profile_goal')}>
           <Seg options={GOALS} value={profile?.goal} labelOf={(g) => t(`goal_${g}`)} onPick={(g) => update({ goal: g })} />
         </Field>
+        <Field label={t('profile_nationality')}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`${t('profile_nationality')}: ${nationality ? countryName(COUNTRY_BY_CODE.get(nationality)!, lang) : '—'}`}
+            onPress={() => setNatOpen(true)}
+            style={({ pressed }) => [styles.valueBtn, styles.natBtn, { backgroundColor: p.fieldBg, borderColor: p.border, opacity: pressed ? 0.8 : 1 }]}
+          >
+            {nationality ? <FlagSwatch c={COUNTRY_BY_CODE.get(nationality)!} /> : null}
+            <Text style={[styles.valueBtnText, { color: nationality ? p.text : p.secondary }]}>
+              {nationality ? countryName(COUNTRY_BY_CODE.get(nationality)!, lang) : t('profile_pick_country')}
+            </Text>
+          </Pressable>
+        </Field>
       </View>
 
       {/* ---- Peso corporal ---- */}
@@ -226,6 +256,16 @@ export default function ProfileScreen({
             {energy.sexApprox ? (
               <Text style={[styles.energyNote, { color: p.secondary }]}>{t('energy_sex_note')}</Text>
             ) : null}
+            <View style={[styles.explain, { borderTopColor: p.border }]}>
+              <Text style={[styles.explainText, { color: p.text }]}>
+                <Text style={{ fontWeight: '700' }}>{t('energy_bmr')}: </Text>
+                {t('energy_bmr_explain')}
+              </Text>
+              <Text style={[styles.explainText, { color: p.text }]}>
+                <Text style={{ fontWeight: '700' }}>{t('energy_tdee')}: </Text>
+                {t('energy_tdee_explain')}
+              </Text>
+            </View>
             <Text style={[styles.energyNote, { color: p.secondary }]}>{t('energy_method')}</Text>
           </>
         ) : (
@@ -235,12 +275,90 @@ export default function ProfileScreen({
         )}
       </View>
 
+      {/* ---- Tema: cinco combinaciones de dos colores opuestos ---- */}
+      <View style={[styles.card, card]}>
+        <Text style={[styles.cardLabel, { color: p.secondary, marginBottom: 6 }]}>{t('profile_theme')}</Text>
+        <View style={[styles.themeRow, useFlag && nationality ? { opacity: 0.35 } : null]} accessibilityRole="radiogroup" accessibilityLabel={t('profile_theme')}>
+          {THEME_IDS.map((id) => {
+            const th = THEMES[id];
+            const on = themeId === id;
+            return (
+              <Pressable
+                key={id}
+                accessibilityRole="radio"
+                accessibilityLabel={t(`theme_${id}`)}
+                accessibilityState={{ checked: on }}
+                onPress={() => onPickTheme(id)}
+                style={({ pressed }) => [styles.themeItem, { opacity: pressed ? 0.75 : 1 }]}
+              >
+                <View style={[styles.themeRing, { borderColor: on ? p.text : 'transparent' }]}>
+                  <View style={[styles.themeSwatch, { borderColor: p.border }]}>
+                    <View style={{ flex: 1, backgroundColor: th.bg }} />
+                    <View style={{ flex: 1, backgroundColor: th.accent }} />
+                  </View>
+                </View>
+                <Text style={[styles.themeName, { color: on ? p.text : p.secondary, fontWeight: on ? '700' : '500' }]} numberOfLines={1}>
+                  {t(`theme_${id}`)}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+        <View style={[styles.flagRow, { borderTopColor: p.border }]}>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.flagTitle, { color: nationality ? p.text : p.secondary }]}>{t('profile_flag_theme')}</Text>
+            <Text style={[styles.flagSub, { color: p.secondary }]}>
+              {nationality ? countryName(COUNTRY_BY_CODE.get(nationality)!, lang) : t('profile_flag_needs_country')}
+            </Text>
+          </View>
+          <Switch
+            accessibilityLabel={t('profile_flag_theme')}
+            value={useFlag && !!nationality}
+            disabled={!nationality}
+            onValueChange={onToggleFlag}
+            trackColor={{ false: p.border, true: p.accent }}
+            thumbColor={useFlag && nationality ? p.onAccent : '#FFFFFF'}
+          />
+        </View>
+      </View>
+
       {/* ---- Ajustes: idioma (instantáneo, sin red) + tus datos ---- */}
       <View style={[styles.card, card]}>
         <Text style={[styles.cardLabel, { color: p.secondary, marginBottom: 2 }]}>{t('profile_language')}</Text>
         <LangSwitcher lng={lng} onPick={onPickLang} full />
       </View>
       <DataSection t={t} onExport={onExport} onClear={onClearAll} onDone={onDataChanged} />
+
+      {natOpen ? (
+        <Modal visible transparent animationType="slide" onRequestClose={() => setNatOpen(false)}>
+          <Pressable style={[styles.sheetBack, { backgroundColor: p.overlay }]} onPress={() => setNatOpen(false)} accessibilityLabel={t('cancel')} />
+          <View style={[styles.sheet, { backgroundColor: p.bg, borderColor: p.border }]}>
+            <View style={[styles.sheetHandle, { backgroundColor: p.border }]} />
+            <Text style={[styles.sheetTitle, { color: p.text }]} accessibilityRole="header">{t('profile_nationality')}</Text>
+            <ScrollView style={{ maxHeight: 460 }}>
+              {COUNTRIES.map((c) => {
+                const on = nationality === c.code;
+                return (
+                  <Pressable
+                    key={c.code}
+                    accessibilityRole="radio"
+                    accessibilityState={{ checked: on }}
+                    onPress={() => {
+                      onPickNationality(c.code);
+                      setNatOpen(false);
+                    }}
+                    style={({ pressed }) => [styles.natRow, { borderBottomColor: p.border, backgroundColor: pressed ? p.card : 'transparent' }]}
+                  >
+                    <FlagSwatch c={c} />
+                    <Text style={[styles.natName, { color: p.text, fontWeight: on ? '700' : '500' }]}>{countryName(c, lang)}</Text>
+                    {on ? <View style={[styles.natCheck, { backgroundColor: p.accent }]} /> : null}
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </Modal>
+      ) : null}
 
       {pick ? (
         <PickerSheet
@@ -269,6 +387,17 @@ export default function ProfileScreen({
         />
       ) : null}
     </ScrollView>
+  );
+}
+
+/** Mini-bandera con las franjas de color del país (sin emblemas). */
+function FlagSwatch({ c }: { c: Country }) {
+  return (
+    <View style={[styles.flag, { flexDirection: c.vertical ? 'row' : 'column' }]} accessibilityElementsHidden>
+      {c.stripes.map((col, i) => (
+        <View key={i} style={{ flex: 1, backgroundColor: col }} />
+      ))}
+    </View>
   );
 }
 
@@ -310,7 +439,7 @@ function Seg<T extends string>({
               { backgroundColor: on ? p.accent : p.chipOff, borderColor: on ? p.accent : p.border, transform: [{ scale: pressed ? 0.96 : 1 }] },
             ]}
           >
-            <Text style={[styles.segText, { color: on ? '#fff' : p.text }]} numberOfLines={1}>
+            <Text style={[styles.segText, { color: on ? p.onAccent : p.text }]} numberOfLines={1}>
               {labelOf(o)}
             </Text>
           </Pressable>
@@ -330,7 +459,7 @@ function LogButton({ label, a11y, onPress }: { label: string; a11y: string; onPr
       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
       style={({ pressed }) => [styles.logBtn, { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1 }]}
     >
-      <Text style={styles.logBtnText}>+ {label}</Text>
+      <Text style={[styles.logBtnText, { color: p.onAccent }]}>+ {label}</Text>
     </Pressable>
   );
 }
@@ -390,7 +519,7 @@ function TrendCard({
 const styles = StyleSheet.create({
   body: {
     padding: 20,
-    paddingBottom: 28,
+    paddingBottom: 32,
     gap: 14,
   },
   title: {
@@ -449,7 +578,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logBtnText: {
-    color: '#fff',
+    color: '#000000',
     fontSize: 13,
     fontWeight: '700',
   },
@@ -562,5 +691,110 @@ const styles = StyleSheet.create({
   vRule: {
     width: StyleSheet.hairlineWidth,
     alignSelf: 'stretch',
+  },
+  explain: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: 10,
+    marginTop: 4,
+    gap: 8,
+  },
+  explainText: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  themeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  themeItem: {
+    alignItems: 'center',
+    gap: 6,
+    minWidth: 56,
+  },
+  themeRing: {
+    padding: 3,
+    borderRadius: 30,
+    borderWidth: 2,
+  },
+  themeSwatch: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    overflow: 'hidden',
+    flexDirection: 'row',
+    borderWidth: StyleSheet.hairlineWidth,
+    transform: [{ rotate: '45deg' }],
+  },
+  themeName: {
+    fontSize: 12,
+  },
+  natBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  flag: {
+    width: 28,
+    height: 20,
+    borderRadius: 4,
+    overflow: 'hidden',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(128,128,128,0.5)',
+  },
+  flagRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: 12,
+    marginTop: 12,
+  },
+  flagTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  flagSub: {
+    fontSize: 13,
+    marginTop: 2,
+  },
+  sheetBack: {
+    flex: 1,
+  },
+  sheet: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 0,
+    paddingHorizontal: 20,
+    paddingBottom: 24,
+  },
+  sheetHandle: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    alignSelf: 'center',
+    marginTop: 8,
+    marginBottom: 12,
+  },
+  sheetTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    marginBottom: 8,
+  },
+  natRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    minHeight: 52,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  natName: {
+    flex: 1,
+    fontSize: 16,
+  },
+  natCheck: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
 });

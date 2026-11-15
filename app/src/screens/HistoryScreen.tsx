@@ -7,6 +7,7 @@ import {
   Pressable,
   StyleSheet,
 } from 'react-native';
+import { exName } from '../lib/names';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import type { Session } from '../store';
@@ -17,6 +18,7 @@ import { useScale, fs } from '../scale';
 import { EmptyMarkGlyph } from '../components/TabIcon';
 import { plural } from '../lib/plural';
 import { ConfirmDialog } from '../components/ConfirmDialog';
+import { ExerciseGlyph, fmtDate } from './SessionScreen';
 
 export default function HistoryScreen({
   sessions,
@@ -40,7 +42,7 @@ export default function HistoryScreen({
   const lang = i18n.language as string;
   const byId = new Map(exercises.map((e) => [e.id, e]));
   const nameOf = (e?: { name_en: string; name_nl: string }) =>
-    e ? (lang === 'nl' ? e.name_nl || e.name_en : e.name_en) : '';
+    exName(e, lang);
 
   const confirmDelete = (s: Session) => setToDelete(s);
 
@@ -59,12 +61,12 @@ export default function HistoryScreen({
           </View>
           <Text style={[styles.emptyTitle, { color: p.dim }]}>{t('hist_empty')}</Text>
           <Pressable
-            style={({ pressed }) => [styles.cta, { opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' }]}
+            style={({ pressed }) => [styles.cta, { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' }]}
             accessibilityRole="button"
             onPress={onStartSession}
           >
             <View style={[styles.ctaInner, { backgroundColor: p.accent }]} >
-              <Text style={styles.ctaText}>{t('hero_cta_session')}</Text>
+              <Text style={[styles.ctaText, { color: p.onAccent }]}>{t('hero_cta_session')}</Text>
             </View>
           </Pressable>
         </View>
@@ -73,10 +75,10 @@ export default function HistoryScreen({
           <View key={s.id} style={[styles.card, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
             <View style={styles.cardHeader}>
               <View style={styles.dateWrap}>
-                <Text style={[styles.cardDate, { color: p.text }]}>{s.date}</Text>
+                <Text style={[styles.cardDate, { color: p.text }]}>{fmtDate(s.date, i18n.language)}</Text>
                 {s.type === 'benchmark' ? (
                   <View style={[styles.typeBadge, { backgroundColor: p.accent }]}>
-                    <Text style={styles.typeBadgeText}>{t('bench_badge')}</Text>
+                    <Text style={[styles.typeBadgeText, { color: p.onAccent }]}>{t('bench_badge')}</Text>
                   </View>
                 ) : null}
               </View>
@@ -87,16 +89,13 @@ export default function HistoryScreen({
                 onPress={() => confirmDelete(s)}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
-                <Text style={[styles.delete, { color: p.red }]}>{t('delete')}</Text>
+                <Text style={[styles.delete, { color: p.secondary }]}>{t('delete')}</Text>
               </Pressable>
             </View>
             <View style={styles.cardMeta}>
               <Text style={[styles.cardMetaText, { color: p.secondary }]}>
                 {plural(s.exercises.length, t, 'hist_exercise', 'hist_exercises')} · {plural(sessionSets(s), t, 'hist_set', 'hist_sets_total')}
                 {s.duration_min ? ` · ${s.duration_min} ${t('picker_minutes')}` : ''}
-              </Text>
-              <Text style={[styles.cardVolume, { color: p.accent }]}>
-                {Math.round(sessionVolume(s)).toLocaleString(lang)} kg {t('hist_volume')}
               </Text>
             </View>
             {s.exercises.map((ex) => {
@@ -110,7 +109,9 @@ export default function HistoryScreen({
                   onPress={() => e && onOpenExercise(e.id)}
                 >
                   {e ? (
-                    <Image source={e.imageAsset} style={[styles.exThumb, { backgroundColor: p.section }]} resizeMode="cover" />
+                    <View style={[styles.exThumb, { borderWidth: StyleSheet.hairlineWidth, borderColor: p.border, alignItems: 'center', justifyContent: 'center' }]} accessibilityElementsHidden>
+                      <ExerciseGlyph label={e.muscle_group} size={20} color={p.text} />
+                    </View>
                   ) : null}
                   <Text style={[styles.exName, { color: p.text }]} numberOfLines={1}>
                     {nameOf(e) || ex.exercise_id}
@@ -143,7 +144,7 @@ export default function HistoryScreen({
         <ConfirmDialog
           visible
           title={t('hist_delete')}
-          message={`${toDelete.date} · ${plural(toDelete.exercises.length, t, 'hist_exercise', 'hist_exercises')}`}
+          message={`${fmtDate(toDelete.date, i18n.language)} · ${plural(toDelete.exercises.length, t, 'hist_exercise', 'hist_exercises')}`}
           confirmLabel={t('delete')}
           cancelLabel={t('cancel')}
           destructive
@@ -161,7 +162,7 @@ export default function HistoryScreen({
 const styles = StyleSheet.create({
   body: {
     padding: 20,
-    paddingBottom: 40,
+    paddingBottom: 32,
   },
   title: {
     fontSize: 32,
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
   ctaText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#ffffff',
+    color: '#000000',
     letterSpacing: 0.2,
   },
   card: {
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
   typeBadgeText: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#fff',
+    color: '#000000',
   },
   deleteBtn: {
     paddingHorizontal: 10,

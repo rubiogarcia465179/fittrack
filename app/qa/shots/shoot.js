@@ -66,17 +66,43 @@ async function shot(name) {
 async function tap(text, { prefix = false, nth = 0 } = {}) {
   const box = await evaluate(`(() => {
     const want = ${JSON.stringify(text)};
-    const els = [...document.querySelectorAll('div,span,button,a')].filter((e) => {
+    const match = [...document.querySelectorAll('div,span,button,a')].filter((e) => {
       const t = (e.innerText || '').trim();
       if (!(${prefix} ? t.startsWith(want) : t === want)) return false;
-      const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && r.top >= 0 && r.bottom <= innerHeight + 2;
+      const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0;
     });
-    // el más interno (sin hijos que también coincidan)
-    const leaf = els.filter((e) => !els.some((o) => o !== e && e.contains(o)));
-    const e = leaf[${nth}]; if (!e) return null;
+    // "Visible" = dentro del viewport Y es lo que recibe el clic en su centro
+    // (no tapado por la barra flotante ni por barras fijas).
+    const inView = (e) => {
+      const r = e.getBoundingClientRect();
+      if (r.top < 0 || r.bottom > innerHeight + 2) return false;
+      const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+      return !!hit && (e.contains(hit) || hit.contains(e));
+    };
+    // el más interno (sin hijos que también coincidan); primero los visibles
+    const leafOf = (els) => els.filter((e) => !els.some((o) => o !== e && e.contains(o)));
+    const visible = leafOf(match.filter(inView));
+    let e = visible[${nth}];
+    if (!e) { e = leafOf(match)[${nth}]; if (!e) return null; e.scrollIntoView({ block: 'center' }); }
     const r = e.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
   })()`);
   if (!box) throw new Error('no encontrado: ' + text);
+  await sleep(150);
+  for (const type of ['mousePressed', 'mouseReleased']) await send('Input.dispatchMouseEvent', { type, x: box.x, y: box.y, button: 'left', clickCount: 1 });
+  await sleep(450);
+}
+/** Toca el elemento visible cuyo aria-label empieza por `label` (pestañas sin texto, iconos). */
+async function tapLabel(label, { nth = 0 } = {}) {
+  const box = await evaluate(`(() => {
+    const want = ${JSON.stringify(label)};
+    const els = [...document.querySelectorAll('[aria-label]')].filter((e) => {
+      if (!(e.getAttribute('aria-label') || '').startsWith(want)) return false;
+      const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && r.top >= 0 && r.bottom <= innerHeight + 2;
+    });
+    const e = els[${nth}]; if (!e) return null;
+    const r = e.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  })()`);
+  if (!box) throw new Error('aria-label no encontrado: ' + label);
   for (const type of ['mousePressed', 'mouseReleased']) await send('Input.dispatchMouseEvent', { type, x: box.x, y: box.y, button: 'left', clickCount: 1 });
   await sleep(450);
 }
@@ -124,7 +150,7 @@ async function load(storage) {
 
   const base = { 'fittrack.lang': 'es' };
   const scenario = require(process.env.SCENARIO || path.join(__dirname, 'scenario.js'));
-  await scenario({ load, shot, tap, scrollBy, evaluate, sleep, base, DATA, ACTIVE, iso });
+  await scenario({ load, shot, tap, tapLabel, scrollBy, evaluate, sleep, base, DATA, ACTIVE, iso });
 
   if (FRAMES) await send('Page.stopScreencast');
   console.log('errors', errors.length ? errors : 'none');

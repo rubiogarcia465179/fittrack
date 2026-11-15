@@ -3,62 +3,121 @@
 Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
 `⏸` en espera. El detalle de lo hecho está en `PROGRESS.md` y en git.
 
+## Cómo continuar (para el siguiente agente)
+
+1. Lee `CLAUDE.md` (reglas de siempre) y `SPEC.md` (qué quiere el usuario).
+2. Trabaja **en el orden de esta lista**, de arriba abajo.
+3. **No commitees** hasta cerrar una fase y que la prueba "Steve Jobs" dé
+   **sí** (`CLAUDE.md §2`; se evalúa como **versión 2.0**). Estado al
+   2026-11-15: Fases 11c/11d commiteadas. Lo siguiente: **Fase 15
+   (InstaGym)**, luego Fase 14 (por qué se usa + favoritos con cita), paridad
+   web (⛔ `npm ci`) y Fase 13 cuando lleguen las fotos.
+4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
+   no las supongas.
+
 ## Ahora
 
+### Fase 11d — Prueba "Steve Jobs" (2026-11-15: SÍ como versión 2.0) ✅
+Hecho en esta pasada:
+- [x] Un solo lenguaje de diseño: toda la app en el tema monocromo estilo X
+      (negro, blanco, gris; botones blancos con texto negro).
+- [x] Barra inferior estilo X (ancho completo, negra, solo iconos).
+- [x] Temporizador de descanso (`rest_after`, +15 s, Saltar, vibración).
+- [x] Hoja "Tu entreno de hoy" antes del entreno recomendado (duración,
+      intensidad, energía, objetivo) → "Continuar al entreno".
+- [x] Marcas personales en Inicio (3 tarjetas blancas + "Ver todo").
+- [x] Sin reloj ni batería; cabecera de sesión "Sesión · x/y series".
+- [x] Nunca 0 kg en ejercicios con carga (`conservativeOneRm` "otro" → 15).
+- [x] Material "Otro" oculto en metadatos; pestaña "Inicio/Home/Start/Accueil".
+- [x] Sin imágenes placeholder (biblioteca, historial, detalle): iconos de
+      línea; foto solo en Inicio.
+- [x] Nombres de ejercicios en ES/FR (226, traducción local declarada en
+      `source_note`; `data/exercises/names-i18n.json` +
+      `scripts/merge_exercise_names.js`; helper `exName()`).
+- [x] Historial sin volumen.
+- [x] Inicio: foto + "Empezar sesión" arriba (foto propia opcional: web ya;
+      iPhone ⛔ `expo-image-picker`), sin fecha/semana/racha, calendario
+      rediseñado (lunes primero, círculos), histogramas de actividad (hora y
+      día de la semana) al final.
+- [x] Temas en Perfil: Noche, Día (inverso), Ámbar, Neón, Rubí; y
+      **nacionalidad** (20 países) + interruptor "Usar los colores de mi país"
+      (`app/src/theme-flags.ts`).
+- [x] Explicación sencilla de metabolismo basal vs gasto diario (Perfil).
+- [x] Skill `/stevejobs` (+ comando `/SteveJobs`) para la prueba Jobs.
+- [x] Bandera de España roja y amarilla (todas las banderas reconocibles).
+- [x] Hoja "¿Cómo se hace?" en la sesión (fotos de ejemplo marcadas, qué
+      entrena, pasos). **Fotos reales**: déjalas en
+      `data/images/photos/<id>-1.jpg … -3.jpg` y ejecuta
+      `node scripts/make_photo_map.js`.
+- [x] `expo-haptics` + `expo-image-picker` instalados (aprobado): hápticos y
+      foto propia en iPhone.
+- [x] Iconos propios de la barra inferior (estilo Instagram).
+- [x] Equipo traducido ("Barra", "Polea", "Kabel").
+- [x] **Todo en el idioma elegido**: pasos "cómo se hace" para principiantes
+      en NL/ES/EN/FR (226 × 3, `data/exercises/howto/`, `howtoFor`), fechas
+      localizadas (Historial "dom 15 nov"), meses NL, campo "fecha".
+- [x] Icono de línea **distinto por grupo** (`GroupGlyph`).
+- [x] Nunca 0 kg: `back_squat` ya no se toma por peso corporal.
+- [x] Historial sin volumen.
+
+- [x] Probado en iPhone real (lo hizo el usuario, 2026-11-15).
+- [x] **Prueba Jobs como versión 2.0** (decisión del usuario): **SÍ** →
+      commit de las Fases 11c + 11d.
+- ⏸ Recorte "Foco a 10" para una 1.0: **aparcado** en `docs/FOCO-1.0.md`
+  (no aplicar salvo que el usuario lo pida).
+- ⛔ Fotos reales por ejercicio (Fase 13, las genera el usuario). No bloquean
+  el commit: la foto de ejemplo va marcada.
+
+### Fase 15 — InstaGym (sustituye a Historial) ← SIGUIENTE
+- [ ] Feed tipo Instagram (estilo X): cada sesión con su resumen (fecha,
+      ejercicios, series, cardio, valoración), **fotos** y **comentarios**.
+- [ ] Añadir fotos a una sesión (al terminar y desde el feed) y comentarios.
+      `expo-image-picker` ya instalado (`app/src/lib/pickPhoto.ts`). Guardar
+      fotos como archivos con `expo-file-system` (ya instalado), no en
+      AsyncStorage.
+- [ ] Tocar un día entrenado del calendario de Inicio abre esa sesión.
+- [ ] Paridad web (fotos vía `<input type="file">`).
+
+### Fase 14 — Biblioteca: contenido por ejercicio
+- [x] **Cómo se hace** (3 pasos para principiantes, 4 idiomas) y **qué
+      entrena** (grupo + músculos secundarios) — hoja de la sesión y detalle.
+- [ ] **Por qué se usa** (una frase por ejercicio, 4 idiomas, redactada
+      localmente y declarada).
+- [ ] Web: usar `web/src/data/howto/<lang>.json` en las páginas de detalle.
+- [ ] **Favoritos de atletas famosos con cita verificable** (entrevista,
+      vídeo, libro, enlace), investigados con búsqueda web, nunca de memoria;
+      solo donde exista fuente (los clásicos), no en los 226.
+- [ ] Detalle del ejercicio con estas secciones (app y web), i18n.
+
 ### Fase 13 — Fotos de los ejercicios
-- [x] Prompts para las 678 imágenes (226 ejercicios × 3: posición inicial,
-      movimiento, técnica clave) con el estilo de `data/images/ejemplo/` y
-      flechas/círculos naranjas sin texto → `docs/fotos/PROMPTS.md` y
-      `docs/fotos/prompts.json` (`node scripts/make_photo_prompts.js`).
-- [ ] **Usuario**: generar las imágenes (ChatGPT) y guardarlas como
-      `data/images/photos/<id>-1.png … -3.png`. Se puede ir por lotes.
-- [ ] **Agente**, al recibir lotes: `image` pasa a lista de 3 en
-      `data/exercises/all.json`, carrusel en el detalle (app y web), sync a
-      `app/` y `web/`, `source_note` declarando "generadas con IA" (regla de
-      oro), comprimir a WebP/JPEG para no inflar el bundle.
-- Nota: desde la sesión del agente no se pueden generar imágenes
-  fotorrealistas (sin generador de imágenes).
+- [x] 678 prompts listos → `docs/fotos/PROMPTS.md`
+      (`node scripts/make_photo_prompts.js`; estilo de `data/images/ejemplo/`).
+- ⛔ **Usuario**: generar las imágenes (ChatGPT) →
+      `data/images/photos/<id>-1.png … -3.png` (por lotes).
+- [ ] Agente, al recibir lotes: `image` → lista de 3, carrusel en el
+      detalle, sync, `source_note` "generadas con IA", compresión JPEG.
 
-### Paridad web (Fases 11b y 12)
-- [ ] `web/src/pages/dashboard.astro`: mismo Resumen simplificado.
-- [ ] `web/src/pages/session.astro`: ejercicio actual + filas compactas,
-      barra fija con una acción, cardio (min/km/intensidad), valoración.
-- [ ] Perfil web: datos fijos y calorías (portar `app/src/lib/energy.ts`).
-- [x] Tema negro con degradados en la web (`global.css`, `theme-color`).
-- [x] `normalizeSession` / `sessionCardioMinutes` idénticos en `gym.js`
-      (tests de paridad).
-- ⛔ Verificar `npm run build` de la web: falta `web/node_modules`
-      (`cd web && npm ci`, pendiente de aprobación).
-
-### Revisión en dispositivo
-- [ ] Probar en iPhone real (Expo Go) la sesión nueva, el cardio y la
-      valoración.
+### Paridad web (Astro) con la app
+- [ ] Tema monocromo estilo X en `web/src/styles/global.css` (hoy la web
+      tiene las variables grises de la 11c, no el negro/blanco de la 11d).
+- [ ] `dashboard.astro` → Inicio; `session.astro` → sesión actual (descanso,
+      cardio, valoración); Perfil con datos y calorías (`energy.ts`).
+- ⛔ `npm run build` de la web: falta `web/node_modules` (`cd web && npm ci`,
+      aprobación).
 
 ## Hecho recientemente
 
-### Fase 12 — Añadir datos (2026-11-15)
-- [x] **Cardio**: registro por minutos + km + intensidad (suave / moderada /
-      fuerte); al añadir cardio o elegirlo en el asistente se crea un bloque
-      de 20 min (o el último que hiciste); kcal estimadas con METs; minutos
-      de cardio de la semana en el Resumen; Historial "20 min · 3 km · Fuerte".
-- [x] **Valoración al terminar**: hoja opcional con energía y sensación
-      (1–5); "Guardar sesión" o "Finalizar sin valorar"; visible en
-      Historial.
-- [x] **Perfil — Sobre ti**: sexo, año de nacimiento, nivel, objetivo (el
-      asistente arranca con nivel y objetivo); peso registrable en Perfil.
-- [x] **Calorías diarias**: Mifflin-St Jeor × actividad real de 4 semanas
-      (`app/src/lib/energy.ts`, con tests).
-- [x] Fix: el perfil perdía `height_entries` en cada lectura (`migrate`).
-- [x] i18n: +37 claves (312).
+### Fase 11c — Inicio, estilo coche y paleta uniforme (2026-11-15, commit con la 11d)
+- [x] Inicio sin título con estado, foto, un botón y calendario; sin volumen.
+- [x] Sesión con estado arriba, accesos rápidos en círculo y filas planas.
+- [x] Calendario uniforme; harness con `tapLabel`.
+- (Su paleta gris/naranja y la barra flotante fueron sustituidas en la 11d
+  por el estilo X monocromo a petición del usuario.)
 
-### Fase 11b — Simplificación + tema negro (2026-11-15)
-- [x] Resumen con una acción principal; resto tras "Más estadísticas".
-- [x] Sin barra de marca global; idioma y "Tus datos" en Perfil.
-- [x] Sesión: ejercicio actual primero, resto en filas de una línea, barra
-      fija con una acción principal, iconos dibujados (sin □).
-- [x] **Tema de entreno negro** con degradado carbón → negro y CTA con
-      degradado naranja (app y web), en lugar del navy.
-- [x] Capturas 01–10 y vídeo regenerados (`app/qa/shots/`).
+### Fase 12 — Añadir datos (2026-11-15, commit 4616f3b)
+- [x] Cardio, valoración al terminar, Perfil con datos fijos y calorías.
+
+### Fase 11b — Simplificación (2026-11-15, commit efda236)
 
 ## En espera
 
@@ -67,14 +126,14 @@ Decisión 2026-11-08: la v1 se publica solo con datos locales.
 - [ ] Proyecto Supabase free + login magic link
 - [ ] Tabla `sessions` + `user_id` con RLS
 - [ ] Sync offline-first en app y web; export/import JSON como puente
-- [ ] README: coste, privacidad, borrar cuenta
 
 ### Deuda técnica
-- [ ] `SafeAreaView` está obsoleto en RN 0.88 → `react-native-safe-area-context`
-      (necesita aprobación: dependencia nueva).
-- [x] Harness de capturas/vídeo versionado en `app/qa/shots/`.
-- [ ] Hoja de valores: añadir "+/−" fino para pesos fuera de la rejilla.
-- [ ] `npm audit`: 4 avisos moderados en `app/` tras la instalación.
+- [ ] `SafeAreaView` obsoleto en RN 0.88 → `react-native-safe-area-context`
+      (⛔ dependencia nueva).
+- [ ] `npm audit`: 4 avisos moderados en `app/`.
+- [ ] Hoja de valores: "+/−" fino para pesos fuera de la rejilla.
+- [ ] Limpiar código muerto del tema crema (`DEFAULT` ya no se usa) y estilos
+      sin uso (`hero*` en SessionScreen, `PauseGlyph`/`PlayGlyph`).
 
 ## Hecho (resumen)
 
@@ -98,6 +157,8 @@ Decisión 2026-11-08: la v1 se publica solo con datos locales.
 - Fase 11 — Flujo "ejercicio actual" + barra fija + vídeo mp4.
 - Fase 11b — Simplificación (impeccable) + tema negro.
 - Fase 12 — Cardio, valoración al terminar, Perfil con datos fijos y calorías.
+- Fase 11c — Inicio, estilo app de coche, paleta uniforme (sustituida en 11d).
+- Fase 11d — Estilo X monocromo, descanso, hoja de inicio, marcas, temas y banderas, idioma completo, iconos por grupo (Jobs SÍ como 2.0).
 
 ## Probar en el host (guía en README.md)
 - Web: `cd web && npm ci && npm run build && npm run preview -- --host`

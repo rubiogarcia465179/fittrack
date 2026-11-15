@@ -1,141 +1,177 @@
 # SPEC — FitTrack
 
-Monitor de entrenamiento de gimnasio para el móvil: eliges o generas un
-entreno, lo haces ejercicio a ejercicio, y ves tu progreso. Sin cuenta y sin
-servidor: todo se guarda en el dispositivo.
+App de gimnasio para el iPhone: empiezas a entrenar en dos toques, haces el
+entreno ejercicio a ejercicio con descansos guiados y ves tu progreso. Sin
+cuenta y sin servidor: todo se guarda en el teléfono.
 
-Este documento dice **qué** debe hacer el producto. El **cómo** está en el
-código; el **estado** en `PROGRESS.md`; lo **pendiente** en `TASKS.md`.
+Este documento dice **qué** debe ser el producto (la visión del usuario). El
+**cómo** está en el código; el **estado** en `PROGRESS.md`; lo **pendiente**
+y el orden de trabajo en `TASKS.md`; las reglas de trabajo en `CLAUDE.md` y
+`AGENTS.md`.
 
-## 1. Principios (no negociables)
+## 1. Visión y principios (del usuario)
 
-1. **Una pantalla, un trabajo, una acción principal.** Todo lo demás es
-   secundario (más discreto) o está plegado hasta que se necesita.
-2. **Como una app de iPhone.** Pestañas abajo, título grande arriba, listas
-   agrupadas, hojas inferiores para elegir valores, botones ≥ 44 pt.
-   Referencia visual: apple.com y las apps nativas de iOS (Fitness, Salud).
-3. **Durante el entreno, solo el ejercicio actual.** El resto, en filas de
-   una línea.
-4. **Nada inventado se presenta como real.** Datos de wger → `source:"real"`
-   con atribución; lo generado localmente se declara (`source_note`, UI).
-5. **Offline y privado.** 0 peticiones de red para usar la app (incluido el
-   cambio de idioma).
+- **"En la intersección entre la alta tecnología y el arte."** Simple y
+  elegante; la primera pantalla tiene que ser increíble.
+- **Lo mínimo de toques.** Una pantalla, un trabajo, una acción principal;
+  lo demás discreto o plegado.
+- **Se juzga como una versión 2.0**: el conjunto actual de funciones
+  (temas, banderas, marcas, histogramas, asistente…) es deseado; el recorte
+  para una 1.0 mínima está aparcado en `docs/FOCO-1.0.md`.
+- **Referencias de diseño:** la app de X (Twitter) en iOS para el estilo
+  (negro puro, blanco, gris, separadores finos, barra inferior), y Apple /
+  Tesla para la composición (estado arriba, foco, cero ruido).
+- **Monocromo por defecto (tema Noche):** fondo negro, texto blanco,
+  secundario gris. **Botones blancos con texto negro.** Otros temas
+  elegibles en Perfil (ver Perfil). Lo marcado (días entrenados, series hechas,
+  selección, marcas) en blanco con texto negro. Sin naranja, sin verde; el
+  rojo solo en confirmaciones destructivas.
+- **Sin reloj ni batería** en ninguna pantalla.
+- **Durante el entreno, solo el ejercicio actual**; el resto en una línea.
+- **Prueba "Steve Jobs"** antes de cada versión (ver `CLAUDE.md §2`).
+- **Nada inventado se presenta como real** (datos de wger con atribución;
+  lo generado localmente o con IA, declarado).
+- **Offline y privado.**
 
-## 2. Pantallas (app Expo; la web Astro ofrece lo mismo)
+## 2. Pantallas (app Expo)
+
+Barra inferior estilo X: ancho completo, negra, línea fina arriba, **solo
+iconos** (nombre en accesibilidad). Pestañas:
 
 | Pestaña | Trabajo | Acción principal |
 |---|---|---|
-| **Resumen** | Ver cómo va la semana y empezar | "Empezar una sesión" / "Continuar entreno" |
-| **Ejercicios** | Consultar la biblioteca | Buscar → abrir detalle |
+| **Inicio** | Ver la semana y empezar | "Empezar sesión" |
+| **Ejercicios** | Consultar la biblioteca | Buscar → detalle |
 | **Sesión** | Entrenar | "Siguiente ejercicio" → "Terminar y guardar" |
-| **Historial** | Revisar sesiones pasadas | Abrir / borrar una sesión |
-| **Perfil** | Datos personales y ajustes | Registrar peso / altura |
+| **Historial** → futuro **InstaGym** | Revisar sesiones | Abrir una sesión |
+| **Perfil** | Tus datos y ajustes | Registrar peso / altura |
 
-### Resumen
-- Visible siempre: acción principal; **Esta semana** (sesiones · volumen kg ·
-  días seguidos); gráfica de volumen de las últimas 4 semanas; últimas 3
-  sesiones (lista) con "Ver todo" → Historial; nuevas marcas si las hay.
-- Plegado en **Más estadísticas**: volumen por grupo muscular (7 días),
-  marcas 1RM, calendario de actividad, peso corporal.
-- Primer uso (sin sesiones): un mensaje y un botón, nada más.
-
-### Ejercicios
-- 226 ejercicios con búsqueda y filtros (grupo muscular, material).
-- Detalle: nombre (EN/NL), grupo, material, nivel, instrucciones paso a
-  paso, imagen y licencia/autor (CC-BY-SA).
+### Inicio (portada, sin título)
+1. Foto de cabecera insertada (como la imagen de un post); **el usuario puede
+   poner la suya** ("Cambiar foto"). Sin fecha, sin "sesiones esta semana"
+   ni racha (se ven en el calendario).
+2. (sin bloque de estado)
+3. **"Empezar sesión"** (blanco) → **hoja "Tu entreno de hoy"**: duración
+   (30/45/60/75 min), intensidad (suave/moderada/fuerte), **energía de hoy**
+   (baja/normal/alta; baja = intensidad un nivel menos) y objetivo (crear
+   músculo, perder peso, fuerza, perder grasa, definición, resistencia) →
+   **"Continuar al entreno"** genera el plan para el bloque de grupos menos
+   entrenado (empuje / tirón / pierna). Recuerda la última elección.
+   Con un entreno en curso: "Continuar entreno".
+4. "Personalizar entreno" → asistente completo.
+5. **Marcas personales**: las 3 mejores (1RM estimado, Epley, de la mejor
+   serie o del benchmark) en tarjetas blancas; "Ver todo" despliega el resto.
+6. **Calendario** del mes (lunes primero, círculos): días entrenados con el
+   acento, hoy con anillo, leyenda "Día entrenado · N".
+7. Filas: peso corporal (→ Perfil) e historial (→ Historial).
+8. **Actividad**: histogramas de la hora del entreno (franjas de 3 h) y del día
+   de la semana.
+- Sin volumen (decisión del usuario).
+- Futuro (Fase 15): tocar un día del calendario abre esa sesión en InstaGym.
 
 ### Sesión
-- **Arranque**: dos caminos — "Recomiéndame un entreno" (asistente) o
-  "Añado mis datos yo" (sesión en blanco).
-- **Asistente** paso a paso: tipo (entreno / benchmark) → objetivo →
-  grupos → duración → material (gym completo / mancuernas / peso
-  corporal) → revisión del plan. Pesos sugeridos desde benchmarks >
-  histórico > valor conservador por material; siempre editables.
-- **Entreno activo** — tema **negro estilizado**: fondo con degradado
-  carbón → negro (`#2A2A30 → #000000`), tarjetas `#1C1C1F`, acento naranja
-  `#FF6A1F` y botón principal con **degradado naranja** (`#F55E14 →
-  #B83A08`, texto blanco legible). Fuera del entreno, tema crema.
-  - Banner: cronómetro, series hechas, pausar, descartar (con confirmación).
-  - Ejercicio actual (tarjeta completa): series en filas
-    `nº · reps · kg · ✓`; tocar un valor abre una hoja de valores; añadir /
-    quitar serie; enlaces discretos "¿Máquina ocupada?" y "Quitar ejercicio".
-  - **Cardio** (grupo `cardio`): filas `nº · min · km · intensidad · ✓`
-    (intensidad suave / moderada / fuerte, se cambia tocando); kcal
-    estimadas si hay peso corporal (METs del Compendium: 4 / 7 / 10).
-  - Otros ejercicios: una fila (nombre, `3 × 10 · 20 kg` o `20 min · 3 km`,
-    series hechas); tocar = pasar a ese ejercicio.
-  - Máquina ocupada / fuera de servicio → el ejercicio se **aplaza** (no se
-    borra) y la app ofrece alternativas del mismo grupo y patrón, con su
-    propio peso; el usuario decide el ritmo.
-  - Al final de la lista: "+ Añadir ejercicio", "Sugerir ejercicio" (mismo
-    grupo que el actual) y "Detalles" plegado (fecha, duración, peso
-    corporal, altura, notas).
-  - Barra fija: a mitad → "Terminar" (secundario) + **"Siguiente
-    ejercicio"**; en el último → **"Terminar y guardar"**.
-  - **Al terminar**: hoja opcional "¿Cómo ha ido?" con energía del día y
-    cómo te has sentido (1–5). "Guardar sesión" o "Finalizar sin valorar":
-    guardar nunca depende de la valoración.
-  - El progreso solo cuenta series marcadas como hechas.
-  - El entreno activo sobrevive a cambiar de pestaña y a cerrar la app.
-- **Benchmark**: 1RM estimado (Epley, mejor serie) o manual; se guarda como
-  marca y alimenta los pesos de futuros entrenos.
+- **Cabecera**: cerrar (descartar con confirmación) · "Sesión" + "x/y
+  series hechas" · línea fina de progreso debajo.
+- Tres accesos rápidos en círculo: **Añadir ejercicio**, **Sugerir**
+  (mismo grupo que el actual), **Detalles** (fecha, duración, peso, altura,
+  notas).
+- **Ejercicio actual** (tarjeta): TÍTULO en mayúsculas, grupo (+ material si
+  no es "otro") y 1RM estimado; filas `nº · reps · kg · Hecha` (tocar un
+  valor abre una hoja de valores); añadir / quitar última serie;
+  "¿Máquina ocupada?" → Ocupado / Fuera de servicio (el ejercicio se
+  **aplaza** y se ofrecen alternativas con su propio peso); "Quitar
+  ejercicio".
+- **Cardio**: `nº · min · km · intensidad · Hecha` y kcal estimadas (METs).
+- **Resto de ejercicios**: filas planas (icono de línea, TÍTULO, resumen
+  `3 × 10 · 20 kg` o `20 min · 3 km`, series hechas, chevron).
+- **Descanso**: al marcar una serie de fuerza empieza la cuenta atrás del
+  plan (`rest_after`, 90 s por defecto) en la barra fija, con "+15 s" y
+  "Saltar"; vibra al terminar. Sobrevive a cambiar de pestaña.
+- **Barra fija**: a mitad → "Terminar" (contorno) + **"Siguiente
+  ejercicio"** (blanco); en el último → **"Terminar y guardar"**.
+- **Al terminar**: hoja opcional "¿Cómo ha ido?" (energía y sensación 1–5)
+  → "Guardar sesión" o "Finalizar sin valorar".
+- **Arranque manual** (pestaña Sesión sin entreno): "Recomiéndame un
+  entreno" (asistente) o "Añado mis datos yo" (sesión en blanco).
+- **Asistente**: tipo (entreno / benchmark) → objetivo → grupos → duración
+  → material → revisión. Pesos: benchmark > histórico > base prudente por
+  material (nunca 0 kg si el ejercicio lleva carga).
+- **Benchmark**: 1RM estimado o manual; alimenta los pesos futuros.
 
-### Historial
-- Lista por fecha con volumen, ejercicios y series (cardio en min · km ·
-  intensidad) y la valoración si la hay; borrar con confirmación.
+### Ejercicios
+- 226 ejercicios (wger), búsqueda y filtros (grupo, material); lista plana
+  con icono de línea por grupo (sin imágenes placeholder).
+- Detalle: nombre, grupo, material, nivel, instrucciones, licencia/autor.
+- Futuro: explicación, músculo que más trabaja, por qué se usa y favoritos
+  de atletas con cita verificable (Fase 14); 3 fotos por ejercicio (Fase 13);
+  nombres en el idioma de la app.
+
+### Historial (→ InstaGym, Fase 15)
+- Hoy: lista por fecha con ejercicios, series (cardio en min/km/intensidad)
+  y valoración; borrar con confirmación.
+- Futuro **InstaGym**: feed tipo Instagram con cada sesión (resumen) y sus
+  **fotos y comentarios**.
 
 ### Perfil
-- **Sobre ti** (todo opcional): sexo, año de nacimiento, nivel y objetivo
-  principal. El asistente arranca con tu nivel y objetivo.
-- Peso corporal (se registra aquí o en la sesión) y altura, con tendencia e
-  IMC.
-- **Calorías diarias**: metabolismo basal con la ecuación de
-  **Mifflin-St Jeor** (peso, altura, edad, sexo; sin sexo → valor medio) ×
-  factor de actividad deducido de las sesiones reales de las últimas 4
-  semanas (1,2 / 1,375 / 1,55 / 1,725; 150 min de cardio/semana cuentan como
-  una sesión más). Se muestra como estimación (±10 %), no consejo médico.
-- Ajustes: **idioma** (NL / ES / EN / FR) y **Tus datos** (exportar JSON,
-  borrar todo con confirmación).
+- **Sobre ti**: sexo, año de nacimiento, nivel, objetivo principal.
+- Peso (registrable aquí o en la sesión) y altura, con tendencia e IMC.
+- **Calorías diarias**: Mifflin-St Jeor × factor de actividad deducido de
+  las sesiones de las últimas 4 semanas (estimación ±10 %, no médica).
+- **Tema**: Noche (negro/blanco, por defecto), Día (inverso), Ámbar (azul
+  medianoche/ámbar), Neón (violeta/lima), Rubí (verde/coral).
+- **Nacionalidad** (20 países) y, aparte, interruptor "Usar los colores de mi
+  país" → la app toma los colores de la bandera (solo colores, nunca
+  emblemas; legibilidad primero).
+- Explicación sencilla de metabolismo basal vs gasto diario.
+- Ajustes: idioma (NL/ES/EN/FR, nombres completos) y Tus datos (exportar
+  JSON / borrar todo con confirmación).
 
 ## 3. Datos
 
-- `data/exercises/all.json` → 226 ejercicios:
-  `id, name_en, name_nl, aliases, muscle_group, secondary_muscles,
-  equipment, level, instructions, image, source, license, credit`.
+- `data/exercises/all.json` → 226 ejercicios: `id, name_en, name_nl,
+  aliases, muscle_group, secondary_muscles, equipment, level, instructions,
+  image, source, license, credit`. Lista legible: `docs/EJERCICIOS.md`.
 - Sesión: `{ id, date, type: training|benchmark, exercises: [{ exercise_id,
   sets: [{ reps, weight_kg, done?, duration_min?, distance_km?,
   intensity? }] }], notes?, duration_min?, body_weight_kg?, height_cm?,
-  energy?, feeling? }` (cardio usa `duration_min`/`distance_km`/`intensity`
-  con reps = kg = 0; `energy`/`feeling` de 1 a 5).
-- Perfil: `benchmarks[]` (1RM por ejercicio), `height_entries[]`,
-  `weight_entries[]`, `experience`, `sex?`, `birth_year?`, `goal?`.
+  energy?, feeling? }`.
+- Entreno activo (`fittrack.active.v1`): borrador + aplazados + descanso en
+  curso (`rest_until`, `rest_total`).
+- Perfil: `benchmarks[]`, `height_entries[]`, `weight_entries[]`,
+  `experience`, `sex?`, `birth_year?`, `goal?`.
+- Última elección de la hoja de inicio: `fittrack.quickstart.v1`.
 - Persistencia: AsyncStorage (app) / localStorage (web). Sin backend.
-- Fórmulas: 1RM = peso × (1 + reps/30) (Epley); volumen = Σ reps × kg.
 
 ## 4. Idiomas
 
-- NL, ES, EN, FR. Bundles en `i18n/` con espejos idénticos en
-  `app/src/i18n-data/` y `web/src/i18n/`; todos con el mismo nº de claves.
+NL, ES, EN, FR. `i18n/` con espejos idénticos en `app/src/i18n-data/` y
+`web/src/i18n/`; mismo nº de claves en los 4.
+
+**Todo lo escrito cambia al idioma elegido, al instante y sin red**: interfaz,
+nombres de ejercicio, pasos "¿Cómo se hace?" (un dataset por idioma en
+`data/exercises/howto/`), grupos y músculos, fechas y meses. Nada visible en
+otro idioma salvo unidades (kg, min, km, reps).
 
 ## 5. Calidad (criterios de aceptación)
 
-- Accesibilidad: etiquetas en todo control, objetivos ≥ 44 pt, contraste
-  AA, sin glifos de fuente como iconos (se dibujan: nada de "tofu" □).
-- Sin desbordes horizontales de 360 a 440 px de ancho.
-- Capturas y vídeo en `docs/screenshots/` actualizados en **cada commit**.
-- Verificación antes de "hecho": ver `AGENTS.md` → *Verificación*.
+- `tsc` 0 errores, `node tests/run.js` 0 fallos, export web OK.
+- Capturas (`docs/screenshots/`) y vídeo regenerados y revisados en cada
+  commit; prueba "Steve Jobs" = **sí** antes de commitear.
+- Accesibilidad: etiquetas y roles en todo control, objetivos ≥ 44 pt,
+  contraste AA, iconos dibujados (nada de glifos "tofu").
+- Sin desbordes de 360 a 440 px.
 
-## 6. Hoja de ruta
+## 6. Hoja de ruta (orden en `TASKS.md`)
 
-- **Fase 13 — Fotos de ejercicios**: 3 imágenes por ejercicio (226 × 3 =
-  678), fotorrealistas, con flechas y círculos en lo importante, estilo de
-  `data/images/ejemplo/`. Prompts listos en `docs/fotos/PROMPTS.md`; el
-  usuario las genera y el agente las integra (carrusel en el detalle,
-  declaradas como generadas con IA).
-- Paridad web de las Fases 11b y 12. Detalle en `TASKS.md`.
-- **Fase 7 — Sync en la nube (Supabase)**: en espera.
+1. Cerrar la prueba "Steve Jobs" (Fase 11d).
+2. Fase 15 — InstaGym (fotos y comentarios por sesión; calendario → sesión).
+3. Fase 14 — Biblioteca con explicaciones, favoritos citados y nombres
+   traducidos.
+4. Fase 13 — Fotos de ejercicios (las genera el usuario; prompts listos).
+5. Paridad de la web (Astro) con la app.
+6. Fase 7 — Sync en la nube (Supabase): en espera.
 
 ## Fuera de alcance (por ahora)
 
-Cuentas y backend, sincronización entre dispositivos, dieta/suplementos,
-Apple Health / Google Fit, notificaciones.
+Cuentas y backend, sincronización entre dispositivos, dieta, Apple Health /
+Google Fit, notificaciones, Apple Watch.

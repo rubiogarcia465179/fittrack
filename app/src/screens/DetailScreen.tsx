@@ -1,4 +1,7 @@
-import { View, Text, Image, ScrollView, Pressable, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
+import { Chevron } from '../components/Chevron';
+import { exName } from '../lib/names';
+import { howtoFor } from '../howto';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import { GROUP_COLORS, RADII } from '../theme';
@@ -16,7 +19,7 @@ export default function DetailScreen({
   const { p, SHADOW } = useTheme();
   const scale = useScale();
   const lang = i18n.language as string;
-  const name = lang === 'nl' ? exercise.name_nl || exercise.name_en : exercise.name_en;
+  const name = exName(exercise, lang);
 
   return (
     <View style={[styles.body, { backgroundColor: p.bg }]}>
@@ -28,20 +31,19 @@ export default function DetailScreen({
           onPress={onBack}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
         >
-          <Text style={[styles.back, { color: p.accent }]}>{'←'} {t('back')}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <Chevron color={p.text} dir="left" />
+            <Text style={[styles.back, { color: p.text }]}>{t('back')}</Text>
+          </View>
         </Pressable>
       </View>
       <ScrollView contentContainerStyle={styles.scroll}>
-        <Image
-          source={exercise.imageAsset}
-          style={[styles.hero, { backgroundColor: p.section }]}
-          resizeMode="cover"
-          accessibilityLabel={name}
-        />
+        {/* Sin imagen placeholder ("auténtico o nada"): las fotos reales
+            llegarán con la Fase 13. */}
         <Text style={[styles.name, { fontSize: fs(scale, 28), color: p.text }]}>{name}</Text>
         {exercise.aliases && exercise.aliases.length > 0 ? (
           <Text style={[styles.aliases, { color: p.dim }]}>
-            {lang === 'nl' ? exercise.name_en : exercise.name_nl}
+            {lang === 'en' ? exercise.name_nl : exercise.name_en}
             {exercise.aliases.length ? ' · ' + exercise.aliases.join(', ') : ''}
           </Text>
         ) : null}
@@ -49,7 +51,7 @@ export default function DetailScreen({
         <View style={styles.metaGrid}>
           <Meta label={t('ex_muscle')} value={t(`group_${exercise.muscle_group}`)} color={GROUP_COLORS[exercise.muscle_group]} />
           <Meta label={t('ex_secondary')} value={(exercise.secondary_muscles || []).join(', ') || '—'} />
-          <Meta label={t('ex_equipment')} value={t(`equip_${exercise.equipment}`)} />
+          {exercise.equipment !== 'other' ? <Meta label={t('ex_equipment')} value={t(`equip_${exercise.equipment}`)} /> : null}
           <Meta label={t('ex_level')} value={t(`level_${exercise.level}`)} />
           <Meta label={t('ex_source')} value={t(`source_${exercise.source}`)} />
           {exercise.license ? (
@@ -62,7 +64,7 @@ export default function DetailScreen({
 
         <Text style={[styles.sectionTitle, { color: p.text }]}>{t('ex_instructions')}</Text>
         <View style={styles.instructions}>
-          {exercise.instructions?.map((line, i) => (
+          {howtoFor(exercise.id, lang, exercise.instructions).map((line, i) => (
             <View key={i} style={styles.instrRow}>
               <Text style={[styles.instrNum, { color: p.accent }]}>{i + 1}</Text>
               <Text style={[styles.instrText, { color: p.text }]}>{line}</Text>
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     padding: 16,
-    paddingBottom: 40,
+    paddingBottom: 32,
   },
   hero: {
     width: '100%',

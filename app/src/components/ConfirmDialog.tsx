@@ -82,7 +82,7 @@ export function ConfirmDialog({
               {loading ? (
                 <ActivityIndicator size="small" color="#fff" />
               ) : (
-                <Text style={[styles.btnText, { fontSize: fs(scale, 17), color: '#fff' }]}>{confirmLabel}</Text>
+                <Text style={[styles.btnText, { fontSize: fs(scale, 17), color: destructive ? '#fff' : p.onAccent }]}>{confirmLabel}</Text>
               )}
             </Pressable>
           </View>

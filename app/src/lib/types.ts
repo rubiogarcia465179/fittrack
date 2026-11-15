@@ -15,6 +15,8 @@ export interface ExerciseRow {
   id: string;
   name_en: string;
   name_nl: string;
+  name_es?: string; // traducción local
+  name_fr?: string; // traducción local
   aliases?: string[];
   muscle_group: string;
   secondary_muscles?: string[];

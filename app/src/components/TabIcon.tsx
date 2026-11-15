@@ -203,18 +203,101 @@ export function CheckGlyph({ size = 18, color = '#fff' }: { size?: number; color
   );
 }
 
+/* ------------------------------------------------------------------
+ * Iconos de la barra inferior — familia propia estilo Instagram:
+ * rejilla de 26 pt, trazo único de 2 px redondeado; contorno cuando está
+ * inactivo y RELLENO cuando está activo (los huecos usan el color de fondo).
+ * Dibujados con Views (sin fuentes ni SVG).
+ * ------------------------------------------------------------------ */
+type NavProps = { color: string; bg: string; active: boolean };
+const S = 26;
+const W = 2;
+
+/** Inicio: casa (tejado + cuerpo; puerta recortada cuando está activa). */
+function HomeIcon({ color, bg, active }: NavProps) {
+  return (
+    <View style={{ width: S, height: S }}>
+      {active ? (
+        <View style={{ position: 'absolute', left: 2, top: 2, width: 0, height: 0, borderLeftWidth: 11, borderRightWidth: 11, borderBottomWidth: 11, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: color }} />
+      ) : (
+        <View style={{ position: 'absolute', left: 5.2, top: 5.2, width: 15.6, height: 15.6, borderTopWidth: W, borderLeftWidth: W, borderColor: color, borderTopLeftRadius: 2, transform: [{ rotate: '45deg' }] }} />
+      )}
+      <View style={{ position: 'absolute', left: 5, top: 12, width: 16, height: 12, borderWidth: W, borderTopWidth: active ? W : 0, borderColor: color, backgroundColor: active ? color : 'transparent', borderBottomLeftRadius: 3, borderBottomRightRadius: 3 }} />
+      {active ? <View style={{ position: 'absolute', left: 11, top: 17, width: 4, height: 7, borderTopLeftRadius: 2, borderTopRightRadius: 2, backgroundColor: bg }} /> : null}
+    </View>
+  );
+}
+
+/** Ejercicios: mancuerna (discos + barra). */
+function DumbbellIcon({ color, active }: NavProps) {
+  const plate = (left: number, w: number, h: number) => (
+    <View style={{ position: 'absolute', left, top: (S - h) / 2, width: w, height: h, borderRadius: 2, borderWidth: W, borderColor: color, backgroundColor: active ? color : 'transparent' }} />
+  );
+  return (
+    <View style={{ width: S, height: S }}>
+      <View style={{ position: 'absolute', left: 9, top: S / 2 - 1.25, width: 8, height: 2.5, borderRadius: 1, backgroundColor: color }} />
+      {plate(0.5, 4, 10)}
+      {plate(4, 5.5, 16)}
+      {plate(16.5, 5.5, 16)}
+      {plate(21.5, 4, 10)}
+    </View>
+  );
+}
+
+/** Sesión: cuadrado redondeado crear con +. */
+function CreateIcon({ color, bg, active }: NavProps) {
+  const ink = active ? bg : color;
+  return (
+    <View style={{ width: S, height: S, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ width: 22, height: 22, borderRadius: 7, borderWidth: W, borderColor: color, backgroundColor: active ? color : 'transparent', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ position: 'absolute', width: 10, height: W, borderRadius: 1, backgroundColor: ink }} />
+        <View style={{ position: 'absolute', width: W, height: 10, borderRadius: 1, backgroundColor: ink }} />
+      </View>
+    </View>
+  );
+}
+
+/** Historial / InstaGym: cámara (objetivo + flash). */
+function CameraIcon({ color, bg, active }: NavProps) {
+  const ink = active ? bg : color;
+  return (
+    <View style={{ width: S, height: S, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ width: 22, height: 22, borderRadius: 7, borderWidth: W, borderColor: color, backgroundColor: active ? color : 'transparent', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ width: 10, height: 10, borderRadius: 5, borderWidth: W, borderColor: ink }} />
+        <View style={{ position: 'absolute', right: 3, top: 3, width: 2.5, height: 2.5, borderRadius: 1.25, backgroundColor: ink }} />
+      </View>
+    </View>
+  );
+}
+
+/** Perfil: persona (cabeza + hombros). */
+function PersonIcon({ color, active }: NavProps) {
+  return (
+    <View style={{ width: S, height: S }}>
+      <View style={{ position: 'absolute', left: 8, top: 2, width: 10, height: 10, borderRadius: 5, borderWidth: W, borderColor: color, backgroundColor: active ? color : 'transparent' }} />
+      <View style={{ position: 'absolute', left: 3, top: 14, width: 20, height: 10, borderTopLeftRadius: 10, borderTopRightRadius: 10, borderBottomLeftRadius: 2, borderBottomRightRadius: 2, borderWidth: W, borderColor: color, backgroundColor: active ? color : 'transparent' }} />
+    </View>
+  );
+}
+
 export function TabIcon({
   name,
   color,
+  bg = 'transparent',
+  active = false,
 }: {
   name: 'dashboard' | 'library' | 'session' | 'history' | 'profile';
   color: string;
+  /** Color de fondo de la barra (para los recortes del icono activo). */
+  bg?: string;
+  active?: boolean;
 }) {
-  if (name === 'dashboard') return <BarIcon color={color} />;
-  if (name === 'library') return <PlateIcon color={color} />;
-  if (name === 'session') return <PlusIcon color={color} />;
-  if (name === 'profile') return <ScaleIcon color={color} />;
-  return <ClockIcon color={color} />;
+  const props = { color, bg, active };
+  if (name === 'dashboard') return <HomeIcon {...props} />;
+  if (name === 'library') return <DumbbellIcon {...props} />;
+  if (name === 'session') return <CreateIcon {...props} />;
+  if (name === 'profile') return <PersonIcon {...props} />;
+  return <CameraIcon {...props} />;
 }
 
 export default TabIcon;

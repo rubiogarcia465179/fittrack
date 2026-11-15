@@ -168,7 +168,7 @@ export function searchExercises(exercises, q, group = 'all', equipment = 'all') 
     if (equipment !== 'all' && e.equipment !== equipment) return false;
     if (!needle) return true;
     const hay = [
-      e.name_en, e.name_nl, e.muscle_group, e.equipment,
+      e.name_en, e.name_nl, e.name_es, e.name_fr, e.muscle_group, e.equipment,
       ...(e.aliases || []),
     ].join(' ').toLowerCase();
     return hay.includes(needle);

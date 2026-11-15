@@ -98,7 +98,7 @@ export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) 
             {busy === 'export' ? (
               <ActivityIndicator size="small" color="#fff" />
             ) : (
-              <Text style={[styles.btnText, { fontSize: fs(scale, 16), color: '#fff' }]}>{t('data_export')}</Text>
+              <Text style={[styles.btnText, { fontSize: fs(scale, 16), color: p.onAccent }]}>{t('data_export')}</Text>
             )}
           </Pressable>
           <Pressable

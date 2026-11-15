@@ -15,9 +15,12 @@ import { loadExercises, type Exercise } from './src/data';
 import { store, type Session, type BenchmarkRef, type Profile } from './src/store';
 import { sortByDate, uid, todayISO } from './src/lib/gym';
 import { ThemeProvider, useTheme } from './src/theme-context';
-import { RADII } from './src/theme';
+import { RADII, THEME_IDS, type ThemeId } from './src/theme';
+import { COUNTRY_BY_CODE, type CountryCode } from './src/theme-flags';
 import { newActiveSession, type ActiveSession, type ActiveDraftExercise } from './src/lib/session';
-import type { WorkoutPlan } from './src/lib/workout';
+import { generateWorkout, recentRows, type WorkoutPlan } from './src/lib/workout';
+import type { Goal, Intensity } from './src/lib/types';
+import { QuickStartSheet, type QuickStartOptions } from './src/components/QuickStartSheet';
 import TabIcon from './src/components/TabIcon';
 import { Gradient } from './src/components/Gradient';
 import DashboardScreen from './src/screens/DashboardScreen';
@@ -33,6 +36,10 @@ import { loadFonts, MONT } from './src/lib/fonts';
 type Tab = 'dashboard' | 'library' | 'session' | 'history' | 'profile';
 const TABS: Tab[] = ['dashboard', 'library', 'session', 'history', 'profile'];
 const ACTIVE_KEY = 'fittrack.active.v1';
+const QS_KEY = 'fittrack.quickstart.v1';
+const THEME_KEY = 'fittrack.theme.v1';
+const NAT_KEY = 'fittrack.nationality.v1';
+const FLAG_KEY = 'fittrack.themeflag.v1';
 
 export default function App() {
   // La sesión activa ES la fuente del tema: debe vivir por encima del
@@ -44,18 +51,82 @@ export default function App() {
     if (a) void AsyncStorage.setItem(ACTIVE_KEY, JSON.stringify(a));
     else void AsyncStorage.removeItem(ACTIVE_KEY);
   };
+  const [tab, setTab] = useState<Tab>('dashboard');
+  // UN solo lenguaje de diseño en toda la app; el usuario elige el tema en
+  // Perfil (Noche por defecto). Se recuerda en AsyncStorage.
+  const [themeId, setThemeId] = useState<ThemeId>('night');
+  useEffect(() => {
+    void AsyncStorage.getItem(THEME_KEY).then((v) => {
+      if (v && (THEME_IDS as string[]).includes(v)) setThemeId(v as ThemeId);
+    });
+  }, []);
+  const pickTheme = (id: ThemeId) => {
+    setThemeId(id);
+    void AsyncStorage.setItem(THEME_KEY, id);
+  };
+  // Nacionalidad (opcional) y, aparte, si se usa su bandera como tema.
+  const [nationality, setNationality] = useState<CountryCode | null>(null);
+  const [useFlag, setUseFlag] = useState(false);
+  useEffect(() => {
+    void AsyncStorage.multiGet([NAT_KEY, FLAG_KEY]).then((kv) => {
+      const nat = kv[0][1];
+      if (nat && COUNTRY_BY_CODE.has(nat as CountryCode)) setNationality(nat as CountryCode);
+      setUseFlag(kv[1][1] === '1');
+    });
+  }, []);
+  const pickNationality = (c: CountryCode) => {
+    setNationality(c);
+    void AsyncStorage.setItem(NAT_KEY, c);
+  };
+  const toggleFlag = (on: boolean) => {
+    setUseFlag(on);
+    void AsyncStorage.setItem(FLAG_KEY, on ? '1' : '0');
+  };
+  const effectiveTheme = useFlag && nationality ? `flag:${nationality}` : themeId;
   return (
-    <ThemeProvider active={active != null}>
-      <Root active={active} persistActive={persistActive} />
+    <ThemeProvider themeId={effectiveTheme}>
+      <Root
+        active={active}
+        persistActive={persistActive}
+        tab={tab}
+        setTab={setTab}
+        themeId={themeId}
+        onPickTheme={pickTheme}
+        nationality={nationality}
+        onPickNationality={pickNationality}
+        useFlag={useFlag}
+        onToggleFlag={toggleFlag}
+      />
     </ThemeProvider>
   );
 }
 
-function Root({ active, persistActive }: { active: ActiveSession | null; persistActive: (a: ActiveSession | null) => void }) {
+function Root({
+  active,
+  persistActive,
+  tab,
+  setTab,
+  themeId,
+  onPickTheme,
+  nationality,
+  onPickNationality,
+  useFlag,
+  onToggleFlag,
+}: {
+  active: ActiveSession | null;
+  persistActive: (a: ActiveSession | null) => void;
+  tab: Tab;
+  setTab: (t: Tab) => void;
+  themeId: ThemeId;
+  onPickTheme: (id: ThemeId) => void;
+  nationality: CountryCode | null;
+  onPickNationality: (c: CountryCode) => void;
+  useFlag: boolean;
+  onToggleFlag: (on: boolean) => void;
+}) {
   const { t } = useTranslation();
   const { p, GRADIENT } = useTheme();
 
-  const [tab, setTab] = useState<Tab>('dashboard');
   // R-19: Montserrat se carga al montar; cuando está lista, la raíz aplica la
   // familia (se hereda a todo el texto en web).
   const [fontReady, setFontReady] = useState(false);
@@ -146,6 +217,69 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
     persistActive(a);
   };
 
+  // Main → "Empezar sesión": UN toque. Entreno recomendado con el objetivo y
+  // nivel del Perfil, para el bloque de grupos que hace más tiempo que no
+  // entrenas (empuje / tirón / pierna). Sin pasos intermedios.
+  // "Empezar sesión" abre primero la hoja (tiempo · intensidad · energía ·
+  // objetivo); "Continuar al entreno" genera el plan. Se recuerda la última
+  // elección (AsyncStorage) y, si no hay, se parte del Perfil.
+  const [qsOpen, setQsOpen] = useState(false);
+  const [qs, setQs] = useState<QuickStartOptions>({ duration: 45, intensity: 'moderate', energy: 'normal', goal: 'build_muscle' });
+  useEffect(() => {
+    void AsyncStorage.getItem(QS_KEY).then((raw) => {
+      if (raw) {
+        try {
+          setQs((q) => ({ ...q, ...(JSON.parse(raw) as Partial<QuickStartOptions>) }));
+          return;
+        } catch {
+          /* datos corruptos: se ignoran */
+        }
+      }
+      if (profile?.goal) setQs((q) => ({ ...q, goal: profile.goal as Goal }));
+    });
+  }, [profile?.goal]);
+  const openQuickStart = () => {
+    if (active) {
+      setTab('session');
+      return;
+    }
+    setQsOpen(true);
+  };
+
+  const quickStart = () => {
+    setQsOpen(false);
+    void AsyncStorage.setItem(QS_KEY, JSON.stringify(qs));
+    // Energía baja → un nivel menos de intensidad (nunca por debajo de suave).
+    const order: Intensity[] = ['low', 'moderate', 'high'];
+    const intensity = qs.energy === 'low' ? order[Math.max(0, order.indexOf(qs.intensity) - 1)] : qs.intensity;
+    const SPLITS = [
+      ['chest', 'shoulders', 'arms'],
+      ['back', 'arms'],
+      ['legs', 'core'],
+    ];
+    const groupOf = new Map(exercises.map((e) => [e.id, e.muscle_group]));
+    const lastDate = (groups: string[]) => {
+      for (const s of sessions) {
+        if (s.exercises.some((x) => groups.includes(groupOf.get(x.exercise_id) || ''))) return s.date;
+      }
+      return '0000-00-00';
+    };
+    const split = SPLITS.slice().sort((a, b) => (lastDate(a) < lastDate(b) ? -1 : 1))[0];
+    const plan = generateWorkout({
+      groups: split,
+      equipment_mode: 'full_gym',
+      duration_min: qs.duration,
+      experience: profile?.experience || 'intermediate',
+      intensity,
+      goal: qs.goal,
+      benchmarks,
+      exercises,
+      recent: recentRows(sessions),
+    });
+    startWorkout(plan, 'training');
+    setTab('session');
+  };
+
   const handleSaved = (s: Session) => {
     setSessions((prev) => sortByDate([s, ...prev]));
     // Al guardar, el entrenamiento activo termina: de vuelta al modo normal.
@@ -182,6 +316,8 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
       return {
         name_en: e?.name_en || b.exercise_id,
         name_nl: e?.name_nl || b.exercise_id,
+        name_es: e?.name_es,
+        name_fr: e?.name_fr,
         estimated_1rm: b.estimated_1rm,
       };
     });
@@ -197,7 +333,7 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
   // Fondo premium: la sesión activa pinta un degradado navy profundo en
   // TODA la app (reconocible al instante); la pestaña Perfil usa un crema
   // sutil. El resto usa el color plano de la paleta.
-  const bgColors = active || tab === 'profile' ? GRADIENT.bg : null;
+  const bgColors = GRADIENT.bg;
 
   return (
     <SafeAreaView
@@ -231,8 +367,13 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
                 sessions={sessions}
                 benchmarks={benchNamed}
                 activeWorkout={active != null}
+                onStartSession={openQuickStart}
+                onCustomize={() => {
+                  setBuilding(true);
+                  setTab('session');
+                }}
                 onOpenHistory={() => setTab('history')}
-                onStartSession={() => setTab('session')}
+                onOpenProfile={() => setTab('profile')}
               />
             ) : tab === 'library' ? (
               <LibraryScreen exercises={exercises} onOpenExercise={openExercise} />
@@ -280,46 +421,51 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
                 onClearAll={handleClearAll}
                 onDataChanged={handleDataChanged}
                 onProfileChanged={setProfile}
+                themeId={themeId}
+                onPickTheme={onPickTheme}
+                nationality={nationality}
+                onPickNationality={onPickNationality}
+                useFlag={useFlag}
+                onToggleFlag={onToggleFlag}
               />
             )}
           </View>
         </View>
       </View>
 
-      <View style={[styles.tabbar, { backgroundColor: p.tabBarBg, borderTopColor: p.border }]}>
+      {/* Barra inferior estilo X (iOS): ancho completo, negra, línea fina
+          arriba, solo iconos (el nombre va en accessibilityLabel). El activo
+          en blanco; el resto en gris. */}
+      <View
+        accessibilityRole="tablist"
+        style={[styles.tabbar, { backgroundColor: p.tabBarBg, borderTopColor: p.border }]}
+      >
         {TABS.map((tb) => {
           const isActive = tab === tb && !detail;
+          const label = t(`nav_${tb === 'library' ? 'exercises' : tb}`);
           return (
             <Pressable
               key={tb}
-              style={[styles.tab, isActive && styles.tabActive]}
-              accessibilityRole="button"
+              style={({ pressed }) => [styles.tab, { opacity: pressed ? 0.6 : 1 }]}
+              accessibilityRole="tab"
               accessibilityState={{ selected: isActive }}
-              accessibilityLabel={t(`nav_${tb === 'library' ? 'exercises' : tb}`)}
+              accessibilityLabel={label}
               onPress={() => {
                 setDetailId(null);
                 setTab(tb);
               }}
             >
               <View style={styles.tabIconWrap} accessibilityElementsHidden>
-                <TabIcon name={tb} color={isActive ? p.accent : p.dim} />
-                {tb === 'session' && active ? (
-                  <View style={[styles.activeDot, { backgroundColor: '#30D158' }]} />
-                ) : null}
+                <TabIcon name={tb} color={p.text} bg={p.tabBarBg} active={isActive} />
+                {tb === 'session' && active ? <View style={[styles.activeDot, { backgroundColor: p.accent, borderColor: p.bg }]} /> : null}
               </View>
-              <Text
-                style={[
-                  styles.tabLabel,
-                  { color: isActive ? p.accent : p.dim },
-                ]}
-                numberOfLines={1}
-              >
-                {t(`nav_${tb === 'library' ? 'exercises' : tb}`)}
-              </Text>
             </Pressable>
           );
         })}
       </View>
+      {qsOpen ? (
+        <QuickStartSheet value={qs} onChange={setQs} onCancel={() => setQsOpen(false)} onContinue={quickStart} />
+      ) : null}
     </SafeAreaView>
   );
 }
@@ -337,7 +483,7 @@ const styles = StyleSheet.create({
   },
   appToast: {
     position: 'absolute',
-    top: 10,
+    bottom: 16, // abajo, sobre la barra (no tapa títulos)
     left: '50%',
     transform: [{ translateX: -140 }],
     width: 280,
@@ -368,37 +514,30 @@ const styles = StyleSheet.create({
   },
   tabbar: {
     flexDirection: 'row',
+    alignItems: 'center',
+    height: 56,
     borderTopWidth: StyleSheet.hairlineWidth,
-    paddingBottom: Platform.OS === 'ios' ? 0 : 4,
-    height: 60,
   },
   tab: {
     flex: 1,
+    height: 56,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 4,
-    gap: 3,
   },
-  tabActive: {},
   tabIconWrap: {
-    width: 28,
-    height: 24,
+    width: 44,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  tabLabel: {
-    fontSize: 10,
-    fontWeight: '600',
-    letterSpacing: 0.2,
   },
   activeDot: {
     position: 'absolute',
-    top: -3,
-    right: -5,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    top: 8,
+    right: 6,
+    width: 9,
+    height: 9,
+    borderRadius: 5,
     borderWidth: 1.5,
-    borderColor: '#fff',
   },
+
 });

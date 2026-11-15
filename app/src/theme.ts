@@ -25,6 +25,8 @@ export interface Palette {
   border: string;
   accent: string; // color principal (antes "blue")
   accentDark: string; // hover / degradado inferior
+  /** Texto/iconos SOBRE el acento (botones, chips seleccionados, días marcados). */
+  onAccent: string;
   link: string;
   green: string;
   red: string;
@@ -56,6 +58,7 @@ export const DEFAULT: Palette = {
   border: '#D8CFBE',
   accent: '#C44A0D',
   accentDark: '#A63D08',
+  onAccent: '#FFFFFF',
   link: '#A63D08',
   green: '#2E7D44',
   red: '#C43C2A',
@@ -68,29 +71,103 @@ export const DEFAULT: Palette = {
   statusBar: 'dark',
 };
 
-/** Sesión en curso: negro (degradado carbón → negro) + naranja con
- *  degradado. Grises neutros de iOS en modo oscuro. */
+/** Tema ÚNICO de la app — estilo X (Twitter) iOS, monocromo:
+ *  fondo negro puro, texto blanco, secundario gris, separadores finos y el
+ *  "acento" es el BLANCO (botones blancos con texto negro, días entrenados,
+ *  series hechas y selección en blanco con texto negro). Sin color: solo el
+ *  rojo para acciones destructivas confirmadas. */
 export const WORKOUT: Palette = {
   bg: '#000000',
-  section: '#0A0A0C',
-  card: '#1C1C1F',
-  cardBorder: '#2E2E33',
-  text: '#F5F5F7',
-  secondary: '#AEAEB2',
-  dim: '#8E8E93',
-  border: '#3A3A3F',
-  accent: '#FF6A1F',
-  accentDark: '#C2410C',
-  link: '#FF9A5C',
-  green: '#32D74B',
-  red: '#FF453A',
-  fieldBg: '#26262A',
-  chipOff: '#2C2C30',
-  chipOffText: '#F5F5F7',
-  overlay: 'rgba(0, 0, 0, 0.6)',
-  headerBg: 'rgba(18, 18, 20, 0.88)',
-  tabBarBg: 'rgba(12, 12, 14, 0.94)',
+  section: '#000000',
+  card: '#16181C',
+  cardBorder: '#2F3336',
+  text: '#E7E9EA',
+  secondary: '#71767B',
+  dim: '#71767B',
+  border: '#2F3336',
+  accent: '#FFFFFF',
+  accentDark: '#D9D9D9',
+  onAccent: '#000000',
+  link: '#E7E9EA',
+  green: '#FFFFFF',
+  red: '#F4212E',
+  fieldBg: '#16181C',
+  chipOff: '#16181C',
+  chipOffText: '#E7E9EA',
+  overlay: 'rgba(91, 112, 131, 0.4)',
+  headerBg: 'rgba(0, 0, 0, 0.85)',
+  tabBarBg: '#000000',
   statusBar: 'light',
+};
+
+/** "Día": el inverso exacto de Noche (estilo X claro): blanco + negro. */
+export const DAY: Palette = {
+  bg: '#FFFFFF',
+  section: '#FFFFFF',
+  card: '#F7F9F9',
+  cardBorder: '#EFF3F4',
+  text: '#0F1419',
+  secondary: '#536471',
+  dim: '#536471',
+  border: '#CFD9DE',
+  accent: '#0F1419',
+  accentDark: '#000000',
+  onAccent: '#FFFFFF',
+  link: '#0F1419',
+  green: '#0F1419',
+  red: '#F4212E',
+  fieldBg: '#F7F9F9',
+  chipOff: '#F7F9F9',
+  chipOffText: '#0F1419',
+  overlay: 'rgba(0, 0, 0, 0.4)',
+  headerBg: 'rgba(255, 255, 255, 0.85)',
+  tabBarBg: '#FFFFFF',
+  statusBar: 'dark',
+};
+
+/** Temas de dos colores complementarios (máximo contraste, sin perder
+ *  elegancia): fondo muy oscuro de un tono + acento vivo del tono opuesto.
+ *  El texto sobre el acento es el propio fondo (onAccent). */
+function duo(o: { bg: string; card: string; border: string; text: string; secondary: string; accent: string; accentDark: string }): Palette {
+  return {
+    bg: o.bg,
+    section: o.bg,
+    card: o.card,
+    cardBorder: o.border,
+    text: o.text,
+    secondary: o.secondary,
+    dim: o.secondary,
+    border: o.border,
+    accent: o.accent,
+    accentDark: o.accentDark,
+    onAccent: o.bg,
+    link: o.text,
+    green: o.accent,
+    red: '#FF4D4D',
+    fieldBg: o.card,
+    chipOff: o.card,
+    chipOffText: o.text,
+    overlay: 'rgba(0, 0, 0, 0.55)',
+    headerBg: o.bg,
+    tabBarBg: o.bg,
+    statusBar: 'light',
+  };
+}
+/** Ámbar: azul medianoche ↔ ámbar (azul / naranja). */
+export const AMBER = duo({ bg: '#0A1128', card: '#121B38', border: '#24325C', text: '#F2F4FA', secondary: '#8A94B3', accent: '#FFB547', accentDark: '#F59E0B' });
+/** Neón: violeta profundo ↔ lima ácida (violeta / amarillo verdoso). */
+export const NEON = duo({ bg: '#140A24', card: '#1E1236', border: '#35235C', text: '#F4F0FF', secondary: '#9C8FBF', accent: '#C6FF3D', accentDark: '#A8E61F' });
+/** Rubí: verde bosque ↔ coral rubí (verde / rojo). */
+export const RUBY = duo({ bg: '#06150F', card: '#0D2219', border: '#1E3D2E', text: '#EEF7F2', secondary: '#84A595', accent: '#FF5A7A', accentDark: '#E63E60' });
+
+export type ThemeId = 'night' | 'day' | 'amber' | 'neon' | 'ruby';
+export const THEME_IDS: ThemeId[] = ['night', 'day', 'amber', 'neon', 'ruby'];
+export const THEMES: Record<ThemeId, Palette> = {
+  night: WORKOUT,
+  day: DAY,
+  amber: AMBER,
+  neon: NEON,
+  ruby: RUBY,
 };
 
 /** Compatibilidad: alias del acento clásico (algunos estilos aún lo citan). */
@@ -103,10 +180,10 @@ export const GRADIENTS: Record<'default' | 'workout', GradientStops> = {
     cta: ['#D9541E', '#B04007'],
   },
   workout: {
-    // Negro estilizado: carbón arriba → negro puro abajo.
-    bg: ['#2A2A30', '#000000'],
-    // Naranja profundo: el texto blanco mantiene contraste en toda la CTA.
-    cta: ['#F55E14', '#B83A08'],
+    // Negro puro (como X): sin degradado de fondo.
+    bg: ['#000000', '#000000'],
+    // Botón principal BLANCO con texto negro (levísimo degradado de volumen).
+    cta: ['#FFFFFF', '#E6E6E6'],
   },
 };
 
