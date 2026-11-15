@@ -25,8 +25,23 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 `SPEC.md §1`):
 
 - **Una acción principal por pantalla.** Si añades un botón, decide qué deja
-  de ser primario. Lo poco frecuente va plegado ("Más estadísticas",
-  "Detalles", "¿Máquina ocupada?").
+  de ser primario. Lo poco frecuente va plegado ("Más opciones" en la
+  sesión, "¿Qué es esto?" en calorías, "Más" en temas).
+- **Navegación (versión "Foco a 10")**: 3 pestañas `TABS = ['dashboard',
+  'session', 'profile']` en `App.tsx`. `history` y `library` siguen siendo
+  valores de `tab` pero **no** están en la barra: se abren desde filas de
+  Inicio y llevan `BackBar` (`app/src/components/BackBar.tsx`); mientras
+  están abiertas, Inicio sigue marcado. Antes de añadir una pestaña, pregunta
+  al usuario.
+- **Un solo camino para empezar**: "Empezar sesión" → `QuickStartSheet`.
+  `WorkoutBuilderScreen` (asistente) se conserva en el código pero **no se
+  usa** (está en la rama `v1`).
+- **"Hoy toca"**: `app/src/lib/nextSplit.ts` (`nextSplit`, `splitLabel`)
+  es la única fuente de qué grupos tocan; Inicio y la hoja rápida la usan
+  los dos, para que nunca se contradigan.
+- **Ramas**: `main` (actual), `SteveJobs` (versión "Foco a 10", ya
+  fusionada) y `v1` (versión anterior, 5 pestañas). Por defecto se trabaja y
+  commitea en `main` (`CLAUDE.md §1`).
 - **Patrones de iOS antes que inventos**: pestañas = secciones (nunca
   acciones), título grande por pantalla (sin barra de marca global), listas
   agrupadas con separadores finos, hojas inferiores para elegir valores,
@@ -50,14 +65,16 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   (`SessionScreen.tsx`), nunca la ISO en bruto; ninguna cadena visible fuera
   de i18n (solo unidades: kg, min, km, reps).
 - **Foto de Inicio**: `app/src/lib/homePhoto.ts` (`loadHomePhoto`/
-  `saveHomePhoto`, clave `fittrack.homephoto.v1`); se cambia solo en Perfil.
+  `saveHomePhoto`, clave `fittrack.homephoto.v1`); se elige solo en Perfil →
+  Apariencia. **Sin foto propia no hay foto** (nada de stock en Inicio).
 - **Iconos de grupo**: `GroupGlyph` (`app/src/components/GroupGlyph.tsx`, vía
   `ExerciseGlyph`): uno distinto por grupo, trazo como la barra inferior, sin
   repetir un icono de pestaña.
 - **Barra inferior estilo X**: ancho completo, negra, línea fina, solo iconos
   (`accessibilityLabel` con el nombre). Sin reloj ni batería en pantallas.
-- **Sin imágenes placeholder** visibles: iconos de línea por grupo
-  (`ExerciseGlyph` con `color={p.text}`); la foto de cabecera solo en Inicio.
+- **Sin imágenes placeholder** visibles salvo la foto de ejemplo de
+  "¿Cómo se hace?", que va **marcada** hasta la Fase 13; en listas, iconos de
+  línea por grupo (`ExerciseGlyph` con `color={p.text}`).
 - **Iconos dibujados** (Views/SVG). Nunca glifos Unicode ni emoji como icono:
   Montserrat no los tiene y salen como "tofu" (□).
 - Objetivos táctiles ≥ 44 pt; contraste AA; `accessibilityLabel` /
@@ -135,7 +152,7 @@ Si algo no se puede ejecutar, dilo con el error real; no lo des por bueno.
 ## 6. Roles
 
 - **Datos** — base de ejercicios, imágenes, `data/datasets.json`, `source`.
-- **App** — Expo: 5 pestañas, AsyncStorage.
+- **App** — Expo: 3 pestañas (Inicio · Entrenar · Perfil), AsyncStorage.
 - **Web** — Astro: mismo contenido que la app.
 - **i18n** — 4 bundles con el mismo nº de claves; cambio de idioma sin red.
 - **QA** — `tests/`, capturas, criterios de `SPEC.md §5`.
