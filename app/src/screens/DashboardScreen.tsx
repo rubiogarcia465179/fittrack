@@ -3,11 +3,12 @@
  *  1. Foto de cabecera (la eliges en Perfil → "Foto de Inicio"; si no, la
  *     de la app). Sin botones encima.
  *  2. "Empezar sesión" (blanco) → hoja "Tu entreno de hoy"; con un entreno
- *     en curso, "Continuar entreno". Debajo, "Personalizar entreno".
+ *     en curso, "Continuar entreno". Un solo camino para empezar.
  *  3. Marcas personales (3 tarjetas blancas + "Ver todo").
- *  4. Calendario del mes (días entrenados en blanco).
- *  5. Filas: peso corporal, historial.
- *  6. Actividad: histogramas de hora del entreno y día de la semana.
+ *  4. Calendario del mes (días entrenados en blanco; tocar un día abre el
+ *     Historial).
+ *  5. Filas: Historial y Ejercicios (pantallas con "atrás").
+ *  6. Actividad: a qué hora entrenas (un solo gráfico).
  * Sin fecha, sin "sesiones esta semana" ni racha (se ven en el calendario) y
  * sin volumen (decisiones del usuario 2026-11-15).
  */
@@ -17,14 +18,14 @@ import { exName, type Named } from '../lib/names';
 import { useTranslation } from 'react-i18next';
 import type { ExerciseRow } from '../lib/gym';
 import type { Session } from '../store';
-import { sessionSets, latestWeight, todayISO, oneRm } from '../lib/gym';
+import { sessionSets, todayISO, oneRm } from '../lib/gym';
 import { RADII } from '../theme';
 import { useTheme } from '../theme-context';
 import { MonthCalendar, type DayStat } from '../components/Calendar';
 import { Gradient } from '../components/Gradient';
 import { Chevron } from '../components/Chevron';
-import { fmtNum } from '../components/PickerSheet';
-import { HERO_IMG, loadHomePhoto } from '../lib/homePhoto';
+import { loadHomePhoto } from '../lib/homePhoto';
+import { nextSplit, splitLabel } from '../lib/nextSplit';
 
 /** Franjas horarias del histograma (hora local de guardado de la sesión). */
 const HOUR_BINS = [
@@ -36,12 +37,6 @@ const HOUR_BINS = [
   { label: '21', from: 21, to: 24 },
   { label: '0', from: 0, to: 5 },
 ];
-const WEEKDAY_SHORT: Record<string, string[]> = {
-  es: ['L', 'M', 'X', 'J', 'V', 'S', 'D'],
-  en: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-  nl: ['M', 'D', 'W', 'D', 'V', 'Z', 'Z'],
-  fr: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
-};
 
 export default function DashboardScreen({
   exercises,
@@ -49,18 +44,17 @@ export default function DashboardScreen({
   benchmarks,
   activeWorkout,
   onStartSession,
-  onCustomize,
   onOpenHistory,
-  onOpenProfile,
+  onOpenLibrary,
 }: {
   exercises: ExerciseRow[];
   sessions: Session[]; // ordenadas de más reciente a más antigua
   benchmarks: { name_en: string; name_nl: string; name_es?: string; name_fr?: string; estimated_1rm: number }[];
   activeWorkout: boolean;
   onStartSession: () => void;
-  onCustomize: () => void;
-  onOpenHistory: () => void;
-  onOpenProfile: () => void;
+  /** Sin fecha: todo el historial; con fecha: solo ese día. */
+  onOpenHistory: (date?: string) => void;
+  onOpenLibrary: () => void;
 }) {
   const { t, i18n } = useTranslation();
   const { p, GRADIENT } = useTheme();
@@ -89,7 +83,6 @@ export default function DashboardScreen({
     return m;
   }, [sessions]);
 
-  const weight = latestWeight(sessions);
   const monthPrefix = todayISO().slice(0, 7);
   const sessionsThisMonth = sessions.filter((s) => s.date.startsWith(monthPrefix)).length;
   const nameOf = (e: Named) => exName(e, lang);
@@ -118,27 +111,43 @@ export default function DashboardScreen({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessions, benchmarks, byId, lang]);
 
-  // Actividad: sesiones por franja horaria y por día de la semana.
+  // Actividad: sesiones por franja horaria (a qué hora entrenas).
   const activity = useMemo(() => {
     const hours = HOUR_BINS.map(() => 0);
-    const days = [0, 0, 0, 0, 0, 0, 0]; // lunes … domingo
     for (const s of sessions) {
-      const [y, m, d] = s.date.split('-').map(Number);
-      if (y && m && d) days[(new Date(y, m - 1, d).getDay() + 6) % 7] += 1;
       if (s.created_at) {
         const h = new Date(s.created_at).getHours();
         const i = HOUR_BINS.findIndex((b) => h >= b.from && h < b.to);
         if (i >= 0) hours[i] += 1;
       }
     }
-    return { hours, days };
+    return { hours };
   }, [sessions]);
+
+  // Qué toca hoy (mismo cálculo que la hoja rápida).
+  const todayLabel = useMemo(
+    () => splitLabel(nextSplit(sessions, new Map(exercises.map((e) => [e.id, e.muscle_group]))), t),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sessions, exercises, lang],
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
-      {/* ---- 1. Foto ---- */}
-      <View style={[styles.hero, { borderColor: p.border }]}>
-        <Image source={photo ? { uri: photo } : HERO_IMG} style={styles.heroImg} resizeMode="cover" />
+      {/* ---- 1. Tu foto (solo si la pusiste en Perfil: auténtico o nada) ---- */}
+      {photo ? (
+        <View style={[styles.hero, { borderColor: p.border }]}>
+          <Image source={{ uri: photo }} style={styles.heroImg} resizeMode="cover" />
+        </View>
+      ) : null}
+
+      {/* ---- 2. Qué toca hoy ---- */}
+      <View style={[styles.today, photo ? { marginTop: 20 } : null]} accessible accessibilityRole="header">
+        <Text style={[styles.todayLabel, { color: p.secondary }]}>
+          {activeWorkout ? t('home_in_progress') : t('home_today')}
+        </Text>
+        {activeWorkout ? null : (
+          <Text style={[styles.todayTitle, { color: p.text }]}>{todayLabel}</Text>
+        )}
       </View>
 
       {/* ---- 2. Una acción ---- */}
@@ -154,15 +163,6 @@ export default function DashboardScreen({
           </Text>
         </Gradient>
       </Pressable>
-      {activeWorkout ? null : (
-        <Pressable
-          accessibilityRole="button"
-          onPress={onCustomize}
-          style={({ pressed }) => [styles.secondary, { opacity: pressed ? 0.5 : 1 }]}
-        >
-          <Text style={[styles.secondaryText, { color: p.secondary }]}>{t('home_customize')}</Text>
-        </Pressable>
-      )}
 
       {/* ---- 3. Marcas personales ---- */}
       <SectionHead
@@ -220,13 +220,14 @@ export default function DashboardScreen({
           today={{ y: todayD.getFullYear(), m: todayD.getMonth(), d: todayD.getDate() }}
           days={dayMap}
           todayLabel={t('cal_today')}
+          onPickDay={(iso) => onOpenHistory(iso)}
         />
       </View>
 
       {/* ---- 5. Filas ---- */}
       <View style={[styles.rows, { borderTopColor: p.border }]}>
-        <Row title={t('stat_weight')} sub={weight ? `${fmtNum(weight)} kg` : t('dash_no_weight')} onPress={onOpenProfile} />
-        <Row title={t('hist_title')} sub={t('home_history_sub', { n: sessionsThisMonth })} onPress={onOpenHistory} />
+        <Row title={t('hist_title')} sub={t('home_history_sub', { n: sessionsThisMonth })} onPress={() => onOpenHistory()} />
+        <Row title={t('nav_exercises')} sub={t('home_exercises_sub', { n: exercises.length })} onPress={onOpenLibrary} />
       </View>
 
       {/* ---- 6. Actividad ---- */}
@@ -234,11 +235,6 @@ export default function DashboardScreen({
       <Histogram
         title={t('home_by_hour')}
         bars={HOUR_BINS.map((b, i) => ({ label: `${b.label}h`, value: activity.hours[i] }))}
-        empty={t('dash_no_sessions')}
-      />
-      <Histogram
-        title={t('home_by_weekday')}
-        bars={(WEEKDAY_SHORT[lang] ?? WEEKDAY_SHORT.en).map((d, i) => ({ label: d, value: activity.days[i] }))}
         empty={t('dash_no_sessions')}
       />
     </ScrollView>
@@ -353,8 +349,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  today: { paddingTop: 8, paddingHorizontal: 2 },
+  todayLabel: { fontSize: 13, fontWeight: '600', letterSpacing: 1.2, textTransform: 'uppercase' },
+  todayTitle: { fontSize: 30, fontWeight: '800', letterSpacing: -0.6, lineHeight: 36, marginTop: 6 },
   ctaWrap: {
-    marginTop: 16,
+    marginTop: 18,
   },
   cta: {
     borderRadius: 30,

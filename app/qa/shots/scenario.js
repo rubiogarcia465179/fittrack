@@ -1,6 +1,7 @@
 // Escenario de capturas (orden = numeración de docs/screenshots).
 // Con --frames, el mismo recorrido sirve para el vídeo.
-// Pestañas: solo iconos → se tocan por aria-label (tapLabel).
+// 3 pestañas (Inicio · Entrenar · Perfil), solo iconos → se tocan por
+// aria-label (tapLabel). Historial y Ejercicios se abren desde Inicio.
 module.exports = async ({ load, shot, tap, tapLabel, scrollBy, sleep, base, DATA, ACTIVE }) => {
   const withCardio = {
     ...ACTIVE,
@@ -11,27 +12,30 @@ module.exports = async ({ load, shot, tap, tapLabel, scrollBy, sleep, base, DATA
   };
   const profile = { ...DATA, profile: { ...DATA.profile, sex: 'male', birth_year: 1992, goal: 'build_muscle' } };
 
-  // 01–02 Inicio (portada)
+  // 01–02 Inicio: "Hoy toca", Empezar sesión, marcas, calendario, filas, actividad
   await load({ ...base, 'fittrack.data.v1': profile });
   await shot('01-home');
-  await scrollBy(560);
-  await shot('02-home-calendar');
   await scrollBy(900);
-  await shot('03-home-activity');
+  await shot('02-home-more');
 
   // 03–04 "Empezar sesión" → hoja (tiempo/intensidad/energía/objetivo) → entreno
   await scrollBy(-2000);
   await tap('Empezar sesión');
-  await shot('04-quickstart-sheet');
+  await shot('03-quickstart-sheet');
   await tap('60 min');
   await tap('Continuar al entreno');
   await sleep(600);
-  await shot('05-session-quickstart');
+  await shot('04-session-quickstart');
 
-  // 04–07 Sesión activa con datos fijos (fuerza + cardio)
+  // 05–10 Sesión activa con datos fijos (fuerza + cardio)
   await load({ ...base, 'fittrack.data.v1': DATA, 'fittrack.active.v1': withCardio });
-  await tapLabel('Sesión');
-  await shot('06-session-active');
+  await tapLabel('Entrenar');
+  await shot('05-session-active');
+  await tap('Más opciones');
+  await scrollBy(400);
+  await shot('06-session-more');
+  await tap('Más opciones');
+  await scrollBy(-1000);
   await tap('¿Cómo se hace?');
   await shot('07-session-howto');
   await tap('Cerrar');
@@ -50,55 +54,62 @@ module.exports = async ({ load, shot, tap, tapLabel, scrollBy, sleep, base, DATA
   await tap('Guardar sesión');
   await sleep(800);
 
-  // 08 Historial (la sesión recién guardada, con cardio y valoración)
-  await tapLabel('Historial');
+  // 11–13 Desde Inicio: Historial, un día del calendario, Ejercicios
+  await tapLabel('Inicio');
+  await tap('Historial');
   await shot('11-history');
+  await tapLabel('Inicio');
+  await tapLabel('14 '); // día entrenado → solo ese día
+  await shot('12-history-day');
+  await tapLabel('Inicio');
+  await tap('Ejercicios');
+  await shot('13-library');
 
-  // 09 Biblioteca (mismo lenguaje de diseño)
-  await tapLabel('Ejercicios');
-  await shot('12-library');
-
-  // 10–11 Perfil
+  // 14–16 Perfil: cuerpo + calorías, sobre ti, apariencia
   await load({ ...base, 'fittrack.data.v1': profile });
   await tapLabel('Perfil');
-  await shot('13-profile');
-  await scrollBy(900);
-  await shot('14-profile-energy');
-  await scrollBy(700);
-  await shot('15-profile-theme');
+  await shot('14-profile');
+  await tap('¿Qué es esto?');
+  await scrollBy(500);
+  await shot('15-profile-energy');
+  await scrollBy(1400);
+  await shot('16-profile-appearance');
 
-  // 15–17 Temas: Día, Ámbar y bandera (España: nacionalidad + interruptor)
+  // 17–19 Temas: Día, Ámbar (en "Más") y bandera (nacionalidad + interruptor)
   await tapLabel('Día');
   await tapLabel('Inicio');
-  await shot('16-theme-day');
+  await shot('17-theme-day');
   await tapLabel('Perfil');
-  await scrollBy(1600);
+  await scrollBy(1800);
+  await tapLabel('Más');
   await tapLabel('Ámbar');
   await tapLabel('Inicio');
-  await shot('17-theme-amber');
+  await shot('18-theme-amber');
   await tapLabel('Perfil');
   await tap('Elige un país');
   await tap('España');
-  await scrollBy(1600);
+  await scrollBy(1800);
   await tapLabel('Usar los colores de mi país');
   await tapLabel('Inicio');
-  await shot('18-theme-flag-es');
+  await shot('19-theme-flag-es');
 
-  // 18–19 Cambio de idioma instantáneo (nombres de ejercicio incluidos)
+  // 20–21 Cambio de idioma instantáneo (nombres de ejercicio incluidos)
   await tapLabel('Perfil');
-  await scrollBy(2400);
+  await scrollBy(2600);
   await tapLabel('Français');
-  await tapLabel('Exercices');
-  await shot('19-library-fr');
+  await tapLabel('Accueil');
+  await tap('Exercices');
+  await shot('20-library-fr');
   await tapLabel('Profil');
-  await scrollBy(2400);
+  await scrollBy(2600);
   await tapLabel('Nederlands');
-  await tapLabel('Oefeningen');
-  await shot('20-library-nl');
+  await tapLabel('Start');
+  await tap('Oefeningen');
+  await shot('21-library-nl');
 
-  // 21 "¿Cómo se hace?" en neerlandés: pasos en el idioma elegido
+  // 22 "¿Cómo se hace?" en neerlandés: pasos en el idioma elegido
   await load({ ...base, 'fittrack.lang': 'nl', 'fittrack.data.v1': DATA, 'fittrack.active.v1': withCardio });
-  await tapLabel('Sessie');
+  await tapLabel('Trainen');
   await tap('Hoe doe je het?');
-  await shot('21-howto-nl');
+  await shot('22-howto-nl');
 };

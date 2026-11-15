@@ -6,27 +6,28 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 
 | # | Pantalla | Qué muestra |
 |---|----------|-------------|
-| 01 | Inicio | Foto de cabecera (sin botones), "Empezar sesión", marcas personales |
-| 02 | Inicio · calendario | Calendario (lunes primero, días entrenados en círculo) + peso / historial |
-| 03 | Inicio · actividad | Histogramas: hora del entreno y día de la semana |
-| 04 | Tu entreno de hoy | Hoja previa: duración, intensidad, energía, objetivo |
-| 05 | Entreno generado | Sesión creada por la hoja (nunca 0 kg en ejercicios con carga) |
-| 06 | Sesión activa | Cabecera "Sesión · x/y", accesos rápidos, ejercicio actual |
+| 01 | Inicio | "Hoy toca: …" (grupos del día), "Empezar sesión", marcas personales, calendario |
+| 02 | Inicio · más | Filas Historial y Ejercicios; actividad (hora del entreno) |
+| 03 | Tu entreno de hoy | Hoja previa: duración, intensidad, energía, objetivo |
+| 04 | Entreno generado | Sesión creada por la hoja (nunca 0 kg en ejercicios con carga) |
+| 05 | Sesión activa | "Añadir ejercicio" y "Detalles"; ejercicio actual; "Más opciones" plegado |
+| 06 | Más opciones | Sugerir ejercicio · ¿Máquina ocupada? · Quitar ejercicio |
 | 07 | ¿Cómo se hace? | Foto (de ejemplo, marcada), qué entrena, 3 pasos en español |
 | 08 | Descanso | Cuenta atrás tras completar una serie (+15 s, Saltar) |
 | 09 | Cardio | min · km · intensidad; "Terminar y guardar" |
 | 10 | Valoración | Energía y sensación (1–5) |
-| 11 | Historial | Sesiones con fecha localizada ("dom 15 nov"), cardio y valoración |
-| 12 | Ejercicios | Biblioteca con nombres en español e icono por grupo |
-| 13 | Perfil | Sobre ti |
-| 14 | Calorías | Gasto diario, basal y explicación sencilla |
-| 15 | Tema y foto | Temas + "Usar los colores de mi país", **Foto de Inicio** (Cambiar foto), idioma |
-| 16 | Tema Día | Inicio en el tema inverso |
-| 17 | Tema Ámbar | Inicio en azul medianoche + ámbar |
-| 18 | Tema España | Inicio con los colores de la bandera (rojo y amarillo) |
-| 19 | Biblioteca FR | Cambio de idioma instantáneo (nombres incluidos) |
-| 20 | Biblioteca NL | Ídem en neerlandés |
-| 21 | ¿Cómo se hace? NL | Los pasos siguen el idioma elegido |
+| 11 | Historial | Desde Inicio (con "atrás"); fechas localizadas |
+| 12 | Historial · un día | Al tocar un día del calendario: solo ese día + "Ver todas" |
+| 13 | Ejercicios | Desde Inicio (con "atrás"); icono por grupo |
+| 14 | Perfil | Cuerpo (peso y altura) + calorías en una línea |
+| 15 | Calorías | "¿Qué es esto?" desplegado: basal, gasto diario, método |
+| 16 | Apariencia | Noche · Día · Más (temas extra y bandera); Foto de Inicio (opcional) |
+| 17 | Tema Día | Inicio en el tema inverso |
+| 18 | Tema Ámbar | Inicio en azul medianoche + ámbar |
+| 19 | Tema España | Inicio con los colores de la bandera (rojo y amarillo) |
+| 20 | Ejercicios FR | Cambio de idioma instantáneo (nombres incluidos) |
+| 21 | Ejercicios NL | Ídem en neerlandés |
+| 22 | ¿Cómo se hace? NL | Los pasos siguen el idioma elegido |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 

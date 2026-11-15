@@ -27,7 +27,11 @@ import { COUNTRIES, COUNTRY_BY_CODE, countryName, type Country, type CountryCode
 import type { Lang } from '../i18n';
 import { Image } from 'react-native';
 import { canPickPhoto, pickPhoto } from '../lib/pickPhoto';
-import { HERO_IMG, loadHomePhoto, saveHomePhoto } from '../lib/homePhoto';
+import { loadHomePhoto, saveHomePhoto } from '../lib/homePhoto';
+import { Chevron } from '../components/Chevron';
+
+/** Temas a la vista; el resto, en "Más temas". */
+const BASIC_THEMES: ThemeId[] = ['night', 'day'];
 
 /** Máximo nº de barras de tendencia (los últimos registros). */
 const TREND_MAX = 8;
@@ -85,7 +89,36 @@ export default function ProfileScreen({
     void loadHomePhoto().then(setHomePhoto);
   }, []);
 
-  // Foto de Inicio (se muestra en la cabecera de Inicio).
+  // Calorías: explicación plegada. Temas: Noche/Día a la vista; el resto en
+  // "Más temas" (abierto si ya usas uno de ellos o la bandera).
+  const [energyOpen, setEnergyOpen] = useState(false);
+  const [moreThemes, setMoreThemes] = useState(!BASIC_THEMES.includes(themeId) || useFlag);
+  const renderTheme = (id: ThemeId) => {
+    const th = THEMES[id];
+    const on = themeId === id;
+    return (
+      <Pressable
+        key={id}
+        accessibilityRole="radio"
+        accessibilityLabel={t(`theme_${id}`)}
+        accessibilityState={{ checked: on }}
+        onPress={() => onPickTheme(id)}
+        style={({ pressed }) => [styles.themeItem, { opacity: pressed ? 0.75 : 1 }]}
+      >
+        <View style={[styles.themeRing, { borderColor: on ? p.text : 'transparent' }]}>
+          <View style={[styles.themeSwatch, { borderColor: p.border }]}>
+            <View style={{ flex: 1, backgroundColor: th.bg }} />
+            <View style={{ flex: 1, backgroundColor: th.accent }} />
+          </View>
+        </View>
+        <Text style={[styles.themeName, { color: on ? p.text : p.secondary, fontWeight: on ? '700' : '500' }]} numberOfLines={1}>
+          {t(`theme_${id}`)}
+        </Text>
+      </Pressable>
+    );
+  };
+
+  // Foto de Inicio (opcional; sin foto, Inicio abre con "Hoy toca").
   const [homePhoto, setHomePhoto] = useState<string | null>(null);
   const changeHomePhoto = async () => {
     const uri = await pickPhoto();
@@ -167,7 +200,79 @@ export default function ProfileScreen({
       </Text>
       <Text style={[styles.sub, { color: p.secondary }]}>{t('profile_sub')}</Text>
 
-      {/* ---- Sobre ti ---- */}
+      {/* ---- 1. Cuerpo: peso y altura en una tarjeta ---- */}
+      <View style={[styles.card, card]}>
+        <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('profile_body')}</Text>
+        <View style={styles.bodyRow}>
+          <View style={styles.bodyCol}>
+            <Text style={[styles.bodyLabel, { color: p.secondary }]}>{t('profile_bodyweight')}</Text>
+            <Text style={[styles.bodyValue, { color: p.text }]} numberOfLines={1}>
+              {weight ? `${fmtNum(weight)} kg` : '—'}
+            </Text>
+            <LogButton label={t('profile_log')} a11y={t('profile_pick_weight')} onPress={() => setPick('weight')} />
+          </View>
+          <View style={[styles.vRule, { backgroundColor: p.cardBorder }]} />
+          <View style={styles.bodyCol}>
+            <Text style={[styles.bodyLabel, { color: p.secondary }]}>{t('profile_height')}</Text>
+            <Text style={[styles.bodyValue, { color: p.text }]} numberOfLines={1}>
+              {height ? `${fmtNum(height)} cm` : '—'}
+            </Text>
+            <LogButton label={t('profile_log')} a11y={t('profile_pick_height')} onPress={() => setPick('height')} />
+          </View>
+        </View>
+        {bmi ? (
+          <Text style={[styles.energyNote, { color: p.secondary }]}>
+            {t('profile_bmi')} ≈ {Math.round(bmi * 10) / 10}
+          </Text>
+        ) : null}
+        {weightTrend.length >= 2 ? <TrendCard title={t('profile_trend')} data={weightTrend} unit="kg" p={p} /> : null}
+      </View>
+
+      {/* ---- 2. Calorías: un número; la explicación, plegada ---- */}
+      <View style={[styles.card, card]}>
+        <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('energy_title')}</Text>
+        {energy ? (
+          <>
+            <Text style={[styles.energyBig, { color: p.text }]}>
+              {energy.tdee.toLocaleString(lang)}
+              <Text style={[styles.energyUnit, { color: p.secondary }]}> {t('energy_kcal_day')}</Text>
+            </Text>
+            <Text style={[styles.energyLabel, { color: p.secondary, textAlign: 'left' }]}>{t('energy_tdee')}</Text>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityState={{ expanded: energyOpen }}
+              onPress={() => setEnergyOpen((o) => !o)}
+              style={({ pressed }) => [styles.disclose, { opacity: pressed ? 0.6 : 1 }]}
+            >
+              <Text style={[styles.discloseText, { color: p.text }]}>{t('energy_what')}</Text>
+              <Chevron dir={energyOpen ? 'up' : 'down'} color={p.text} size={7} />
+            </Pressable>
+            {energyOpen ? (
+              <View style={[styles.explain, { borderTopColor: p.border }]}>
+                <Text style={[styles.explainText, { color: p.text }]}>
+                  <Text style={{ fontWeight: '700' }}>{t('energy_bmr')}: </Text>
+                  {energy.bmr.toLocaleString(lang)} {t('energy_kcal_day')}. {t('energy_bmr_explain')}
+                </Text>
+                <Text style={[styles.explainText, { color: p.text }]}>
+                  <Text style={{ fontWeight: '700' }}>{t('energy_tdee')}: </Text>
+                  {t('energy_tdee_explain')}
+                </Text>
+                <Text style={[styles.energyNote, { color: p.secondary }]}>
+                  {t('energy_activity', { level: t(`act_${energy.activity.key}`), f: energy.activity.factor.toLocaleString(lang) })}
+                </Text>
+                {energy.sexApprox ? <Text style={[styles.energyNote, { color: p.secondary }]}>{t('energy_sex_note')}</Text> : null}
+                <Text style={[styles.energyNote, { color: p.secondary }]}>{t('energy_method')}</Text>
+              </View>
+            ) : null}
+          </>
+        ) : (
+          <Text style={[styles.energyNote, { color: p.secondary }]}>
+            {t('energy_missing', { fields: missing.join(', ').toLowerCase() })}
+          </Text>
+        )}
+      </View>
+
+      {/* ---- 3. Sobre ti ---- */}
       <View style={[styles.card, card]}>
         <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('profile_about')}</Text>
         <Field label={t('profile_sex')}>
@@ -206,151 +311,56 @@ export default function ProfileScreen({
         </Field>
       </View>
 
-      {/* ---- Peso corporal ---- */}
+      {/* ---- 4. Apariencia: tema (Noche/Día + Más temas) y foto de Inicio ---- */}
       <View style={[styles.card, card]}>
-        <View style={styles.cardHeader}>
-          <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('profile_bodyweight')}</Text>
-          <LogButton label={t('profile_log')} a11y={t('profile_pick_weight')} onPress={() => setPick('weight')} />
-        </View>
-        <View style={styles.cardValueRow}>
-          <Text style={[styles.bigValue, { color: p.text }]} numberOfLines={1}>
-            {weight ? `${fmtNum(weight)} kg` : '—'}
-          </Text>
-          {bmi ? (
-            <View style={[styles.bmiChip, { backgroundColor: p.section }]}>
-              <Text style={[styles.bmiText, { color: p.secondary }]}>
-                {t('profile_bmi')} ≈ {Math.round(bmi * 10) / 10}
-              </Text>
-            </View>
-          ) : null}
-        </View>
-        {weightTrend.length >= 2 ? (
-          <TrendCard title={t('profile_trend')} data={weightTrend} unit="kg" p={p} />
-        ) : (
-          <Text style={[styles.empty, { color: p.secondary }]}>{t('profile_empty_weight')}</Text>
-        )}
-      </View>
-
-      {/* ---- Altura ---- */}
-      <View style={[styles.card, card]}>
-        <View style={styles.cardHeader}>
-          <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('profile_height')}</Text>
-          <LogButton label={t('profile_log')} a11y={t('profile_pick_height')} onPress={() => setPick('height')} />
-        </View>
-        <Text style={[styles.bigValue, { color: p.text }]} numberOfLines={1}>
-          {height ? `${fmtNum(height)} cm` : '—'}
-        </Text>
-        {heightTrend.length >= 2 ? (
-          <TrendCard title={t('profile_trend')} data={heightTrend} unit="cm" p={p} />
-        ) : heights.length === 0 ? (
-          <Text style={[styles.empty, { color: p.secondary }]}>{t('profile_empty_height')}</Text>
-        ) : null}
-      </View>
-
-      {/* ---- Calorías diarias ---- */}
-      <View style={[styles.card, card]}>
-        <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('energy_title')}</Text>
-        {energy ? (
-          <>
-            <View style={styles.energyRow}>
-              <View style={styles.energyCol}>
-                <Text style={[styles.energyValue, { color: p.text }]}>{energy.tdee.toLocaleString(lang)}</Text>
-                <Text style={[styles.energyLabel, { color: p.secondary }]}>
-                  {t('energy_tdee')} ({t('energy_kcal_day')})
-                </Text>
-              </View>
-              <View style={[styles.vRule, { backgroundColor: p.cardBorder }]} />
-              <View style={styles.energyCol}>
-                <Text style={[styles.energyValue, { color: p.text }]}>{energy.bmr.toLocaleString(lang)}</Text>
-                <Text style={[styles.energyLabel, { color: p.secondary }]}>
-                  {t('energy_bmr')} ({t('energy_kcal_day')})
-                </Text>
-              </View>
-            </View>
-            <Text style={[styles.energyNote, { color: p.text }]}>
-              {t('energy_activity', { level: t(`act_${energy.activity.key}`), f: energy.activity.factor.toLocaleString(lang) })}
-            </Text>
-            {energy.sexApprox ? (
-              <Text style={[styles.energyNote, { color: p.secondary }]}>{t('energy_sex_note')}</Text>
-            ) : null}
-            <View style={[styles.explain, { borderTopColor: p.border }]}>
-              <Text style={[styles.explainText, { color: p.text }]}>
-                <Text style={{ fontWeight: '700' }}>{t('energy_bmr')}: </Text>
-                {t('energy_bmr_explain')}
-              </Text>
-              <Text style={[styles.explainText, { color: p.text }]}>
-                <Text style={{ fontWeight: '700' }}>{t('energy_tdee')}: </Text>
-                {t('energy_tdee_explain')}
-              </Text>
-            </View>
-            <Text style={[styles.energyNote, { color: p.secondary }]}>{t('energy_method')}</Text>
-          </>
-        ) : (
-          <Text style={[styles.energyNote, { color: p.secondary }]}>
-            {t('energy_missing', { fields: missing.join(', ').toLowerCase() })}
-          </Text>
-        )}
-      </View>
-
-      {/* ---- Tema: cinco combinaciones de dos colores opuestos ---- */}
-      <View style={[styles.card, card]}>
-        <Text style={[styles.cardLabel, { color: p.secondary, marginBottom: 6 }]}>{t('profile_theme')}</Text>
+        <Text style={[styles.cardLabel, { color: p.secondary, marginBottom: 6 }]}>{t('profile_appearance')}</Text>
         <View style={[styles.themeRow, useFlag && nationality ? { opacity: 0.35 } : null]} accessibilityRole="radiogroup" accessibilityLabel={t('profile_theme')}>
-          {THEME_IDS.map((id) => {
-            const th = THEMES[id];
-            const on = themeId === id;
-            return (
-              <Pressable
-                key={id}
-                accessibilityRole="radio"
-                accessibilityLabel={t(`theme_${id}`)}
-                accessibilityState={{ checked: on }}
-                onPress={() => onPickTheme(id)}
-                style={({ pressed }) => [styles.themeItem, { opacity: pressed ? 0.75 : 1 }]}
-              >
-                <View style={[styles.themeRing, { borderColor: on ? p.text : 'transparent' }]}>
-                  <View style={[styles.themeSwatch, { borderColor: p.border }]}>
-                    <View style={{ flex: 1, backgroundColor: th.bg }} />
-                    <View style={{ flex: 1, backgroundColor: th.accent }} />
-                  </View>
+          {(moreThemes ? THEME_IDS : BASIC_THEMES).map((id) => renderTheme(id))}
+          {moreThemes ? null : (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t('theme_more')}
+              onPress={() => setMoreThemes(true)}
+              style={({ pressed }) => [styles.themeItem, { opacity: pressed ? 0.75 : 1 }]}
+            >
+              <View style={[styles.themeRing, { borderColor: 'transparent' }]}>
+                <View style={[styles.themeSwatch, styles.moreSwatch, { borderColor: p.border }]}>
+                  {[0, 1, 2].map((i) => (
+                    <View key={i} style={[styles.moreDot, { backgroundColor: p.text }]} />
+                  ))}
                 </View>
-                <Text style={[styles.themeName, { color: on ? p.text : p.secondary, fontWeight: on ? '700' : '500' }]} numberOfLines={1}>
-                  {t(`theme_${id}`)}
-                </Text>
-              </Pressable>
-            );
-          })}
+              </View>
+              <Text style={[styles.themeName, { color: p.secondary }]} numberOfLines={1}>{t('theme_more')}</Text>
+            </Pressable>
+          )}
         </View>
-        <View style={[styles.flagRow, { borderTopColor: p.border }]}>
-          <View style={{ flex: 1 }}>
-            <Text style={[styles.flagTitle, { color: nationality ? p.text : p.secondary }]}>{t('profile_flag_theme')}</Text>
-            <Text style={[styles.flagSub, { color: p.secondary }]}>
-              {nationality ? countryName(COUNTRY_BY_CODE.get(nationality)!, lang) : t('profile_flag_needs_country')}
-            </Text>
-          </View>
-          <Switch
-            accessibilityLabel={t('profile_flag_theme')}
-            value={useFlag && !!nationality}
-            disabled={!nationality}
-            onValueChange={onToggleFlag}
-            trackColor={{ false: p.border, true: p.accent }}
-            thumbColor={useFlag && nationality ? p.onAccent : '#FFFFFF'}
-          />
-        </View>
-      </View>
-
-      {/* ---- Foto de Inicio ---- */}
-      {canPickPhoto ? (
-        <View style={[styles.card, card]}>
-          <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('profile_home_photo')}</Text>
-          <View style={styles.photoRow}>
-            <Image
-              source={homePhoto ? { uri: homePhoto } : HERO_IMG}
-              style={[styles.photoThumb, { borderColor: p.border }]}
-              resizeMode="cover"
-              accessibilityLabel={t('profile_home_photo')}
+        {moreThemes ? (
+          <View style={[styles.flagRow, { borderTopColor: p.border }]}>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.flagTitle, { color: nationality ? p.text : p.secondary }]}>{t('profile_flag_theme')}</Text>
+              <Text style={[styles.flagSub, { color: p.secondary }]}>
+                {nationality ? countryName(COUNTRY_BY_CODE.get(nationality)!, lang) : t('profile_flag_needs_country')}
+              </Text>
+            </View>
+            <Switch
+              accessibilityLabel={t('profile_flag_theme')}
+              value={useFlag && !!nationality}
+              disabled={!nationality}
+              onValueChange={onToggleFlag}
+              trackColor={{ false: p.border, true: p.accent }}
+              thumbColor={useFlag && nationality ? p.onAccent : '#FFFFFF'}
             />
-            <View style={{ flex: 1, gap: 8 }}>
+          </View>
+        ) : null}
+        {canPickPhoto ? (
+          <View style={[styles.photoRow, { borderTopColor: p.border }]}>
+            {homePhoto ? (
+              <Image source={{ uri: homePhoto }} style={[styles.photoThumb, { borderColor: p.border }]} resizeMode="cover" accessibilityLabel={t('profile_home_photo')} />
+            ) : (
+              <View style={[styles.photoThumb, styles.photoEmpty, { borderColor: p.border }]} />
+            )}
+            <View style={{ flex: 1, gap: 6 }}>
+              <Text style={[styles.flagTitle, { color: p.text }]}>{t('profile_home_photo')}</Text>
               <Text style={[styles.flagSub, { color: p.secondary }]}>{t('profile_home_photo_sub')}</Text>
               <View style={styles.photoActions}>
                 <Pressable
@@ -358,7 +368,7 @@ export default function ProfileScreen({
                   onPress={changeHomePhoto}
                   style={({ pressed }) => [styles.photoBtn, { borderColor: p.border, opacity: pressed ? 0.7 : 1 }]}
                 >
-                  <Text style={[styles.photoBtnText, { color: p.text }]}>{t('home_photo_change')}</Text>
+                  <Text style={[styles.photoBtnText, { color: p.text }]}>{homePhoto ? t('home_photo_change') : t('home_photo_pick')}</Text>
                 </Pressable>
                 {homePhoto ? (
                   <Pressable
@@ -367,14 +377,14 @@ export default function ProfileScreen({
                     hitSlop={8}
                     style={({ pressed }) => [styles.photoReset, { opacity: pressed ? 0.6 : 1 }]}
                   >
-                    <Text style={[styles.photoBtnText, { color: p.secondary }]}>{t('home_photo_reset')}</Text>
+                    <Text style={[styles.photoBtnText, { color: p.secondary }]}>{t('home_photo_remove')}</Text>
                   </Pressable>
                 ) : null}
               </View>
             </View>
           </View>
-        </View>
-      ) : null}
+        ) : null}
+      </View>
 
       {/* ---- Ajustes: idioma (instantáneo, sin red) + tus datos ---- */}
       <View style={[styles.card, card]}>
@@ -807,7 +817,18 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
-  photoRow: { flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 10 },
+  photoRow: { flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 14, paddingTop: 14, borderTopWidth: StyleSheet.hairlineWidth },
+  photoEmpty: { borderStyle: 'dashed', borderWidth: 1 },
+  bodyRow: { flexDirection: 'row', alignItems: 'stretch', marginTop: 10, marginBottom: 4 },
+  bodyCol: { flex: 1, alignItems: 'flex-start', gap: 6, paddingHorizontal: 4 },
+  bodyLabel: { fontSize: 13, fontWeight: '600' },
+  bodyValue: { fontSize: 28, fontWeight: '800', letterSpacing: -0.4, fontVariant: ['tabular-nums'] },
+  energyBig: { fontSize: 36, fontWeight: '800', letterSpacing: -0.6, marginTop: 8, fontVariant: ['tabular-nums'] },
+  energyUnit: { fontSize: 15, fontWeight: '600', letterSpacing: 0 },
+  disclose: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 8, alignSelf: 'flex-start', marginTop: 4 },
+  discloseText: { fontSize: 15, fontWeight: '600' },
+  moreSwatch: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 3, transform: [{ rotate: '0deg' }] },
+  moreDot: { width: 4, height: 4, borderRadius: 2 },
   photoThumb: { width: 96, height: 72, borderRadius: 12, borderWidth: StyleSheet.hairlineWidth },
   photoActions: { flexDirection: 'row', alignItems: 'center', gap: 16 },
   photoBtn: {

@@ -532,3 +532,22 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   errores de consola (01 sin botón, 15 con la tarjeta) · vídeo 229 fotogramas.
   **Veredicto `/stevejobs analyze` (marco 2.0): SÍ** — la primera pantalla
   pierde un control y el ajuste vive donde viven los ajustes; nada más cambia.
+
+- 2026-11-15 (noche, 7) — **SIN COMMIT. Versión "Foco a 10" (mejorada).**
+  Petición: aplicar el recorte de `docs/FOCO-1.0.md` "para ver cómo queda",
+  como versión mejorada, simplificando Perfil e Inicio; y "¿quitar la foto de
+  Inicio o ponerla de fondo?". Hecho: 3 pestañas (Inicio · Entrenar · Perfil;
+  Historial y Ejercicios desde Inicio con `BackBar`); Inicio con "Hoy toca:
+  <grupos>" (`lib/nextSplit.ts`, compartido con la hoja rápida), sin foto de
+  stock, calendario → historial de ese día, un solo gráfico; sin asistente
+  ni "Personalizar entreno"; sesión con "Más opciones"; Perfil en 6 tarjetas
+  (Cuerpo, Calorías plegadas, Sobre ti, Apariencia con "Más" temas y foto,
+  Idioma, Tus datos). 12 claves i18n nuevas (376); "Sesión" → "Entrenar".
+  Verificación: tsc 0 · tests 115/115 · export web OK · 22 capturas, 0
+  errores de consola, revisadas (corregidos: accesos rápidos descentrados,
+  puntos de "Más" en diagonal) · vídeo 251 fotogramas.
+  **Veredicto `/stevejobs analyze`: SÍ** (incluso con el listón de una 1.0):
+  la primera pantalla dice qué hacer hoy y la acción está a un toque; 3
+  pestañas; una tarea por pantalla; lo raro, plegado; nada decorativo ni de
+  stock. Pendiente que no bloquea: fotos reales (Fase 13), web (⛔ `npm ci`).
+  **No se commitea hasta que el usuario lo vea** (último commit `37d851e`).
