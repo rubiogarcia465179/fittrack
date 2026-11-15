@@ -298,3 +298,9 @@ pero simple, como apple.com y las apps de iPhone".
 
 ### R-88 [DONE] Figura 3D que se gira con el dedo en cualquier ángulo, sin botones delante/detrás, como una cámara exterior — three + @react-three/fiber + expo-gl (aprobados)
 ### R-89 [TODO·⏸] Live Activity completa como funcionalidad futura (pantalla de bloqueo con estado, cuenta atrás del descanso y "Serie hecha") — en espera por decisión del usuario; sustituye a R-86
+
+## Pasada 2026-11-15 (noche, 11)
+
+### R-90 [DONE·rama] Cuerpo 3D "exactamente como la lámina" con músculos trabajados en color → écorché de Z-Anatomy (CC BY-SA), en la rama `cuerpo-3d`
+### R-91 [DONE] Quitar el cuerpo de main y guardarlo en una rama aparte (prueba Jobs: no)
+### R-92 [TODO] "¿Qué más para llevarlo todo a un 10?" → propuesta en TASKS (Foco a 10, fase 2); decide el usuario

@@ -87,7 +87,16 @@ Hecho en esta pasada:
 - [x] IMC con coma decimal en ES/FR/NL.
 - [x] "3+" en **violeta** (el rojo se leía como alarma; aceptado por el usuario).
 
-### Fase 11g — Cuerpo en 3D real, orbitable con el dedo ✅
+### Fase 11h — Fuera el cuerpo 3D (foco) ✅
+- [x] Écorché anatómico (Z-Anatomy, CC BY-SA) construido e integrado, pero la
+      prueba Jobs dio **NO** → guardado en la rama `cuerpo-3d` (f05885f).
+- [x] Quitado de Inicio en main + dependencias 3D desinstaladas.
+- [ ] Para volver algún día (si el usuario lo pide): escultura monocroma
+      (solo los grupos trabajados en color), cabeza lisa sin cara, tamaño
+      compacto con vista a pantalla completa, cuerpo femenino o neutro,
+      prueba en iPhone.
+
+### Fase 11g — Cuerpo en 3D real, orbitable con el dedo ✅ (retirado en la 11h)
 - [x] three + @react-three/fiber + expo-gl (aprobados): figura anatómica de
       volúmenes, contorno blanco, órbita libre (girar + inclinar) con
       inercia, sin botones; colores por semana; sexo e IMC.

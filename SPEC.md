@@ -67,27 +67,20 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    **"Continuar al entreno"** genera el plan. Recuerda la última elección.
    Con un entreno en curso: "Continuar entreno". **Un solo camino para
    empezar** (sin asistente ni "Personalizar entreno").
-4. **Esta semana — cuerpo en 3D real** (WebGL): figura anatómica de
-   volúmenes que se **orbita con el dedo en cualquier ángulo**, como una
-   cámara exterior (arrastre horizontal = girar, vertical = inclinar ±35°,
-   con inercia suave). **Sin botones.** Estilo de las SVG de referencia del
-   usuario: relleno negro mate y contorno blanco. Cada grupo muscular
-   (pecho, abdominales, oblicuos, hombros, bíceps, tríceps, antebrazos,
-   trapecio, dorsales, lumbar, glúteos, cuádriceps, isquios, gemelos) se
-   colorea por las sesiones de esta semana — **1 verde, 2 naranja, 3+
-   violeta**; sin entrenar, gris. Proporciones según el Perfil: sexo
-   (hombros, cadera, pecho) e IMC (cintura y grosor de extremidades).
-5. **Marcas personales**: las 3 mejores (1RM estimado) en tarjetas blancas;
+4. **Marcas personales**: las 3 mejores (1RM estimado) en tarjetas blancas;
    "Ver todo" despliega el resto. **Salen siempre de datos**: la mejor serie
    guardada (Epley) o el test "Establecer marcas" de Perfil; gana el mayor.
-6. **Calendario** del mes (lunes primero, círculos): días entrenados con el
+5. **Calendario** del mes (lunes primero, círculos): días entrenados con el
    acento, **días de récord en verde llamativo** (`#00E676`, texto negro),
    hoy con anillo; leyenda "Día entrenado · N · Récord · N". Un día de récord
    = una sesión que supera la marca previa (la primera vez no cuenta).
    **Tocar un día entrenado abre el Historial de ese día** (con "Ver todas").
-7. Filas: **Historial** ("N sesiones este mes") y **Ejercicios** ("226
+6. Filas: **Historial** ("N sesiones este mes") y **Ejercicios** ("226
    ejercicios, con cómo se hacen").
 - Sin fecha, sin racha, sin volumen (decisiones del usuario).
+- **Sin cuerpo 3D** (2026-11-15): la prueba Jobs lo suspendió (cadáver sin
+  piel en la portada, choca con el estilo, quita foco). Vive en la rama
+  `cuerpo-3d` (modelo anatómico Z-Anatomy) para retomarlo si se rediseña.
 
 ### Entrenar (sesión)
 - **Cabecera**: cerrar (descartar con confirmación) · "Sesión" + "x/y

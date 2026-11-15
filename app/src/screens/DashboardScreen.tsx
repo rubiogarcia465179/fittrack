@@ -1,15 +1,13 @@
 /**
  * Inicio — la primera pantalla (estilo X, monocromo). De arriba abajo:
- *  1. Foto de cabecera (la eliges en Perfil → "Foto de Inicio"; si no, la
- *     de la app). Sin botones encima.
- *  2. "Empezar sesión" (blanco) → hoja "Tu entreno de hoy"; con un entreno
- *     en curso, "Continuar entreno". Un solo camino para empezar.
+ *  1. Tu foto, solo si la eliges en Perfil (sin foto de stock).
+ *  2. "Hoy toca: <grupos>" + Cambiar, y "Empezar sesión" → hoja "Tu entreno
+ *     de hoy"; con un entreno en curso, "Continuar entreno".
  *  3. Marcas personales (3 tarjetas blancas + "Ver todo").
- *  4. Calendario del mes (días entrenados en blanco; tocar un día abre el
- *     Historial).
- *  5. Esta semana: mapa del cuerpo (frente/espalda) con los grupos que ya
- *     trabajaste (1 verde · 2 naranja · 3+ rojo); silueta según el Perfil.
- *  6. Filas: Historial y Ejercicios (pantallas con "atrás").
+ *  4. Calendario del mes (días entrenados en blanco, récords en verde; tocar
+ *     un día abre el Historial de ese día).
+ *  5. Filas: Historial y Ejercicios (pantallas con "atrás").
+ * El cuerpo 3D vive en la rama `cuerpo-3d` (prueba Jobs: no, 2026-11-15).
  * Sin fecha, sin "sesiones esta semana" ni racha (se ven en el calendario) y
  * sin volumen (decisiones del usuario 2026-11-15).
  */
@@ -20,10 +18,7 @@ import { useTranslation } from 'react-i18next';
 import type { ExerciseRow } from '../lib/gym';
 import type { Session, BenchmarkRef } from '../store';
 import { effectiveRecords, recordDays } from '../lib/records';
-import { sessionSets, todayISO, weekStart } from '../lib/gym';
-import { type Sex } from '../lib/heat';
-import { Body3D } from '../components/Body3D';
-import { store } from '../store';
+import { sessionSets, todayISO } from '../lib/gym';
 import { RADII } from '../theme';
 import { useTheme } from '../theme-context';
 import { MonthCalendar, type DayStat } from '../components/Calendar';
@@ -112,34 +107,6 @@ export default function DashboardScreen({
   const monthPrefix = todayISO().slice(0, 7);
   const sessionsThisMonth = sessions.filter((s) => s.date.startsWith(monthPrefix)).length;
 
-
-
-  // Esta semana: sesiones por grupo (una sesión cuenta una vez por grupo).
-  const weekCounts = useMemo(() => {
-    const from = weekStart(todayISO());
-    const c: Record<string, number> = {};
-    for (const s of sessions) {
-      if (s.date < from) continue;
-      const gs = new Set(s.exercises.map((x) => byId.get(x.exercise_id)?.muscle_group).filter(Boolean) as string[]);
-      for (const g of gs) c[g] = (c[g] ?? 0) + 1;
-    }
-    return c;
-  }, [sessions, byId]);
-  // Silueta: sexo e IMC del Perfil (peso: Perfil o sesiones, el más reciente).
-  const [body, setBody] = useState<{ sex: Sex; bmi: number | null }>({ sex: undefined, bmi: null });
-  useEffect(() => {
-    void store.profile().then((pr) => {
-      const ws = [
-        ...(pr.weight_entries || []),
-        ...sessions.filter((x) => x.body_weight_kg && x.body_weight_kg > 0).map((x) => ({ date: x.date, value: x.body_weight_kg as number })),
-      ].sort((a, b) => (a.date < b.date ? 1 : -1));
-      const hs = (pr.height_entries || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
-      const w = ws[0]?.value;
-      const h = hs[0]?.value;
-      setBody({ sex: pr.sex, bmi: w && h ? w / Math.pow(h / 100, 2) : null });
-    });
-  }, [sessions]);
-
   // Qué toca hoy (mismo cálculo que la hoja rápida).
   const todayLabel = splitLabel(todayGroups, t);
 
@@ -192,23 +159,6 @@ export default function DashboardScreen({
           </Text>
         </Gradient>
       </Pressable>
-
-      {/* ---- Esta semana: qué músculos llevas y cuáles te quedan ---- */}
-      <SectionHead title={t('home_week_body')} />
-      <Body3D
-        sex={body.sex}
-        bmi={body.bmi}
-        counts={weekCounts}
-        hint={t('body_hint')}
-        legend={t('body_legend')}
-        summary={
-          Object.keys(weekCounts).length
-            ? Object.entries(weekCounts)
-                .map(([g, n]) => `${t(`group_${g}`)} ${n}`)
-                .join(', ')
-            : t('body_none')
-        }
-      />
 
       {/* ---- 3. Marcas personales ---- */}
       <SectionHead

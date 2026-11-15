@@ -122,21 +122,4 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Establecer marcas');
   await sleep(500);
   await shot('24-benchmark-test');
-
-  // 25 La silueta sigue al Perfil: mujer, 165 cm, 60 kg (IMC ≈ 22)
-  const female = {
-    ...DATA,
-    profile: { ...DATA.profile, sex: 'female', birth_year: 1995, height_entries: [{ date: iso(-20), value: 165 }], weight_entries: [{ date: iso(0), value: 60 }] },
-  };
-  await load({ ...base, 'fittrack.data.v1': female });
-  await scrollBy(330);
-  await shot('25-body-female');
-
-  // 26 Cuerpo 3D: arrastrar con el dedo lo gira (aquí, hasta verlo de espaldas)
-  await load({ ...base, 'fittrack.data.v1': profile });
-  await scrollBy(200);
-  await sleep(800);
-  await drag('Brazos', 230, 0);
-  await sleep(2200);
-  await shot('26-body-back');
 };

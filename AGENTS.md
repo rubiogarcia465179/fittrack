@@ -48,16 +48,11 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   (sesión `type: 'benchmark'` que arranca `startBenchmark` en `App.tsx`).
 - **Calendario**: `DayStat.pr` → círculo `RECORD_GREEN` (`#00E676`, texto
   negro) en todos los temas.
-- **Cuerpo 3D**: `app/src/components/Body3D.tsx` con **three** +
-  **@react-three/fiber** + **expo-gl** (aprobados 2026-11-15; `@types/three`
-  solo tipos). Figura = árbol de `Node` (forma + hijos en coordenadas
-  locales): tronco y extremidades como `LatheGeometry` (perfil SIEMPRE de
-  abajo arriba, o las caras quedan del revés y el contorno las tapa),
-  músculos como elipsoides-placa sobre la piel. Contorno = "casco invertido"
-  (copia ×1,06 con `side: BackSide` en `p.text`). Órbita: `PanResponder`
-  → refs yaw/pitch, aplicadas en `useFrame` (inercia ×0,5, decaimiento 0,88).
-  Colores: `lib/heat.ts` (`HEAT`, `heatColor`). Piel `p.bg`, músculo sin
-  trabajar `p.border`.
+- **Cuerpo 3D: fuera de main** (2026-11-15, prueba Jobs: no). Todo vive en
+  la rama `cuerpo-3d` (modelo `app/assets/models/body.glb` de Z-Anatomy, CC
+  BY-SA; `scripts/build_body_model.mjs`; `Body3D.tsx`; créditos en
+  `docs/CREDITOS-3D.md`). En main se desinstalaron three,
+  @react-three/fiber, expo-gl y @types/three; al cambiar a esa rama, `npm ci`.
 - **Capturas con WebGL**: `app/qa/shots/shoot.js` lanza Chrome con
   `--use-angle=swiftshader --enable-unsafe-swiftshader` y ofrece
   `drag(ariaLabel, dx, dy)` (arrastre real por CDP) para girar el cuerpo.
@@ -139,9 +134,9 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 ## 4. Entorno y dependencias
 
 - Dependencias aprobadas recientes: `expo-haptics`, `expo-image-picker`,
-  `react-native-svg` (15.16.0), `three` (0.187), `@react-three/fiber`
-  (9.8), `expo-gl` (58.0) + `@types/three` (dev) — todas 2026-11-15.
-  Cualquier otra, preguntar.
+  `react-native-svg` (15.16.0, lo usa `BarChart`). three, @react-three/fiber,
+  expo-gl y @types/three se aprobaron y se **quitaron** de main con el cuerpo
+  3D (siguen en la rama `cuerpo-3d`). Cualquier otra, preguntar.
 
 - Se trabaja en el host del usuario (Windows + WSL Ubuntu 24.04, repo en
   `~/fittrack`). Ejecuta node/npm/tsc **dentro de WSL**

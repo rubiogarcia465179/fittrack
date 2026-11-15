@@ -22,15 +22,14 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación (2026-11-15, WSL del host, commit Fase 11g)
+## Última verificación (2026-11-15, WSL del host, commit Fase 11h)
 
 - `npx tsc --noEmit` (app) → **0 errores**.
-- `node tests/run.js` → **120/120, 0 fallos**.
+- `node tests/run.js` → **0 fallos**.
 - `npx expo export --platform web --output-dir /tmp/ft-dist` → OK.
-- Capturas **01–26** con Chrome headless (WebGL por SwiftShader) → **0
-  errores de consola**, revisadas; vídeo regenerado (815 fotogramas, 5,9 MB).
-- `web/`: build OK (sin cambios de diseño; paridad en pausa).
-- **Prueba "Steve Jobs": SÍ** (ver Log 2026-11-15 "noche, 10").
+- Capturas **01–24** con Chrome headless → **0 errores de consola**,
+  revisadas; vídeo regenerado (246 fotogramas, 5,4 MB).
+- **Prueba "Steve Jobs": SÍ** para Inicio sin cuerpo (ver Log "noche, 11").
 
 ## Decisiones vigentes
 
@@ -593,3 +592,14 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   Live Activity: **futuro, en espera** (decisión del usuario).
   **Veredicto `/stevejobs analyze`: SÍ** — manipulación directa real: tocas el
   cuerpo y gira e inclina en 3D. Siguiente nivel opcional: malla esculpida.
+
+- 2026-11-15 (noche, 11) — **Fase 11h: fuera el cuerpo 3D.** El usuario pidió
+  el cuerpo "exactamente como" una lámina anatómica: se construyó un écorché
+  real con Z-Anatomy (CC BY-SA 4.0, BodyParts3D): músculos superficiales,
+  cara, tendones, cráneo y huesos de manos/pies; 2,9 MB; script
+  reproducible. `/stevejobs analyze`: **NO** (cadáver sin piel en la
+  portada, dos lenguajes visuales, todo rojo, ocupa la pantalla, solo
+  masculino, sin probar en iPhone). A petición del usuario: guardado en la
+  rama `cuerpo-3d` (f05885f) y retirado de main con sus dependencias
+  (three, @react-three/fiber, expo-gl, @types/three) y 6 claves i18n.
+  **Veredicto para Inicio sin cuerpo: SÍ.**
