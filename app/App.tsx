@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  SafeAreaView,
   View,
   Text,
   Pressable,
@@ -8,6 +7,8 @@ import {
   Platform,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+// SafeAreaView de react-native está obsoleto: se usa react-native-safe-area-context.
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LANG_KEY, type Lang, setLanguage } from './src/i18n';
@@ -88,6 +89,7 @@ export default function App() {
   };
   const effectiveTheme = useFlag && nationality ? `flag:${nationality}` : themeId;
   return (
+    <SafeAreaProvider>
     <ThemeProvider themeId={effectiveTheme}>
       <Root
         active={active}
@@ -102,6 +104,7 @@ export default function App() {
         onToggleFlag={toggleFlag}
       />
     </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
 

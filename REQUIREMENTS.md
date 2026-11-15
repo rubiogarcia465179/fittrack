@@ -322,4 +322,4 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-102 [DONE] Peso, altura, duración y fecha por defecto: no se piden al terminar
 ### R-103 [DONE] Licencias al final de Perfil, no en cada ejercicio
 ### R-104 [DONE] Error en Expo Go "BVLinearGradient": degradado sin módulo nativo
-### R-105 [TODO] SafeAreaView obsoleto → react-native-safe-area-context
+### R-105 [DONE] SafeAreaView obsoleto → react-native-safe-area-context (aviso fuera)

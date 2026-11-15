@@ -144,7 +144,9 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 ## 4. Entorno y dependencias
 
 - Dependencias aprobadas recientes: `expo-haptics`, `expo-image-picker`,
-  `react-native-svg` (15.16.0, lo usa `BarChart`). three, @react-three/fiber,
+  `react-native-svg` (15.16.0, lo usa `BarChart`),
+  `react-native-safe-area-context` (5.11, petición del usuario: sustituye al
+  `SafeAreaView` obsoleto de RN; `SafeAreaProvider` envuelve la app). three, @react-three/fiber,
   expo-gl y @types/three se aprobaron y se **quitaron** de main con el cuerpo
   3D (siguen en la rama `cuerpo-3d`). Cualquier otra, preguntar.
 

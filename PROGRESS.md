@@ -622,3 +622,9 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   automáticos), licencias al pie de Perfil. 4 claves i18n nuevas (380).
   **Veredicto `/stevejobs analyze`: SÍ** — menos toques por serie, nada
   inventado, el final de la sesión es un toque.
+
+- 2026-11-15 (noche, 14) — **SafeAreaView.** Aviso de Expo Go ("SafeAreaView
+  has been deprecated") → `react-native-safe-area-context` (instalada con
+  `npx expo install`, a petición del usuario) con `SafeAreaProvider` en App.
+  Verificación: tsc 0 · tests 0 fallos · export web e iOS OK · 22 capturas, 0
+  errores de consola (sin cambios visuales) · vídeo 183 fotogramas.

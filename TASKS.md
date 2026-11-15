@@ -99,7 +99,7 @@ Hecho en esta pasada:
 - [x] Licencias y créditos al pie de Perfil; fuera del detalle de ejercicio.
 - [x] Expo Go: `Gradient` sin `react-native-linear-gradient` (no existe en
       Expo Go: "View config not found for component BVLinearGradient").
-- [ ] Siguiente: `SafeAreaView` → `react-native-safe-area-context`.
+- [x] `SafeAreaView` → `react-native-safe-area-context` (SafeAreaProvider en App).
 
 ### Fase 11i — Foco a 10, fase 2 ✅
 - [x] Perfil en **4 tarjetas** (Cuerpo + calorías, Sobre ti, Apariencia,
@@ -210,8 +210,7 @@ Decisión 2026-11-08: la v1 se publica solo con datos locales.
 - [ ] Sync offline-first en app y web; export/import JSON como puente
 
 ### Deuda técnica
-- [ ] `SafeAreaView` obsoleto en RN 0.88 → `react-native-safe-area-context`
-      (⛔ dependencia nueva).
+- [x] `SafeAreaView` obsoleto → `react-native-safe-area-context` (hecho, 11j).
 - [ ] `npm audit`: 4 avisos moderados en `app/`.
 - [ ] Hoja de valores: "+/−" fino para pesos fuera de la rejilla.
 - [ ] Limpiar código muerto del tema crema (`DEFAULT` ya no se usa) y estilos
