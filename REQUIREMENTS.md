@@ -284,3 +284,12 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-79 [DONE] Día de récord = círculo verde llamativo en el calendario
 ### R-80 [DONE] Mapa del cuerpo en Inicio: negro con contorno blanco; grupos de la semana 1 verde · 2 naranja · 3 rojo; hombre/mujer según Perfil; forma según IMC (mejor cerca del IMC sano)
 ### R-81 [DONE] Siluetas mucho más suaves, como arte → `react-native-svg` (aprobado) y curvas Bézier
+
+## Pasada 2026-11-15 (noche, 9)
+
+### R-82 [DONE] "3+ veces" ya no en rojo (se leía como alarma) → violeta `#BF5AF2`
+### R-83 [DONE·parcial] `npm ci` de la web aprobado y hecho; build OK. Paridad web en pausa por el usuario
+### R-84 [DONE] Imagen 3D en Inicio que el usuario puede girar para ver frente y espalda y qué músculos ha trabajado, usando las SVG de referencia (front.svg / back.svg)
+### R-85 [DONE] Vibración del móvil al acabar el descanso
+### R-86 [TODO·⛔] Durante la sesión, ver estado y cuenta atrás del descanso con el móvil bloqueado y marcar "hecho" desde ahí u otra app (Live Activity / notificación) — requiere build propia y dependencia nueva; decide el usuario
+### R-87 [DROPPED] Basic-Fit — el usuario pidió olvidarlo

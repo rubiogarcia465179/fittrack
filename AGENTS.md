@@ -48,13 +48,21 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   (sesión `type: 'benchmark'` que arranca `startBenchmark` en `App.tsx`).
 - **Calendario**: `DayStat.pr` → círculo `RECORD_GREEN` (`#00E676`, texto
   negro) en todos los temas.
-- **Mapa del cuerpo**: `app/src/components/BodyMap.tsx` con
-  **react-native-svg** (dependencia aprobada por el usuario el 2026-11-15).
-  Silueta de curvas Bézier en un viewBox 200 × 440 simétrico (`x(dx) = 100 +
-  s·dx`); `bodyShape(sex, bmi)` da las proporciones; colores de calor
-  `HEAT` (1 verde, 2 naranja, 3+ rojo). Usa `p.bg`/`p.text` para que
-  funcione en todos los temas. Las formas de `View` no sirven para esto
-  (quedan "de robot").
+- **Mapa del cuerpo**: `app/src/components/BodyMap.tsx` (+
+  `body/paths.ts`, transcrito de las SVG de referencia del usuario, viewBox
+  400 × 820, mitad derecha + reflejo). Giro: `Animated` + `PanResponder`
+  (sin dependencias), `perspective` + `rotateY`; la cara visible se decide
+  por OPACIDAD según el ángulo (`backfaceVisibility` no es fiable en web) y
+  en web el muelle usa el driver JS. Colores `HEAT`: 1 verde, 2 naranja,
+  3+ violeta. Usa `p.bg`/`p.card`/`p.text`. **react-native-svg**
+  aprobado (2026-11-15). Las formas de `View` no sirven (quedan "de robot").
+- **Vibración**: `lib/haptics.ts` → `restDone()` (Vibration de RN + háptico)
+  al terminar el descanso; `tapLight()` al marcar series; `success()` al
+  guardar.
+- **Web**: `web/node_modules` instalado (`npm ci`, aprobado 2026-11-15) y
+  `npm run build` OK; `web/public/js/i18n.js` se regenera con
+  `python3 scripts/generate_web_i18n.py`. La paridad de diseño está EN PAUSA
+  por decisión del usuario (TASKS).
 - **Ramas**: `main` (actual), `SteveJobs` (versión "Foco a 10", ya
   fusionada) y `v1` (versión anterior, 5 pestañas). Por defecto se trabaja y
   commitea en `main` (`CLAUDE.md §1`).

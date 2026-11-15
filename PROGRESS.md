@@ -18,22 +18,19 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Idioma | **Todo en el idioma elegido** (NL/ES/EN/FR): interfaz, nombres de ejercicio, pasos "cómo se hace" (226 × 4), fechas; cambio instantáneo |
 | Datos | 226 ejercicios reales de wger; iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
 | Web (Astro) | Atrasada: lógica al día, diseño de la 11c (no el monocromo X); pasos por idioma copiados a `web/src/data/howto/` pero sin usar |
-| i18n | NL/ES/EN/FR, **388 claves**, espejos idénticos |
+| i18n | NL/ES/EN/FR, **390 claves**, espejos idénticos |
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación (2026-11-15, WSL del host, commit Fase 11e)
+## Última verificación (2026-11-15, WSL del host, commit Fase 11f)
 
 - `npx tsc --noEmit` (app) → **0 errores**.
-- `node tests/run.js` → **120/120, 0 fallos** (nuevos: marcas efectivas,
-  días de récord, BENCHMARK_TEST).
+- `node tests/run.js` → **120/120, 0 fallos**.
 - `npx expo export --platform web --output-dir /tmp/ft-dist` → OK.
-- Capturas **01–25** (`docs/screenshots/`) con Chrome headless → **0 errores
-  de consola**, revisadas (hoja de contactos + una a una las nuevas);
-  vídeo `video-iphone16.mp4` regenerado (276 fotogramas, 5,8 MB).
-- `web/`: `npm run build` no ejecutado (falta `web/node_modules`, ⛔ `npm ci`).
-- iPhone real: probado por el usuario (2026-11-15) antes de la Fase 11e.
-- **Prueba "Steve Jobs": SÍ** (ver Log 2026-11-15 "noche, 8").
+- Capturas **01–26** con Chrome headless → **0 errores de consola**,
+  revisadas; vídeo regenerado (361 fotogramas, 5,7 MB).
+- `web/`: `npm ci` + `npm run build` → OK (233 páginas); paridad en pausa.
+- **Prueba "Steve Jobs": SÍ** (ver Log 2026-11-15 "noche, 9").
 
 ## Decisiones vigentes
 
@@ -570,3 +567,15 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   las marcas son reales. Reserva: el rojo de "3+" se lee como alarma
   (anotado en TASKS, decide el usuario). Primera versión del cuerpo hecha con
   Views → rechazada por "robot"; rehecha en SVG.
+
+- 2026-11-15 (noche, 9) — **Fase 11f: cuerpo que se gira + vibración.**
+  "3+" pasa a violeta (aceptado). `npm ci` de la web aprobado: build OK, i18n
+  web regenerado; paridad web **en pausa** por el usuario. Mapa muscular
+  rehecho con las **SVG de referencia del usuario** (`body/paths.ts`) en una
+  peana con perspectiva que se gira con el dedo o con "Delante / Detrás"
+  (sin dependencias nuevas; cara visible por opacidad porque
+  `backfaceVisibility` falla en web). Vibración clara al acabar el descanso
+  (`restDone()`). Pantalla de bloqueo (Live Activity): ⛔ necesita build
+  propia + dependencias, se pregunta al usuario.
+  **Veredicto `/stevejobs analyze`: SÍ** — manipulación directa (giras el
+  cuerpo con el dedo y responde), arte de calidad, colores sin alarma.

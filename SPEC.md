@@ -67,12 +67,15 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    **"Continuar al entreno"** genera el plan. Recuerda la última elección.
    Con un entreno en curso: "Continuar entreno". **Un solo camino para
    empezar** (sin asistente ni "Personalizar entreno").
-4. **Esta semana — mapa del cuerpo** (ilustración vectorial, frente y
-   espalda, negra con contorno blanco del tema): cada grupo se colorea por las
-   sesiones de esta semana que lo trabajaron — 1 verde, 2 naranja, 3+ rojo;
-   sin entrenar, solo la línea anatómica. La silueta sigue al Perfil: hombre /
-   mujer (sin dato, intermedia) y proporciones según el IMC (cerca de ~22,
-   forma en V atlética; cambios suaves, nunca caricatura ni etiqueta).
+4. **Esta semana — cuerpo que se gira**: mapa muscular basado en las SVG de
+   referencia del usuario (`app/src/components/body/paths.ts`), con fibras;
+   una sola figura en una peana con perspectiva que se **gira con el dedo**
+   (frente ↔ espalda, se asienta al soltar) o con "Delante / Detrás"; sombra
+   en el suelo que se estrecha al girar. Cada grupo se colorea por las
+   sesiones de esta semana — **1 verde, 2 naranja, 3+ violeta** (el rojo se
+   leía como alarma); sin entrenar, gris. El IMC ensancha o estrecha la
+   figura con suavidad; mujer, algo más estrecha. (Un modelo volumétrico de
+   verdad necesitaría un modelo 3D + three.js.)
 5. **Marcas personales**: las 3 mejores (1RM estimado) en tarjetas blancas;
    "Ver todo" despliega el resto. **Salen siempre de datos**: la mejor serie
    guardada (Epley) o el test "Establecer marcas" de Perfil; gana el mayor.
@@ -104,7 +107,9 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   `3 × 10 · 20 kg` o `20 min · 3 km`, series hechas, chevron).
 - **Descanso**: al marcar una serie de fuerza empieza la cuenta atrás del
   plan (`rest_after`, 90 s por defecto) en la barra fija, con "+15 s" y
-  "Saltar"; vibra al terminar. Sobrevive a cambiar de pestaña.
+  "Saltar"; al terminar, **vibración clara** (dos pulsos + háptico).
+  Sobrevive a cambiar de pestaña. Futuro (⛔): estado y cuenta atrás en la
+  pantalla de bloqueo (Live Activity / notificación) con "Serie hecha".
 - **Barra fija**: a mitad → "Terminar" (contorno) + **"Siguiente
   ejercicio"** (blanco); en el último → **"Terminar y guardar"**.
 - **Al terminar**: hoja opcional "¿Cómo ha ido?" (energía y sensación 1–5)

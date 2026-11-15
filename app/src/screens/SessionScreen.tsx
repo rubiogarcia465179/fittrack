@@ -35,7 +35,7 @@ import { useScale, fs } from '../scale';
 import { XGlyph, CheckGlyph } from '../components/TabIcon';
 import { Chevron } from '../components/Chevron';
 import { ExerciseHowTo } from '../components/ExerciseHowTo';
-import { tapLight, success } from '../lib/haptics';
+import { tapLight, success, restDone } from '../lib/haptics';
 import { PickerSheet, fmtNum } from '../components/PickerSheet';
 import { Gradient } from '../components/Gradient';
 import { plural } from '../lib/plural';
@@ -741,7 +741,7 @@ export default function SessionScreen({
   useEffect(() => {
     if (restUntil && now >= restUntil) {
       setRestUntil(null);
-      success(); // háptico al terminar el descanso
+      restDone(); // vibración clara al terminar el descanso
       flash(t('rest_done'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

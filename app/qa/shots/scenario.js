@@ -131,4 +131,11 @@ module.exports = async ({ load, shot, tap, tapLabel, scrollBy, sleep, base, DATA
   await load({ ...base, 'fittrack.data.v1': female });
   await scrollBy(330);
   await shot('25-body-female');
+
+  // 26 El cuerpo gira: "Detrás" (o deslizar) muestra la espalda
+  await load({ ...base, 'fittrack.data.v1': profile });
+  await scrollBy(330);
+  await tap('Detrás');
+  await sleep(1500);
+  await shot('26-body-back');
 };

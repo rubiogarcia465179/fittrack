@@ -198,7 +198,14 @@ export default function DashboardScreen({
         sex={body.sex}
         bmi={body.bmi}
         counts={weekCounts}
-        labels={{ front: t('body_front'), back: t('body_back'), legend: t('body_legend') }}
+        labels={{ front: t('body_front'), back: t('body_back'), legend: t('body_legend'), hint: t('body_hint') }}
+        summary={
+          Object.keys(weekCounts).length
+            ? Object.entries(weekCounts)
+                .map(([g, n]) => `${t(`group_${g}`)} ${n}`)
+                .join(', ')
+            : t('body_none')
+        }
       />
 
       {/* ---- 3. Marcas personales ---- */}

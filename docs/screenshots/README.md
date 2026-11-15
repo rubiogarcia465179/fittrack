@@ -6,7 +6,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 
 | # | Pantalla | Qué muestra |
 |---|----------|-------------|
-| 01 | Inicio | "Hoy toca: …" + Cambiar, objetivo y duración, "Empezar sesión", mapa del cuerpo de la semana |
+| 01 | Inicio | "Hoy toca: …" + Cambiar, objetivo y duración, "Empezar sesión", cuerpo que se gira (frente) |
 | 02 | Inicio · Cambiar | Tras un toque en "Cambiar": el siguiente bloque |
 | 03 | Inicio · más | Marcas personales, calendario con día de récord en verde, filas Historial / Ejercicios |
 | 04 | Tu entreno de hoy | Hoja previa: duración, intensidad, energía, objetivo |
@@ -30,7 +30,8 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 22 | Ejercicios NL | Ídem en neerlandés |
 | 23 | ¿Cómo se hace? NL | Los pasos siguen el idioma elegido |
 | 24 | Test de marcas | "Establecer marcas": los 5 clásicos, calentamiento + serie de test, 1RM estimado |
-| 25 | Silueta mujer | El mapa del cuerpo sigue al Perfil (mujer, IMC ≈ 22) |
+| 25 | Silueta mujer | El cuerpo sigue al Perfil (mujer, IMC ≈ 22: algo más estrecha) |
+| 26 | Cuerpo · espalda | Tras "Detrás" (o deslizar): la espalda, con los tríceps trabajados |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 

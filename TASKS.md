@@ -85,10 +85,21 @@ Hecho en esta pasada:
 - [x] **Mapa del cuerpo** semanal (SVG, frente/espalda, hombre/mujer, IMC):
       1 verde · 2 naranja · 3+ rojo. Sustituye al histograma de actividad.
 - [x] IMC con coma decimal en ES/FR/NL.
-- [ ] (Jobs, opcional) Revisar el rojo de "3+": en interfaces el rojo
-      significa error; entrenar 3 veces es bueno. Decide el usuario.
-- ⏸ Máquinas Matrix de Basic-Fit: **descartado por el usuario** (Basic-Fit
-  confirma la marca Matrix en su web, pero no publica la lista de máquinas).
+- [x] "3+" en **violeta** (el rojo se leía como alarma; aceptado por el usuario).
+
+### Fase 11f — Cuerpo que se gira + vibración al acabar el descanso ✅
+- [x] Mapa muscular con las SVG de referencia del usuario, en una peana 3D que
+      se gira con el dedo (frente ↔ espalda) o con "Delante / Detrás".
+- [x] Vibración clara al terminar el descanso (`restDone()`).
+- ⛔ **Pantalla de bloqueo** durante la sesión (estado, cuenta atrás del
+  descanso bajando y "Serie hecha" desde ahí): iOS Live Activity (extensión
+  de widget nativa) / Android notificación en curso → requiere build propia
+  (no funciona en Expo Go) y dependencias nuevas. Paso intermedio posible:
+  `expo-notifications` (notificación programada al acabar el descanso, con
+  vibración aunque el móvil esté bloqueado). Decide el usuario.
+- ⏸ **Paridad web en pausa** (el usuario pidió parar): `npm ci` y build OK,
+  i18n regenerado (390 claves); pendiente el tema X, 3 pestañas, Inicio,
+  Perfil y pasos por idioma en `web/`.
 
 ### Fase 15 — InstaGym (sustituye a Historial) ← SIGUIENTE
 - [ ] Feed tipo Instagram (estilo X): cada sesión con su resumen (fecha,
@@ -119,13 +130,12 @@ Hecho en esta pasada:
 - [ ] Agente, al recibir lotes: `image` → lista de 3, carrusel en el
       detalle, sync, `source_note` "generadas con IA", compresión JPEG.
 
-### Paridad web (Astro) con la app
+### Paridad web (Astro) con la app (⏸ en pausa por el usuario)
 - [ ] Tema monocromo estilo X en `web/src/styles/global.css` (hoy la web
       tiene las variables grises de la 11c, no el negro/blanco de la 11d).
 - [ ] `dashboard.astro` → Inicio; `session.astro` → sesión actual (descanso,
       cardio, valoración); Perfil con datos y calorías (`energy.ts`).
-- ⛔ `npm run build` de la web: falta `web/node_modules` (`cd web && npm ci`,
-      aprobación).
+- [x] `npm ci` (aprobado) + `npm run build` OK (233 páginas).
 
 ## Hecho recientemente
 
