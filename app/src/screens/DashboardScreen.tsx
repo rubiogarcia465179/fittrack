@@ -40,6 +40,7 @@ export default function DashboardScreen({
   onChangeSplit,
   onOpenHistory,
   onOpenLibrary,
+  onStartBenchmark,
 }: {
   exercises: ExerciseRow[];
   sessions: Session[]; // ordenadas de más reciente a más antigua
@@ -58,6 +59,8 @@ export default function DashboardScreen({
   /** Sin fecha: todo el historial; con fecha: solo ese día. */
   onOpenHistory: (date?: string) => void;
   onOpenLibrary: () => void;
+  /** "Establecer marcas": test con los 5 clásicos (primer arranque). */
+  onStartBenchmark: () => void;
 }) {
   const { t, i18n } = useTranslation();
   const { p, GRADIENT } = useTheme();
@@ -187,7 +190,17 @@ export default function DashboardScreen({
           ))}
         </View>
       ) : (
-        <Text style={[styles.empty, { color: p.secondary }]}>{t('bench_empty')}</Text>
+        <View style={[styles.emptyBox, { borderColor: p.border }]}>
+          <Text style={[styles.emptyTitle, { color: p.text }]}>{t('home_first_title')}</Text>
+          <Text style={[styles.emptyText, { color: p.secondary }]}>{t('home_first_sub')}</Text>
+          <Pressable
+            accessibilityRole="button"
+            onPress={onStartBenchmark}
+            style={({ pressed }) => [styles.emptyBtn, { borderColor: p.text, opacity: pressed ? 0.7 : 1 }]}
+          >
+            <Text style={[styles.emptyBtnText, { color: p.text }]}>{t('records_test_btn')}</Text>
+          </Pressable>
+        </View>
       )}
       {recordsOpen ? (
         <View style={styles.records}>
@@ -311,6 +324,11 @@ const styles = StyleSheet.create({
   changeText: { fontSize: 14, fontWeight: '600' },
   todayMeta: { fontSize: 15, marginTop: 6, lineHeight: 20 },
   todayTitle: { fontSize: 30, fontWeight: '800', letterSpacing: -0.6, lineHeight: 36, marginTop: 6 },
+  emptyBox: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 16, padding: 18, gap: 8 },
+  emptyTitle: { fontSize: 17, fontWeight: '700' },
+  emptyText: { fontSize: 15, lineHeight: 21 },
+  emptyBtn: { alignSelf: 'flex-start', marginTop: 6, minHeight: 44, paddingHorizontal: 18, borderRadius: 22, borderWidth: 1, justifyContent: 'center' },
+  emptyBtnText: { fontSize: 15, fontWeight: '600' },
   ctaWrap: {
     marginTop: 18,
   },

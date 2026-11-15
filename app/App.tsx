@@ -400,6 +400,7 @@ function Root({
                   setTab('history');
                 }}
                 onOpenLibrary={() => setTab('library')}
+                onStartBenchmark={startBenchmark}
               />
             ) : tab === 'library' ? (
               <View style={{ flex: 1 }}>
@@ -438,9 +439,6 @@ function Root({
             ) : (
               <ProfileScreen
                 sessions={sessions}
-                exercises={exercises}
-                benchmarks={benchmarks}
-                onStartBenchmark={startBenchmark}
                 onHeightLogged={() => {}}
                 lng={lng}
                 onPickLang={pickLang}
@@ -450,10 +448,6 @@ function Root({
                 onProfileChanged={setProfile}
                 themeId={themeId}
                 onPickTheme={onPickTheme}
-                nationality={nationality}
-                onPickNationality={onPickNationality}
-                useFlag={useFlag}
-                onToggleFlag={onToggleFlag}
               />
             )}
           </View>

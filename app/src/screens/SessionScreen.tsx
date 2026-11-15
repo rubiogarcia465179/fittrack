@@ -1006,9 +1006,6 @@ export default function SessionScreen({
               <WandGlyph color={p.text} />
             </QuickAction>
           )}
-          <QuickAction label={t('sess_details')} onPress={() => setDetailsOpen((o) => !o)} active={detailsOpen}>
-            <SlidersGlyph color={p.text} bg={p.card} />
-          </QuickAction>
         </View>
         {/* sugerencia (R-15): el ejercicio que sigue, con 1 toque */}
         {suggested ? (
@@ -1053,100 +1050,6 @@ export default function SessionScreen({
           </View>
         ) : null}
 
-        {detailsOpen ? (
-          <View style={styles.detailsBody}>
-            <View style={styles.fieldsRow}>
-              <View style={styles.fieldWrap}>
-                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_date')}</Text>
-                <Pressable
-                  style={({ pressed }) => [
-                    styles.dateBox,
-                    {
-                      backgroundColor: p.fieldBg,
-                      borderColor: dateOpen ? p.accent : p.border,
-                      transform: [{ scale: pressed ? 0.97 : 1 }],
-                      transition: 'transform 80ms ease',
-                    },
-                  ]}
-                  accessibilityRole="button"
-                  accessibilityLabel={date}
-                  onPress={() => setDateOpen((o) => !o)}
-                >
-                  <Text style={[styles.dateText, { color: p.text }]}>{fmtDay(date, lang)}</Text>
-                  <Text style={[styles.dateUnit, { color: p.secondary }]}>{t('field_date')}</Text>
-                </Pressable>
-              </View>
-              <View style={styles.fieldWrap}>
-                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('picker_duration')}</Text>
-                <ValueBox
-                  value={duration > 0 ? String(duration) : '—'}
-                  unit={t('picker_minutes')}
-                  onPress={() => setPick({ kind: 'duration' })}
-                  accent={duration > 0}
-                />
-              </View>
-            </View>
-            <View style={styles.fieldsRow}>
-              <View style={styles.fieldWrap}>
-                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_bodyweight')}</Text>
-                <ValueBox
-                  value={weightStr ? fmtNum(Number(weightStr)) : '—'}
-                  unit="kg"
-                  onPress={() => setPick({ kind: 'body' })}
-                  accent={weightStr !== ''}
-                />
-              </View>
-              <View style={styles.fieldWrap}>
-                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_height')}</Text>
-                <ValueBox
-                  value={heightStr ? fmtNum(Number(heightStr)) : '—'}
-                  unit="cm"
-                  onPress={() => setPick({ kind: 'height' })}
-                  accent={heightStr !== ''}
-                />
-              </View>
-            </View>
-            {dateOpen ? (
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.dateRow}>
-                {recentDays.map((d) => (
-                  <Pressable
-                    key={d}
-                    style={({ pressed }) => [
-                      styles.dateChip,
-                      {
-                        backgroundColor: d === date ? p.accent : p.card,
-                        borderColor: d === date ? p.accent : p.border,
-                        transform: [{ scale: pressed ? 0.94 : 1 }],
-                        transition: 'transform 80ms ease',
-                      },
-                    ]}
-                    accessibilityRole="button"
-                    accessibilityLabel={d}
-                    onPress={() => {
-                      setDate(d);
-                      setDateOpen(false);
-                    }}
-                  >
-                    <Text style={[styles.dateChipText, { color: d === date ? p.onAccent : p.text }]}>
-                      {d === todayISO() ? t('cal_today') : fmtDay(d, lang)}
-                    </Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
-            ) : null}
-            <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_notes')}</Text>
-            <TextInput
-              testID="active-notes"
-              style={[styles.notes, { backgroundColor: p.fieldBg, borderColor: p.border, color: p.text }]}
-              placeholder={t('sess_notes_ph')}
-              placeholderTextColor={p.dim}
-              value={notes}
-              onChangeText={setNotes}
-              multiline
-              accessibilityLabel={t('sess_notes')}
-            />
-          </View>
-        ) : null}
 
         {draft.length === 0 ? (
           <Text style={[styles.empty, { color: p.dim }]}>{t('sess_no_exercises')}</Text>
@@ -1762,6 +1665,111 @@ export default function SessionScreen({
               value={feeling}
               onChange={setFeeling}
             />
+            {/* Detalles (fecha, duración, peso, altura, notas): al terminar,
+                no durante el entreno (foco). */}
+            <Pressable
+              accessibilityRole="button"
+              accessibilityState={{ expanded: detailsOpen }}
+              onPress={() => setDetailsOpen((o) => !o)}
+              style={({ pressed }) => [styles.detailsToggle, { opacity: pressed ? 0.6 : 1 }]}
+            >
+              <Text style={[styles.detailsToggleText, { color: p.text }]}>{t('sess_details')}</Text>
+              <Chevron dir={detailsOpen ? 'up' : 'down'} color={p.text} size={7} />
+            </Pressable>
+            {detailsOpen ? (
+              <View style={styles.detailsBody}>
+                <View style={styles.fieldsRow}>
+                  <View style={styles.fieldWrap}>
+                    <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_date')}</Text>
+                    <Pressable
+                      style={({ pressed }) => [
+                        styles.dateBox,
+                        {
+                          backgroundColor: p.fieldBg,
+                          borderColor: dateOpen ? p.accent : p.border,
+                          transform: [{ scale: pressed ? 0.97 : 1 }],
+                          transition: 'transform 80ms ease',
+                        },
+                      ]}
+                      accessibilityRole="button"
+                      accessibilityLabel={date}
+                      onPress={() => setDateOpen((o) => !o)}
+                    >
+                      <Text style={[styles.dateText, { color: p.text }]}>{fmtDay(date, lang)}</Text>
+                      <Text style={[styles.dateUnit, { color: p.secondary }]}>{t('field_date')}</Text>
+                    </Pressable>
+                  </View>
+                  <View style={styles.fieldWrap}>
+                    <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('picker_duration')}</Text>
+                    <ValueBox
+                      value={duration > 0 ? String(duration) : '—'}
+                      unit={t('picker_minutes')}
+                      onPress={() => setPick({ kind: 'duration' })}
+                      accent={duration > 0}
+                    />
+                  </View>
+                </View>
+                <View style={styles.fieldsRow}>
+                  <View style={styles.fieldWrap}>
+                    <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_bodyweight')}</Text>
+                    <ValueBox
+                      value={weightStr ? fmtNum(Number(weightStr)) : '—'}
+                      unit="kg"
+                      onPress={() => setPick({ kind: 'body' })}
+                      accent={weightStr !== ''}
+                    />
+                  </View>
+                  <View style={styles.fieldWrap}>
+                    <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_height')}</Text>
+                    <ValueBox
+                      value={heightStr ? fmtNum(Number(heightStr)) : '—'}
+                      unit="cm"
+                      onPress={() => setPick({ kind: 'height' })}
+                      accent={heightStr !== ''}
+                    />
+                  </View>
+                </View>
+                {dateOpen ? (
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.dateRow}>
+                    {recentDays.map((d) => (
+                      <Pressable
+                        key={d}
+                        style={({ pressed }) => [
+                          styles.dateChip,
+                          {
+                            backgroundColor: d === date ? p.accent : p.card,
+                            borderColor: d === date ? p.accent : p.border,
+                            transform: [{ scale: pressed ? 0.94 : 1 }],
+                            transition: 'transform 80ms ease',
+                          },
+                        ]}
+                        accessibilityRole="button"
+                        accessibilityLabel={d}
+                        onPress={() => {
+                          setDate(d);
+                          setDateOpen(false);
+                        }}
+                      >
+                        <Text style={[styles.dateChipText, { color: d === date ? p.onAccent : p.text }]}>
+                          {d === todayISO() ? t('cal_today') : fmtDay(d, lang)}
+                        </Text>
+                      </Pressable>
+                    ))}
+                  </ScrollView>
+                ) : null}
+                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_notes')}</Text>
+                <TextInput
+                  testID="active-notes"
+                  style={[styles.notes, { backgroundColor: p.fieldBg, borderColor: p.border, color: p.text }]}
+                  placeholder={t('sess_notes_ph')}
+                  placeholderTextColor={p.dim}
+                  value={notes}
+                  onChangeText={setNotes}
+                  multiline
+                  accessibilityLabel={t('sess_notes')}
+                />
+              </View>
+            ) : null}
             <Pressable
               style={({ pressed }) => [{ marginTop: 20, opacity: saving ? 0.4 : pressed ? 0.85 : 1 }]}
               accessibilityRole="button"
@@ -2780,6 +2788,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
   },
+  detailsToggleText: { fontSize: 15, fontWeight: '600' },
   notes: {
     borderRadius: RADII.field,
     borderWidth: 1,

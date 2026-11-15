@@ -9,7 +9,7 @@
  * Todo es opcional: si no se rellena, la pantalla no fuerza nada.
  */
 import { useEffect, useMemo, useState } from 'react';
-import { View, Text, ScrollView, Pressable, StyleSheet, Switch, Modal } from 'react-native';
+import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '../store';
 import { store, type Profile, type ProfileEntry, type Sex } from '../store';
@@ -22,16 +22,12 @@ import { fmtDay } from './SessionScreen';
 import { PickerSheet, fmtNum } from '../components/PickerSheet';
 import LangSwitcher from '../components/LangSwitcher';
 import { DataSection } from '../components/DataSection';
-import { THEMES, THEME_IDS, type ThemeId } from '../theme';
-import { COUNTRIES, COUNTRY_BY_CODE, countryName, type Country, type CountryCode } from '../theme-flags';
+import { THEMES, type ThemeId } from '../theme';
 import type { Lang } from '../i18n';
 import { Image } from 'react-native';
 import { canPickPhoto, pickPhoto } from '../lib/pickPhoto';
 import { loadHomePhoto, saveHomePhoto } from '../lib/homePhoto';
-import { effectiveRecords } from '../lib/records';
-import type { BenchmarkRef } from '../store';
-import type { ExerciseRow } from '../lib/gym';
-import { exName } from '../lib/names';
+
 import { Chevron } from '../components/Chevron';
 
 /** Temas a la vista; el resto, en "Más temas". */
@@ -54,13 +50,6 @@ export default function ProfileScreen({
   onProfileChanged,
   themeId,
   onPickTheme,
-  nationality,
-  onPickNationality,
-  useFlag,
-  onToggleFlag,
-  exercises,
-  benchmarks,
-  onStartBenchmark,
 }: {
   sessions: Session[]; // recientes primero
   onHeightLogged: () => void;
@@ -71,21 +60,10 @@ export default function ProfileScreen({
   onClearAll: () => Promise<void>;
   onDataChanged: () => void;
   onProfileChanged?: (p: Profile) => void;
-  /** Ejercicios (nombres) y marcas del test, para "Marcas personales". */
-  exercises: ExerciseRow[];
-  benchmarks: BenchmarkRef[];
-  /** "Establecer marcas": arranca la sesión de test con los 5 clásicos. */
-  onStartBenchmark: () => void;
-  /** Tema visual (Noche, Día, Ámbar, Neón, Rubí). */
+  /** Tema visual: Noche o Día (los demás temas salieron en la Fase 11i). */
   themeId: ThemeId;
   onPickTheme: (id: ThemeId) => void;
-  /** Nacionalidad (opcional) y, aparte, usar su bandera como tema. */
-  nationality: CountryCode | null;
-  onPickNationality: (c: CountryCode) => void;
-  useFlag: boolean;
-  onToggleFlag: (on: boolean) => void;
 }) {
-  const [natOpen, setNatOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const { p, SHADOW } = useTheme();
   const scale = useScale();
@@ -104,7 +82,6 @@ export default function ProfileScreen({
   // Calorías: explicación plegada. Temas: Noche/Día a la vista; el resto en
   // "Más temas" (abierto si ya usas uno de ellos o la bandera).
   const [energyOpen, setEnergyOpen] = useState(false);
-  const [moreThemes, setMoreThemes] = useState(!BASIC_THEMES.includes(themeId) || useFlag);
   const renderTheme = (id: ThemeId) => {
     const th = THEMES[id];
     const on = themeId === id;
@@ -202,17 +179,6 @@ export default function ProfileScreen({
     }
   };
 
-  // Marcas personales: test de marcas + mejores series (gana el mayor).
-  const exById = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
-  const records = useMemo(
-    () =>
-      [...effectiveRecords(sessions, benchmarks, (id) => exById.get(id)?.muscle_group === 'cardio').values()]
-        .filter((r) => r.kg > 0 && exById.has(r.exercise_id))
-        .sort((a, b) => b.kg - a.kg)
-        .slice(0, 5),
-    [sessions, benchmarks, exById],
-  );
-
   const card = { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card };
   const year = new Date().getFullYear();
 
@@ -249,46 +215,9 @@ export default function ProfileScreen({
           </Text>
         ) : null}
         {weightTrend.length >= 2 ? <TrendCard title={t('profile_trend')} data={weightTrend} unit="kg" p={p} /> : null}
-      </View>
 
-      {/* ---- Marcas personales: salen de los datos (sesiones o test) ---- */}
-      <View style={[styles.card, card]}>
-        <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('home_prs')}</Text>
-        {records.length ? (
-          <View style={{ marginTop: 6 }}>
-            {records.map((r) => (
-              <View key={r.exercise_id} style={[styles.recRow, { borderBottomColor: p.border }]}>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.recName, { color: p.text }]} numberOfLines={1}>
-                    {exName(exById.get(r.exercise_id), lang)}
-                  </Text>
-                  <Text style={[styles.flagSub, { color: p.secondary }]} numberOfLines={1}>
-                    {r.source === 'sessions' && r.best_date
-                      ? t('records_from_sessions', { date: fmtDay(r.best_date, lang) })
-                      : t('records_from_test')}
-                  </Text>
-                </View>
-                <Text style={[styles.recVal, { color: p.text }]}>
-                  {fmtNum(r.kg)} <Text style={{ color: p.secondary, fontWeight: '600' }}>kg</Text>
-                </Text>
-              </View>
-            ))}
-          </View>
-        ) : (
-          <Text style={[styles.energyNote, { color: p.secondary }]}>{t('records_empty')}</Text>
-        )}
-        <Pressable
-          accessibilityRole="button"
-          onPress={onStartBenchmark}
-          style={({ pressed }) => [styles.photoBtn, styles.recBtn, { borderColor: p.border, opacity: pressed ? 0.7 : 1 }]}
-        >
-          <Text style={[styles.photoBtnText, { color: p.text }]}>{t('records_test_btn')}</Text>
-        </Pressable>
-        <Text style={[styles.flagSub, { color: p.secondary, marginTop: 8 }]}>{t('records_test_sub')}</Text>
-      </View>
-
-      {/* ---- 2. Calorías: un número; la explicación, plegada ---- */}
-      <View style={[styles.card, card]}>
+        {/* Calorías en la misma tarjeta: salen del cuerpo (peso, altura). */}
+        <View style={[styles.energySplit, { borderTopColor: p.border }]} />
         <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('energy_title')}</Text>
         {energy ? (
           <>
@@ -355,62 +284,14 @@ export default function ProfileScreen({
         <Field label={t('profile_goal')}>
           <Seg options={GOALS} value={profile?.goal} labelOf={(g) => t(`goal_${g}`)} onPick={(g) => update({ goal: g })} />
         </Field>
-        <Field label={t('profile_nationality')}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={`${t('profile_nationality')}: ${nationality ? countryName(COUNTRY_BY_CODE.get(nationality)!, lang) : '—'}`}
-            onPress={() => setNatOpen(true)}
-            style={({ pressed }) => [styles.valueBtn, styles.natBtn, { backgroundColor: p.fieldBg, borderColor: p.border, opacity: pressed ? 0.8 : 1 }]}
-          >
-            {nationality ? <FlagSwatch c={COUNTRY_BY_CODE.get(nationality)!} /> : null}
-            <Text style={[styles.valueBtnText, { color: nationality ? p.text : p.secondary }]}>
-              {nationality ? countryName(COUNTRY_BY_CODE.get(nationality)!, lang) : t('profile_pick_country')}
-            </Text>
-          </Pressable>
-        </Field>
       </View>
 
-      {/* ---- 4. Apariencia: tema (Noche/Día + Más temas) y foto de Inicio ---- */}
+      {/* ---- 3b. Apariencia: Noche / Día y foto de Inicio ---- */}
       <View style={[styles.card, card]}>
         <Text style={[styles.cardLabel, { color: p.secondary, marginBottom: 6 }]}>{t('profile_appearance')}</Text>
-        <View style={[styles.themeRow, useFlag && nationality ? { opacity: 0.35 } : null]} accessibilityRole="radiogroup" accessibilityLabel={t('profile_theme')}>
-          {(moreThemes ? THEME_IDS : BASIC_THEMES).map((id) => renderTheme(id))}
-          {moreThemes ? null : (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t('theme_more')}
-              onPress={() => setMoreThemes(true)}
-              style={({ pressed }) => [styles.themeItem, { opacity: pressed ? 0.75 : 1 }]}
-            >
-              <View style={[styles.themeRing, { borderColor: 'transparent' }]}>
-                <View style={[styles.themeSwatch, styles.moreSwatch, { borderColor: p.border }]}>
-                  {[0, 1, 2].map((i) => (
-                    <View key={i} style={[styles.moreDot, { backgroundColor: p.text }]} />
-                  ))}
-                </View>
-              </View>
-              <Text style={[styles.themeName, { color: p.secondary }]} numberOfLines={1}>{t('theme_more')}</Text>
-            </Pressable>
-          )}
+        <View style={styles.themeRow} accessibilityRole="radiogroup" accessibilityLabel={t('profile_theme')}>
+          {BASIC_THEMES.map((id) => renderTheme(id))}
         </View>
-        {moreThemes ? (
-          <View style={[styles.flagRow, { borderTopColor: p.border }]}>
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.flagTitle, { color: nationality ? p.text : p.secondary }]}>{t('profile_flag_theme')}</Text>
-              <Text style={[styles.flagSub, { color: p.secondary }]}>
-                {nationality ? countryName(COUNTRY_BY_CODE.get(nationality)!, lang) : t('profile_flag_needs_country')}
-              </Text>
-            </View>
-            <Switch
-              accessibilityLabel={t('profile_flag_theme')}
-              value={useFlag && !!nationality}
-              disabled={!nationality}
-              onValueChange={onToggleFlag}
-              trackColor={{ false: p.border, true: p.accent }}
-              thumbColor={useFlag && nationality ? p.onAccent : '#FFFFFF'}
-            />
-          </View>
-        ) : null}
         {canPickPhoto ? (
           <View style={[styles.photoRow, { borderTopColor: p.border }]}>
             {homePhoto ? (
@@ -445,43 +326,11 @@ export default function ProfileScreen({
         ) : null}
       </View>
 
-      {/* ---- Ajustes: idioma (instantáneo, sin red) + tus datos ---- */}
-      <View style={[styles.card, card]}>
+      {/* ---- 4. Ajustes: idioma + tus datos, una sola tarjeta ---- */}
+      <DataSection t={t} onExport={onExport} onClear={onClearAll} onDone={onDataChanged}>
         <Text style={[styles.cardLabel, { color: p.secondary, marginBottom: 2 }]}>{t('profile_language')}</Text>
         <LangSwitcher lng={lng} onPick={onPickLang} full />
-      </View>
-      <DataSection t={t} onExport={onExport} onClear={onClearAll} onDone={onDataChanged} />
-
-      {natOpen ? (
-        <Modal visible transparent animationType="slide" onRequestClose={() => setNatOpen(false)}>
-          <Pressable style={[styles.sheetBack, { backgroundColor: p.overlay }]} onPress={() => setNatOpen(false)} accessibilityLabel={t('cancel')} />
-          <View style={[styles.sheet, { backgroundColor: p.bg, borderColor: p.border }]}>
-            <View style={[styles.sheetHandle, { backgroundColor: p.border }]} />
-            <Text style={[styles.sheetTitle, { color: p.text }]} accessibilityRole="header">{t('profile_nationality')}</Text>
-            <ScrollView style={{ maxHeight: 460 }}>
-              {COUNTRIES.map((c) => {
-                const on = nationality === c.code;
-                return (
-                  <Pressable
-                    key={c.code}
-                    accessibilityRole="radio"
-                    accessibilityState={{ checked: on }}
-                    onPress={() => {
-                      onPickNationality(c.code);
-                      setNatOpen(false);
-                    }}
-                    style={({ pressed }) => [styles.natRow, { borderBottomColor: p.border, backgroundColor: pressed ? p.card : 'transparent' }]}
-                  >
-                    <FlagSwatch c={c} />
-                    <Text style={[styles.natName, { color: p.text, fontWeight: on ? '700' : '500' }]}>{countryName(c, lang)}</Text>
-                    {on ? <View style={[styles.natCheck, { backgroundColor: p.accent }]} /> : null}
-                  </Pressable>
-                );
-              })}
-            </ScrollView>
-          </View>
-        </Modal>
-      ) : null}
+      </DataSection>
 
       {pick ? (
         <PickerSheet
@@ -514,16 +363,6 @@ export default function ProfileScreen({
 }
 
 /** Mini-bandera con las franjas de color del país (sin emblemas). */
-function FlagSwatch({ c }: { c: Country }) {
-  return (
-    <View style={[styles.flag, { flexDirection: c.vertical ? 'row' : 'column' }]} accessibilityElementsHidden>
-      {c.stripes.map((col, i) => (
-        <View key={i} style={{ flex: 1, backgroundColor: col }} />
-      ))}
-    </View>
-  );
-}
-
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   const { p } = useTheme();
   return (
@@ -876,6 +715,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
+  energySplit: { borderTopWidth: StyleSheet.hairlineWidth, marginTop: 16, marginBottom: 14 },
   photoRow: { flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 14, paddingTop: 14, borderTopWidth: StyleSheet.hairlineWidth },
   photoEmpty: { borderStyle: 'dashed', borderWidth: 1 },
   recRow: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 52, paddingVertical: 8, borderBottomWidth: StyleSheet.hairlineWidth },

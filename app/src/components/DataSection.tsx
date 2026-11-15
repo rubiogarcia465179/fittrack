@@ -21,9 +21,11 @@ export interface DataSectionProps {
   onExport: () => Promise<string>;
   onClear: () => Promise<void>;
   onDone: () => void; // recargar datos en pantalla
+  /** Ajustes que van en la misma tarjeta, arriba (p. ej. el idioma). */
+  children?: React.ReactNode;
 }
 
-export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) {
+export function DataSection({ t, onExport, onClear, onDone, children }: DataSectionProps) {
   const { p, SHADOW } = useTheme();
   const scale = useScale();
   const [confirming, setConfirming] = useState(false);
@@ -74,6 +76,7 @@ export function DataSection({ t, onExport, onClear, onDone }: DataSectionProps) 
   return (
     <View>
       <View style={[styles.card, { borderRadius: RADII.tile, backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
+        {children ? <View style={{ marginBottom: 18 }}>{children}</View> : null}
         <Text style={[styles.title, { fontSize: fs(scale, 19), color: p.text }]}>{t('data_title')}</Text>
         <Text style={[styles.note, { fontSize: fs(scale, 15), color: p.secondary, marginTop: 6 }]}>{t('data_note')}</Text>
         <View style={styles.row}>

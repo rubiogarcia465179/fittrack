@@ -304,3 +304,12 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-90 [DONE·rama] Cuerpo 3D "exactamente como la lámina" con músculos trabajados en color → écorché de Z-Anatomy (CC BY-SA), en la rama `cuerpo-3d`
 ### R-91 [DONE] Quitar el cuerpo de main y guardarlo en una rama aparte (prueba Jobs: no)
 ### R-92 [TODO] "¿Qué más para llevarlo todo a un 10?" → propuesta en TASKS (Foco a 10, fase 2); decide el usuario
+
+## Pasada 2026-11-15 (noche, 12)
+
+### R-93 [DONE] Perfil más corto (marcas fuera; idioma + datos juntos) → 4 tarjetas
+### R-94 [DONE] Sesión con una sola acción arriba; "Detalles" en la hoja final
+### R-95 [DONE] Temas: solo Noche y Día (fuera Ámbar, Neón, Rubí y banderas)
+### R-96 [DONE] Primer arranque que invita a establecer marcas
+### R-97 [⏸] Foto de ejemplo en "¿Cómo se hace?": la resuelve el usuario; de momento, la de ejemplo
+### R-98 [DONE] Skill stevejobs: modo para mejorar la app (simple, clara, minimalista, artística) → `refine`

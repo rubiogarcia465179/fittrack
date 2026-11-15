@@ -1,6 +1,6 @@
 ---
 name: stevejobs
-description: Critique, simplify and judge a product (app, screen, feature, flow) through Steve Jobs' publicly documented product principles — focus, simplicity, end-to-end experience, craftsmanship, saying no, technology married with the liberal arts. Use for "/stevejobs analyze", "suggest", "review <screen>", "cut", "keynote" or "ship", for the "would Steve Jobs ship this?" check before a commit, or whenever the user asks what Steve Jobs would think of the product.
+description: Critique, simplify and judge a product (app, screen, feature, flow) through Steve Jobs' publicly documented product principles — focus, simplicity, end-to-end experience, craftsmanship, saying no, technology married with the liberal arts. Use for "/stevejobs analyze", "suggest", "review <screen>", "cut", "keynote", "ship" or "refine" (actually improve the app so it is simple, clear, minimal and artistic), for the "would Steve Jobs ship this?" check before a commit, or whenever the user asks what Steve Jobs would think of the product.
 ---
 
 # Steve Jobs — product review
@@ -82,6 +82,31 @@ else is your critique, in your words.
 - **ship** — Go / no-go checklist for release: real device tested, first
   screen, one design language, nothing fake, core flow in ≤ 2 taps,
   performance, accessibility. Every unchecked item is a blocker.
+- **refine [screen]** — *Act, don't just judge.* Improve the app (or one
+  screen) so it is **simple, clear, minimal and artistic**, as he would have
+  wanted, and leave it working. Steps:
+  1. **Look**: current screenshots + code of the target. Write the screen's
+     one job in one sentence. If you can't, that is the first fix.
+  2. **Subtract first** (in this order, stop when the job is obvious):
+     remove what doesn't serve the job → fold what is rare ("Más opciones",
+     "¿Qué es esto?") → merge what repeats → shorten every label.
+  3. **Clarify**: one primary action per screen (the only filled button);
+     hierarchy by size and weight, not by color or boxes; words a beginner
+     understands; numbers that matter big, everything else quiet.
+  4. **Make it art** (restraint, not decoration): one design language
+     (`SPEC.md §1`); one accent; generous, consistent spacing; aligned edges;
+     calm motion only where it explains a change; real content or an honest
+     placeholder, never fake; the empty state and the error state get the same
+     care as the full one.
+  5. **Check what nobody looks at**: touch targets ≥ 44 pt, contrast, all 4
+     languages, both themes, empty / first-launch / long-text cases.
+  6. **Verify**: regenerate the screenshots and look at every one
+     (`CLAUDE.md §2`), then run `analyze` on the result.
+  Rules: never add a feature, dependency or new screen while refining; a
+  change that removes something the user explicitly asked for is proposed,
+  not applied (⛔ in `TASKS.md`). Output: what you removed, folded, merged
+  and polished (by screen, with before → after), the screenshots you
+  checked, and the `analyze` verdict.
 
 ## Output rules
 

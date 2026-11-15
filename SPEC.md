@@ -69,7 +69,11 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    empezar** (sin asistente ni "Personalizar entreno").
 4. **Marcas personales**: las 3 mejores (1RM estimado) en tarjetas blancas;
    "Ver todo" despliega el resto. **Salen siempre de datos**: la mejor serie
-   guardada (Epley) o el test "Establecer marcas" de Perfil; gana el mayor.
+   guardada (Epley) o el test "Establecer marcas"; gana el mayor.
+   **Primer arranque** (sin marcas): tarjeta "Empieza por tus marcas" con
+   **"Establecer marcas"** (test con los 5 clásicos: press de banca,
+   sentadilla, peso muerto, press militar, curl con barra; calentamiento al
+   60 % + serie de test, máx. 12 reps; el 1RM estimado fija los pesos).
 5. **Calendario** del mes (lunes primero, círculos): días entrenados con el
    acento, **días de récord en verde llamativo** (`#00E676`, texto negro),
    hoy con anillo; leyenda "Día entrenado · N · Récord · N". Un día de récord
@@ -85,9 +89,9 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 ### Entrenar (sesión)
 - **Cabecera**: cerrar (descartar con confirmación) · "Sesión" + "x/y
   series hechas" · línea fina de progreso debajo.
-- Dos accesos rápidos en círculo, centrados: **Añadir ejercicio** y
-  **Detalles** (fecha, duración, peso, altura, notas). Sin ejercicios, también
-  **Sugerir**.
+- Un solo acceso rápido: **Añadir ejercicio** (sin ejercicios, también
+  **Sugerir**). Los detalles (fecha, duración, peso, altura, notas) van al
+  final, en la hoja "¿Cómo ha ido?".
 - **Ejercicio actual** (tarjeta): TÍTULO en mayúsculas, grupo (+ material si
   no es "otro") y 1RM estimado; **"¿Cómo se hace?"** (fotos —de ejemplo,
   marcadas, hasta la Fase 13—, qué entrena y 3 pasos para principiantes);
@@ -106,8 +110,9 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   pantalla de bloqueo (Live Activity / notificación) con "Serie hecha".
 - **Barra fija**: a mitad → "Terminar" (contorno) + **"Siguiente
   ejercicio"** (blanco); en el último → **"Terminar y guardar"**.
-- **Al terminar**: hoja opcional "¿Cómo ha ido?" (energía y sensación 1–5)
-  → "Guardar sesión" o "Finalizar sin valorar".
+- **Al terminar**: hoja opcional "¿Cómo ha ido?" (energía y sensación 1–5,
+  y **"Detalles"** plegado: fecha, duración, peso, altura, notas) →
+  "Guardar sesión" o "Finalizar sin valorar".
 - **Sin entreno en curso**: "Recomiéndame un entreno" (abre la misma hoja
   rápida) o "Añado mis datos yo" (sesión en blanco).
 - Pesos: benchmark > histórico > base prudente por material (nunca 0 kg si
@@ -129,30 +134,22 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 - Futuro **InstaGym**: feed tipo Instagram con cada sesión y sus **fotos y
   comentarios**.
 
-### Perfil (6 tarjetas)
-1. **Cuerpo**: peso y altura juntos (cada uno con "+ Registrar"), IMC y
-   evolución del peso.
-- **Marcas personales**: las 5 mejores con su origen ("De tu entreno del
-  14 nov" / "Del test de marcas"); **"Establecer marcas"** abre una sesión de
-  test con los 5 clásicos para compararte con amigos (press de banca,
-  sentadilla, peso muerto, press militar, curl de bíceps con barra): serie de
-  calentamiento (10 al 60 %) + serie de test (tantas reps como puedas, máx.
-  12). Al guardar, el 1RM estimado de cada uno pasa a ser la marca y fija los
-  pesos recomendados. Sin introducción manual: todo sale de datos.
-2. **Calorías diarias**: un número (gasto diario estimado) y
-   **"¿Qué es esto?"** que despliega el metabolismo basal, la explicación
-   sencilla y el método (Mifflin-St Jeor × actividad de las últimas 4
-   semanas; estimación ±10 %, no médica).
-3. **Sobre ti**: sexo (también da forma a la silueta de Inicio), año de
-   nacimiento, nivel, **objetivo principal** (crear músculo, fuerza, perder
-   grasa, perder peso, definición, resistencia; decide series, reps y
-   descanso — `GOAL_SCHEME` — y es el que muestra "Hoy toca") y
-   nacionalidad (20 países).
-4. **Apariencia**: Noche (por defecto) · Día (inverso) · **Más** → Ámbar,
-   Neón, Rubí y el interruptor "Usar los colores de mi país" (solo colores,
-   nunca emblemas); **Foto de Inicio** opcional (Elegir / Cambiar / Quitar).
-5. **Idioma** (NL/ES/EN/FR, nombres completos).
-6. **Tus datos** (exportar JSON / borrar todo con confirmación).
+### Perfil (4 tarjetas)
+1. **Cuerpo**: peso y altura juntos (cada uno con "+ Registrar"), IMC,
+   evolución del peso y **calorías diarias** (un número; "¿Qué es esto?"
+   despliega el metabolismo basal, la explicación y el método: Mifflin-St
+   Jeor × actividad de las últimas 4 semanas; estimación ±10 %, no médica).
+2. **Sobre ti**: sexo, año de nacimiento, nivel y **objetivo principal**
+   (crear músculo, fuerza, perder grasa, perder peso, definición,
+   resistencia; decide series, reps y descanso — `GOAL_SCHEME` — y es el que
+   muestra "Hoy toca").
+3. **Apariencia**: **Noche** (por defecto) · **Día** (inverso); **Foto de
+   Inicio** opcional (Elegir / Cambiar / Quitar).
+4. **Ajustes**: idioma (NL/ES/EN/FR) y tus datos (exportar JSON / borrar
+   todo con confirmación). Crédito al pie si hace falta.
+- Las marcas viven en Inicio ("Ver todo"), no en Perfil. Sin nacionalidad ni
+  temas extra (Ámbar, Neón, Rubí, banderas): quitados en la Fase 11i por foco
+  (el código de temas sigue en `theme.ts` / `theme-flags.ts`, sin UI).
 
 ## 3. Datos
 

@@ -68,58 +68,50 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Ejercicios');
   await shot('14-library');
 
-  // 15–17 Perfil: cuerpo + marcas, calorías, apariencia
+  // 15–16 Perfil (4 tarjetas): cuerpo + calorías; sobre ti + apariencia + ajustes
   await load({ ...base, 'fittrack.data.v1': profile });
   await tapLabel('Perfil');
   await shot('15-profile');
   await tap('¿Qué es esto?');
-  await scrollBy(300);
-  await shot('16-profile-energy');
-  await scrollBy(1700);
-  await shot('17-profile-appearance');
+  await scrollBy(1500);
+  await shot('16-profile-settings');
 
-  // 18–20 Temas: Día, Ámbar (en "Más") y bandera (nacionalidad + interruptor)
+  // 17 Tema Día (único tema alternativo)
   await tapLabel('Día');
   await tapLabel('Inicio');
-  await shot('18-theme-day');
-  await tapLabel('Perfil');
-  await scrollBy(2300);
-  await tapLabel('Más');
-  await tapLabel('Ámbar');
-  await tapLabel('Inicio');
-  await shot('19-theme-amber');
-  await tapLabel('Perfil');
-  await tap('Elige un país');
-  await tap('España');
-  await scrollBy(2300);
-  await tapLabel('Usar los colores de mi país');
-  await tapLabel('Inicio');
-  await shot('20-theme-flag-es');
+  await shot('17-theme-day');
 
-  // 21–22 Cambio de idioma instantáneo (nombres de ejercicio incluidos)
+  // 18–19 Cambio de idioma instantáneo (nombres de ejercicio incluidos)
   await tapLabel('Perfil');
-  await scrollBy(3200);
+  await scrollBy(2600);
   await tapLabel('Français');
   await tapLabel('Accueil');
   await tap('Exercices');
-  await shot('21-library-fr');
+  await shot('18-library-fr');
   await tapLabel('Profil');
-  await scrollBy(3200);
+  await scrollBy(2600);
   await tapLabel('Nederlands');
   await tapLabel('Start');
   await tap('Oefeningen');
-  await shot('22-library-nl');
+  await shot('19-library-nl');
 
-  // 23 "¿Cómo se hace?" en neerlandés: pasos en el idioma elegido
+  // 20 "¿Cómo se hace?" en neerlandés: pasos en el idioma elegido
   await load({ ...base, 'fittrack.lang': 'nl', 'fittrack.data.v1': DATA, 'fittrack.active.v1': withCardio });
   await tapLabel('Trainen');
   await tap('Hoe doe je het?');
-  await shot('23-howto-nl');
+  await shot('20-howto-nl');
 
-  // 24 Perfil → "Establecer marcas": test con los 5 clásicos
-  await load({ ...base, 'fittrack.data.v1': profile });
-  await tapLabel('Perfil');
+  // 21 Primer arranque: sin datos, Inicio invita a establecer marcas
+  await load({ ...base });
+  await shot('21-first-launch');
   await tap('Establecer marcas');
   await sleep(500);
-  await shot('24-benchmark-test');
+  await shot('22-benchmark-test');
+
+  // 23 Detalles al terminar (en la hoja "¿Cómo ha ido?")
+  await load({ ...base, 'fittrack.data.v1': DATA, 'fittrack.active.v1': withCardio });
+  await tapLabel('Entrenar');
+  await tap('Terminar');
+  await tap('Detalles');
+  await shot('23-checkin-details');
 };

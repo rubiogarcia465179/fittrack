@@ -22,14 +22,15 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación (2026-11-15, WSL del host, commit Fase 11h)
+## Última verificación (2026-11-15, WSL del host, commit Fase 11i)
 
 - `npx tsc --noEmit` (app) → **0 errores**.
 - `node tests/run.js` → **0 fallos**.
 - `npx expo export --platform web --output-dir /tmp/ft-dist` → OK.
-- Capturas **01–24** con Chrome headless → **0 errores de consola**,
-  revisadas; vídeo regenerado (246 fotogramas, 5,4 MB).
-- **Prueba "Steve Jobs": SÍ** para Inicio sin cuerpo (ver Log "noche, 11").
+- Capturas **01–23** con Chrome headless → **0 errores de consola**,
+  revisadas (hoja de contactos + una a una las nuevas); vídeo regenerado
+  (230 fotogramas, 1,9 MB).
+- **Prueba "Steve Jobs": SÍ** (ver Log "noche, 12").
 
 ## Decisiones vigentes
 
@@ -603,3 +604,13 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   rama `cuerpo-3d` (f05885f) y retirado de main con sus dependencias
   (three, @react-three/fiber, expo-gl, @types/three) y 6 claves i18n.
   **Veredicto para Inicio sin cuerpo: SÍ.**
+
+- 2026-11-15 (noche, 12) — **Fase 11i: Foco a 10, fase 2.** Perfil de 7 a 4
+  tarjetas (marcas fuera, calorías dentro de Cuerpo, idioma dentro de
+  "Tus datos"); sesión con un solo acceso rápido ("Detalles" pasa a la hoja
+  "¿Cómo ha ido?"); temas solo Noche y Día (fuera Ámbar/Neón/Rubí, banderas y
+  nacionalidad; 10 claves i18n menos, 2 nuevas para el primer arranque);
+  primer arranque con "Empieza por tus marcas" + "Establecer marcas". Foto de
+  ejemplo: la resuelve el usuario aparte. Skill `stevejobs`: modo `refine`.
+  **Veredicto `/stevejobs analyze`: SÍ** — una acción por pantalla, nada
+  que sobre en Perfil ni en la sesión, y el primer minuto ya guía.

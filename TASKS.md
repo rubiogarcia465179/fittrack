@@ -87,6 +87,20 @@ Hecho en esta pasada:
 - [x] IMC con coma decimal en ES/FR/NL.
 - [x] "3+" en **violeta** (el rojo se leía como alarma; aceptado por el usuario).
 
+### Fase 11i — Foco a 10, fase 2 ✅
+- [x] Perfil en **4 tarjetas** (Cuerpo + calorías, Sobre ti, Apariencia,
+      Ajustes); marcas fuera de Perfil (están en Inicio).
+- [x] Sesión con **un solo acceso rápido** ("Añadir ejercicio"); "Detalles"
+      pasa a la hoja "¿Cómo ha ido?".
+- [x] Temas: **solo Noche y Día**; fuera Ámbar/Neón/Rubí, banderas y
+      nacionalidad (sin UI).
+- [x] **Primer arranque**: Inicio invita a "Establecer marcas".
+- ⏸ Foto de ejemplo en "¿Cómo se hace?": la resuelve el usuario aparte
+  (se mantiene la de ejemplo, marcada).
+- [x] Skill `stevejobs`: nuevo modo **refine** (mejorar la app para que sea
+      simple, clara, minimalista y artística).
+- [ ] Web: igualar el diseño o retirarla (decisión del usuario).
+
 ### Fase 11h — Fuera el cuerpo 3D (foco) ✅
 - [x] Écorché anatómico (Z-Anatomy, CC BY-SA) construido e integrado, pero la
       prueba Jobs dio **NO** → guardado en la rama `cuerpo-3d` (f05885f).

@@ -78,7 +78,10 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   botones blancos con texto negro, selección y estados marcados en blanco.
   Para texto/iconos sobre el acento usa **`p.onAccent`** (negro), nunca
   `'#fff'` a mano. `DEFAULT` (crema) ya no se usa.
-- **Temas**: `THEMES` en `app/src/theme.ts` (night, day, amber, neon, ruby) y
+- **Temas (UI)**: solo **Noche y Día** en Perfil (`BASIC_THEMES`, Fase 11i).
+  Ámbar/Neón/Rubí y las banderas siguen en el código sin UI; un usuario que ya
+  los tenía guardados los conserva hasta que elija Noche o Día.
+- **Temas (código)**: `THEMES` en `app/src/theme.ts` (night, day, amber, neon, ruby) y
   banderas en `app/src/theme-flags.ts` (`flag:XX`); `paletteFor(id)` en
   `theme-context.tsx`. Nunca escribas colores a mano en pantallas: usa
   `p.*` (incluido `p.onAccent`), o el tema Día/banderas se rompen.
@@ -193,3 +196,11 @@ Si algo no se puede ejecutar, dilo con el error real; no lo des por bueno.
 - `accessibility` — auditoría WCAG 2.2 AA en iOS/Android/Web.
 - `iphone-duo-react-native` — soporte del iPhone plegable.
 - `security-audit` — revisión de seguridad.
+
+## Skill `stevejobs`: modo `refine`
+
+`/SteveJobs refine [pantalla]` **actúa** (no solo juzga): restar → plegar →
+fusionar → acortar; una acción principal por pantalla; jerarquía por tamaño;
+un acento; estados vacíos cuidados; luego capturas y `analyze`. No añade
+funciones, dependencias ni pantallas; lo que quite algo pedido por el usuario
+se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
