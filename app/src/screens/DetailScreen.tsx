@@ -53,13 +53,6 @@ export default function DetailScreen({
           <Meta label={t('ex_secondary')} value={(exercise.secondary_muscles || []).join(', ') || '—'} />
           {exercise.equipment !== 'other' ? <Meta label={t('ex_equipment')} value={t(`equip_${exercise.equipment}`)} /> : null}
           <Meta label={t('ex_level')} value={t(`level_${exercise.level}`)} />
-          <Meta label={t('ex_source')} value={t(`source_${exercise.source}`)} />
-          {exercise.license ? (
-            <Meta
-              label={`${t('ex_license')} · ${t('ex_credit')}`}
-              value={`${exercise.license}${exercise.credit ? ' · ' + exercise.credit : ''} (wger.de)`}
-            />
-          ) : null}
         </View>
 
         <Text style={[styles.sectionTitle, { color: p.text }]}>{t('ex_instructions')}</Text>

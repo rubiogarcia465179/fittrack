@@ -56,6 +56,13 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 - **Capturas con WebGL**: `app/qa/shots/shoot.js` lanza Chrome con
   `--use-angle=swiftshader --enable-unsafe-swiftshader` y ofrece
   `drag(ariaLabel, dx, dy)` (arrastre real por CDP) para girar el cuerpo.
+- **Expo Go**: nada de módulos nativos que no traiga Expo Go. `Gradient.tsx`
+  pinta el degradado con franjas de `View` (sin `react-native-linear-gradient`).
+  Nada de `Modal` encadenados en iOS: la hoja final de la sesión es una capa
+  absoluta.
+- **Pesos**: `weightForExercise` devuelve `null` sin marca ni histórico y
+  `generateWorkout` pone 0 → la sesión muestra "—". Una serie se completa
+  sola al indicar reps + peso (`setReady` en `SessionScreen`).
 - **Vibración**: `lib/haptics.ts` → `restDone()` (Vibration de RN + háptico)
   al terminar el descanso; `tapLight()` al marcar series; `success()` al
   guardar.

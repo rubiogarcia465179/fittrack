@@ -107,11 +107,4 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Establecer marcas');
   await sleep(500);
   await shot('22-benchmark-test');
-
-  // 23 Detalles al terminar (en la hoja "¿Cómo ha ido?")
-  await load({ ...base, 'fittrack.data.v1': DATA, 'fittrack.active.v1': withCardio });
-  await tapLabel('Entrenar');
-  await tap('Terminar');
-  await tap('Detalles');
-  await shot('23-checkin-details');
 };

@@ -42,6 +42,7 @@ import { plural } from '../lib/plural';
 import { GroupGlyph } from '../components/GroupGlyph';
 import {
   suggestAlternatives,
+  isBodyweightExercise,
   suggestNextExercise,
   weightForExercise,
   recentRows,
@@ -711,6 +712,15 @@ export default function SessionScreen({
     );
   };
 
+  /** ¿Lleva carga? (si no, basta con las reps para completar la serie). */
+  const needsWeight = (id: string) => {
+    const ex = byId.get(id);
+    return ex ? !isBodyweightExercise(ex) : true;
+  };
+  /** Serie lista para darse por hecha: reps y peso indicados. */
+  const setReady = (id: string, s: { reps: number; weight_kg: number; duration_min?: number }) =>
+    isCardio(id) ? (s.duration_min ?? 0) > 0 : s.reps > 0 && (!needsWeight(id) || s.weight_kg > 0);
+
   /** Marcar/desmarcar una serie como COMPLETADA (progreso real). */
   const toggleSetDone = (id: string, idx: number) => {
     const d0 = draft.find((x) => x.exercise_id === id);
@@ -845,6 +855,22 @@ export default function SessionScreen({
   // ---- confirmación de la hoja de valores ----
   const confirmPick = (v: number) => {
     if (!pick) return;
+    // Al indicar reps / peso / minutos, si la serie queda completa se da por
+    // hecha directamente (con su háptico y su descanso).
+    if (pick.kind === 'reps' || pick.kind === 'weight' || pick.kind === 'cmin') {
+      const s0 = draft.find((x) => x.exercise_id === pick.ex)?.sets[pick.idx];
+      if (s0 && !s0.done) {
+        const next = {
+          ...s0,
+          ...(pick.kind === 'reps' ? { reps: v } : pick.kind === 'weight' ? { weight_kg: v } : { duration_min: v }),
+        };
+        if (setReady(pick.ex, next)) {
+          const ex = pick.ex;
+          const idx = pick.idx;
+          setTimeout(() => toggleSetDone(ex, idx), 0);
+        }
+      }
+    }
     if (pick.kind === 'reps') setSet(pick.ex, pick.idx, 'reps', v);
     else if (pick.kind === 'weight') setSet(pick.ex, pick.idx, 'weight_kg', v);
     else if (pick.kind === 'cmin') setSet(pick.ex, pick.idx, 'duration_min', v);
@@ -869,15 +895,21 @@ export default function SessionScreen({
     setError('');
     setSaving(true);
     try {
-      const bodyWeight = Number(weightStr.replace(',', '.'));
-      const heightVal = Number(heightStr.replace(',', '.'));
+      // Valores por defecto (no se piden al terminar): fecha de hoy, duración
+      // = tiempo transcurrido, peso y altura = los últimos registrados.
+      const prof = await store.profile();
+      const lastOf = (list?: { date: string; value: number }[]) =>
+        (list || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1))[0]?.value ?? 0;
+      const bodyWeight = Number(weightStr.replace(',', '.')) || latestWeight(sessions) || lastOf(prof.weight_entries);
+      const heightVal = Number(heightStr.replace(',', '.')) || lastOf(prof.height_entries);
+      const autoDuration = duration > 0 ? duration : Math.max(1, Math.round(elapsedMs / 60000));
       const normalized = normalizeSession({
         id: session.id,
         date,
         type: isBenchmark ? 'benchmark' : 'training',
         exercises: draft,
         notes,
-        duration_min: duration > 0 ? duration : null,
+        duration_min: autoDuration,
         body_weight_kg: bodyWeight > 0 ? bodyWeight : null,
         height_cm: heightVal > 0 ? heightVal : null,
         energy: rating?.energy ?? null,
@@ -1269,7 +1301,7 @@ export default function SessionScreen({
                     </View>
                     <View style={styles.setFieldWrap}>
                       <ValueBox
-                        value={fmtNum(s.weight_kg)}
+                        value={s.weight_kg > 0 || !needsWeight(d.exercise_id) ? fmtNum(s.weight_kg) : '—'}
                         unit="kg"
                         onPress={() => setPick({ kind: 'weight', ex: d.exercise_id, idx: i })}
                         done={!!s.done}
@@ -1283,12 +1315,14 @@ export default function SessionScreen({
                           {
                             borderColor: s.done ? p.green : p.border,
                             backgroundColor: s.done ? p.green : 'transparent',
+                            opacity: s.done || setReady(d.exercise_id, s) ? 1 : 0.3,
                             transform: [{ scale: pressed ? 0.9 : 1 }],
                           },
                         ]}
                         accessibilityRole="checkbox"
-                        accessibilityLabel={`${t('sess_set')} ${i + 1}: ${s.reps} reps, ${fmtNum(s.weight_kg)} kg`}
-                        accessibilityState={{ checked: !!s.done }}
+                        accessibilityLabel={`${t('sess_set')} ${i + 1}: ${s.reps} reps, ${s.weight_kg > 0 ? fmtNum(s.weight_kg) : '—'} kg`}
+                        accessibilityState={{ checked: !!s.done, disabled: !s.done && !setReady(d.exercise_id, s) }}
+                        disabled={!s.done && !setReady(d.exercise_id, s)}
                         onPress={() => toggleSetDone(d.exercise_id, i)}
                         hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
                       >
@@ -1645,8 +1679,8 @@ export default function SessionScreen({
 
       {/* Valoración opcional al terminar (Fase 12): rellenar o finalizar sin más. */}
       {checkinOpen ? (
-        <Modal visible transparent animationType="slide" onRequestClose={() => setCheckinOpen(false)}>
-          <Pressable style={styles.searchBack} onPress={() => setCheckinOpen(false)} accessibilityLabel={t('cancel')} />
+        <View style={styles.checkinLayer}>
+          <Pressable style={[styles.searchBack, { backgroundColor: p.overlay }]} onPress={() => setCheckinOpen(false)} accessibilityLabel={t('cancel')} />
           <View style={[styles.searchSheet, styles.checkinSheet, { backgroundColor: p.card }]}>
             <View style={styles.searchHandle} />
             <Text style={[styles.searchTitle, { color: p.text }]} accessibilityRole="header">{t('checkin_title')}</Text>
@@ -1665,111 +1699,6 @@ export default function SessionScreen({
               value={feeling}
               onChange={setFeeling}
             />
-            {/* Detalles (fecha, duración, peso, altura, notas): al terminar,
-                no durante el entreno (foco). */}
-            <Pressable
-              accessibilityRole="button"
-              accessibilityState={{ expanded: detailsOpen }}
-              onPress={() => setDetailsOpen((o) => !o)}
-              style={({ pressed }) => [styles.detailsToggle, { opacity: pressed ? 0.6 : 1 }]}
-            >
-              <Text style={[styles.detailsToggleText, { color: p.text }]}>{t('sess_details')}</Text>
-              <Chevron dir={detailsOpen ? 'up' : 'down'} color={p.text} size={7} />
-            </Pressable>
-            {detailsOpen ? (
-              <View style={styles.detailsBody}>
-                <View style={styles.fieldsRow}>
-                  <View style={styles.fieldWrap}>
-                    <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_date')}</Text>
-                    <Pressable
-                      style={({ pressed }) => [
-                        styles.dateBox,
-                        {
-                          backgroundColor: p.fieldBg,
-                          borderColor: dateOpen ? p.accent : p.border,
-                          transform: [{ scale: pressed ? 0.97 : 1 }],
-                          transition: 'transform 80ms ease',
-                        },
-                      ]}
-                      accessibilityRole="button"
-                      accessibilityLabel={date}
-                      onPress={() => setDateOpen((o) => !o)}
-                    >
-                      <Text style={[styles.dateText, { color: p.text }]}>{fmtDay(date, lang)}</Text>
-                      <Text style={[styles.dateUnit, { color: p.secondary }]}>{t('field_date')}</Text>
-                    </Pressable>
-                  </View>
-                  <View style={styles.fieldWrap}>
-                    <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('picker_duration')}</Text>
-                    <ValueBox
-                      value={duration > 0 ? String(duration) : '—'}
-                      unit={t('picker_minutes')}
-                      onPress={() => setPick({ kind: 'duration' })}
-                      accent={duration > 0}
-                    />
-                  </View>
-                </View>
-                <View style={styles.fieldsRow}>
-                  <View style={styles.fieldWrap}>
-                    <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_bodyweight')}</Text>
-                    <ValueBox
-                      value={weightStr ? fmtNum(Number(weightStr)) : '—'}
-                      unit="kg"
-                      onPress={() => setPick({ kind: 'body' })}
-                      accent={weightStr !== ''}
-                    />
-                  </View>
-                  <View style={styles.fieldWrap}>
-                    <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_height')}</Text>
-                    <ValueBox
-                      value={heightStr ? fmtNum(Number(heightStr)) : '—'}
-                      unit="cm"
-                      onPress={() => setPick({ kind: 'height' })}
-                      accent={heightStr !== ''}
-                    />
-                  </View>
-                </View>
-                {dateOpen ? (
-                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.dateRow}>
-                    {recentDays.map((d) => (
-                      <Pressable
-                        key={d}
-                        style={({ pressed }) => [
-                          styles.dateChip,
-                          {
-                            backgroundColor: d === date ? p.accent : p.card,
-                            borderColor: d === date ? p.accent : p.border,
-                            transform: [{ scale: pressed ? 0.94 : 1 }],
-                            transition: 'transform 80ms ease',
-                          },
-                        ]}
-                        accessibilityRole="button"
-                        accessibilityLabel={d}
-                        onPress={() => {
-                          setDate(d);
-                          setDateOpen(false);
-                        }}
-                      >
-                        <Text style={[styles.dateChipText, { color: d === date ? p.onAccent : p.text }]}>
-                          {d === todayISO() ? t('cal_today') : fmtDay(d, lang)}
-                        </Text>
-                      </Pressable>
-                    ))}
-                  </ScrollView>
-                ) : null}
-                <Text style={[styles.fieldLabel, { color: p.secondary }]}>{t('sess_notes')}</Text>
-                <TextInput
-                  testID="active-notes"
-                  style={[styles.notes, { backgroundColor: p.fieldBg, borderColor: p.border, color: p.text }]}
-                  placeholder={t('sess_notes_ph')}
-                  placeholderTextColor={p.dim}
-                  value={notes}
-                  onChangeText={setNotes}
-                  multiline
-                  accessibilityLabel={t('sess_notes')}
-                />
-              </View>
-            ) : null}
             <Pressable
               style={({ pressed }) => [{ marginTop: 20, opacity: saving ? 0.4 : pressed ? 0.85 : 1 }]}
               accessibilityRole="button"
@@ -1789,7 +1718,7 @@ export default function SessionScreen({
               <Text style={[styles.textBtnLabel, { color: p.secondary }]}>{t('checkin_skip')}</Text>
             </Pressable>
           </View>
-        </Modal>
+        </View>
       ) : null}
 
       {howToId && byId.get(howToId) ? <ExerciseHowTo exercise={byId.get(howToId)!} onClose={() => setHowToId(null)} /> : null}
@@ -1871,6 +1800,7 @@ export default function SessionScreen({
               : `${t('sess_next_prefix')} ${nameOf(nextInPlan ?? undefined)}`}
           </Text>
         ) : null}
+        {error ? <Text style={[styles.footerCaption, { color: p.red }]} numberOfLines={2}>{error}</Text> : null}
         <View style={styles.footerBtns}>
           {currentId && !isLastExercise ? (
             <>
@@ -2622,6 +2552,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   // ---- Valoración al terminar ----
+  checkinLayer: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 50, justifyContent: 'flex-end' },
   checkinSheet: {
     paddingHorizontal: 20,
     paddingBottom: 28,

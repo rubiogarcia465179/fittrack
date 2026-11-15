@@ -313,3 +313,13 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-96 [DONE] Primer arranque que invita a establecer marcas
 ### R-97 [⏸] Foto de ejemplo en "¿Cómo se hace?": la resuelve el usuario; de momento, la de ejemplo
 ### R-98 [DONE] Skill stevejobs: modo para mejorar la app (simple, clara, minimalista, artística) → `refine`
+
+## Pasada 2026-11-15 (noche, 13)
+
+### R-99 [DONE] En el último ejercicio, poder terminar la sesión (hoja final sin Modal; error visible)
+### R-100 [DONE] Serie completa al indicar peso y reps; "—" sin peso; ✓ activo solo con la serie completa
+### R-101 [DONE] Peso recomendado solo desde los históricos (o la marca del test); si no hay, "—"
+### R-102 [DONE] Peso, altura, duración y fecha por defecto: no se piden al terminar
+### R-103 [DONE] Licencias al final de Perfil, no en cada ejercicio
+### R-104 [DONE] Error en Expo Go "BVLinearGradient": degradado sin módulo nativo
+### R-105 [TODO] SafeAreaView obsoleto → react-native-safe-area-context

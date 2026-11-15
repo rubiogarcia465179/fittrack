@@ -95,7 +95,10 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 - **Ejercicio actual** (tarjeta): TÍTULO en mayúsculas, grupo (+ material si
   no es "otro") y 1RM estimado; **"¿Cómo se hace?"** (fotos —de ejemplo,
   marcadas, hasta la Fase 13—, qué entrena y 3 pasos para principiantes);
-  filas `nº · reps · kg · Hecha` (tocar un valor abre una hoja de valores);
+  filas `nº · reps · kg · Hecha` (tocar un valor abre una hoja de valores).
+  **Una serie se da por hecha sola al indicar reps y peso** (cardio: minutos);
+  el ✓ solo se activa cuando la serie está completa. **Sin datos de peso**
+  (ni marca ni histórico) se muestra **"—"**: la app no inventa pesos;
   añadir / quitar última serie; **"Más opciones"** plegado: Sugerir
   ejercicio (mismo grupo) · ¿Máquina ocupada? → Ocupado / Fuera de servicio
   (se **aplaza** y se ofrecen alternativas con su propio peso) · Quitar
@@ -110,20 +113,21 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   pantalla de bloqueo (Live Activity / notificación) con "Serie hecha".
 - **Barra fija**: a mitad → "Terminar" (contorno) + **"Siguiente
   ejercicio"** (blanco); en el último → **"Terminar y guardar"**.
-- **Al terminar**: hoja opcional "¿Cómo ha ido?" (energía y sensación 1–5,
-  y **"Detalles"** plegado: fecha, duración, peso, altura, notas) →
-  "Guardar sesión" o "Finalizar sin valorar".
+- **Al terminar**: hoja opcional "¿Cómo ha ido?" (energía y sensación 1–5),
+  dentro de la pantalla (no un Modal: iOS no abre uno mientras otro se cierra)
+  → "Guardar sesión" o "Finalizar sin valorar". **Fecha, duración, peso y
+  altura se rellenan solos** (hoy, tiempo transcurrido, últimos registrados).
 - **Sin entreno en curso**: "Recomiéndame un entreno" (abre la misma hoja
   rápida) o "Añado mis datos yo" (sesión en blanco).
-- Pesos: benchmark > histórico > base prudente por material (nunca 0 kg si
-  el ejercicio lleva carga). Series/reps/descanso según el **objetivo**
+- Pesos: marca del test > histórico; sin datos, "—" (decisión del usuario
+  2026-11-15: nada de pesos inventados). Series/reps/descanso según el **objetivo**
   (`GOAL_SCHEME`).
 
 ### Ejercicios (desde Inicio)
 - 226 ejercicios (wger), búsqueda y filtros (grupo, material); lista plana
   con icono de línea **distinto por grupo**.
-- Detalle: nombre, grupo, material, nivel, pasos en el idioma elegido,
-  licencia/autor.
+- Detalle: nombre, grupo, material, nivel y pasos en el idioma elegido. Las
+  licencias y autores van una sola vez al pie de Perfil.
 - Futuro: por qué se usa y favoritos de atletas con cita verificable
   (Fase 14); 3 fotos por ejercicio (Fase 13).
 
@@ -146,7 +150,10 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 3. **Apariencia**: **Noche** (por defecto) · **Día** (inverso); **Foto de
    Inicio** opcional (Elegir / Cambiar / Quitar).
 4. **Ajustes**: idioma (NL/ES/EN/FR) y tus datos (exportar JSON / borrar
-   todo con confirmación). Crédito al pie si hace falta.
+   todo con confirmación).
+- Al pie, plegado: **"Licencias y créditos"** (wger CC BY-SA / CC0 y sus
+  autores; pasos y traducciones de FitTrack; imagen de ejemplo generada con
+  IA).
 - Las marcas viven en Inicio ("Ver todo"), no en Perfil. Sin nacionalidad ni
   temas extra (Ámbar, Neón, Rubí, banderas): quitados en la Fase 11i por foco
   (el código de temas sigue en `theme.ts` / `theme-flags.ts`, sin UI).

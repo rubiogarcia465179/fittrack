@@ -6,7 +6,9 @@
     "orientation": "default",
     "userInterfaceStyle": "light",
     "icon": "./assets/icon.png",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "splash": {
@@ -29,6 +31,9 @@
     },
     "web": {
       "bundler": "metro"
-    }
+    },
+    "plugins": [
+      "expo-status-bar"
+    ]
   }
 }

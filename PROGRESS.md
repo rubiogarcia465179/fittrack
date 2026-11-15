@@ -22,15 +22,14 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación (2026-11-15, WSL del host, commit Fase 11i)
+## Última verificación (2026-11-15, WSL del host, commit Fase 11j)
 
-- `npx tsc --noEmit` (app) → **0 errores**.
-- `node tests/run.js` → **0 fallos**.
-- `npx expo export --platform web --output-dir /tmp/ft-dist` → OK.
-- Capturas **01–23** con Chrome headless → **0 errores de consola**,
-  revisadas (hoja de contactos + una a una las nuevas); vídeo regenerado
-  (230 fotogramas, 1,9 MB).
-- **Prueba "Steve Jobs": SÍ** (ver Log "noche, 12").
+- `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **0 fallos**.
+- `npx expo export --platform web` → OK; bundle iOS (`--no-bytecode`) OK, sin
+  `BVLinearGradient`.
+- Capturas **01–22**, **0 errores de consola**, revisadas; vídeo 193
+  fotogramas.
+- **Prueba "Steve Jobs": SÍ** (ver Log "noche, 13").
 
 ## Decisiones vigentes
 
@@ -614,3 +613,12 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   ejemplo: la resuelve el usuario aparte. Skill `stevejobs`: modo `refine`.
   **Veredicto `/stevejobs analyze`: SÍ** — una acción por pantalla, nada
   que sobre en Perfil ni en la sesión, y el primer minuto ya guía.
+
+- 2026-11-15 (noche, 13) — **Fase 11j.** Probando en iPhone con Expo Go: error
+  "View config not found for component BVLinearGradient" → `Gradient.tsx` sin
+  `react-native-linear-gradient`. Peticiones: terminar en el último ejercicio
+  (hoja final sin Modal + error visible), serie completa al indicar reps y
+  peso, "—" sin peso, peso solo desde datos, sin "Detalles" (valores
+  automáticos), licencias al pie de Perfil. 4 claves i18n nuevas (380).
+  **Veredicto `/stevejobs analyze`: SÍ** — menos toques por serie, nada
+  inventado, el final de la sesión es un toque.

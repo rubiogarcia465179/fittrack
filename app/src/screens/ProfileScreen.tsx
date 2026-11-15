@@ -29,6 +29,17 @@ import { canPickPhoto, pickPhoto } from '../lib/pickPhoto';
 import { loadHomePhoto, saveHomePhoto } from '../lib/homePhoto';
 
 import { Chevron } from '../components/Chevron';
+import { loadExercises } from '../data';
+
+/** Autores de los ejercicios (campo "credit" de wger), una sola vez. */
+const CREDIT_AUTHORS = [
+  ...new Set(
+    loadExercises()
+      .flatMap((e) => String(e.credit || '').split(/,s*/))
+      .map((x) => x.trim())
+      .filter((x) => x && !/^https?:/.test(x) && x !== 'wger.de'),
+  ),
+].sort((a, b) => a.localeCompare(b));
 
 /** Temas a la vista; el resto, en "Más temas". */
 const BASIC_THEMES: ThemeId[] = ['night', 'day'];
@@ -82,6 +93,7 @@ export default function ProfileScreen({
   // Calorías: explicación plegada. Temas: Noche/Día a la vista; el resto en
   // "Más temas" (abierto si ya usas uno de ellos o la bandera).
   const [energyOpen, setEnergyOpen] = useState(false);
+  const [creditsOpen, setCreditsOpen] = useState(false);
   const renderTheme = (id: ThemeId) => {
     const th = THEMES[id];
     const on = themeId === id;
@@ -331,6 +343,26 @@ export default function ProfileScreen({
         <Text style={[styles.cardLabel, { color: p.secondary, marginBottom: 2 }]}>{t('profile_language')}</Text>
         <LangSwitcher lng={lng} onPick={onPickLang} full />
       </DataSection>
+
+      {/* ---- Licencias y créditos (una vez, al pie; no en cada ejercicio) ---- */}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityState={{ expanded: creditsOpen }}
+        onPress={() => setCreditsOpen((o) => !o)}
+        style={({ pressed }) => [styles.creditsToggle, { opacity: pressed ? 0.6 : 1 }]}
+      >
+        <Text style={[styles.flagSub, { color: p.secondary }]}>{t('credits_title')}</Text>
+        <Chevron dir={creditsOpen ? 'up' : 'down'} color={p.secondary} size={6} />
+      </Pressable>
+      {creditsOpen ? (
+        <View style={styles.creditsBody}>
+          <Text style={[styles.flagSub, { color: p.secondary }]}>{t('credits_wger')}</Text>
+          <Text style={[styles.flagSub, { color: p.secondary }]}>
+            {t('credits_authors')} {CREDIT_AUTHORS.join(', ')}.
+          </Text>
+          <Text style={[styles.flagSub, { color: p.secondary }]}>{t('credits_photo')}</Text>
+        </View>
+      ) : null}
 
       {pick ? (
         <PickerSheet
@@ -715,6 +747,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
+  creditsToggle: { minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
+  creditsBody: { gap: 8, paddingHorizontal: 4, paddingBottom: 8 },
   energySplit: { borderTopWidth: StyleSheet.hairlineWidth, marginTop: 16, marginBottom: 14 },
   photoRow: { flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 14, paddingTop: 14, borderTopWidth: StyleSheet.hairlineWidth },
   photoEmpty: { borderStyle: 'dashed', borderWidth: 1 },

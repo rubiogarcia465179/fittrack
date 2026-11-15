@@ -87,6 +87,20 @@ Hecho en esta pasada:
 - [x] IMC con coma decimal en ES/FR/NL.
 - [x] "3+" en **violeta** (el rojo se leía como alarma; aceptado por el usuario).
 
+### Fase 11j — Sesión más directa + licencias al pie ✅
+- [x] Último ejercicio: "Terminar y guardar" siempre; la hoja final ya no es
+      un Modal (en iOS no se abría si otro Modal se estaba cerrando); el
+      error de guardado se ve junto al botón.
+- [x] Serie hecha al indicar reps y peso; ✓ activo solo con la serie
+      completa; "—" sin peso.
+- [x] Peso recomendado solo desde la marca o el histórico (fuera la base
+      "prudente" por material).
+- [x] Fecha, duración, peso y altura automáticos: fuera "Detalles".
+- [x] Licencias y créditos al pie de Perfil; fuera del detalle de ejercicio.
+- [x] Expo Go: `Gradient` sin `react-native-linear-gradient` (no existe en
+      Expo Go: "View config not found for component BVLinearGradient").
+- [ ] Siguiente: `SafeAreaView` → `react-native-safe-area-context`.
+
 ### Fase 11i — Foco a 10, fase 2 ✅
 - [x] Perfil en **4 tarjetas** (Cuerpo + calorías, Sobre ti, Apariencia,
       Ajustes); marcas fuera de Perfil (están en Inicio).

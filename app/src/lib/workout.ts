@@ -247,7 +247,9 @@ export function generateWorkout(opts: {
       const scaled = weightFromOneRm(r.last_weight * (1 + r.last_reps / 30), reps, opts.intensity);
       return { w: roundW(scaled) || r.last_weight, src: 'history' };
     }
-    return { w: roundW(conservativeOneRm(e.equipment) * (1 + reps / 30) * 0.8), src: 'conservative' };
+    // Sin datos (ni marca ni histórico): sin peso → la sesión muestra "—" y
+    // el usuario lo indica (decisión del usuario 2026-11-15).
+    return { w: 0, src: 'conservative' };
   };
 
   let out: WorkoutPlanExercise[] = picked.map((e) => {
@@ -404,8 +406,8 @@ export function weightForExercise(
       source: 'history',
     };
   }
-  const w = roundW(conservativeOneRm(ex.equipment) * (1 + reps / 30) * 0.8);
-  return w > 0 ? { weight_kg: w, source: 'conservative' } : null;
+  // Sin marca ni histórico: no se inventa un peso ("—" en la sesión).
+  return null;
 }
 
 /**
