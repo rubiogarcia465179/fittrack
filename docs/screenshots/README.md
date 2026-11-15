@@ -6,7 +6,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 
 | # | Pantalla | Qué muestra |
 |---|----------|-------------|
-| 01 | Inicio | Foto (con "Cambiar foto"), "Empezar sesión", marcas personales |
+| 01 | Inicio | Foto de cabecera (sin botones), "Empezar sesión", marcas personales |
 | 02 | Inicio · calendario | Calendario (lunes primero, días entrenados en círculo) + peso / historial |
 | 03 | Inicio · actividad | Histogramas: hora del entreno y día de la semana |
 | 04 | Tu entreno de hoy | Hoja previa: duración, intensidad, energía, objetivo |
@@ -20,7 +20,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 12 | Ejercicios | Biblioteca con nombres en español e icono por grupo |
 | 13 | Perfil | Sobre ti |
 | 14 | Calorías | Gasto diario, basal y explicación sencilla |
-| 15 | Tema | Noche, Día, Ámbar, Neón, Rubí + "Usar los colores de mi país" + idioma |
+| 15 | Tema y foto | Temas + "Usar los colores de mi país", **Foto de Inicio** (Cambiar foto), idioma |
 | 16 | Tema Día | Inicio en el tema inverso |
 | 17 | Tema Ámbar | Inicio en azul medianoche + ámbar |
 | 18 | Tema España | Inicio con los colores de la bandera (rojo y amarillo) |

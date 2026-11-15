@@ -47,9 +47,9 @@ iconos** (nombre en accesibilidad). Pestañas:
 | **Perfil** | Tus datos y ajustes | Registrar peso / altura |
 
 ### Inicio (portada, sin título)
-1. Foto de cabecera insertada (como la imagen de un post); **el usuario puede
-   poner la suya** ("Cambiar foto"). Sin fecha, sin "sesiones esta semana"
-   ni racha (se ven en el calendario).
+1. Foto de cabecera insertada (como la imagen de un post), **sin botones
+   encima**; el usuario pone la suya en **Perfil → "Foto de Inicio"**. Sin
+   fecha, sin "sesiones esta semana" ni racha (se ven en el calendario).
 2. (sin bloque de estado)
 3. **"Empezar sesión"** (blanco) → **hoja "Tu entreno de hoy"**: duración
    (30/45/60/75 min), intensidad (suave/moderada/fuerte), **energía de hoy**
@@ -123,6 +123,8 @@ iconos** (nombre en accesibilidad). Pestañas:
   país" → la app toma los colores de la bandera (solo colores, nunca
   emblemas; legibilidad primero).
 - Explicación sencilla de metabolismo basal vs gasto diario.
+- **Foto de Inicio**: miniatura + "Cambiar foto" (galería del iPhone o archivo
+  en la web) + "Restablecer" (vuelve a la de la app).
 - Ajustes: idioma (NL/ES/EN/FR, nombres completos) y Tus datos (exportar
   JSON / borrar todo con confirmación).
 

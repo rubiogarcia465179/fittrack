@@ -18,11 +18,11 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Idioma | **Todo en el idioma elegido** (NL/ES/EN/FR): interfaz, nombres de ejercicio, pasos "cómo se hace" (226 × 4), fechas; cambio instantáneo |
 | Datos | 226 ejercicios reales de wger; iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
 | Web (Astro) | Atrasada: lógica al día, diseño de la 11c (no el monocromo X); pasos por idioma copiados a `web/src/data/howto/` pero sin usar |
-| i18n | NL/ES/EN/FR, **362 claves**, espejos idénticos |
+| i18n | NL/ES/EN/FR, **365 claves**, espejos idénticos |
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación (2026-11-15, WSL del host, commit Fases 11c + 11d)
+## Última verificación (2026-11-15, WSL del host, commit "foto de Inicio en Perfil")
 
 - `npx tsc --noEmit` (app) → **0 errores**.
 - `node tests/run.js` → **115/115, 0 fallos** (nuevos: pasos en 4 idiomas ×
@@ -30,7 +30,7 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 - `npx expo export --platform web --output-dir /tmp/ft-dist` → OK.
 - Capturas **01–21** (`docs/screenshots/`) con Chrome headless → **0 errores
   de consola**, revisadas (hoja de contactos + una a una las cambiadas);
-  vídeo `video-iphone16.mp4` regenerado (227 fotogramas, 4,1 MB).
+  vídeo `video-iphone16.mp4` regenerado (229 fotogramas, 4,1 MB).
 - `web/`: `npm run build` no ejecutado (falta `web/node_modules`, ⛔ `npm ci`).
 - iPhone real: probado por el usuario (2026-11-15).
 - **Prueba "Steve Jobs": SÍ** como versión 2.0 (ver Log 2026-11-15 "noche, 5").
@@ -523,3 +523,12 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   autenticidad 7 por la foto de ejemplo).
   Verificación: tsc 0 · tests 115/115 · export web OK · 21 capturas, 0 errores
   de consola · vídeo 227 fotogramas.
+
+- 2026-11-15 (noche, 6) — **Commit: foto de Inicio en Perfil.** Petición del
+  usuario: cambiar la foto de Inicio desde Perfil y quitar "Cambiar foto" de
+  Inicio. Nuevo `app/src/lib/homePhoto.ts`; tarjeta "Foto de Inicio" en Perfil
+  (miniatura, Cambiar foto, Restablecer); 3 claves i18n nuevas (365).
+  Verificación: tsc 0 · tests 115/115 · export web OK · 21 capturas, 0
+  errores de consola (01 sin botón, 15 con la tarjeta) · vídeo 229 fotogramas.
+  **Veredicto `/stevejobs analyze` (marco 2.0): SÍ** — la primera pantalla
+  pierde un control y el ajuste vive donde viven los ajustes; nada más cambia.

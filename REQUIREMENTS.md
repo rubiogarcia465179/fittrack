@@ -267,3 +267,6 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-66 [DONE] La prueba Steve Jobs evalúa FitTrack como **versión 2.0** (este nº de funciones es aceptable) — regla en `CLAUDE.md §2.5`
 ### R-67 [DONE] Commitear aunque falten las fotos reales (la de ejemplo va marcada; Fase 13 sigue pendiente)
 ### R-68 [DONE] Prueba en iPhone real — hecha por el usuario (2026-11-15); cierra R-49
+### R-69 [DONE] Cambiar la foto de Inicio desde Perfil y quitar "Cambiar foto" de Inicio
+- Perfil → "Foto de Inicio": miniatura, "Cambiar foto", "Restablecer". Verificación: capturas 01 y 15.
+### R-70 [TODO] Aplicar el recorte "Foco a 10" (`docs/FOCO-1.0.md`) para ver cómo queda y que pase la prueba Jobs — sin commit hasta que el usuario lo vea

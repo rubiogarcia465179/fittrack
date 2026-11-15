@@ -25,6 +25,9 @@ import { DataSection } from '../components/DataSection';
 import { THEMES, THEME_IDS, type ThemeId } from '../theme';
 import { COUNTRIES, COUNTRY_BY_CODE, countryName, type Country, type CountryCode } from '../theme-flags';
 import type { Lang } from '../i18n';
+import { Image } from 'react-native';
+import { canPickPhoto, pickPhoto } from '../lib/pickPhoto';
+import { HERO_IMG, loadHomePhoto, saveHomePhoto } from '../lib/homePhoto';
 
 /** Máximo nº de barras de tendencia (los últimos registros). */
 const TREND_MAX = 8;
@@ -79,7 +82,21 @@ export default function ProfileScreen({
   useEffect(() => {
     void store.profile().then(setProfile);
     void store.heightHistory().then(setHeights);
+    void loadHomePhoto().then(setHomePhoto);
   }, []);
+
+  // Foto de Inicio (se muestra en la cabecera de Inicio).
+  const [homePhoto, setHomePhoto] = useState<string | null>(null);
+  const changeHomePhoto = async () => {
+    const uri = await pickPhoto();
+    if (!uri) return;
+    setHomePhoto(uri);
+    await saveHomePhoto(uri);
+  };
+  const resetHomePhoto = () => {
+    setHomePhoto(null);
+    void saveHomePhoto(null);
+  };
 
   const update = (patch: Partial<Profile>) => {
     void store.setProfile(patch).then((np) => {
@@ -321,6 +338,43 @@ export default function ProfileScreen({
           />
         </View>
       </View>
+
+      {/* ---- Foto de Inicio ---- */}
+      {canPickPhoto ? (
+        <View style={[styles.card, card]}>
+          <Text style={[styles.cardLabel, { color: p.secondary }]}>{t('profile_home_photo')}</Text>
+          <View style={styles.photoRow}>
+            <Image
+              source={homePhoto ? { uri: homePhoto } : HERO_IMG}
+              style={[styles.photoThumb, { borderColor: p.border }]}
+              resizeMode="cover"
+              accessibilityLabel={t('profile_home_photo')}
+            />
+            <View style={{ flex: 1, gap: 8 }}>
+              <Text style={[styles.flagSub, { color: p.secondary }]}>{t('profile_home_photo_sub')}</Text>
+              <View style={styles.photoActions}>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={changeHomePhoto}
+                  style={({ pressed }) => [styles.photoBtn, { borderColor: p.border, opacity: pressed ? 0.7 : 1 }]}
+                >
+                  <Text style={[styles.photoBtnText, { color: p.text }]}>{t('home_photo_change')}</Text>
+                </Pressable>
+                {homePhoto ? (
+                  <Pressable
+                    accessibilityRole="button"
+                    onPress={resetHomePhoto}
+                    hitSlop={8}
+                    style={({ pressed }) => [styles.photoReset, { opacity: pressed ? 0.6 : 1 }]}
+                  >
+                    <Text style={[styles.photoBtnText, { color: p.secondary }]}>{t('home_photo_reset')}</Text>
+                  </Pressable>
+                ) : null}
+              </View>
+            </View>
+          </View>
+        </View>
+      ) : null}
 
       {/* ---- Ajustes: idioma (instantáneo, sin red) + tus datos ---- */}
       <View style={[styles.card, card]}>
@@ -753,6 +807,19 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
+  photoRow: { flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 10 },
+  photoThumb: { width: 96, height: 72, borderRadius: 12, borderWidth: StyleSheet.hairlineWidth },
+  photoActions: { flexDirection: 'row', alignItems: 'center', gap: 16 },
+  photoBtn: {
+    minHeight: 44,
+    paddingHorizontal: 16,
+    borderRadius: 22,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  photoReset: { minHeight: 44, justifyContent: 'center' },
+  photoBtnText: { fontSize: 15, fontWeight: '600' },
   flagSub: {
     fontSize: 13,
     marginTop: 2,

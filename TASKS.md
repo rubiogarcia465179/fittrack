@@ -61,6 +61,8 @@ Hecho en esta pasada:
 - [x] Historial sin volumen.
 
 - [x] Probado en iPhone real (lo hizo el usuario, 2026-11-15).
+- [x] La foto de Inicio se cambia en **Perfil → "Foto de Inicio"** (Cambiar
+      foto / Restablecer); Inicio ya no lleva botón encima de la foto.
 - [x] **Prueba Jobs como versión 2.0** (decisión del usuario): **SÍ** →
       commit de las Fases 11c + 11d.
 - ⏸ Recorte "Foco a 10" para una 1.0: **aparcado** en `docs/FOCO-1.0.md`

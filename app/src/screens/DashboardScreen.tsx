@@ -1,6 +1,7 @@
 /**
  * Inicio — la primera pantalla (estilo X, monocromo). De arriba abajo:
- *  1. Foto de cabecera (la tuya si la cambias; si no, la de la app).
+ *  1. Foto de cabecera (la eliges en Perfil → "Foto de Inicio"; si no, la
+ *     de la app). Sin botones encima.
  *  2. "Empezar sesión" (blanco) → hoja "Tu entreno de hoy"; con un entreno
  *     en curso, "Continuar entreno". Debajo, "Personalizar entreno".
  *  3. Marcas personales (3 tarjetas blancas + "Ver todo").
@@ -12,7 +13,6 @@
  */
 import { useEffect, useMemo, useState } from 'react';
 import { View, Text, ScrollView, Pressable, StyleSheet, Image } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { exName, type Named } from '../lib/names';
 import { useTranslation } from 'react-i18next';
 import type { ExerciseRow } from '../lib/gym';
@@ -24,10 +24,7 @@ import { MonthCalendar, type DayStat } from '../components/Calendar';
 import { Gradient } from '../components/Gradient';
 import { Chevron } from '../components/Chevron';
 import { fmtNum } from '../components/PickerSheet';
-import { canPickPhoto, pickPhoto } from '../lib/pickPhoto';
-
-const HERO_IMG = require('../../assets/session-hero.jpg');
-const PHOTO_KEY = 'fittrack.homephoto.v1';
+import { HERO_IMG, loadHomePhoto } from '../lib/homePhoto';
 
 /** Franjas horarias del histograma (hora local de guardado de la sesión). */
 const HOUR_BINS = [
@@ -70,21 +67,11 @@ export default function DashboardScreen({
   const lang = i18n.language as string;
   const [recordsOpen, setRecordsOpen] = useState(false);
 
-  // Foto propia (opcional): se guarda como data URL; si no hay, la de la app.
+  // Foto de cabecera: la elegida en Perfil o la de la app.
   const [photo, setPhoto] = useState<string | null>(null);
   useEffect(() => {
-    void AsyncStorage.getItem(PHOTO_KEY).then((v) => setPhoto(v || null));
+    void loadHomePhoto().then(setPhoto);
   }, []);
-  const changePhoto = async () => {
-    const uri = await pickPhoto();
-    if (!uri) return;
-    setPhoto(uri);
-    try {
-      await AsyncStorage.setItem(PHOTO_KEY, uri);
-    } catch {
-      /* sin espacio: se queda en memoria */
-    }
-  };
 
   // Calendario: mes actual por defecto, navegable.
   const todayD = new Date();
@@ -152,16 +139,6 @@ export default function DashboardScreen({
       {/* ---- 1. Foto ---- */}
       <View style={[styles.hero, { borderColor: p.border }]}>
         <Image source={photo ? { uri: photo } : HERO_IMG} style={styles.heroImg} resizeMode="cover" />
-        {canPickPhoto ? (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t('home_photo_change')}
-            onPress={changePhoto}
-            style={({ pressed }) => [styles.photoBtn, { opacity: pressed ? 0.7 : 1 }]}
-          >
-            <Text style={styles.photoBtnText}>{t('home_photo_change')}</Text>
-          </Pressable>
-        ) : null}
       </View>
 
       {/* ---- 2. Una acción ---- */}
@@ -375,22 +352,6 @@ const styles = StyleSheet.create({
   heroImg: {
     width: '100%',
     height: '100%',
-  },
-  photoBtn: {
-    position: 'absolute',
-    right: 10,
-    bottom: 10,
-    minHeight: 32,
-    paddingHorizontal: 12,
-    borderRadius: 16,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  photoBtnText: {
-    color: '#FFFFFF',
-    fontSize: 13,
-    fontWeight: '600',
   },
   ctaWrap: {
     marginTop: 16,

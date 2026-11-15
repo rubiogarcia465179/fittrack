@@ -49,6 +49,8 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   nunca `exercise.instructions` en pantalla); fechas con `fmtDay`/`fmtDate`
   (`SessionScreen.tsx`), nunca la ISO en bruto; ninguna cadena visible fuera
   de i18n (solo unidades: kg, min, km, reps).
+- **Foto de Inicio**: `app/src/lib/homePhoto.ts` (`loadHomePhoto`/
+  `saveHomePhoto`, clave `fittrack.homephoto.v1`); se cambia solo en Perfil.
 - **Iconos de grupo**: `GroupGlyph` (`app/src/components/GroupGlyph.tsx`, vía
   `ExerciseGlyph`): uno distinto por grupo, trazo como la barra inferior, sin
   repetir un icono de pestaña.

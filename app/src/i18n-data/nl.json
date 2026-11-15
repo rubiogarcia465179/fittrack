@@ -96,6 +96,7 @@
   "exp_advanced": "Gevorderd",
   "exp_beginner": "Beginner",
   "exp_intermediate": "Gemiddeld",
+  "field_date": "datum",
   "footer": "FitTrack — lokaal opgeslagen, geen account nodig.",
   "footer_note": "Oefeningen-database: echte gegevens van wger (CC-BY-SA) — zie PROGRESS.md.",
   "gen_duration": "Duur van de sessie",
@@ -168,6 +169,7 @@
   "home_last": "Laatste: {{date}}",
   "home_less": "Minder tonen",
   "home_photo_change": "Foto wijzigen",
+  "home_photo_reset": "Herstellen",
   "home_prs": "Persoonlijke records",
   "home_session_week": "sessie deze week",
   "home_sessions_week": "sessies deze week",
@@ -238,6 +240,8 @@
   "profile_flag_theme": "Kleuren van mijn land gebruiken",
   "profile_goal": "Hoofddoel",
   "profile_height": "Lengte",
+  "profile_home_photo": "Startfoto",
+  "profile_home_photo_sub": "De afbeelding bovenaan Start.",
   "profile_language": "Taal",
   "profile_last": "Laatste",
   "profile_level": "Niveau",
@@ -359,6 +363,5 @@
   "workout_pause": "Pauzeren",
   "workout_paused": "Gepauzeerd",
   "workout_resume": "Hervatten",
-  "workout_sets_done": "sets klaar",
-  "field_date": "datum"
+  "workout_sets_done": "sets klaar"
 }

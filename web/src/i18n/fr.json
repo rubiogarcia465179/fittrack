@@ -96,6 +96,7 @@
   "exp_advanced": "Avancé",
   "exp_beginner": "Débutant",
   "exp_intermediate": "Intermédiaire",
+  "field_date": "date",
   "footer": "FitTrack — stocké localement, sans compte.",
   "footer_note": "Base d'exercices : données réelles de wger (CC-BY-SA) — voir PROGRESS.md.",
   "gen_duration": "Durée de la séance",
@@ -168,6 +169,7 @@
   "home_last": "Dernière : {{date}}",
   "home_less": "Voir moins",
   "home_photo_change": "Changer la photo",
+  "home_photo_reset": "Réinitialiser",
   "home_prs": "Records personnels",
   "home_session_week": "séance cette semaine",
   "home_sessions_week": "séances cette semaine",
@@ -238,6 +240,8 @@
   "profile_flag_theme": "Utiliser les couleurs de mon pays",
   "profile_goal": "Objectif principal",
   "profile_height": "Taille",
+  "profile_home_photo": "Photo d'accueil",
+  "profile_home_photo_sub": "L'image en haut de l'Accueil.",
   "profile_language": "Langue",
   "profile_last": "Dernier",
   "profile_level": "Niveau",
@@ -359,6 +363,5 @@
   "workout_pause": "Mettre en pause",
   "workout_paused": "En pause",
   "workout_resume": "Reprendre",
-  "workout_sets_done": "séries faites",
-  "field_date": "date"
+  "workout_sets_done": "séries faites"
 }
