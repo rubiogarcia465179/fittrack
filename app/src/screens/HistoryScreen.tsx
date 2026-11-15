@@ -26,19 +26,25 @@ export default function HistoryScreen({
   onDeleted,
   onOpenExercise,
   onStartSession,
+  focusDate,
+  onClearFocus,
 }: {
   sessions: Session[];
   exercises: Exercise[];
   onDeleted: (id: string) => void;
   onOpenExercise: (id: string) => void;
   onStartSession: () => void;
+  /** Abierto desde un día del calendario: solo las sesiones de ese día. */
+  focusDate?: string | null;
+  onClearFocus?: () => void;
 }) {
   const { t, i18n } = useTranslation();
   const { p, SHADOW } = useTheme();
   const scale = useScale();
   // Sesión pendiente de borrado (diálogo propio: Alert no funciona en web).
   const [toDelete, setToDelete] = useState<Session | null>(null);
-  const list = sortByDate(sessions);
+  const all = sortByDate(sessions);
+  const list = focusDate ? all.filter((s) => s.date === focusDate) : all;
   const lang = i18n.language as string;
   const byId = new Map(exercises.map((e) => [e.id, e]));
   const nameOf = (e?: { name_en: string; name_nl: string }) =>
@@ -52,7 +58,21 @@ export default function HistoryScreen({
       <Text style={[styles.title, { fontSize: fs(scale, 32), color: p.text }]} numberOfLines={1}>
         {t('hist_title')}
       </Text>
-      <Text style={[styles.sub, { color: p.secondary }]}>{t('hist_sub')}</Text>
+      {focusDate ? (
+        <View style={styles.focusRow}>
+          <Text style={[styles.sub, { color: p.text, marginBottom: 0, flex: 1 }]}>{fmtDate(focusDate, lang)}</Text>
+          <Pressable
+            accessibilityRole="button"
+            onPress={onClearFocus}
+            hitSlop={8}
+            style={({ pressed }) => [styles.focusAll, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
+          >
+            <Text style={[styles.focusAllText, { color: p.text }]}>{t('hist_show_all')}</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <Text style={[styles.sub, { color: p.secondary }]}>{t('hist_sub')}</Text>
+      )}
 
       {list.length === 0 ? (
         <View style={[styles.emptyCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
@@ -160,6 +180,9 @@ export default function HistoryScreen({
 }
 
 const styles = StyleSheet.create({
+  focusRow: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 },
+  focusAll: { minHeight: 36, paddingHorizontal: 14, borderRadius: 18, borderWidth: 1, justifyContent: 'center' },
+  focusAllText: { fontSize: 14, fontWeight: '600' },
   body: {
     padding: 20,
     paddingBottom: 32,

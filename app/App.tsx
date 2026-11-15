@@ -29,12 +29,15 @@ import DetailScreen from './src/screens/DetailScreen';
 import SessionScreen from './src/screens/SessionScreen';
 import HistoryScreen from './src/screens/HistoryScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
-import WorkoutBuilderScreen from './src/screens/WorkoutBuilderScreen';
 import SessionStartScreen from './src/screens/SessionStartScreen';
 import { loadFonts, MONT } from './src/lib/fonts';
+import { nextSplit } from './src/lib/nextSplit';
+import { BackBar } from './src/components/BackBar';
 
+// 3 pestañas (Inicio · Entrenar · Perfil). Historial y Ejercicios se abren
+// desde Inicio como pantallas con "atrás" (no son pestañas).
 type Tab = 'dashboard' | 'library' | 'session' | 'history' | 'profile';
-const TABS: Tab[] = ['dashboard', 'library', 'session', 'history', 'profile'];
+const TABS: Tab[] = ['dashboard', 'session', 'profile'];
 const ACTIVE_KEY = 'fittrack.active.v1';
 const QS_KEY = 'fittrack.quickstart.v1';
 const THEME_KEY = 'fittrack.theme.v1';
@@ -133,9 +136,8 @@ function Root({
   useEffect(() => {
     loadFonts().then(() => setFontReady(true));
   }, []);
-  // R-14: en la pestaña "Sesión", primero se elige el camino
-  // (recomendado -> wizard, o manual -> sesión en blanco).
-  const [building, setBuilding] = useState(false);
+  // Historial abierto desde un día del calendario: solo ese día.
+  const [histDate, setHistDate] = useState<string | null>(null);
   const [lng, setLng] = useState<Lang>('es');
   const [exercises] = useState<Exercise[]>(() => loadExercises());
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -205,7 +207,6 @@ function Root({
     }));
     const a = newActiveSession({ type, equipment_mode: plan.equipment_mode, benchmarks }, todayISO, uid);
     a.draft = draft;
-    setBuilding(false);
     persistActive(a);
   };
 
@@ -213,7 +214,6 @@ function Root({
   const startManualSession = () => {
     const a = newActiveSession({ type: 'training', equipment_mode: 'full_gym', benchmarks }, todayISO, uid);
     a.draft = [];
-    setBuilding(false);
     persistActive(a);
   };
 
@@ -252,19 +252,7 @@ function Root({
     // Energía baja → un nivel menos de intensidad (nunca por debajo de suave).
     const order: Intensity[] = ['low', 'moderate', 'high'];
     const intensity = qs.energy === 'low' ? order[Math.max(0, order.indexOf(qs.intensity) - 1)] : qs.intensity;
-    const SPLITS = [
-      ['chest', 'shoulders', 'arms'],
-      ['back', 'arms'],
-      ['legs', 'core'],
-    ];
-    const groupOf = new Map(exercises.map((e) => [e.id, e.muscle_group]));
-    const lastDate = (groups: string[]) => {
-      for (const s of sessions) {
-        if (s.exercises.some((x) => groups.includes(groupOf.get(x.exercise_id) || ''))) return s.date;
-      }
-      return '0000-00-00';
-    };
-    const split = SPLITS.slice().sort((a, b) => (lastDate(a) < lastDate(b) ? -1 : 1))[0];
+    const split = nextSplit(sessions, new Map(exercises.map((e) => [e.id, e.muscle_group])));
     const plan = generateWorkout({
       groups: split,
       equipment_mode: 'full_gym',
@@ -368,15 +356,17 @@ function Root({
                 benchmarks={benchNamed}
                 activeWorkout={active != null}
                 onStartSession={openQuickStart}
-                onCustomize={() => {
-                  setBuilding(true);
-                  setTab('session');
+                onOpenHistory={(d) => {
+                  setHistDate(d || null);
+                  setTab('history');
                 }}
-                onOpenHistory={() => setTab('history')}
-                onOpenProfile={() => setTab('profile')}
+                onOpenLibrary={() => setTab('library')}
               />
             ) : tab === 'library' ? (
-              <LibraryScreen exercises={exercises} onOpenExercise={openExercise} />
+              <View style={{ flex: 1 }}>
+                <BackBar label={t('nav_dashboard')} onBack={() => setTab('dashboard')} />
+                <LibraryScreen exercises={exercises} onOpenExercise={openExercise} />
+              </View>
             ) : tab === 'session' ? (
               active ? (
                 <SessionScreen
@@ -387,30 +377,25 @@ function Root({
                   onSaved={handleSaved}
                   onDiscard={handleDiscard}
                 />
-              ) : building ? (
-                <WorkoutBuilderScreen
-                  exercises={exercises}
-                  sessions={sessions}
-                  benchmarks={benchmarks}
-                  onStarted={startWorkout}
-                  onBack={() => setBuilding(false)}
-                  defaultGoal={profile?.goal}
-                  defaultExperience={profile?.experience}
-                />
               ) : (
                 <SessionStartScreen
-                  onRecommend={() => setBuilding(true)}
+                  onRecommend={() => setQsOpen(true)}
                   onManual={startManualSession}
                 />
               )
             ) : tab === 'history' ? (
-              <HistoryScreen
-                sessions={sessions}
-                exercises={exercises}
-                onDeleted={handleDeleted}
-                onOpenExercise={openExercise}
-                onStartSession={() => setTab('session')}
-              />
+              <View style={{ flex: 1 }}>
+                <BackBar label={t('nav_dashboard')} onBack={() => setTab('dashboard')} />
+                <HistoryScreen
+                  sessions={sessions}
+                  exercises={exercises}
+                  onDeleted={handleDeleted}
+                  onOpenExercise={openExercise}
+                  onStartSession={openQuickStart}
+                  focusDate={histDate}
+                  onClearFocus={() => setHistDate(null)}
+                />
+              </View>
             ) : (
               <ProfileScreen
                 sessions={sessions}
@@ -441,8 +426,9 @@ function Root({
         style={[styles.tabbar, { backgroundColor: p.tabBarBg, borderTopColor: p.border }]}
       >
         {TABS.map((tb) => {
-          const isActive = tab === tb && !detail;
-          const label = t(`nav_${tb === 'library' ? 'exercises' : tb}`);
+          // Historial/Ejercicios cuelgan de Inicio: Inicio sigue marcado.
+          const isActive = !detail && (tab === tb || (tb === 'dashboard' && (tab === 'history' || tab === 'library')));
+          const label = t(`nav_${tb}`);
           return (
             <Pressable
               key={tb}

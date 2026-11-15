@@ -1,9 +1,33 @@
-# Foco a 10 — recorte para una versión 1.0 (aparcado)
+# Foco a 10 — versión simplificada (aplicada, sin commit)
 
-> **Estado: aparcado (2026-11-15).** El usuario decidió evaluar FitTrack como
-> una **versión 2.0**, donde este número de funciones es aceptable. Esta lista
-> se guarda por si algún día se quiere una edición mínima (1.0, "lite") o se
-> necesita recortar. **No aplicar sin que el usuario lo pida.**
+> **Estado (2026-11-15, noche): APLICADO en el árbol de trabajo, SIN COMMIT**,
+> a petición del usuario ("aplícalo para ver cómo queda", "que sea una versión
+> mejorada" y "simplifica Perfil e Inicio"). Último commit sin el recorte:
+> `37d851e`. Si el usuario lo aprueba → commit; si no →
+> `git checkout -- . && git clean -fd app/src docs/screenshots` (revisar antes) vuelve a `37d851e`.
+
+## Lo aplicado (mejorado respecto a la propuesta)
+
+- **3 pestañas**: Inicio · Entrenar · Perfil. Historial y Ejercicios se abren
+  desde filas de Inicio con barra "atrás" (`BackBar`); Inicio sigue marcado.
+- **Inicio**: sin foto de stock (decisión "auténtico o nada"); arriba
+  **"Hoy toca: <grupos>"** (`lib/nextSplit.ts`, el mismo cálculo que la hoja
+  rápida) + "Empezar sesión"; marcas; calendario (**tocar un día abre el
+  Historial de ese día** con "Ver todas"); filas Historial y Ejercicios; un
+  solo gráfico (hora del entreno). Tu foto aparece solo si la eliges en Perfil.
+- **Un solo camino para empezar**: sin "Personalizar entreno" ni asistente;
+  "Recomendado" en Entrenar abre la misma hoja rápida.
+- **Sesión**: accesos "Añadir ejercicio" y "Detalles" (centrados);
+  "Sugerir ejercicio", "¿Máquina ocupada?" y "Quitar ejercicio" dentro de
+  **"Más opciones"** en la tarjeta.
+- **Perfil** en 6 tarjetas: Cuerpo (peso y altura juntos + IMC + evolución),
+  Calorías (un número + "¿Qué es esto?"), Sobre ti, **Apariencia** (Noche ·
+  Día · Más → Ámbar/Neón/Rubí y bandera; Foto de Inicio opcional), Idioma,
+  Tus datos.
+- Código conservado pero sin uso: `WorkoutBuilderScreen` (asistente) y las
+  claves `home_customize`, `home_by_weekday`.
+
+## Propuesta original
 
 Origen: prueba `/stevejobs analyze` del 2026-11-15 (principio 1, "Focus =
 saying no"; foco 4/10). Cada punto quita o esconde algo; ninguno añade.

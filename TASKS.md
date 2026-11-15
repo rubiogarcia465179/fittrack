@@ -9,7 +9,8 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
 2. Trabaja **en el orden de esta lista**, de arriba abajo.
 3. **No commitees** hasta cerrar una fase y que la prueba "Steve Jobs" dé
    **sí** (`CLAUDE.md §2`; se evalúa como **versión 2.0**). Estado al
-   2026-11-15: Fases 11c/11d commiteadas. Lo siguiente: **Fase 15
+   2026-11-15: Fases 11c/11d commiteadas; **versión "Foco a 10" aplicada
+   SIN commit, esperando el visto bueno del usuario** (Fase 11d). Después: **Fase 15
    (InstaGym)**, luego Fase 14 (por qué se usa + favoritos con cita), paridad
    web (⛔ `npm ci`) y Fase 13 cuando lleguen las fotos.
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
@@ -65,8 +66,12 @@ Hecho en esta pasada:
       foto / Restablecer); Inicio ya no lleva botón encima de la foto.
 - [x] **Prueba Jobs como versión 2.0** (decisión del usuario): **SÍ** →
       commit de las Fases 11c + 11d.
-- ⏸ Recorte "Foco a 10" para una 1.0: **aparcado** en `docs/FOCO-1.0.md`
-  (no aplicar salvo que el usuario lo pida).
+- [x] Recorte "Foco a 10" **aplicado y mejorado** (`docs/FOCO-1.0.md`):
+      3 pestañas, Inicio "Hoy toca" sin foto de stock, calendario → día,
+      "Más opciones" en la sesión, Perfil en 6 tarjetas. Prueba Jobs: **SÍ**.
+- ⛔ **SIN COMMIT: el usuario tiene que verlo** (capturas 01–22 y vídeo) y
+  decir si se queda. Sí → commit + actualizar SPEC/AGENTS; no → volver a
+  `37d851e`.
 - ⛔ Fotos reales por ejercicio (Fase 13, las genera el usuario). No bloquean
   el commit: la foto de ejemplo va marcada.
 

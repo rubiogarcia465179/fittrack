@@ -269,4 +269,6 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-68 [DONE] Prueba en iPhone real — hecha por el usuario (2026-11-15); cierra R-49
 ### R-69 [DONE] Cambiar la foto de Inicio desde Perfil y quitar "Cambiar foto" de Inicio
 - Perfil → "Foto de Inicio": miniatura, "Cambiar foto", "Restablecer". Verificación: capturas 01 y 15.
-### R-70 [TODO] Aplicar el recorte "Foco a 10" (`docs/FOCO-1.0.md`) para ver cómo queda y que pase la prueba Jobs — sin commit hasta que el usuario lo vea
+### R-70 [DONE·sin commit] Aplicar el recorte "Foco a 10" (`docs/FOCO-1.0.md`) como versión mejorada, para verla y que pase la prueba Jobs — Jobs SÍ; esperando visto bueno
+### R-71 [DONE·sin commit] Simplificar Perfil (6 tarjetas) e Inicio ("Hoy toca", filas, un gráfico)
+### R-72 [DONE·sin commit] "¿Quitar la foto de Inicio o ponerla de fondo?" → quitada la de stock (auténtico o nada; de fondo resta contraste); tu foto solo si la eliges en Perfil

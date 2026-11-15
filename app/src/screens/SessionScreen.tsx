@@ -1000,9 +1000,12 @@ export default function SessionScreen({
           <QuickAction label={t('sess_add')} onPress={openSearch}>
             <PlusGlyph color={p.text} />
           </QuickAction>
-          <QuickAction label={t('sess_suggest')} onPress={() => (currentId ? sameGroupSuggest() : requestSuggestion())}>
-            <WandGlyph color={p.text} />
-          </QuickAction>
+          {/* Con un ejercicio en curso, "Sugerir" vive en "Más opciones". */}
+          {currentId ? null : (
+            <QuickAction label={t('sess_suggest')} onPress={requestSuggestion}>
+              <WandGlyph color={p.text} />
+            </QuickAction>
+          )}
           <QuickAction label={t('sess_details')} onPress={() => setDetailsOpen((o) => !o)} active={detailsOpen}>
             <SlidersGlyph color={p.text} bg={p.card} />
           </QuickAction>
@@ -1425,28 +1428,45 @@ export default function SessionScreen({
                   ) : null}
                 </View>
 
-                {/* Acciones poco frecuentes: discretas, al pie de la tarjeta. */}
-                <View style={[styles.cardFoot, { borderTopColor: p.cardBorder }]}>
+                {/* Acciones poco frecuentes: plegadas en "Más opciones" (una
+                    sola tarea a la vista: series, descanso, siguiente). */}
+                <View style={[styles.cardFoot, { borderTopColor: p.cardBorder, justifyContent: 'center' }]}>
                   <Pressable
-                    style={({ pressed }) => [styles.textBtn, { opacity: pressed ? 0.6 : 1 }]}
+                    style={({ pressed }) => [styles.textBtn, styles.moreBtn, { opacity: pressed ? 0.6 : 1 }]}
                     accessibilityRole="button"
                     accessibilityState={{ expanded: equipOpen }}
                     onPress={() => setEquipOpen((o) => !o)}
                   >
-                    <Text style={[styles.footLink, { color: p.secondary }]}>{t('sess_equip_q')}</Text>
-                  </Pressable>
-                  <Pressable
-                    style={({ pressed }) => [styles.textBtn, { opacity: pressed ? 0.6 : 1 }]}
-                    accessibilityRole="button"
-                    onPress={() => removeExercise(d.exercise_id)}
-                  >
-                    <Text style={[styles.footLink, { color: p.secondary }]}>{t('sess_remove_ex')}</Text>
+                    <Text style={[styles.footLink, { color: p.secondary }]}>{t('sess_more')}</Text>
+                    <Chevron dir={equipOpen ? 'up' : 'down'} color={p.secondary} size={7} />
                   </Pressable>
                 </View>
                 {equipOpen ? (
-                  <View style={styles.statusRow}>
-                    {statusChip(d.exercise_id, 'busy', t('status_busy'))}
-                    {statusChip(d.exercise_id, 'unavailable', t('status_unavailable'))}
+                  <View style={styles.moreList}>
+                    <Pressable
+                      style={({ pressed }) => [styles.moreRow, { borderBottomColor: p.cardBorder, opacity: pressed ? 0.6 : 1 }]}
+                      accessibilityRole="button"
+                      onPress={() => {
+                        setEquipOpen(false);
+                        sameGroupSuggest();
+                      }}
+                    >
+                      <Text style={[styles.moreText, { color: p.text }]}>{t('sess_suggest')}</Text>
+                    </Pressable>
+                    <View style={[styles.moreRow, { borderBottomColor: p.cardBorder }]}>
+                      <Text style={[styles.moreText, { color: p.text }]}>{t('sess_equip_q')}</Text>
+                      <View style={[styles.statusRow, { marginTop: 8, justifyContent: 'flex-start' }]}>
+                        {statusChip(d.exercise_id, 'busy', t('status_busy'))}
+                        {statusChip(d.exercise_id, 'unavailable', t('status_unavailable'))}
+                      </View>
+                    </View>
+                    <Pressable
+                      style={({ pressed }) => [styles.moreRow, { borderBottomWidth: 0, opacity: pressed ? 0.6 : 1 }]}
+                      accessibilityRole="button"
+                      onPress={() => removeExercise(d.exercise_id)}
+                    >
+                      <Text style={[styles.moreText, { color: p.secondary }]}>{t('sess_remove_ex')}</Text>
+                    </Pressable>
                   </View>
                 ) : null}
               </View>
@@ -1994,11 +2014,12 @@ const styles = StyleSheet.create({
   quickRow: {
     flexDirection: 'row',
     justifyContent: 'center',
+    gap: 12,
     marginTop: 8,
     marginBottom: 18,
   },
   quickItem: {
-    flex: 1,
+    width: 104,
     alignItems: 'center',
     gap: 8,
   },
@@ -2382,6 +2403,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
+  moreBtn: { flexDirection: 'row', gap: 8 },
+  moreList: { marginTop: 2 },
+  moreRow: { minHeight: 48, justifyContent: 'center', paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth },
+  moreText: { fontSize: 15, fontWeight: '600' },
   draftHeader: {
     flexDirection: 'row',
     alignItems: 'center',
