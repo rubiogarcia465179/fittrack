@@ -118,6 +118,7 @@ function ValueBox({
   onPress,
   accent,
   done,
+  compact,
 }: {
   value: string;
   unit: string;
@@ -126,6 +127,8 @@ function ValueBox({
   accent?: boolean;
   /** Serie COMPLETADA: se marca en verde (estado de éxito). */
   done?: boolean;
+  /** Fila de series: solo el número (la unidad va en la cabecera de columna). */
+  compact?: boolean;
 }) {
   const { p } = useTheme();
   const scale = useScale();
@@ -139,21 +142,52 @@ function ValueBox({
       onPress={onPress}
       style={({ pressed }) => [
         styles.valueBox,
+        compact && styles.valueBoxCompact,
         {
           backgroundColor: active ? activeColor : p.fieldBg,
           borderColor: active ? activeColor : p.border,
           transform: [{ scale: pressed ? 0.96 : 1 }],
-          transition: 'transform 80ms ease, background-color 140ms ease, border-color 140ms ease',
         },
       ]}
     >
-      <Text style={[styles.valueBoxNum, { fontSize: fs(scale, 19), color: active ? '#fff' : p.text }]}>
+      <Text style={[styles.valueBoxNum, { fontSize: fs(scale, compact ? 20 : 19), color: active ? '#fff' : p.text }]}>
         {value}
       </Text>
-      <Text style={[styles.valueBoxUnit, { fontSize: fs(scale, 12), color: active ? 'rgba(255,255,255,0.85)' : p.secondary }]}>
-        {unit}
-      </Text>
+      {compact ? null : (
+        <Text style={[styles.valueBoxUnit, { fontSize: fs(scale, 12), color: active ? 'rgba(255,255,255,0.85)' : p.secondary }]}>
+          {unit}
+        </Text>
+      )}
     </Pressable>
+  );
+}
+
+/** Pausa / reanudar dibujados con Views: los glifos ❚❚ ▶ ✕ salían como
+ *  "tofu" (□) porque Montserrat no los incluye. */
+function PauseGlyph({ color = '#fff' }: { color?: string }) {
+  return (
+    <View style={{ flexDirection: 'row', gap: 4 }} accessibilityElementsHidden>
+      <View style={{ width: 4, height: 14, borderRadius: 1.5, backgroundColor: color }} />
+      <View style={{ width: 4, height: 14, borderRadius: 1.5, backgroundColor: color }} />
+    </View>
+  );
+}
+function PlayGlyph({ color = '#fff' }: { color?: string }) {
+  return (
+    <View
+      accessibilityElementsHidden
+      style={{
+        width: 0,
+        height: 0,
+        marginLeft: 3,
+        borderTopWidth: 8,
+        borderBottomWidth: 8,
+        borderLeftWidth: 13,
+        borderTopColor: 'transparent',
+        borderBottomColor: 'transparent',
+        borderLeftColor: color,
+      }}
+    />
   );
 }
 
@@ -231,6 +265,10 @@ export default function SessionScreen({
   // `currentIndex` señala cuál es "el de ahora"; "Acabar ejercicio"
   // lo avanza al siguiente y la app indica cuál es ese siguiente.
   const [currentIndex, setCurrentIndex] = useState(0);
+  // "¿Máquina ocupada?": las opciones Ocupado / Fuera de servicio solo se
+  // despliegan cuando hacen falta (antes: 3 chips fijos en cada ejercicio).
+  const [equipOpen, setEquipOpen] = useState(false);
+  useEffect(() => setEquipOpen(false), [currentIndex]);
 
   const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
   const recent = useMemo(() => recentRows(sessions), [sessions]);
@@ -712,15 +750,21 @@ export default function SessionScreen({
     // siempre alcanzables, sin solapar el teclado.
     <KeyboardAvoidingView style={styles.root} behavior="padding">
       {/* ---- banner de entrenamiento activo (siempre visible) ---- */}
+      {/* Banner mínimo: cronómetro grande + series hechas + pausa/terminar.
+          El tema navy ya dice "estás entrenando"; no hace falta rótulo. */}
       <View style={styles.activeBanner}>
         <View style={styles.activeRow}>
-          <View style={styles.activeDotWrap}>
+          <View
+            style={styles.activeTimeWrap}
+            accessible
+            accessibilityLabel={`${session.paused ? t('workout_paused') : t('workout_active')}: ${elapsedLabel}. ${doneSets}/${totalSets} ${t('workout_sets_done')}`}
+          >
             <View style={[styles.activeDot, { backgroundColor: session.paused ? '#FFD60A' : '#30D158' }]} />
-            <Text style={styles.activeLabel}>
-              {session.paused ? t('workout_paused') : t('workout_active')}
+            <Text style={styles.activeTime}>{elapsedLabel}</Text>
+            <Text style={styles.activeSets} numberOfLines={1}>
+              {session.paused ? t('workout_paused') : `${doneSets}/${totalSets} ${t('workout_sets_done')}`}
             </Text>
           </View>
-          <Text style={styles.activeTime}>{elapsedLabel}</Text>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={session.paused ? t('workout_resume') : t('workout_pause')}
@@ -736,25 +780,22 @@ export default function SessionScreen({
                 onSessionChange({ ...session, paused: true, paused_since: Date.now() });
               }
             }}
-            style={({ pressed }) => [styles.pauseBtn, { opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' }]}
+            style={({ pressed }) => [styles.pauseBtn, { opacity: pressed ? 0.7 : 1 }]}
           >
-            <Text style={styles.pauseBtnText}>{session.paused ? '▶' : '❚❚'}</Text>
+            {session.paused ? <PlayGlyph /> : <PauseGlyph />}
           </Pressable>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={t('sess_discard')}
             onPress={() => setConfirmDiscard(true)}
-            style={({ pressed }) => [styles.pauseBtn, { opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' }]}
+            style={({ pressed }) => [styles.pauseBtn, { opacity: pressed ? 0.7 : 1 }]}
           >
-            <Text style={styles.pauseBtnText}>✕</Text>
+            <XGlyph size={14} color="#fff" />
           </Pressable>
         </View>
-        <View style={styles.progressTrack}>
+        <View style={styles.progressTrack} accessibilityElementsHidden importantForAccessibility="no">
           <View style={[styles.progressFill, { width: `${Math.round(progress * 100)}%`, backgroundColor: '#30D158' }]} />
         </View>
-        <Text style={styles.progressText}>
-          {doneSets}/{totalSets} {t('workout_sets_done')}
-        </Text>
       </View>
 
       <ScrollView
@@ -764,10 +805,424 @@ export default function SessionScreen({
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
       >
-        <Text style={[styles.title, { fontSize: fs(scale, 32), color: p.text }]} numberOfLines={1}>
-          {t('sess_title')}
-        </Text>
-        <Text style={[styles.sub, { color: p.secondary }]}>{t('sess_sub')}</Text>
+        {draft.length === 0 ? (
+          <Text style={[styles.empty, { color: p.dim }]}>{t('sess_no_exercises')}</Text>
+        ) : (
+          draft.map((d, di) => {
+            const ex = byId.get(d.exercise_id);
+            const est1rm = Math.round(Math.max(...d.sets.map((s) => oneRm(s.weight_kg, s.reps)), 0));
+            const isCurrent = di === currentIndex;
+            const doneCount = d.sets.filter((s) => s.done).length;
+            const allDone = d.sets.length > 0 && doneCount === d.sets.length;
+
+            // ---- Resto de ejercicios: UNA fila compacta (tocar = ir allí) ----
+            if (!isCurrent) {
+              const first = d.sets[0];
+              const summary = first
+                ? `${d.sets.length} × ${first.reps} · ${fmtNum(first.weight_kg)} kg`
+                : plural(0, t, 'hist_set', 'hist_sets_total');
+              return (
+                <Pressable
+                  key={d.exercise_id}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${t('sess_go_to')}: ${ex ? nameOf(ex) : d.exercise_id}. ${summary}. ${doneCount}/${d.sets.length}`}
+                  onPress={() => jumpToExercise(d.exercise_id)}
+                  onLayout={(e) => {
+                    cardOffsets.current[d.exercise_id] = e.nativeEvent.layout.y;
+                  }}
+                  style={({ pressed }) => [
+                    styles.compactRow,
+                    { backgroundColor: pressed ? p.fieldBg : p.card, borderColor: p.cardBorder },
+                  ]}
+                >
+                  <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={20} />
+                  <View style={styles.compactMain}>
+                    <Text style={[styles.compactName, { color: p.text }]} numberOfLines={1}>
+                      {ex ? nameOf(ex) : d.exercise_id}
+                    </Text>
+                    <Text style={[styles.compactSub, { color: p.secondary }]} numberOfLines={1}>
+                      {summary}
+                    </Text>
+                  </View>
+                  {allDone ? (
+                    <View style={[styles.compactDone, { backgroundColor: p.green }]}>
+                      <CheckGlyph size={14} color="#fff" />
+                    </View>
+                  ) : (
+                    <Text style={[styles.compactCount, { color: p.secondary }]}>
+                      {doneCount}/{d.sets.length}
+                    </Text>
+                  )}
+                </Pressable>
+              );
+            }
+
+            // ---- Ejercicio ACTUAL: la única tarjeta completa ----
+            return (
+              <View
+                key={d.exercise_id}
+                style={[styles.draftCard, { backgroundColor: p.card, borderColor: p.accent, ...SHADOW.card }]}
+                onLayout={(e) => {
+                  cardOffsets.current[d.exercise_id] = e.nativeEvent.layout.y;
+                }}
+              >
+                <View style={styles.draftHeader}>
+                  <View style={styles.draftTitleWrap}>
+                    <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} />
+                    <Text style={[styles.draftName, { color: p.text }]} numberOfLines={2} accessibilityRole="header">
+                      {ex ? nameOf(ex) : d.exercise_id}
+                    </Text>
+                  </View>
+                  <Text
+                    style={[styles.draftPos, { color: p.secondary }]}
+                    accessibilityLabel={t('sess_pos', { n: di + 1, m: draft.length })}
+                  >
+                    {di + 1}/{draft.length}
+                  </Text>
+                </View>
+                {ex ? (
+                  <Text style={[styles.draftMeta, { color: p.secondary }]} numberOfLines={1}>
+                    {t(`group_${ex.muscle_group}`)} · {t(`equip_${ex.equipment}`)}
+                    {!isBenchmark && est1rm > 0 ? ` · 1RM ≈ ${est1rm} kg` : ''}
+                  </Text>
+                ) : null}
+
+                {/* benchmark: 1RM */}
+                {isBenchmark ? (
+                  <View style={styles.benchRow}>
+                    <View style={styles.benchCol}>
+                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('bench_1rm_auto')}</Text>
+                      <View style={[styles.benchBox, { backgroundColor: p.fieldBg, borderColor: p.border }]}>
+                        <Text style={[styles.benchBoxNum, { color: p.accent }]}>{est1rm > 0 ? `${est1rm} kg` : '—'}</Text>
+                      </View>
+                    </View>
+                    <View style={styles.benchCol}>
+                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('bench_1rm')}</Text>
+                      <Pressable
+                        accessibilityRole="button"
+                        onPress={() => setPick({ kind: 'bench', ex: d.exercise_id })}
+                        style={({ pressed }) => [
+                          styles.benchBox,
+                          { backgroundColor: p.fieldBg, borderColor: p.border, transform: [{ scale: pressed ? 0.97 : 1 }] },
+                        ]}
+                      >
+                        <Text style={[styles.benchBoxNum, { color: benchManual[d.exercise_id] ? p.accent : p.dim }]}>
+                          {benchManual[d.exercise_id] ? `${benchManual[d.exercise_id]} kg` : t('bench_manual')}
+                        </Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                ) : null}
+
+                {/* Cabecera de columnas UNA vez (no en cada serie). */}
+                <View style={styles.colHead} accessibilityElementsHidden importantForAccessibility="no">
+                  <Text style={[styles.colHeadNum, { color: p.secondary }]}>{t('sess_set')}</Text>
+                  <Text style={[styles.colHeadField, { color: p.secondary }]}>reps</Text>
+                  <Text style={[styles.colHeadField, { color: p.secondary }]}>kg</Text>
+                  <Text style={[styles.colHeadDone, { color: p.secondary }]}>{t('sess_set_done')}</Text>
+                </View>
+                {d.sets.map((s, i) => (
+                  <View key={i} style={styles.setRow}>
+                    <Text style={[styles.setNum, { color: s.done ? p.green : p.secondary }]}>{i + 1}</Text>
+                    <View style={styles.setFieldWrap}>
+                      <ValueBox
+                        value={String(s.reps)}
+                        unit="reps"
+                        onPress={() => setPick({ kind: 'reps', ex: d.exercise_id, idx: i })}
+                        done={!!s.done}
+                        compact
+                      />
+                    </View>
+                    <View style={styles.setFieldWrap}>
+                      <ValueBox
+                        value={fmtNum(s.weight_kg)}
+                        unit="kg"
+                        onPress={() => setPick({ kind: 'weight', ex: d.exercise_id, idx: i })}
+                        done={!!s.done}
+                        compact
+                      />
+                    </View>
+                    <View style={styles.setDoneWrap}>
+                      <Pressable
+                        style={({ pressed }) => [
+                          styles.doneCircle,
+                          {
+                            borderColor: s.done ? p.green : p.border,
+                            backgroundColor: s.done ? p.green : 'transparent',
+                            transform: [{ scale: pressed ? 0.9 : 1 }],
+                          },
+                        ]}
+                        accessibilityRole="checkbox"
+                        accessibilityLabel={`${t('sess_set')} ${i + 1}: ${s.reps} reps, ${fmtNum(s.weight_kg)} kg`}
+                        accessibilityState={{ checked: !!s.done }}
+                        onPress={() => toggleSetDone(d.exercise_id, i)}
+                        hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+                      >
+                        {s.done ? <CheckGlyph size={18} color="#fff" /> : null}
+                      </Pressable>
+                    </View>
+                  </View>
+                ))}
+
+                {/* Series: añadir / quitar la última (sin una X por fila). */}
+                <View style={styles.setActions}>
+                  <Pressable
+                    style={({ pressed }) => [styles.textBtn, { opacity: pressed ? 0.6 : 1 }]}
+                    accessibilityRole="button"
+                    onPress={() => addSet(d.exercise_id)}
+                  >
+                    <Text style={[styles.textBtnLabel, { color: p.accent }]}>+ {t('sess_add_set')}</Text>
+                  </Pressable>
+                  {d.sets.length > 1 ? (
+                    <Pressable
+                      style={({ pressed }) => [styles.textBtn, { opacity: pressed ? 0.6 : 1 }]}
+                      accessibilityRole="button"
+                      onPress={() => removeSet(d.exercise_id, d.sets.length - 1)}
+                    >
+                      <Text style={[styles.textBtnLabel, { color: p.secondary }]}>− {t('sess_remove_set')}</Text>
+                    </Pressable>
+                  ) : null}
+                </View>
+
+                {/* Acciones poco frecuentes: discretas, al pie de la tarjeta. */}
+                <View style={[styles.cardFoot, { borderTopColor: p.cardBorder }]}>
+                  <Pressable
+                    style={({ pressed }) => [styles.textBtn, { opacity: pressed ? 0.6 : 1 }]}
+                    accessibilityRole="button"
+                    accessibilityState={{ expanded: equipOpen }}
+                    onPress={() => setEquipOpen((o) => !o)}
+                  >
+                    <Text style={[styles.footLink, { color: p.secondary }]}>{t('sess_equip_q')}</Text>
+                  </Pressable>
+                  <Pressable
+                    style={({ pressed }) => [styles.textBtn, { opacity: pressed ? 0.6 : 1 }]}
+                    accessibilityRole="button"
+                    onPress={() => removeExercise(d.exercise_id)}
+                  >
+                    <Text style={[styles.footLink, { color: p.red }]}>{t('sess_remove_ex')}</Text>
+                  </Pressable>
+                </View>
+                {equipOpen ? (
+                  <View style={styles.statusRow}>
+                    {statusChip(d.exercise_id, 'busy', t('status_busy'))}
+                    {statusChip(d.exercise_id, 'unavailable', t('status_unavailable'))}
+                  </View>
+                ) : null}
+              </View>
+            );
+          })
+        )}
+
+        {/* ---- ejercicios aplazados (el usuario decide el ritmo) ---- */}
+        {postponed.length > 0 ? (
+          <View style={[styles.postponedCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
+            <Text style={[styles.postponedTitle, { color: p.text }]}>{t('postponed_title')}</Text>
+            <Text style={[styles.postponedSub, { color: p.secondary }]}>{t('postponed_sub')}</Text>
+            {postponed.map((pp) => {
+              const ex = byId.get(pp.exercise_id);
+              // Sugerencias (la misma lista estaciona el ciclo: el botón
+              // "Otra sugerencia" avanza dentro de ella, sin temporizador).
+              const alts = ex
+                ? suggestAlternatives(ex, exercises, {
+                    mode: session.equipment_mode,
+                    benchmarks: session.benchmarks,
+                    intensity: 'moderate',
+                    exclude: [
+                      ...draft.map((d) => d.exercise_id),
+                      ...postponed.filter((x) => x.exercise_id !== pp.exercise_id).map((x) => x.exercise_id),
+                    ],
+                    recent,
+                  }).slice(0, 3)
+                : [];
+              const currentAlt = alts.length > 0 ? alts[pp.attempts % alts.length] : null;
+              const showOriginal = pp.attempts >= POSTPONE_RETURN_AT;
+              return (
+                <View key={pp.exercise_id} style={[styles.postponedRow, { borderTopColor: p.cardBorder }]}>
+                  <View style={styles.postponedInfo}>
+                    <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} />
+                    <View style={styles.postponedNames}>
+                      <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
+                        {ex ? nameOf(ex) : pp.exercise_id}
+                      </Text>
+                      <Text style={[styles.postponedWait, { color: p.dim }]} numberOfLines={1}>
+                        {pp.attempts > 0 ? t('postponed_attempt', { n: pp.attempts }) : t('postponed_new')}
+                      </Text>
+                    </View>
+                  </View>
+
+                  {/* sugerencia actual (o el original cuando el ciclo vuelve) */}
+                  {showOriginal ? (
+                    <View style={[styles.postponedSug, { borderColor: p.accent, backgroundColor: p.section }]}>
+                      <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} />
+                      <View style={styles.postponedNames}>
+                        <Text style={[styles.postponedName, { color: p.accent }]} numberOfLines={1}>
+                          {ex ? nameOf(ex) : pp.exercise_id}
+                        </Text>
+                        <Text style={[styles.postponedWait, { color: p.secondary }]}>{t('postponed_original')}</Text>
+                      </View>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={t('postponed_do_now')}
+                        onPress={() => doPostponedNow(pp.exercise_id)}
+                        style={({ pressed }) => [
+                          styles.postponedBtn,
+                          { backgroundColor: p.accent, borderWidth: 0, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' },
+                        ]}
+                      >
+                        <Text style={[styles.postponedBtnText, { color: '#fff' }]}>{t('postponed_do_now')}</Text>
+                      </Pressable>
+                    </View>
+                  ) : currentAlt ? (
+                    <View style={[styles.postponedSug, { borderColor: p.border, backgroundColor: p.section }]}>
+                      <ExerciseGlyph label={currentAlt.muscle_group} size={18} />
+                      <View style={styles.postponedNames}>
+                        <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
+                          {nameOf(currentAlt)}
+                        </Text>
+                        <Text style={[styles.postponedWait, { color: p.dim }]} numberOfLines={1}>
+                          {t(`equip_${currentAlt.equipment}`)}
+                        </Text>
+                      </View>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={`${t('alt_use')} ${nameOf(currentAlt)}`}
+                        onPress={() => usePostponedAlt(pp.exercise_id, currentAlt.id)}
+                        style={({ pressed }) => [
+                          styles.postponedBtn,
+                          { backgroundColor: p.accent, borderWidth: 0, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' },
+                        ]}
+                      >
+                        <Text style={[styles.postponedBtnText, { color: '#fff' }]}>{t('alt_use')}</Text>
+                      </Pressable>
+                    </View>
+                  ) : (
+                    <Text style={[styles.postponedWait, { color: p.dim, paddingVertical: 6 }]}>{t('alt_none')}</Text>
+                  )}
+
+                  <View style={styles.postponedBtns}>
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={t('postponed_next')}
+                      disabled={currentAlt === null && !showOriginal}
+                      onPress={() => nextSuggestion(pp.exercise_id)}
+                      style={({ pressed }) => [
+                        styles.postponedBtn,
+                        {
+                          backgroundColor: 'transparent',
+                          borderColor: p.border,
+                          opacity: pressed ? 0.7 : 1,
+                          transition: 'opacity 90ms ease',
+                        },
+                      ]}
+                    >
+                      <Text style={[styles.postponedBtnText, { color: p.secondary }]} numberOfLines={1}>
+                        {t('postponed_next')}
+                      </Text>
+                    </Pressable>
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={t('postponed_skip')}
+                      onPress={() => skipPostponed(pp.exercise_id)}
+                      style={({ pressed }) => [
+                        styles.postponedBtn,
+                        { backgroundColor: 'transparent', borderColor: p.border, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
+                      ]}
+                    >
+                      <Text style={[styles.postponedBtnText, { color: p.red }]} numberOfLines={1}>
+                        {t('postponed_skip')}
+                      </Text>
+                    </Pressable>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        ) : null}
+
+        {/* ---- Ajustes al final: añadir/sugerir y Detalles (la lista de ejercicios va primero) ---- */}
+        {/* Añadir / Sugerir: una fila, dos botones iguales. Con la sesión
+            vacía, "Añadir ejercicio" es LA acción (relleno de acento). */}
+        <View style={[styles.actionRow, { gap: 10 }]}>
+          <Pressable
+            accessibilityRole="button"
+            onPress={openSearch}
+            style={({ pressed }) => [
+              styles.actionBtn,
+              {
+                flex: 1,
+                backgroundColor: draft.length === 0 ? p.accent : p.card,
+                borderColor: draft.length === 0 ? p.accent : p.cardBorder,
+                borderWidth: 1,
+                opacity: pressed ? 0.8 : 1,
+              },
+            ]}
+          >
+            <Text
+              style={[styles.actionBtnText, { color: draft.length === 0 ? '#fff' : p.text, fontWeight: '600' }]}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+            >
+              + {t('sess_add')}
+            </Text>
+          </Pressable>
+          {suggested ? null : (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => (currentId ? sameGroupSuggest() : requestSuggestion())}
+              style={({ pressed }) => [
+                styles.actionBtn,
+                { flex: 1, backgroundColor: p.card, borderColor: p.cardBorder, borderWidth: 1, opacity: pressed ? 0.8 : 1 },
+              ]}
+            >
+              <Text style={[styles.actionBtnText, { color: p.accent, fontWeight: '600' }]} numberOfLines={1} adjustsFontSizeToFit>
+                {t('sess_suggest')}
+              </Text>
+            </Pressable>
+          )}
+        </View>
+
+        {/* sugerencia (R-15): el ejercicio que sigue, con 1 toque */}
+        {suggested ? (
+          <View style={[styles.suggestCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
+            <View style={styles.suggestHead}>
+              <ExerciseGlyph label={suggested.muscle_group} size={22} />
+              <View style={styles.suggestTitleWrap}>
+                <Text style={[styles.suggestName, { color: p.text }]} numberOfLines={1}>
+                  {nameOf(suggested)}
+                </Text>
+                <Text style={[styles.suggestMeta, { color: p.dim }]}>
+                  {t(`group_${suggested.muscle_group}`)} · {t(`equip_${suggested.equipment}`)}
+                </Text>
+              </View>
+            </View>
+            <Text style={[styles.suggestHint, { color: p.secondary }]}>{t('suggest_hint')}</Text>
+            <View style={styles.suggestBtns}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => {
+                  addExercise(suggested.id);
+                  setSuggestedId(null);
+                }}
+                style={({ pressed }) => [
+                  styles.suggestUse,
+                  { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
+                ]}
+              >
+                <Text style={[styles.suggestUseText, { color: '#fff', fontWeight: '700' }]}>{t('suggest_use')}</Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={requestSuggestion}
+                style={({ pressed }) => [
+                  styles.suggestSkip,
+                  { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
+                ]}
+              >
+                <Text style={[styles.suggestSkipText, { color: p.secondary, fontWeight: '600' }]}>{t('suggest_another')}</Text>
+              </Pressable>
+            </View>
+          </View>
+        ) : null}
 
         {/* "Detalles": los campos secundarios (fecha, duración, peso, altura,
             notas) van plegados por defecto — la pantalla solo muestra lo
@@ -911,409 +1366,6 @@ export default function SessionScreen({
               multiline
               accessibilityLabel={t('sess_notes')}
             />
-          </View>
-        ) : null}
-
-        {/* ejercicio: sugerencia o búsqueda (sin scroll: todo a un toque) */}
-        <View style={[styles.actionRow, { gap: 10 }]}>
-          <Pressable
-            accessibilityRole="button"
-            onPress={openSearch}
-            style={({ pressed }) => [
-              styles.actionBtn,
-              {
-                flex: 1,
-                backgroundColor: p.card,
-                borderColor: p.cardBorder,
-                borderWidth: 1,
-                opacity: pressed ? 0.8 : 1,
-                transition: 'opacity 90ms ease',
-              },
-            ]}
-          >
-            <Text style={[styles.actionBtnText, { color: p.secondary, fontWeight: '600' }]}>{t('sess_add')}</Text>
-          </Pressable>
-        </View>
-
-        {/* sugerencia (R-15): el ejercicio que sigue, con 1 toque */}
-        {suggested ? (
-          <View style={[styles.suggestCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
-            <View style={styles.suggestHead}>
-              <ExerciseGlyph label={suggested.muscle_group} size={22} />
-              <View style={styles.suggestTitleWrap}>
-                <Text style={[styles.suggestName, { color: p.text }]} numberOfLines={1}>
-                  {nameOf(suggested)}
-                </Text>
-                <Text style={[styles.suggestMeta, { color: p.dim }]}>
-                  {t(`group_${suggested.muscle_group}`)} · {t(`equip_${suggested.equipment}`)}
-                </Text>
-              </View>
-            </View>
-            <Text style={[styles.suggestHint, { color: p.secondary }]}>{t('suggest_hint')}</Text>
-            <View style={styles.suggestBtns}>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => {
-                  addExercise(suggested.id);
-                  setSuggestedId(null);
-                }}
-                style={({ pressed }) => [
-                  styles.suggestUse,
-                  { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
-                ]}
-              >
-                <Text style={[styles.suggestUseText, { color: '#fff', fontWeight: '700' }]}>{t('suggest_use')}</Text>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                onPress={requestSuggestion}
-                style={({ pressed }) => [
-                  styles.suggestSkip,
-                  { backgroundColor: p.fieldBg, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
-                ]}
-              >
-                <Text style={[styles.suggestSkipText, { color: p.secondary, fontWeight: '600' }]}>{t('suggest_another')}</Text>
-              </Pressable>
-            </View>
-          </View>
-        ) : (
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => (currentId ? sameGroupSuggest() : requestSuggestion())}
-            style={({ pressed }) => [
-              styles.suggestGhost,
-              {
-                backgroundColor: 'transparent',
-                borderColor: p.border,
-                opacity: pressed ? 0.7 : 1,
-                transition: 'opacity 90ms ease',
-              },
-            ]}
-          >
-            <Text style={[styles.suggestGhostText, { color: p.accent, fontWeight: '700' }]}>
-              {t('sess_suggest')}
-            </Text>
-          </Pressable>
-        )}
-
-        <Text style={[styles.saveTitle, { color: p.text }]}>{t('hist_exercises')}</Text>
-        {draft.length === 0 ? (
-          <Text style={[styles.empty, { color: p.dim }]}>{t('sess_no_exercises')}</Text>
-        ) : (
-          draft.map((d, di) => {
-            const ex = byId.get(d.exercise_id);
-            const est1rm = Math.round(Math.max(...d.sets.map((s) => oneRm(s.weight_kg, s.reps)), 0));
-            const isCurrent = di === currentIndex;
-            const isLast = di === draft.length - 1;
-            return (
-              <View
-                key={d.exercise_id}
-                style={[
-                  styles.draftCard,
-                  {
-                    backgroundColor: p.card,
-                    borderColor: isCurrent ? p.accent : p.cardBorder,
-                    borderWidth: isCurrent ? 2 : 1,
-                    opacity: isCurrent ? 1 : 0.58,
-                    ...SHADOW.card,
-                  },
-                ]}
-                onLayout={(e) => {
-                  cardOffsets.current[d.exercise_id] = e.nativeEvent.layout.y;
-                }}
-              >
-                {/* Foco: solo el ejercicio ACTUAL marca con la franja superior. */}
-                {isCurrent ? (
-                  <View
-                    style={[
-                      styles.focusStrip,
-                      { borderColor: p.accent, borderLeftColor: p.accent },
-                    ]}
-                  >
-                    <View style={styles.nowWrap}>
-                      <View style={[styles.nowDot, { backgroundColor: p.accent }]} />
-                      <Text style={[styles.nowText, { color: p.accent }]}>{t('sess_now')}</Text>
-                      <Text style={[styles.posText, { color: p.secondary }]}>
-                        {t('sess_pos', { n: di + 1, m: draft.length })}
-                      </Text>
-                    </View>
-                  </View>
-                ) : null}
-                <View style={styles.draftHeader}>
-                  <View style={styles.draftTitleWrap}>
-                    <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} />
-                    <Text style={[styles.draftName, { color: p.text }]} numberOfLines={1}>
-                      {ex ? nameOf(ex) : d.exercise_id}
-                    </Text>
-                  </View>
-                  <Pressable
-                    style={({ pressed }) => [styles.draftRemoveBtn, { opacity: pressed ? 0.6 : 1, transition: 'opacity 90ms ease' }]}
-                    accessibilityRole="button"
-                    accessibilityLabel={t('delete')}
-                    onPress={() => removeExercise(d.exercise_id)}
-                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                  >
-                    <Text style={[styles.draftRemove, { color: p.red }]}>{t('delete')}</Text>
-                  </Pressable>
-                </View>
-                {ex ? (
-                  <Text style={[styles.draftMeta, { color: p.dim }]}>
-                    {t(`group_${ex.muscle_group}`)} · {t(`equip_${ex.equipment}`)}
-                  </Text>
-                ) : null}
-
-                {/* estado del material: solo en el ejercicio ACTUAL (donde
-                    de verdad se entrena) — en el resto es ruido. */}
-                {isCurrent ? (
-                  <View style={styles.statusRow}>
-                    {statusChip(d.exercise_id, 'available', t('status_available'))}
-                    {statusChip(d.exercise_id, 'busy', t('status_busy'))}
-                    {statusChip(d.exercise_id, 'unavailable', t('status_unavailable'))}
-                  </View>
-                ) : null}
-
-                {/* benchmark: 1RM */}
-                {isBenchmark ? (
-                  <View style={styles.benchRow}>
-                    <View style={styles.benchCol}>
-                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('bench_1rm_auto')}</Text>
-                      <View style={[styles.benchBox, { backgroundColor: p.fieldBg, borderColor: p.border }]}>
-                        <Text style={[styles.benchBoxNum, { color: p.accent }]}>{est1rm > 0 ? `${est1rm} kg` : '—'}</Text>
-                      </View>
-                    </View>
-                    <View style={styles.benchCol}>
-                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('bench_1rm')}</Text>
-                      <Pressable
-                        accessibilityRole="button"
-                        onPress={() => setPick({ kind: 'bench', ex: d.exercise_id })}
-                        style={({ pressed }) => [
-                          styles.benchBox,
-                          {
-                            backgroundColor: p.fieldBg,
-                            borderColor: p.border,
-                            transform: [{ scale: pressed ? 0.97 : 1 }],
-                            transition: 'transform 80ms ease',
-                          },
-                        ]}
-                      >
-                        <Text style={[styles.benchBoxNum, { color: benchManual[d.exercise_id] ? p.accent : p.dim }]}>
-                          {benchManual[d.exercise_id] ? `${benchManual[d.exercise_id]} kg` : t('bench_manual')}
-                        </Text>
-                      </Pressable>
-                    </View>
-                  </View>
-                ) : null}
-
-                <View style={styles.setsHeader}>
-                  <Text style={[styles.setsLabel, { color: p.secondary }]}>{t('sess_sets')}</Text>
-                  {!isBenchmark && est1rm > 0 ? (
-                    <Text style={[styles.oneRm, { color: p.accent }]}>1RM ≈ {Math.round(est1rm * 10) / 10} kg</Text>
-                  ) : null}
-                </View>
-                {d.sets.map((s, i) => (
-                  <View key={i} style={styles.setRow}>
-                    <View style={styles.setFieldWrap}>
-                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('sess_set')} {i + 1}</Text>
-                      <ValueBox
-                        value={String(s.reps)}
-                        unit="reps"
-                        onPress={() => setPick({ kind: 'reps', ex: d.exercise_id, idx: i })}
-                        done={!!s.done}
-                      />
-                    </View>
-                    <View style={styles.setFieldWrap}>
-                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('sess_weight')}</Text>
-                      <ValueBox
-                        value={fmtNum(s.weight_kg)}
-                        unit="kg"
-                        onPress={() => setPick({ kind: 'weight', ex: d.exercise_id, idx: i })}
-                        done={!!s.done}
-                      />
-                    </View>
-                    <View style={styles.setDoneWrap}>
-                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('sess_set_done')}</Text>
-                      <Pressable
-                        style={({ pressed }) => [
-                          styles.doneCircle,
-                          {
-                            borderColor: s.done ? p.green : p.border,
-                            backgroundColor: s.done ? p.green : 'transparent',
-                            transform: [{ scale: pressed ? 0.9 : 1 }],
-                            transition: 'transform 80ms ease, background-color 120ms ease, border-color 120ms ease',
-                          },
-                        ]}
-                        accessibilityRole="button"
-                        accessibilityLabel={
-                          s.done ? `${t('sess_set_done')}: ${i + 1} (${t('set_done')})` : `${t('sess_set_done')}: ${i + 1} (${t('set_pending')})`
-                        }
-                        accessibilityState={{ selected: !!s.done }}
-                        onPress={() => toggleSetDone(d.exercise_id, i)}
-                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                      >
-                        {s.done ? <CheckGlyph size={18} color="#fff" /> : null}
-                      </Pressable>
-                    </View>
-                    <View style={styles.setDelWrap}>
-                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('delete')}</Text>
-                      <Pressable
-                        style={({ pressed }) => [styles.setRemoveBtn, { opacity: pressed ? 0.6 : 1, transition: 'opacity 90ms ease' }]}
-                        accessibilityRole="button"
-                        accessibilityLabel={t('delete')}
-                        onPress={() => removeSet(d.exercise_id, i)}
-                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                      >
-                        <XGlyph size={18} color={p.red} />
-                      </Pressable>
-                    </View>
-                  </View>
-                ))}
-                <Pressable
-                  style={({ pressed }) => [styles.addSet, { opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' }]}
-                  accessibilityRole="button"
-                  onPress={() => addSet(d.exercise_id)}
-                >
-                  <Text style={[styles.addSetText, { color: p.accent }]}>+ {t('sess_add_set')}</Text>
-                </Pressable>
-                {/* El "Acabar ejercicio" vive en la barra fija inferior (siempre
-                    visible, sin scroll). Aquí solo "Ir allí" en los demás. */}
-                {isCurrent ? null : (
-                  <Pressable
-                    style={({ pressed }) => [styles.goBtn, { opacity: pressed ? 0.7 : 1, borderColor: p.border }]}
-                    accessibilityRole="button"
-                    accessibilityLabel={`${t('sess_go_to')}: ${ex ? nameOf(ex) : d.exercise_id}`}
-                    onPress={() => jumpToExercise(d.exercise_id)}
-                  >
-                    <Text style={[styles.goBtnText, { color: p.secondary }]}>{t('sess_go_to')}</Text>
-                  </Pressable>
-                )}
-              </View>
-            );
-          })
-        )}
-
-        {/* ---- ejercicios aplazados (el usuario decide el ritmo) ---- */}
-        {postponed.length > 0 ? (
-          <View style={[styles.postponedCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
-            <Text style={[styles.postponedTitle, { color: p.text }]}>{t('postponed_title')}</Text>
-            <Text style={[styles.postponedSub, { color: p.secondary }]}>{t('postponed_sub')}</Text>
-            {postponed.map((pp) => {
-              const ex = byId.get(pp.exercise_id);
-              // Sugerencias (la misma lista estaciona el ciclo: el botón
-              // "Otra sugerencia" avanza dentro de ella, sin temporizador).
-              const alts = ex
-                ? suggestAlternatives(ex, exercises, {
-                    mode: session.equipment_mode,
-                    benchmarks: session.benchmarks,
-                    intensity: 'moderate',
-                    exclude: [
-                      ...draft.map((d) => d.exercise_id),
-                      ...postponed.filter((x) => x.exercise_id !== pp.exercise_id).map((x) => x.exercise_id),
-                    ],
-                    recent,
-                  }).slice(0, 3)
-                : [];
-              const currentAlt = alts.length > 0 ? alts[pp.attempts % alts.length] : null;
-              const showOriginal = pp.attempts >= POSTPONE_RETURN_AT;
-              return (
-                <View key={pp.exercise_id} style={[styles.postponedRow, { borderTopColor: p.cardBorder }]}>
-                  <View style={styles.postponedInfo}>
-                    <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} />
-                    <View style={styles.postponedNames}>
-                      <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
-                        {ex ? nameOf(ex) : pp.exercise_id}
-                      </Text>
-                      <Text style={[styles.postponedWait, { color: p.dim }]} numberOfLines={1}>
-                        {pp.attempts > 0 ? t('postponed_attempt', { n: pp.attempts }) : t('postponed_new')}
-                      </Text>
-                    </View>
-                  </View>
-
-                  {/* sugerencia actual (o el original cuando el ciclo vuelve) */}
-                  {showOriginal ? (
-                    <View style={[styles.postponedSug, { borderColor: p.accent, backgroundColor: p.section }]}>
-                      <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} />
-                      <View style={styles.postponedNames}>
-                        <Text style={[styles.postponedName, { color: p.accent }]} numberOfLines={1}>
-                          {ex ? nameOf(ex) : pp.exercise_id}
-                        </Text>
-                        <Text style={[styles.postponedWait, { color: p.secondary }]}>{t('postponed_original')}</Text>
-                      </View>
-                      <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel={t('postponed_do_now')}
-                        onPress={() => doPostponedNow(pp.exercise_id)}
-                        style={({ pressed }) => [
-                          styles.postponedBtn,
-                          { backgroundColor: p.accent, borderWidth: 0, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' },
-                        ]}
-                      >
-                        <Text style={[styles.postponedBtnText, { color: '#fff' }]}>{t('postponed_do_now')}</Text>
-                      </Pressable>
-                    </View>
-                  ) : currentAlt ? (
-                    <View style={[styles.postponedSug, { borderColor: p.border, backgroundColor: p.section }]}>
-                      <ExerciseGlyph label={currentAlt.muscle_group} size={18} />
-                      <View style={styles.postponedNames}>
-                        <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
-                          {nameOf(currentAlt)}
-                        </Text>
-                        <Text style={[styles.postponedWait, { color: p.dim }]} numberOfLines={1}>
-                          {t(`equip_${currentAlt.equipment}`)}
-                        </Text>
-                      </View>
-                      <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel={`${t('alt_use')} ${nameOf(currentAlt)}`}
-                        onPress={() => usePostponedAlt(pp.exercise_id, currentAlt.id)}
-                        style={({ pressed }) => [
-                          styles.postponedBtn,
-                          { backgroundColor: p.accent, borderWidth: 0, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' },
-                        ]}
-                      >
-                        <Text style={[styles.postponedBtnText, { color: '#fff' }]}>{t('alt_use')}</Text>
-                      </Pressable>
-                    </View>
-                  ) : (
-                    <Text style={[styles.postponedWait, { color: p.dim, paddingVertical: 6 }]}>{t('alt_none')}</Text>
-                  )}
-
-                  <View style={styles.postponedBtns}>
-                    <Pressable
-                      accessibilityRole="button"
-                      accessibilityLabel={t('postponed_next')}
-                      disabled={currentAlt === null && !showOriginal}
-                      onPress={() => nextSuggestion(pp.exercise_id)}
-                      style={({ pressed }) => [
-                        styles.postponedBtn,
-                        {
-                          backgroundColor: 'transparent',
-                          borderColor: p.border,
-                          opacity: pressed ? 0.7 : 1,
-                          transition: 'opacity 90ms ease',
-                        },
-                      ]}
-                    >
-                      <Text style={[styles.postponedBtnText, { color: p.secondary }]} numberOfLines={1}>
-                        {t('postponed_next')}
-                      </Text>
-                    </Pressable>
-                    <Pressable
-                      accessibilityRole="button"
-                      accessibilityLabel={t('postponed_skip')}
-                      onPress={() => skipPostponed(pp.exercise_id)}
-                      style={({ pressed }) => [
-                        styles.postponedBtn,
-                        { backgroundColor: 'transparent', borderColor: p.border, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
-                      ]}
-                    >
-                      <Text style={[styles.postponedBtnText, { color: p.red }]} numberOfLines={1}>
-                        {t('postponed_skip')}
-                      </Text>
-                    </Pressable>
-                  </View>
-                </View>
-              );
-            })}
           </View>
         ) : null}
 
@@ -1485,44 +1537,63 @@ export default function SessionScreen({
           ("Siguiente: X" / "Último ejercicio"); abajo, los botones.
           Siempre visible, sin scroll. */}
       <View style={[styles.footer, { backgroundColor: p.headerBg, borderTopColor: p.border }]}>
-        <Text
-          style={[styles.footerCaption, { color: saved ? p.green : p.secondary }]}
-          numberOfLines={saved ? 2 : 1}
-        >
-          {saved
-            ? `${t('sess_saved')} — ${t('sess_saved_hint')}`
-            : currentId
-              ? isLastExercise
-                ? t('sess_last_hint')
-                : `${t('sess_next_prefix')} ${nameOf(nextInPlan ?? undefined)}`
-              : `${plural(draft.length, t, 'hist_exercise', 'hist_exercises')} · ${plural(totalSets, t, 'hist_set', 'hist_sets_total')}`}
-        </Text>
-        <View style={styles.footerBtns}>
-          {currentId ? (
-            <Pressable
-              style={({ pressed }) => [
-                styles.finishBtn,
-                { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
-              ]}
-              accessibilityRole="button"
-              accessibilityLabel={isLastExercise ? t('sess_done_all') : t('sess_finish')}
-              onPress={finishExercise}
-            >
-              <Text style={[styles.finishBtnText, { color: '#fff' }]}>{t('sess_finish')}</Text>
-            </Pressable>
-          ) : null}
-          <Pressable
-            style={({ pressed }) => [
-              { flex: 1, opacity: draft.length === 0 || saving ? 0.4 : pressed ? 0.85 : 1, transition: 'opacity 90ms ease' },
-            ]}
-            accessibilityRole="button"
-            disabled={draft.length === 0 || saving}
-            onPress={save}
+        {/* Leyenda solo cuando aporta: qué viene después, o el guardado. */}
+        {saved || (currentId && !isLastExercise) ? (
+          <Text
+            style={[styles.footerCaption, { color: saved ? p.green : p.secondary }]}
+            numberOfLines={saved ? 2 : 1}
           >
-            <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
-              <Text style={styles.saveBtnText}>{saving ? t('saving') : isBenchmark ? t('bench_save') : t('sess_save')}</Text>
-            </Gradient>
-          </Pressable>
+            {saved
+              ? `${t('sess_saved')} — ${t('sess_saved_hint')}`
+              : `${t('sess_next_prefix')} ${nameOf(nextInPlan ?? undefined)}`}
+          </Text>
+        ) : null}
+        <View style={styles.footerBtns}>
+          {currentId && !isLastExercise ? (
+            <>
+              {/* Mitad del entreno: "Siguiente ejercicio" es LA acción;
+                  "Terminar" (guardar ya) queda como secundaria discreta. */}
+              <Pressable
+                style={({ pressed }) => [
+                  styles.endBtn,
+                  { borderColor: p.border, opacity: saving ? 0.4 : pressed ? 0.7 : 1 },
+                ]}
+                accessibilityRole="button"
+                accessibilityLabel={isBenchmark ? t('bench_save') : t('sess_save')}
+                disabled={saving}
+                onPress={save}
+              >
+                <Text style={[styles.endBtnText, { color: p.text }]} numberOfLines={1}>
+                  {saving ? t('saving') : t('sess_end')}
+                </Text>
+              </Pressable>
+              <Pressable
+                style={({ pressed }) => [{ flex: 1, opacity: pressed ? 0.85 : 1 }]}
+                accessibilityRole="button"
+                onPress={finishExercise}
+              >
+                <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
+                  <Text style={styles.saveBtnText} numberOfLines={1} adjustsFontSizeToFit>
+                    {t('sess_next_ex')}
+                  </Text>
+                </Gradient>
+              </Pressable>
+            </>
+          ) : (
+            // Último ejercicio (o sesión libre): una sola acción, guardar.
+            <Pressable
+              style={({ pressed }) => [{ flex: 1, opacity: draft.length === 0 || saving ? 0.4 : pressed ? 0.85 : 1 }]}
+              accessibilityRole="button"
+              disabled={draft.length === 0 || saving}
+              onPress={save}
+            >
+              <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
+                <Text style={styles.saveBtnText} numberOfLines={1} adjustsFontSizeToFit>
+                  {saving ? t('saving') : isBenchmark ? t('bench_save') : currentId ? t('sess_finish_save') : t('sess_save')}
+                </Text>
+              </Gradient>
+            </Pressable>
+          )}
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -1548,62 +1619,50 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
-  activeDotWrap: {
+  activeTimeWrap: {
+    flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    borderRadius: 999,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+    alignItems: 'baseline',
+    gap: 8,
+    minWidth: 0,
   },
   activeDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-  },
-  activeLabel: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#fff',
-    letterSpacing: 0.4,
-    textTransform: 'uppercase',
+    alignSelf: 'center',
   },
   activeTime: {
-    flex: 1,
-    fontSize: 15,
+    fontSize: 24,
     fontWeight: '700',
     color: '#fff',
-    textAlign: 'right',
+    letterSpacing: -0.4,
+    fontVariant: ['tabular-nums'],
+  },
+  activeSets: {
+    flexShrink: 1,
+    fontSize: 13,
+    fontWeight: '600',
+    color: 'rgba(255,255,255,0.72)',
   },
   pauseBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255,255,255,0.14)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pauseBtnText: {
-    fontSize: 13,
-    color: '#fff',
-  },
   progressTrack: {
-    height: 6,
-    borderRadius: 3,
+    height: 4,
+    borderRadius: 2,
     backgroundColor: 'rgba(255,255,255,0.15)',
     marginTop: 10,
     overflow: 'hidden',
   },
   progressFill: {
-    height: 6,
-    borderRadius: 3,
-  },
-  progressText: {
-    fontSize: 11,
-    color: 'rgba(255,255,255,0.7)',
-    marginTop: 4,
-    textAlign: 'right',
+    height: 4,
+    borderRadius: 2,
   },
   scroll: {
     flex: 1,
@@ -1613,16 +1672,6 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     // El fondo es el degradado premium (lo pinta App); aquí transparente.
     backgroundColor: 'transparent',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: '700',
-    letterSpacing: -0.6,
-  },
-  sub: {
-    fontSize: 15,
-    marginTop: 4,
-    marginBottom: 16,
   },
   fieldsRow: {
     flexDirection: 'row',
@@ -1642,6 +1691,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 14,
     paddingVertical: 12,
+    marginTop: 16,
     marginBottom: 14,
   },
   detailsSummary: {
@@ -1788,19 +1838,6 @@ const styles = StyleSheet.create({
   suggestSkipText: {
     fontSize: 15,
   },
-  suggestGhost: {
-    marginTop: 10,
-    height: 52,
-    borderRadius: RADII.field,
-    borderWidth: 1.5,
-    borderStyle: 'dashed',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  suggestGhostText: {
-    fontSize: 15,
-    letterSpacing: -0.2,
-  },
   // R-16: hoja de búsqueda
   searchBack: {
     flex: 1,
@@ -1879,21 +1916,116 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
   },
-  saveTitle: {
-    fontSize: 19,
-    fontWeight: '600',
-    marginTop: 22,
-    marginBottom: 10,
-  },
   empty: {
-    fontSize: 14,
-    fontStyle: 'italic',
+    fontSize: 15,
+    textAlign: 'center',
+    paddingVertical: 24,
   },
   draftCard: {
     borderRadius: RADII.tile,
+    borderWidth: 2,
+    padding: 16,
+    marginBottom: 10,
+  },
+  draftPos: {
+    fontSize: 14,
+    fontWeight: '600',
+    fontVariant: ['tabular-nums'],
+    marginLeft: 8,
+  },
+  // Ejercicios que no son el actual: una fila compacta.
+  compactRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    minHeight: 60,
+    borderRadius: RADII.field + 2,
     borderWidth: 1,
-    padding: 14,
-    marginBottom: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    marginBottom: 10,
+  },
+  compactMain: {
+    flex: 1,
+    minWidth: 0,
+  },
+  compactName: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  compactSub: {
+    fontSize: 13,
+    marginTop: 2,
+    fontVariant: ['tabular-nums'],
+  },
+  compactCount: {
+    fontSize: 14,
+    fontWeight: '600',
+    fontVariant: ['tabular-nums'],
+  },
+  compactDone: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  colHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 14,
+  },
+  colHeadNum: {
+    width: 36,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  colHeadField: {
+    flex: 1,
+    fontSize: 12,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  colHeadDone: {
+    width: 48,
+    fontSize: 12,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  setNum: {
+    width: 36,
+    fontSize: 16,
+    fontWeight: '700',
+    fontVariant: ['tabular-nums'],
+    textAlign: 'center',
+  },
+  setActions: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 8,
+  },
+  textBtn: {
+    minHeight: 44,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textBtnLabel: {
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  cardFoot: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    marginTop: 4,
+    marginHorizontal: -4,
+  },
+  footLink: {
+    fontSize: 14,
+    fontWeight: '600',
   },
   draftHeader: {
     flexDirection: 'row',
@@ -2047,7 +2179,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     marginTop: 8,
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
   setFieldWrap: {
     flex: 1,
@@ -2058,13 +2190,13 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   setDoneWrap: {
-    width: 44,
+    width: 48,
     alignItems: 'center',
   },
   doneCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
@@ -2076,94 +2208,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
   },
+  valueBoxCompact: {
+    minHeight: 48,
+    justifyContent: 'center',
+    paddingVertical: 8,
+  },
   valueBoxNum: {
     fontSize: 19,
     fontWeight: '700',
+    fontVariant: ['tabular-nums'],
   },
   valueBoxUnit: {
     fontSize: 12,
     marginTop: 2,
   },
-  setDelWrap: {
-    width: 44,
-    alignItems: 'center',
-  },
-  setRemoveBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(240, 78, 78, 0.12)',
-  },
-  addSet: {
-    marginTop: 10,
-    paddingVertical: 10,
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  addSetText: {
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  // ---- Foco en el ejercicio actual ----
-  focusStrip: {
-    marginBottom: 10,
-    padding: 10,
-    borderRadius: 12,
-    backgroundColor: 'rgba(255,255,255,0.05)',
+  // Footer: "Terminar" secundario (contorno) junto a la acción principal.
+  endBtn: {
+    minHeight: 52,
+    borderRadius: RADII.tile,
     borderWidth: 1,
-    borderLeftWidth: 3,
-  },
-  nowWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  nowDot: {
-    width: 9,
-    height: 9,
-    borderRadius: 5,
-  },
-  nowText: {
-    fontSize: 13,
-    fontWeight: '800',
-    letterSpacing: 0.5,
-    textTransform: 'uppercase',
-  },
-  posText: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  nextLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  nextName: {
-    fontSize: 13,
-    fontWeight: '700',
-    flexShrink: 1,
-  },
-  finishBtn: {
-    borderRadius: 12,
-    paddingVertical: 12,
     paddingHorizontal: 18,
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  finishBtnText: {
-    fontSize: 15,
-    fontWeight: '800',
-  },
-  goBtn: {
-    marginTop: 10,
-    borderRadius: 12,
-    borderWidth: 1,
-    paddingVertical: 10,
-    alignItems: 'center',
-  },
-  goBtnText: {
-    fontSize: 13,
-    fontWeight: '700',
+  endBtnText: {
+    fontSize: 16,
+    fontWeight: '600',
   },
   postponedCard: {
     borderRadius: RADII.tile,
@@ -2269,7 +2339,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalBack: {
-    ...StyleSheet.absoluteFill,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: 'rgba(0,0,0,0.5)',
     alignItems: 'center',
     justifyContent: 'center',
@@ -2319,7 +2393,7 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   footerCaption: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
   },
   footerBtns: {
@@ -2337,13 +2411,14 @@ const styles = StyleSheet.create({
     borderRadius: RADII.tile,
   },
   saveBtn: {
-    paddingVertical: 14,
-    paddingHorizontal: 26,
+    minHeight: 52,
+    paddingHorizontal: 20,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   saveBtnText: {
-    fontSize: 15,
-    fontWeight: '600',
+    fontSize: 17,
+    fontWeight: '700',
     color: '#ffffff',
   },
 });

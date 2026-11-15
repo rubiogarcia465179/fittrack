@@ -2,42 +2,46 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { LANGS, LANG_LABELS, type Lang } from '../i18n';
 import { useTheme } from '../theme-context';
 
-/** Botones NL/ES/EN/FR — conmutación instantánea (bundles embebidos, 0 red).
- *  Feedback táctil inmediato (escala al pulsar) y estado activo nítido. */
+/** Selector de idioma — conmutación instantánea (bundles embebidos, 0 red).
+ *  Vive en Perfil (ajuste, no navegación). `full` muestra el nombre del
+ *  idioma en su propia lengua ("Español"), como en Ajustes de iOS. */
 export default function LangSwitcher({
   lng,
   onPick,
+  full = false,
 }: {
   lng: Lang;
   onPick: (l: Lang) => void;
+  full?: boolean;
 }) {
   const { p } = useTheme();
   return (
-    <View style={styles.row} accessibilityLabel="Idioma">
+    <View style={[styles.row, full && styles.rowFull]} accessibilityRole="radiogroup">
       {LANGS.map((l) => {
         const active = lng === l;
         return (
           <Pressable
             key={l}
-            accessibilityRole="button"
+            accessibilityRole="radio"
             accessibilityLabel={LANG_LABELS[l]}
-            accessibilityState={{ selected: active }}
+            accessibilityState={{ checked: active }}
             android_ripple={{ color: p.accent + '33' }}
             onPress={() => onPick(l)}
-            onPressIn={() => {}}
             style={({ pressed }) => [
               styles.chip,
+              full && styles.chipFull,
               {
                 backgroundColor: active ? p.accent : p.chipOff,
                 borderColor: active ? p.accent : p.border,
-                transform: [{ scale: pressed ? 0.92 : 1 }],
-                transition: 'transform 90ms ease, background-color 120ms ease',
+                transform: [{ scale: pressed ? 0.95 : 1 }],
               },
-              active && styles.chipActive,
             ]}
           >
-            <Text style={[styles.chipText, { color: active ? '#fff' : p.secondary }]} numberOfLines={1}>
-              {l.toUpperCase()}
+            <Text
+              style={[styles.chipText, full && styles.chipTextFull, { color: active ? '#fff' : p.text }]}
+              numberOfLines={1}
+            >
+              {full ? LANG_LABELS[l] : l.toUpperCase()}
             </Text>
           </Pressable>
         );
@@ -51,6 +55,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 6,
   },
+  rowFull: {
+    flexWrap: 'wrap',
+    gap: 8,
+  },
   chip: {
     paddingHorizontal: 11,
     paddingVertical: 6,
@@ -59,10 +67,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  chipActive: {},
+  chipFull: {
+    minHeight: 44,
+    paddingHorizontal: 16,
+  },
   chipText: {
     fontSize: 12,
     fontWeight: '700',
     letterSpacing: 0.3,
+  },
+  chipTextFull: {
+    fontSize: 15,
+    fontWeight: '600',
+    letterSpacing: 0,
   },
 });

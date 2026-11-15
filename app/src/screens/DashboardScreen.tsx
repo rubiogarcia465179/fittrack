@@ -1,11 +1,15 @@
+/**
+ * Resumen (pestaña de inicio).
+ *
+ * Una pantalla, un trabajo: empezar (o continuar) el entreno y ver cómo va
+ * la semana. Arriba solo lo esencial — la acción principal, "Esta semana"
+ * (sesiones · volumen · racha), la gráfica semanal y las últimas sesiones —
+ * y todo lo demás (grupos musculares, marcas 1RM, calendario, peso
+ * corporal) detrás de "Más estadísticas" (divulgación progresiva, estilo
+ * Salud/Fitness de iOS). Idioma y "Tus datos" viven en Perfil.
+ */
 import { useMemo, useState } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Pressable,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { ExerciseRow } from '../lib/gym';
 import type { Session } from '../store';
@@ -26,70 +30,55 @@ import { useScale, fs } from '../scale';
 import BarChart, { type Bar } from '../components/BarChart';
 import { EmptyMarkGlyph } from '../components/TabIcon';
 import { MonthCalendar, type DayStat } from '../components/Calendar';
-import { DataSection } from '../components/DataSection';
-import { plural } from '../lib/plural';
-import { ExerciseGlyph } from './SessionScreen';
+import { ExerciseGlyph, fmtDay } from './SessionScreen';
 
 export default function DashboardScreen({
   exercises,
   sessions,
   benchmarks,
-  onOpenExercise,
+  activeWorkout,
   onOpenHistory,
   onStartSession,
-  onStartWorkout,
-  onExport,
-  onClearAll,
-  onDataChanged,
 }: {
   exercises: ExerciseRow[];
   sessions: Session[]; // ordenadas de más reciente a más antigua
   benchmarks: { name_en: string; name_nl: string; estimated_1rm: number }[];
-  onOpenExercise: (id: string) => void;
+  /** Hay un entreno en curso: la acción principal pasa a "Continuar". */
+  activeWorkout: boolean;
   onOpenHistory: () => void;
   onStartSession: () => void;
-  onStartWorkout: () => void;
-  onExport: () => Promise<string>;
-  onClearAll: () => Promise<void>;
-  onDataChanged: () => void;
 }) {
   const { t, i18n } = useTranslation();
   const { p, SHADOW } = useTheme();
   const scale = useScale();
+  const lang = i18n.language as string;
+
+  const [moreOpen, setMoreOpen] = useState(false);
 
   // Calendario de actividad: mes actual por defecto, navegable mes a mes.
   const todayD = new Date();
   const [calM, setCalM] = useState<number>(todayD.getMonth());
   const [calY, setCalY] = useState<number>(todayD.getFullYear());
-
   const goPrev = () => {
     if (calM === 0) {
       setCalM(11);
       setCalY((y) => y - 1);
-    } else {
-      setCalM((m) => m - 1);
-    }
+    } else setCalM((m) => m - 1);
   };
   const goNext = () => {
     if (calM === 11) {
       setCalM(0);
       setCalY((y) => y + 1);
-    } else {
-      setCalM((m) => m + 1);
-    }
+    } else setCalM((m) => m + 1);
   };
   const goToday = () => {
     setCalM(todayD.getMonth());
     setCalY(todayD.getFullYear());
   };
 
-  // Días con actividad -> nº de series (verde = entrenaste, rojo = no).
   const dayMap = useMemo(() => {
     const m: Record<string, DayStat> = {};
-    for (const s of sessions) {
-      const sets = sessionSets(s);
-      m[s.date] = { sets: (m[s.date]?.sets ?? 0) + sets };
-    }
+    for (const s of sessions) m[s.date] = { sets: (m[s.date]?.sets ?? 0) + sessionSets(s) };
     return m;
   }, [sessions]);
 
@@ -101,285 +90,445 @@ export default function DashboardScreen({
   const prs = sessions.length ? newPrs(sessions[0], sessions).length : 0;
   const weight = latestWeight(sessions);
 
-  const groupBars: Bar[] = Object.entries(groupTotals(sessions, exercises, 7)).map(
-    ([g, v]) => ({
-      label: t(`group_${g}`),
-      value: v,
-      color: GROUP_COLORS[g] || p.dim,
-    }),
-  );
-  const weekBars: Bar[] = weekVolume.map((w) => ({
-    label: w.week_start.slice(5),
-    value: w.volume,
+  const groupBars: Bar[] = Object.entries(groupTotals(sessions, exercises, 7)).map(([g, v]) => ({
+    label: t(`group_${g}`),
+    value: v,
+    color: GROUP_COLORS[g] || p.dim,
   }));
+  const weekBars: Bar[] = weekVolume.map((w) => ({ label: w.week_start.slice(5), value: w.volume }));
 
-  const lang = i18n.language as string;
   const nameOf = (e?: { name_en: string; name_nl: string }) =>
     e ? (lang === 'nl' ? e.name_nl || e.name_en : e.name_en) : '';
-  const benchName = (b: { name_en: string; name_nl: string }) =>
-    lang === 'nl' ? b.name_nl || b.name_en : b.name_en;
+  const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
+
+  const card = { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card };
+  const hasData = sessions.length > 0;
 
   return (
-    <ScrollView contentContainerStyle={[styles.body, { backgroundColor: p.bg }]}>
-      <Text style={[styles.title, { fontSize: fs(scale, 32), color: p.text }]} numberOfLines={1}>
+    <ScrollView contentContainerStyle={styles.body}>
+      <Text
+        style={[styles.title, { fontSize: fs(scale, 34), color: p.text }]}
+        numberOfLines={1}
+        accessibilityRole="header"
+      >
         {t('dash_title')}
       </Text>
-      <Text style={[styles.sub, { color: p.secondary }]}>{t('dash_sub')}</Text>
 
-      {sessions.length === 0 ? (
-        <View style={[styles.emptyCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
+      {!hasData ? (
+        // ---- Primer uso: un único mensaje y una única acción ----
+        <View style={[styles.emptyCard, card]}>
           <View style={[styles.emptyMark, { backgroundColor: p.section }]}>
             <EmptyMarkGlyph size={30} />
           </View>
           <Text style={[styles.emptyTitle, { color: p.text }]}>{t('dash_no_sessions')}</Text>
-          <Text style={[styles.emptyHint, { color: p.dim }]}>{t('dash_empty_hint')}</Text>
-          <Pressable
-            style={({ pressed }) => [styles.cta, { opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease', backgroundColor: p.accent }]}
-            accessibilityRole="button"
+          <Text style={[styles.emptyHint, { color: p.secondary }]}>{t('dash_empty_hint')}</Text>
+          <PrimaryButton
+            label={activeWorkout ? t('dash_continue') : t('hero_cta_session')}
             onPress={onStartSession}
-          >
-            <Text style={styles.ctaText}>{t('hero_cta_session')}</Text>
-          </Pressable>
+            style={{ marginTop: 20, alignSelf: 'stretch' }}
+          />
         </View>
       ) : (
         <>
-          <View style={styles.statGrid}>
-            <Stat value={Math.round(volumeThisWeek).toLocaleString(lang)} label={t('stat_weekly_volume')} scale={scale} />
-            <Stat value={String(sessionsThisWeek)} label={t('stat_weekly_sessions')} scale={scale} />
-            <Stat value={String(streak)} label={t('stat_streak')} scale={scale} />
-            <Stat value={String(prs)} label={t('stat_pr')} accent={prs > 0} scale={scale} />
-          </View>
+          {/* ---- Acción principal (siempre a la vista) ---- */}
+          <PrimaryButton
+            label={activeWorkout ? t('dash_continue') : t('hero_cta_session')}
+            onPress={onStartSession}
+            live={activeWorkout}
+          />
 
-          <View style={[styles.weightRow, { backgroundColor: p.section }]}>
-            <Text style={[styles.statLabel, { color: p.secondary }]}>{t('stat_weight')}</Text>
-            <Text style={[styles.weightValue, { color: p.text }]}>
-              {weight ? `${weight.toLocaleString(lang)} kg` : t('dash_no_weight')}
-            </Text>
+          {/* ---- Esta semana: tres cifras, una fila ---- */}
+          <SectionHeader title={t('dash_this_week')} />
+          <View style={[styles.weekCard, card]}>
+            <Metric value={String(sessionsThisWeek)} label={t('stat_sessions_short')} />
+            <View style={[styles.vRule, { backgroundColor: p.cardBorder }]} />
+            <Metric value={Math.round(volumeThisWeek).toLocaleString(lang)} label={t('stat_volume_short')} />
+            <View style={[styles.vRule, { backgroundColor: p.cardBorder }]} />
+            <Metric value={String(streak)} label={t('stat_streak_short')} />
           </View>
+          {prs > 0 ? (
+            <Text style={[styles.prLine, { color: p.green }]}>{t('dash_prs_line', { n: prs })}</Text>
+          ) : null}
 
+          <View style={styles.chartGap} />
           <BarChart title={t('dash_volume_7d')} data={weekBars} height={100} emptyText={t('dash_no_sessions')} />
 
-          <BarChart
-            title={t('dash_groups')}
-            data={groupBars}
-            emptyText={t('dash_no_sessions')}
-            height={84}
-          />
+          {/* ---- Últimas sesiones: lista agrupada (estilo iOS) ---- */}
+          <SectionHeader title={t('dash_recent')} action={t('dash_see_all')} onAction={onOpenHistory} />
+          <View style={[styles.group, card]}>
+            {sessions.slice(0, 3).map((s, i) => {
+              const names = s.exercises
+                .map((ex) => nameOf(byId.get(ex.exercise_id)))
+                .filter(Boolean)
+                .join(', ');
+              return (
+                <Pressable
+                  key={s.id}
+                  onPress={onOpenHistory}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${fmtDay(s.date, lang)}, ${Math.round(sessionVolume(s))} kg. ${names}`}
+                  style={({ pressed }) => [
+                    styles.row,
+                    i > 0 && { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: p.cardBorder },
+                    { backgroundColor: pressed ? p.section : 'transparent' },
+                  ]}
+                >
+                  <View style={styles.rowMain}>
+                    <Text style={[styles.rowTitle, { color: p.text }]}>{fmtDay(s.date, lang)}</Text>
+                    <Text style={[styles.rowSub, { color: p.secondary }]} numberOfLines={1}>
+                      {names}
+                    </Text>
+                  </View>
+                  <Text style={[styles.rowValue, { color: p.text }]}>
+                    {Math.round(sessionVolume(s)).toLocaleString(lang)} kg
+                  </Text>
+                  <Chevron color={p.dim} />
+                </Pressable>
+              );
+            })}
+          </View>
 
-          <Text style={[styles.sectionTitle, { color: p.text }]}>{t('dash_recent')}</Text>
-          {sessions.slice(0, 3).map((s) => (
-            <Pressable
-              key={s.id}
-              style={({ pressed }) => [styles.recentRow, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card, transform: [{ scale: pressed ? 0.99 : 1 }], transition: 'transform 90ms ease' }]}
-              accessibilityRole="button"
-              accessibilityLabel={`${s.date}`}
-              onPress={onOpenHistory}
-            >
-              <View style={styles.recentLeft}>
-                <Text style={[styles.recentDate, { color: p.text }]}>{s.date}</Text>
-                <Text style={[styles.recentMeta, { color: p.secondary }]} numberOfLines={1}>
-                  {plural(s.exercises.length, t, 'hist_exercise', 'hist_exercises')} · {plural(sessionSets(s), t, 'hist_set', 'hist_sets_total')}
-                </Text>
-              </View>
-              <View style={styles.recentRight} accessibilityElementsHidden>
-                <Text style={[styles.recentVolume, { color: p.accent }]}>
-                  {Math.round(sessionVolume(s)).toLocaleString(lang)} kg
-                </Text>
-                <Text style={[styles.recentNames, { color: p.dim }]} numberOfLines={1}>
-                  {s.exercises
-                    .map((ex) => nameOf(exercises.find((e) => e.id === ex.exercise_id)))
-                    .filter(Boolean)
-                    .join(', ')}
-                </Text>
-              </View>
-            </Pressable>
-          ))}
+          {/* ---- Más estadísticas: plegado por defecto ---- */}
           <Pressable
-            style={({ pressed }) => [styles.historyLink, { opacity: pressed ? 0.6 : 1, transition: 'opacity 90ms ease' }]}
+            onPress={() => setMoreOpen((o) => !o)}
             accessibilityRole="button"
-            onPress={onOpenHistory}
+            accessibilityState={{ expanded: moreOpen }}
+            style={({ pressed }) => [styles.group, styles.row, styles.moreRow, card, { opacity: pressed ? 0.8 : 1 }]}
           >
-            <Text style={[styles.historyLinkText, { color: p.accent }]}>{t('hist_title')} →</Text>
+            <Text style={[styles.moreText, { color: p.accent }]}>
+              {moreOpen ? t('dash_less') : t('dash_more')}
+            </Text>
+            <Chevron color={p.accent} dir={moreOpen ? 'up' : 'down'} />
           </Pressable>
-        </>
-      )}
 
-      {/* Benchmarks: resultados de fuerza guardados (tarea 2). */}
-      <View style={[styles.benchCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card, marginTop: 16 }]}>
-        <View style={styles.calendarHead}>
-          <View style={{ flex: 1 }}>
-            <Text style={[styles.calendarTitle, { color: p.text }]}>{t('bench_title')}</Text>
-            <Text style={[styles.calendarSub, { color: p.secondary }]}>{t('bench_sub')}</Text>
-          </View>
-        </View>
-        {benchmarks.length === 0 ? (
-          <View style={styles.benchEmpty}>
-            <ExerciseGlyph label="bench" size={34} color={p.accent} />
-            <Text style={[styles.emptyHint, { color: p.dim }]}>{t('bench_empty')}</Text>
-            <Pressable
-              style={({ pressed }) => [styles.benchCta, { opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' }]}
-              accessibilityRole="button"
-              accessibilityLabel={t('bench_start')}
-              onPress={onStartWorkout}
-            >
-              <Text style={[styles.benchCtaText, { color: p.accent }]}>{t('bench_start')}</Text>
-            </Pressable>
-          </View>
-        ) : (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.benchRow}>
-            {benchmarks.map((b) => (
-              <View key={b.name_en} style={styles.benchChip}>
-                <Text style={[styles.benchChipName, { color: p.text }]} numberOfLines={1}>{benchName(b)}</Text>
-                <View style={[styles.benchChipValRow, { backgroundColor: p.section }]}>
-                  <Text style={[styles.benchChipVal, { color: p.accent }]}>{b.estimated_1rm} kg</Text>
-                  <Text style={[styles.benchChipUnit, { color: p.dim }]}>1RM</Text>
+          {moreOpen ? (
+            <View style={styles.moreBody}>
+              <BarChart title={t('dash_groups')} data={groupBars} emptyText={t('dash_no_sessions')} height={84} />
+
+              <View style={[styles.panel, card]}>
+                <Text style={[styles.panelTitle, { color: p.text }]}>{t('bench_title')}</Text>
+                {benchmarks.length === 0 ? (
+                  <View style={styles.benchEmpty}>
+                    <ExerciseGlyph label="bench" size={30} color={p.accent} />
+                    <Text style={[styles.emptyHint, { color: p.secondary, marginTop: 0 }]}>{t('bench_empty')}</Text>
+                  </View>
+                ) : (
+                  benchmarks.map((b, i) => (
+                    <View
+                      key={b.name_en}
+                      style={[
+                        styles.benchRow,
+                        i > 0 && { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: p.cardBorder },
+                      ]}
+                    >
+                      <Text style={[styles.benchName, { color: p.text }]} numberOfLines={1}>
+                        {nameOf(b)}
+                      </Text>
+                      <Text style={[styles.benchVal, { color: p.text }]}>
+                        {b.estimated_1rm} kg <Text style={{ color: p.secondary, fontWeight: '600' }}>1RM</Text>
+                      </Text>
+                    </View>
+                  ))
+                )}
+              </View>
+
+              <View style={[styles.panel, card]}>
+                <Text style={[styles.panelTitle, { color: p.text }]}>{t('dash_calendar')}</Text>
+                <MonthCalendar
+                  lang={lang}
+                  month={calM}
+                  year={calY}
+                  onPrev={goPrev}
+                  onNext={goNext}
+                  onToday={goToday}
+                  today={{ y: todayD.getFullYear(), m: todayD.getMonth(), d: todayD.getDate() }}
+                  days={dayMap}
+                  todayLabel={t('cal_today')}
+                />
+                <View style={styles.legend}>
+                  <View style={styles.legendRow}>
+                    <View style={[styles.legendDot, { backgroundColor: '#34c759' }]} />
+                    <Text style={[styles.legendText, { color: p.secondary }]}>{t('cal_exercised')}</Text>
+                  </View>
+                  <View style={styles.legendRow}>
+                    <View style={[styles.legendDot, { backgroundColor: '#fdeae8', borderWidth: 1, borderColor: '#f2b8b4' }]} />
+                    <Text style={[styles.legendText, { color: p.secondary }]}>{t('cal_rest')}</Text>
+                  </View>
                 </View>
               </View>
-            ))}
-          </ScrollView>
-        )}
-      </View>
 
-      {sessions.length > 0 ? (
-        <View style={[styles.calendarCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
-          <View style={styles.calendarHead}>
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.calendarTitle, { color: p.text }]}>{t('dash_calendar')}</Text>
-              <Text style={[styles.calendarSub, { color: p.secondary }]}>{t('cal_sub')}</Text>
+              <View style={[styles.group, styles.row, card]}>
+                <Text style={[styles.rowTitle, { color: p.text, flex: 1 }]}>{t('stat_weight')}</Text>
+                <Text style={[styles.rowValue, { color: weight ? p.text : p.secondary }]}>
+                  {weight ? `${weight.toLocaleString(lang)} kg` : '—'}
+                </Text>
+              </View>
             </View>
-          </View>
-          <MonthCalendar
-            lang={lang}
-            month={calM}
-            year={calY}
-            onPrev={goPrev}
-            onNext={goNext}
-            onToday={goToday}
-            today={{ y: todayD.getFullYear(), m: todayD.getMonth(), d: todayD.getDate() }}
-            days={dayMap}
-            todayLabel={t('cal_today')}
-          />
-          <View style={styles.legend}>
-            <View style={styles.legendRow}>
-              <View style={[styles.legendDot, { backgroundColor: '#34c759' }]} />
-              <Text style={[styles.legendText, { color: p.secondary }]}>{t('cal_exercised')}</Text>
-            </View>
-            <View style={styles.legendRow}>
-              <View style={[styles.legendDot, { backgroundColor: '#fdeae8', borderWidth: 1, borderColor: '#f2b8b4' }]} />
-              <Text style={[styles.legendText, { color: p.secondary }]}>{t('cal_rest')}</Text>
-            </View>
-          </View>
-        </View>
-      ) : null}
-
-      <DataSection t={t} onExport={onExport} onClear={onClearAll} onDone={onDataChanged} />
+          ) : null}
+        </>
+      )}
     </ScrollView>
   );
 }
 
-function Stat({
-  value,
+/** Botón principal: acento sólido, ancho completo, 52 pt de alto. */
+function PrimaryButton({
   label,
-  accent = false,
-  scale,
+  onPress,
+  live = false,
+  style,
 }: {
-  value: string;
   label: string;
-  accent?: boolean;
-  scale: number;
+  onPress: () => void;
+  /** Entreno en curso: punto verde "en vivo" delante del texto. */
+  live?: boolean;
+  style?: object;
 }) {
-  const { p, SHADOW } = useTheme();
+  const { p } = useTheme();
   return (
-    <View style={[styles.stat, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
-      <Text
-        style={[
-          styles.statValue,
-          { fontSize: fs(scale, 26), color: p.text },
-          accent && { color: p.green },
-        ]}
-        numberOfLines={1}
-      >
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.primary,
+        { backgroundColor: p.accent, opacity: pressed ? 0.88 : 1, transform: [{ scale: pressed ? 0.985 : 1 }] },
+        style,
+      ]}
+    >
+      {live ? <View style={styles.liveDot} /> : null}
+      <Text style={styles.primaryText} numberOfLines={1}>
+        {label}
+      </Text>
+    </Pressable>
+  );
+}
+
+function SectionHeader({ title, action, onAction }: { title: string; action?: string; onAction?: () => void }) {
+  const { p } = useTheme();
+  return (
+    <View style={styles.sectionHead}>
+      <Text style={[styles.sectionTitle, { color: p.text }]} accessibilityRole="header">
+        {title}
+      </Text>
+      {action && onAction ? (
+        <Pressable
+          onPress={onAction}
+          accessibilityRole="button"
+          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
+        >
+          <Text style={[styles.sectionAction, { color: p.accent }]}>{action}</Text>
+        </Pressable>
+      ) : null}
+    </View>
+  );
+}
+
+function Metric({ value, label }: { value: string; label: string }) {
+  const { p } = useTheme();
+  const scale = useScale();
+  return (
+    <View style={styles.metric} accessible accessibilityLabel={`${value} ${label}`}>
+      <Text style={[styles.metricValue, { fontSize: fs(scale, 26), color: p.text }]} numberOfLines={1} adjustsFontSizeToFit>
         {value}
       </Text>
-      <Text style={[styles.statLabel, { color: p.secondary }]} numberOfLines={2}>
+      <Text style={[styles.metricLabel, { color: p.secondary }]} numberOfLines={1}>
         {label}
       </Text>
     </View>
   );
 }
 
+/** Chevron dibujado (sin glifos de fuente: no hay "tofu" en ningún equipo). */
+export function Chevron({ color, dir = 'right' }: { color: string; dir?: 'right' | 'down' | 'up' }) {
+  const rot = dir === 'right' ? '45deg' : dir === 'down' ? '135deg' : '-45deg';
+  return (
+    <View style={styles.chevWrap} accessibilityElementsHidden importantForAccessibility="no">
+      <View style={[styles.chev, { borderColor: color, transform: [{ rotate: rot }] }]} />
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   body: {
-    padding: 16,
-    paddingBottom: 24,
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 32,
   },
   title: {
-    fontSize: 30,
     fontWeight: '700',
-    letterSpacing: -0.6,
+    letterSpacing: -0.8,
+    marginBottom: 16,
   },
-  sub: {
-    fontSize: 14,
-    marginTop: 4,
-    marginBottom: 14,
-  },
-  heroCta: {
-    borderRadius: RADII.tile,
-    paddingVertical: 16,
-    paddingHorizontal: 18,
-    marginBottom: 18,
-  },
-  heroRow: {
+  primary: {
+    height: 52,
+    borderRadius: 14,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  heroText: {
-    fontSize: 18,
-    fontWeight: '700',
-    letterSpacing: -0.3,
-  },
-  heroArrow: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#fff',
-  },
-  statGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    justifyContent: 'center',
     gap: 10,
-    marginBottom: 12,
+    paddingHorizontal: 20,
   },
-  stat: {
-    flexBasis: '47%',
-    flexGrow: 1,
+  primaryText: {
+    color: '#fff',
+    fontSize: 17,
+    fontWeight: '700',
+    letterSpacing: -0.2,
+  },
+  liveDot: {
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+    backgroundColor: '#30D158',
+  },
+  sectionHead: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    marginTop: 28,
+    marginBottom: 10,
+    paddingHorizontal: 4,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    letterSpacing: -0.4,
+  },
+  sectionAction: {
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  weekCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderRadius: RADII.tile,
     borderWidth: 1,
-    padding: 14,
+    paddingVertical: 16,
   },
-  statValue: {
-    fontSize: 26,
+  metric: {
+    flex: 1,
+    alignItems: 'center',
+    paddingHorizontal: 6,
+  },
+  metricValue: {
     fontWeight: '700',
     letterSpacing: -0.5,
+    fontVariant: ['tabular-nums'],
   },
-  statLabel: {
-    fontSize: 12,
+  metricLabel: {
+    fontSize: 13,
     marginTop: 2,
   },
-  weightRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderRadius: RADII.tile,
-    padding: 14,
-    marginBottom: 14,
+  vRule: {
+    width: StyleSheet.hairlineWidth,
+    alignSelf: 'stretch',
+    marginVertical: 4,
   },
-  weightValue: {
+  prLine: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginTop: 10,
+    paddingHorizontal: 4,
+  },
+  chartGap: {
+    height: 12,
+  },
+  group: {
+    borderRadius: RADII.tile,
+    borderWidth: 1,
+    overflow: 'hidden',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    minHeight: 56,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+  },
+  rowMain: {
+    flex: 1,
+    minWidth: 0,
+  },
+  rowTitle: {
     fontSize: 16,
     fontWeight: '600',
   },
+  rowSub: {
+    fontSize: 13,
+    marginTop: 2,
+  },
+  rowValue: {
+    fontSize: 15,
+    fontWeight: '600',
+    fontVariant: ['tabular-nums'],
+  },
+  moreRow: {
+    marginTop: 16,
+    justifyContent: 'center',
+  },
+  moreText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  moreBody: {
+    gap: 12,
+    marginTop: 12,
+  },
+  panel: {
+    borderRadius: RADII.tile,
+    borderWidth: 1,
+    padding: 16,
+  },
+  panelTitle: {
+    fontSize: 17,
+    fontWeight: '700',
+    marginBottom: 10,
+  },
+  benchEmpty: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  benchRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    gap: 12,
+  },
+  benchName: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  benchVal: {
+    fontSize: 15,
+    fontWeight: '700',
+    fontVariant: ['tabular-nums'],
+  },
+  legend: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 20,
+    marginTop: 12,
+  },
+  legendRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  legendDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  legendText: {
+    fontSize: 13,
+    fontWeight: '600',
+  },
   emptyCard: {
-    borderRadius: RADII.tile + 4,
+    borderRadius: RADII.card,
     borderWidth: 1,
     padding: 28,
     alignItems: 'center',
@@ -395,168 +544,24 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 17,
     fontWeight: '600',
-  },
-  emptyHint: {
-    fontSize: 13,
-    marginTop: 6,
     textAlign: 'center',
   },
-  cta: {
-    marginTop: 18,
-    borderRadius: RADII.tile,
-    paddingVertical: 14,
-    alignItems: 'center',
-    width: '100%',
+  emptyHint: {
+    fontSize: 14,
+    marginTop: 6,
+    textAlign: 'center',
+    flexShrink: 1,
   },
-  ctaText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#ffffff',
-    letterSpacing: 0.2,
-  },
-  sectionTitle: {
-    fontSize: 17,
-    fontWeight: '600',
-    marginTop: 14,
-    marginBottom: 8,
-  },
-  calendarCard: {
-    borderRadius: RADII.tile,
-    borderWidth: 1,
-    padding: 16,
-    marginTop: 22,
-  },
-  calendarHead: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  calendarTitle: {
-    fontSize: 19,
-    fontWeight: '700',
-  },
-  calendarSub: {
-    fontSize: 13,
-    marginTop: 3,
-  },
-  legend: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 20,
-    marginTop: 14,
-  },
-  legendRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  legendDot: {
+  chevWrap: {
     width: 14,
     height: 14,
-    borderRadius: 7,
-  },
-  legendText: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  recentRow: {
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    borderRadius: 14,
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 7,
+    justifyContent: 'center',
   },
-  recentLeft: {
-    flexShrink: 1,
-    paddingRight: 8,
-  },
-  recentDate: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  recentMeta: {
-    fontSize: 12,
-    marginTop: 2,
-    maxWidth: 130,
-  },
-  recentRight: {
-    marginLeft: 10,
-    maxWidth: 150,
-  },
-  recentVolume: {
-    fontSize: 14,
-    fontWeight: '600',
-    textAlign: 'right',
-  },
-  recentNames: {
-    fontSize: 11,
-    marginTop: 2,
-    textAlign: 'right',
-  },
-  historyLink: {
-    alignSelf: 'flex-start',
-    marginTop: 4,
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-  },
-  historyLinkText: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  benchCard: {
-    borderRadius: RADII.tile,
-    borderWidth: 1,
-    padding: 16,
-  },
-  benchEmpty: {
-    alignItems: 'center',
-    paddingVertical: 8,
-    gap: 10,
-  },
-  benchCta: {
-    borderRadius: 999,
-    borderWidth: 1.5,
-    borderColor: '#D9541E',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  benchCtaText: {
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  benchRow: {
-    gap: 10,
-    paddingVertical: 2,
-  },
-  benchChip: {
-    backgroundColor: '#fff',
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#e6dfd2',
-    padding: 12,
-    maxWidth: 150,
-  },
-  benchChipName: {
-    fontSize: 13,
-    fontWeight: '600',
-    marginBottom: 6,
-  },
-  benchChipValRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 6,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-  },
-  benchChipVal: {
-    fontSize: 17,
-    fontWeight: '700',
-  },
-  benchChipUnit: {
-    fontSize: 11,
-    fontWeight: '600',
+  chev: {
+    width: 8,
+    height: 8,
+    borderTopWidth: 2,
+    borderRightWidth: 2,
   },
 });

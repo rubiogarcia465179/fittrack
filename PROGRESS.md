@@ -1,102 +1,50 @@
 # PROGRESS
 
-Estado del proyecto FitTrack. El agente actualiza este archivo al cerrar cada
-tarea.
+Estado de FitTrack y cómo se verificó. Se actualiza al cerrar cada tarea;
+la historia completa está en el **Log** (abajo) y en git.
 
-## Estado actual
-- [x] Fase 0 — Estructura del repo: AGENTS/SPEC/PROGRESS/TASKS/README +
-      .gitignore, git init + commits.
-- [x] Fase 1 — Datos: **226 ejercicios (source: real, wger CC-BY-SA)** + 226
-      imágenes + scripts (sync/fetch-PyPI/generadores) + i18n 4 bundles.
-- [x] Fase 2 — Web (Astro): **231 páginas**, diseño **apple.com** (home hero +
-      2×2 tiles + franja gris; nav responsive con hamburguesa; /dashboard/).
-- [x] Fase 3 — App (Expo): 4 pestañas + AsyncStorage + tsc 0 errores +
-      bundle Metro OK; lock versionado (npm ci en el host).
-- [x] Fase 4 — i18n: 4 bundles (nl/es/en/fr), **105 claves**, conmutación
-      instantánea sin red; fix de botones en el <head> (DOMContentLoaded).
-- [x] Fase 5 — QA: `tests/run.js` 78/78 + **`tests/runtime.js` 35/35**
-      (DOM emulado sobre dist/: filtros, guardar/borrar sesión, dashboard).
-- [x] Fase 6 — Datos reales: base REAL de wger (226) vía PyPI. ⛔ Solo fotos
-      reales: **static.wger.de ya no existe en DNS** (no es proxy).
-- [x] Fix raíz de la web interactiva (commit b7ecefe): los scripts de página
-      morían (SyntaxError + import 404) → filtros, sesión y dashboard estaban
-      muertos. Fix: `define:vars` + global `window.FTGym`.
-- [x] App → **Expo SDK 58** (2026-11-07): Expo Go de la App Store solo
-      soporta SDK 58, la app estaba en SDK 51. React 19.3.0, RN 0.88.1,
-      react-native-web 0.21.4, async-storage 2.2.0, @types/react ~19.3.0,
-      typescript ~6.0.3. `expo install --check` → "Dependencies are up to
-      date"; `tsc --noEmit` → 0 errores; iPhone (Expo Go) → "iOS Bundled
-      index.ts (982 modules)". i18next con `compatibilityJSON: 'v3'` (Hermes
-      sin Intl.PluralRules). Sin ejecutar tras la subida: `bundle-check.js`,
-      `tests/run.js`. Pendiente: SafeAreaView (deprecado en RN 0.88) →
-      `react-native-safe-area-context`.
-- [ ] **Fase 7 — Sync en la nube (Supabase)**: ⏸ EN ESPERA — decisión del
-      usuario 2026-11-08: la v1 se publica con datos SOLO locales
-      (AsyncStorage). Retomarse cuando el usuario lo pida. Ver TASKS.md.
+## Estado actual (2026-11-15)
 
-## Verificaciones (output real)
-- 2026-10-31 — Web: `npm run build` → "65 page(s) built in 2.88s", exit 0.
-  `npm run preview -- --host --port 4322` → HTTP 200 en `/`, `/exercises/`,
-  `/session/`, `/history/`, `/favicon.svg`, `/js/i18n.js`, `/js/store.js`,
-  las 61 páginas `/exercises/<id>/` y los 129 assets únicos referenciados
-  por las páginas (0 fallos). SSR en español por defecto verificado
-  (textos + base embebida en el HTML); i18n.js sin defer en el `<head>`.
-- 2026-10-31 — App (Expo 51 / RN 0.74): `tsc --noEmit` → 0 errores.
-  Bundle Metro de extremo a extremo (`app/bundle-check.js`, `Metro.runBuild`)
-  → `BUNDLE_OK bytes=3077046` (61 imágenes + 4 bundles i18n + base embebidos).
-  4 pestañas + pantalla de detalle; persistencia AsyncStorage; sin
-  `react-native-svg` (barras con `View`, igual que la web).
-- 2026-10-31 — QA: `node tests/run.js` → 78/78 comprobaciones, 0 fallos
-  (integridad de los 61 ejercicios, imágenes en las 3 ubicaciones, paridad
-  de los 4 bundles i18n + espejos app/web, 25 vectores de lógica sobre
-  `web/src/lib/gym.js`, 11 comprobaciones de paridad TS≡JS sobre
-  `app/src/lib/gym.ts`, tsc 0 errores).
-- 2026-10-31 — Web re-verificada con las imágenes regeneradas: build 65
-  páginas + preview → HTTP 200 en 68 rutas y los 129 assets (0 fallos).
-- 2026-10-31 — **Fase 6 (datos reales) cerrada vía PyPI**: allowlist del
-  sandbox AMPLIADO (pypi.org, files.pythonhosted.org, raw.github, github SSR,
-  world.openfoodfacts.org ahora 200; wger.de/static.wger.de/api.github.com
-  siguen 403). La wheel de PyPI `wger 2.1` lleva el dataset real de wger →
-  `scripts/fetch_exercises_wger_pypi.py` extrae **226 ejercicios
-  `source:"real"`** (instrucciones reales, licencia CC-BY-SA + autor por
-  ejercicio en `license`/`credit`; name_nl/level curados local y 16 pasos
-  generados local — documentado en `source_note`).
-- 2026-10-31 — Web con base real: build **230 páginas** + preview → HTTP 200
-  en **233 rutas + 459 assets** (0 fallos); atribución CC-BY-SA visible en
-  SSR de cada detalle ("Licencia: CC-BY-SA 3 · Autor: wger.de").
-- 2026-10-31 — App con base real: `tsc --noEmit` 0 errores; bundle Metro
-  `BUNDLE_OK bytes=3324990` (226 imágenes + i18n 86 claves + base real
-  embebidos; `ex_license`/`ex_credit` presentes en el bundle). Atribución en
-  `DetailScreen`.
-- 2026-10-31 — QA con base real: `node tests/run.js` → **78/78, 0 fallos**
-  (226 ejercicios, 226 PNG en las 3 ubicaciones, mapa de 226 assets, paridad
-  TS≡JS, tsc 0 errores).
-- 2026-10-31 — i18n: 86 claves × 4 bundles (nuevas `ex_license`,
-  `ex_credit`; `footer_note` → "datos reales de wger (CC-BY-SA)").
+| Área | Estado |
+|---|---|
+| Datos | 226 ejercicios reales de wger (CC-BY-SA); imágenes placeholder |
+| App (Expo SDK 58) | 5 pestañas; sesión con asistente, benchmarks, material ocupado; **Resumen y Sesión simplificados (Fase 11b)** |
+| Web (Astro) | Paridad hasta Fase 11; **pendiente** paridad de la Fase 11b |
+| i18n | NL/ES/EN/FR, **275 claves**, espejos idénticos |
+| Nube (Supabase) | ⏸ en espera (v1 solo local) |
+| Siguiente | Fase 12 (más datos) y Fase 13 (fotos) — ver `TASKS.md` |
 
-## Decisiones tomadas
-- Proyecto nuevo e independiente → propio directorio `/sandbox/fittrack`
-  (sin colisión con `fitnl/`; no hacen falta ramas separadas).
-- Charts del dashboard sin `react-native-svg` (no está en la cache local):
-  barras dibujadas con `View`/`div` (compatible offline y en web).
-- Instalación de dependencias por espejo de `fitnl/*/node_modules` (mismas
-  versiones, cache npm local) — `npm install` está bloqueado (403).
-- App: la lógica vive en `app/src/lib/gym.ts` como puerto 1:1 de
-  `web/src/lib/gym.js` (misma semántica); `tests/run.js` comprueba la
-  paridad TS≡JS con las mismas entradas. Imágenes de la app vía
-  `require()` de Metro (`app/src/images.ts` generado por
-  `scripts/make_image_map.py`; los PNG se copian a `app/assets/exercises/`).
-- `app/metro.config.js` = `getDefaultConfig()` de `@expo/metro-config`
-  (sin él Metro no resuelve el registro de assets).
+## Última verificación (2026-11-15, WSL del host)
 
-## Pendiente / bloqueos
-- Fase 7 (Sync Supabase) — pendiente de implementación (ver TASKS.md):
-  cuenta + proyecto, login magic link, tabla `sessions` + RLS, sync
-  offline-first en app y web.
-- Fase 6 (fotos reales) — ⛔ `static.wger.de` **no existe ya en DNS público**
-  (NXDOMAIN; no es el proxy). Alternativas: URL nueva de wger desde el host,
-  o dataset con fotos en GitHub. Las imágenes actuales son placeholders
-  generados (declarado en UI y `source_note`).
+- `npx tsc --noEmit` (app) → **1 error, de entorno**: falta el módulo
+  `react-native-linear-gradient` en `node_modules` (está en `package.json`).
+  El error previo `TS2698` de `SessionScreen.tsx` (spread de
+  `StyleSheet.absoluteFill`) quedó corregido.
+- `node tests/run.js` → **76/77**: el único fallo es la comprobación de
+  `tsc` (mismo error de entorno). Paridad i18n (275 claves × 4 + espejos):
+  OK.
+- `npx expo export --platform web` → **no ejecutable**: falta
+  `@expo/metro-runtime`. Sin build web no hay capturas ni vídeo nuevos; las
+  de `docs/screenshots/` son de la Fase 11 (diseño anterior).
+- Intento de restaurar ambos paquetes desde la caché npm (`--offline`,
+  `--no-save`): `ENOTCACHED`. `package.json`/lock sin cambios.
+
+## Decisiones vigentes
+
+- Sin backend: AsyncStorage (app) y localStorage (web).
+- Lógica de la app (`app/src/lib/gym.ts`) = puerto 1:1 de
+  `web/src/lib/gym.js`; `tests/run.js` comprueba la paridad.
+- Gráficas e iconos dibujados con `View`/`div` (sin `react-native-svg`, sin
+  glifos de fuente).
+- Diseño: una acción principal por pantalla, divulgación progresiva,
+  patrones de iOS; ajustes (idioma, datos) en Perfil (Fase 11b).
+
+## Bloqueos
+
+- ⛔ Capturas/vídeo y `tsc` limpio: `cd app && npm install` con red.
+- ⛔ Fotos de ejercicios (Fase 13): falta una vía de generación de imágenes
+  o un banco de fotos con licencia.
+- ⛔ Fotos reales de wger: `static.wger.de` ya no existe en DNS.
 
 ## Log
 - 2026-10-31 — Repo inicializado; estructura base y docs (Fase 0).
@@ -362,3 +310,41 @@ tarea.
   `web-flow.js` **51 comprobaciones, 0 fallos** (nuevas aserciones:
   theme-color premium + fondo degradado); capturas 01–09 y video mp4/webm
   regenerados con el diseño final.
+- 2026-11-15 — **Fase 11b: Resumen y Sesión simplificados** (skill
+  `impeccable`, crítica + `distill`). Petición del usuario: la sesión, al
+  empezar, estaba sobrecargada; quería toda la funcionalidad pero simple,
+  con apple.com y las apps de iPhone como referencia.
+  (1) **Resumen**: de ~12 bloques a 4 visibles — acción principal
+  ("Empezar una sesión" / "Continuar entreno" con punto verde), "Esta
+  semana" (sesiones · volumen · días seguidos) en una sola tarjeta,
+  gráfica semanal y últimas 3 sesiones como lista agrupada con "Ver todo".
+  Grupos musculares, marcas 1RM, calendario y peso corporal pasan a "Más
+  estadísticas" (plegado). Antes no había ningún botón para empezar cuando
+  ya existían sesiones.
+  (2) **Cabecera global eliminada**: el wordmark y las 4 píldoras de idioma
+  ocupaban 48 px en todas las pantallas. Cada pantalla tiene su título
+  grande; el idioma (nombres completos, `radiogroup`) y "Tus datos" viven
+  en Perfil.
+  (3) **Sesión activa**: banner con cronómetro grande + "x/y series hechas"
+  (sin rótulo "ENTRENAMIENTO ACTIVO"); iconos de pausa/reanudar/cerrar
+  dibujados (los glifos ❚❚ ▶ ✕ salían como □). Fuera el título "Sesión" y
+  su subtítulo. El ejercicio actual es lo primero: sin franja "AHORA"
+  anidada (posición "1/2" junto al nombre, 1RM en la línea de metadatos),
+  cabecera de columnas única (`Serie · reps · kg · Hecha`) en vez de 4
+  rótulos por serie, sin X roja por serie ("Quitar serie" quita la
+  última), "¿Máquina ocupada?" despliega Ocupado / Fuera de servicio solo
+  cuando hace falta (antes 3 chips fijos). Los demás ejercicios: filas de
+  una línea (`3 × 10 · 20 kg`, series hechas, ✓ si completo) — tocar = ir
+  allí. Añadir / Sugerir (una fila) y "Detalles" al final de la lista.
+  (4) **Barra fija con una acción principal**: a mitad, "Terminar"
+  (contorno) + "Siguiente ejercicio" (degradado); en el último, "Terminar y
+  guardar" a todo el ancho. La leyenda "Siguiente: X" solo cuando aporta.
+  (5) Objetivos táctiles 44 pt (pausa, cerrar, "Hecha"), números tabulares,
+  roles accesibles (`checkbox`, `header`, `radio`).
+  i18n: +16 claves (275) en los 4 bundles + espejos.
+  Verificación: ver "Última verificación" arriba (tsc 1 error de entorno,
+  tests 76/77 por ese mismo motivo; sin capturas por falta de
+  dependencias). Paridad web pendiente (TASKS).
+  Docs reescritos: `SPEC.md` (simple, completo), `AGENTS.md` (entorno real,
+  reglas de diseño, skills instaladas), `TASKS.md` (activo arriba, hecho
+  resumido), `PROGRESS.md` (estado al día).

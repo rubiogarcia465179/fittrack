@@ -4,6 +4,11 @@ Capturas reales del build web de producción (`expo export --platform web`),
 generadas con Chromium real (viewport iPhone 16) durante el QA. V1: datos
 solo locales, Montserrat embebida, sin red.
 
+> **Desactualizadas (2026-11-15):** muestran el diseño de la Fase 11. El
+> Resumen y la Sesión se simplificaron en la Fase 11b (ver `PROGRESS.md`);
+> regenerarlas requiere `cd app && npm install` (faltan dependencias para
+> `expo export --platform web`).
+
 | # | Pantalla | Qué muestra |
 |---|----------|-------------|
 | 01 | Dashboard | Resumen con datos: stats, actividad (sin scroll), gráfico, últimas sesiones, marcas |

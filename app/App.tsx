@@ -16,11 +16,9 @@ import { store, type Session, type BenchmarkRef } from './src/store';
 import { sortByDate, uid, todayISO } from './src/lib/gym';
 import { ThemeProvider, useTheme } from './src/theme-context';
 import { RADII } from './src/theme';
-import { useWide } from './src/scale';
 import { newActiveSession, type ActiveSession, type ActiveDraftExercise } from './src/lib/session';
 import type { WorkoutPlan } from './src/lib/workout';
 import TabIcon from './src/components/TabIcon';
-import LangSwitcher from './src/components/LangSwitcher';
 import { Gradient } from './src/components/Gradient';
 import DashboardScreen from './src/screens/DashboardScreen';
 import LibraryScreen from './src/screens/LibraryScreen';
@@ -56,7 +54,6 @@ export default function App() {
 function Root({ active, persistActive }: { active: ActiveSession | null; persistActive: (a: ActiveSession | null) => void }) {
   const { t } = useTranslation();
   const { p, GRADIENT } = useTheme();
-  const wide = useWide();
 
   const [tab, setTab] = useState<Tab>('dashboard');
   // R-19: Montserrat se carga al montar; cuando está lista, la raíz aplica la
@@ -207,19 +204,8 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
     >
       {bgColors ? <Gradient colors={bgColors} style={styles.appBg} /> : null}
       <StatusBar style={p.statusBar} />
-      <View style={[styles.header, { backgroundColor: p.headerBg, borderBottomColor: p.border }]}>
-        <View style={styles.wordmarkRow}>
-          <Text style={[styles.wordmark, { color: p.text }]}>
-            Fit<Text style={[styles.wordmarkAccent, { color: p.accent }]}>Track</Text>
-          </Text>
-          {wide ? (
-            <Text style={[styles.tagline, { color: p.secondary }]} numberOfLines={1} adjustsFontSizeToFit>
-              {t('tagline')}
-            </Text>
-          ) : null}
-        </View>
-        <LangSwitcher lng={lng} onPick={pickLang} />
-      </View>
+      {/* Sin barra de marca global: como en las apps de iPhone, cada pantalla
+          abre con su propio título grande. El idioma vive en Perfil. */}
 
       <View style={styles.body}>
         {toast ? (
@@ -236,13 +222,9 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
                 exercises={exercises}
                 sessions={sessions}
                 benchmarks={benchNamed}
-                onOpenExercise={openExercise}
+                activeWorkout={active != null}
                 onOpenHistory={() => setTab('history')}
                 onStartSession={() => setTab('session')}
-                onStartWorkout={() => setTab('session')}
-                onExport={handleExport}
-                onClearAll={handleClearAll}
-                onDataChanged={handleDataChanged}
               />
             ) : tab === 'library' ? (
               <LibraryScreen exercises={exercises} onOpenExercise={openExercise} />
@@ -279,7 +261,15 @@ function Root({ active, persistActive }: { active: ActiveSession | null; persist
                 onStartSession={() => setTab('session')}
               />
             ) : (
-              <ProfileScreen sessions={sessions} onHeightLogged={() => {}} />
+              <ProfileScreen
+                sessions={sessions}
+                onHeightLogged={() => {}}
+                lng={lng}
+                onPickLang={pickLang}
+                onExport={handleExport}
+                onClearAll={handleClearAll}
+                onDataChanged={handleDataChanged}
+              />
             )}
           </View>
         </View>
@@ -333,32 +323,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-  },
-  header: {
-    height: 48,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 14,
-    gap: 8,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  wordmarkRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 8,
-    flex: 1,
-    overflow: 'hidden',
-  },
-  wordmark: {
-    fontSize: 17,
-    fontWeight: '700',
-    letterSpacing: -0.44,
-  },
-  wordmarkAccent: {},
-  tagline: {
-    fontSize: 11,
-    flexShrink: 1,
   },
   appToast: {
     position: 'absolute',

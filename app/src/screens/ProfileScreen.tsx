@@ -15,6 +15,9 @@ import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
 import { fmtDay } from './SessionScreen';
 import { PickerSheet, fmtNum } from '../components/PickerSheet';
+import LangSwitcher from '../components/LangSwitcher';
+import { DataSection } from '../components/DataSection';
+import type { Lang } from '../i18n';
 
 /** Máximo nº de barras de tendencia (los últimos registros). */
 const TREND_MAX = 8;
@@ -22,9 +25,20 @@ const TREND_MAX = 8;
 export default function ProfileScreen({
   sessions,
   onHeightLogged,
+  lng,
+  onPickLang,
+  onExport,
+  onClearAll,
+  onDataChanged,
 }: {
   sessions: Session[]; // recientes primero
   onHeightLogged: () => void;
+  /** Ajustes (antes en la cabecera / el Resumen): idioma y datos. */
+  lng: Lang;
+  onPickLang: (l: Lang) => void;
+  onExport: () => Promise<string>;
+  onClearAll: () => Promise<void>;
+  onDataChanged: () => void;
 }) {
   const { t, i18n } = useTranslation();
   const { p, SHADOW } = useTheme();
@@ -123,6 +137,13 @@ export default function ProfileScreen({
           <Text style={[styles.empty, { color: p.dim }]}>{t('profile_empty_height')}</Text>
         )}
       </View>
+
+      {/* ---- Ajustes: idioma (instantáneo, sin red) + tus datos ---- */}
+      <View style={[styles.card, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
+        <Text style={[styles.cardLabel, { color: p.secondary, marginBottom: 10 }]}>{t('profile_language')}</Text>
+        <LangSwitcher lng={lng} onPick={onPickLang} full />
+      </View>
+      <DataSection t={t} onExport={onExport} onClear={onClearAll} onDone={onDataChanged} />
 
       {pickHeight ? (
         <PickerSheet

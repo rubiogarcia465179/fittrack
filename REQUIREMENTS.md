@@ -11,8 +11,9 @@ Leyenda de verificación:
 - **manual**: pasos que puede repetir cualquier persona/agente en `http://localhost:8095/`.
 
 Resumen rápido:
-- **Todo entregado y verificado: R-01 … R-26.** Pendiente: Fase 7 (Supabase), en espera
-  según decisión de v1 (solo datos locales).
+- **Entregado y verificado: R-01 … R-26.**
+- **R-27 … R-30 (Fase 11b, 2026-11-15)**: implementados; verificación parcial (ver al final).
+- Pendiente: Fase 12 y 13 (`TASKS.md`); Fase 7 (Supabase) en espera.
 
 ---
 
@@ -174,3 +175,27 @@ Resumen rápido:
 - `docs/screenshots/`: 7 capturas reales (build web en viewport iPhone 16 393×852) — dashboard
   con datos, arranque, wizard (objetivo + revisión con plan), sesión activa (tema navy), filas de
   serie con "Hecha", picker de valor — más README. Verificadas una a una.
+
+## FASE 11b — Simplificación (2026-11-15)
+
+Petición: "la pantalla al empezar la sesión estaba sobrecargada; quiero toda la funcionalidad
+pero simple, como apple.com y las apps de iPhone".
+
+### R-27 [DONE·parcial] Resumen con una sola acción principal
+- "Empezar una sesión" / "Continuar entreno" siempre visible; "Esta semana" en una fila;
+  una gráfica; últimas sesiones en lista; el resto tras "Más estadísticas".
+- Verificación: repo (tsc del archivo, tests) ✔ · visual ⛔ (sin build web, ver PROGRESS).
+
+### R-28 [DONE·parcial] Ajustes en Perfil, sin cabecera global
+- Idioma (nombres completos) y "Tus datos" en Perfil; cada pantalla con título grande.
+- Verificación: repo ✔ · visual ⛔.
+
+### R-29 [DONE·parcial] Sesión centrada en el ejercicio actual
+- Ejercicio actual completo; los demás en una línea; columnas únicas; sin X por serie;
+  "¿Máquina ocupada?" plegado; añadir/sugerir/detalles al final.
+- Verificación: repo ✔ · visual ⛔ · iPhone real pendiente.
+
+### R-30 [DONE·parcial] Una acción principal en la barra fija + iconos sin tofu
+- "Siguiente ejercicio" → "Terminar y guardar"; "Terminar" secundaria; pausa/reanudar/cerrar
+  dibujados.
+- Verificación: repo ✔ · visual ⛔.

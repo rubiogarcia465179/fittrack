@@ -18,7 +18,7 @@ fittrack/
 ├── AGENTS.md  SPEC.md  PROGRESS.md  TASKS.md  README.md
 ├── data/      ← base de ejercicios (JSON, source: real) + imágenes
 ├── scripts/   ← sync_data.py, fetch_exercises_wger_pypi.py, generadores
-├── i18n/      ← bundles nl/es/en/fr (105 claves)
+├── i18n/      ← bundles nl/es/en/fr (275 claves)
 ├── tests/     ← node tests/run.js
 ├── web/       ← Astro 4 (static) + Tailwind 3.4   → su package.json AQUÍ
 └── app/       ← Expo SDK 58 / React Native 0.88   → su package.json AQUÍ
@@ -94,11 +94,11 @@ adb install android/app/build/outputs/apk/debug/app-debug.apk
 Web); útil para probar la UI sin instalar nada. (La web principal es
 `web/`; esta sirve para ejercitar la app.)
 
-Checklist en el móvil: 5 pestañas (Dashboard, Exercises, Session, History,
-Profile),
-conmutación NL/ES/EN/FR instantánea, crear sesión con sets/reps/peso,
-borrar del historial, volver a abrir la app y ver que las sesiones
-persisten (AsyncStorage).
+Checklist en el móvil: 5 pestañas (Resumen, Ejercicios, Sesión, Historial,
+Perfil); cambio de idioma instantáneo en **Perfil → Idioma**; empezar una
+sesión desde el botón del Resumen, marcar series como hechas, "Siguiente
+ejercicio" y "Terminar y guardar"; borrar del historial; volver a abrir la
+app y ver que las sesiones persisten (AsyncStorage).
 
 ## App iPhone: probarla en tu móvil (Expo Go)
 
