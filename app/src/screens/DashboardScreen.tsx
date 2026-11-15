@@ -21,7 +21,8 @@ import type { ExerciseRow } from '../lib/gym';
 import type { Session, BenchmarkRef } from '../store';
 import { effectiveRecords, recordDays } from '../lib/records';
 import { sessionSets, todayISO, weekStart } from '../lib/gym';
-import { BodyMap, type Sex } from '../components/BodyMap';
+import { type Sex } from '../lib/heat';
+import { Body3D } from '../components/Body3D';
 import { store } from '../store';
 import { RADII } from '../theme';
 import { useTheme } from '../theme-context';
@@ -194,11 +195,12 @@ export default function DashboardScreen({
 
       {/* ---- Esta semana: qué músculos llevas y cuáles te quedan ---- */}
       <SectionHead title={t('home_week_body')} />
-      <BodyMap
+      <Body3D
         sex={body.sex}
         bmi={body.bmi}
         counts={weekCounts}
-        labels={{ front: t('body_front'), back: t('body_back'), legend: t('body_legend'), hint: t('body_hint') }}
+        hint={t('body_hint')}
+        legend={t('body_legend')}
         summary={
           Object.keys(weekCounts).length
             ? Object.entries(weekCounts)

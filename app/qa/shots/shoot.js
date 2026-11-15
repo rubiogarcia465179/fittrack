@@ -106,6 +106,22 @@ async function tapLabel(label, { nth = 0 } = {}) {
   for (const type of ['mousePressed', 'mouseReleased']) await send('Input.dispatchMouseEvent', { type, x: box.x, y: box.y, button: 'left', clickCount: 1 });
   await sleep(450);
 }
+/** Arrastre real (ratón) desde el centro del elemento con ese aria-label:
+ *  sirve para girar el cuerpo 3D (dx = girar, dy = inclinar). */
+async function drag(label, dx, dy = 0, steps = 14) {
+  const box = await evaluate(`(() => {
+    const e = [...document.querySelectorAll('[aria-label]')].find((x) => (x.getAttribute('aria-label') || '').startsWith(${JSON.stringify(label)}));
+    if (!e) return null; const r = e.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  })()`);
+  if (!box) throw new Error('aria-label no encontrado: ' + label);
+  await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: box.x, y: box.y, button: 'left', buttons: 1, clickCount: 1 });
+  for (let i = 1; i <= steps; i++) {
+    await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: box.x + (dx * i) / steps, y: box.y + (dy * i) / steps, button: 'left', buttons: 1 });
+    await sleep(16);
+  }
+  await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: box.x + dx, y: box.y + dy, button: 'left', buttons: 0, clickCount: 1 });
+  await sleep(300);
+}
 async function scrollBy(dy) {
   await send('Input.dispatchMouseEvent', { type: 'mouseWheel', x: W / 2, y: H / 2, deltaX: 0, deltaY: dy });
   await sleep(500);
@@ -120,7 +136,7 @@ async function load(storage) {
 
 (async () => {
   const prof = path.join(require('os').tmpdir(), 'fittrack-chrome-' + Date.now());
-  const chrome = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, '--hide-scrollbars', '--no-first-run', '--no-default-browser-check', 'about:blank'], { stdio: 'ignore' });
+  const chrome = spawn(CHROME, ['--headless=new', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', `--remote-debugging-port=${DBG}`, `--user-data-dir=${prof}`, '--hide-scrollbars', '--no-first-run', '--no-default-browser-check', 'about:blank'], { stdio: 'ignore' });
   let target;
   for (let i = 0; i < 40 && !target; i++) {
     try { target = (await (await fetch(`http://127.0.0.1:${DBG}/json/list`)).json()).find((t) => t.type === 'page'); } catch {} if (!target) await sleep(250);
@@ -150,7 +166,7 @@ async function load(storage) {
 
   const base = { 'fittrack.lang': 'es' };
   const scenario = require(process.env.SCENARIO || path.join(__dirname, 'scenario.js'));
-  await scenario({ load, shot, tap, tapLabel, scrollBy, evaluate, sleep, base, DATA, ACTIVE, iso });
+  await scenario({ load, shot, tap, tapLabel, drag, scrollBy, evaluate, sleep, base, DATA, ACTIVE, iso });
 
   if (FRAMES) await send('Page.stopScreencast');
   console.log('errors', errors.length ? errors : 'none');

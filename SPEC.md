@@ -67,15 +67,16 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    **"Continuar al entreno"** genera el plan. Recuerda la última elección.
    Con un entreno en curso: "Continuar entreno". **Un solo camino para
    empezar** (sin asistente ni "Personalizar entreno").
-4. **Esta semana — cuerpo que se gira**: mapa muscular basado en las SVG de
-   referencia del usuario (`app/src/components/body/paths.ts`), con fibras;
-   una sola figura en una peana con perspectiva que se **gira con el dedo**
-   (frente ↔ espalda, se asienta al soltar) o con "Delante / Detrás"; sombra
-   en el suelo que se estrecha al girar. Cada grupo se colorea por las
-   sesiones de esta semana — **1 verde, 2 naranja, 3+ violeta** (el rojo se
-   leía como alarma); sin entrenar, gris. El IMC ensancha o estrecha la
-   figura con suavidad; mujer, algo más estrecha. (Un modelo volumétrico de
-   verdad necesitaría un modelo 3D + three.js.)
+4. **Esta semana — cuerpo en 3D real** (WebGL): figura anatómica de
+   volúmenes que se **orbita con el dedo en cualquier ángulo**, como una
+   cámara exterior (arrastre horizontal = girar, vertical = inclinar ±35°,
+   con inercia suave). **Sin botones.** Estilo de las SVG de referencia del
+   usuario: relleno negro mate y contorno blanco. Cada grupo muscular
+   (pecho, abdominales, oblicuos, hombros, bíceps, tríceps, antebrazos,
+   trapecio, dorsales, lumbar, glúteos, cuádriceps, isquios, gemelos) se
+   colorea por las sesiones de esta semana — **1 verde, 2 naranja, 3+
+   violeta**; sin entrenar, gris. Proporciones según el Perfil: sexo
+   (hombros, cadera, pecho) e IMC (cintura y grosor de extremidades).
 5. **Marcas personales**: las 3 mejores (1RM estimado) en tarjetas blancas;
    "Ver todo" despliega el resto. **Salen siempre de datos**: la mejor serie
    guardada (Epley) o el test "Establecer marcas" de Perfil; gana el mayor.

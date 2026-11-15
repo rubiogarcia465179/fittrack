@@ -87,9 +87,22 @@ Hecho en esta pasada:
 - [x] IMC con coma decimal en ES/FR/NL.
 - [x] "3+" en **violeta** (el rojo se leía como alarma; aceptado por el usuario).
 
+### Fase 11g — Cuerpo en 3D real, orbitable con el dedo ✅
+- [x] three + @react-three/fiber + expo-gl (aprobados): figura anatómica de
+      volúmenes, contorno blanco, órbita libre (girar + inclinar) con
+      inercia, sin botones; colores por semana; sexo e IMC.
+- [ ] (Opcional, futuro) Malla esculpida por un artista (glTF con músculos
+      separados) para un acabado de escultura; requiere el modelo y su
+      licencia.
+- ⏸ **Live Activity completa (FUTURO, en espera por decisión del usuario)**:
+  estado de la sesión y cuenta atrás del descanso en la pantalla de bloqueo
+  (iOS Live Activity + Android notificación en curso) con "Serie hecha"
+  desde ahí u otra app. Requiere build de desarrollo (EAS, no Expo Go) y un
+  plugin nativo.
+
 ### Fase 11f — Cuerpo que se gira + vibración al acabar el descanso ✅
-- [x] Mapa muscular con las SVG de referencia del usuario, en una peana 3D que
-      se gira con el dedo (frente ↔ espalda) o con "Delante / Detrás".
+- [x] Mapa muscular con las SVG de referencia del usuario (sustituido en
+      la 11g por el 3D real; queda en git, 1c79c87).
 - [x] Vibración clara al terminar el descanso (`restDone()`).
 - ⛔ **Pantalla de bloqueo** durante la sesión (estado, cuenta atrás del
   descanso bajando y "Serie hecha" desde ahí): iOS Live Activity (extensión

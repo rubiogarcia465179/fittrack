@@ -2,7 +2,7 @@
 // Con --frames, el mismo recorrido sirve para el vídeo.
 // 3 pestañas (Inicio · Entrenar · Perfil), solo iconos → se tocan por
 // aria-label (tapLabel). Historial y Ejercicios se abren desde Inicio.
-module.exports = async ({ load, shot, tap, tapLabel, scrollBy, sleep, base, DATA, ACTIVE, iso }) => {
+module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base, DATA, ACTIVE, iso }) => {
   const withCardio = {
     ...ACTIVE,
     draft: [
@@ -132,10 +132,11 @@ module.exports = async ({ load, shot, tap, tapLabel, scrollBy, sleep, base, DATA
   await scrollBy(330);
   await shot('25-body-female');
 
-  // 26 El cuerpo gira: "Detrás" (o deslizar) muestra la espalda
+  // 26 Cuerpo 3D: arrastrar con el dedo lo gira (aquí, hasta verlo de espaldas)
   await load({ ...base, 'fittrack.data.v1': profile });
-  await scrollBy(330);
-  await tap('Detrás');
-  await sleep(1500);
+  await scrollBy(200);
+  await sleep(800);
+  await drag('Brazos', 230, 0);
+  await sleep(2200);
   await shot('26-body-back');
 };

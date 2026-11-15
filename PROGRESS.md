@@ -22,15 +22,15 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación (2026-11-15, WSL del host, commit Fase 11f)
+## Última verificación (2026-11-15, WSL del host, commit Fase 11g)
 
 - `npx tsc --noEmit` (app) → **0 errores**.
 - `node tests/run.js` → **120/120, 0 fallos**.
 - `npx expo export --platform web --output-dir /tmp/ft-dist` → OK.
-- Capturas **01–26** con Chrome headless → **0 errores de consola**,
-  revisadas; vídeo regenerado (361 fotogramas, 5,7 MB).
-- `web/`: `npm ci` + `npm run build` → OK (233 páginas); paridad en pausa.
-- **Prueba "Steve Jobs": SÍ** (ver Log 2026-11-15 "noche, 9").
+- Capturas **01–26** con Chrome headless (WebGL por SwiftShader) → **0
+  errores de consola**, revisadas; vídeo regenerado (815 fotogramas, 5,9 MB).
+- `web/`: build OK (sin cambios de diseño; paridad en pausa).
+- **Prueba "Steve Jobs": SÍ** (ver Log 2026-11-15 "noche, 10").
 
 ## Decisiones vigentes
 
@@ -579,3 +579,17 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   propia + dependencias, se pregunta al usuario.
   **Veredicto `/stevejobs analyze`: SÍ** — manipulación directa (giras el
   cuerpo con el dedo y responde), arte de calidad, colores sin alarma.
+
+- 2026-11-15 (noche, 10) — **Fase 11g: cuerpo en 3D real.** El usuario pidió
+  girar la figura con el dedo en cualquier ángulo, sin botones, "como una
+  cámara exterior". Aprobadas three, @react-three/fiber y expo-gl (+
+  @types/three). `Body3D.tsx`: figura de volúmenes (tronco y extremidades
+  como superficies de revolución, músculos como placas sobre la piel),
+  contorno blanco por casco invertido, luz principal + contraluz, órbita
+  libre con inercia suave. Primera versión ("globos") y segunda (piernas
+  blancas: perfil del lathe del revés) corregidas tras mirarlas; músculos de
+  piernas hundidos dentro del muslo → sacados a la superficie. Se borran
+  `BodyMap.tsx` y `body/paths.ts` (en git). Harness: SwiftShader + `drag()`.
+  Live Activity: **futuro, en espera** (decisión del usuario).
+  **Veredicto `/stevejobs analyze`: SÍ** — manipulación directa real: tocas el
+  cuerpo y gira e inclina en 3D. Siguiente nivel opcional: malla esculpida.

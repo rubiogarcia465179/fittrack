@@ -293,3 +293,8 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-85 [DONE] Vibración del móvil al acabar el descanso
 ### R-86 [TODO·⛔] Durante la sesión, ver estado y cuenta atrás del descanso con el móvil bloqueado y marcar "hecho" desde ahí u otra app (Live Activity / notificación) — requiere build propia y dependencia nueva; decide el usuario
 ### R-87 [DROPPED] Basic-Fit — el usuario pidió olvidarlo
+
+## Pasada 2026-11-15 (noche, 10)
+
+### R-88 [DONE] Figura 3D que se gira con el dedo en cualquier ángulo, sin botones delante/detrás, como una cámara exterior — three + @react-three/fiber + expo-gl (aprobados)
+### R-89 [TODO·⏸] Live Activity completa como funcionalidad futura (pantalla de bloqueo con estado, cuenta atrás del descanso y "Serie hecha") — en espera por decisión del usuario; sustituye a R-86

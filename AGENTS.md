@@ -48,14 +48,19 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   (sesión `type: 'benchmark'` que arranca `startBenchmark` en `App.tsx`).
 - **Calendario**: `DayStat.pr` → círculo `RECORD_GREEN` (`#00E676`, texto
   negro) en todos los temas.
-- **Mapa del cuerpo**: `app/src/components/BodyMap.tsx` (+
-  `body/paths.ts`, transcrito de las SVG de referencia del usuario, viewBox
-  400 × 820, mitad derecha + reflejo). Giro: `Animated` + `PanResponder`
-  (sin dependencias), `perspective` + `rotateY`; la cara visible se decide
-  por OPACIDAD según el ángulo (`backfaceVisibility` no es fiable en web) y
-  en web el muelle usa el driver JS. Colores `HEAT`: 1 verde, 2 naranja,
-  3+ violeta. Usa `p.bg`/`p.card`/`p.text`. **react-native-svg**
-  aprobado (2026-11-15). Las formas de `View` no sirven (quedan "de robot").
+- **Cuerpo 3D**: `app/src/components/Body3D.tsx` con **three** +
+  **@react-three/fiber** + **expo-gl** (aprobados 2026-11-15; `@types/three`
+  solo tipos). Figura = árbol de `Node` (forma + hijos en coordenadas
+  locales): tronco y extremidades como `LatheGeometry` (perfil SIEMPRE de
+  abajo arriba, o las caras quedan del revés y el contorno las tapa),
+  músculos como elipsoides-placa sobre la piel. Contorno = "casco invertido"
+  (copia ×1,06 con `side: BackSide` en `p.text`). Órbita: `PanResponder`
+  → refs yaw/pitch, aplicadas en `useFrame` (inercia ×0,5, decaimiento 0,88).
+  Colores: `lib/heat.ts` (`HEAT`, `heatColor`). Piel `p.bg`, músculo sin
+  trabajar `p.border`.
+- **Capturas con WebGL**: `app/qa/shots/shoot.js` lanza Chrome con
+  `--use-angle=swiftshader --enable-unsafe-swiftshader` y ofrece
+  `drag(ariaLabel, dx, dy)` (arrastre real por CDP) para girar el cuerpo.
 - **Vibración**: `lib/haptics.ts` → `restDone()` (Vibration de RN + háptico)
   al terminar el descanso; `tapLight()` al marcar series; `success()` al
   guardar.
@@ -134,7 +139,9 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 ## 4. Entorno y dependencias
 
 - Dependencias aprobadas recientes: `expo-haptics`, `expo-image-picker`,
-  `react-native-svg` (15.16.0, 2026-11-15). Cualquier otra, preguntar.
+  `react-native-svg` (15.16.0), `three` (0.187), `@react-three/fiber`
+  (9.8), `expo-gl` (58.0) + `@types/three` (dev) — todas 2026-11-15.
+  Cualquier otra, preguntar.
 
 - Se trabaja en el host del usuario (Windows + WSL Ubuntu 24.04, repo en
   `~/fittrack`). Ejecuta node/npm/tsc **dentro de WSL**
