@@ -254,7 +254,11 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
   `package.json` (solo transitivo) → añadirlo necesita aprobación.
 - ⛔ Paridad web (fotos vía `<input type="file">`): necesita `cd web && npm ci`.
 
-### Fase 14 — Biblioteca: contenido por ejercicio
+### Fase 14 — Biblioteca: contenido por ejercicio — ⏸ prueba Jobs al plan: **NO** (2026-11-16)
+> "Por qué se usa" repite "Qué entrena" (el usuario acaba de pedir quitar
+> todo lo duplicado) y los favoritos de atletas son decoración, no el
+> núcleo (Foco). Se para aquí hasta que el usuario decida: ¿se hace igual,
+> se reduce (p. ej. solo los 5 clásicos) o se descarta?
 - [x] **Cómo se hace** (3 pasos para principiantes, 4 idiomas) y **qué
       entrena** (grupo + músculos secundarios) — hoja de la sesión y detalle.
 - [ ] **Por qué se usa** (una frase por ejercicio, 4 idiomas, redactada
