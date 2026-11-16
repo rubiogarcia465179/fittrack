@@ -178,7 +178,8 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 - Dependencias aprobadas recientes: `expo-file-system` (~58.0.13, fotos del
   diario y copia de seguridad) y `expo-notifications` (~58.1.9, aviso del
   descanso), ambas 2026-11-16 con `npx expo install` y en `app.json → plugins`;
-  `expo-haptics`, `expo-image-picker`,
+  `react-native-webview` (14.0.1, 2026-11-16: reproductor de YouTube en la
+  hoja; `components/VideoPlayer(.web).tsx`), `expo-haptics`, `expo-image-picker`,
   `react-native-svg` (15.16.0, lo usa `BarChart`),
   `react-native-safe-area-context` (5.11, petición del usuario: sustituye al
   `SafeAreaView` obsoleto de RN; `SafeAreaProvider` envuelve la app). three, @react-three/fiber,
@@ -259,4 +260,8 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   URL en `fittrack.photo.<id>` en web (`lib/sessionPhotos(.web).ts`);
   `store.updateSession` cambia fotos/comentarios. Las capturas usan una
   foto de ejemplo (`fittrack.photo.demo1`, en `shoot.js`).
-
+- **Vídeos (R-133/R-134)**: `data/exercises/videos.json` (id → url, título,
+  canal, `checked`). Para cambiar uno: edita la url y ejecuta
+  `python3 scripts/check_videos.py` (oEmbed: quita los que no existen o no se
+  pueden incrustar) y `node scripts/make_video_map.js` → `app/src/videos.ts`.
+  Siempre en inglés y de canales de tutorial; nunca un enlace sin comprobar.

@@ -245,6 +245,16 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
   vibración aunque el móvil esté bloqueado) → **hecho en la Fase 16**.
 - [x] Paridad web: resuelta en la Fase 19 (la web ES la app).
 
+### Fase 20 — Vídeo por ejercicio, dentro de la app (R-133, R-134) ✅ (Jobs SÍ, 90)
+- [x] Prueba Jobs al plan: sí como **fila de texto** y vídeo comprobado; no a
+      una caja grande ni a enlaces de búsqueda.
+- [x] 203 vídeos en inglés (205 ejercicios; 2 sin vídeo por ser vagos),
+      buscados en YouTube, elegidos a mano (27 corregidos) y comprobados con
+      oEmbed (1 no incrustable sustituido).
+- [x] Reproductor dentro de la hoja con `react-native-webview` (aprobado) y
+      `<iframe>` en web; la hoja baja hasta el vídeo. Captura 35.
+- [ ] ⛔ Usuario (R-128): probar el reproductor en el iPhone (development build o Expo Go).
+
 ### Fase 19 — La web ES la app (R-131) ✅
 - [x] Decisión del usuario: la web = build web de la app (paridad total);
       el sitio Astro se guarda en la rama `web-astro`.

@@ -201,4 +201,14 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Comentar');
   await sleep(300);
   await shot('34-feed-comment');
+
+  // 35 Vídeo (R-133/R-134): "Ver vídeo" abre el reproductor de YouTube DENTRO de la hoja
+  await load({ ...base, 'fittrack.data.v1': profile });
+  await tap('Ejercicios');
+  await tap('Pecho');
+  await tap('Press de banca');
+  await sleep(400);
+  await tap('Ver vídeo');
+  await sleep(4000); // que cargue el reproductor
+  await shot('35-howto-video');
 };

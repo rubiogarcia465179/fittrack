@@ -27,7 +27,13 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 19)
+## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 20)
+
+- tsc **0** · tests **129/129** · export OK · capturas 01–35 **errors none**
+  (nueva 35: vídeo dentro de la hoja; cambian 08, 20, 31 con la fila) ·
+  vídeo regenerado · **Jobs SÍ, 90**. Reproductor nativo sin probar en iPhone (R-128).
+
+## Verificación anterior (commit Fase 19)
 
 - tsc **0** · tests **129/129** (sin las secciones de la web Astro) · export OK ·
   `cd web && npm run build` OK y `npm run preview` sirve página, favicon y
@@ -776,3 +782,18 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   Everkinetic; `scripts/fetch_everkinetic.py`, `scripts/photo_status.js`;
   PROMPTS regenerado para 205 ejercicios (615). **Jobs SÍ, 90** (una sola
   app en todas las plataformas: punta a punta).
+
+- 2026-11-16 — **Fase 20: vídeo por ejercicio dentro de la app** (R-133,
+  R-134). Peticiones: "find a link to a youtube video … always keep the
+  videos in english … Would SteveJobs approve this?" y "Can you embed the
+  video … so the user never needs to leave the app?". Prueba Jobs al plan:
+  **sí** como fila de texto con vídeos comprobados; **no** a una caja grande
+  con miniatura ni a enlaces de búsqueda. Búsqueda en YouTube (una petición
+  por ejercicio, con pausa), elección por puntuación (canales de tutorial,
+  0:30–15:00, título con el movimiento) + revisión a mano (27 cambiados),
+  oEmbed para comprobar que existe y se puede incrustar (1 sustituido):
+  **203/205**. Reproductor con `react-native-webview` (aprobado; HTML con
+  `baseUrl` https para evitar el error 153 de YouTube) y `<iframe>` en web.
+  Verificación: tsc 0, 129/129, export OK, capturas sin errores (35 nueva),
+  vídeo regenerado. **Jobs SÍ, 90**: enseñar el movimiento una vez vale más
+  que tres párrafos, y no se sale de la app.

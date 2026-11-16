@@ -7,13 +7,15 @@
  * - Pasos: howtoFor(id, idioma) — explicación sencilla en NL/ES/EN/FR
  *   (data/exercises/howto/, redactada por FitTrack; ver app/src/howto.ts).
  */
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Dimensions, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../theme-context';
 import { exName } from '../lib/names';
 import { photosFor } from '../exercisePhotos';
 import { howtoFor } from '../howto';
+import { videoFor } from '../videos';
+import { VideoPlayer } from './VideoPlayer';
 import type { ExerciseRow } from '../lib/gym';
 
 export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; onClose: () => void }) {
@@ -21,6 +23,17 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
   const { p } = useTheme();
   const lang = i18n.language as string;
   const { images, placeholder, kind } = photosFor(exercise.id);
+  const video = videoFor(exercise.id);
+  const [playing, setPlaying] = useState(false);
+  // Otro ejercicio (o cerrar la hoja) → el vídeo se para.
+  useEffect(() => setPlaying(false), [exercise.id]);
+  // Al abrir el vídeo, la hoja baja hasta el reproductor (si no, quedaría bajo el pliegue).
+  const scrollRef = useRef<React.ComponentRef<typeof ScrollView>>(null);
+  useEffect(() => {
+    if (!playing) return;
+    const id = setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 150);
+    return () => clearTimeout(id);
+  }, [playing]);
   const width = Math.min(Dimensions.get('window').width, 640) - 40;
   const [page, setPage] = useState(0);
   const secondary = exercise.secondary_muscles || [];
@@ -30,7 +43,7 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
       <Pressable style={[styles.back, { backgroundColor: p.overlay }]} onPress={onClose} accessibilityLabel={t('howto_close')} />
       <View style={[styles.sheet, { backgroundColor: p.bg, borderColor: p.border }]}>
         <View style={[styles.handle, { backgroundColor: p.border }]} />
-        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <ScrollView ref={scrollRef} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <Text style={[styles.title, { color: p.text }, styles.titleTight]} accessibilityRole="header">
             {exName(exercise, lang)}
           </Text>
@@ -105,6 +118,37 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
           ))}
           <Text style={[styles.note, { color: p.secondary }]}>{t('howto_lang_note')}</Text>
 
+          {/* Vídeo (R-133/R-134): una fila de texto; al tocarla, el reproductor de
+              YouTube se abre AQUÍ, dentro de la hoja (no se sale de la app).
+              Solo con un vídeo comprobado e incrustable. */}
+          {video ? (
+            playing ? (
+              <View style={{ marginTop: 16 }}>
+                <VideoPlayer url={video.url} width={width} title={video.title} />
+                <Text style={[styles.credit, { color: p.dim, marginTop: 8 }]} numberOfLines={2}>
+                  {`${video.title} · ${t('howto_video_sub', { channel: video.channel })}`}
+                </Text>
+              </View>
+            ) : (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={`${t('howto_video')}: ${video.title}. ${t('howto_video_sub', { channel: video.channel })}`}
+                onPress={() => setPlaying(true)}
+                style={({ pressed }) => [styles.videoRow, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
+              >
+                <View style={[styles.playCircle, { borderColor: p.text }]} accessibilityElementsHidden>
+                  <View style={[styles.playTri, { borderLeftColor: p.text }]} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.videoTitle, { color: p.text }]}>{t('howto_video')}</Text>
+                  <Text style={[styles.videoSub, { color: p.secondary }]} numberOfLines={1}>
+                    {t('howto_video_sub', { channel: video.channel })}
+                  </Text>
+                </View>
+              </Pressable>
+            )
+          ) : null}
+
           <Pressable
             accessibilityRole="button"
             onPress={onClose}
@@ -165,6 +209,11 @@ const styles = StyleSheet.create({
   },
   stepText: { flex: 1, fontSize: 15, lineHeight: 22 },
   note: { fontSize: 13, lineHeight: 18, marginTop: 4 },
+  videoRow: { flexDirection: 'row', alignItems: 'center', minHeight: 56, marginTop: 16, paddingVertical: 8, borderTopWidth: StyleSheet.hairlineWidth, borderBottomWidth: StyleSheet.hairlineWidth },
+  videoTitle: { fontSize: 16, fontWeight: '700' },
+  playCircle: { width: 36, height: 36, borderRadius: 18, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', marginRight: 12 },
+  playTri: { width: 0, height: 0, marginLeft: 3, borderTopWidth: 7, borderBottomWidth: 7, borderLeftWidth: 11, borderTopColor: 'transparent', borderBottomColor: 'transparent' },
+  videoSub: { fontSize: 13, marginTop: 2 },
   close: { marginTop: 22, minHeight: 50, borderRadius: 25, alignItems: 'center', justifyContent: 'center' },
   closeText: { fontSize: 16, fontWeight: '700' },
 });

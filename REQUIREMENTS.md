@@ -363,3 +363,5 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-130 [DONE] Después: 5 vueltas del bucle /stevejobs analyze → suggest → aplicar, para pulir la app para producción (2026-11-16; Fase 18, 86 → 90, `docs/LOOP-18.md`)
 ### R-131 [DONE] Aprobado `cd web && npm ci` → paridad web. Decisión: la web = build web de la app; Astro en la rama `web-astro` (2026-11-16, Fase 19)
 ### R-132 [EN CURSO] Generar o buscar en internet las fotos de PROMPTS.md y llevar la cuenta de cuáles están hechas y cuáles no (2026-11-16)
+### R-133 [DONE] Un vídeo de YouTube (en inglés) por ejercicio, con un acceso en la ficha; ¿lo aprobaría Steve Jobs? (2026-11-16; Fase 20: 203 vídeos comprobados; Jobs: sí como fila de texto)
+### R-134 [DONE] Vídeo incrustado en la app (no salir de la app); aprobado `react-native-webview` (2026-11-16; Fase 20, captura 35)

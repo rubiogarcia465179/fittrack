@@ -161,6 +161,14 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 ### Ejercicios (desde Inicio)
 - Sin búsqueda, lista en **orden alfabético** del idioma elegido; con
   búsqueda, por relevancia.
+- Hoja **"¿Cómo se hace?"** (la única vista de un ejercicio): imágenes, qué
+  entrena, 3 pasos y **"Ver vídeo"** (R-133/R-134): una fila de texto; al
+  tocarla, el reproductor oficial de YouTube se abre **dentro de la hoja**
+  (modo de privacidad mejorada, nada se carga antes de tocar; la hoja baja
+  hasta él). Un vídeo **en inglés** por ejercicio, elegido a mano y
+  comprobado con el oEmbed de YouTube (existe y permite incrustarse):
+  `data/exercises/videos.json` → `app/src/videos.ts`. Sin vídeo comprobado,
+  no hay fila (203 de 205; "Upper Body" y "Upper External Oblique" no).
 - 226 ejercicios (wger), búsqueda y filtros (grupo, material; fichas
   monocromo, la elegida en blanco); lista plana con icono de línea
   **distinto por grupo** y nombres en 2 líneas.

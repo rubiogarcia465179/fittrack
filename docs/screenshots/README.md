@@ -40,6 +40,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 32 | Quitar ejercicio | Con series hechas se confirma: "Cancelar" y "Quitar" |
 | 33 | Aplazado | "Máquina ocupada": el original con "Hacerlo ahora" desde el primer momento + sugerencia con "Usar" (mismo botón de contorno) |
 | 34 | Comentar | El comentario se escribe en la propia tarjeta; "Publicar" |
+| 35 | Vídeo en la ficha | "Ver vídeo" abre el reproductor de YouTube dentro de la hoja "¿Cómo se hace?" (sin salir de la app); canal y "en inglés" debajo |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 
