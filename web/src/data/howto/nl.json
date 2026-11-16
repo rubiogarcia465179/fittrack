@@ -149,11 +149,6 @@
   "Buig alleen je ellebogen om hem achter je hoofd te laten zakken.",
   "Strek je armen weer."
  ],
- "bench_press_narrow_grip": [
-  "Lig op een bank en pak de stang op schouderbreedte.",
-  "Laat hem naar je borst zakken, ellebogen dicht bij je lichaam.",
-  "Duw hem weer omhoog."
- ],
  "biceps_curl_with_cable": [
   "Sta voor een lage kabel, stang met je handpalmen omhoog.",
   "Buig je ellebogen om de stang naar je schouders te brengen.",
@@ -193,11 +188,6 @@
   "Pak een optrekstang met beide handen.",
   "Hang met gestrekte armen en een ontspannen lichaam.",
   "Houd zo lang mogelijk vast."
- ],
- "dips_1": [
-  "Pak de brug met gelijke leggers en til jezelf op met gestrekte armen.",
-  "Buig je ellebogen om je lichaam te laten zakken.",
-  "Duw weer omhoog. Leun iets naar voren."
  ],
  "dips_between_two_benches": [
   "Handen op een bank achter je en voeten op een andere.",
@@ -274,11 +264,6 @@
   "Buig je ellebogen om je borst naar de vloer te laten zakken.",
   "Duw weer omhoog."
  ],
- "reverse_bar_curl": [
-  "Sta met een halterstang, handpalmen naar beneden.",
-  "Buig je ellebogen om hem op te tillen.",
-  "Laat langzaam zakken."
- ],
  "reverse_curl": [
   "Houd het gewicht met je handpalmen naar beneden.",
   "Buig je ellebogen om het op te tillen.",
@@ -303,11 +288,6 @@
   "Lig onder de stang van de Smith-machine, handen op schouderbreedte.",
   "Laat de stang naar je borst zakken, ellebogen dicht bij je lichaam.",
   "Duw hem weer omhoog."
- ],
- "standing_bicep_curl": [
-  "Sta met gewichten, handpalmen naar voren.",
-  "Buig je ellebogen om ze naar je schouders te brengen.",
-  "Laat langzaam zakken."
  ],
  "standing_rope_forearm": [
   "Houd een polsroller (stok met touw en gewicht) voor je.",
@@ -359,11 +339,6 @@
   "Trek de stang naar je navel en knijp je schouderbladen samen.",
   "Laat langzaam zakken."
  ],
- "bent_over_rowing": [
-  "Leun voorover met een rechte rug, het gewicht in gestrekte armen.",
-  "Trek het naar je navel.",
-  "Laat langzaam zakken."
- ],
  "bent_over_rowing_reverse": [
   "Leun voorover met een rechte rug, stang met je handpalmen omhoog.",
   "Trek naar je navel.",
@@ -373,11 +348,6 @@
   "Eén hand en knie op een bank, een dumbbell in de andere hand.",
   "Trek het gewicht naar je heup, elleboog dicht bij je lichaam.",
   "Laat langzaam zakken. Wissel van kant."
- ],
- "chin_up": [
-  "Hang aan een stang met je handpalmen naar je toe.",
-  "Trek jezelf op tot je kin boven de stang is.",
-  "Laat langzaam zakken."
  ],
  "chin_ups": [
   "Hang met je handpalmen naar je toe, handen op schouderbreedte.",
@@ -398,11 +368,6 @@
   "Sta op een laag platform met de stang voor je.",
   "Til hem op als een gewone deadlift, rug recht.",
   "Laat gecontroleerd zakken. Zwaarder dan normaal."
- ],
- "hip_raise_lying": [
-  "Lig op je rug, knieën gebogen, voeten plat.",
-  "Til je heupen zo hoog mogelijk op.",
-  "Houd vast en zak langzaam."
  ],
  "hyperextensions": [
   "Lig op je buik op de hyperextensiebank, heupen op het kussen.",
@@ -479,11 +444,6 @@
   "Trek één dumbbell naar je ribben zonder je lichaam te bewegen.",
   "Zet hem neer en wissel van arm."
  ],
- "row": [
-  "Houd het gewicht of de handgrepen voor je.",
-  "Trek naar je navel en knijp je schouderbladen samen.",
-  "Ga langzaam terug."
- ],
  "rowing_lying_on_bench": [
   "Lig op je buik op een bank met de gewichten eronder.",
   "Trek ze naar je borst.",
@@ -548,11 +508,6 @@
   "Zit in de beenpers met je voorvoeten op de onderrand van het platform.",
   "Duw het platform weg door je tenen te strekken.",
   "Laat je hielen langzaam terugkomen."
- ],
- "calf_raises": [
-  "Sta met je voorvoeten op een trede.",
-  "Kom zo hoog mogelijk op je tenen.",
-  "Laat je hielen langzaam onder de trede zakken."
  ],
  "calf_raises_on_hackenschmitt_machine": [
   "Sta in de hackmachine met je voorvoeten op de rand.",
@@ -694,11 +649,6 @@
   "Laat je borst zakken en laat de grepen meedraaien.",
   "Duw weer omhoog."
  ],
- "pushups": [
-  "Handen iets breder dan je schouders, lichaam recht.",
-  "Laat je borst naar de vloer zakken.",
-  "Duw weer omhoog."
- ],
  "reverse_grip_bench_press": [
   "Lig op een bank en pak de stang met je handpalmen naar je toe.",
   "Laat hem naar je onderborst zakken.",
@@ -774,11 +724,6 @@
   "Buig voorover vanuit je heupen met een rechte rug, knieën licht gebogen.",
   "Kom weer omhoog. Begin heel licht."
  ],
- "high_knee_jumps": [
-  "Sta met je voeten iets breder dan je heupen.",
-  "Zak door je knieën en spring op met je knieën naar je borst.",
-  "Land zacht en herhaal."
- ],
  "high_knees": [
   "Sta rechtop.",
   "Ren op de plaats en til je knieën tot heuphoogte.",
@@ -794,11 +739,6 @@
   "Duw je heupen omhoog tot je recht bent van knieën tot schouders.",
   "Laat langzaam zakken."
  ],
- "jogging": [
-  "Begin met wandelen en jog dan rustig.",
-  "Land licht en houd je schouders ontspannen.",
-  "Je moet nog kunnen praten."
- ],
  "jumping_jacks": [
   "Sta met je voeten bij elkaar en je armen langs je zij.",
   "Spring en open je benen terwijl je je armen boven je hoofd brengt.",
@@ -808,11 +748,6 @@
   "Sta breed met de kettlebell in je handen.",
   "Duw je heupen naar achteren en stoot ze naar voren om het gewicht te zwaaien.",
   "Laat hem terugzwaaien en herhaal."
- ],
- "leg_curl": [
-  "Lig of zit in de leg-curlmachine, kussen achter je enkels.",
-  "Buig je knieën om het kussen naar je toe te trekken.",
-  "Ga langzaam terug."
  ],
  "leg_curls_laying": [
   "Lig op je buik op de machine, kussen achter je enkels.",
@@ -830,16 +765,6 @@
   "Laat langzaam zakken. Wissel van been."
  ],
  "leg_extension_1": [
-  "Zit in de machine met het kussen op je onderste scheenbenen.",
-  "Strek je benen om het kussen op te tillen.",
-  "Laat langzaam zakken."
- ],
- "leg_extension_2": [
-  "Zit in de machine met het kussen op je onderste scheenbenen.",
-  "Strek je benen om het kussen op te tillen.",
-  "Laat langzaam zakken."
- ],
- "leg_extension_3": [
   "Zit in de machine met het kussen op je onderste scheenbenen.",
   "Strek je benen om het kussen op te tillen.",
   "Laat langzaam zakken."
@@ -863,11 +788,6 @@
   "Zit in de beenpers met je voeten wijd uit elkaar.",
   "Buig je knieën om het platform te laten zakken.",
   "Duw het weer weg."
- ],
- "leg_raise": [
-  "Lig op je rug of hang aan een stang.",
-  "Til je gestrekte benen op.",
-  "Laat ze langzaam zakken."
  ],
  "low_box_squat_wide_stance": [
   "Sta breed voor een lage box, stang op je rug.",
@@ -919,11 +839,6 @@
   "Spring met je voeten naar achteren in push-uphouding.",
   "Spring ze weer naar voren en sta op."
  ],
- "squats": [
-  "Sta met je voeten op schouderbreedte.",
-  "Ga naar achteren zitten alsof er een stoel staat, borst omhoog.",
-  "Kom weer omhoog."
- ],
  "stationary_bike": [
   "Ga op de hometrainer zitten en stel het zadel in.",
   "Trap in een rustig, gelijkmatig tempo.",
@@ -953,11 +868,6 @@
   "Leun met je rug tegen een muur.",
   "Schuif omlaag tot je knieën een rechte hoek maken.",
   "Houd vast alsof je op een onzichtbare stoel zit."
- ],
- "weighted_step": [
-  "Houd gewichten vast en sta voor een trede of box.",
-  "Stap op met één voet en dan met de andere.",
-  "Stap af en herhaal."
  ],
  "weighted_step_ups": [
   "Houd gewichten vast voor een box of bank.",
@@ -1034,11 +944,6 @@
   "Draai je onderarm omhoog.",
   "Laat langzaam zakken. Alleen heel licht gewicht."
  ],
- "military_press_2": [
-  "Sta rechtop met de stang op je schouders.",
-  "Duw hem recht omhoog zonder achterover te leunen.",
-  "Laat hem terug naar je schouders zakken."
- ],
  "power_clean": [
   "Sta met de stang boven je voeten.",
   "Trek hem explosief op en vang hem op je schouders.",
@@ -1079,11 +984,6 @@
   "Duw de stang omhoog.",
   "Laat langzaam zakken."
  ],
- "shoulder_shrug": [
-  "Sta met gewichten langs je zij.",
-  "Til je schouders op naar je oren.",
-  "Laat langzaam zakken."
- ],
  "shrugs_barbells": [
   "Sta met een stang voor je dijen.",
   "Til je schouders op naar je oren.",
@@ -1093,11 +993,6 @@
   "Sta met een dumbbell in elke hand.",
   "Til je schouders op naar je oren.",
   "Laat langzaam zakken."
- ],
- "side_raise": [
-  "Sta met gewichten en je ellebogen op 90° gebogen.",
-  "Til je ellebogen opzij.",
-  "Laat langzaam zakken: 2 seconden op, 2 neer."
  ],
  "side_lying_external_rotation": [
   "Lig op je zij met een licht gewicht, elleboog gebogen tegen je taille.",

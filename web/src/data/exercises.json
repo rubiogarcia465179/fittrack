@@ -4,7 +4,7 @@
   "source": "real",
   "source_note": "Base: dataset de wger (CC-BY-SA, créditos: https://wger.de/about), extraído de la wheel de PyPI `wger 2.1` (sha256 eeb67b4184137b83…); la API de wger.de sigue bloqueada por el proxy del sandbox. name_nl y level son curados localmente (wger no publica NL ni dificultad); 16 ejercicios sin instrucción en wger llevan pasos generados localmente. Imágenes: placeholders generados (fotos de wger en static.wger.de, inaccesible). Atribución por ejercicio en campos `license`/`credit`. name_es/name_fr: traducciones locales curadas (no de wger), en data/exercises/names-i18n.json.",
   "generated_at": "2026-10-31",
-  "count": 226,
+  "count": 205,
   "groups": [
     "chest",
     "back",
@@ -377,7 +377,10 @@
       ],
       "equipment": "other",
       "level": "beginner",
-      "aliases": [],
+      "aliases": [
+        "Leg Raise",
+        "Beenhef"
+      ],
       "instructions": [
         "Lay down on a bench and hold onto the recliner with your hands to keep you stable.",
         "Hold your legs straight and lift them till they make an angle of about 45°.",
@@ -754,35 +757,6 @@
       "name_fr": "Extension triceps à la barre"
     },
     {
-      "id": "bench_press_narrow_grip",
-      "name_en": "Bench Press Narrow Grip",
-      "name_nl": "Bankdrukken, smalle greep",
-      "muscle_group": "arms",
-      "secondary_muscles": [
-        "shoulders",
-        "chest"
-      ],
-      "equipment": "barbell",
-      "level": "intermediate",
-      "aliases": [
-        "Bankdrücken Eng"
-      ],
-      "instructions": [
-        "Lay down on a bench, the bar is directly over your eyes, the knees form a slight angle and the feet are firmly on the ground.",
-        "Hold the bar with a narrow grip (around 20cm.).",
-        "Lead the weight slowly down till the arms are parallel to the floor (elbow: right angle), press then the bar up.",
-        "When bringing the bar down, don't let it down on your nipples as with the regular bench pressing, but somewhat lower."
-      ],
-      "image": "/images/exercises/bench_press_narrow_grip.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-76",
-      "source_url": "https://wger.de (exercise base pk 76)",
-      "license": "CC-BY-SA 3",
-      "credit": "wger.de",
-      "name_es": "Press de banca agarre estrecho",
-      "name_fr": "Développé couché prise serrée"
-    },
-    {
       "id": "biceps_curl_with_cable",
       "name_en": "Biceps Curl With Cable",
       "name_nl": "Bicepskrul met kabel",
@@ -842,7 +816,9 @@
       "equipment": "dumbbell",
       "level": "beginner",
       "aliases": [
-        "Bizeps KH-Curls"
+        "Bizeps KH-Curls",
+        "Standing Bicep Curl",
+        "Bicepskrul, staand"
       ],
       "instructions": [
         "Hold two barbells, the arms are streched, the hands are on your side, the palms face inwards.",
@@ -923,7 +899,10 @@
       ],
       "equipment": "barbell",
       "level": "intermediate",
-      "aliases": [],
+      "aliases": [
+        "Bankdrücken Eng",
+        "Bench Press Narrow Grip"
+      ],
       "instructions": [
         "Perform a typical bench press, but hold the bar with your hands approximately shoulder-width apart and keep your elbows close to your body."
       ],
@@ -978,31 +957,6 @@
       "credit": "2dPREtEZP221u68Akf0JImv5L48",
       "name_es": "Colgado pasivo",
       "name_fr": "Suspension passive"
-    },
-    {
-      "id": "dips_1",
-      "name_en": "Dips",
-      "name_nl": "Dips",
-      "muscle_group": "arms",
-      "secondary_muscles": [
-        "chest",
-        "abs"
-      ],
-      "equipment": "other",
-      "level": "beginner",
-      "aliases": [],
-      "instructions": [
-        "Hold onto the bars at a narrow place (if they are not parallel) and press yourself up, but don't stretch the arms completely, so the muscles stay during the whole exercise under tension.",
-        "Now bend the arms and go down as much as you can, keeping the elbows always pointing back, At this point, you can make a short pause before repeating the movement."
-      ],
-      "image": "/images/exercises/dips_1.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-195",
-      "source_url": "https://wger.de (exercise base pk 195)",
-      "license": "CC-BY-SA 3",
-      "credit": "wger.de",
-      "name_es": "Fondos",
-      "name_fr": "Dips"
     },
     {
       "id": "dips_between_two_benches",
@@ -1287,11 +1241,13 @@
       "id": "military_press_1",
       "name_en": "Military Press",
       "name_nl": "Military press",
-      "muscle_group": "arms",
+      "muscle_group": "shoulders",
       "secondary_muscles": [],
       "equipment": "barbell",
       "level": "intermediate",
-      "aliases": [],
+      "aliases": [
+        "Frontdrücken LH"
+      ],
       "instructions": [
         "On an SZ-bar grip your hands on the outside of each bend and stand with your arms straight down, palms facing your legs.",
         "Pull the bar (bending your arms at the elbow) to your chest, and the push the bar above your head (arms as straight as possible).",
@@ -1360,7 +1316,7 @@
       "id": "push_ups",
       "name_en": "Push Ups",
       "name_nl": "Push-ups",
-      "muscle_group": "arms",
+      "muscle_group": "chest",
       "secondary_muscles": [
         "shoulders",
         "chest",
@@ -1369,7 +1325,8 @@
       "equipment": "bodyweight",
       "level": "beginner",
       "aliases": [
-        "Liegestütz"
+        "Liegestütz",
+        "Pushups"
       ],
       "instructions": [
         "Start with your body streched, your hands are shoulder-wide appart on the ground.",
@@ -1387,27 +1344,6 @@
       "name_fr": "Pompes"
     },
     {
-      "id": "reverse_bar_curl",
-      "name_en": "Reverse Bar Curl",
-      "name_nl": "Omgekeerde stangkrul",
-      "muscle_group": "arms",
-      "secondary_muscles": [],
-      "equipment": "barbell",
-      "level": "intermediate",
-      "aliases": [],
-      "instructions": [
-        "Hold bar with reverse (or \"overhand\") grip, palms facing the floor."
-      ],
-      "image": "/images/exercises/reverse_bar_curl.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-493",
-      "source_url": "https://wger.de (exercise base pk 493)",
-      "license": "CC-BY-SA 3",
-      "credit": "tuckerm",
-      "name_es": "Curl invertido con barra",
-      "name_fr": "Curl inversé à la barre"
-    },
-    {
       "id": "reverse_curl",
       "name_en": "Reverse Curl",
       "name_nl": "Omgekeerde krul",
@@ -1416,7 +1352,9 @@
       "equipment": "barbell",
       "level": "intermediate",
       "aliases": [
-        "Reverse Curls"
+        "Reverse Curls",
+        "Reverse Bar Curl",
+        "Omgekeerde stangkrul"
       ],
       "instructions": [
         "The reverse-grip barbell curl is a variation on the biceps curl where the palms face downward.",
@@ -1521,28 +1459,6 @@
       "name_fr": "Développé couché prise serrée à la Smith"
     },
     {
-      "id": "standing_bicep_curl",
-      "name_en": "Standing Bicep Curl",
-      "name_nl": "Bicepskrul, staand",
-      "muscle_group": "arms",
-      "secondary_muscles": [],
-      "equipment": "dumbbell",
-      "level": "beginner",
-      "aliases": [],
-      "instructions": [
-        "Stand holding dumbbells at shoulder width apart.",
-        "Face forearm upward and keep upper arm still while raising each dumbbell up to your shoulder."
-      ],
-      "image": "/images/exercises/standing_bicep_curl.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-621",
-      "source_url": "https://wger.de (exercise base pk 621)",
-      "license": "CC0",
-      "credit": "BFad07",
-      "name_es": "Curl de bíceps de pie",
-      "name_fr": "Curl biceps debout"
-    },
-    {
       "id": "standing_rope_forearm",
       "name_en": "Standing Rope Forearm",
       "name_nl": "Voorarmoefening met touw, staand",
@@ -1629,7 +1545,9 @@
       "secondary_muscles": [],
       "equipment": "other",
       "level": "beginner",
-      "aliases": [],
+      "aliases": [
+        "Dips"
+      ],
       "instructions": [
         "lift on parallel bars hold for 1 second, and lower slowly and control for 4 seconds, then come back with no rest (tempo: 4010)"
       ],
@@ -1776,7 +1694,13 @@
       "secondary_muscles": [],
       "equipment": "barbell",
       "level": "intermediate",
-      "aliases": [],
+      "aliases": [
+        "Rudern Vorgebeugt LH",
+        "Bent Over Rowing",
+        "Gebogen rowing",
+        "Row",
+        "Rowen"
+      ],
       "instructions": [
         "Holding a barbell with a pronated grip (palms facing down), bend your knees slightly and bring your torso forward, by bending at the waist, while keeping the back straight until it is almost parallel to the floor.",
         "Tip: Make sure that you keep the head up.",
@@ -1793,37 +1717,6 @@
       "credit": "warchildmd",
       "name_es": "Remo inclinado con barra",
       "name_fr": "Rowing buste penché à la barre"
-    },
-    {
-      "id": "bent_over_rowing",
-      "name_en": "Bent Over Rowing",
-      "name_nl": "Gebogen rowing",
-      "muscle_group": "back",
-      "secondary_muscles": [
-        "shoulders",
-        "biceps"
-      ],
-      "equipment": "barbell",
-      "level": "intermediate",
-      "aliases": [
-        "Rudern Vorgebeugt LH"
-      ],
-      "instructions": [
-        "Grab the barbell with a wide grip (slightly more than shoulder wide) and lean forward.",
-        "Your upper body is not quite parallel to the floor, but forms a slight angle.",
-        "The chest's out during the whole exercise.",
-        "Pull now the barbell with a fast movement towards your belly button, not further up.",
-        "Go slowly down to the initial position.",
-        "Don't swing with your body and keep your arms next to your body."
-      ],
-      "image": "/images/exercises/bent_over_rowing.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-83",
-      "source_url": "https://wger.de (exercise base pk 83)",
-      "license": "CC-BY-SA 3",
-      "credit": "wger.de",
-      "name_es": "Remo inclinado",
-      "name_fr": "Rowing buste penché"
     },
     {
       "id": "bent_over_rowing_reverse",
@@ -1882,30 +1775,6 @@
       "name_fr": "Rowing buste penché aux haltères"
     },
     {
-      "id": "chin_up",
-      "name_en": "Chin Up",
-      "name_nl": "Chin-up",
-      "muscle_group": "back",
-      "secondary_muscles": [],
-      "equipment": "bodyweight",
-      "level": "intermediate",
-      "aliases": [],
-      "instructions": [
-        "The chin-up (also known as a chin or chinup) is a strength training exercise.",
-        "People frequently do this exercise with the intention of strengthening muscles such as the latissimus dorsi and biceps, which extend the shoulder and flex the elbow, respectively.",
-        "In this maneuver, the palms are faced towards the body.",
-        "It is a form of pull-up in which the range of motion is established in relation to a person's chin."
-      ],
-      "image": "/images/exercises/chin_up.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-152",
-      "source_url": "https://wger.de (exercise base pk 152)",
-      "license": "CC0",
-      "credit": "BFad07",
-      "name_es": "Dominada supina",
-      "name_fr": "Traction en supination"
-    },
-    {
       "id": "chin_ups",
       "name_en": "Chin-ups",
       "name_nl": "Chin-ups",
@@ -1913,7 +1782,10 @@
       "secondary_muscles": [],
       "equipment": "bodyweight",
       "level": "beginner",
-      "aliases": [],
+      "aliases": [
+        "Chin Up",
+        "Chin-up"
+      ],
       "instructions": [
         "Like pull-ups but with a reverse grip"
       ],
@@ -2011,33 +1883,6 @@
       "credit": "bobbyprince89",
       "name_es": "Peso muerto en déficit",
       "name_fr": "Soulevé de terre en déficit"
-    },
-    {
-      "id": "hip_raise_lying",
-      "name_en": "Hip Raise, Lying",
-      "name_nl": "Heuphef, liggend",
-      "muscle_group": "back",
-      "secondary_muscles": [
-        "back",
-        "abs",
-        "abs",
-        "traps"
-      ],
-      "equipment": "bodyweight",
-      "level": "intermediate",
-      "aliases": [],
-      "instructions": [
-        "Lying down on your back, with your feet flat on the floor.",
-        "Raise your hips up evenly as high as you can and hold for as long as you can."
-      ],
-      "image": "/images/exercises/hip_raise_lying.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-292",
-      "source_url": "https://wger.de (exercise base pk 292)",
-      "license": "CC-BY-SA 4",
-      "credit": "James Mackay",
-      "name_es": "Elevación de cadera tumbado",
-      "name_fr": "Relevé de bassin allongé"
     },
     {
       "id": "hyperextensions",
@@ -2418,31 +2263,6 @@
       "name_fr": "Rowing renégat"
     },
     {
-      "id": "row",
-      "name_en": "Row",
-      "name_nl": "Rowen",
-      "muscle_group": "back",
-      "secondary_muscles": [
-        "quads"
-      ],
-      "equipment": "barbell",
-      "level": "intermediate",
-      "aliases": [],
-      "instructions": [
-        "In strength training, rowing (or a row, usually preceded by a qualifying adjective — for instance a seated row) is an exercise where the purpose is to strengthen the muscles that draw the rower's arms toward the body (latissimus dorsi) as well as those that retract the scapulae (trapezius and rhomboids) and those that support the spine (erector spinae).",
-        "When done on a rowing machine, rowing also exercises muscles that extend and support the legs (quadriceps and thigh muscles).",
-        "In all cases, the abdominal and lower back muscles must be used in order to support the body and prevent back injury."
-      ],
-      "image": "/images/exercises/row.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-508",
-      "source_url": "https://wger.de (exercise base pk 508)",
-      "license": "CC0",
-      "credit": "BFad07",
-      "name_es": "Remo",
-      "name_fr": "Rowing"
-    },
-    {
       "id": "rowing_lying_on_bench",
       "name_en": "Rowing, Lying on Bench",
       "name_nl": "Rowen, liggend op bank",
@@ -2758,29 +2578,6 @@
       "name_fr": "Mollets à la presse"
     },
     {
-      "id": "calf_raises",
-      "name_en": "Calf Raises",
-      "name_nl": "Kuitspierrezen",
-      "muscle_group": "legs",
-      "secondary_muscles": [],
-      "equipment": "dumbbell",
-      "level": "beginner",
-      "aliases": [],
-      "instructions": [
-        "Calf raises are a method of exercising the gastrocnemius, tibialis posterior and soleus muscles of the lower leg.",
-        "The movement performed is plantar flexion, a.k.a.",
-        "ankle extension."
-      ],
-      "image": "/images/exercises/calf_raises.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-147",
-      "source_url": "https://wger.de (exercise base pk 147)",
-      "license": "CC0",
-      "credit": "BFad07",
-      "name_es": "Elevación de gemelos",
-      "name_fr": "Extensions des mollets"
-    },
-    {
       "id": "calf_raises_on_hackenschmitt_machine",
       "name_en": "Calf Raises on Hackenschmitt Machine",
       "name_nl": "Kuitspierrezen met hackmachine",
@@ -2863,7 +2660,9 @@
       "equipment": "other",
       "level": "beginner",
       "aliases": [
-        "Wadenheben Stehend"
+        "Wadenheben Stehend",
+        "Calf Raises",
+        "Kuitspierrezen"
       ],
       "instructions": [
         "Get onto the calf raises machine, you should able to completely push your calves down.",
@@ -3191,8 +2990,8 @@
       "source_url": "https://wger.de (exercise base pk 194)",
       "license": "CC0",
       "credit": "BFad07",
-      "name_es": "Fondos (pecho)",
-      "name_fr": "Dips (pectoraux)"
+      "name_es": "Fondos",
+      "name_fr": "Dips"
     },
     {
       "id": "extenseurs_face",
@@ -3475,32 +3274,6 @@
       "name_fr": "Pompe parfaite"
     },
     {
-      "id": "pushups",
-      "name_en": "Pushups",
-      "name_nl": "Push-ups",
-      "muscle_group": "chest",
-      "secondary_muscles": [
-        "biceps"
-      ],
-      "equipment": "bodyweight",
-      "level": "beginner",
-      "aliases": [],
-      "instructions": [
-        "A push-up (or press-up if the hands are wider than shoulders placing more emphasis on the pectoral muscles) is a common calisthenics exercise beginning from the prone position.",
-        "By raising and lowering the body using the arms, push-ups exercise the pectoral muscles, triceps, and anterior deltoids, with ancillary benefits to the rest of the deltoids, serratus anterior, coracobrachialis and the midsection as a whole.",
-        "Push-ups are a basic exercise used in civilian athletic training or physical education and commonly in military physical training.",
-        "They are also a common form of punishment used in the military, school sport, or some martial arts disciplines."
-      ],
-      "image": "/images/exercises/pushups.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-480",
-      "source_url": "https://wger.de (exercise base pk 480)",
-      "license": "CC0",
-      "credit": "BFad07",
-      "name_es": "Flexiones (pecho)",
-      "name_fr": "Pompes (pectoraux)"
-    },
-    {
       "id": "reverse_grip_bench_press",
       "name_en": "Reverse Grip Bench Press",
       "name_nl": "Bankdrukken, omgekeerde greep",
@@ -3596,9 +3369,12 @@
       "name_nl": "Kniebuiging",
       "muscle_group": "legs",
       "secondary_muscles": [],
-      "equipment": "other",
+      "equipment": "barbell",
       "level": "intermediate",
-      "aliases": [],
+      "aliases": [
+        "Kniebeuge",
+        "Squats"
+      ],
       "instructions": [
         "Place a barbell in a rack just below shoulder-height.",
         "Dip under the bar to put it behind the neck across the top of the back, and grip the bar with the hands wider than shoulder-width apart.",
@@ -3839,7 +3615,10 @@
       ],
       "equipment": "other",
       "level": "beginner",
-      "aliases": [],
+      "aliases": [
+        "Hip Raise, Lying",
+        "Heuphef, liggend"
+      ],
       "instructions": [
         "Lie on you back with your hips and knees flexed, feet on the ground.",
         "From this position, raise your butt off of the ground to a height where your body makes a straight line from your knees to your shoulders.",
@@ -3878,34 +3657,6 @@
       "name_fr": "Good morning"
     },
     {
-      "id": "high_knee_jumps",
-      "name_en": "High Knee Jumps",
-      "name_nl": "Springen met knieheffen",
-      "muscle_group": "cardio",
-      "secondary_muscles": [
-        "abs",
-        "abs",
-        "chest"
-      ],
-      "equipment": "other",
-      "level": "advanced",
-      "aliases": [],
-      "instructions": [
-        "-Start with legs slightly wider than shoulder width -Drop into a bodyweight squat -As you hit the bottom of the squat, explode upwards into a jump while simultaneously tucking your knees into your chest midflight.",
-        "Remain tucked until the apex of your jump.",
-        "-Land on both feet, making sure your knees are not locked so as to avoid excessive strain upon your joints.",
-        "Collect yourself into the next rep as quickly but under control as possible."
-      ],
-      "image": "/images/exercises/high_knee_jumps.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-285",
-      "source_url": "https://wger.de (exercise base pk 285)",
-      "license": "CC-BY-SA 4",
-      "credit": "nate303303",
-      "name_es": "Saltos con rodillas al pecho",
-      "name_fr": "Sauts genoux hauts"
-    },
-    {
       "id": "high_knees",
       "name_en": "High Knees",
       "name_nl": "Knieheffen",
@@ -3915,7 +3666,10 @@
       ],
       "equipment": "other",
       "level": "beginner",
-      "aliases": [],
+      "aliases": [
+        "High Knee Jumps",
+        "Springen met knieheffen"
+      ],
       "instructions": [
         "-Start with legs at a comfortable standing width -Run in place, bringing knees to or above waist level"
       ],
@@ -3981,27 +3735,6 @@
       "name_fr": "Hip thrust"
     },
     {
-      "id": "jogging",
-      "name_en": "Jogging",
-      "name_nl": "Joggen",
-      "muscle_group": "cardio",
-      "secondary_muscles": [],
-      "equipment": "other",
-      "level": "beginner",
-      "aliases": [],
-      "instructions": [
-        "Get your shoes on, go outside and start running at a moderate pace."
-      ],
-      "image": "/images/exercises/jogging.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-319",
-      "source_url": "https://wger.de (exercise base pk 319)",
-      "license": "CC-BY-SA 4",
-      "credit": "Papazit",
-      "name_es": "Trotar",
-      "name_fr": "Footing"
-    },
-    {
       "id": "jumping_jacks",
       "name_en": "Jumping Jacks",
       "name_nl": "Jumping jacks",
@@ -4051,29 +3784,6 @@
       "name_fr": "Swing kettlebell"
     },
     {
-      "id": "leg_curl",
-      "name_en": "Leg Curl",
-      "name_nl": "Beinbuigen",
-      "muscle_group": "legs",
-      "secondary_muscles": [],
-      "equipment": "other",
-      "level": "beginner",
-      "aliases": [],
-      "instructions": [
-        "The leg curl, also known as the hamstring curl, is an isolation exercise that targets the hamstring muscles.",
-        "The exercise involves flexing the lower leg against resistance towards the buttocks.",
-        "Other exercises that can be used to strengthen the hamstrings are the glute-ham raise and the deadlift."
-      ],
-      "image": "/images/exercises/leg_curl.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-364",
-      "source_url": "https://wger.de (exercise base pk 364)",
-      "license": "CC0",
-      "credit": "BFad07",
-      "name_es": "Curl femoral",
-      "name_fr": "Leg curl"
-    },
-    {
       "id": "leg_curls_laying",
       "name_en": "Leg Curls (laying)",
       "name_nl": "Beinbuigen, liggend",
@@ -4082,7 +3792,9 @@
       "equipment": "other",
       "level": "beginner",
       "aliases": [
-        "Beinbeuger Liegend"
+        "Beinbeuger Liegend",
+        "Leg Curl",
+        "Beinbuigen"
       ],
       "instructions": [
         "Lay on a bench and put your calves behind the leg holder (better if they are hold on around the lower calves).",
@@ -4155,7 +3867,9 @@
       "secondary_muscles": [],
       "equipment": "other",
       "level": "beginner",
-      "aliases": [],
+      "aliases": [
+        "Beinbeuger Sitzend"
+      ],
       "instructions": [
         "The leg extension is a resistance weight training exercise that targets the quadriceps muscle in the legs.",
         "The exercise is done using a machine called the Leg Extension Machine.",
@@ -4172,55 +3886,6 @@
       "credit": "BFad07",
       "name_es": "Extensión de cuádriceps",
       "name_fr": "Leg extension"
-    },
-    {
-      "id": "leg_extension_2",
-      "name_en": "Leg Extension",
-      "name_nl": "Beinstrekking",
-      "muscle_group": "legs",
-      "secondary_muscles": [],
-      "equipment": "other",
-      "level": "beginner",
-      "aliases": [],
-      "instructions": [
-        "The leg extension is a resistance weight training exercise that targets the quadriceps muscle in the legs.",
-        "The exercise is done using a machine called the Leg Extension Machine.",
-        "There are various manufacturers of these machines and each one is slightly different.",
-        "Most gym and weight rooms will have the machine in their facility.",
-        "The leg extension is an isolated exercise targeting one specific muscle group, the quadriceps.",
-        "It should not be considered as a total leg workout, such as the squat or deadlift."
-      ],
-      "image": "/images/exercises/leg_extension_2.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-369",
-      "source_url": "https://wger.de (exercise base pk 369)",
-      "license": "CC0",
-      "credit": "BFad07",
-      "name_es": "Extensión de cuádriceps (variante)",
-      "name_fr": "Leg extension (variante)"
-    },
-    {
-      "id": "leg_extension_3",
-      "name_en": "Leg Extension",
-      "name_nl": "Beinstrekking",
-      "muscle_group": "legs",
-      "secondary_muscles": [],
-      "equipment": "other",
-      "level": "beginner",
-      "aliases": [
-        "Beinbeuger Sitzend"
-      ],
-      "instructions": [
-        "Seated Leg Extension Machine"
-      ],
-      "image": "/images/exercises/leg_extension_3.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-370",
-      "source_url": "https://wger.de (exercise base pk 370)",
-      "license": "CC-BY-SA 3",
-      "credit": "kwrindy",
-      "name_es": "Extensión de cuádriceps (máquina)",
-      "name_fr": "Leg extension (machine)"
     },
     {
       "id": "leg_press",
@@ -4327,28 +3992,6 @@
       "name_fr": "Presse à cuisses pieds écartés"
     },
     {
-      "id": "leg_raise",
-      "name_en": "Leg Raise",
-      "name_nl": "Beenhef",
-      "muscle_group": "legs",
-      "secondary_muscles": [],
-      "equipment": "other",
-      "level": "beginner",
-      "aliases": [],
-      "instructions": [
-        "The leg raise is a strength training exercise which targets the iliopsoas (the anterior hip flexors).",
-        "Because the abdominal muscles are used isometrically to stabilize the body during the motion, leg raises are also often used to strengthen the rectus abdominis muscle and the internal and external oblique muscles."
-      ],
-      "image": "/images/exercises/leg_raise.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-376",
-      "source_url": "https://wger.de (exercise base pk 376)",
-      "license": "CC0",
-      "credit": "BFad07",
-      "name_es": "Elevación de piernas",
-      "name_fr": "Relevé de jambes"
-    },
-    {
       "id": "low_box_squat_wide_stance",
       "name_en": "Low Box Squat - Wide Stance",
       "name_nl": "Kniebuiging op doos, brede stance",
@@ -4450,7 +4093,10 @@
       "secondary_muscles": [],
       "equipment": "other",
       "level": "intermediate",
-      "aliases": [],
+      "aliases": [
+        "Jogging",
+        "Joggen"
+      ],
       "instructions": [
         "Running or jogging outside in a park, on the tracks,..."
       ],
@@ -4574,35 +4220,6 @@
       "credit": "BFad07",
       "name_es": "Squat thrust",
       "name_fr": "Squat thrust"
-    },
-    {
-      "id": "squats",
-      "name_en": "Squats",
-      "name_nl": "Kniebuiging",
-      "muscle_group": "legs",
-      "secondary_muscles": [
-        "glutes"
-      ],
-      "equipment": "barbell",
-      "level": "beginner",
-      "aliases": [
-        "Kniebeuge"
-      ],
-      "instructions": [
-        "Make sure you have put the barbell at a height where you can comfortably take it out and put it back in.",
-        "Take it out and make yourself ready: The bar is somewhat lower than your shoulders The feet are quite apart and point out The head is in your neck and looks up The chest is out Go now slowly down, till your thighs are parallel with the floor, not lower.",
-        "The knees point outwards, your butt, out.",
-        "Make a small pause of 1 second and with as much energy as you can, push the weight up.",
-        "Make a pause of 2 seconds and repeat."
-      ],
-      "image": "/images/exercises/squats.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-615",
-      "source_url": "https://wger.de (exercise base pk 615)",
-      "license": "CC-BY-SA 3",
-      "credit": "wger.de",
-      "name_es": "Sentadillas",
-      "name_fr": "Squats"
     },
     {
       "id": "stationary_bike",
@@ -4751,27 +4368,6 @@
       "name_fr": "Chaise au mur"
     },
     {
-      "id": "weighted_step",
-      "name_en": "Weighted Step",
-      "name_nl": "Gewichtsstaap",
-      "muscle_group": "legs",
-      "secondary_muscles": [],
-      "equipment": "barbell",
-      "level": "intermediate",
-      "aliases": [],
-      "instructions": [
-        "Box step-ups w/ barbell, 45's on each side"
-      ],
-      "image": "/images/exercises/weighted_step.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-721",
-      "source_url": "https://wger.de (exercise base pk 721)",
-      "license": "CC-BY-SA 4",
-      "credit": "jigglychipmunk",
-      "name_es": "Step con peso",
-      "name_fr": "Step lesté"
-    },
-    {
       "id": "weighted_step_ups",
       "name_en": "Weighted Step-ups",
       "name_nl": "Step-up met gewicht",
@@ -4779,7 +4375,10 @@
       "secondary_muscles": [],
       "equipment": "other",
       "level": "intermediate",
-      "aliases": [],
+      "aliases": [
+        "Weighted Step",
+        "Gewichtsstaap"
+      ],
       "instructions": [
         "box step ups w/ barbell and 45's on each side"
       ],
@@ -5051,7 +4650,8 @@
       "equipment": "dumbbell",
       "level": "beginner",
       "aliases": [
-        "Seitheben KH"
+        "Seitheben KH",
+        "Side Raise"
       ],
       "instructions": [
         "De pie, con un dumbbell en cada mano a los costados y codos ligeramente flexionados.",
@@ -5143,34 +4743,6 @@
       "credit": "Trix",
       "name_es": "Ejercicio de manguito rotador tumbado",
       "name_fr": "Exercice de la coiffe des rotateurs allongé"
-    },
-    {
-      "id": "military_press_2",
-      "name_en": "Military Press",
-      "name_nl": "Military press",
-      "muscle_group": "shoulders",
-      "secondary_muscles": [
-        "chest",
-        "triceps"
-      ],
-      "equipment": "barbell",
-      "level": "intermediate",
-      "aliases": [
-        "Frontdrücken LH"
-      ],
-      "instructions": [
-        "The military press is a variation of the overhead press weight training exercise using very strict form and no pre-movement momentum.The military press targets the deltoid muscles in the shoulders as well as the triceps.",
-        "Additionally, it works the core and legs, which the lifter uses to help stabilize the weight.The lift begins with the lifter standing and the barbell on the anterior deltoids.",
-        "The lifter then raises the barbell overhead by pressing the palms of the hands against the underside of the barbell."
-      ],
-      "image": "/images/exercises/military_press_2.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-416",
-      "source_url": "https://wger.de (exercise base pk 416)",
-      "license": "CC-BY-SA 3",
-      "credit": "Wikipedia",
-      "name_es": "Press militar (de pie)",
-      "name_fr": "Développé militaire (debout)"
     },
     {
       "id": "power_clean",
@@ -5365,30 +4937,6 @@
       "name_fr": "Développé épaules à la Smith"
     },
     {
-      "id": "shoulder_shrug",
-      "name_en": "Shoulder Shrug",
-      "name_nl": "Schouderkrimpen",
-      "muscle_group": "shoulders",
-      "secondary_muscles": [],
-      "equipment": "barbell",
-      "level": "beginner",
-      "aliases": [],
-      "instructions": [
-        "The shoulder shrug (usually called simply the shrug) is an exercise in weight training used to develop the upper trapezius muscle.",
-        "The lifter stands erect, hands about shoulder width apart, and raises the shoulders as high as possible, and then lowers them, while not bending the elbows, or moving the body at all.",
-        "The lifter may not have as large a range of motion as in a normal shrug done for active flexibility.",
-        "It is usually considered good form if the slope of the shoulders is horizontal in the elevated position."
-      ],
-      "image": "/images/exercises/shoulder_shrug.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-570",
-      "source_url": "https://wger.de (exercise base pk 570)",
-      "license": "CC0",
-      "credit": "BFad07",
-      "name_es": "Encogimiento de hombros",
-      "name_fr": "Haussement d'épaules"
-    },
-    {
       "id": "shrugs_barbells",
       "name_en": "Shrugs, Barbells",
       "name_nl": "Schouderkrimpen met stang",
@@ -5397,7 +4945,9 @@
       "equipment": "barbell",
       "level": "intermediate",
       "aliases": [
-        "Shrugs (Schulterheben) Mit LH"
+        "Shrugs (Schulterheben) Mit LH",
+        "Shoulder Shrug",
+        "Schouderkrimpen"
       ],
       "instructions": [
         "Take a barbell and stand with a straight body, the arms are hanging freely in front of you.",
@@ -5439,31 +4989,6 @@
       "credit": "wger.de",
       "name_es": "Encogimientos con mancuernas",
       "name_fr": "Shrugs aux haltères"
-    },
-    {
-      "id": "side_raise",
-      "name_en": "Side Raise",
-      "name_nl": "Zijwaartse heffen",
-      "muscle_group": "shoulders",
-      "secondary_muscles": [],
-      "equipment": "barbell",
-      "level": "beginner",
-      "aliases": [],
-      "instructions": [
-        "Stand up or sit , keep both weights in front against legs or at side.",
-        "Keep arms at around a 90 degree angle.",
-        "Lift elbows up slowly and squeese traps when at topmost position.",
-        "Lower the weights slowly back to starting position.",
-        "2 seconds up, 2 seconds down"
-      ],
-      "image": "/images/exercises/side_raise.png",
-      "source": "real",
-      "source_id": "wger-exercisebase-581",
-      "source_url": "https://wger.de (exercise base pk 581)",
-      "license": "CC0",
-      "credit": "tobahl",
-      "name_es": "Elevación lateral",
-      "name_fr": "Élévation latérale"
     },
     {
       "id": "side_lying_external_rotation",

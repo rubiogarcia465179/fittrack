@@ -341,3 +341,14 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-112 [DONE] Añadir al playbook todos los detalles aprendidos (`docs/UX-PLAYBOOK.md` §7 bucle y §8 lista de detalles)
 ### R-113 [DONE] Arreglar los pendientes salvo la vibración (ejercicios casi iguales; nombre del récord en 2 líneas)
 ### R-114 [DONE] Documentar estado y siguiente paso para otro agente (TASKS "Cómo continuar", PROGRESS, final de `docs/LOOP-11l.md`)
+
+## Pasada 2026-11-16 (noche)
+
+### R-116 [DONE] Aplazados: "Hacerlo ahora" disponible desde el primer momento (sustituye la regla de ~5 intentos de R-11) (verificación: captura 33; `POSTPONE_RETURN_AT` eliminado)
+### R-117 [DONE] Títulos de ejercicio en la sesión: "como lo haría Steve Jobs" (decide la prueba Jobs) → minúsculas en negrita, sin MAYÚSCULAS (estilo Apple; capturas 05–07)
+### R-118 [DONE] El detalle de ejercicio pasa a ser la hoja "¿Cómo se hace?" (una sola vista del ejercicio) (`DetailScreen` eliminado; captura 31)
+### R-119 [DONE] Quitar los duplicados del catálogo de ejercicios (21 fusionados, 226 → 205; `scripts/dedupe_catalog.js`, `data/exercises/merged-ids.json`, migración del historial; tests)
+### R-120 [DONE] Quitar todo lo duplicado en la app (Inicio sin "N sesiones este mes"; Historial sin "N ejercicios"; una sola vista de ejercicio)
+### R-121 [⏸] No probar todavía en iPhone (decisión del usuario)
+### R-122 [IN PROGRESS] Seguir después con la siguiente tarea (Fase 15 InstaGym) mientras la prueba Jobs lo apruebe
+

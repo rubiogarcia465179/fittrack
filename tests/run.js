@@ -169,7 +169,16 @@ const wlib = await import(path.join(tmp, 'workout_app.mjs'));
 eq(wlib.isBodyweightExercise(byId.get('back_squat')), false, 'back_squat (wger "other") = con carga, no peso corporal');
 eq(wlib.isBodyweightExercise(byId.get('crunches')), true, 'crunches = peso corporal (el nombre manda)');
 eq(wlib.isBodyweightExercise(byId.get('crunches_with_cable')), false, 'crunches_with_cable = con carga (polea)');
-eq(wlib.movementKey(byId.get('bent_over_barbell_row')) === wlib.movementKey(byId.get('bent_over_rowing')), true, 'movementKey: "Bent Over Barbell Row" ≈ "Bent Over Rowing"');
+eq(wlib.movementKey(byId.get('leg_curls_laying')) === wlib.movementKey(byId.get('leg_curls_sitting')), true, 'movementKey: "Leg Curls (laying)" ≈ "Leg Curls (sitting)"');
+// R-119: catálogo sin duplicados y fusión trazable.
+{
+  const merged = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/exercises/merged-ids.json'), 'utf8'));
+  eq(Object.keys(merged).every((g) => !byId.has(g) && byId.has(merged[g])), true, 'merged-ids: cada id fusionado ya no existe y apunta a uno que sí');
+  for (const k of ['name_en', 'name_nl', 'name_es', 'name_fr']) {
+    const names = [...byId.values()].map((e) => (e[k] || '').toLowerCase().trim());
+    eq(new Set(names).size, names.length, `catálogo sin nombres repetidos (${k})`);
+  }
+}
 {
   const allEx = [...byId.values()];
   const plan = wlib.generateWorkout({ groups: ['back'], equipment_mode: 'full_gym', experience: 'intermediate', intensity: 'moderate', exercises: allEx });

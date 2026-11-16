@@ -238,3 +238,10 @@ fusionar → acortar; una acción principal por pantalla; jerarquía por tamaño
 un acento; estados vacíos cuidados; luego capturas y `analyze`. No añade
 funciones, dependencias ni pantallas; lo que quite algo pedido por el usuario
 se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
+- **Catálogo sin duplicados** (2026-11-16): `scripts/dedupe_catalog.js`
+  fusiona (id viejo → id que queda en `data/exercises/merged-ids.json`,
+  genera `app/src/lib/merged-ids.ts`); el store migra historial y marcas, y
+  App el entreno en curso. Después: `sync_data.py`, `sync_howto.js`,
+  `make_image_map.py`, `make_photo_map.js`.
+- **Un ejercicio = una vista**: `ExerciseHowTo` (sesión y Ejercicios); ya no
+  existe `DetailScreen`.

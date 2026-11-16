@@ -17,7 +17,7 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Sesión | Ejercicio actual, descanso con cuenta atrás, hoja "¿Cómo se hace?", cardio, valoración, hápticos |
 | Perfil | Datos fijos + calorías (explicadas) + temas (Noche/Día/Ámbar/Neón/Rubí) + nacionalidad y tema de bandera + idioma y datos |
 | Idioma | **Todo en el idioma elegido** (NL/ES/EN/FR): interfaz, nombres de ejercicio, pasos "cómo se hace" (226 × 4), fechas; cambio instantáneo |
-| Datos | 226 ejercicios reales de wger; iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
+| Datos | 205 ejercicios reales de wger (sin duplicados); iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
 | Web (Astro) | Atrasada: lógica al día, diseño de la 11c (no el monocromo X); pasos por idioma copiados a `web/src/data/howto/` pero sin usar |
 | i18n | NL/ES/EN/FR, **396 claves**, espejos idénticos; francés todo en "tu" |
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
@@ -25,13 +25,11 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 
 ## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 11l)
 
-- `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **130/130, 0 fallos**
-  (3 nuevas: series de aplazados guardadas, guardado con aplazados, pesos en
-  múltiplos de 2,5 kg).
+- `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **135/135, 0 fallos**.
 - `npx expo export --platform web` → OK.
-- Capturas **01–32** (nueva: 32 quitar ejercicio), **0 errores de consola**,
-  revisadas una a una (hojas de contacto); vídeo **324 fotogramas**.
-- **Prueba "Steve Jobs": SÍ, 87** (ver Log "2026-11-16 (tarde)").
+- Capturas **01–33** (nueva: 33 aplazado), **0 errores de consola**,
+  revisadas una a una (hojas de contacto); vídeo **373 fotogramas**.
+- **Prueba "Steve Jobs": SÍ, 88** (ver Log "2026-11-16 (noche)").
 
 ## Decisiones vigentes
 
@@ -680,3 +678,16 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   acción, nada falso (pesos, minutos, diálogos), datos que no se pierden.
   Para subir más: Foco/1.ª impresión (Historial con el récord del día,
   Ejercicios con el título primero).
+
+- 2026-11-16 (noche) — **Fase 11m** (decisiones del usuario): "Hacerlo
+  ahora" en aplazados desde el primer momento (R-116; "Usar" con contorno,
+  botones a 44 pt, nombres en 2 líneas, subtítulo nuevo); títulos de
+  ejercicio en minúsculas y negrita (R-117, "como lo haría Jobs"); la
+  pantalla de detalle se elimina: un ejercicio se ve siempre en la hoja
+  "¿Cómo se hace?" con material · nivel (R-118); catálogo 226 → 205 (21
+  duplicados fusionados con `scripts/dedupe_catalog.js`; historial, marcas
+  y entreno en curso migran con `merged-ids`) (R-119); fuera "N sesiones
+  este mes" (Inicio) y "N ejercicios" (Historial), repetidos (R-120).
+  Verificación: tsc 0 · tests 135/135 · export OK · capturas 01–33, 0
+  errores · vídeo 373 fotogramas. **Prueba Jobs: SÍ — 88** (Foco 9→10: una
+  vista por ejercicio, nada repetido; resto igual). Siguiente: Fase 15.

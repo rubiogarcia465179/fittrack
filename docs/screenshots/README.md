@@ -36,8 +36,9 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 28 | Descartar entreno | "Cancelar" y "Descartar" (rojo); tocar fuera = Cancelar |
 | 29 | Tras Finalizar | De vuelta a Inicio: "Próxima", hoy marcado (verde si hubo récord) |
 | 30 | Ejercicios · filtro | Ficha elegida en blanco (sin colores por grupo) |
-| 31 | Detalle de ejercicio | Músculos en el idioma elegido; "‹ Ejercicios" |
+| 31 | Ejercicio (hoja) | Desde Ejercicios se abre la misma hoja "¿Cómo se hace?": material · nivel, qué entrena, pasos |
 | 32 | Quitar ejercicio | Con series hechas se confirma: "Cancelar" y "Quitar" |
+| 33 | Aplazado | "Máquina ocupada": el original con "Hacerlo ahora" desde el primer momento + sugerencia con "Usar" |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 

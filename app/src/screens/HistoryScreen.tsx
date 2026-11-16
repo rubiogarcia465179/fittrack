@@ -125,7 +125,8 @@ export default function HistoryScreen({
             </View>
             <View style={styles.cardMeta}>
               <Text style={[styles.cardMetaText, { color: p.secondary }]}>
-                {plural(s.exercises.length, t, 'hist_exercise', 'hist_exercises')} · {plural(sessionSets(s), t, 'hist_set', 'hist_sets_total')}
+                {/* Sin "N ejercicios": la lista de debajo ya los muestra (R-120). */}
+                {plural(sessionSets(s), t, 'hist_set', 'hist_sets_total')}
                 {s.duration_min ? ` · ${s.duration_min} min` : ''}
               </Text>
             </View>

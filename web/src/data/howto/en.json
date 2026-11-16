@@ -149,11 +149,6 @@
   "Bend only your elbows to lower it behind your head.",
   "Straighten your arms back up."
  ],
- "bench_press_narrow_grip": [
-  "Lie on a bench and hold the bar with hands about shoulder-width apart.",
-  "Lower it to your chest, keeping elbows close to your body.",
-  "Push it back up."
- ],
  "biceps_curl_with_cable": [
   "Stand facing a low cable, holding the bar palms up.",
   "Bend your elbows to lift the bar to your shoulders.",
@@ -193,11 +188,6 @@
   "Grab a pull-up bar with both hands.",
   "Hang with straight arms and relaxed body.",
   "Hold as long as you can."
- ],
- "dips_1": [
-  "Hold the parallel bars and lift yourself with straight arms.",
-  "Bend your elbows to lower your body.",
-  "Push back up. Lean slightly forward."
  ],
  "dips_between_two_benches": [
   "Put your hands on one bench behind you and your feet on another.",
@@ -274,11 +264,6 @@
   "Bend your elbows to lower your chest to the floor.",
   "Push back up."
  ],
- "reverse_bar_curl": [
-  "Stand holding a barbell with palms facing down.",
-  "Bend your elbows to lift the bar.",
-  "Lower slowly."
- ],
  "reverse_curl": [
   "Hold the weights with palms facing down.",
   "Bend your elbows to lift them.",
@@ -303,11 +288,6 @@
   "Lie on a bench under the Smith machine bar, hands shoulder-width apart.",
   "Lower the bar to your chest, elbows close to your body.",
   "Push it back up."
- ],
- "standing_bicep_curl": [
-  "Stand holding weights with palms facing forward.",
-  "Bend your elbows to lift them to your shoulders.",
-  "Lower slowly."
  ],
  "standing_rope_forearm": [
   "Hold a wrist roller (a stick with a rope and a weight) in front of you.",
@@ -359,11 +339,6 @@
   "Pull the bar towards your belly, squeezing your shoulder blades.",
   "Lower slowly."
  ],
- "bent_over_rowing": [
-  "Lean forward with a flat back, holding the weight with straight arms.",
-  "Pull it towards your belly.",
-  "Lower slowly."
- ],
  "bent_over_rowing_reverse": [
   "Lean forward with a flat back, holding the bar palms up.",
   "Pull it towards your belly.",
@@ -373,11 +348,6 @@
   "Lean forward with one hand and knee on a bench, dumbbell in the other hand.",
   "Pull the weight up to your hip, elbow close to your body.",
   "Lower slowly. Switch sides."
- ],
- "chin_up": [
-  "Hang from a bar with palms facing you.",
-  "Pull yourself up until your chin is over the bar.",
-  "Lower slowly."
  ],
  "chin_ups": [
   "Hang from a bar with palms facing you, hands shoulder-width.",
@@ -398,11 +368,6 @@
   "Stand on a low platform with the bar in front of you.",
   "Lift it like a normal deadlift, back flat.",
   "Lower it with control. Harder than a normal deadlift."
- ],
- "hip_raise_lying": [
-  "Lie on your back with knees bent, feet flat.",
-  "Lift your hips as high as you can.",
-  "Hold, then lower slowly."
  ],
  "hyperextensions": [
   "Lie face down on the hyperextension bench, hips on the pad.",
@@ -479,11 +444,6 @@
   "Pull one dumbbell up to your ribs, keeping your body still.",
   "Put it down and switch arms."
  ],
- "row": [
-  "Hold the weight or handles in front of you.",
-  "Pull towards your belly, squeezing your shoulder blades.",
-  "Return slowly."
- ],
  "rowing_lying_on_bench": [
   "Lie face down on a bench with weights hanging below.",
   "Pull them up towards your chest.",
@@ -548,11 +508,6 @@
   "Sit in the leg press with the balls of your feet on the bottom edge of the platform.",
   "Push the platform by pointing your toes.",
   "Let your heels come back slowly."
- ],
- "calf_raises": [
-  "Stand with the balls of your feet on a step.",
-  "Rise up onto your toes as high as you can.",
-  "Lower your heels slowly below the step."
  ],
  "calf_raises_on_hackenschmitt_machine": [
   "Stand in the hack machine with the balls of your feet on the edge.",
@@ -694,11 +649,6 @@
   "Lower your chest, letting the handles turn.",
   "Push back up."
  ],
- "pushups": [
-  "Place your hands a bit wider than your shoulders, body straight.",
-  "Lower your chest towards the floor.",
-  "Push back up."
- ],
  "reverse_grip_bench_press": [
   "Lie on a bench holding the bar with palms facing you.",
   "Lower it to your lower chest.",
@@ -774,11 +724,6 @@
   "Bend forward from your hips with a flat back, knees slightly bent.",
   "Come back up. Start very light."
  ],
- "high_knee_jumps": [
-  "Stand with feet a bit wider than your hips.",
-  "Squat, then jump up bringing your knees to your chest.",
-  "Land softly and repeat."
- ],
  "high_knees": [
   "Stand tall.",
   "Run on the spot, lifting your knees to hip height.",
@@ -794,11 +739,6 @@
   "Push your hips up until your body is straight from knees to shoulders.",
   "Lower slowly."
  ],
- "jogging": [
-  "Start walking, then jog at an easy pace.",
-  "Land lightly and keep your shoulders relaxed.",
-  "You should still be able to talk."
- ],
  "jumping_jacks": [
   "Stand with feet together and arms at your sides.",
   "Jump, opening your legs and raising your arms above your head.",
@@ -808,11 +748,6 @@
   "Stand with feet wide holding the kettlebell.",
   "Push your hips back, then snap them forward to swing the weight.",
   "Let it swing back and repeat."
- ],
- "leg_curl": [
-  "Lie or sit in the leg curl machine, pad behind your ankles.",
-  "Bend your knees to pull the pad towards you.",
-  "Return slowly."
  ],
  "leg_curls_laying": [
   "Lie face down on the machine, pad behind your ankles.",
@@ -830,16 +765,6 @@
   "Lower slowly. Switch legs."
  ],
  "leg_extension_1": [
-  "Sit in the machine with the pad on your lower shins.",
-  "Straighten your legs to lift the pad.",
-  "Lower slowly."
- ],
- "leg_extension_2": [
-  "Sit in the machine with the pad on your lower shins.",
-  "Straighten your legs to lift the pad.",
-  "Lower slowly."
- ],
- "leg_extension_3": [
   "Sit in the machine with the pad on your lower shins.",
   "Straighten your legs to lift the pad.",
   "Lower slowly."
@@ -863,11 +788,6 @@
   "Sit in the leg press with feet wide apart.",
   "Bend your knees to lower the platform.",
   "Push it back up."
- ],
- "leg_raise": [
-  "Lie on your back or hang from a bar.",
-  "Lift your straight legs up.",
-  "Lower them slowly."
  ],
  "low_box_squat_wide_stance": [
   "Stand wide in front of a low box, bar on your back.",
@@ -919,11 +839,6 @@
   "Jump your feet back into a push-up position.",
   "Jump them forward again and stand up."
  ],
- "squats": [
-  "Stand with feet shoulder-width apart.",
-  "Sit down and back as if into a chair, chest up.",
-  "Stand back up."
- ],
  "stationary_bike": [
   "Sit on the bike and adjust the seat.",
   "Pedal at a steady pace.",
@@ -953,11 +868,6 @@
   "Lean your back against a wall.",
   "Slide down until your knees are bent at a right angle.",
   "Hold as if sitting on an invisible chair."
- ],
- "weighted_step": [
-  "Hold weights and stand in front of a step or box.",
-  "Step up with one foot, then the other.",
-  "Step down and repeat."
  ],
  "weighted_step_ups": [
   "Hold weights in front of a box or bench.",
@@ -1034,11 +944,6 @@
   "Rotate your forearm upward.",
   "Lower slowly. Very light weight only."
  ],
- "military_press_2": [
-  "Stand tall holding a bar at your shoulders.",
-  "Push it straight up without leaning back.",
-  "Lower back to your shoulders."
- ],
  "power_clean": [
   "Stand with the bar over your feet.",
   "Pull it up explosively and catch it on your shoulders.",
@@ -1079,11 +984,6 @@
   "Push the bar up.",
   "Lower slowly."
  ],
- "shoulder_shrug": [
-  "Stand holding weights at your sides.",
-  "Lift your shoulders up towards your ears.",
-  "Lower slowly."
- ],
  "shrugs_barbells": [
   "Stand holding a bar in front of your thighs.",
   "Lift your shoulders towards your ears.",
@@ -1093,11 +993,6 @@
   "Stand holding a dumbbell in each hand.",
   "Lift your shoulders towards your ears.",
   "Lower slowly."
- ],
- "side_raise": [
-  "Stand holding weights with elbows bent at 90°.",
-  "Lift your elbows out to the sides.",
-  "Lower slowly, 2 seconds up and 2 down."
  ],
  "side_lying_external_rotation": [
   "Lie on your side with a light weight, elbow bent against your waist.",

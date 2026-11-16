@@ -186,4 +186,12 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Quitar ejercicio');
   await sleep(300);
   await shot('32-remove-exercise');
+
+  // 33 Máquina ocupada: el aplazado ofrece "Hacerlo ahora" desde el primer momento
+  await load({ ...base, 'fittrack.data.v1': DATA, 'fittrack.active.v1': ACTIVE });
+  await tapLabel('Entrenar');
+  await tap('Más opciones');
+  await tap('Ocupado');
+  await sleep(3500); // que se vaya el aviso
+  await shot('33-postponed');
 };

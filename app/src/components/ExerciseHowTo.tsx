@@ -31,8 +31,12 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
       <View style={[styles.sheet, { backgroundColor: p.bg, borderColor: p.border }]}>
         <View style={[styles.handle, { backgroundColor: p.border }]} />
         <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          <Text style={[styles.title, { color: p.text }]} accessibilityRole="header">
+          <Text style={[styles.title, { color: p.text }, styles.titleTight]} accessibilityRole="header">
             {exName(exercise, lang)}
+          </Text>
+          {/* Material y nivel (antes en la pantalla de detalle). */}
+          <Text style={[styles.meta, { color: p.secondary }]}>
+            {[exercise.equipment !== 'other' ? t(`equip_${exercise.equipment}`) : null, t(`level_${exercise.level}`)].filter(Boolean).join(' · ')}
           </Text>
 
           {/* Fotos */}
@@ -107,6 +111,8 @@ const styles = StyleSheet.create({
   handle: { width: 40, height: 4, borderRadius: 2, alignSelf: 'center', marginTop: 8 },
   content: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 28 },
   title: { fontSize: 22, fontWeight: '800', letterSpacing: -0.4, marginBottom: 14 },
+  titleTight: { marginBottom: 4 },
+  meta: { fontSize: 15, marginBottom: 14 },
   photos: { alignSelf: 'center' },
   photo: { height: 240, borderRadius: 16, borderWidth: StyleSheet.hairlineWidth },
   badge: {

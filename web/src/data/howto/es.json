@@ -149,11 +149,6 @@
   "Dobla solo los codos para bajarla detrás de la cabeza.",
   "Estira los brazos de nuevo."
  ],
- "bench_press_narrow_grip": [
-  "Túmbate en un banco y agarra la barra a la anchura de los hombros.",
-  "Bájala al pecho con los codos pegados al cuerpo.",
-  "Empújala hacia arriba."
- ],
  "biceps_curl_with_cable": [
   "De pie frente a una polea baja, barra con las palmas hacia arriba.",
   "Dobla los codos para subir la barra a los hombros.",
@@ -193,11 +188,6 @@
   "Agarra una barra de dominadas con las dos manos.",
   "Cuélgate con los brazos estirados y el cuerpo relajado.",
   "Aguanta todo lo que puedas."
- ],
- "dips_1": [
-  "Sujeta las barras paralelas y elévate con los brazos estirados.",
-  "Dobla los codos para bajar el cuerpo.",
-  "Sube de nuevo. Inclínate un poco hacia delante."
  ],
  "dips_between_two_benches": [
   "Manos en un banco detrás de ti y pies sobre otro.",
@@ -274,11 +264,6 @@
   "Dobla los codos para bajar el pecho al suelo.",
   "Sube de nuevo."
  ],
- "reverse_bar_curl": [
-  "De pie con una barra, palmas hacia abajo.",
-  "Dobla los codos para subirla.",
-  "Baja despacio."
- ],
  "reverse_curl": [
   "Sujeta el peso con las palmas hacia abajo.",
   "Dobla los codos para subirlo.",
@@ -303,11 +288,6 @@
   "Túmbate bajo la barra de la máquina Smith, manos a la anchura de los hombros.",
   "Baja la barra al pecho con los codos pegados.",
   "Empújala hacia arriba."
- ],
- "standing_bicep_curl": [
-  "De pie con el peso, palmas hacia delante.",
-  "Dobla los codos para subirlo a los hombros.",
-  "Baja despacio."
  ],
  "standing_rope_forearm": [
   "Sujeta un enrollador (palo con cuerda y peso) delante de ti.",
@@ -359,11 +339,6 @@
   "Tira de la barra hacia el ombligo juntando los omóplatos.",
   "Baja despacio."
  ],
- "bent_over_rowing": [
-  "Inclínate con la espalda recta y el peso en los brazos estirados.",
-  "Tira hacia el ombligo.",
-  "Baja despacio."
- ],
  "bent_over_rowing_reverse": [
   "Inclínate con la espalda recta, barra con las palmas hacia arriba.",
   "Tira hacia el ombligo.",
@@ -373,11 +348,6 @@
   "Una mano y una rodilla en un banco, mancuerna en la otra mano.",
   "Sube el peso hacia la cadera, codo pegado al cuerpo.",
   "Baja despacio. Cambia de lado."
- ],
- "chin_up": [
-  "Cuélgate de una barra con las palmas hacia ti.",
-  "Sube hasta que la barbilla pase la barra.",
-  "Baja despacio."
  ],
  "chin_ups": [
   "Cuélgate con las palmas hacia ti y las manos a la anchura de los hombros.",
@@ -398,11 +368,6 @@
   "Súbete a una plataforma baja con la barra delante.",
   "Levántala como un peso muerto normal, espalda recta.",
   "Bájala controlando. Es más difícil."
- ],
- "hip_raise_lying": [
-  "Boca arriba, rodillas dobladas y pies en el suelo.",
-  "Sube la cadera todo lo que puedas.",
-  "Aguanta y baja despacio."
  ],
  "hyperextensions": [
   "Boca abajo en el banco de hiperextensiones, cadera en el cojín.",
@@ -479,11 +444,6 @@
   "Sube una mancuerna a las costillas sin mover el cuerpo.",
   "Bájala y cambia de brazo."
  ],
- "row": [
-  "Sujeta el peso o las asas delante de ti.",
-  "Tira hacia el ombligo juntando los omóplatos.",
-  "Vuelve despacio."
- ],
  "rowing_lying_on_bench": [
   "Boca abajo en un banco con el peso colgando debajo.",
   "Súbelo hacia el pecho.",
@@ -548,11 +508,6 @@
   "En la prensa, apoya la parte delantera de los pies en el borde inferior.",
   "Empuja la plataforma estirando los tobillos.",
   "Deja volver los talones despacio."
- ],
- "calf_raises": [
-  "De pie con la parte delantera de los pies en un escalón.",
-  "Sube de puntillas todo lo que puedas.",
-  "Baja los talones despacio por debajo del escalón."
  ],
  "calf_raises_on_hackenschmitt_machine": [
   "En la máquina hack con la punta de los pies en el borde.",
@@ -694,11 +649,6 @@
   "Baja el pecho dejando que los agarres giren.",
   "Sube de nuevo."
  ],
- "pushups": [
-  "Manos algo más abiertas que los hombros, cuerpo recto.",
-  "Baja el pecho hacia el suelo.",
-  "Sube de nuevo."
- ],
  "reverse_grip_bench_press": [
   "Túmbate y agarra la barra con las palmas hacia ti.",
   "Bájala a la parte baja del pecho.",
@@ -774,11 +724,6 @@
   "Inclínate desde la cadera con la espalda recta y rodillas algo dobladas.",
   "Vuelve arriba. Empieza muy ligero."
  ],
- "high_knee_jumps": [
-  "Pies algo más abiertos que la cadera.",
-  "Agáchate y salta llevando las rodillas al pecho.",
-  "Cae suave y repite."
- ],
  "high_knees": [
   "De pie, erguido.",
   "Corre en el sitio subiendo las rodillas a la altura de la cadera.",
@@ -794,11 +739,6 @@
   "Sube la cadera hasta quedar recto de rodillas a hombros.",
   "Baja despacio."
  ],
- "jogging": [
-  "Empieza andando y luego trota suave.",
-  "Pisa ligero con los hombros relajados.",
-  "Deberías poder hablar mientras corres."
- ],
  "jumping_jacks": [
   "De pie con los pies juntos y los brazos a los lados.",
   "Salta abriendo las piernas y subiendo los brazos.",
@@ -808,11 +748,6 @@
   "Pies abiertos sujetando la kettlebell.",
   "Lleva la cadera atrás y empújala adelante para balancear el peso.",
   "Deja que vuelva y repite."
- ],
- "leg_curl": [
-  "En la máquina de curl femoral, cojín detrás de los tobillos.",
-  "Dobla las rodillas para traer el cojín hacia ti.",
-  "Vuelve despacio."
  ],
  "leg_curls_laying": [
   "Boca abajo en la máquina, cojín detrás de los tobillos.",
@@ -830,16 +765,6 @@
   "Baja despacio. Cambia de pierna."
  ],
  "leg_extension_1": [
-  "Siéntate en la máquina con el cojín sobre la parte baja de las espinillas.",
-  "Estira las piernas para subir el cojín.",
-  "Baja despacio."
- ],
- "leg_extension_2": [
-  "Siéntate en la máquina con el cojín sobre la parte baja de las espinillas.",
-  "Estira las piernas para subir el cojín.",
-  "Baja despacio."
- ],
- "leg_extension_3": [
   "Siéntate en la máquina con el cojín sobre la parte baja de las espinillas.",
   "Estira las piernas para subir el cojín.",
   "Baja despacio."
@@ -863,11 +788,6 @@
   "En la prensa con los pies muy abiertos.",
   "Dobla las rodillas para bajar la plataforma.",
   "Empújala de nuevo."
- ],
- "leg_raise": [
-  "Boca arriba o colgado de una barra.",
-  "Sube las piernas estiradas.",
-  "Bájalas despacio."
  ],
  "low_box_squat_wide_stance": [
   "Pies muy abiertos delante de un cajón bajo, barra en la espalda.",
@@ -919,11 +839,6 @@
   "Salta con los pies atrás a posición de flexión.",
   "Tráelos de nuevo y ponte de pie."
  ],
- "squats": [
-  "Pies a la anchura de los hombros.",
-  "Siéntate hacia atrás como en una silla, pecho arriba.",
-  "Ponte de pie."
- ],
  "stationary_bike": [
   "Siéntate en la bici y ajusta el sillín.",
   "Pedalea a un ritmo constante.",
@@ -953,11 +868,6 @@
   "Apoya la espalda en una pared.",
   "Deslízate hasta que las rodillas formen un ángulo recto.",
   "Aguanta como sentado en una silla invisible."
- ],
- "weighted_step": [
-  "Con peso en las manos, frente a un escalón o cajón.",
-  "Sube con un pie y luego con el otro.",
-  "Baja y repite."
  ],
  "weighted_step_ups": [
   "Con peso, frente a un cajón o banco.",
@@ -1034,11 +944,6 @@
   "Gira el antebrazo hacia arriba.",
   "Baja despacio. Solo poco peso."
  ],
- "military_press_2": [
-  "De pie, erguido, con la barra en los hombros.",
-  "Empújala recta hacia arriba sin echarte atrás.",
-  "Bájala a los hombros."
- ],
  "power_clean": [
   "Barra sobre los pies.",
   "Súbela con fuerza y recógela sobre los hombros.",
@@ -1079,11 +984,6 @@
   "Empuja la barra hacia arriba.",
   "Baja despacio."
  ],
- "shoulder_shrug": [
-  "De pie con peso a los lados.",
-  "Sube los hombros hacia las orejas.",
-  "Baja despacio."
- ],
  "shrugs_barbells": [
   "De pie con una barra delante de los muslos.",
   "Sube los hombros hacia las orejas.",
@@ -1093,11 +993,6 @@
   "De pie con una mancuerna en cada mano.",
   "Sube los hombros hacia las orejas.",
   "Baja despacio."
- ],
- "side_raise": [
-  "De pie con el peso y los codos doblados a 90°.",
-  "Sube los codos hacia los lados.",
-  "Baja despacio: 2 segundos arriba y 2 abajo."
  ],
  "side_lying_external_rotation": [
   "De lado con un peso ligero, codo doblado contra la cintura.",

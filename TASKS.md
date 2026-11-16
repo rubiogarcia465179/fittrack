@@ -9,10 +9,9 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
 2. Trabaja **en el orden de esta lista**, de arriba abajo.
 3. **No commitees** hasta cerrar una fase y que la prueba "Steve Jobs" dé
    **sí** (`CLAUDE.md §2`; se evalúa como **versión 2.0**). Estado al
-   2026-11-16: **Fase 11l en `main`** (bucle de 10 rondas con 2 revisores UX
-   + prueba Jobs, 77 → 87). **Siguiente: Fase 15 (InstaGym)**, luego Fase 14
-   (por qué se usa + favoritos con cita), paridad web (⛔ `npm ci`) y Fase 13
-   cuando lleguen las fotos. Antes, pregunta al usuario los ⛔ de la Fase 11l.
+   2026-11-16: **Fases 11l y 11m en `main`** (Jobs 88). **Siguiente: Fase 15
+   (InstaGym)** — el usuario pidió seguir mientras la prueba Jobs apruebe
+   (R-122). Luego Fase 14, paridad web (⛔ `npm ci`) y Fase 13 (fotos).
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
    no las supongas.
 
@@ -86,6 +85,16 @@ Hecho en esta pasada:
 - [x] IMC con coma decimal en ES/FR/NL.
 - [x] "3+" en **violeta** (el rojo se leía como alarma; aceptado por el usuario).
 
+### Fase 11m — Decisiones del usuario sobre la 11l ✅ (Jobs SÍ, 88)
+- [x] Aplazados: "Hacerlo ahora" desde el primer momento; "Usar" con
+      contorno; botones a 44 pt; nombres en 2 líneas (R-116).
+- [x] Títulos de ejercicio en minúsculas y negrita, sin MAYÚSCULAS (R-117).
+- [x] Detalle de ejercicio = hoja "¿Cómo se hace?" (+ material · nivel) (R-118).
+- [x] Catálogo sin duplicados: 21 fusionados → 205 (historial migrado)
+      (R-119); fuera "N sesiones este mes" e "N ejercicios" repetidos (R-120).
+- ⏸ Probar en iPhone: todavía no (R-121).
+- Después: Fase 15 (InstaGym), si la prueba Jobs lo aprueba (R-122).
+
 ### Fase 11l — Bucle de 10 rondas (2 revisores UX + Jobs) ✅ (87)
 Pedido 2026-11-16: en cada ronda dos agentes UX proponen; solo se acepta lo
 perfecto; `/SteveJobs analyze` al final de cada ronda; ninguna nota puede
@@ -129,12 +138,7 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       todas" igual en Inicio e Historial.
 - [x] Docs al día, capturas 01–32, vídeo, prueba Jobs **SÍ (87)**, commit
       "Fase 11l" en `main`.
-- [ ] ⛔ Usuario: títulos de sesión sin mayúsculas (SPEC los fija) ·
-      reemplazar el detalle de ejercicio por la hoja "¿Cómo se hace?" ·
-      fusionar duplicados del catálogo ("Press de banca con agarre cerrado"
-      = "…agarre estrecho"; 7 nombres NL repetidos) · probar en iPhone ·
-      aplazados: ¿"Hacerlo ahora" desde el primer momento en vez de tras ~5
-      "Otra sugerencia" (R-11)?
+- [x] Decisiones del usuario resueltas en la Fase 11m (iPhone: todavía no).
 
 ### Fase 11k — Finalizar, rueda, 3 iteraciones Jobs y 3 funciones revisadas por UX ✅
 - [x] Hoja final: un solo "Finalizar" (barra fija también "Finalizar").

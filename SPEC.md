@@ -97,7 +97,7 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   con ejercicios, una línea de texto "+ Añadir ejercicio" al final de la lista
   (el ejercicio actual manda). Los detalles (fecha, duración, peso, altura, notas) van al
   final, en la hoja "¿Cómo ha ido?".
-- **Ejercicio actual** (tarjeta): TÍTULO en mayúsculas, grupo (+ material si
+- **Ejercicio actual** (tarjeta): título en minúsculas y negrita, grupo (+ material si
   no es "otro") y 1RM estimado **de las series hechas** (sin contador "1/3");
   **progresión**: si la última vez (≤ 21 días) completaste todas las reps con
   W, hoy propone W + 2,5 kg con una línea gris "+2,5 kg · la última vez 3 × 8

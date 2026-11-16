@@ -10,6 +10,31 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { CardioIntensity } from './lib/gym';
 import type { Goal } from './lib/types';
+import { currentExerciseId } from './lib/merged-ids';
+
+/** Ejercicios fusionados (R-119): el historial y las marcas apuntan al que queda. */
+function remapSessions(list: Session[]): Session[] {
+  return list.map((s) => {
+    if (!Array.isArray(s.exercises)) return s;
+    const byId = new Map<string, ExerciseLog>();
+    for (const ex of s.exercises) {
+      const id = currentExerciseId(ex.exercise_id);
+      const prev = byId.get(id);
+      if (prev) prev.sets = [...prev.sets, ...(ex.sets || [])];
+      else byId.set(id, { ...ex, exercise_id: id, sets: [...(ex.sets || [])] });
+    }
+    return { ...s, exercises: [...byId.values()] };
+  });
+}
+function remapBenchmarks<T extends BenchmarkRef>(list: T[]): T[] {
+  const best = new Map<string, T>();
+  for (const b of list) {
+    const id = currentExerciseId(b.exercise_id);
+    const prev = best.get(id);
+    if (!prev || b.estimated_1rm > prev.estimated_1rm) best.set(id, { ...b, exercise_id: id });
+  }
+  return [...best.values()];
+}
 
 const KEY = 'fittrack.data.v1';
 
@@ -97,7 +122,7 @@ function migrate(d: Partial<Data> | null): Data {
   const base = emptyData();
   if (!d) return base;
   const out: Data = {
-    sessions: Array.isArray(d.sessions) ? d.sessions : [],
+    sessions: Array.isArray(d.sessions) ? remapSessions(d.sessions) : [],
     profile: { ...base.profile },
   };
   if (d.profile) {
@@ -106,7 +131,7 @@ function migrate(d: Partial<Data> | null): Data {
     out.profile = {
       ...base.profile,
       ...d.profile,
-      benchmarks: Array.isArray(d.profile.benchmarks) ? d.profile.benchmarks : [],
+      benchmarks: Array.isArray(d.profile.benchmarks) ? remapBenchmarks(d.profile.benchmarks) : [],
       experience: d.profile.experience || base.profile.experience,
       intensity: d.profile.intensity || base.profile.intensity,
     };

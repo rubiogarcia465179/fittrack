@@ -29,7 +29,7 @@ import TabIcon from './src/components/TabIcon';
 import { Gradient } from './src/components/Gradient';
 import DashboardScreen from './src/screens/DashboardScreen';
 import LibraryScreen from './src/screens/LibraryScreen';
-import DetailScreen from './src/screens/DetailScreen';
+import { ExerciseHowTo } from './src/components/ExerciseHowTo';
 import SessionScreen from './src/screens/SessionScreen';
 import HistoryScreen from './src/screens/HistoryScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
@@ -38,6 +38,7 @@ import { loadFonts, MONT } from './src/lib/fonts';
 import { nextSplit, mondayPushSkipped } from './src/lib/nextSplit';
 import { BackBar } from './src/components/BackBar';
 import { saveHomePhoto } from './src/lib/homePhoto';
+import { currentExerciseId } from './src/lib/merged-ids';
 
 // 3 pestañas (Inicio · Entrenar · Perfil). Historial y Ejercicios se abren
 // desde Inicio como pantallas con "atrás" (no son pestañas).
@@ -180,7 +181,15 @@ function Root({
       if (act) {
         try {
           const a = JSON.parse(act) as ActiveSession;
-          if (a && Array.isArray(a.draft)) persistActive(a);
+          if (a && Array.isArray(a.draft)) {
+            // Ejercicios fusionados (R-119): el entreno en curso sigue al que queda.
+            const seen = new Set<string>();
+            a.draft = a.draft
+              .map((d) => ({ ...d, exercise_id: currentExerciseId(d.exercise_id) }))
+              .filter((d) => (seen.has(d.exercise_id) ? false : (seen.add(d.exercise_id), true)));
+            a.postponed = (a.postponed || []).map((x) => ({ ...x, exercise_id: currentExerciseId(x.exercise_id) }));
+            persistActive(a);
+          }
         } catch {
           /* datos corruptos: se ignora */
         }
@@ -412,9 +421,7 @@ function Root({
         ) : null}
         <View style={styles.wideWrap}>
           <View style={styles.wideInner}>
-            {detail ? (
-              <DetailScreen exercise={detail} onBack={() => setDetailId(null)} />
-            ) : tab === 'dashboard' ? (
+            {tab === 'dashboard' ? (
               <DashboardScreen
                 exercises={exercises}
                 sessions={sessions}
@@ -515,6 +522,8 @@ function Root({
           );
         })}
       </View>
+      {/* Un ejercicio se ve siempre igual: la hoja "¿Cómo se hace?" (R-118). */}
+      {detail ? <ExerciseHowTo exercise={detail} onClose={() => setDetailId(null)} /> : null}
       {qsOpen ? (
         <QuickStartSheet value={qs} onCancel={() => setQsOpen(false)} onContinue={quickStart} />
       ) : null}

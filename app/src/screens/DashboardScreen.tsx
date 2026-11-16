@@ -109,8 +109,6 @@ export default function DashboardScreen({
     return m;
   }, [sessions, prDays]);
 
-  const monthPrefix = todayISO().slice(0, 7);
-  const sessionsThisMonth = sessions.filter((s) => s.date.startsWith(monthPrefix)).length;
 
   // Qué toca hoy (mismo cálculo que la hoja rápida).
   const todayLabel = splitLabel(todayGroups, t);
@@ -243,7 +241,8 @@ export default function DashboardScreen({
 
       {/* ---- 5. Filas ---- */}
       <View style={[styles.rows, { borderTopColor: p.border }]}>
-        <Row title={t('hist_title')} sub={t('home_history_sub', { n: sessionsThisMonth })} onPress={() => onOpenHistory()} />
+        {/* Sin "N sesiones este mes": la leyenda del calendario ya lo dice (R-120). */}
+        <Row title={t('hist_title')} onPress={() => onOpenHistory()} />
         <Row title={t('nav_exercises')} sub={t('home_exercises_sub', { n: exercises.length })} onPress={onOpenLibrary} />
       </View>
 
@@ -285,12 +284,12 @@ function SectionHead({
 }
 
 /** Fila plana estilo X: título · subtítulo gris · chevron, separador fino. */
-function Row({ title, sub, onPress }: { title: string; sub: string; onPress: () => void }) {
+function Row({ title, sub, onPress }: { title: string; sub?: string; onPress: () => void }) {
   const { p } = useTheme();
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={`${title}. ${sub}`}
+      accessibilityLabel={sub ? `${title}. ${sub}` : title}
       onPress={onPress}
       style={({ pressed }) => [styles.row, { borderBottomColor: p.border, backgroundColor: pressed ? p.card : 'transparent' }]}
     >
@@ -298,9 +297,11 @@ function Row({ title, sub, onPress }: { title: string; sub: string; onPress: () 
         <Text style={[styles.rowTitle, { color: p.text }]} numberOfLines={1}>
           {title}
         </Text>
-        <Text style={[styles.rowSub, { color: p.secondary }]} numberOfLines={1}>
-          {sub}
-        </Text>
+        {sub ? (
+          <Text style={[styles.rowSub, { color: p.secondary }]} numberOfLines={1}>
+            {sub}
+          </Text>
+        ) : null}
       </View>
       <Chevron color={p.dim} />
     </Pressable>

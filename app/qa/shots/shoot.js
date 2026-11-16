@@ -28,10 +28,10 @@ const server = http.createServer((req, res) => {
 const iso = (d) => { const t = new Date(); t.setDate(t.getDate() + d); return t.toISOString().slice(0, 10); };
 const set = (reps, kg, done) => ({ reps, weight_kg: kg, ...(done !== undefined ? { done } : {}) });
 const SESSIONS = [
-  { id: 's1', date: iso(-1), type: 'training', exercises: [{ exercise_id: 'bench_press_narrow_grip', sets: [set(10, 40), set(10, 40), set(8, 45)] }, { exercise_id: 'biceps_curls_with_dumbbell', sets: [set(12, 12), set(12, 12), set(10, 14)] }], notes: '', duration_min: 50, body_weight_kg: 78.4, created_at: iso(-1) + 'T18:00:00Z' },
+  { id: 's1', date: iso(-1), type: 'training', exercises: [{ exercise_id: 'incline_bench_press', sets: [set(10, 40), set(10, 40), set(8, 45)] }, { exercise_id: 'biceps_curls_with_dumbbell', sets: [set(12, 12), set(12, 12), set(10, 14)] }], notes: '', duration_min: 50, body_weight_kg: 78.4, created_at: iso(-1) + 'T18:00:00Z' },
   { id: 's2', date: iso(-3), type: 'training', exercises: [{ exercise_id: 'hammercurls', sets: [set(12, 10), set(12, 10)] }, { exercise_id: 'close_grip_bench_press', sets: [set(8, 50), set(8, 50), set(6, 55)] }], notes: '', duration_min: 45, body_weight_kg: 78.9, created_at: iso(-3) + 'T18:00:00Z' },
   { id: 's3', date: iso(-9), type: 'training', exercises: [{ exercise_id: 'preacher_curls', sets: [set(10, 20), set(10, 20), set(10, 20)] }], notes: '', duration_min: 30, created_at: iso(-9) + 'T18:00:00Z' },
-  { id: 's4', date: iso(-16), type: 'training', exercises: [{ exercise_id: 'bench_press_narrow_grip', sets: [set(10, 35), set(10, 35), set(10, 35)] }], notes: '', created_at: iso(-16) + 'T18:00:00Z' },
+  { id: 's4', date: iso(-16), type: 'training', exercises: [{ exercise_id: 'incline_bench_press', sets: [set(10, 35), set(10, 35), set(10, 35)] }], notes: '', created_at: iso(-16) + 'T18:00:00Z' },
 ];
 const DATA = { sessions: SESSIONS, profile: { benchmarks: [{ exercise_id: 'close_grip_bench_press', estimated_1rm: 68, weight_kg: 55, reps: 6, date: iso(-3) }], experience: 'intermediate', intensity: 'moderate', height_entries: [{ date: iso(-20), value: 178 }] } };
 const ACTIVE = {

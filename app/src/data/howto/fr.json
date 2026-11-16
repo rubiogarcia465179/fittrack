@@ -149,11 +149,6 @@
   "Plie seulement les coudes pour la descendre derrière la tête.",
   "Tends à nouveau les bras."
  ],
- "bench_press_narrow_grip": [
-  "Allongé sur un banc, mains sur la barre à largeur d'épaules.",
-  "Descends-la vers la poitrine, coudes près du corps.",
-  "Repousse-la vers le haut."
- ],
  "biceps_curl_with_cable": [
   "Face à une poulie basse, barre paumes vers le haut.",
   "Plie les coudes pour monter la barre aux épaules.",
@@ -193,11 +188,6 @@
   "Attrape une barre de traction à deux mains.",
   "Reste suspendu bras tendus, corps relâché.",
   "Tiens le plus longtemps possible."
- ],
- "dips_1": [
-  "Tiens les barres parallèles et soulève-toi bras tendus.",
-  "Plie les coudes pour descendre.",
-  "Remonte. Penche-toi un peu en avant."
  ],
  "dips_between_two_benches": [
   "Mains sur un banc derrière toi, pieds sur un autre.",
@@ -274,11 +264,6 @@
   "Plie les coudes pour descendre la poitrine au sol.",
   "Remonte."
  ],
- "reverse_bar_curl": [
-  "Debout avec une barre, paumes vers le bas.",
-  "Plie les coudes pour la monter.",
-  "Redescends lentement."
- ],
  "reverse_curl": [
   "Tiens le poids paumes vers le bas.",
   "Plie les coudes pour le monter.",
@@ -303,11 +288,6 @@
   "Allongé sous la barre de la Smith, mains à largeur d'épaules.",
   "Descends la barre vers la poitrine, coudes serrés.",
   "Repousse-la vers le haut."
- ],
- "standing_bicep_curl": [
-  "Debout avec le poids, paumes vers l'avant.",
-  "Plie les coudes pour le monter aux épaules.",
-  "Redescends lentement."
  ],
  "standing_rope_forearm": [
   "Tiens un enrouleur (bâton, corde et poids) devant toi.",
@@ -359,11 +339,6 @@
   "Tire la barre vers le nombril en serrant les omoplates.",
   "Redescends lentement."
  ],
- "bent_over_rowing": [
-  "Penché dos droit, poids en bras tendus.",
-  "Tire vers le nombril.",
-  "Redescends lentement."
- ],
  "bent_over_rowing_reverse": [
   "Penché dos droit, barre paumes vers le haut.",
   "Tire vers le nombril.",
@@ -373,11 +348,6 @@
   "Une main et un genou sur un banc, haltère dans l'autre main.",
   "Monte le poids vers la hanche, coude près du corps.",
   "Redescends lentement. Change de côté."
- ],
- "chin_up": [
-  "Suspends-toi à une barre, paumes vers toi.",
-  "Monte jusqu'à ce que le menton passe la barre.",
-  "Redescends lentement."
  ],
  "chin_ups": [
   "Suspendu paumes vers toi, mains à largeur d'épaules.",
@@ -398,11 +368,6 @@
   "Monte sur une petite plateforme, barre devant toi.",
   "Soulève-la comme un soulevé de terre normal, dos droit.",
   "Redescends en contrôlant. Plus difficile."
- ],
- "hip_raise_lying": [
-  "Sur le dos, genoux pliés, pieds au sol.",
-  "Monte les hanches le plus haut possible.",
-  "Tiens, puis redescends lentement."
  ],
  "hyperextensions": [
   "À plat ventre sur le banc à lombaires, hanches sur le coussin.",
@@ -479,11 +444,6 @@
   "Monte un haltère vers les côtes sans bouger le corps.",
   "Repose-le et change de bras."
  ],
- "row": [
-  "Tiens le poids ou les poignées devant toi.",
-  "Tire vers le nombril en serrant les omoplates.",
-  "Reviens lentement."
- ],
  "rowing_lying_on_bench": [
   "À plat ventre sur un banc, poids suspendus en dessous.",
   "Monte-les vers la poitrine.",
@@ -548,11 +508,6 @@
   "À la presse, avant des pieds sur le bord bas de la plateforme.",
   "Pousse la plateforme en tendant les chevilles.",
   "Laisse revenir les talons lentement."
- ],
- "calf_raises": [
-  "Debout, avant des pieds sur une marche.",
-  "Monte sur la pointe des pieds le plus haut possible.",
-  "Descends les talons lentement sous la marche."
  ],
  "calf_raises_on_hackenschmitt_machine": [
   "Dans la machine hack, pointe des pieds sur le bord.",
@@ -694,11 +649,6 @@
   "Descends la poitrine en laissant tourner les poignées.",
   "Remonte."
  ],
- "pushups": [
-  "Mains un peu plus écartées que les épaules, corps droit.",
-  "Descends la poitrine vers le sol.",
-  "Remonte."
- ],
  "reverse_grip_bench_press": [
   "Allongé, tiens la barre paumes vers toi.",
   "Descends-la vers le bas de la poitrine.",
@@ -774,11 +724,6 @@
   "Penche-toi depuis les hanches, dos droit, genoux un peu pliés.",
   "Remonte. Commence très léger."
  ],
- "high_knee_jumps": [
-  "Pieds un peu plus écartés que les hanches.",
-  "Fléchis puis saute en ramenant les genoux à la poitrine.",
-  "Atterris en douceur et recommence."
- ],
  "high_knees": [
   "Debout, bien droit.",
   "Cours sur place en montant les genoux à hauteur des hanches.",
@@ -794,11 +739,6 @@
   "Monte les hanches jusqu'à être droit des genoux aux épaules.",
   "Redescends lentement."
  ],
- "jogging": [
-  "Commence par marcher, puis trottine doucement.",
-  "Pose les pieds légèrement, épaules détendues.",
-  "Tu dois pouvoir parler en courant."
- ],
  "jumping_jacks": [
   "Debout, pieds joints, bras le long du corps.",
   "Saute en écartant les jambes et en levant les bras.",
@@ -808,11 +748,6 @@
   "Pieds écartés, kettlebell en mains.",
   "Recule les hanches puis pousse-les vers l'avant pour balancer le poids.",
   "Laisse-la revenir et recommence."
- ],
- "leg_curl": [
-  "À la machine leg curl, coussin derrière les chevilles.",
-  "Plie les genoux pour ramener le coussin vers toi.",
-  "Reviens lentement."
  ],
  "leg_curls_laying": [
   "À plat ventre sur la machine, coussin derrière les chevilles.",
@@ -830,16 +765,6 @@
   "Redescends lentement. Change de jambe."
  ],
  "leg_extension_1": [
-  "Assis à la machine, coussin sur le bas des tibias.",
-  "Tends les jambes pour monter le coussin.",
-  "Redescends lentement."
- ],
- "leg_extension_2": [
-  "Assis à la machine, coussin sur le bas des tibias.",
-  "Tends les jambes pour monter le coussin.",
-  "Redescends lentement."
- ],
- "leg_extension_3": [
   "Assis à la machine, coussin sur le bas des tibias.",
   "Tends les jambes pour monter le coussin.",
   "Redescends lentement."
@@ -863,11 +788,6 @@
   "À la presse, pieds très écartés.",
   "Plie les genoux pour descendre la plateforme.",
   "Repousse-la."
- ],
- "leg_raise": [
-  "Sur le dos ou suspendu à une barre.",
-  "Monte les jambes tendues.",
-  "Redescends-les lentement."
  ],
  "low_box_squat_wide_stance": [
   "Pieds très écartés devant une caisse basse, barre sur le dos.",
@@ -919,11 +839,6 @@
   "Saute les pieds en arrière en position de pompe.",
   "Ramène-les et relève-toi."
  ],
- "squats": [
-  "Pieds à largeur d'épaules.",
-  "Assieds-toi en arrière comme sur une chaise, poitrine haute.",
-  "Relève-toi."
- ],
  "stationary_bike": [
   "Assieds-toi sur le vélo et règle la selle.",
   "Pédale à un rythme régulier.",
@@ -953,11 +868,6 @@
   "Dos appuyé contre un mur.",
   "Glisse jusqu'à ce que les genoux forment un angle droit.",
   "Tiens comme assis sur une chaise invisible."
- ],
- "weighted_step": [
-  "Poids en mains, face à une marche ou une caisse.",
-  "Monte un pied puis l'autre.",
-  "Redescends et recommence."
  ],
  "weighted_step_ups": [
   "Avec des poids, face à une caisse ou un banc.",
@@ -1034,11 +944,6 @@
   "Tourne l'avant-bras vers le haut.",
   "Redescends lentement. Poids très léger."
  ],
- "military_press_2": [
-  "Debout, bien droit, barre sur les épaules.",
-  "Pousse-la tout droit vers le haut sans te pencher en arrière.",
-  "Redescends aux épaules."
- ],
  "power_clean": [
   "Barre au-dessus des pieds.",
   "Monte-la avec force et réceptionne-la sur les épaules.",
@@ -1079,11 +984,6 @@
   "Pousse la barre vers le haut.",
   "Redescends lentement."
  ],
- "shoulder_shrug": [
-  "Debout, poids le long du corps.",
-  "Monte les épaules vers les oreilles.",
-  "Redescends lentement."
- ],
  "shrugs_barbells": [
   "Debout, barre devant les cuisses.",
   "Monte les épaules vers les oreilles.",
@@ -1093,11 +993,6 @@
   "Debout, un haltère dans chaque main.",
   "Monte les épaules vers les oreilles.",
   "Redescends lentement."
- ],
- "side_raise": [
-  "Debout avec les poids, coudes pliés à 90°.",
-  "Monte les coudes sur les côtés.",
-  "Redescends lentement : 2 secondes en haut, 2 en bas."
  ],
  "side_lying_external_rotation": [
   "Sur le côté avec un poids léger, coude plié contre la taille.",

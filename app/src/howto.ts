@@ -1,5 +1,5 @@
 /**
- * Pasos "¿Cómo se hace?" en el idioma elegido (NL/ES/EN/FR), 226 ejercicios.
+ * Pasos "¿Cómo se hace?" en el idioma elegido (NL/ES/EN/FR), 205 ejercicios.
  * Fuente: data/exercises/howto/<lang>.json — redactados localmente por
  * FitTrack en lenguaje para principiantes (no son de wger). Espejo generado
  * con `node scripts/sync_howto.js`; no editar a mano.

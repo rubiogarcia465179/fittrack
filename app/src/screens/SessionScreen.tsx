@@ -844,10 +844,8 @@ export default function SessionScreen({
   };
 
   // ---- sugerencias del ejercicio aplazado ----
-  // Cuántas veces ha pedido el usuario "otra sugerencia". Sin
-  // temporizador. Tras POSTPONE_RETURN_AT intentos, el ejercicio
-  // original vuelve a aparecer como opción ("hacerlo ahora").
-  const POSTPONE_RETURN_AT = 5;
+  // Cuántas veces ha pedido el usuario "otra sugerencia" (rota la lista).
+  // "Hacerlo ahora" con el original está siempre disponible (R-116).
 
   const usePostponedAlt = (origId: string, altId: string) => {
     const alt = byId.get(altId);
@@ -1584,48 +1582,33 @@ export default function SessionScreen({
                   }).slice(0, 3)
                 : [];
               const currentAlt = alts.length > 0 ? alts[pp.attempts % alts.length] : null;
-              const showOriginal = pp.attempts >= POSTPONE_RETURN_AT;
               return (
                 <View key={pp.exercise_id} style={[styles.postponedRow, { borderTopColor: p.cardBorder }]}>
+                  {/* El original y, desde el primer momento, "Hacerlo ahora" (R-116). */}
                   <View style={styles.postponedInfo}>
                     <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} color={p.text} />
                     <View style={styles.postponedNames}>
-                      <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
+                      <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={2}>
                         {ex ? nameOf(ex) : pp.exercise_id}
                       </Text>
-                      <Text style={[styles.postponedWait, { color: p.dim }]} numberOfLines={1}>
-                        {pp.attempts > 0 ? t('postponed_attempt', { n: pp.attempts }) : t('postponed_new')}
-                      </Text>
                     </View>
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={`${t('postponed_do_now')}: ${ex ? nameOf(ex) : ''}`}
+                      onPress={() => doPostponedNow(pp.exercise_id)}
+                      hitSlop={6}
+                      style={({ pressed }) => [{ minHeight: 44, justifyContent: 'center', paddingHorizontal: 4, opacity: pressed ? 0.6 : 1 }]}
+                    >
+                      <Text style={[styles.postponedName, { color: p.text, fontWeight: '700' }]}>{t('postponed_do_now')}</Text>
+                    </Pressable>
                   </View>
 
-                  {/* sugerencia actual (o el original cuando el ciclo vuelve) */}
-                  {showOriginal ? (
-                    <View style={[styles.postponedSug, { borderColor: p.accent, backgroundColor: p.section }]}>
-                      <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} color={p.text} />
-                      <View style={styles.postponedNames}>
-                        <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
-                          {ex ? nameOf(ex) : pp.exercise_id}
-                        </Text>
-                        <Text style={[styles.postponedWait, { color: p.secondary }]}>{t('postponed_original')}</Text>
-                      </View>
-                      <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel={t('postponed_do_now')}
-                        onPress={() => doPostponedNow(pp.exercise_id)}
-                        style={({ pressed }) => [
-                          styles.postponedBtn,
-                          { backgroundColor: p.accent, borderWidth: 0, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' },
-                        ]}
-                      >
-                        <Text style={[styles.postponedBtnText, { color: p.onAccent }]}>{t('postponed_do_now')}</Text>
-                      </Pressable>
-                    </View>
-                  ) : currentAlt ? (
+                  {/* sugerencia actual ("Otra sugerencia" avanza en la lista) */}
+                  {currentAlt ? (
                     <View style={[styles.postponedSug, { borderColor: p.border, backgroundColor: p.section }]}>
                       <ExerciseGlyph label={currentAlt.muscle_group} size={18} color={p.text} />
                       <View style={styles.postponedNames}>
-                        <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={1}>
+                        <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={2}>
                           {nameOf(currentAlt)}
                         </Text>
                         <Text style={[styles.postponedWait, { color: p.dim }]} numberOfLines={1}>
@@ -1638,10 +1621,11 @@ export default function SessionScreen({
                         onPress={() => usePostponedAlt(pp.exercise_id, currentAlt.id)}
                         style={({ pressed }) => [
                           styles.postponedBtn,
-                          { backgroundColor: p.accent, borderWidth: 0, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' },
+                          // Contorno: el único blanco relleno es "Siguiente ejercicio".
+                          { backgroundColor: 'transparent', borderColor: p.text, borderWidth: 1, minHeight: 44, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
                         ]}
                       >
-                        <Text style={[styles.postponedBtnText, { color: p.onAccent }]}>{t('alt_use')}</Text>
+                        <Text style={[styles.postponedBtnText, { color: p.text }]}>{t('alt_use')}</Text>
                       </Pressable>
                     </View>
                   ) : (
@@ -1652,7 +1636,7 @@ export default function SessionScreen({
                     <Pressable
                       accessibilityRole="button"
                       accessibilityLabel={t('postponed_next')}
-                      disabled={currentAlt === null && !showOriginal}
+                      disabled={currentAlt === null}
                       onPress={() => nextSuggestion(pp.exercise_id)}
                       style={({ pressed }) => [
                         styles.postponedBtn,
@@ -2464,11 +2448,11 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 0,
   },
+  // Títulos en minúsculas, como Apple (R-117): el peso marca la jerarquía, no las mayúsculas.
   compactName: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
+    letterSpacing: -0.1,
   },
   compactSub: {
     fontSize: 13,
@@ -2560,10 +2544,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   draftName: {
-    fontSize: 17,
+    fontSize: 20,
     fontWeight: '700',
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
+    letterSpacing: -0.3,
     flexShrink: 1,
   },
   draftRemoveBtn: {
@@ -3004,12 +2987,13 @@ const styles = StyleSheet.create({
   },
   postponedBtn: {
     borderRadius: 999,
-    paddingHorizontal: 10,
-    paddingVertical: 7,
+    paddingHorizontal: 14,
+    minHeight: 44,
+    justifyContent: 'center',
     borderWidth: 1,
   },
   postponedBtnText: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '700',
   },
   detailsToggleText: { fontSize: 15, fontWeight: '600' },
