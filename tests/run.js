@@ -187,6 +187,30 @@ const effS = rec.effectiveRecords([R1, R2], [{ exercise_id: 'bench_press', estim
 eq([effS.kg, effS.source, effS.best_date], [99, 'sessions', '2026-01-08'], 'effectiveRecords: si lo superas entrenando, manda la sesión (85×5 → 99 kg)');
 eq(rec.BENCHMARK_TEST.every((id) => byId.has(id)), true, 'BENCHMARK_TEST: los 5 clásicos existen en la base');
 
+// progression.ts (Fase 11k): +2,5 kg solo si completaste todas las reps, ≤ 21 días.
+const pTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/progression.ts'), 'utf8');
+const pOut = ts.transpileModule(pTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } });
+fs.writeFileSync(path.join(tmp, 'progression_app.mjs'), pOut.outputText);
+const prog = await import(path.join(tmp, 'progression_app.mjs'));
+const P1 = { id: 'p1', date: '2026-03-01', exercises: [{ exercise_id: 'bench_press', sets: [{ reps: 8, weight_kg: 50 }, { reps: 8, weight_kg: 50 }, { reps: 8, weight_kg: 50 }] }] };
+const P2 = { id: 'p2', date: '2026-03-01', exercises: [{ exercise_id: 'bench_press', sets: [{ reps: 8, weight_kg: 50 }, { reps: 6, weight_kg: 50 }] }] };
+eq(prog.progressionFor('bench_press', [P1], 8, '2026-03-05'), { from: 50, to: 52.5, sets: 3, reps: 8 }, 'progressionFor: 3×8 con 50 kg completadas → 52,5 kg');
+eq(prog.progressionFor('bench_press', [P2], 8, '2026-03-05'), null, 'progressionFor: una serie fallida → sin subida');
+eq(prog.progressionFor('bench_press', [P1], 8, '2026-04-01'), null, 'progressionFor: más de 21 días → sin subida');
+eq(prog.progressionFor('bench_press', [P1], 10, '2026-03-05'), null, 'progressionFor: hoy pide más reps de las hechas → sin subida');
+
+// session-save.ts: solo las series HECHAS se guardan (también cardio por minutos).
+const ssTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/session-save.ts'), 'utf8');
+const ssOut = ts.transpileModule(ssTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } });
+fs.writeFileSync(path.join(tmp, 'session_save_app.mjs'), ssOut.outputText.replace(/from '\.\/gym'/g, "from './gym_app.mjs'"));
+const ss = await import(path.join(tmp, 'session_save_app.mjs'));
+const doneOnly = ss.completedExercises([
+  { exercise_id: 'bench_press', sets: [{ reps: 8, weight_kg: 50, done: true }, { reps: 8, weight_kg: 50 }] },
+  { exercise_id: 'curl', sets: [{ reps: 12, weight_kg: 12 }] },
+  { exercise_id: 'run', sets: [{ reps: 0, weight_kg: 0, duration_min: 20, done: true }] },
+], []);
+eq(doneOnly.map((e) => [e.exercise_id, e.sets.length]), [['bench_press', 1], ['run', 1]], 'completedExercises: fuera las series sin hacer; el cardio hecho cuenta');
+
 const todayISO = web.todayISO;
 const mk = (id, date, exercises, extra = {}) => ({
   id, date,

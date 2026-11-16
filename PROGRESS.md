@@ -22,14 +22,14 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación (2026-11-15, WSL del host, commit Fase 11j)
+## Última verificación (2026-11-16, WSL del host, commit Fase 11k)
 
-- `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **0 fallos**.
-- `npx expo export --platform web` → OK; bundle iOS (`--no-bytecode`) OK, sin
-  `BVLinearGradient`.
-- Capturas **01–22**, **0 errores de consola**, revisadas; vídeo 193
-  fotogramas.
-- **Prueba "Steve Jobs": SÍ** (ver Log "noche, 13").
+- `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **125/125, 0 fallos**
+  (5 nuevas: progresión y solo series hechas).
+- `npx expo export --platform web` → OK.
+- Capturas **01–27**, **0 errores de consola**, revisadas una a una; vídeo
+  266 fotogramas.
+- **Prueba "Steve Jobs": SÍ** (ver Log "2026-11-16").
 
 ## Decisiones vigentes
 
@@ -628,3 +628,20 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   `npx expo install`, a petición del usuario) con `SafeAreaProvider` en App.
   Verificación: tsc 0 · tests 0 fallos · export web e iOS OK · 22 capturas, 0
   errores de consola (sin cambios visuales) · vídeo 183 fotogramas.
+
+- 2026-11-16 — **Fase 11k.** Hoja final con un solo "Finalizar"; rueda tipo
+  alarma del iPhone (sin "Usar", "Escribir", altura cm/m). 3 iteraciones
+  refine → analyze con capturas (subtítulos fuera, evolución ≥ 3 puntos,
+  "Añadir ejercicio" al final, fuera "1/3", "—" en filas plegadas, 1RM de
+  series hechas, "+ Registrar" con contorno, historial agrupado). Petición
+  del usuario: proponer funciones y pasarlas por 2 agentes UX → aplicadas
+  A (resumen dentro de la hoja final; sin volumen por SPEC), B (progresión
+  +2,5 kg con "Mantener"), C (récord en directo); D (discos por lado)
+  descartada por suponer barra de 20 kg. Bugs del revisor: se guardaban
+  series sin hacer (ahora solo las hechas) y el generador bajaba el peso con
+  histórico. Nueva guía `docs/UX-PLAYBOOK.md`. i18n 388 claves.
+  **Veredicto `/stevejobs analyze`: SÍ** — el final de la sesión por fin
+  tiene su momento (resumen + récord), una marca verde con un solo
+  significado, nada inventado (1RM y pesos solo de datos). Pendiente menor:
+  ejercicios casi iguales en el generador, nombre del récord cortado,
+  prueba en iPhone (⛔).

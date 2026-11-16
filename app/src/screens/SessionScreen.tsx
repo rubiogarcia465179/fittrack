@@ -21,6 +21,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Modal,
+  AccessibilityInfo,
 } from 'react-native';
 import { exName } from '../lib/names';
 import { useTranslation } from 'react-i18next';
@@ -40,6 +41,8 @@ import { PickerSheet, fmtNum } from '../components/PickerSheet';
 import { Gradient } from '../components/Gradient';
 import { plural } from '../lib/plural';
 import { GroupGlyph } from '../components/GroupGlyph';
+import { RECORD_GREEN } from '../components/Calendar';
+import { completedExercises } from '../lib/session-save';
 import {
   suggestAlternatives,
   isBodyweightExercise,
@@ -120,8 +123,7 @@ function ValueBox({
 }) {
   const { p } = useTheme();
   const scale = useScale();
-  const doneColor = p.green;
-  const activeColor = done ? doneColor : accent ? p.accent : null;
+  const activeColor = !done && accent ? p.accent : null;
   const active = activeColor !== null;
   return (
     <Pressable
@@ -133,7 +135,7 @@ function ValueBox({
         compact && styles.valueBoxCompact,
         {
           backgroundColor: active ? activeColor : p.fieldBg,
-          borderColor: active ? activeColor : p.border,
+          borderColor: done ? p.text : active ? activeColor : p.border,
           transform: [{ scale: pressed ? 0.96 : 1 }],
         },
       ]}
@@ -464,6 +466,44 @@ export default function SessionScreen({
 
   const isBenchmark = session.type === 'benchmark';
 
+  // ---- Récord en directo (C): una serie HECHA que supera la marca previa,
+  // con la misma regla que los días de récord del calendario
+  // (r05(1RM) > r05(marca)). La primera vez no cuenta; ni cardio, ni peso
+  // corporal, ni el test de marcas. Una marca por ejercicio (la mejor serie).
+  const liveRecords = useMemo(() => {
+    const out = new Map<string, { idx: number; kg: number; prev: number }>();
+    if (isBenchmark) return out;
+    const r05 = (v: number) => Math.round(v * 2) / 2;
+    const prevOf = new Map(session.benchmarks.map((b) => [b.exercise_id, b.estimated_1rm]));
+    for (const d of draft) {
+      const ex = byId.get(d.exercise_id);
+      if (!ex || ex.muscle_group === 'cardio' || isBodyweightExercise(ex)) continue;
+      const prev = prevOf.get(d.exercise_id) ?? 0;
+      if (prev <= 0) continue;
+      d.sets.forEach((s, i) => {
+        if (!s.done) return;
+        const v = r05(oneRm(s.weight_kg, s.reps));
+        if (v > r05(prev) && v > (out.get(d.exercise_id)?.kg ?? 0)) out.set(d.exercise_id, { idx: i, kg: v, prev: r05(prev) });
+      });
+    }
+    return out;
+  }, [draft, session.benchmarks, byId, isBenchmark]);
+  // Un háptico de éxito por ejercicio (no al reabrir una sesión en curso).
+  const celebrated = useRef<Set<string> | null>(null);
+  useEffect(() => {
+    if (!celebrated.current) {
+      celebrated.current = new Set(liveRecords.keys());
+      return;
+    }
+    for (const [id, r] of liveRecords) {
+      if (celebrated.current.has(id)) continue;
+      celebrated.current.add(id);
+      success();
+      AccessibilityInfo.announceForAccessibility?.(t('rec_announce', { kg: fmtNum(r.kg) }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [liveRecords]);
+
   // ---- feedback: toast breve (sin notificaciones durante el scroll) ----
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const flash = (msg: string) => {
@@ -517,6 +557,16 @@ export default function SessionScreen({
     flash(t('sess_added'));
     setTimeout(() => focusScroll(id), 60);
   };
+
+  /** "Mantener": vuelve al peso de la última vez en las series pendientes. */
+  const keepWeight = (id: string) =>
+    setDraft((d) =>
+      d.map((x) =>
+        x.exercise_id === id && x.progress
+          ? { ...x, sets: x.sets.map((s) => (s.done ? s : { ...s, weight_kg: x.progress!.from })), progress: undefined }
+          : x,
+      ),
+    );
 
   const removeExercise = (id: string) =>
     setDraft((d) => d.filter((x) => x.exercise_id !== id));
@@ -872,7 +922,18 @@ export default function SessionScreen({
       }
     }
     if (pick.kind === 'reps') setSet(pick.ex, pick.idx, 'reps', v);
-    else if (pick.kind === 'weight') setSet(pick.ex, pick.idx, 'weight_kg', v);
+    else if (pick.kind === 'weight') {
+      // El peso se copia a las series pendientes que siguen: una rueda, no cuatro.
+      const { ex: wid, idx: widx } = pick;
+      const w = Math.max(0, Math.round(v * 100) / 100);
+      setDraft((d) =>
+        d.map((x) =>
+          x.exercise_id === wid
+            ? { ...x, sets: x.sets.map((s, i) => (i === widx || (i > widx && !s.done) ? { ...s, weight_kg: w } : s)) }
+            : x,
+        ),
+      );
+    }
     else if (pick.kind === 'cmin') setSet(pick.ex, pick.idx, 'duration_min', v);
     else if (pick.kind === 'ckm') setSet(pick.ex, pick.idx, 'distance_km', v);
     else if (pick.kind === 'duration') setDuration(Math.round(v));
@@ -886,6 +947,11 @@ export default function SessionScreen({
   /** "Terminar" abre primero la valoración opcional; guardar no depende de ella. */
   const finish = () => {
     if (saving || draft.length === 0) return;
+    // Solo se guarda lo hecho: sin ninguna serie hecha, lo honesto es descartar.
+    if (doneSets === 0) {
+      setConfirmDiscard(true);
+      return;
+    }
     setCheckinOpen(true);
   };
 
@@ -907,12 +973,13 @@ export default function SessionScreen({
         id: session.id,
         date,
         type: isBenchmark ? 'benchmark' : 'training',
-        exercises: draft,
+        // Solo las series HECHAS entran al historial y a las marcas.
+        exercises: completedExercises(draft, []),
         notes,
         duration_min: autoDuration,
         body_weight_kg: bodyWeight > 0 ? bodyWeight : null,
         height_cm: heightVal > 0 ? heightVal : null,
-        energy: rating?.energy ?? null,
+        energy: rating?.energy ?? session.energy ?? null,
         feeling: rating?.feeling ?? null,
       }) as Session;
       await store.addSession(normalized);
@@ -923,7 +990,7 @@ export default function SessionScreen({
         for (const d of draft) {
           const ex = byId.get(d.exercise_id);
           if (!ex) continue;
-          const best = d.sets.reduce<{ s: SetLog; r: number } | null>((a, s) => {
+          const best = d.sets.filter((s) => s.done).reduce<{ s: SetLog; r: number } | null>((a, s) => {
             const r = oneRm(s.weight_kg, s.reps);
             return r > (a?.r || 0) ? { s, r } : a;
           }, null);
@@ -1028,6 +1095,8 @@ export default function SessionScreen({
         keyboardDismissMode="on-drag"
       >
         {/* ---- Accesos rápidos (la foto vive solo en Main: "auténtico o nada") ---- */}
+        {/* Con ejercicios en la lista, el actual manda: "Añadir" baja al final. */}
+        {draft.length === 0 ? (
         <View style={styles.quickRow}>
           <QuickAction label={t('sess_add')} onPress={openSearch}>
             <PlusGlyph color={p.text} />
@@ -1039,6 +1108,7 @@ export default function SessionScreen({
             </QuickAction>
           )}
         </View>
+        ) : null}
         {/* sugerencia (R-15): el ejercicio que sigue, con 1 toque */}
         {suggested ? (
           <View style={[styles.suggestCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
@@ -1088,7 +1158,9 @@ export default function SessionScreen({
         ) : (
           draft.map((d, di) => {
             const ex = byId.get(d.exercise_id);
-            const est1rm = Math.round(Math.max(...d.sets.map((s) => oneRm(s.weight_kg, s.reps)), 0));
+            // 1RM solo de series HECHAS (las planeadas no son un dato).
+            const est1rm = Math.round(Math.max(...d.sets.filter((s) => s.done).map((s) => oneRm(s.weight_kg, s.reps)), 0));
+            const rec = liveRecords.get(d.exercise_id);
             const isCurrent = di === currentIndex;
             const doneCount = d.sets.filter((s) => s.done).length;
             const allDone = d.sets.length > 0 && doneCount === d.sets.length;
@@ -1102,7 +1174,7 @@ export default function SessionScreen({
                 ? plural(0, t, 'hist_set', 'hist_sets_total')
                 : isCardio(d.exercise_id)
                   ? `${fmtNum(cardioMin)} min${cardioKm > 0 ? ` · ${fmtNum(cardioKm)} km` : ''}`
-                  : `${d.sets.length} × ${first.reps} · ${fmtNum(first.weight_kg)} kg`;
+                  : `${d.sets.length} × ${first.reps} · ${first.weight_kg > 0 || !needsWeight(d.exercise_id) ? fmtNum(first.weight_kg) : '—'} kg`;
               return (
                 <Pressable
                   key={d.exercise_id}
@@ -1156,21 +1228,36 @@ export default function SessionScreen({
                       {ex ? nameOf(ex) : d.exercise_id}
                     </Text>
                   </View>
-                  <Text
-                    style={[styles.draftPos, { color: p.secondary }]}
-                    accessibilityLabel={t('sess_pos', { n: di + 1, m: draft.length })}
-                  >
-                    {di + 1}/{draft.length}
-                  </Text>
                 </View>
                 {ex ? (
                   <Text style={[styles.draftMeta, { color: p.secondary }]} numberOfLines={1}>
                     {t(`group_${ex.muscle_group}`)}{ex.equipment !== 'other' ? ` · ${t(`equip_${ex.equipment}`)}` : ''}
-                    {!isBenchmark && est1rm > 0 ? ` · 1RM ≈ ${est1rm} kg` : ''}
+                    {rec ? ` · ${t('rec_badge')} · 1RM ≈ ${fmtNum(rec.kg)} kg` : !isBenchmark && est1rm > 0 ? ` · 1RM ≈ ${est1rm} kg` : ''}
                     {isCardio(d.exercise_id) && bodyKg > 0
                       ? ` · ≈ ${d.sets.reduce((a, s) => a + cardioKcal(s.duration_min || 0, bodyKg, s.intensity), 0)} kcal`
                       : ''}
                   </Text>
+                ) : null}
+
+                {/* Progresión (B): una línea; un toque mantiene el peso de la última vez. */}
+                {d.progress && !d.sets.some((s) => s.done) ? (
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel={t('prog_a11y', { step: fmtNum(d.progress.to - d.progress.from), w: fmtNum(d.progress.from) })}
+                    onPress={() => keepWeight(d.exercise_id)}
+                    style={({ pressed }) => [styles.progRow, { opacity: pressed ? 0.6 : 1 }]}
+                  >
+                    <Text style={[styles.progText, { color: p.secondary }]} numberOfLines={2}>
+                      {t('prog_line', {
+                        step: fmtNum(d.progress.to - d.progress.from),
+                        sets: d.progress.sets,
+                        reps: d.progress.reps,
+                        w: fmtNum(d.progress.from),
+                      })}
+                      {'  '}
+                      <Text style={{ color: p.text, fontWeight: '700' }}>{t('prog_keep', { w: fmtNum(d.progress.from) })}</Text>
+                    </Text>
+                  </Pressable>
                 ) : null}
 
                 {/* ¿Cómo se hace? → hoja con fotos, qué entrena y pasos. */}
@@ -1289,7 +1376,16 @@ export default function SessionScreen({
                 </View>
                 {d.sets.map((s, i) => (
                   <View key={i} style={styles.setRow}>
-                    <Text style={[styles.setNum, { color: s.done ? p.green : p.secondary }]}>{i + 1}</Text>
+                    {rec?.idx === i ? (
+                      // Récord: el mismo círculo verde que el día de récord del calendario.
+                      <View style={styles.setNumWrap} accessible accessibilityLabel={`${t('rec_badge')} · ${t('sess_set')} ${i + 1}`}>
+                        <View style={[styles.recDot, { backgroundColor: RECORD_GREEN }]}>
+                          <Text style={styles.recDotText}>{i + 1}</Text>
+                        </View>
+                      </View>
+                    ) : (
+                      <Text style={[styles.setNum, { color: s.done ? p.text : p.secondary }]}>{i + 1}</Text>
+                    )}
                     <View style={styles.setFieldWrap}>
                       <ValueBox
                         value={String(s.reps)}
@@ -1399,6 +1495,26 @@ export default function SessionScreen({
             );
           })
         )}
+        {draft.length > 0 ? (
+          <View style={styles.addRow}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={openSearch}
+              style={({ pressed }) => [styles.addRowBtn, { opacity: pressed ? 0.6 : 1 }]}
+            >
+              <Text style={[styles.addRowText, { color: p.text }]}>+ {t('sess_add')}</Text>
+            </Pressable>
+            {currentId ? null : (
+              <Pressable
+                accessibilityRole="button"
+                onPress={requestSuggestion}
+                style={({ pressed }) => [styles.addRowBtn, { opacity: pressed ? 0.6 : 1 }]}
+              >
+                <Text style={[styles.addRowText, { color: p.secondary }]}>{t('sess_suggest')}</Text>
+              </Pressable>
+            )}
+          </View>
+        ) : null}
 
         {/* ---- ejercicios aplazados (el usuario decide el ritmo) ---- */}
         {postponed.length > 0 ? (
@@ -1612,7 +1728,6 @@ export default function SessionScreen({
                       : { min: 10, max: 400, step: 1 }
           }
           labelCustom={t('other_value')}
-          labelUse={t('use_value')}
           onSelect={() => undefined}
           onConfirm={confirmPick}
         />
@@ -1684,14 +1799,28 @@ export default function SessionScreen({
           <View style={[styles.searchSheet, styles.checkinSheet, { backgroundColor: p.card }]}>
             <View style={styles.searchHandle} />
             <Text style={[styles.searchTitle, { color: p.text }]} accessibilityRole="header">{t('checkin_title')}</Text>
-            <Text style={[styles.checkinSub, { color: p.secondary }]}>{t('checkin_sub')}</Text>
-            <RatingRow
-              label={t('checkin_energy')}
-              low={t('checkin_low')}
-              high={t('checkin_high')}
-              value={energy}
-              onChange={setEnergy}
-            />
+            {/* Resumen (A): solo datos reales; sin récords, la cifra no aparece. */}
+            <View style={styles.sumRow}>
+              {[
+                [String(Math.max(1, Math.round(elapsedMs / 60000))), t('sum_min')],
+                [String(doneSets), t(doneSets === 1 ? 'sum_set' : 'sum_sets')],
+                ...(liveRecords.size > 0 ? [[String(liveRecords.size), t(liveRecords.size === 1 ? 'sum_record' : 'sum_records')]] : []),
+              ].map(([v, l]) => (
+                <View key={l} style={styles.sumCell} accessible accessibilityLabel={`${v} ${l}`}>
+                  <Text style={[styles.sumNum, { color: p.text }]}>{v}</Text>
+                  <Text style={[styles.sumLabel, { color: p.secondary }]}>{l}</Text>
+                </View>
+              ))}
+            </View>
+            {[...liveRecords.entries()].slice(0, 3).map(([id, r]) => (
+              <View key={id} style={[styles.sumRec, { borderTopColor: p.border }]}>
+                <View style={[styles.sumDot, { backgroundColor: RECORD_GREEN }]} />
+                <Text style={[styles.sumRecName, { color: p.text }]} numberOfLines={1}>
+                  {nameOf(byId.get(id))}
+                </Text>
+                <Text style={[styles.sumRecKg, { color: p.text }]}>{t('rec_row', { kg: fmtNum(r.kg), prev: fmtNum(r.prev) })}</Text>
+              </View>
+            ))}
             <RatingRow
               label={t('checkin_feeling')}
               low={t('checkin_bad')}
@@ -1706,16 +1835,9 @@ export default function SessionScreen({
               onPress={() => save({ energy, feeling })}
             >
               <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
-                <Text style={[styles.saveBtnText, { color: p.onAccent }]}>{isBenchmark ? t('bench_save') : t('sess_save')}</Text>
+                {/* Un solo botón: guarda con la valoración si la hay (opcional). */}
+                <Text style={[styles.saveBtnText, { color: p.onAccent }]}>{t('sess_finish_one')}</Text>
               </Gradient>
-            </Pressable>
-            <Pressable
-              style={({ pressed }) => [styles.textBtn, { marginTop: 6, opacity: pressed ? 0.6 : 1 }]}
-              accessibilityRole="button"
-              disabled={saving}
-              onPress={() => save()}
-            >
-              <Text style={[styles.textBtnLabel, { color: p.secondary }]}>{t('checkin_skip')}</Text>
             </Pressable>
           </View>
         </View>
@@ -1937,6 +2059,22 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+  },
+  addRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 4,
+    marginBottom: 8,
+  },
+  addRowBtn: {
+    minHeight: 44,
+    paddingHorizontal: 14,
+    justifyContent: 'center',
+  },
+  addRowText: {
+    fontSize: 15,
+    fontWeight: '600',
   },
   quickRow: {
     flexDirection: 'row',
@@ -2556,6 +2694,72 @@ const styles = StyleSheet.create({
   checkinSheet: {
     paddingHorizontal: 20,
     paddingBottom: 28,
+  },
+  progRow: {
+    minHeight: 44,
+    justifyContent: 'center',
+    marginTop: 2,
+  },
+  progText: {
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  setNumWrap: {
+    width: 36,
+    alignItems: 'center',
+  },
+  recDot: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  recDotText: {
+    color: '#000',
+    fontSize: 15,
+    fontWeight: '700',
+    fontVariant: ['tabular-nums'],
+  },
+  sumRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 16,
+  },
+  sumCell: {
+    flex: 1,
+  },
+  sumNum: {
+    fontSize: 34,
+    fontWeight: '700',
+    letterSpacing: -0.6,
+    fontVariant: ['tabular-nums'],
+  },
+  sumLabel: {
+    fontSize: 13,
+    marginTop: 2,
+  },
+  sumRec: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingVertical: 12,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    marginTop: 12,
+  },
+  sumDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  sumRecName: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  sumRecKg: {
+    fontSize: 15,
+    fontVariant: ['tabular-nums'],
   },
   checkinSub: {
     fontSize: 14,

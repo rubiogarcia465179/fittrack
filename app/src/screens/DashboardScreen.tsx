@@ -183,7 +183,7 @@ export default function DashboardScreen({
                 {pr.kg}
                 <Text style={[styles.prUnit, { color: p.onAccent + "8C" }]}> kg</Text>
               </Text>
-              <Text style={[styles.prName, { color: p.onAccent + "A6" }]} numberOfLines={2}>
+              <Text style={[styles.prName, { color: p.onAccent + "A6" }]} numberOfLines={3}>
                 {pr.name}
               </Text>
             </View>

@@ -9,9 +9,9 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
 2. Trabaja **en el orden de esta lista**, de arriba abajo.
 3. **No commitees** hasta cerrar una fase y que la prueba "Steve Jobs" dé
    **sí** (`CLAUDE.md §2`; se evalúa como **versión 2.0**). Estado al
-   2026-11-15: versión "Foco a 10" en `main` (ramas `v1` y `SteveJobs`) +
-   Fase 11e (Hoy toca con Cambiar, marcas desde datos, días de récord, mapa
-   del cuerpo SVG). Después: **Fase 15
+   2026-11-16: Fase 11k en `main` (Finalizar, rueda, resumen final,
+   progresión, récord en directo; guía `docs/UX-PLAYBOOK.md`). Siguiente:
+   los 3 pendientes menores de la 11k, luego **Fase 15
    (InstaGym)**, luego Fase 14 (por qué se usa + favoritos con cita), paridad
    web (⛔ `npm ci`) y Fase 13 cuando lleguen las fotos.
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
@@ -87,16 +87,42 @@ Hecho en esta pasada:
 - [x] IMC con coma decimal en ES/FR/NL.
 - [x] "3+" en **violeta** (el rojo se leía como alarma; aceptado por el usuario).
 
-### Fase 11k — Pendiente (pedido 2026-11-16)
-- [ ] **Terminar la sesión**: en la hoja final, un solo botón "Finalizar"
+### Fase 11k — Finalizar, rueda, 3 iteraciones Jobs y 3 funciones revisadas por UX ✅
+- [x] Hoja final: un solo "Finalizar" (barra fija también "Finalizar").
+- [x] Rueda tipo alarma del iPhone en todos los números; sin "Usar";
+      "Escribir" para números grandes; altura cm / m.
+- [x] 3 iteraciones refine → analyze (capturas en cada vuelta): fuera
+      subtítulos obvios (Perfil, Historial, Ejercicios), evolución solo con
+      ≥ 3 puntos, "Añadir ejercicio" al final de la lista, fuera "1/3",
+      "—" también en filas plegadas, 1RM solo de series hechas, "+ Registrar"
+      con contorno, nombres de marcas en 3 líneas, historial "4 × 8 · 50 kg".
+- [x] Propuestas (docs/PROPUESTAS-11k.md) revisadas por 2 agentes UX
+      (interacción + visual/producto) y aplicadas: **resumen al terminar**
+      (dentro de la hoja final, sin volumen por SPEC), **progresión
+      automática** (+2,5 kg con "Mantener"), **récord en directo** (círculo
+      verde + háptico). **Discos por lado: descartado** (suponía barra de
+      20 kg como un hecho).
+- [x] Bug (revisor UX): se guardaban series sin hacer → solo las hechas
+      (`completedExercises`, también cardio); sin ninguna, ofrecer descartar.
+- [x] Bug: el generador proponía menos peso del levantado (1RM × 70 % a 8
+      reps) → con histórico manda la progresión.
+- [x] Guía reutilizable `docs/UX-PLAYBOOK.md` (prompt único para otra app).
+- [ ] El generador evita ejercicios casi iguales en la misma sesión ("Remo
+      inclinado con barra" + "Remo inclinado", captura 05).
+- [ ] Nombre del récord en 2 líneas en el resumen final (captura 27).
+- [ ] ⛔ Probar en iPhone: háptico de récord, "Mantener", copia del peso.
+- [ ] "Discos por lado" solo si el usuario quiere un ajuste de barra (⛔ decisión).
+
+### (Pedido original de la 11k)
+- [x] **Terminar la sesión**: en la hoja final, un solo botón "Finalizar"
       (guarda con o sin valoración); fuera "Guardar sesión" + "Finalizar sin
       valorar".
-- [ ] **Selector de números tipo ruleta** (como la alarma del iPhone) en
+- [x] **Selector de números tipo ruleta** (como la alarma del iPhone) en
       TODOS los números (peso, reps, minutos, km, año…): sin botón "Usar";
       el botón blanco muestra el valor elegido y confirma. Si el número
       puede ser grande, se escribe con teclado. Altura: número + unidad
       (cm / m).
-- [ ] **Iterar ≥ 3 veces** con `/SteveJobs refine` → `analyze`: aplicar y
+- [x] **Iterar ≥ 3 veces** con `/SteveJobs refine` → `analyze`: aplicar y
       corregir detalles, proponer y mejorar la UX hasta que cada pantalla
       sea un 10 (capturas y prueba Jobs en cada vuelta).
 

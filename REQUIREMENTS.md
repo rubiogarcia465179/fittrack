@@ -324,6 +324,11 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-104 [DONE] Error en Expo Go "BVLinearGradient": degradado sin módulo nativo
 ### R-105 [DONE] SafeAreaView obsoleto → react-native-safe-area-context (aviso fuera)
 
-### R-106 [TODO] Hoja final: solo "Finalizar"
-### R-107 [TODO] Selector de números tipo ruleta (alarma del iPhone), sin "Usar"; números grandes con teclado; altura con cm/m
-### R-108 [TODO] Iterar ≥ 3 veces con la prueba Jobs (refine + analyze)
+### R-106 [DONE] Hoja final: solo "Finalizar"
+### R-107 [DONE] Selector de números tipo ruleta (alarma del iPhone), sin "Usar"; números grandes con teclado; altura con cm/m
+### R-108 [DONE] Iterar ≥ 3 veces con la prueba Jobs (refine + analyze)
+
+## Pasada 2026-11-16
+
+### R-109 [DONE] Documentación reutilizable: un solo prompt para otra app con la misma UX (`docs/UX-PLAYBOOK.md`)
+### R-110 [DONE] Proponer funciones nuevas, convencer, revisarlas con 2 agentes UX y aplicar su feedback (`docs/PROPUESTAS-11k.md`: A resumen, B progresión, C récord en directo aplicadas; D discos descartada)

@@ -25,8 +25,11 @@ y el orden de trabajo en `TASKS.md`; las reglas de trabajo en `CLAUDE.md` y
 - **Monocromo por defecto (tema Noche):** fondo negro, texto blanco,
   secundario gris. **Botones blancos con texto negro.** Otros temas
   elegibles en Perfil (ver Perfil). Lo marcado (días entrenados, series hechas,
-  selección, marcas) en blanco con texto negro. Sin naranja, sin verde; el
-  rojo solo en confirmaciones destructivas.
+  selección, marcas) en blanco con texto negro. Sin naranja; **el verde solo
+  para récords** (día de récord, serie récord, punto en el resumen); el rojo
+  solo en confirmaciones destructivas.
+- **Guía de UX reutilizable**: `docs/UX-PLAYBOOK.md` (principios, sistema
+  de diseño, patrones, lista del "no" y un prompt único para otra app).
 - **Sin reloj ni batería** en ninguna pantalla.
 - **Durante el entreno, solo el ejercicio actual**; el resto en una línea.
 - **Prueba "Steve Jobs"** antes de cada versión (ver `CLAUDE.md §2`).
@@ -89,13 +92,23 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 ### Entrenar (sesión)
 - **Cabecera**: cerrar (descartar con confirmación) · "Sesión" + "x/y
   series hechas" · línea fina de progreso debajo.
-- Un solo acceso rápido: **Añadir ejercicio** (sin ejercicios, también
-  **Sugerir**). Los detalles (fecha, duración, peso, altura, notas) van al
+- **Añadir ejercicio**: con la lista vacía, círculo arriba (y **Sugerir**);
+  con ejercicios, una línea de texto "+ Añadir ejercicio" al final de la lista
+  (el ejercicio actual manda). Los detalles (fecha, duración, peso, altura, notas) van al
   final, en la hoja "¿Cómo ha ido?".
 - **Ejercicio actual** (tarjeta): TÍTULO en mayúsculas, grupo (+ material si
-  no es "otro") y 1RM estimado; **"¿Cómo se hace?"** (fotos —de ejemplo,
+  no es "otro") y 1RM estimado **de las series hechas** (sin contador "1/3");
+  **progresión**: si la última vez (≤ 21 días) completaste todas las reps con
+  W, hoy propone W + 2,5 kg con una línea gris "+2,5 kg · la última vez 3 × 8
+  con 50 kg · **Mantener 50 kg**" (un toque vuelve a W; desaparece al hacer la
+  primera serie; con energía baja, W sin línea); **"¿Cómo se hace?"** (fotos —de ejemplo,
   marcadas, hasta la Fase 13—, qué entrena y 3 pasos para principiantes);
-  filas `nº · reps · kg · Hecha` (tocar un valor abre una hoja de valores).
+  filas `nº · reps · kg · Hecha` (tocar un valor abre la **rueda** tipo
+  alarma del iPhone: sin "Usar", el botón blanco muestra el valor; "Escribir"
+  para números grandes; altura con cm / m). **El peso elegido se copia a las
+  series pendientes siguientes.** **Récord en directo**: si una serie hecha
+  supera tu marca (1RM, misma regla que el calendario), su número pasa a un
+  círculo verde, la cabecera dice "Récord · 1RM ≈ X kg" y vibra una vez.
   **Una serie se da por hecha sola al indicar reps y peso** (cardio: minutos);
   el ✓ solo se activa cuando la serie está completa. **Sin datos de peso**
   (ni marca ni histórico) se muestra **"—"**: la app no inventa pesos;
@@ -111,15 +124,19 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   "Saltar"; al terminar, **vibración clara** (dos pulsos + háptico).
   Sobrevive a cambiar de pestaña. Futuro (⛔): estado y cuenta atrás en la
   pantalla de bloqueo (Live Activity / notificación) con "Serie hecha".
-- **Barra fija**: a mitad → "Terminar" (contorno) + **"Siguiente
-  ejercicio"** (blanco); en el último → **"Terminar y guardar"**.
-- **Al terminar**: hoja opcional "¿Cómo ha ido?" (energía y sensación 1–5),
-  dentro de la pantalla (no un Modal: iOS no abre uno mientras otro se cierra)
-  → "Guardar sesión" o "Finalizar sin valorar". **Fecha, duración, peso y
-  altura se rellenan solos** (hoy, tiempo transcurrido, últimos registrados).
+- **Barra fija**: a mitad → "Finalizar" (contorno) + **"Siguiente
+  ejercicio"** (blanco); en el último → **"Finalizar"**.
+- **Al terminar**: hoja "¿Cómo ha ido?" dentro de la pantalla (no un Modal)
+  con el **resumen**: minutos · series hechas · récords (si los hay, con una
+  fila por récord "1RM 73 kg (antes 68)" y punto verde) + "Cómo te has
+  sentido" (1–5, opcional) → un solo botón **"Finalizar"**. La energía no se
+  repregunta (viene de la hoja de inicio). **Solo se guardan las series
+  hechas**; sin ninguna hecha, "Finalizar" ofrece descartar. **Fecha,
+  duración, peso y altura se rellenan solos**.
 - **Sin entreno en curso**: "Recomiéndame un entreno" (abre la misma hoja
   rápida) o "Añado mis datos yo" (sesión en blanco).
-- Pesos: marca del test > histórico; sin datos, "—" (decisión del usuario
+- Pesos: con histórico reciente manda lo levantado (progresión); si no,
+  marca efectiva (test + mejores series); sin datos, "—" (decisión del usuario
   2026-11-15: nada de pesos inventados). Series/reps/descanso según el **objetivo**
   (`GOAL_SCHEME`).
 

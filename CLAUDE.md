@@ -11,6 +11,9 @@ agente** que reciba este repo.
    commitear) y las capturas de `docs/screenshots/`.
 4. `AGENTS.md` tiene el entorno, la estructura y los comandos.
 5. Lo marcado ⛔ necesita una decisión o aprobación del usuario: pregunta.
+6. `docs/UX-PLAYBOOK.md` resume la UX de FitTrack (principios, sistema de
+   diseño, patrones, lo que se quitó y por qué). Respétala aquí y úsala como
+   base con un solo prompt para otra app.
 
 ## 1. Cuándo se commitea
 

@@ -17,6 +17,8 @@ export type ActiveDraftExercise = {
    *  temporizador: el usuario decide el ritmo. Cuando el ciclo llega de
    *  vuelta al original, puede elegir hacerlo ahora. */
   alt_attempts?: number;
+  /** Progresión automática (B): la última vez y el peso propuesto hoy. */
+  progress?: { from: number; to: number; sets: number; reps: number };
 };
 
 export type PostponedExercise = {
@@ -48,6 +50,8 @@ export type ActiveSession = {
   notes?: string;
   draft: ActiveDraftExercise[];
   postponed: PostponedExercise[];
+  /** Energía 1–5 elegida en la hoja de inicio (no se vuelve a preguntar). */
+  energy?: number;
   /** Benchmarks vigentes (para recomendar pesos). */
   benchmarks: { exercise_id: string; estimated_1rm: number }[];
   /** Descanso entre series en curso: instante de fin (ms) y duración total (s). */

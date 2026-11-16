@@ -63,6 +63,13 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 - **Pesos**: `weightForExercise` devuelve `null` sin marca ni histórico y
   `generateWorkout` pone 0 → la sesión muestra "—". Una serie se completa
   sola al indicar reps + peso (`setReady` en `SessionScreen`).
+- **Progresión** (`lib/progression.ts`): `progressionFor` → +2,5 kg si la
+  última sesión (≤ 21 días) completó todas las reps; `App.startWorkout` la
+  aplica y guarda `draft[].progress` ("Mantener"). Las sesiones empiezan
+  con las **marcas efectivas** (`effBench`) para pesos y récords en directo.
+- **Guardar**: solo series hechas (`completedExercises` en
+  `lib/session-save.ts`, incluye cardio por minutos).
+- **Guía de UX para otra app**: `docs/UX-PLAYBOOK.md`.
 - **Vibración**: `lib/haptics.ts` → `restDone()` (Vibration de RN + háptico)
   al terminar el descanso; `tapLight()` al marcar series; `success()` al
   guardar.

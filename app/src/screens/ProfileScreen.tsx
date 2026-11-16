@@ -199,7 +199,6 @@ export default function ProfileScreen({
       <Text style={[styles.title, { fontSize: fs(scale, 34), color: p.text }]} numberOfLines={1} accessibilityRole="header">
         {t('profile_title')}
       </Text>
-      <Text style={[styles.sub, { color: p.secondary }]}>{t('profile_sub')}</Text>
 
       {/* ---- 1. Cuerpo: peso y altura en una tarjeta ---- */}
       <View style={[styles.card, card]}>
@@ -226,7 +225,7 @@ export default function ProfileScreen({
             {t('profile_bmi')} ≈ {fmtNum(Math.round(bmi * 10) / 10)}
           </Text>
         ) : null}
-        {weightTrend.length >= 2 ? <TrendCard title={t('profile_trend')} data={weightTrend} unit="kg" p={p} /> : null}
+        {weightTrend.length >= 3 ? <TrendCard title={t('profile_trend')} data={weightTrend} unit="kg" p={p} /> : null}
 
         {/* Calorías en la misma tarjeta: salen del cuerpo (peso, altura). */}
         <View style={[styles.energySplit, { borderTopColor: p.border }]} />
@@ -376,7 +375,8 @@ export default function ProfileScreen({
                 ? [50, 55, 60, 65, 70, 75, 80, 85, 90, 100]
                 : [1960, 1965, 1970, 1975, 1980, 1985, 1990, 1995, 2000, 2005]
           }
-          value={pick === 'height' ? height ?? 0 : pick === 'weight' ? weight ?? 0 : profile?.birth_year ?? 0}
+          value={pick === 'height' ? height ?? 170 : pick === 'weight' ? weight ?? 75 : profile?.birth_year ?? 1990}
+          altUnit={pick === 'height' ? { unit: 'm', factor: 0.01, decimals: 2 } : undefined}
           custom={
             pick === 'height'
               ? { min: 100, max: 230, step: 1 }
@@ -385,7 +385,6 @@ export default function ProfileScreen({
                 : { min: 1920, max: year - 14, step: 1 }
           }
           labelCustom={t('other_value')}
-          labelUse={t('use_value')}
           onSelect={() => undefined}
           onConfirm={confirmPick}
         />
@@ -451,9 +450,9 @@ function LogButton({ label, a11y, onPress }: { label: string; a11y: string; onPr
       accessibilityLabel={a11y}
       onPress={onPress}
       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-      style={({ pressed }) => [styles.logBtn, { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1 }]}
+      style={({ pressed }) => [styles.logBtn, { backgroundColor: 'transparent', borderWidth: 1, borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
     >
-      <Text style={[styles.logBtnText, { color: p.onAccent }]}>+ {label}</Text>
+      <Text style={[styles.logBtnText, { color: p.text }]}>+ {label}</Text>
     </Pressable>
   );
 }

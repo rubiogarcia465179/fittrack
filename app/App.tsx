@@ -21,6 +21,7 @@ import { COUNTRY_BY_CODE, type CountryCode } from './src/theme-flags';
 import { newActiveSession, type ActiveSession, type ActiveDraftExercise } from './src/lib/session';
 import { generateWorkout, recentRows, weightForExercise, type WorkoutPlan } from './src/lib/workout';
 import { effectiveRecords, recordsAsBenchmarks, BENCHMARK_TEST } from './src/lib/records';
+import { progressionFor } from './src/lib/progression';
 import type { Goal, Intensity } from './src/lib/types';
 import { QuickStartSheet, type QuickStartOptions } from './src/components/QuickStartSheet';
 import TabIcon from './src/components/TabIcon';
@@ -196,27 +197,40 @@ function Root({
   };
 
   // Plan generado -> entrenamiento activo (tareas 2/3A/4 + R-17).
-  const startWorkout = (plan: WorkoutPlan, type: 'training' | 'benchmark') => {
-    const draft: ActiveDraftExercise[] = plan.exercises.map((x) => ({
-      exercise_id: x.exercise_id,
-      // Cardio (Fase 12) se registra por tiempo: un bloque de 20 min moderados.
-      sets: exercises.find((e) => e.id === x.exercise_id)?.muscle_group === 'cardio'
-        ? [{ reps: 0, weight_kg: 0, duration_min: 20, intensity: 'moderate' as const }]
-        : Array.from({ length: x.sets }, () => ({
-            reps: x.reps,
-            weight_kg: x.recommended_weight_kg,
-          })),
-      equipment_status: 'available' as const,
-      rest_after: x.rest_sec,
-    }));
-    const a = newActiveSession({ type, equipment_mode: plan.equipment_mode, benchmarks }, todayISO, uid);
+  const startWorkout = (
+    plan: WorkoutPlan,
+    type: 'training' | 'benchmark',
+    opts: { intensity?: Intensity; energy?: number } = {},
+  ) => {
+    const today = todayISO();
+    const draft: ActiveDraftExercise[] = plan.exercises.map((x) => {
+      const cardio = exercises.find((e) => e.id === x.exercise_id)?.muscle_group === 'cardio';
+      // Progresión (B): con histórico manda lo que levantaste de verdad. Si
+      // completaste todas las reps, +2,5 kg; con energía baja, el mismo peso.
+      const prog = cardio || type === 'benchmark' ? null : progressionFor(x.exercise_id, sessions, x.reps, today);
+      const easy = opts.intensity === 'low';
+      const w = prog ? (easy ? prog.from : prog.to) : x.recommended_weight_kg;
+      return {
+        exercise_id: x.exercise_id,
+        // Cardio (Fase 12) se registra por tiempo: un bloque de 20 min moderados.
+        sets: cardio
+          ? [{ reps: 0, weight_kg: 0, duration_min: 20, intensity: 'moderate' as const }]
+          : Array.from({ length: x.sets }, () => ({ reps: x.reps, weight_kg: w })),
+        equipment_status: 'available' as const,
+        rest_after: x.rest_sec,
+        ...(prog && !easy ? { progress: prog } : {}),
+      };
+    });
+    // Marcas efectivas (test + mejores series): sirven para pesos y récords en directo.
+    const a = newActiveSession({ type, equipment_mode: plan.equipment_mode, benchmarks: effBench }, todayISO, uid);
     a.draft = draft;
+    if (opts.energy) a.energy = opts.energy;
     persistActive(a);
   };
 
   // R-14: sesión en blanco (el usuario añade los ejercicios a mano).
   const startManualSession = () => {
-    const a = newActiveSession({ type: 'training', equipment_mode: 'full_gym', benchmarks }, todayISO, uid);
+    const a = newActiveSession({ type: 'training', equipment_mode: 'full_gym', benchmarks: effBench }, todayISO, uid);
     a.draft = [];
     persistActive(a);
   };
@@ -275,7 +289,9 @@ function Root({
       exercises,
       recent: recentRows(sessions),
     });
-    startWorkout(plan, 'training');
+    // Energía de la hoja de inicio → escala 1–5 de la valoración (no se repregunta).
+    const energy = qs.energy === 'low' ? 2 : qs.energy === 'high' ? 4 : 3;
+    startWorkout(plan, 'training', { intensity, energy });
     setTab('session');
   };
 

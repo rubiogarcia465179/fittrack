@@ -10,8 +10,9 @@ export function completedExercises(
   const byId = new Map<string, ExerciseLog>();
   for (const row of [...draft, ...postponed]) {
     const sets = (row.sets || []).filter((s) => s.done === true &&
-      Number.isFinite(s.reps) && s.reps > 0 &&
-      Number.isFinite(s.weight_kg) && s.weight_kg >= 0);
+      (((s.duration_min ?? 0) > 0) ||
+        (Number.isFinite(s.reps) && s.reps > 0 &&
+          Number.isFinite(s.weight_kg) && s.weight_kg >= 0)));
     if (!sets.length) continue;
     const entry = byId.get(row.exercise_id) || { exercise_id: row.exercise_id, sets: [] };
     entry.sets.push(...sets.map((s) => ({ ...s })));

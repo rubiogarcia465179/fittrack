@@ -16,11 +16,11 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 08 | ¿Cómo se hace? | Foto (de ejemplo, marcada), qué entrena, 3 pasos en español |
 | 09 | Descanso | Cuenta atrás tras completar una serie (+15 s, Saltar) |
 | 10 | Cardio | min · km · intensidad; "Terminar y guardar" |
-| 11 | Valoración | Energía y sensación (1–5), dentro de la pantalla; sin "Detalles" |
+| 11 | Finalizar | Resumen (min · series) + "Cómo te has sentido" + un solo "Finalizar" |
 | 12 | Historial | Desde Inicio (con "atrás"); fechas localizadas |
 | 13 | Historial · un día | Al tocar un día del calendario: solo ese día + "Ver todas" |
 | 14 | Ejercicios | Desde Inicio (con "atrás"); icono por grupo |
-| 15 | Perfil | Cuerpo (peso, altura, IMC, evolución) + calorías |
+| 15 | Perfil | Cuerpo (peso, altura, IMC; evolución con ≥ 3 puntos) + calorías |
 | 16 | Perfil · ajustes | Sobre ti, Apariencia, idioma + tus datos, "Licencias y créditos" al pie |
 | 17 | Tema Día | Inicio en el tema inverso |
 | 18 | Ejercicios FR | Cambio de idioma instantáneo (nombres incluidos) |
@@ -28,6 +28,11 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 20 | ¿Cómo se hace? NL | Los pasos siguen el idioma elegido |
 | 21 | Primer arranque | Sin datos: "Empieza por tus marcas" + "Establecer marcas" |
 | 22 | Test de marcas | Los 5 clásicos, calentamiento + serie de test, 1RM estimado |
+| 23 | Rueda de peso | Como la alarma del iPhone; el botón blanco es el valor |
+| 24 | Rueda de altura | Número + unidad (cm / m); "Escribir" para teclear |
+| 25 | Progresión | "+2,5 kg · la última vez 3 × 8 con 50 kg · Mantener 50 kg" |
+| 26 | Récord en directo | Número de serie en círculo verde; "Récord · 1RM ≈ 73 kg" |
+| 27 | Resumen final | 15 min · 2 series · 1 récord + fila del récord |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 

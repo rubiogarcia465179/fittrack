@@ -20,6 +20,19 @@ import { plural } from '../lib/plural';
 import { ConfirmDialog } from '../components/ConfirmDialog';
 import { ExerciseGlyph, fmtDate } from './SessionScreen';
 
+/** Series iguales seguidas → una línea: "4 × 8 · 50 kg". */
+type SetLite = { reps: number; weight_kg: number; duration_min?: number; distance_km?: number; intensity?: string };
+function groupSets<T extends SetLite>(sets: T[]): { st: T; n: number }[] {
+  const out: { st: T; n: number }[] = [];
+  for (const st of sets) {
+    const last = out[out.length - 1];
+    if (last && !st.duration_min && !last.st.duration_min && last.st.reps === st.reps && last.st.weight_kg === st.weight_kg) last.n += 1;
+    else out.push({ st, n: 1 });
+  }
+  return out;
+}
+const fmtKg = (v: number) => String(Math.round(v * 100) / 100).replace('.', ',');
+
 export default function HistoryScreen({
   sessions,
   exercises,
@@ -70,9 +83,7 @@ export default function HistoryScreen({
             <Text style={[styles.focusAllText, { color: p.text }]}>{t('hist_show_all')}</Text>
           </Pressable>
         </View>
-      ) : (
-        <Text style={[styles.sub, { color: p.secondary }]}>{t('hist_sub')}</Text>
-      )}
+      ) : null}
 
       {list.length === 0 ? (
         <View style={[styles.emptyCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
@@ -133,17 +144,17 @@ export default function HistoryScreen({
                       <ExerciseGlyph label={e.muscle_group} size={20} color={p.text} />
                     </View>
                   ) : null}
-                  <Text style={[styles.exName, { color: p.text }]} numberOfLines={1}>
+                  <Text style={[styles.exName, { color: p.text }]} numberOfLines={2}>
                     {nameOf(e) || ex.exercise_id}
                   </Text>
                   <Text style={[styles.exSets, { color: p.dim }]}>
-                    {ex.sets
-                      .map((st) =>
+                    {groupSets(ex.sets)
+                      .map(({ st, n }) =>
                         st.duration_min
                           ? `${st.duration_min} min${st.distance_km ? ` · ${st.distance_km} km` : ''}${st.intensity ? ` · ${t(`int_${st.intensity}`)}` : ''}`
-                          : `${st.reps}×${st.weight_kg}kg`,
+                          : `${n > 1 ? `${n} × ` : ''}${st.reps}${st.weight_kg > 0 ? ` · ${fmtKg(st.weight_kg)} kg` : ' reps'}`,
                       )
-                      .join(' · ')}
+                      .join('\n')}
                   </Text>
                 </Pressable>
               );

@@ -49,11 +49,10 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Siguiente ejercicio');
   await shot('10-session-cardio');
   await tap('Moderada');
-  await tap('Terminar y guardar');
-  await tap('4', { nth: 0 });
-  await tap('5', { nth: 1 });
+  await tap('Finalizar');
+  await tap('5');
   await shot('11-session-checkin');
-  await tap('Guardar sesión');
+  await tap('Finalizar');
   await sleep(800);
 
   // 12–14 Desde Inicio: Historial, un día del calendario, Ejercicios
@@ -62,7 +61,7 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await shot('12-history');
   await tapLabel('Inicio');
   await scrollBy(1000);
-  await tapLabel('14 '); // día entrenado → solo ese día
+  await tapLabel('15 '); // día entrenado → solo ese día
   await shot('13-history-day');
   await tapLabel('Inicio');
   await tap('Ejercicios');
@@ -107,4 +106,50 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Establecer marcas');
   await sleep(500);
   await shot('22-benchmark-test');
+
+  // 23 Rueda (como la alarma del iPhone) al elegir el peso de una serie
+  await load({ ...base, 'fittrack.data.v1': DATA, 'fittrack.active.v1': withCardio });
+  await tapLabel('Entrenar');
+  await tap('50', { nth: 1 });
+  await sleep(500);
+  await shot('23-wheel-weight');
+
+  // 24 Altura: rueda + unidad cm / m
+  await load({ ...base, 'fittrack.data.v1': profile });
+  await tapLabel('Perfil');
+  await tap('+ Registrar', { nth: 1 });
+  await sleep(400);
+  await tap('m');
+  await sleep(400);
+  await shot('24-wheel-height-m');
+
+  // 25 Progresión: la última vez 3×8 con 50 kg → hoy 52,5 kg ("Mantener 50 kg")
+  const bench = [{ exercise_id: 'close_grip_bench_press', estimated_1rm: 68 }];
+  const prog = {
+    ...ACTIVE,
+    benchmarks: bench,
+    draft: [
+      { ...ACTIVE.draft[0], sets: [0, 1, 2, 3].map(() => ({ reps: 8, weight_kg: 52.5 })), progress: { from: 50, to: 52.5, sets: 3, reps: 8 } },
+      ...ACTIVE.draft.slice(1),
+    ],
+  };
+  await load({ ...base, 'fittrack.data.v1': DATA, 'fittrack.active.v1': prog });
+  await tapLabel('Entrenar');
+  await shot('25-session-progress');
+
+  // 26–27 Récord en directo (8 × 57,5 kg supera la marca de 68 kg) y resumen final
+  const recA = {
+    ...ACTIVE,
+    benchmarks: bench,
+    draft: [
+      { ...ACTIVE.draft[0], sets: [{ reps: 8, weight_kg: 57.5, done: true }, { reps: 8, weight_kg: 57.5, done: true }, { reps: 8, weight_kg: 57.5 }] },
+      ...ACTIVE.draft.slice(1),
+    ],
+  };
+  await load({ ...base, 'fittrack.data.v1': DATA, 'fittrack.active.v1': recA });
+  await tapLabel('Entrenar');
+  await shot('26-session-record');
+  await tap('Finalizar');
+  await sleep(400);
+  await shot('27-finish-summary');
 };

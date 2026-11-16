@@ -119,7 +119,6 @@ export default function LibraryScreen({
         <Text style={[styles.title, { fontSize: fs(scale, 32), color: p.text }]} numberOfLines={1}>
           {t('ex_title')}
         </Text>
-        <Text style={[styles.sub, { color: p.secondary }]}>{t('ex_sub')}</Text>
 
         <Chips
           title={t('ex_filter_group')}
@@ -215,10 +214,6 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: '700',
     letterSpacing: -0.6,
-  },
-  sub: {
-    fontSize: 15,
-    marginTop: 4,
     marginBottom: 16,
   },
   filterTitle: {
