@@ -12,8 +12,9 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
    2026-11-16: **Fases 11l, 11m y 15 en `main`** (Jobs 89). Fase 14
    **descartada** (R-123). **Fase 16** (copia de seguridad, aviso del
    descanso bloqueado, fotos como archivos) en `main`. **Fase 17**
-   (manual `docs/kit/`) hecha. **Siguiente:** 5 vueltas Jobs analyze →
-   suggest → aplicar (R-130), log en `docs/LOOP-18.md`. Luego paridad web (⛔ `npm ci`) y Fase 13 (fotos).
+   (manual `docs/kit/`) y **Fase 18** (5 vueltas Jobs, 86 → 90,
+   `docs/LOOP-18.md`) hechas. **Siguiente:** prueba en iPhone (usuario,
+   R-128). Luego paridad web (⛔ `npm ci`) y Fase 13 (fotos).
    Prueba en iPhone: la hace el usuario (R-128).
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
    no las supongas.
@@ -245,6 +246,15 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
   i18n regenerado (390 claves); pendiente el tema X, 3 pestañas, Inicio,
   Perfil y pasos por idioma en `web/`.
 
+### Fase 18 — 5 vueltas Jobs para producción (R-130) ✅ (Jobs SÍ, 90/90)
+- [x] V1: nombres a 2 líneas en la sesión; "14 min · 2 series" igual en
+      todas partes; "Guardar una copia".
+- [x] V2: Ejercicios en orden alfabético sin búsqueda; botones del aplazado iguales.
+- [x] V3: cabecera de la sesión con lo que entrenas ("Espalda y brazos").
+- [x] V4: primer arranque sin la nota del lunes; nota reescrita (4 idiomas).
+- [x] V5: primer arranque sin calendario ni Historial vacíos.
+- [ ] ⛔ Único pendiente para producción: prueba en iPhone real (R-128).
+
 ### Fase 17 — Manual portable para otra app (R-129) ✅
 - [x] `docs/kit/`: README (qué copiar, orden), 01-BOOTSTRAP (prompt, preguntas
       del día 1, fase 0, orden de fases), 02-METHOD (fases, 6 docs, peticiones,
@@ -254,7 +264,7 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       04-QUALITY-GATES (todas las listas), 05-LESSONS (fallos reales → regla),
       `templates/` (los 6 docs, brief de revisores, log del bucle).
 - [x] UX-PLAYBOOK enlaza el kit; CLAUDE.md §0.7; AGENTS al día.
-- [ ] Añadir al kit lo que salga de las 5 vueltas Jobs (R-130).
+- [x] Lo aprendido en las 5 vueltas, añadido a `05-LESSONS.md` (Fase 18).
 
 ### Fase 16 — Copia de seguridad, aviso del descanso bloqueado, fotos como archivos ✅ (Jobs SÍ, 90)
 - [x] **Copia de seguridad** (R-124): Perfil → "Guardar copia de seguridad"

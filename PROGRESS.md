@@ -22,11 +22,19 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Datos | 205 ejercicios reales de wger (sin duplicados); iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
 | Web (Astro) | Atrasada: lógica al día, diseño de la 11c (no el monocromo X); pasos por idioma copiados a `web/src/data/howto/` pero sin usar |
 | Copia de seguridad | Perfil → Guardar / Restaurar (un archivo con todo, fotos incluidas) |
+| Primer arranque | Un solo paso: "Hoy toca" + "Empezar sesión", marcas y Ejercicios (calendario e Historial aparecen con la 1.ª sesión) |
 | i18n | NL/ES/EN/FR, **413 claves**, espejos idénticos; francés todo en "tu" |
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 16)
+## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 18)
+
+- tsc **0** · tests **151/151** · export OK · capturas 01–34 **errors none**
+  (cambiadas en el bucle: 05–07, 09–14, 16, 18–19, 21, 25–26, 28, 30–34,
+  revisadas) · vídeo **396 fotogramas** · **Jobs SÍ, 90/90** (`docs/LOOP-18.md`).
+- Sin probar en dispositivo (R-128).
+
+## Verificación anterior (commit Fase 16)
 
 - `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **151/151, 0 fallos**.
 - `npx expo export --platform web` → OK · `npx expo config --type prebuild` → OK (plugins).
@@ -737,3 +745,15 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   seguridad y permisos en contexto; AGENTS corregido (205 ejercicios, fotos
   como archivos). Solo documentación: la app no cambia (última prueba Jobs
   SÍ 90, Fase 16; tests 151/151).
+
+- 2026-11-16 — **Fase 18: 5 vueltas Jobs** (R-130). Petición: "enter the
+  /stevejobs and analyze, suggest, apply changes loop. Do this loop 5 times
+  … ready for production". Base 86 (juzgando las 34 capturas) → **90/90**.
+  V1 nombres a 2 líneas, mismo orden "min · series", "Guardar una copia";
+  V2 Ejercicios alfabéticos, botones del aplazado iguales; V3 cabecera con
+  lo que entrenas; V4 sin nota del lunes en el primer arranque; V5 sin
+  calendario ni Historial vacíos en el primer arranque. Rechazada: tarjetas
+  de marcas sin relleno (petición explícita del usuario). Verificación: tsc 0,
+  151/151, export OK, capturas sin errores, vídeo 396 fotogramas.
+  **Jobs SÍ, 90/90**; lo único pendiente para producción es el iPhone real
+  (R-128). Lecciones añadidas a `docs/kit/05-LESSONS.md`.

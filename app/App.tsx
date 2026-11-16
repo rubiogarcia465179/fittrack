@@ -442,7 +442,7 @@ function Root({
                 onStartSession={openQuickStart}
                 todayGroups={todaySplit}
                 todayMeta={`${t(`goal_${qs.goal}`)} · ${qs.duration} min`}
-                mondayNote={splitSkip === 0 && mondayPushSkipped(sessions, new Map(exercises.map((e) => [e.id, e.muscle_group])))}
+                mondayNote={splitSkip === 0 && sessions.length > 0 && /* primer arranque: un solo mensaje */ mondayPushSkipped(sessions, new Map(exercises.map((e) => [e.id, e.muscle_group])))}
                 onChangeSplit={() => setSplitSkip((n) => n + 1)}
                 onOpenHistory={(d) => {
                   setHistDate(d || null);

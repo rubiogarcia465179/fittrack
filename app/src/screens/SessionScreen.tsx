@@ -46,6 +46,7 @@ import { completedExercises } from '../lib/session-save';
 import { pickPhoto } from '../lib/pickPhoto';
 import { savePhoto } from '../lib/sessionPhotos';
 import { scheduleRestAlert, cancelRestAlert } from '../lib/restAlert';
+import { splitLabel } from '../lib/nextSplit';
 import {
   suggestAlternatives,
   isBodyweightExercise,
@@ -395,6 +396,18 @@ export default function SessionScreen({
   useEffect(() => setEquipOpen(false), [currentIndex]);
 
   const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
+  // Título de la cabecera: lo que entrenas ("Espalda y brazos"), como en
+  // "Hoy toca". Más de 2 grupos o ninguno → "Sesión" (nunca un título largo).
+  const headTitle = useMemo(() => {
+    if (session.type === 'benchmark') return t('bench_title');
+    const groups: string[] = [];
+    for (const d of draft) {
+      const g = byId.get(d.exercise_id)?.muscle_group;
+      if (g && g !== 'cardio' && g !== 'full_body' && !groups.includes(g)) groups.push(g);
+    }
+    return groups.length >= 1 && groups.length <= 2 ? splitLabel(groups, t) : t('sess_title');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draft, byId, session.type, i18n.language]);
   const isCardio = (id: string) => byId.get(id)?.muscle_group === 'cardio';
   /** Serie por defecto de cardio: lo último que hizo en ese ejercicio, o 20 min moderados. */
   const cardioSet = (id: string): SetLog => {
@@ -1119,9 +1132,9 @@ export default function SessionScreen({
           style={styles.activeCenter}
           accessible
           accessibilityRole="header"
-          accessibilityLabel={`${isBenchmark ? t('bench_title') : t('sess_title')}. ${doneSets}/${totalSets} ${t('workout_sets_done')}`}
+          accessibilityLabel={`${headTitle}. ${doneSets}/${totalSets} ${t('workout_sets_done')}`}
         >
-          <Text style={[styles.activeTitle, { color: p.text }]}>{isBenchmark ? t('bench_title') : t('sess_title')}</Text>
+          <Text style={[styles.activeTitle, { color: p.text }]} numberOfLines={1}>{headTitle}</Text>
           <Text style={[styles.activeSets, { color: p.secondary }]} numberOfLines={1}>
             {doneSets}/{totalSets} {t('workout_sets_done')}
           </Text>
@@ -1238,7 +1251,7 @@ export default function SessionScreen({
                 >
                   <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} color={p.text} />
                   <View style={styles.compactMain}>
-                    <Text style={[styles.compactName, { color: p.text }]} numberOfLines={1}>
+                    <Text style={[styles.compactName, { color: p.text }]} numberOfLines={2}>
                       {ex ? nameOf(ex) : d.exercise_id}
                     </Text>
                     <Text style={[styles.compactSub, { color: p.secondary }]} numberOfLines={1}>
@@ -1614,10 +1627,13 @@ export default function SessionScreen({
                       accessibilityRole="button"
                       accessibilityLabel={`${t('postponed_do_now')}: ${ex ? nameOf(ex) : ''}`}
                       onPress={() => doPostponedNow(pp.exercise_id)}
-                      hitSlop={6}
-                      style={({ pressed }) => [{ minHeight: 44, justifyContent: 'center', paddingHorizontal: 4, opacity: pressed ? 0.6 : 1 }]}
+                      style={({ pressed }) => [
+                        styles.postponedBtn,
+                        // Mismo botón de contorno que "Usar": un solo estilo en la tarjeta.
+                        { backgroundColor: 'transparent', borderColor: p.text, borderWidth: 1, minHeight: 44, opacity: pressed ? 0.7 : 1, transition: 'opacity 90ms ease' },
+                      ]}
                     >
-                      <Text style={[styles.postponedName, { color: p.text, fontWeight: '700' }]}>{t('postponed_do_now')}</Text>
+                      <Text style={[styles.postponedBtnText, { color: p.text }]} numberOfLines={1}>{t('postponed_do_now')}</Text>
                     </Pressable>
                   </View>
 

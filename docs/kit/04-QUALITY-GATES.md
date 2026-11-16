@@ -29,7 +29,7 @@ report it as passed.
 - [ ] Contrast readable in both themes; green (or the one accent) only for its one meaning.
 - [ ] Targets ≥ 44 pt (chips, small text actions, steppers).
 - [ ] Matches SPEC's design language (no clock/battery drawn, same radius, same labels style).
-- [ ] Empty / first-launch / long-text versions look cared for.
+- [ ] Empty / first-launch / long-text versions look cared for (first launch: one step; nothing empty on screen).
 - [ ] The words are true in this state (no "you'll lose your sets" with none).
 - [ ] Harness reported `errors none`.
 

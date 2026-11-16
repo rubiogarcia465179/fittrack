@@ -11,7 +11,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 03 | Inicio · más | Marcas, calendario con día de récord en verde, filas Historial / Ejercicios |
 | 04 | Tu entreno de hoy | Hoja previa: duración, intensidad, energía, objetivo |
 | 05 | Entreno generado | Sesión creada por la hoja; sin histórico, peso "—" y ✓ inactivo |
-| 06 | Sesión activa | Un solo acceso ("Añadir ejercicio"); ejercicio actual; "Más opciones" plegado |
+| 06 | Sesión activa | Cabecera con lo que entrenas ("Brazos"); un solo acceso ("Añadir ejercicio"); ejercicio actual; "Más opciones" plegado |
 | 07 | Más opciones | Sugerir ejercicio · ¿Máquina ocupada? · Quitar ejercicio |
 | 08 | ¿Cómo se hace? | Foto (de ejemplo, marcada), qué entrena, 3 pasos en español |
 | 09 | Descanso | Cuenta atrás tras completar una serie (+15 s, Saltar) |
@@ -26,7 +26,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 18 | Ejercicios FR | Cambio de idioma instantáneo (nombres incluidos) |
 | 19 | Ejercicios NL | Ídem en neerlandés |
 | 20 | ¿Cómo se hace? NL | Los pasos siguen el idioma elegido |
-| 21 | Primer arranque | Sin datos: "Empieza por tus marcas" + "Establecer marcas" |
+| 21 | Primer arranque | Sin datos: "Hoy toca" + "Empezar sesión", "Empieza por tus marcas" y Ejercicios; sin calendario ni Historial (aparecen con la primera sesión) |
 | 22 | Test de marcas | Los 5 clásicos, calentamiento + serie de test, 1RM estimado |
 | 23 | Rueda de peso | Como la alarma del iPhone; el botón blanco es el valor |
 | 24 | Rueda de altura | Número + unidad (cm / m); "Escribir" para teclear |
@@ -38,7 +38,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 30 | Ejercicios · filtro | Ficha elegida en blanco (sin colores por grupo) |
 | 31 | Ejercicio (hoja) | Desde Ejercicios se abre la misma hoja "¿Cómo se hace?": material · nivel, qué entrena, pasos |
 | 32 | Quitar ejercicio | Con series hechas se confirma: "Cancelar" y "Quitar" |
-| 33 | Aplazado | "Máquina ocupada": el original con "Hacerlo ahora" desde el primer momento + sugerencia con "Usar" |
+| 33 | Aplazado | "Máquina ocupada": el original con "Hacerlo ahora" desde el primer momento + sugerencia con "Usar" (mismo botón de contorno) |
 | 34 | Comentar | El comentario se escribe en la propia tarjeta; "Publicar" |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.

@@ -60,3 +60,14 @@ column is what to do from the first day.
   launch: the owner never sees a cold permission prompt.
 - Offline-first needs a backup from day 1: "no account, no cloud" without a
   backup means one lost phone erases everything.
+
+## From the last polish loop (5 rounds, 86 → 90)
+
+| Found | Rule |
+|---|---|
+| The first launch showed a tip, a call to action, an empty calendar and a row leading to an empty list | First launch = one step. Hide what has nothing to show yet; it appears with the first data |
+| The same numbers in two orders ("2 sets · 14 min" vs "14 min · 2 sets") | Same facts, same order, everywhere |
+| A generic header ("Session") while Home said "Back and arms" | Name the thing the user is doing, in the same words Home used |
+| A list in dataset order (started with core exercises) | Unsearched lists are alphabetical in the chosen language; searched lists by relevance |
+| One card mixing a text button and an outline button for equal actions | Equal actions, equal style |
+| Judging only the changed screen gave 90; judging all 34 captures gave 86 | Run the loop on contact sheets of every screen, not just the diff |

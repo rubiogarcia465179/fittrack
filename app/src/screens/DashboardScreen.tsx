@@ -223,7 +223,9 @@ export default function DashboardScreen({
         </View>
       ) : null}
 
-      {/* ---- 4. Calendario ---- */}
+      {/* ---- 4. Calendario ---- (primer arranque: sin sesiones no hay nada que
+          marcar; aparece con la primera, así la primera pantalla tiene un solo paso) */}
+      {sessions.length > 0 ? (
       <View style={[styles.calendar, { borderColor: p.border }]}>
         <MonthCalendar
           lang={lang}
@@ -238,11 +240,12 @@ export default function DashboardScreen({
           onPickDay={(iso) => onOpenHistory(iso)}
         />
       </View>
+      ) : null}
 
       {/* ---- 5. Filas ---- */}
       <View style={[styles.rows, { borderTopColor: p.border }]}>
         {/* Sin "N sesiones este mes": la leyenda del calendario ya lo dice (R-120). */}
-        <Row title={t('hist_title')} onPress={() => onOpenHistory()} />
+        {sessions.length > 0 ? <Row title={t('hist_title')} onPress={() => onOpenHistory()} /> : null}
         <Row title={t('nav_exercises')} sub={t('home_exercises_sub', { n: exercises.length })} onPress={onOpenLibrary} />
       </View>
 

@@ -360,4 +360,4 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-127 [DONE] Descartar la calculadora de discos (2026-11-16)
 ### R-128 [⏸] Prueba en iPhone real: la hace el usuario (2026-11-16)
 ### R-129 [DONE] Manuales completos para que otra app, desde cero y de forma autónoma, llegue a la misma calidad (2026-11-16; Fase 17, `docs/kit/`)
-### R-130 [EN CURSO] Después: 5 vueltas del bucle /stevejobs analyze → suggest → aplicar, para pulir la app para producción (2026-11-16)
+### R-130 [DONE] Después: 5 vueltas del bucle /stevejobs analyze → suggest → aplicar, para pulir la app para producción (2026-11-16; Fase 18, 86 → 90, `docs/LOOP-18.md`)

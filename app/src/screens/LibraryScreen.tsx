@@ -91,12 +91,15 @@ export default function LibraryScreen({
   const [group, setGroup] = useState<string>('all');
   const [equip, setEquip] = useState<string>('all');
 
-  const results = useMemo(
-    () => searchExercises(exercises, q, group, equip),
-    [exercises, q, group, equip],
-  );
-
   const lang = i18n.language as string;
+  // Sin búsqueda: orden alfabético en el idioma elegido (fácil de recorrer).
+  // Con búsqueda: el orden de relevancia de searchExercises.
+  const results = useMemo(() => {
+    const r = searchExercises(exercises, q, group, equip);
+    if (q.trim()) return r;
+    return [...r].sort((a, b) => exName(a, lang).localeCompare(exName(b, lang), lang));
+  }, [exercises, q, group, equip, lang]);
+
   const nameOf = (e: { name_en: string; name_nl: string }) =>
     exName(e, lang);
 

@@ -62,7 +62,8 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    toque (por defecto no hay que decidir nada: cero fatiga de decisión).
    **Lunes**: el empuje (pecho) va al final, porque en muchos gimnasios es "el
    día de pecho" y los bancos se llenan (convención popular, explicada en una
-   línea solo cuando cambia la propuesta). Con un entreno en curso: "Entreno
+   línea solo cuando cambia la propuesta y ya hay historial; nunca en el
+   primer arranque). Con un entreno en curso: "Entreno
    en curso".
 3. **"Empezar sesión"** (blanco) → **hoja "Tu entreno de hoy"**: duración
    (30/45/60/75 min), intensidad (suave/moderada/fuerte), **energía de hoy**
@@ -83,6 +84,8 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    hoy con anillo; leyenda "Día entrenado · N · Récord · N". Un día de récord
    = una sesión que supera la marca previa (la primera vez no cuenta).
    **Tocar un día entrenado abre el Historial de ese día** (con "Ver todas").
+   **Sin sesiones (primer arranque) no hay calendario ni fila Historial**:
+   la primera pantalla tiene un solo paso; aparecen con la primera sesión.
 6. Filas: **Historial** (sin subtítulo: la leyenda del calendario ya da el
    número) y **Ejercicios** ("205 ejercicios, con cómo se hacen"; tocar uno
    abre la hoja "¿Cómo se hace?", la única vista de un ejercicio).
@@ -92,8 +95,11 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   `cuerpo-3d` (modelo anatómico Z-Anatomy) para retomarlo si se rediseña.
 
 ### Entrenar (sesión)
-- **Cabecera**: cerrar (descartar con confirmación) · "Sesión" + "x/y
-  series hechas" · línea fina de progreso debajo.
+- **Cabecera**: cerrar (descartar con confirmación) · **lo que entrenas**
+  ("Espalda y brazos", como "Hoy toca"; 1–2 grupos sin cardio; si no,
+  "Sesión"; en el test, "Marcas") + "x/y series hechas" · línea fina de
+  progreso debajo. Lista: nombres hasta 2 líneas (nunca dos nombres
+  truncados iguales).
 - **Añadir ejercicio**: con la lista vacía, círculo arriba (y **Sugerir**);
   con ejercicios, una línea de texto "+ Añadir ejercicio" al final de la lista
   (el ejercicio actual manda). Los detalles (fecha, duración, peso, altura, notas) van al
@@ -153,6 +159,8 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   (`GOAL_SCHEME`).
 
 ### Ejercicios (desde Inicio)
+- Sin búsqueda, lista en **orden alfabético** del idioma elegido; con
+  búsqueda, por relevancia.
 - 226 ejercicios (wger), búsqueda y filtros (grupo, material; fichas
   monocromo, la elegida en blanco); lista plana con icono de línea
   **distinto por grupo** y nombres en 2 líneas.

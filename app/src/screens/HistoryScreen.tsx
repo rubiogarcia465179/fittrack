@@ -179,8 +179,9 @@ export default function HistoryScreen({
             <View style={styles.cardMeta}>
               <Text style={[styles.cardMetaText, { color: p.secondary }]}>
                 {/* Sin "N ejercicios": la lista de debajo ya los muestra (R-120). */}
+                {/* Mismo orden que "Bien hecho": tiempo · series. */}
+                {s.duration_min ? `${s.duration_min} min · ` : ''}
                 {plural(sessionSets(s), t, 'hist_set', 'hist_sets_total')}
-                {s.duration_min ? ` · ${s.duration_min} min` : ''}
               </Text>
             </View>
             {/* Fotos de la sesión (deslizables), como un post. */}
