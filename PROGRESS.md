@@ -817,3 +817,9 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   `docs/fotos/STATUS.md`: ✏️ 126 · ⬜ 489 de 615 huecos. Capturas 31 y 35
   con dibujo. **Jobs SÍ, 90**: las líneas blancas encajan con el estilo X
   mejor que una foto de stock; todo real y acreditado.
+
+- 2026-11-16 — Capturas **36–39** (dibujos: sentadilla, dominadas,
+  elevaciones laterales y tema Día) y galería `docs/fotos/dibujos.png` (los
+  63 dibujos) a petición del usuario ("I don't see the new exercises
+  images"). Push a GitHub con la clave de rubiogarcia465179
+  (`core.sshCommand` del repo). Capturas 01–39 sin errores de consola.

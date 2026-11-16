@@ -211,4 +211,18 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Ver vídeo');
   await sleep(4000); // que cargue el reproductor
   await shot('35-howto-video');
+
+  // 36–39 Dibujos reales de Everkinetic (Fase 13): uno por grupo y uno en tema Día
+  const drawing = async (group, name, file, extra = {}) => {
+    await load({ ...base, 'fittrack.data.v1': profile, ...extra });
+    await tap('Ejercicios');
+    await tap(group);
+    await tap(name);
+    await sleep(500);
+    await shot(file);
+  };
+  await drawing('Piernas', 'Sentadilla trasera', '36-drawing-squat');
+  await drawing('Espalda', 'Dominadas', '37-drawing-pullups');
+  await drawing('Hombros', 'Elevaciones laterales', '38-drawing-lateral');
+  await drawing('Piernas', 'Puente de glúteos', '39-drawing-day', { 'fittrack.theme.v1': 'day' });
 };
