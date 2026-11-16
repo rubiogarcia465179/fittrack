@@ -18,3 +18,13 @@ cd web && npm run preview   # → http://localhost:8080
   descarga como archivo y se restaura eligiéndolo; sin aviso del descanso con
   la pantalla bloqueada (el navegador no lo permite) ni vibración salvo donde
   el navegador la soporte.
+
+## Publicar en Netlify (gratis)
+
+`netlify.toml` (raíz del repo) ya está listo: Netlify compila `app/` con
+`expo export` en cada push a `main` y publica `app/dist`.
+1. Cuenta gratuita en netlify.com (con GitHub).
+2. "Add new site" → "Import an existing project" → GitHub → este repo.
+   Netlify lee `netlify.toml`; no hay que tocar nada más.
+3. Dirección gratuita `https://<nombre>.netlify.app` (HTTPS incluido). Un
+   dominio propio es opcional (Site configuration → Domain management).
