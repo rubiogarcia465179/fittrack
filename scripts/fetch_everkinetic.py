@@ -59,7 +59,7 @@ def fetch(base, n, dest):
         artist = m.get('Artist', {}).get('value', '')
         lic = m.get('LicenseShortName', {}).get('value', '')
         if 'everkinetic' not in artist.lower():
-            raise SystemExit(f'{t}: autor inesperado {artist!r} (solo Everkinetic)')
+            continue  # solo Everkinetic
         data = get(ii.get('thumburl') or ii['url'], binary=True)
         with open(dest, 'wb') as f: f.write(data)
         return {'file': os.path.basename(dest), 'commons': t, 'page': ii.get('descriptionurl', ''),
@@ -87,8 +87,8 @@ def fetch_with(ii_map, base, n, dest):
         artist = ii.get('extmetadata', {}).get('Artist', {}).get('value', '')
         lic = ii.get('extmetadata', {}).get('LicenseShortName', {}).get('value', '')
         if 'everkinetic' not in artist.lower():
-            raise SystemExit(f'{t}: autor inesperado {artist!r} (solo Everkinetic)')
-        # PNG original (en caché de Wikimedia; las miniaturas a medida dan 429). SVG → miniatura PNG.
+            print(f'  salto {t}: autor {artist[:60]!r} (solo Everkinetic)', flush=True)
+            continue
         # Miniatura de tamaño ESTÁNDAR (500 px): Wikimedia pide no bajar originales
         # ni tamaños a medida en lote (https://w.wiki/GHai).
         src = ii.get('thumburl') or ii['url']

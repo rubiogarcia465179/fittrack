@@ -265,3 +265,9 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   `python3 scripts/check_videos.py` (oEmbed: quita los que no existen o no se
   pueden incrustar) y `node scripts/make_video_map.js` → `app/src/videos.ts`.
   Siempre en inglés y de canales de tutorial; nunca un enlace sin comprobar.
+- **Dibujos (Fase 13)**: `data/images/photos/<id>-1.png/-2.png` (líneas en
+  negro sobre transparente, PNG gris+alfa; el tinte lo pone la app) +
+  `credits.json` (autor, licencia, página de Commons). Solo Everkinetic y
+  solo revisados a mano (el nombre de Commons no basta). Tras añadir o
+  cambiar: `node scripts/make_photo_map.js && node scripts/photo_status.js`.
+  Wikimedia limita las descargas: miniaturas estándar (500 px) y pausa.

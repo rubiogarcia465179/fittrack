@@ -24,10 +24,15 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Copia de seguridad | Perfil → Guardar / Restaurar (un archivo con todo, fotos incluidas) |
 | Primer arranque | Un solo paso: "Hoy toca" + "Empezar sesión", marcas y Ejercicios (calendario e Historial aparecen con la 1.ª sesión) |
 | i18n | NL/ES/EN/FR, **413 claves**, espejos idénticos; francés todo en "tu" |
-| Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
+| Imágenes (Fase 13) | 63 ejercicios con dibujos reales de Everkinetic (revisados a mano); el resto, foto de ejemplo marcada; cuenta en `docs/fotos/STATUS.md` |
 | Nube | ⏸ en espera |
 
-## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 20)
+## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 13 · dibujos)
+
+- tsc **0** · tests **129/129** · export OK · capturas 01–35 **errors none**
+  (31 y 35 ahora con dibujo real, revisadas) · vídeo 559 fotogramas · **Jobs SÍ, 90**.
+
+## Verificación anterior (commit Fase 20)
 
 - tsc **0** · tests **129/129** · export OK · capturas 01–35 **errors none**
   (nueva 35: vídeo dentro de la hoja; cambian 08, 20, 31 con la fila) ·
@@ -797,3 +802,18 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   Verificación: tsc 0, 129/129, export OK, capturas sin errores (35 nueva),
   vídeo regenerado. **Jobs SÍ, 90**: enseñar el movimiento una vez vale más
   que tres párrafos, y no se sale de la app.
+
+- 2026-11-16 — **Fase 13 (dibujos reales)** (R-132). Petición: "try to
+  generate yourself or find online the pictures … keep a track of which
+  pictures have been generated vs which ones not". Aquí no hay generador de
+  imágenes (ni modelo ni API): en su lugar, los dibujos de **Everkinetic**
+  en Wikimedia Commons (CC BY-SA 3.0, mismo tipo de licencia que wger).
+  1089 archivos → 449 ejercicios con 2 fotogramas → 77 candidatos por
+  nombre → **revisión visual de cada uno**: 63 instalados, 9 rechazados
+  (press de banca de Commons = inclinado; mancuerna en vez de barra; boca
+  abajo en vez de boca arriba; máquina en vez de barras), 5 a medio bajar
+  por el límite de Wikimedia (429). Fondo transparente (alfa = oscuridad),
+  recortados, gris+alfa (2,4 MB); orden invertido donde el 1.º era el final.
+  `docs/fotos/STATUS.md`: ✏️ 126 · ⬜ 489 de 615 huecos. Capturas 31 y 35
+  con dibujo. **Jobs SÍ, 90**: las líneas blancas encajan con el estilo X
+  mejor que una foto de stock; todo real y acreditado.

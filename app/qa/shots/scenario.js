@@ -175,7 +175,7 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Pecho');
   await sleep(300);
   await shot('30-library-filter');
-  await tap('Press de banca');
+  await tap('Aperturas con mancuernas'); // con dibujo real (Everkinetic)
   await sleep(400);
   await shot('31-exercise-detail');
 
@@ -206,7 +206,7 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await load({ ...base, 'fittrack.data.v1': profile });
   await tap('Ejercicios');
   await tap('Pecho');
-  await tap('Press de banca');
+  await tap('Aperturas con mancuernas');
   await sleep(400);
   await tap('Ver vídeo');
   await sleep(4000); // que cargue el reproductor

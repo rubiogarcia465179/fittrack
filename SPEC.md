@@ -161,6 +161,12 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 ### Ejercicios (desde Inicio)
 - Sin búsqueda, lista en **orden alfabético** del idioma elegido; con
   búsqueda, por relevancia.
+- **Imágenes del ejercicio**: dibujos de línea reales de **Everkinetic**
+  (CC BY-SA 3.0) cuando existen y se revisaron (posición inicial y final),
+  teñidos con el color del texto (blancos en Noche, negros en Día) sobre la
+  tarjeta, con "Posición inicial · Dibujo: Everkinetic, CC BY-SA 3.0"
+  debajo. Sin dibujo: la imagen de ejemplo, **marcada**. Estado:
+  `docs/fotos/STATUS.md`.
 - Hoja **"¿Cómo se hace?"** (la única vista de un ejercicio): imágenes, qué
   entrena, 3 pasos y **"Ver vídeo"** (R-133/R-134): una fila de texto; al
   tocarla, el reproductor oficial de YouTube se abre **dentro de la hoja**

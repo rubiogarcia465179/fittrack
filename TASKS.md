@@ -329,13 +329,24 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       solo donde exista fuente (los clásicos), no en los 226.
 - [ ] Detalle del ejercicio con estas secciones (app y web), i18n.
 
-### Fase 13 — Fotos de los ejercicios
-- [x] 678 prompts listos → `docs/fotos/PROMPTS.md`
-      (`node scripts/make_photo_prompts.js`; estilo de `data/images/ejemplo/`).
-- ⛔ **Usuario**: generar las imágenes (ChatGPT) →
-      `data/images/photos/<id>-1.png … -3.png` (por lotes).
-- [ ] Agente, al recibir lotes: `image` → lista de 3, carrusel en el
-      detalle, sync, `source_note` "generadas con IA", compresión JPEG.
+### Fase 13 — Imágenes de los ejercicios (en curso; estado en `docs/fotos/STATUS.md`)
+- [x] 615 prompts (205 × 3) → `docs/fotos/PROMPTS.md`
+      (`node scripts/make_photo_prompts.js`).
+- [x] **Dibujos reales de Everkinetic** (CC BY-SA 3.0, Wikimedia Commons;
+      R-132): 77 candidatos por nombre, **cada dibujo revisado a mano**
+      (`data/images/photos/everkinetic-map.json`: `chosen` y `rejected` con
+      motivo). **63 ejercicios** con posición inicial + final (126
+      imágenes); 9 rechazados (p. ej. "Bench press" de Commons es un press
+      inclinado; dibujos con mancuerna para ejercicios con barra). Fondo
+      transparente y teñido con el tema; crédito en la hoja y en Licencias.
+      `scripts/fetch_everkinetic.py` (baja con pausa y miniaturas estándar),
+      `scripts/make_photo_map.js`, `scripts/photo_status.js`.
+- [ ] 5 dibujos aceptados a medio bajar (Wikimedia limita: 429): overhead
+      squat, shrugs con mancuernas, jalón supino, remo al mentón con
+      mancuernas, jalón con barra V. Se completan al reintentar.
+- ⛔ **Usuario**: el resto (142 ejercicios sin dibujo + el hueco 3 de todos):
+      fotos propias o generadas con `docs/fotos/PROMPTS.md` →
+      `data/images/photos/<id>-<n>.png` y `node scripts/make_photo_map.js`.
 
 
 ## Hecho recientemente
