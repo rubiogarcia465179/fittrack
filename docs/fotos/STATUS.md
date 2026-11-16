@@ -8,12 +8,13 @@ cada imagen: `data/images/photos/credits.json`. Prompts para las que faltan:
 |---|---|
 | Ejercicios | 205 |
 | Huecos (3 por ejercicio) | 615 |
-| ✏️ Dibujo real Everkinetic (CC BY-SA 3.0) | 130 |
+| ✏️ Dibujo real Everkinetic (CC BY-SA 3.0) | 156 |
+| 🖊️ Dibujo generado con IA (usuario, `PROMPTS-DIBUJOS.md`) | 0 |
 | 📷 Foto propia / generada | 0 |
-| ⬜ Pendientes | 485 |
-| Ejercicios con al menos una imagen real | 65 de 205 |
+| ⬜ Pendientes | 459 |
+| Ejercicios con al menos una imagen real | 78 de 205 |
 
-Leyenda: ✏️ dibujo real (posición inicial = 1, final = 2) · 📷 foto propia ·
+Leyenda: ✏️ dibujo real (posición inicial = 1, final = 2) · 🖊️ dibujo generado con IA · 📷 foto propia ·
 ⬜ pendiente (la app muestra la imagen de ejemplo, marcada como tal).
 Everkinetic dibuja 2 posiciones; el hueco 3 (técnica clave) queda para una
 foto propia.
@@ -21,21 +22,21 @@ foto propia.
 | Grupo | Ejercicio | id | 1 | 2 | 3 |
 |---|---|---|---|---|---|
 | arms | Axe Hold | `axe_hold` | ⬜ | ⬜ | ⬜ |
-| arms | Barbell Triceps Extension | `barbell_triceps_extension` | ⬜ | ⬜ | ⬜ |
+| arms | Barbell Triceps Extension | `barbell_triceps_extension` | ✏️ | ✏️ | ⬜ |
 | arms | Biceps Curl With Cable | `biceps_curl_with_cable` | ✏️ | ✏️ | ⬜ |
 | arms | Biceps Curls With Barbell | `biceps_curls_with_barbell` | ✏️ | ✏️ | ⬜ |
 | arms | Biceps Curls With Dumbbell | `biceps_curls_with_dumbbell` | ✏️ | ✏️ | ⬜ |
 | arms | Biceps Curls With SZ-bar | `biceps_curls_with_sz_bar` | ⬜ | ⬜ | ⬜ |
 | arms | Body-Ups | `body_ups` | ⬜ | ⬜ | ⬜ |
-| arms | Close-grip Bench Press | `close_grip_bench_press` | ⬜ | ⬜ | ⬜ |
+| arms | Close-grip Bench Press | `close_grip_bench_press` | ✏️ | ✏️ | ⬜ |
 | arms | Curl su Panca a 45° | `curl_su_panca_a_45` | ⬜ | ⬜ | ⬜ |
 | arms | Deadhang | `deadhang` | ⬜ | ⬜ | ⬜ |
-| arms | Dips Between Two Benches | `dips_between_two_benches` | ⬜ | ⬜ | ⬜ |
+| arms | Dips Between Two Benches | `dips_between_two_benches` | ✏️ | ✏️ | ⬜ |
 | arms | Dumbbell Concentration Curl | `dumbbell_concentration_curl` | ✏️ | ✏️ | ⬜ |
 | arms | Dumbbell Incline Curl | `dumbbell_incline_curl` | ✏️ | ✏️ | ⬜ |
 | arms | Dumbbell Triceps Extension | `dumbbell_triceps_extension` | ⬜ | ⬜ | ⬜ |
 | arms | Dumbbells on Scott Machine | `dumbbells_on_scott_machine` | ⬜ | ⬜ | ⬜ |
-| arms | French Press (skullcrusher) Dumbbells | `french_press_skullcrusher_dumbbells` | ⬜ | ⬜ | ⬜ |
+| arms | French Press (skullcrusher) Dumbbells | `french_press_skullcrusher_dumbbells` | ✏️ | ✏️ | ⬜ |
 | arms | French Press (skullcrusher) SZ-bar | `french_press_skullcrusher_sz_bar` | ⬜ | ⬜ | ⬜ |
 | arms | Hammercurls | `hammercurls` | ✏️ | ✏️ | ⬜ |
 | arms | Hammercurls on Cable | `hammercurls_on_cable` | ⬜ | ⬜ | ⬜ |
@@ -52,8 +53,8 @@ foto propia.
 | arms | Tricep Dumbbell Kickback | `tricep_dumbbell_kickback` | ✏️ | ✏️ | ⬜ |
 | arms | Triceps Bench Press One Barbell | `triceps_bench_press_one_barbell` | ⬜ | ⬜ | ⬜ |
 | arms | Triceps Dips | `triceps_dips` | ⬜ | ⬜ | ⬜ |
-| arms | Triceps Extensions on Cable | `triceps_extensions_on_cable` | ⬜ | ⬜ | ⬜ |
-| arms | Triceps Extensions on Cable With Bar | `triceps_extensions_on_cable_with_bar` | ⬜ | ⬜ | ⬜ |
+| arms | Triceps Extensions on Cable | `triceps_extensions_on_cable` | ✏️ | ✏️ | ⬜ |
+| arms | Triceps Extensions on Cable With Bar | `triceps_extensions_on_cable_with_bar` | ✏️ | ✏️ | ⬜ |
 | arms | Triceps Machine | `triceps_machine` | ✏️ | ✏️ | ⬜ |
 | arms | Wall Pushup | `wall_pushup` | ⬜ | ⬜ | ⬜ |
 | arms | Z Curls | `z_curls` | ⬜ | ⬜ | ⬜ |
@@ -87,8 +88,8 @@ foto propia.
 | back | Straight-arm Pull Down (bar Attachment) | `straight_arm_pull_down_bar_attachment` | ⬜ | ⬜ | ⬜ |
 | back | Straight-arm Pull Down (rope Attachment) | `straight_arm_pull_down_rope_attachment` | ⬜ | ⬜ | ⬜ |
 | back | Superman | `superman` | ✏️ | ✏️ | ⬜ |
-| back | Underhand Lat Pull Down | `underhand_lat_pull_down` | ⬜ | ⬜ | ⬜ |
-| back | V-Bar Pulldown | `v_bar_pulldown` | ⬜ | ⬜ | ⬜ |
+| back | Underhand Lat Pull Down | `underhand_lat_pull_down` | ✏️ | ✏️ | ⬜ |
+| back | V-Bar Pulldown | `v_bar_pulldown` | ✏️ | ✏️ | ⬜ |
 | back | Wall Slides | `wall_slides` | ⬜ | ⬜ | ⬜ |
 | back | Wide-grip Pulldown | `wide_grip_pulldown` | ✏️ | ✏️ | ⬜ |
 | cardio | Burpees | `burpees` | ⬜ | ⬜ | ⬜ |
@@ -107,7 +108,7 @@ foto propia.
 | chest | Butterfly | `butterfly` | ✏️ | ✏️ | ⬜ |
 | chest | Butterfly Narrow Grip | `butterfly_narrow_grip` | ⬜ | ⬜ | ⬜ |
 | chest | Cable Cross-over | `cable_cross_over` | ✏️ | ✏️ | ⬜ |
-| chest | Cross-Bench Dumbbell Pullovers | `cross_bench_dumbbell_pullovers` | ⬜ | ⬜ | ⬜ |
+| chest | Cross-Bench Dumbbell Pullovers | `cross_bench_dumbbell_pullovers` | ✏️ | ✏️ | ⬜ |
 | chest | Decline Bench Press Barbell | `decline_bench_press_barbell` | ✏️ | ✏️ | ⬜ |
 | chest | Decline Bench Press Dumbbell | `decline_bench_press_dumbbell` | ✏️ | ✏️ | ⬜ |
 | chest | Decline Pushups | `decline_pushups` | ⬜ | ⬜ | ⬜ |
@@ -145,7 +146,7 @@ foto propia.
 | core | L Hold | `l_hold` | ⬜ | ⬜ | ⬜ |
 | core | Leg Raises, Lying | `leg_raises_lying` | ✏️ | ✏️ | ⬜ |
 | core | Leg Raises, Standing | `leg_raises_standing` | ⬜ | ⬜ | ⬜ |
-| core | Negative Crunches | `negative_crunches` | ⬜ | ⬜ | ⬜ |
+| core | Negative Crunches | `negative_crunches` | ✏️ | ✏️ | ⬜ |
 | core | Overhand Cable Curl | `overhand_cable_curl` | ⬜ | ⬜ | ⬜ |
 | core | Plank | `plank` | ⬜ | ⬜ | ⬜ |
 | core | Reverse Plank | `reverse_plank` | ⬜ | ⬜ | ⬜ |
@@ -190,7 +191,7 @@ foto propia.
 | legs | Standing Calf Raises | `standing_calf_raises` | ✏️ | ✏️ | ⬜ |
 | legs | Stiff-legged Deadlifts | `stiff_legged_deadlifts` | ⬜ | ⬜ | ⬜ |
 | legs | Sumo Deadlift | `sumo_deadlift` | ⬜ | ⬜ | ⬜ |
-| legs | Sumo Squats | `sumo_squats` | ⬜ | ⬜ | ⬜ |
+| legs | Sumo Squats | `sumo_squats` | ✏️ | ✏️ | ⬜ |
 | legs | Thruster | `thruster` | ⬜ | ⬜ | ⬜ |
 | legs | Wall Squat | `wall_squat` | ⬜ | ⬜ | ⬜ |
 | legs | Weighted Step-ups | `weighted_step_ups` | ✏️ | ✏️ | ⬜ |
@@ -218,10 +219,10 @@ foto propia.
 | shoulders | Shoulder Press, on Machine | `shoulder_press_on_machine` | ✏️ | ✏️ | ⬜ |
 | shoulders | Shoulder Press, on Multi Press | `shoulder_press_on_multi_press` | ⬜ | ⬜ | ⬜ |
 | shoulders | Shrugs, Barbells | `shrugs_barbells` | ⬜ | ⬜ | ⬜ |
-| shoulders | Shrugs, Dumbbells | `shrugs_dumbbells` | ⬜ | ⬜ | ⬜ |
+| shoulders | Shrugs, Dumbbells | `shrugs_dumbbells` | ✏️ | ✏️ | ⬜ |
 | shoulders | Side-lying External Rotation | `side_lying_external_rotation` | ⬜ | ⬜ | ⬜ |
 | shoulders | Snach | `snach` | ⬜ | ⬜ | ⬜ |
 | shoulders | Upright Row w/ Dumbbells | `upright_row_w_dumbbells` | ✏️ | ✏️ | ⬜ |
-| shoulders | Upright Row, on Multi Press | `upright_row_on_multi_press` | ⬜ | ⬜ | ⬜ |
+| shoulders | Upright Row, on Multi Press | `upright_row_on_multi_press` | ✏️ | ✏️ | ⬜ |
 | shoulders | Upright Row, SZ-bar | `upright_row_sz_bar` | ✏️ | ✏️ | ⬜ |
 | shoulders | Wall Handstand | `wall_handstand` | ⬜ | ⬜ | ⬜ |

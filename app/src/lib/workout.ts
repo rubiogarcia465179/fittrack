@@ -220,12 +220,16 @@ export function generateWorkout(opts: {
   exercises: ExerciseRow[];
   recent?: RecentRow[];
   exclude_ids?: string[];
+  /** Prioridad extra por ejercicio (p. ej. la web: los clásicos con dibujo
+   *  real, y entre ellos los multiarticulares primero). */
+  prefer?: Record<string, number>;
 }): WorkoutPlan {
   const goal: Goal = opts.goal || 'build_muscle';
   const scheme = GOAL_SCHEME[goal];
   const bench = new Map((opts.benchmarks || []).map((b) => [b.exercise_id, b.estimated_1rm]));
   const recent = new Map((opts.recent || []).map((r) => [r.exercise_id, r]));
   const excluded = new Set(opts.exclude_ids || []);
+  const prefer = opts.prefer || {};
 
   const pool = opts.exercises.filter(
     (e) => opts.groups.includes(e.muscle_group) && fitsMode(e, opts.equipment_mode) && !excluded.has(e.id),
@@ -239,6 +243,7 @@ export function generateWorkout(opts: {
     byGroup.set(e.muscle_group, arr);
   }
   const rank = (e: ExerciseRow) =>
+    (prefer[e.id] || 0) +
     (bench.has(e.id) ? 2 : 0) +
     (recent.has(e.id) ? 1 : 0) +
     // El modo elegido manda: en "mancuernas" prioriza mancuernas por encima

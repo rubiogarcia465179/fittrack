@@ -20,14 +20,21 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Perfil | Datos fijos + calorías (explicadas) + temas (Noche/Día/Ámbar/Neón/Rubí) + nacionalidad y tema de bandera + idioma y datos |
 | Idioma | **Todo en el idioma elegido** (NL/ES/EN/FR): interfaz, nombres de ejercicio, pasos "cómo se hace" (226 × 4), fechas; cambio instantáneo |
 | Datos | 205 ejercicios reales de wger (sin duplicados); iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
-| Web | **Es la app** (build web de `app/` en `web/dist/`); Astro en la rama `web-astro` |
+| Web | **Una pantalla que crea un entreno** (mismo código, `EXPO_PUBLIC_WEB_MODE=planner`); Astro en la rama `web-astro` |
 | Copia de seguridad | Perfil → Guardar / Restaurar (un archivo con todo, fotos incluidas) |
 | Primer arranque | Un solo paso: "Hoy toca" + "Empezar sesión", marcas y Ejercicios (calendario e Historial aparecen con la 1.ª sesión) |
 | i18n | NL/ES/EN/FR, **413 claves**, espejos idénticos; francés todo en "tu" |
-| Imágenes (Fase 13) | 63 ejercicios con dibujos reales de Everkinetic (revisados a mano); el resto, foto de ejemplo marcada; cuenta en `docs/fotos/STATUS.md` |
+| Imágenes (Fase 13) | 78 ejercicios con dibujos reales de Everkinetic (revisados a mano), también como miniatura en las listas; el resto, icono de grupo / foto de ejemplo marcada; cuenta en `docs/fotos/STATUS.md` |
 | Nube | ⏸ en espera |
 
-## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 13 · dibujos)
+## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 21)
+
+- tsc **0** · tests **129/129** · export OK · capturas app 01–39 **errors none**
+  (miniaturas con dibujo en las listas; revisadas en hojas de contacto) ·
+  capturas web 21 a 393/834/1440 **errors none** · vídeo 762 fotogramas ·
+  **Jobs web SÍ, 86, Foco 10** (`docs/LOOP-21.md`) · app SÍ 90.
+
+## Verificación anterior (commit Fase 13 · dibujos)
 
 - tsc **0** · tests **129/129** · export OK · capturas 01–35 **errors none**
   (31 y 35 ahora con dibujo real, revisadas) · vídeo 559 fotogramas · **Jobs SÍ, 90**.
@@ -823,3 +830,16 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   63 dibujos) a petición del usuario ("I don't see the new exercises
   images"). Push a GitHub con la clave de rubiogarcia465179
   (`core.sshCommand` del repo). Capturas 01–39 sin errores de consola.
+
+- 2026-11-16/17 — **Fase 21 + dibujos (trabajo autónomo nocturno)** (R-136,
+  R-137, R-138). Peticiones: web solo-web de una pantalla (pedir datos →
+  sesión; idioma arriba a la derecha; adaptable) y 10 vueltas Jobs hasta
+  Foco 10; mostrar el dibujo en las listas; dibujos para el resto; 5 vueltas
+  Jobs y commit al final. Hecho: `WebPlanner` con el mismo código de la app
+  (modo de build), 10 vueltas 68 → **86, Foco 10** (`docs/LOOP-21.md`),
+  miniaturas `ExerciseThumb` en todas las listas, `howto` centrada en
+  pantallas anchas, NL "Halterstang"/"Dumbbell". Dibujos: +13 coincidencias
+  revisadas a mano (78 en total, 156 imágenes); dibujar a mano no alcanza la
+  calidad (Jobs: "nada barato"), así que `PROMPTS-DIBUJOS.md` (117) +
+  `add_drawings.py` (marcados "generado con IA"). Verificación: tsc 0,
+  129/129, capturas app 01–39 y web 21 sin errores, vídeo 762 fotogramas.

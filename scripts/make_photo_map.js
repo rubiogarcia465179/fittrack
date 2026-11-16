@@ -21,7 +21,8 @@ const DST = path.join(ROOT, 'app/assets/photos');
 const OUT = path.join(ROOT, 'app/src/exercisePhotos.ts');
 const CREDITS = path.join(SRC, 'credits.json');
 const credits = fs.existsSync(CREDITS) ? JSON.parse(fs.readFileSync(CREDITS, 'utf8')) : {};
-const isDrawing = (f) => !!credits[f] && /everkinetic/i.test(credits[f].author || '');
+const isEk = (f) => !!credits[f] && /everkinetic/i.test(credits[f].author || '');
+const isDrawing = (f) => isEk(f) || (!!credits[f] && credits[f].kind === 'drawing');
 const ids = new Set(JSON.parse(fs.readFileSync(path.join(ROOT, 'data/exercises/all.json'), 'utf8')).exercises.map((e) => e.id));
 
 fs.mkdirSync(DST, { recursive: true });
@@ -45,7 +46,8 @@ const lines = [...byId.entries()]
   .map(([id, files]) => {
     const fs_ = files.filter(Boolean);
     const kind = fs_.every(isDrawing) ? 'drawing' : 'photo';
-    return `  ${JSON.stringify(id)}: { kind: '${kind}', images: [${fs_.map((f) => `require('../assets/photos/${f}')`).join(', ')}] },`;
+    const credit = fs_.every(isEk) ? 'everkinetic' : 'ai';
+    return `  ${JSON.stringify(id)}: { kind: '${kind}', credit: '${credit}', images: [${fs_.map((f) => `require('../assets/photos/${f}')`).join(', ')}] },`;
   });
 
 const ts = `/**
@@ -57,18 +59,19 @@ const HERO = require('../assets/session-hero.jpg');
 
 /** kind: 'drawing' = dibujo de línea real (Everkinetic, CC BY-SA 3.0; fondo
  *  transparente, se tiñe con el color del tema); 'photo' = foto propia. */
-const PHOTOS: Record<string, { kind: 'drawing' | 'photo'; images: number[] }> = {
+const PHOTOS: Record<string, { kind: 'drawing' | 'photo'; credit: 'everkinetic' | 'ai'; images: number[] }> = {
 ${lines.join('\n')}
 };
 
 export type PhotoKind = 'drawing' | 'photo' | 'sample';
 
 /** Imágenes de un ejercicio; si aún no tiene, la imagen de ejemplo (kind 'sample', marcada). */
-export function photosFor(id: string): { images: number[]; kind: PhotoKind; placeholder: boolean } {
+/** credit: 'everkinetic' (dibujo real, CC BY-SA 3.0) o 'ai' (generado con IA por el usuario). */
+export function photosFor(id: string): { images: number[]; kind: PhotoKind; placeholder: boolean; credit: 'everkinetic' | 'ai' | null } {
   const own = PHOTOS[id];
   return own && own.images.length
-    ? { images: own.images, kind: own.kind, placeholder: false }
-    : { images: [HERO, HERO, HERO], kind: 'sample', placeholder: true };
+    ? { images: own.images, kind: own.kind, placeholder: false, credit: own.credit }
+    : { images: [HERO, HERO, HERO], kind: 'sample', placeholder: true, credit: null };
 }
 
 export const PHOTO_COUNT = ${byId.size};

@@ -271,3 +271,16 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   solo revisados a mano (el nombre de Commons no basta). Tras añadir o
   cambiar: `node scripts/make_photo_map.js && node scripts/photo_status.js`.
   Wikimedia limita las descargas: miniaturas estándar (500 px) y pausa.
+- **Web pública (R-136)**: `app/index.ts` elige `WebPlanner` si
+  `Platform.OS === 'web' && process.env.EXPO_PUBLIC_WEB_MODE === 'planner'`
+  (lo ponen `web/build.js` y `netlify.toml`). Capturas de la web:
+  `bash web/qa.sh` (3 anchos → `docs/screenshots/web/`, escenario
+  `app/qa/shots/scenario-web.js`). `shoot.js` acepta `--size WxH` y
+  `--scenario <ruta>`. La web prefiere clásicos con dibujo (`prefer` de
+  `generateWorkout`) y excluye avanzados y lo que pide máquina/barra según
+  el material.
+- **Dibujos generados por el usuario (R-137)**: `docs/fotos/PROMPTS-DIBUJOS.md`
+  (`node scripts/make_drawing_prompts.js`) → imágenes en
+  `data/images/photos/inbox/<id>-1.png/-2.png` → `python3 scripts/add_drawings.py`
+  (limpia igual que Everkinetic y marca `kind: drawing`, autor "IA") →
+  `make_photo_map.js` y `photo_status.js`. La app dice "Dibujo generado con IA".

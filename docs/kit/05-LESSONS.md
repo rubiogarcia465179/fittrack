@@ -71,3 +71,15 @@ column is what to do from the first day.
 | A list in dataset order (started with core exercises) | Unsearched lists are alphabetical in the chosen language; searched lists by relevance |
 | One card mixing a text button and an outline button for equal actions | Equal actions, equal style |
 | Judging only the changed screen gave 90; judging all 34 captures gave 86 | Run the loop on contact sheets of every screen, not just the diff |
+
+## From the public-web loop (10 rounds, 68 → 86, Focus 10)
+
+| Found | Rule |
+|---|---|
+| A generator picked "Bear Walk" first because ties were broken alphabetically | Never let alphabetical order decide content; rank by "what a beginner recognises" |
+| Every row showed the same "3 × 10 · rest 90 s" | Say a repeated fact once, above the list |
+| The layout jumped from one to two columns when the result appeared | Reserve the space from the start with a calm empty state |
+| A bottom sheet stretched edge to edge on desktop | Bottom sheets on phones; centred cards (≈640 pt) on wide screens, backdrop full-screen |
+| After creating, the form and the result competed on a phone | One thing at a time on small screens: fold the questions into a "Change" button |
+| "Gym-free" sessions included machines and pull-up bars | Filter by what the user said they have; equipment is a hard constraint, not a hint |
+| The same code served the full app and a one-screen web | One codebase, a build-time mode switch (`EXPO_PUBLIC_*`), separate screenshot scenario |

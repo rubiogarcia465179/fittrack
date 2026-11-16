@@ -161,6 +161,9 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 ### Ejercicios (desde Inicio)
 - Sin búsqueda, lista en **orden alfabético** del idioma elegido; con
   búsqueda, por relevancia.
+- **Miniaturas en todas las listas** (Ejercicios, sesión, diario, web): el
+  dibujo del ejercicio (posición inicial, teñido); sin dibujo, el icono de
+  línea del grupo (R-137, `components/ExerciseThumb.tsx`).
 - **Imágenes del ejercicio**: dibujos de línea reales de **Everkinetic**
   (CC BY-SA 3.0) cuando existen y se revisaron (posición inicial y final),
   teñidos con el color del texto (blancos en Noche, negros en Día) sobre la
@@ -249,9 +252,19 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 - Última elección de la hoja de inicio: `fittrack.quickstart.v1`.
 - Foto de Inicio (opcional): `fittrack.homephoto.v1` (data URL).
 - Persistencia: AsyncStorage (app) / localStorage (web). Sin backend.
-- **Web = la app** (R-131): `web/` compila `app/` con `expo export --platform
-  web`; misma UI y funciones. Diferencias por plataforma en `*.web.ts`
-  (fotos en localStorage, copia descargada, sin aviso con pantalla bloqueada).
+- **Web pública = una pantalla que crea un entreno** (R-136, solo web): sin
+  perfil ni datos guardados. Arriba: "FitTrack" e idioma a la derecha
+  (ES · EN · NL · FR; por defecto el del navegador). Preguntas: qué entrenas
+  (empuje / tirón / piernas y core / cuerpo completo), objetivo (4), tiempo
+  (30/45/60), material (gimnasio / mancuernas / sin material) → "Crear
+  entreno". La sesión: ejercicios clásicos con dibujo real, multiarticular
+  primero, brazos según el día; series y descanso una vez arriba; cada fila
+  abre "¿Cómo se hace?" (dibujo + vídeo). Escritorio: dos columnas (la
+  derecha con estado vacío antes; después se actualiza al cambiar una
+  respuesta). Móvil: una columna; tras crear, las preguntas se pliegan y
+  "Cambiar" va junto al título. Es el mismo código de `app/` con
+  `EXPO_PUBLIC_WEB_MODE=planner` (`app/src/web/WebPlanner.tsx`); la app de
+  iOS/Android y el build de capturas siguen siendo la app completa.
 
 ## 4. Idiomas
 

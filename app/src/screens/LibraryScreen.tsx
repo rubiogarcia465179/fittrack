@@ -164,10 +164,10 @@ export default function LibraryScreen({
               accessibilityLabel={nameOf(e)}
               onPress={() => onOpenExercise(e.id)}
             >
-              {/* Icono de línea por grupo (sin monigotes placeholder; las
-                  fotos reales llegarán con la Fase 13). */}
+              {/* Dibujo real del ejercicio (Everkinetic) o, si no hay, el
+                  icono de línea de su grupo (R-137). */}
               <View style={[styles.thumb, styles.glyphBox, { borderColor: p.border }]} accessibilityElementsHidden>
-                <ExerciseGlyph label={e.muscle_group} size={26} color={p.text} />
+                <ExerciseGlyph id={e.id} label={e.muscle_group} size={28} color={p.text} />
               </View>
               <View style={styles.rowText}>
                 <Text style={[styles.rowName, { color: p.text }]} numberOfLines={2}>

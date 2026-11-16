@@ -7,6 +7,8 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Web pública = planificador de una pantalla (R-136), no la app completa.
+  EXPO_PUBLIC_WEB_MODE = "planner"
 
 # Una sola página (las pestañas son estado, no rutas): todo va a index.html.
 [[redirects]]

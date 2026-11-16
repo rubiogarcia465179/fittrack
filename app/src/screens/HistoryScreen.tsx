@@ -226,7 +226,7 @@ export default function HistoryScreen({
                 >
                   {e ? (
                     <View style={[styles.exThumb, { borderWidth: StyleSheet.hairlineWidth, borderColor: p.border, alignItems: 'center', justifyContent: 'center' }]} accessibilityElementsHidden>
-                      <ExerciseGlyph label={e.muscle_group} size={20} color={p.text} />
+                      <ExerciseGlyph id={e.id} label={e.muscle_group} size={18} color={p.text} />
                     </View>
                   ) : null}
                   <Text style={[styles.exName, { color: p.text }]} numberOfLines={2}>

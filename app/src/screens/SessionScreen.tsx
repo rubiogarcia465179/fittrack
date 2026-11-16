@@ -47,6 +47,7 @@ import { pickPhoto } from '../lib/pickPhoto';
 import { savePhoto } from '../lib/sessionPhotos';
 import { scheduleRestAlert, cancelRestAlert } from '../lib/restAlert';
 import { splitLabel } from '../lib/nextSplit';
+import { ExerciseThumb } from '../components/ExerciseThumb';
 import {
   suggestAlternatives,
   isBodyweightExercise,
@@ -96,12 +97,16 @@ export function ExerciseGlyph({
   label,
   size = 24,
   color,
+  id,
 }: {
   label: string;
   size?: number;
   color?: string;
+  /** Con id: el dibujo real del ejercicio si existe (R-137). */
+  id?: string;
 }) {
   const c = color || GROUP_COLORS[(label as string) in GROUP_COLORS ? (label as string) : 'legs'];
+  if (id) return <ExerciseThumb id={id} group={label} size={Math.round(size * 1.75)} color={c} />;
   return <GroupGlyph group={label} size={size} color={c} />;
 }
 
@@ -1171,7 +1176,7 @@ export default function SessionScreen({
         {suggested ? (
           <View style={[styles.suggestCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
             <View style={styles.suggestHead}>
-              <ExerciseGlyph label={suggested.muscle_group} size={22} color={p.text} />
+              <ExerciseGlyph id={suggested.id} label={suggested.muscle_group} size={22} color={p.text} />
               <View style={styles.suggestTitleWrap}>
                 <Text style={[styles.suggestName, { color: p.text }]} numberOfLines={1}>
                   {nameOf(suggested)}
@@ -1249,7 +1254,7 @@ export default function SessionScreen({
                     { backgroundColor: pressed ? p.card : 'transparent' },
                   ]}
                 >
-                  <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} color={p.text} />
+                  <ExerciseGlyph id={ex?.id} label={ex?.muscle_group || 'legs'} size={22} color={p.text} />
                   <View style={styles.compactMain}>
                     <Text style={[styles.compactName, { color: p.text }]} numberOfLines={2}>
                       {ex ? nameOf(ex) : d.exercise_id}
@@ -1283,7 +1288,7 @@ export default function SessionScreen({
               >
                 <View style={styles.draftHeader}>
                   <View style={styles.draftTitleWrap}>
-                    <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={22} color={p.text} />
+                    <ExerciseGlyph id={ex?.id} label={ex?.muscle_group || 'legs'} size={22} color={p.text} />
                     <Text style={[styles.draftName, { color: p.text }]} numberOfLines={2} accessibilityRole="header">
                       {ex ? nameOf(ex) : d.exercise_id}
                     </Text>
@@ -1617,7 +1622,7 @@ export default function SessionScreen({
                 <View key={pp.exercise_id} style={[styles.postponedRow, { borderTopColor: p.cardBorder }]}>
                   {/* El original y, desde el primer momento, "Hacerlo ahora" (R-116). */}
                   <View style={styles.postponedInfo}>
-                    <ExerciseGlyph label={ex?.muscle_group || 'legs'} size={18} color={p.text} />
+                    <ExerciseGlyph id={ex?.id} label={ex?.muscle_group || 'legs'} size={18} color={p.text} />
                     <View style={styles.postponedNames}>
                       <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={2}>
                         {ex ? nameOf(ex) : pp.exercise_id}
@@ -1640,7 +1645,7 @@ export default function SessionScreen({
                   {/* sugerencia actual ("Otra sugerencia" avanza en la lista) */}
                   {currentAlt ? (
                     <View style={[styles.postponedSug, { borderColor: p.border, backgroundColor: p.section }]}>
-                      <ExerciseGlyph label={currentAlt.muscle_group} size={18} color={p.text} />
+                      <ExerciseGlyph id={currentAlt.id} label={currentAlt.muscle_group} size={18} color={p.text} />
                       <View style={styles.postponedNames}>
                         <Text style={[styles.postponedName, { color: p.text }]} numberOfLines={2}>
                           {nameOf(currentAlt)}

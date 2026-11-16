@@ -14,7 +14,8 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
    descanso bloqueado, fotos como archivos) en `main`. **Fase 17**
    (manual `docs/kit/`) y **Fase 18** (5 vueltas Jobs, 86 → 90,
    `docs/LOOP-18.md`) hechas. **Fase 19**: la web ES la app (`web/` =
-   build web; Astro en la rama `web-astro`). **En curso: Fase 13** con
+   build web; Astro en la rama `web-astro`). **Fase 21**: la web pública es
+   una pantalla que crea un entreno (Jobs 86, Foco 10). **En curso: Fase 13** con
    dibujos reales de Everkinetic (`scripts/fetch_everkinetic.py`, estado en
    `docs/fotos/STATUS.md`). Prueba en iPhone: la hace el usuario (R-128).
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
@@ -245,6 +246,18 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
   vibración aunque el móvil esté bloqueado) → **hecho en la Fase 16**.
 - [x] Paridad web: resuelta en la Fase 19 (la web ES la app).
 
+### Fase 21 — Web pública: una pantalla que crea un entreno (R-136, R-138) ✅ (Jobs SÍ, 86; Foco 10)
+- [x] `WebPlanner` (solo web, `EXPO_PUBLIC_WEB_MODE=planner`): preguntas →
+      sesión; idioma ES/EN/NL/FR arriba a la derecha; sin perfil ni guardado.
+- [x] Adaptable: móvil una columna (preguntas plegables), escritorio dos
+      columnas con estado vacío y actualización al momento; hoja del
+      ejercicio centrada en pantallas anchas.
+- [x] 10 vueltas Jobs (`docs/LOOP-21.md`), 68 → 86, Foco 10.
+- [x] Sesiones sensatas: clásicos con dibujo, multiarticular primero, brazos
+      según el día, filtros por material, nada avanzado.
+- [x] Capturas a 3 anchos (`docs/screenshots/web/`, `web/qa.sh`).
+- [ ] ⛔ Usuario: conectar Netlify al repo (ver `web/README.md`).
+
 ### Fase 20 — Vídeo por ejercicio, dentro de la app (R-133, R-134) ✅ (Jobs SÍ, 90)
 - [x] Prueba Jobs al plan: sí como **fila de texto** y vídeo comprobado; no a
       una caja grande ni a enlaces de búsqueda.
@@ -335,17 +348,15 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
 - [x] **Dibujos reales de Everkinetic** (CC BY-SA 3.0, Wikimedia Commons;
       R-132): 77 candidatos por nombre, **cada dibujo revisado a mano**
       (`data/images/photos/everkinetic-map.json`: `chosen` y `rejected` con
-      motivo). **65 ejercicios** con posición inicial + final (130
-      imágenes); 9 rechazados (p. ej. "Bench press" de Commons es un press
+      motivo). **78 ejercicios** con posición inicial + final (156
+      imágenes); miniaturas con el dibujo en todas las listas (R-137); 9 rechazados (p. ej. "Bench press" de Commons es un press
       inclinado; dibujos con mancuerna para ejercicios con barra). Fondo
       transparente y teñido con el tema; crédito en la hoja y en Licencias.
       `scripts/fetch_everkinetic.py` (baja con pausa y miniaturas estándar),
       `scripts/make_photo_map.js`, `scripts/photo_status.js`.
-- [ ] 3 dibujos aceptados a medio bajar (Wikimedia limita: 429): shrugs
-      con mancuernas, jalón supino, jalón con barra V. Se completan al reintentar.
-- ⛔ **Usuario**: el resto (142 ejercicios sin dibujo + el hueco 3 de todos):
-      fotos propias o generadas con `docs/fotos/PROMPTS.md` →
-      `data/images/photos/<id>-<n>.png` y `node scripts/make_photo_map.js`.
+- ⛔ **Usuario** (R-135/R-137): los 117 sin dibujo (sin cardio): dibujos de
+      línea con `docs/fotos/PROMPTS-DIBUJOS.md` → `data/images/photos/inbox/`
+      → `python3 scripts/add_drawings.py` (quedan marcados "generado con IA").
 
 
 ## Hecho recientemente

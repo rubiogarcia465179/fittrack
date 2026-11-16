@@ -17,7 +17,8 @@ const files = fs.existsSync(DIR) ? fs.readdirSync(DIR) : [];
 const slot = (id, n) => {
   const f = files.find((x) => new RegExp(`^${id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-${n}\\.(png|jpe?g|webp)$`, 'i').test(x));
   if (!f) return '⬜';
-  return credits[f] && /everkinetic/i.test(credits[f].author) ? '✏️' : '📷';
+  if (credits[f] && /everkinetic/i.test(credits[f].author)) return '✏️';
+  return credits[f] && credits[f].kind === 'drawing' ? '🖊️' : '📷';
 };
 const rows = ex
   .slice()
@@ -37,11 +38,12 @@ cada imagen: \`data/images/photos/credits.json\`. Prompts para las que faltan:
 | Ejercicios | ${rows.length} |
 | Huecos (3 por ejercicio) | ${total} |
 | ✏️ Dibujo real Everkinetic (CC BY-SA 3.0) | ${count('✏️')} |
+| 🖊️ Dibujo generado con IA (usuario, \`PROMPTS-DIBUJOS.md\`) | ${count('🖊️')} |
 | 📷 Foto propia / generada | ${count('📷')} |
 | ⬜ Pendientes | ${count('⬜')} |
 | Ejercicios con al menos una imagen real | ${any} de ${rows.length} |
 
-Leyenda: ✏️ dibujo real (posición inicial = 1, final = 2) · 📷 foto propia ·
+Leyenda: ✏️ dibujo real (posición inicial = 1, final = 2) · 🖊️ dibujo generado con IA · 📷 foto propia ·
 ⬜ pendiente (la app muestra la imagen de ejemplo, marcada como tal).
 Everkinetic dibuja 2 posiciones; el hueco 3 (técnica clave) queda para una
 foto propia.

@@ -17,7 +17,12 @@ const path = require('path');
 const APP = path.join(__dirname, '..', 'app');
 const OUT = path.join(__dirname, 'dist');
 fs.rmSync(OUT, { recursive: true, force: true });
-execFileSync('npx', ['expo', 'export', '--platform', 'web', '--output-dir', OUT], { cwd: APP, stdio: 'inherit' });
+// Web pública = el planificador de una pantalla (R-136), no la app con perfil.
+execFileSync('npx', ['expo', 'export', '--platform', 'web', '--output-dir', OUT], {
+  cwd: APP,
+  stdio: 'inherit',
+  env: { ...process.env, EXPO_PUBLIC_WEB_MODE: 'planner' },
+});
 // Hosting estático: cualquier ruta desconocida devuelve la app (SPA).
 fs.copyFileSync(path.join(OUT, 'index.html'), path.join(OUT, '404.html'));
 console.log('WEB_OK ' + OUT);

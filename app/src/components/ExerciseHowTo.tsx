@@ -8,7 +8,7 @@
  *   (data/exercises/howto/, redactada por FitTrack; ver app/src/howto.ts).
  */
 import { useEffect, useRef, useState } from 'react';
-import { Dimensions, Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../theme-context';
 import { exName } from '../lib/names';
@@ -22,7 +22,7 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
   const { t, i18n } = useTranslation();
   const { p } = useTheme();
   const lang = i18n.language as string;
-  const { images, placeholder, kind } = photosFor(exercise.id);
+  const { images, placeholder, kind, credit } = photosFor(exercise.id);
   const video = videoFor(exercise.id);
   const [playing, setPlaying] = useState(false);
   // Otro ejercicio (o cerrar la hoja) → el vídeo se para.
@@ -34,14 +34,20 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
     const id = setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 150);
     return () => clearTimeout(id);
   }, [playing]);
-  const width = Math.min(Dimensions.get('window').width, 640) - 40;
+  // En pantallas anchas (web) la hoja es una tarjeta centrada de 640 pt, no
+  // una franja de lado a lado; en el móvil, la hoja inferior de siempre.
+  const { width: winW } = useWindowDimensions();
+  const wideSheet = winW > 700;
+  const width = Math.min(winW, 640) - 40;
   const [page, setPage] = useState(0);
   const secondary = exercise.secondary_muscles || [];
 
   return (
-    <Modal visible transparent animationType="slide" onRequestClose={onClose}>
-      <Pressable style={[styles.back, { backgroundColor: p.overlay }]} onPress={onClose} accessibilityLabel={t('howto_close')} />
-      <View style={[styles.sheet, { backgroundColor: p.bg, borderColor: p.border }]}>
+    <Modal visible transparent animationType={wideSheet ? 'fade' : 'slide'} onRequestClose={onClose}>
+      <View style={[styles.frame, wideSheet && styles.frameWide]}>
+      {/* Fondo a pantalla completa (también a los lados de la tarjeta en web). */}
+      <Pressable style={[StyleSheet.absoluteFill, { backgroundColor: p.overlay }]} onPress={onClose} accessibilityLabel={t('howto_close')} />
+      <View style={[styles.sheet, { backgroundColor: p.bg, borderColor: p.border }, wideSheet && styles.sheetWide]}>
         <View style={[styles.handle, { backgroundColor: p.border }]} />
         <ScrollView ref={scrollRef} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <Text style={[styles.title, { color: p.text }, styles.titleTight]} accessibilityRole="header">
@@ -94,7 +100,7 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
           {kind === 'drawing' ? (
             // Atribución CC BY-SA junto a la obra (y en Licencias y créditos).
             <Text style={[styles.credit, { color: p.dim }]}>
-              {`${t(page === 0 ? 'howto_pos_start' : 'howto_pos_end')} · ${t('howto_drawing_credit')}`}
+              {`${t(page === 0 ? 'howto_pos_start' : 'howto_pos_end')} · ${t(credit === 'ai' ? 'howto_drawing_ai' : 'howto_drawing_credit')}`}
             </Text>
           ) : null}
 
@@ -158,12 +164,14 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
           </Pressable>
         </ScrollView>
       </View>
+      </View>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  back: { flex: 1 },
+  frame: { flex: 1, justifyContent: 'flex-end' },
+  frameWide: { justifyContent: 'center', paddingVertical: 24 },
   sheet: {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -171,6 +179,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
     maxHeight: '90%',
   },
+  sheetWide: { width: 640, alignSelf: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderRadius: 20 },
   handle: { width: 40, height: 4, borderRadius: 2, alignSelf: 'center', marginTop: 8 },
   content: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 28 },
   title: { fontSize: 22, fontWeight: '800', letterSpacing: -0.4, marginBottom: 14 },

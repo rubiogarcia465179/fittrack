@@ -10,7 +10,12 @@ const { spawn } = require('child_process');
 const [DIST, OUT] = process.argv.slice(2);
 const FRAMES = process.argv.includes('--frames') ? process.argv[process.argv.indexOf('--frames') + 1] : null;
 const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const PORT = 8095, DBG = 9333, W = 393, H = 852;
+// --size 1440x900 (por defecto iPhone 16: 393x852) y --scenario <ruta> (por defecto scenario.js).
+const argv = process.argv;
+const argOf = (k) => (argv.includes(k) ? argv[argv.indexOf(k) + 1] : null);
+const [W, H] = (argOf('--size') || '393x852').split('x').map(Number);
+const SCENARIO_FILE = argOf('--scenario');
+const PORT = 8095, DBG = 9333;
 fs.mkdirSync(OUT, { recursive: true });
 if (FRAMES) fs.mkdirSync(FRAMES, { recursive: true });
 
@@ -149,7 +154,7 @@ async function load(storage) {
     else if (d.method) listeners.forEach((l) => l(d));
   };
   await send('Page.enable'); await send('Runtime.enable');
-  await send('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 2, mobile: true });
+  await send('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: W > 700 ? 1 : 2, mobile: W <= 700 });
   await send('Emulation.setTouchEmulationEnabled', { enabled: false });
   const errors = [];
   listeners.push((d) => { if (d.method === 'Runtime.exceptionThrown') errors.push(d.params.exceptionDetails.text + ' ' + (d.params.exceptionDetails.exception?.description || '').slice(0, 200)); });
@@ -167,7 +172,7 @@ async function load(storage) {
   // Foto de ejemplo para el diario (Fase 15): la imagen de la app, datos locales de QA.
   const DEMO_PHOTO = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(__dirname, '../../assets/session-hero.jpg')).toString('base64');
   const base = { 'fittrack.lang': 'es', 'fittrack.photo.demo1': DEMO_PHOTO };
-  const scenario = require(process.env.SCENARIO || path.join(__dirname, 'scenario.js'));
+  const scenario = require(SCENARIO_FILE ? path.resolve(SCENARIO_FILE) : process.env.SCENARIO || path.join(__dirname, 'scenario.js'));
   await scenario({ load, shot, tap, tapLabel, drag, scrollBy, evaluate, sleep, base, DATA, ACTIVE, iso });
 
   if (FRAMES) await send('Page.stopScreencast');

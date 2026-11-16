@@ -60,3 +60,11 @@ FFMPEG=<ruta-ffmpeg> node app/qa/shots/make-video.js <dir-temporal> docs/screens
 ```
 El recorrido está en `app/qa/shots/scenario.js` (añade pasos ahí cuando
 cambie la UI).
+
+## Web pública (`docs/screenshots/web/`, `bash web/qa.sh`)
+
+`web-<ancho>-<paso>.png` a 393 (móvil), 834 (tableta) y 1440 (escritorio):
+`1-inicio` (preguntas; en escritorio con el estado vacío a la derecha),
+`2-sesion`, `3-ejercicio` (hoja "¿Cómo se hace?"; tarjeta centrada en
+pantallas anchas), `4-es` / `4-nl` / `4-fr` (idiomas) y, en escritorio,
+`5-pull`, `5-legs` (mancuernas), `5-full` (sin material, perder grasa).
