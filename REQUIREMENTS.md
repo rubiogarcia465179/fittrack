@@ -323,3 +323,7 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-103 [DONE] Licencias al final de Perfil, no en cada ejercicio
 ### R-104 [DONE] Error en Expo Go "BVLinearGradient": degradado sin módulo nativo
 ### R-105 [DONE] SafeAreaView obsoleto → react-native-safe-area-context (aviso fuera)
+
+### R-106 [TODO] Hoja final: solo "Finalizar"
+### R-107 [TODO] Selector de números tipo ruleta (alarma del iPhone), sin "Usar"; números grandes con teclado; altura con cm/m
+### R-108 [TODO] Iterar ≥ 3 veces con la prueba Jobs (refine + analyze)

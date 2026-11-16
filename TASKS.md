@@ -87,6 +87,19 @@ Hecho en esta pasada:
 - [x] IMC con coma decimal en ES/FR/NL.
 - [x] "3+" en **violeta** (el rojo se leía como alarma; aceptado por el usuario).
 
+### Fase 11k — Pendiente (pedido 2026-11-16)
+- [ ] **Terminar la sesión**: en la hoja final, un solo botón "Finalizar"
+      (guarda con o sin valoración); fuera "Guardar sesión" + "Finalizar sin
+      valorar".
+- [ ] **Selector de números tipo ruleta** (como la alarma del iPhone) en
+      TODOS los números (peso, reps, minutos, km, año…): sin botón "Usar";
+      el botón blanco muestra el valor elegido y confirma. Si el número
+      puede ser grande, se escribe con teclado. Altura: número + unidad
+      (cm / m).
+- [ ] **Iterar ≥ 3 veces** con `/SteveJobs refine` → `analyze`: aplicar y
+      corregir detalles, proponer y mejorar la UX hasta que cada pantalla
+      sea un 10 (capturas y prueba Jobs en cada vuelta).
+
 ### Fase 11j — Sesión más directa + licencias al pie ✅
 - [x] Último ejercicio: "Terminar y guardar" siempre; la hoja final ya no es
       un Modal (en iOS no se abría si otro Modal se estaba cerrando); el
