@@ -1,5 +1,9 @@
 # UX Playbook: build an app with the same UX as FitTrack
 
+> Part of the portable kit: start at **`docs/kit/README.md`** (what to copy,
+> bootstrap prompt, method, engineering, gates, lessons, templates). This
+> file is the design half of it.
+
 This file is meant to be **pasted into a new project**, or referenced from it,
 so that **one prompt** produces an app with the same UX qualities as
 FitTrack: simple, monochrome, honest, one action at a time, verified with
@@ -27,7 +31,8 @@ It contains:
 > - The core loop is: **[e.g. start → log → finish → see progress]**. It must
 >   take ≤ 2 taps to start and 1 tap to finish.
 > - Languages: **[e.g. ES/EN/NL/FR]**, every string in all of them from day 1.
-> - Data stays on the device (offline, private, export JSON, delete all).
+> - Data stays on the device (offline, private, backup to a file + restore,
+>   delete all).
 > - Nothing invented is shown as real: no fake numbers, no fake photos (or
 >   labelled "Example image"), no quotes without a source.
 > - No new dependency without asking me.
@@ -44,10 +49,11 @@ It contains:
 > SPEC / TASKS / PROGRESS / REQUIREMENTS / AGENTS / CLAUDE docs so another
 > agent can continue without context. Only then commit.
 
-Copy these files into the new repo with the prompt (see §6):
-`docs/UX-PLAYBOOK.md`, `.claude/skills/stevejobs/SKILL.md`,
-`.claude/commands/SteveJobs.md`, `CLAUDE.md` (as a template) and the
-screenshot harness `app/qa/shots/` (adapt `scenario.js`).
+Copy these files into the new repo with the prompt (full list and order in
+`docs/kit/README.md`): `docs/kit/`, `docs/UX-PLAYBOOK.md`,
+`.claude/skills/stevejobs/SKILL.md`, `.claude/commands/SteveJobs.md` and the
+screenshot harness `app/qa/shots/` (adapt `scenario.js`). The 6 docs start
+from `docs/kit/templates/`.
 
 ---
 
@@ -148,6 +154,8 @@ screenshot harness `app/qa/shots/` (adapt `scenario.js`).
 | **First launch**: one empty card with one action ("Establecer marcas") | The first 10 seconds have one obvious step |
 | **Settings in 4 cards max** (Body · About you · Appearance · Data) | Profile stays one scroll |
 | **Credits once, at the bottom of Profile** | Attribution without noise on every screen |
+| **Backup = one file with everything** (photos included); restore shows what the file holds and confirms "replaces everything" | "No account, no cloud" without the fear of losing it all |
+| **Permission asked at the first useful moment** (notifications on the first rest, photos on the first "Add photo") | No cold prompt at launch; the reason is obvious |
 
 ---
 

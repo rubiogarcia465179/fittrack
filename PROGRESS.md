@@ -727,3 +727,13 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   seguidos en "Tus datos" y nada probado en el teléfono real (R-128).
   Peticiones nuevas apuntadas: manuales para otra app (R-129) y 5 vueltas
   Jobs (R-130).
+
+- 2026-11-16 — **Fase 17: manual portable** (R-129). Petición: "update
+  documentations and manuals, so that I can give those to a separate app, and
+  starting from zero, it will reach the same level of quality". Nuevo
+  `docs/kit/` (README, 01-BOOTSTRAP, 02-METHOD, 03-ENGINEERING,
+  04-QUALITY-GATES, 05-LESSONS, `templates/` con los 6 docs + brief de
+  revisores + log del bucle). UX-PLAYBOOK enlaza el kit y suma copia de
+  seguridad y permisos en contexto; AGENTS corregido (205 ejercicios, fotos
+  como archivos). Solo documentación: la app no cambia (última prueba Jobs
+  SÍ 90, Fase 16; tests 151/151).

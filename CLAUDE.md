@@ -14,6 +14,10 @@ agente** que reciba este repo.
 6. `docs/UX-PLAYBOOK.md` resume la UX de FitTrack (principios, sistema de
    diseño, patrones, lo que se quitó y por qué). Respétala aquí y úsala como
    base con un solo prompt para otra app.
+7. `docs/kit/` es el **manual portable** para que otra app, desde cero y sola,
+   llegue a esta calidad (arranque, método, ingeniería, puertas de calidad,
+   lecciones, plantillas). Si aprendes algo que valga para cualquier app,
+   añádelo allí (sobre todo a `05-LESSONS.md`).
 
 ## 1. Cuándo se commitea
 

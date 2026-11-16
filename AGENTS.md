@@ -69,7 +69,8 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   con las **marcas efectivas** (`effBench`) para pesos y récords en directo.
 - **Guardar**: solo series hechas (`completedExercises` en
   `lib/session-save.ts`, incluye cardio por minutos).
-- **Guía de UX para otra app**: `docs/UX-PLAYBOOK.md`.
+- **Guía de UX para otra app**: `docs/UX-PLAYBOOK.md`; manual completo
+  portable en `docs/kit/` (R-129).
 - **Sin ejercicios casi iguales**: `movementKey` (`lib/workout.ts`) quita
   material/postura y compara las dos primeras palabras; `generateWorkout` no
   repite clave.
@@ -147,7 +148,7 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 - **Regla de oro: nada inventado se publica como real.** Lo que viene de wger
   lleva `source:"real"` y atribución CC-BY-SA (`license`/`credit`); lo curado
   o generado localmente se documenta en `source_note` y aquí.
-- Base actual: 226 ejercicios reales de wger (extraídos de la wheel de PyPI
+- Base actual: 205 ejercicios reales de wger (226 antes de quitar duplicados) (extraídos de la wheel de PyPI
   `wger 2.1` con `scripts/fetch_exercises_wger_pypi.py`). `name_nl` y `level`
   son curados localmente; 16 ejercicios llevan pasos generados localmente.
 - **Pasos para principiantes por idioma**: `data/exercises/howto/<lang>.json`
@@ -253,8 +254,9 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   `make_image_map.py`, `make_photo_map.js`.
 - **Un ejercicio = una vista**: `ExerciseHowTo` (sesión y Ejercicios); ya no
   existe `DetailScreen`.
-- **Diario (Fase 15)**: `Session.photos` (ids) + `Session.comments`; cada
-  foto es un data URL en `fittrack.photo.<id>` (`lib/sessionPhotos.ts`);
+- **Diario (Fase 15/16)**: `Session.photos` (ids) + `Session.comments`; cada
+  foto es un archivo `<documentos>/photos/<id>.jpg` en iOS/Android y un data
+  URL en `fittrack.photo.<id>` en web (`lib/sessionPhotos(.web).ts`);
   `store.updateSession` cambia fotos/comentarios. Las capturas usan una
   foto de ejemplo (`fittrack.photo.demo1`, en `shoot.js`).
 

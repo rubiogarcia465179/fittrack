@@ -11,9 +11,9 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
    **sí** (`CLAUDE.md §2`; se evalúa como **versión 2.0**). Estado al
    2026-11-16: **Fases 11l, 11m y 15 en `main`** (Jobs 89). Fase 14
    **descartada** (R-123). **Fase 16** (copia de seguridad, aviso del
-   descanso bloqueado, fotos como archivos) en `main`. **Siguiente:**
-   manuales para otra app (R-129) y 5 vueltas Jobs analyze → suggest →
-   aplicar (R-130). Luego paridad web (⛔ `npm ci`) y Fase 13 (fotos).
+   descanso bloqueado, fotos como archivos) en `main`. **Fase 17**
+   (manual `docs/kit/`) hecha. **Siguiente:** 5 vueltas Jobs analyze →
+   suggest → aplicar (R-130), log en `docs/LOOP-18.md`. Luego paridad web (⛔ `npm ci`) y Fase 13 (fotos).
    Prueba en iPhone: la hace el usuario (R-128).
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
    no las supongas.
@@ -244,6 +244,17 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
 - ⏸ **Paridad web en pausa** (el usuario pidió parar): `npm ci` y build OK,
   i18n regenerado (390 claves); pendiente el tema X, 3 pestañas, Inicio,
   Perfil y pasos por idioma en `web/`.
+
+### Fase 17 — Manual portable para otra app (R-129) ✅
+- [x] `docs/kit/`: README (qué copiar, orden), 01-BOOTSTRAP (prompt, preguntas
+      del día 1, fase 0, orden de fases), 02-METHOD (fases, 6 docs, peticiones,
+      ⛔, honestidad, commits, puerta Jobs, 2 revisores, bucle de N rondas),
+      03-ENGINEERING (stack, estructura, store y migraciones, copia, módulos
+      por plataforma, i18n, tests, harness, nativo, trampas del entorno),
+      04-QUALITY-GATES (todas las listas), 05-LESSONS (fallos reales → regla),
+      `templates/` (los 6 docs, brief de revisores, log del bucle).
+- [x] UX-PLAYBOOK enlaza el kit; CLAUDE.md §0.7; AGENTS al día.
+- [ ] Añadir al kit lo que salga de las 5 vueltas Jobs (R-130).
 
 ### Fase 16 — Copia de seguridad, aviso del descanso bloqueado, fotos como archivos ✅ (Jobs SÍ, 90)
 - [x] **Copia de seguridad** (R-124): Perfil → "Guardar copia de seguridad"
