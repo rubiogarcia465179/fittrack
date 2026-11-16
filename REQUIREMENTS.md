@@ -365,3 +365,4 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-132 [EN CURSO] Generar o buscar en internet las fotos de PROMPTS.md y llevar la cuenta de cuáles están hechas y cuáles no (2026-11-16; sin generador de imágenes aquí → dibujos reales de Everkinetic: 63/205 revisados e instalados; cuenta en `docs/fotos/STATUS.md`)
 ### R-133 [DONE] Un vídeo de YouTube (en inglés) por ejercicio, con un acceso en la ficha; ¿lo aprobaría Steve Jobs? (2026-11-16; Fase 20: 203 vídeos comprobados; Jobs: sí como fila de texto)
 ### R-134 [DONE] Vídeo incrustado en la app (no salir de la app); aprobado `react-native-webview` (2026-11-16; Fase 20, captura 35)
+### R-135 [⏸] El usuario se encarga del resto de imágenes (142 ejercicios sin dibujo); pide ejecutar `npx expo run:ios` (no posible aquí: necesita macOS + Xcode) y pregunta por Netlify/Vercel (2026-11-16)
