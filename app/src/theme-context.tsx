@@ -34,7 +34,7 @@ export function ThemeProvider({ themeId, children }: { themeId: string; children
       SHADOW: shadowFor(p),
       GRADIENT_STOPS: gradientStops(p),
       // Fondo plano del tema; botón principal = acento con un leve degradado.
-      GRADIENT: { bg: [p.bg, p.bg], cta: [p.accent, p.accentDark] },
+      GRADIENT: { bg: [p.bg, p.bg], cta: [p.accent, p.accent] },
     };
   }, [themeId]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

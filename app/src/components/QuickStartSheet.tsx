@@ -4,6 +4,7 @@
  * Valores por defecto: la última elección (o el Perfil). Con energía baja la
  * intensidad efectiva baja un nivel (se avisa en la propia hoja).
  */
+import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../theme-context';
@@ -23,16 +24,16 @@ const ENERGIES: Energy[] = ['low', 'normal', 'high'];
 const GOALS: Goal[] = ['build_muscle', 'lose_weight', 'strength', 'lose_fat', 'definition', 'endurance'];
 
 export function QuickStartSheet({
-  value,
-  onChange,
+  value: initial,
   onCancel,
   onContinue,
 }: {
   value: QuickStartOptions;
-  onChange: (v: QuickStartOptions) => void;
   onCancel: () => void;
-  onContinue: () => void;
+  /** Recibe la elección; cancelar (fondo / atrás) la descarta. */
+  onContinue: (v: QuickStartOptions) => void;
 }) {
+  const [value, onChange] = React.useState<QuickStartOptions>(initial);
   const { t } = useTranslation();
   const { p } = useTheme();
   const intLabel = (i: Intensity) => t(i === 'low' ? 'int_easy' : i === 'high' ? 'int_hard' : 'int_moderate');
@@ -48,17 +49,17 @@ export function QuickStartSheet({
             {t('qs_title')}
           </Text>
 
-          <Group label={t('picker_duration')}>
+          <Group fill label={t('gen_duration')}>
             {DURATIONS.map((d) => (
               <Chip key={d} label={`${d} min`} on={value.duration === d} onPress={() => onChange({ ...value, duration: d })} />
             ))}
           </Group>
-          <Group label={t('cardio_intensity')}>
+          <Group fill label={t('cardio_intensity')}>
             {INTENSITIES.map((i) => (
               <Chip key={i} label={intLabel(i)} on={value.intensity === i} onPress={() => onChange({ ...value, intensity: i })} />
             ))}
           </Group>
-          <Group label={t('checkin_energy')}>
+          <Group fill label={t('checkin_energy')}>
             {ENERGIES.map((e) => (
               <Chip key={e} label={enLabel(e)} on={value.energy === e} onPress={() => onChange({ ...value, energy: e })} />
             ))}
@@ -74,7 +75,7 @@ export function QuickStartSheet({
 
           <Pressable
             accessibilityRole="button"
-            onPress={onContinue}
+            onPress={() => onContinue(value)}
             style={({ pressed }) => [styles.cta, { backgroundColor: p.accent, opacity: pressed ? 0.85 : 1 }]}
           >
             <Text style={[styles.ctaText, { color: p.onAccent }]}>{t('qs_continue')}</Text>
@@ -85,19 +86,21 @@ export function QuickStartSheet({
   );
 }
 
-function Group({ label, children }: { label: string; children: React.ReactNode }) {
+function Group({ label, children, fill }: { label: string; children: React.ReactNode; fill?: boolean }) {
   const { p } = useTheme();
   return (
     <View style={styles.group}>
       <Text style={[styles.groupLabel, { color: p.secondary }]}>{label}</Text>
-      <View style={styles.chips} accessibilityRole="radiogroup" accessibilityLabel={label}>
-        {children}
+      <View style={[styles.chips, fill && styles.chipsFill]} accessibilityRole="radiogroup" accessibilityLabel={label}>
+        {fill
+          ? React.Children.map(children, (c) => (React.isValidElement(c) ? React.cloneElement(c as React.ReactElement<{ fill?: boolean }>, { fill: true }) : c))
+          : children}
       </View>
     </View>
   );
 }
 
-function Chip({ label, on, onPress }: { label: string; on: boolean; onPress: () => void }) {
+function Chip({ label, on, onPress, fill }: { label: string; on: boolean; onPress: () => void; fill?: boolean }) {
   const { p } = useTheme();
   return (
     <Pressable
@@ -106,6 +109,7 @@ function Chip({ label, on, onPress }: { label: string; on: boolean; onPress: () 
       onPress={onPress}
       style={({ pressed }) => [
         styles.chip,
+        fill && styles.chipFill,
         {
           backgroundColor: on ? p.accent : 'transparent',
           borderColor: on ? p.accent : p.border,
@@ -135,7 +139,9 @@ const styles = StyleSheet.create({
   group: { marginTop: 18, gap: 10 },
   groupLabel: { fontSize: 13, fontWeight: '600', letterSpacing: 1, textTransform: 'uppercase' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: { minHeight: 40, borderRadius: 20, borderWidth: 1, paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center' },
+  chipsFill: { flexWrap: 'nowrap' },
+  chipFill: { flex: 1, paddingHorizontal: 6 },
+  chip: { minHeight: 44, borderRadius: 20, borderWidth: 1, paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center' },
   chipText: { fontSize: 15, fontWeight: '600' },
   hint: { fontSize: 13, marginTop: 8 },
   cta: { marginTop: 26, minHeight: 52, borderRadius: 26, alignItems: 'center', justifyContent: 'center' },

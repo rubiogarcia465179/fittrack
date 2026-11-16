@@ -338,7 +338,21 @@ export default function ProfileScreen({
       </View>
 
       {/* ---- 4. Ajustes: idioma + tus datos, una sola tarjeta ---- */}
-      <DataSection t={t} onExport={onExport} onClear={onClearAll} onDone={onDataChanged}>
+      <DataSection
+        t={t}
+        onExport={onExport}
+        onClear={onClearAll}
+        onDone={() => {
+          // Tras borrar, la pantalla vuelve a leer el perfil (nada viejo a la vista).
+          onDataChanged();
+          void store.profile().then((np) => {
+            setProfile(np);
+            if (np) onProfileChanged?.(np);
+          });
+          void store.heightHistory().then(setHeights);
+          setHomePhoto(null);
+        }}
+      >
         <Text style={[styles.cardLabel, { color: p.secondary, marginBottom: 2 }]}>{t('profile_language')}</Text>
         <LangSwitcher lng={lng} onPick={onPickLang} full />
       </DataSection>
@@ -697,7 +711,8 @@ const styles = StyleSheet.create({
   },
   themeRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
+    gap: 32,
   },
   themeItem: {
     alignItems: 'center',

@@ -37,7 +37,10 @@ It contains:
 > full, error, light theme, each language), **look at every screenshot**,
 > run the "Steve Jobs" review (`analyze`, then `refine` at least 3 times
 > until the verdict is YES), have two UX reviewers (interaction + visual)
-> critique any new feature before building it, and update
+> critique any new feature before building it, run the **review loop** of
+> §7 (N rounds; accept only perfect suggestions; the Jobs score per
+> principle may never go down), apply the **details checklist** of §8 to
+> every screen, and update
 > SPEC / TASKS / PROGRESS / REQUIREMENTS / AGENTS / CLAUDE docs so another
 > agent can continue without context. Only then commit.
 
@@ -193,3 +196,118 @@ screenshot harness `app/qa/shots/` (adapt `scenario.js`).
    no chained Modals on iOS (use in-screen overlays); i18n in all languages
    for every new string; patch files with exact split/join (never regex
    replacement with `$` in the text).
+
+---
+
+## 7. The review loop (two UX reviewers + Jobs gate, N rounds)
+
+Used in FitTrack Fase 11l (10 rounds, log in `docs/LOOP-11l.md`). Each round:
+
+1. **Fresh evidence**: regenerate every screenshot, then build 4–5 *contact
+   sheets* (7 screens side by side each). Reviewers read the sheets: far
+   cheaper than 30 PNGs, and they still open single PNGs for detail.
+2. **Two reviewers in parallel, read-only**: one *interaction* (flow, taps,
+   feedback, defaults, edge cases, accessibility) and one *visual/product*
+   (hierarchy, type, spacing, copy, color, what to remove). Both get the
+   same brief file: the product, the fixed constraints, what the user asked
+   for explicitly (never to be removed), the reply format (max 3
+   suggestions: screen · exact change · principle · risk · size) and the
+   **log of earlier rounds** so they never repeat themselves. "Nothing" is
+   a valid answer. Point them at the weak principles from the last gate.
+3. **Accept only perfect suggestions.** Reject when it: contradicts SPEC or
+   a user request (→ ⛔ for the user), hides a problem instead of fixing it
+   (e.g. changing demo data), needs an assumption shown as fact, adds a
+   screen/dependency, or only one reviewer wants something big. When both
+   reviewers propose the same thing, it is almost always right; take the
+   smallest version.
+4. **Verify reviewer claims** in code before acting (they are often right
+   about real bugs the screenshots don't show: hit-testing, VoiceOver
+   grouping, saved data).
+5. **Apply → check → capture → look → gate**: type-check + tests + export,
+   screenshots (add a capture for every new state), look at the changed
+   screens, then `/SteveJobs analyze`.
+6. **Monotonic score**: write a row per round (9 principle scores + total).
+   If any principle goes down, revert that change. Log every suggestion as
+   accepted/rejected with the reason.
+7. **Handoff**: keep "state + next step" at the bottom of the loop log so
+   any agent can resume at the right round.
+
+## 8. Details checklist (learned the hard way; check every screen)
+
+**Color & marks**
+- One filled (white) button per screen; settings screens may have none
+  ("Exportar datos" is an outline).
+- Primary button **flat** (no white→grey gradient): it must be the
+  brightest thing on the screen.
+- Green only for records: not for "copied" messages, not for filter chips,
+  not for category colors. No per-category colors at all.
+- Completed values get an outline, not a solid white block.
+
+**Words**
+- One word per action across the app ("Finalizar" in the footer, the
+  sheet and every mode; never "Guardar sesión" / "Guardar benchmark").
+- The accessible label contains the visible text (WCAG 2.5.3).
+- Same unit spelling everywhere ("14 min", never "14 minutos" in one place).
+- No foreign-language leftovers (aliases in English, raw data muscle names);
+  translate or hide.
+- No titles that ask the same thing twice; the finish sheet celebrates
+  ("Bien hecho") and asks one question.
+- Labels that stay true: "Hoy toca" becomes "Próxima" once today is done.
+- Proofread destructive dialogs in every language first.
+
+**Data honesty**
+- Never pre-fill a value the user must measure ("as many reps as you can"
+  starts at "—"); never copy a warm-up weight into a test set.
+- Derived numbers only from completed work (1RM, summary, records).
+- Bodyweight rows show "4 × 10", never "· 0 kg".
+- Don't change demo data to hide a product bug; fix or log it.
+
+**Interaction**
+- After finishing, land where progress lives (Home), and announce the toast
+  to VoiceOver; no text "✓" (draw icons).
+- No toast that repeats what the screen already shows; a light haptic is
+  enough.
+- An explanation line is not a button: put the action ("Mantener 50 kg")
+  on its own ≥ 44 pt target.
+- Overlay dialogs must block what's behind them, close on backdrop tap,
+  order "Cancel | Destructive", and set `accessibilityViewIsModal`.
+- Don't make a whole block `accessible` if it contains buttons (VoiceOver
+  can't reach them); no live region that changes every second.
+- Every target ≥ 44 pt: chips, "+15 s", "Saltar", "Cambiar", "¿Cómo se hace?".
+- Never two near-identical items in one generated list (movement key:
+  strip equipment/posture words, compare the first two words).
+
+**Layout**
+- Section labels share one style (small caps, 12 pt, tracked, secondary),
+  separated by hairlines inside a card.
+- Options that are few sit together (two theme swatches side by side, not
+  at the far ends of the card).
+- Long names wrap to 2 lines instead of truncating where the name matters
+  (library rows, records, summary).
+
+**Data you must never lose or fake** (Fase 11l, rounds 5–10)
+- Every destructive action protects *done* work and only that: "remove set"
+  removes the last *pending* set; "remove exercise" confirms only when it
+  has done sets; closing an empty session asks nothing.
+- Never claim what isn't true in a dialog ("you'll lose your logged sets"
+  with none logged): drop the sentence instead of keeping a false one.
+- Work parked aside (busy machine → postponed) still counts and is saved.
+- "Delete all data" means all: profile on screen, personal photo, the app's
+  cached state. Re-read state after clearing.
+- A sheet's "cancel" must discard: edit a local copy, commit on confirm.
+- Recorded durations come from the clock but must be editable on the
+  finish screen (a forgotten "Finish" must not save 840 min).
+- Suggested numbers must be physically possible (weights in plate steps).
+- Deleting the last item of a filtered view returns to the full view
+  instead of showing a false "nothing here yet".
+
+**Words and voice**
+- One voice per language (French: all "tu", no "vous"); the same action has
+  the same label everywhere ("See all" on Home and History).
+- The same content keeps the same name and style on every screen ("How to
+  do it" in the sheet and in the detail, with the same numbered circles).
+- Facts that aren't buttons are text, not chips or boxes (muscles, an
+  estimated 1RM): a filled chip competes with the one primary button.
+- VoiceOver labels skip empty parts ("10 reps", not "10 reps, dash kg");
+  adjustable controls need increment/decrement actions; repeated buttons
+  carry their context ("Delete session, Sun 15 Nov").

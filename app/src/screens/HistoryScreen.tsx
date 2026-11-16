@@ -68,12 +68,12 @@ export default function HistoryScreen({
   return (
     <>
       <ScrollView contentContainerStyle={[styles.body, { backgroundColor: p.bg }]}>
-      <Text style={[styles.title, { fontSize: fs(scale, 32), color: p.text }]} numberOfLines={1}>
+      {/* Filtrado por un día: la fecha ya está en la tarjeta; "Ver todas" junto al título. */}
+      <View style={focusDate ? styles.focusRow : undefined}>
+      <Text style={[styles.title, { fontSize: fs(scale, 32), color: p.text }, focusDate ? { flex: 1, marginBottom: 0 } : null]} numberOfLines={1}>
         {t('hist_title')}
       </Text>
       {focusDate ? (
-        <View style={styles.focusRow}>
-          <Text style={[styles.sub, { color: p.text, marginBottom: 0, flex: 1 }]}>{fmtDate(focusDate, lang)}</Text>
           <Pressable
             accessibilityRole="button"
             onPress={onClearFocus}
@@ -82,8 +82,8 @@ export default function HistoryScreen({
           >
             <Text style={[styles.focusAllText, { color: p.text }]}>{t('hist_show_all')}</Text>
           </Pressable>
-        </View>
       ) : null}
+      </View>
 
       {list.length === 0 ? (
         <View style={[styles.emptyCard, { backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
@@ -116,7 +116,7 @@ export default function HistoryScreen({
               <Pressable
                 style={({ pressed }) => [styles.deleteBtn, { opacity: pressed ? 0.6 : 1, transition: 'opacity 90ms ease' }]}
                 accessibilityRole="button"
-                accessibilityLabel={t('hist_delete')}
+                accessibilityLabel={`${t('hist_delete')}, ${fmtDate(s.date, i18n.language)}`}
                 onPress={() => confirmDelete(s)}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
@@ -126,7 +126,7 @@ export default function HistoryScreen({
             <View style={styles.cardMeta}>
               <Text style={[styles.cardMetaText, { color: p.secondary }]}>
                 {plural(s.exercises.length, t, 'hist_exercise', 'hist_exercises')} · {plural(sessionSets(s), t, 'hist_set', 'hist_sets_total')}
-                {s.duration_min ? ` · ${s.duration_min} ${t('picker_minutes')}` : ''}
+                {s.duration_min ? ` · ${s.duration_min} min` : ''}
               </Text>
             </View>
             {s.exercises.map((ex) => {
@@ -182,6 +182,9 @@ export default function HistoryScreen({
           onConfirm={() => {
             onDeleted(toDelete.id);
             setToDelete(null);
+            // Era la última sesión de ese día: volver a la lista completa
+            // (si no, saldría "aún no hay sesiones", que no es verdad).
+            if (focusDate && list.length === 1) onClearFocus?.();
           }}
           onCancel={() => setToDelete(null)}
         />
@@ -192,7 +195,7 @@ export default function HistoryScreen({
 
 const styles = StyleSheet.create({
   focusRow: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 },
-  focusAll: { minHeight: 36, paddingHorizontal: 14, borderRadius: 18, borderWidth: 1, justifyContent: 'center' },
+  focusAll: { minHeight: 44, paddingHorizontal: 14, borderRadius: 18, borderWidth: 1, justifyContent: 'center' },
   focusAllText: { fontSize: 14, fontWeight: '600' },
   body: {
     padding: 20,
@@ -319,7 +322,6 @@ const styles = StyleSheet.create({
   },
   notes: {
     fontSize: 13,
-    fontStyle: 'italic',
     marginTop: 8,
   },
 });

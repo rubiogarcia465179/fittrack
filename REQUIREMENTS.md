@@ -332,3 +332,12 @@ pero simple, como apple.com y las apps de iPhone".
 
 ### R-109 [DONE] Documentación reutilizable: un solo prompt para otra app con la misma UX (`docs/UX-PLAYBOOK.md`)
 ### R-110 [DONE] Proponer funciones nuevas, convencer, revisarlas con 2 agentes UX y aplicar su feedback (`docs/PROPUESTAS-11k.md`: A resumen, B progresión, C récord en directo aplicadas; D discos descartada)
+
+### R-111 [DONE] Bucle de 10 rondas: 2 agentes UX sugieren, solo se acepta lo perfecto, `/SteveJobs analyze` por ronda y la nota nunca baja (10 rondas, 77 → 87, ninguna nota bajó; `docs/LOOP-11l.md`)
+
+## Pasada 2026-11-16 (tarde)
+
+### R-115 [DONE] "Comprueba el progreso y continúa con las tareas": rondas 5–10 de la Fase 11l hechas con la misma receta, docs al día y commit (verificación: tsc 0 · tests 130/130 · export web OK · capturas 01–32 con 0 errores de consola · vídeo 324 fotogramas · prueba Jobs SÍ, 87)
+### R-112 [DONE] Añadir al playbook todos los detalles aprendidos (`docs/UX-PLAYBOOK.md` §7 bucle y §8 lista de detalles)
+### R-113 [DONE] Arreglar los pendientes salvo la vibración (ejercicios casi iguales; nombre del récord en 2 líneas)
+### R-114 [DONE] Documentar estado y siguiente paso para otro agente (TASKS "Cómo continuar", PROGRESS, final de `docs/LOOP-11l.md`)

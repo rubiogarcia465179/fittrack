@@ -64,16 +64,13 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
 
           {/* Qué entrena */}
           <Text style={[styles.section, { color: p.secondary }]}>{t('howto_trains')}</Text>
-          <View style={styles.chips}>
-            <View style={[styles.chip, { backgroundColor: p.accent }]}>
-              <Text style={[styles.chipText, { color: p.onAccent }]}>{t(`group_${exercise.muscle_group}`)}</Text>
-            </View>
+          {/* Texto, no fichas: no se pulsan y no deben competir con "Cerrar". */}
+          <Text style={styles.trains}>
+            <Text style={{ color: p.text, fontWeight: '700' }}>{t(`group_${exercise.muscle_group}`)}</Text>
             {secondary.map((m) => (
-              <View key={m} style={[styles.chip, { borderColor: p.border, borderWidth: 1 }]}>
-                <Text style={[styles.chipText, { color: p.text }]}>{t(`muscle_${m}`, { defaultValue: m })}</Text>
-              </View>
+              <Text key={m} style={{ color: p.secondary }}>{` · ${t(`muscle_${m}`, { defaultValue: m })}`}</Text>
             ))}
-          </View>
+          </Text>
 
           {/* Cómo se hace */}
           <Text style={[styles.section, { color: p.secondary }]}>{t('howto_steps')}</Text>
@@ -126,6 +123,7 @@ const styles = StyleSheet.create({
   dot: { width: 7, height: 7, borderRadius: 4 },
   section: { fontSize: 13, fontWeight: '600', letterSpacing: 1.2, textTransform: 'uppercase', marginTop: 22, marginBottom: 10 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  trains: { fontSize: 16, lineHeight: 22 },
   chip: { minHeight: 34, borderRadius: 17, paddingHorizontal: 14, alignItems: 'center', justifyContent: 'center' },
   chipText: { fontSize: 14, fontWeight: '600' },
   step: { flexDirection: 'row', gap: 12, marginBottom: 12, alignItems: 'flex-start' },

@@ -57,7 +57,8 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 2. **"Hoy toca: <grupos>"** (p. ej. "Piernas y core"): el bloque de grupos
    (empuje / tirón / pierna) que hace más tiempo que no entrenas — el mismo
    que generará la hoja. Debajo, el objetivo y la duración que se usarán
-   ("Crear músculo · 45 min"). **"Cambiar"** pasa al siguiente bloque con un
+   ("Crear músculo · 45 min"). Si ya entrenaste hoy, la etiqueta dice
+   **"Próxima"** en vez de "Hoy toca". **"Cambiar"** pasa al siguiente bloque con un
    toque (por defecto no hay que decidir nada: cero fatiga de decisión).
    **Lunes**: el empuje (pecho) va al final, porque en muchos gimnasios es "el
    día de pecho" y los bancos se llenan (convención popular, explicada en una
@@ -114,25 +115,35 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   (ni marca ni histórico) se muestra **"—"**: la app no inventa pesos;
   añadir / quitar última serie; **"Más opciones"** plegado: Sugerir
   ejercicio (mismo grupo) · ¿Máquina ocupada? → Ocupado / Fuera de servicio
-  (se **aplaza** y se ofrecen alternativas con su propio peso) · Quitar
-  ejercicio.
+  (se **aplaza** y se ofrecen alternativas con su propio peso; sus series ya
+  hechas **se guardan y cuentan**; "Usar" / "Hacerlo ahora" lo convierten en
+  el ejercicio actual) · Quitar ejercicio (con series hechas pide
+  confirmación: "Cancelar | Quitar"). "Quitar serie" solo quita series
+  **pendientes**. Pesos en múltiplos reales de disco (2,5 / 5 kg). En el
+  test de marcas la 2.ª serie se rotula **"Test"** y el 1RM es texto.
 - **Cardio**: `nº · min · km · intensidad · Hecha` y kcal estimadas (METs).
 - **Resto de ejercicios**: filas planas (icono de línea, TÍTULO, resumen
   `3 × 10 · 20 kg` o `20 min · 3 km`, series hechas, chevron).
 - **Descanso**: al marcar una serie de fuerza empieza la cuenta atrás del
   plan (`rest_after`, 90 s por defecto) en la barra fija, con "+15 s" y
-  "Saltar"; al terminar, **vibración clara** (dos pulsos + háptico).
+  "Saltar" (tras la **última** serie del entreno no hay descanso); al terminar, **vibración clara** (dos pulsos + háptico).
   Sobrevive a cambiar de pestaña. Futuro (⛔): estado y cuenta atrás en la
   pantalla de bloqueo (Live Activity / notificación) con "Serie hecha".
 - **Barra fija**: a mitad → "Finalizar" (contorno) + **"Siguiente
-  ejercicio"** (blanco); en el último → **"Finalizar"**.
-- **Al terminar**: hoja "¿Cómo ha ido?" dentro de la pantalla (no un Modal)
-  con el **resumen**: minutos · series hechas · récords (si los hay, con una
-  fila por récord "1RM 73 kg (antes 68)" y punto verde) + "Cómo te has
+  ejercicio"** (blanco); en el último → **"Finalizar"** (en todos los modos,
+  también en Marcas). **Sin leyenda "Siguiente: X"** (el siguiente ya es la
+  fila de debajo). La × pide confirmación ("Cancelar | Descartar"; el
+  fondo bloquea y tocarlo cancela) **solo si hay series hechas**; sin
+  ninguna, cierra sin preguntar.
+- **Al terminar**: hoja **"Bien hecho"** (título grande) dentro de la
+  pantalla (no un Modal) con el **resumen**: minutos · series hechas · récords (si los hay, con una
+  fila por récord "1RM 73 kg (antes 68)" y punto verde; **los minutos se
+  tocan para corregirlos** con la rueda) + "Cómo te has
   sentido" (1–5, opcional) → un solo botón **"Finalizar"**. La energía no se
   repregunta (viene de la hoja de inicio). **Solo se guardan las series
   hechas**; sin ninguna hecha, "Finalizar" ofrece descartar. **Fecha,
-  duración, peso y altura se rellenan solos**.
+  duración, peso y altura se rellenan solos**. Tras guardar (o descartar) la
+  app **vuelve a Inicio**, donde se ve el día marcado y las marcas al día.
 - **Sin entreno en curso**: "Recomiéndame un entreno" (abre la misma hoja
   rápida) o "Añado mis datos yo" (sesión en blanco).
 - Pesos: con histórico reciente manda lo levantado (progresión); si no,
@@ -141,9 +152,12 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   (`GOAL_SCHEME`).
 
 ### Ejercicios (desde Inicio)
-- 226 ejercicios (wger), búsqueda y filtros (grupo, material); lista plana
-  con icono de línea **distinto por grupo**.
-- Detalle: nombre, grupo, material, nivel y pasos en el idioma elegido. Las
+- 226 ejercicios (wger), búsqueda y filtros (grupo, material; fichas
+  monocromo, la elegida en blanco); lista plana con icono de línea
+  **distinto por grupo** y nombres en 2 líneas.
+- Detalle ("‹ Ejercicios"): nombre, músculo principal y secundarios
+  (traducidos), material, nivel y pasos en el idioma elegido; nada en otro
+  idioma. Las
   licencias y autores van una sola vez al pie de Perfil.
 - Futuro: por qué se usa y favoritos de atletas con cita verificable
   (Fase 14); 3 fotos por ejercicio (Fase 13).

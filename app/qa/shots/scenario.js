@@ -152,4 +152,38 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Finalizar');
   await sleep(400);
   await shot('27-finish-summary');
+
+  // 28 Descartar el entreno (×): Cancelar | Descartar; el fondo bloquea lo de detrás
+  await load({ ...base, "fittrack.data.v1": DATA, "fittrack.active.v1": ACTIVE });
+  await tapLabel("Entrenar");
+  await tapLabel("Descartar");
+  await sleep(300);
+  await shot("28-discard-dialog");
+
+  // 29 Tras "Finalizar": de vuelta a Inicio (día de hoy marcado, "Próxima")
+  await load({ ...base, 'fittrack.data.v1': DATA, 'fittrack.active.v1': recA });
+  await tapLabel('Entrenar');
+  await tap('Finalizar');
+  await sleep(300);
+  await tap('Finalizar');
+  await sleep(900);
+  await shot('29-home-after-finish');
+
+  // 30–31 Ejercicios: filtro elegido (monocromo) y detalle de un ejercicio
+  await load({ ...base, 'fittrack.data.v1': profile });
+  await tap('Ejercicios');
+  await tap('Pecho');
+  await sleep(300);
+  await shot('30-library-filter');
+  await tap('Press de banca');
+  await sleep(400);
+  await shot('31-exercise-detail');
+
+  // 32 Quitar un ejercicio con series hechas: se confirma (Cancelar | Quitar)
+  await load({ ...base, 'fittrack.data.v1': DATA, 'fittrack.active.v1': ACTIVE });
+  await tapLabel('Entrenar');
+  await tap('Más opciones');
+  await tap('Quitar ejercicio');
+  await sleep(300);
+  await shot('32-remove-exercise');
 };

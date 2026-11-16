@@ -4,7 +4,7 @@ import { exName } from '../lib/names';
 import { howtoFor } from '../howto';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
-import { GROUP_COLORS, RADII } from '../theme';
+import { RADII } from '../theme';
 import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
 
@@ -27,13 +27,13 @@ export default function DetailScreen({
         <Pressable
           style={({ pressed }) => [styles.backBtn, { opacity: pressed ? 0.6 : 1, transition: 'opacity 90ms ease' }]}
           accessibilityRole="button"
-          accessibilityLabel={t('back')}
+          accessibilityLabel={t('ex_title')}
           onPress={onBack}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
             <Chevron color={p.text} dir="left" />
-            <Text style={[styles.back, { color: p.text }]}>{t('back')}</Text>
+            <Text style={[styles.back, { color: p.text }]}>{t('ex_title')}</Text>
           </View>
         </Pressable>
       </View>
@@ -41,25 +41,23 @@ export default function DetailScreen({
         {/* Sin imagen placeholder ("auténtico o nada"): las fotos reales
             llegarán con la Fase 13. */}
         <Text style={[styles.name, { fontSize: fs(scale, 28), color: p.text }]}>{name}</Text>
-        {exercise.aliases && exercise.aliases.length > 0 ? (
-          <Text style={[styles.aliases, { color: p.dim }]}>
-            {lang === 'en' ? exercise.name_nl : exercise.name_en}
-            {exercise.aliases.length ? ' · ' + exercise.aliases.join(', ') : ''}
-          </Text>
-        ) : null}
-
+        {/* Sin línea de alias: mostraba el nombre en otro idioma (SPEC §4). */}
         <View style={styles.metaGrid}>
-          <Meta label={t('ex_muscle')} value={t(`group_${exercise.muscle_group}`)} color={GROUP_COLORS[exercise.muscle_group]} />
-          <Meta label={t('ex_secondary')} value={(exercise.secondary_muscles || []).join(', ') || '—'} />
+          <Meta label={t('ex_muscle')} value={t(`group_${exercise.muscle_group}`)} />
+          <Meta
+            label={t('ex_secondary')}
+            value={(exercise.secondary_muscles || []).map((m) => t(`muscle_${m}`, { defaultValue: m })).join(', ') || '—'}
+          />
           {exercise.equipment !== 'other' ? <Meta label={t('ex_equipment')} value={t(`equip_${exercise.equipment}`)} /> : null}
           <Meta label={t('ex_level')} value={t(`level_${exercise.level}`)} />
         </View>
 
-        <Text style={[styles.sectionTitle, { color: p.text }]}>{t('ex_instructions')}</Text>
+        {/* Mismo nombre y estilo que la hoja "¿Cómo se hace?" (un solo lenguaje). */}
+        <Text style={[styles.sectionLabel, { color: p.secondary }]}>{t('howto_steps')}</Text>
         <View style={styles.instructions}>
           {howtoFor(exercise.id, lang, exercise.instructions).map((line, i) => (
             <View key={i} style={styles.instrRow}>
-              <Text style={[styles.instrNum, { color: p.accent }]}>{i + 1}</Text>
+              <Text style={[styles.stepNum, { color: p.onAccent, backgroundColor: p.accent }]}>{i + 1}</Text>
               <Text style={[styles.instrText, { color: p.text }]}>{line}</Text>
             </View>
           ))}
@@ -150,7 +148,20 @@ const styles = StyleSheet.create({
   },
   instrRow: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 12,
+    alignItems: 'flex-start',
+  },
+  sectionLabel: { fontSize: 13, fontWeight: '600', letterSpacing: 1.2, textTransform: 'uppercase', marginTop: 24, marginBottom: 12 },
+  stepNum: {
+    flexShrink: 0,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    textAlign: 'center',
+    lineHeight: 24,
+    fontSize: 13,
+    fontWeight: '800',
+    overflow: 'hidden',
   },
   instrNum: {
     fontSize: 14,
@@ -158,6 +169,7 @@ const styles = StyleSheet.create({
     minWidth: 22,
   },
   instrText: {
+    flex: 1,
     fontSize: 14,
     lineHeight: 20,
   },

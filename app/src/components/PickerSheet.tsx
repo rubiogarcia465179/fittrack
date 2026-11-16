@@ -196,7 +196,17 @@ export function PickerSheet({
                 scrollEventThrottle={16}
                 contentContainerStyle={{ paddingVertical: ITEM * 2 }}
                 accessibilityRole="adjustable"
-                accessibilityLabel={`${title}: ${items[idx] != null ? show(items[idx]) : ''} ${shownUnit}`}
+                accessibilityLabel={title}
+                accessibilityValue={{ text: `${items[idx] != null ? show(items[idx]) : ''} ${shownUnit}` }}
+                // VoiceOver: deslizar arriba/abajo cambia el valor (los ítems están ocultos).
+                accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
+                onAccessibilityAction={(e) => {
+                  const step = e.nativeEvent.actionName === 'increment' ? 1 : e.nativeEvent.actionName === 'decrement' ? -1 : 0;
+                  if (!step) return;
+                  const i = Math.max(0, Math.min(items.length - 1, idx + step));
+                  setIdx(i);
+                  scrollRef.current?.scrollTo({ y: i * ITEM, animated: true });
+                }}
               >
                 {items.map((v, i) => {
                   const d = Math.abs(i - idx);

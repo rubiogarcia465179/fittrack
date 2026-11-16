@@ -16,7 +16,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 08 | ¿Cómo se hace? | Foto (de ejemplo, marcada), qué entrena, 3 pasos en español |
 | 09 | Descanso | Cuenta atrás tras completar una serie (+15 s, Saltar) |
 | 10 | Cardio | min · km · intensidad; "Terminar y guardar" |
-| 11 | Finalizar | Resumen (min · series) + "Cómo te has sentido" + un solo "Finalizar" |
+| 11 | Finalizar | "Bien hecho": min · series + "Cómo te has sentido" + un solo "Finalizar" |
 | 12 | Historial | Desde Inicio (con "atrás"); fechas localizadas |
 | 13 | Historial · un día | Al tocar un día del calendario: solo ese día + "Ver todas" |
 | 14 | Ejercicios | Desde Inicio (con "atrás"); icono por grupo |
@@ -32,7 +32,12 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 24 | Rueda de altura | Número + unidad (cm / m); "Escribir" para teclear |
 | 25 | Progresión | "+2,5 kg · la última vez 3 × 8 con 50 kg · Mantener 50 kg" |
 | 26 | Récord en directo | Número de serie en círculo verde; "Récord · 1RM ≈ 73 kg" |
-| 27 | Resumen final | 15 min · 2 series · 1 récord + fila del récord |
+| 27 | Resumen final | "Bien hecho" · 15 min · 2 series · 1 récord + fila del récord (2 líneas) |
+| 28 | Descartar entreno | "Cancelar" y "Descartar" (rojo); tocar fuera = Cancelar |
+| 29 | Tras Finalizar | De vuelta a Inicio: "Próxima", hoy marcado (verde si hubo récord) |
+| 30 | Ejercicios · filtro | Ficha elegida en blanco (sin colores por grupo) |
+| 31 | Detalle de ejercicio | Músculos en el idioma elegido; "‹ Ejercicios" |
+| 32 | Quitar ejercicio | Con series hechas se confirma: "Cancelar" y "Quitar" |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 

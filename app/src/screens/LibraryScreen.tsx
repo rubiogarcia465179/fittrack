@@ -12,7 +12,7 @@ import { exName } from '../lib/names';
 import { useTranslation } from 'react-i18next';
 import type { Exercise } from '../data';
 import { searchExercises, GROUPS, EQUIPMENT } from '../lib/gym';
-import { GROUP_COLORS, RADII } from '../theme';
+import { RADII } from '../theme';
 import { useTheme } from '../theme-context';
 import { useScale, fs, useWide } from '../scale';
 import { ExerciseGlyph } from './SessionScreen';
@@ -35,7 +35,7 @@ function Chips<T extends string>({
   const scale = useScale();
   return (
     <View>
-      {title ? <Text style={[styles.filterTitle, { fontSize: fs(scale, 13), color: p.secondary }]}>{title}</Text> : null}
+      {title ? <Text style={[styles.filterTitle, { fontSize: fs(scale, 12), color: p.secondary }]}>{title}</Text> : null}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -128,7 +128,6 @@ export default function LibraryScreen({
           ]}
           value={group}
           onChange={setGroup}
-          colorOf={(id) => GROUP_COLORS[id]}
         />
         <Chips
           title={t('ex_filter_equipment')}
@@ -168,7 +167,7 @@ export default function LibraryScreen({
                 <ExerciseGlyph label={e.muscle_group} size={26} color={p.text} />
               </View>
               <View style={styles.rowText}>
-                <Text style={[styles.rowName, { color: p.text }]} numberOfLines={1}>
+                <Text style={[styles.rowName, { color: p.text }]} numberOfLines={2}>
                   {nameOf(e)}
                 </Text>
                 <Text style={[styles.rowMeta, { color: p.secondary }]} numberOfLines={1}>
@@ -217,8 +216,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   filterTitle: {
-    fontSize: 13,
-    fontWeight: '600',
+    fontSize: 12,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
     marginBottom: 8,
   },
   chips: {
@@ -227,6 +228,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   chip: {
+    minHeight: 44,
+    justifyContent: 'center',
     paddingHorizontal: 14,
     paddingVertical: 9,
     borderRadius: 980,

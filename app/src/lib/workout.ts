@@ -192,6 +192,23 @@ function roundW(v: number): number {
  * - Peso: benchmark 1RM > último peso de la sesión previa > conservador.
  * - Duración estimada: sets×(60 s trabajo + descanso) por ejercicio.
  */
+/**
+ * Clave de movimiento: dos ejercicios con la misma clave son casi el mismo
+ * (p. ej. "Bent Over Barbell Row" y "Bent Over Rowing" → "bent over"). Se
+ * quitan el material y la postura; quedan las dos primeras palabras.
+ */
+const MOVE_STOP = new Set(['barbell', 'dumbbell', 'dumbbells', 'cable', 'machine', 'with', 'on', 'the', 'a', 'ez', 'bar', 'smith', 'seated', 'standing', 'one', 'arm', 'single', 'two', 'hands', 'hand']);
+export function movementKey(e: { name_en: string }): string {
+  const words = e.name_en
+    .toLowerCase()
+    .replace(/bentover/g, 'bent over')
+    .replace(/[^a-z ]+/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w && !MOVE_STOP.has(w))
+    .map((w) => w.replace(/(ing|s)$/, ''));
+  return words.slice(0, 2).join(' ');
+}
+
 export function generateWorkout(opts: {
   groups: string[];
   equipment_mode: EquipmentMode;
@@ -229,18 +246,26 @@ export function generateWorkout(opts: {
     (opts.equipment_mode === 'dumbbells' && e.equipment === 'dumbbell' ? 1 : 0) +
     (e.level === opts.experience ? 0.5 : 0);
   const picked: ExerciseRow[] = [];
+  const seen = new Set<string>(); // un mismo movimiento no se repite en la sesión
   for (const g of opts.groups) {
-    const arr = (byGroup.get(g) || [])
-      .sort((a, b) => rank(b) - rank(a) || a.name_en.localeCompare(b.name_en))
-      .slice(0, 2);
-    picked.push(...arr);
+    const arr = (byGroup.get(g) || []).sort((a, b) => rank(b) - rank(a) || a.name_en.localeCompare(b.name_en));
+    let n = 0;
+    for (const e of arr) {
+      if (n >= 2) break;
+      const k = movementKey(e);
+      if (seen.has(k)) continue;
+      seen.add(k);
+      picked.push(e);
+      n++;
+    }
   }
 
   const reps = repsForGoal(goal, opts.intensity);
   const weightPer = (e: ExerciseRow): { w: number; src: WorkoutPlanExercise['weight_source'] } => {
     if (isBodyweightExercise(e)) return { w: 0, src: 'bodyweight' };
     if (bench.has(e.id)) {
-      return { w: weightFromOneRm(bench.get(e.id)!, reps, opts.intensity), src: 'benchmark' };
+      // Redondeo a discos reales (2,5 / 5 kg), como el histórico: nunca "37,1 kg".
+      return { w: Math.max(2.5, roundW(weightFromOneRm(bench.get(e.id)!, reps, opts.intensity))), src: 'benchmark' };
     }
     const r = recent.get(e.id);
     if (r && r.last_weight > 0) {
@@ -398,7 +423,7 @@ export function weightForExercise(
   const intensity = opts.intensity ?? 'moderate';
   if (isBodyweightExercise(ex)) return { weight_kg: 0, source: 'bodyweight' };
   const b = (opts.benchmarks || []).find((x) => x.exercise_id === ex.id);
-  if (b && b.estimated_1rm > 0) return { weight_kg: weightFromOneRm(b.estimated_1rm, reps, intensity), source: 'benchmark' };
+  if (b && b.estimated_1rm > 0) return { weight_kg: Math.max(2.5, roundW(weightFromOneRm(b.estimated_1rm, reps, intensity))), source: 'benchmark' };
   const r = (opts.recent || []).find((x) => x.exercise_id === ex.id);
   if (r && r.last_weight > 0) {
     return {

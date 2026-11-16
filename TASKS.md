@@ -9,11 +9,10 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
 2. Trabaja **en el orden de esta lista**, de arriba abajo.
 3. **No commitees** hasta cerrar una fase y que la prueba "Steve Jobs" dé
    **sí** (`CLAUDE.md §2`; se evalúa como **versión 2.0**). Estado al
-   2026-11-16: Fase 11k en `main` (Finalizar, rueda, resumen final,
-   progresión, récord en directo; guía `docs/UX-PLAYBOOK.md`). Siguiente:
-   los 3 pendientes menores de la 11k, luego **Fase 15
-   (InstaGym)**, luego Fase 14 (por qué se usa + favoritos con cita), paridad
-   web (⛔ `npm ci`) y Fase 13 cuando lleguen las fotos.
+   2026-11-16: **Fase 11l en `main`** (bucle de 10 rondas con 2 revisores UX
+   + prueba Jobs, 77 → 87). **Siguiente: Fase 15 (InstaGym)**, luego Fase 14
+   (por qué se usa + favoritos con cita), paridad web (⛔ `npm ci`) y Fase 13
+   cuando lleguen las fotos. Antes, pregunta al usuario los ⛔ de la Fase 11l.
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
    no las supongas.
 
@@ -87,6 +86,56 @@ Hecho en esta pasada:
 - [x] IMC con coma decimal en ES/FR/NL.
 - [x] "3+" en **violeta** (el rojo se leía como alarma; aceptado por el usuario).
 
+### Fase 11l — Bucle de 10 rondas (2 revisores UX + Jobs) ✅ (87)
+Pedido 2026-11-16: en cada ronda dos agentes UX proponen; solo se acepta lo
+perfecto; `/SteveJobs analyze` al final de cada ronda; ninguna nota puede
+bajar; todo lo aprendido al playbook; arreglar los pendientes salvo la
+vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
+- [x] Pendientes de la 11k: sin ejercicios casi iguales en una sesión
+      (`movementKey` en `lib/workout.ts`, con test) y nombre del récord en
+      2 líneas en el resumen.
+- [x] Ronda 1 (78): "Exportar datos" con contorno y sin verde · "Mantener
+      50 kg" como acción aparte · fuera el aviso "Siguiente: X" · ≥ 44 pt ·
+      erratas FR/NL.
+- [x] Ronda 2 (79): sin "· 0 kg" en peso corporal · Noche/Día juntos ·
+      "TUS DATOS" como etiqueta · Historial "min" sin cursiva · diálogo de
+      descartar que bloquea ("Cancelar | Descartar") · VoiceOver en el
+      descanso · "Finalizar" en todos los modos.
+- [x] Ronda 3 (80): tras Finalizar → Inicio · "PRÓXIMA" si ya entrenaste
+      hoy · "Cambiar" accesible y 44 pt · botón principal plano · "Bien
+      hecho".
+- [x] Ronda 4 (81): Ejercicios monocromo (fichas 44 pt, etiquetas, nombres
+      en 2 líneas) · detalle traducido y sin alias en otro idioma · test de
+      marcas con reps "—" y sin copiar el peso del calentamiento.
+- [x] Ronda 5 (82): primer arranque y nota del lunes más cortos · "Tu entreno
+      de hoy" a 44 pt y en filas · sin descanso tras la última serie · "×"
+      sin series cierra sin preguntar · cardio sin minutos no se marca ·
+      etiquetas VoiceOver ("Saltar descanso", "Eliminar sesión, <fecha>").
+- [x] Ronda 6 (83): fuera "Siguiente: X" de la barra fija · las series
+      hechas de un ejercicio aplazado se guardan y cuentan · "Quitar serie"
+      solo quita pendientes · "Quitar ejercicio" con series hechas confirma
+      (captura 32).
+- [x] Ronda 7 (84): borrar datos refresca Perfil · borrar la última sesión
+      del día filtrado vuelve a la lista · ruedas ajustables con VoiceOver ·
+      Historial de un día sin fecha repetida · músculos como texto en
+      "¿Cómo se hace?" · serie "Test" en el test de marcas.
+- [x] Ronda 8 (85): pesos en múltiplos de 2,5 kg también desde marcas ·
+      aviso a ancho completo y opaco · "1RM estimado" como texto · minutos
+      del resumen corregibles · cancelar "Tu entreno de hoy" descarta.
+- [x] Ronda 9 (86): detalle con "CÓMO SE HACE" como la hoja · "Hacerlo
+      ahora"/"Usar" enfocan el ejercicio · borrar datos borra la foto.
+- [x] Ronda 10 (87): diálogo de descartar sin frase falsa con 0 series ·
+      VoiceOver sin "— kg" en peso corporal · francés todo en "tu" · "Ver
+      todas" igual en Inicio e Historial.
+- [x] Docs al día, capturas 01–32, vídeo, prueba Jobs **SÍ (87)**, commit
+      "Fase 11l" en `main`.
+- [ ] ⛔ Usuario: títulos de sesión sin mayúsculas (SPEC los fija) ·
+      reemplazar el detalle de ejercicio por la hoja "¿Cómo se hace?" ·
+      fusionar duplicados del catálogo ("Press de banca con agarre cerrado"
+      = "…agarre estrecho"; 7 nombres NL repetidos) · probar en iPhone ·
+      aplazados: ¿"Hacerlo ahora" desde el primer momento en vez de tras ~5
+      "Otra sugerencia" (R-11)?
+
 ### Fase 11k — Finalizar, rueda, 3 iteraciones Jobs y 3 funciones revisadas por UX ✅
 - [x] Hoja final: un solo "Finalizar" (barra fija también "Finalizar").
 - [x] Rueda tipo alarma del iPhone en todos los números; sin "Usar";
@@ -107,9 +156,8 @@ Hecho en esta pasada:
 - [x] Bug: el generador proponía menos peso del levantado (1RM × 70 % a 8
       reps) → con histórico manda la progresión.
 - [x] Guía reutilizable `docs/UX-PLAYBOOK.md` (prompt único para otra app).
-- [ ] El generador evita ejercicios casi iguales en la misma sesión ("Remo
-      inclinado con barra" + "Remo inclinado", captura 05).
-- [ ] Nombre del récord en 2 líneas en el resumen final (captura 27).
+- [x] El generador evita ejercicios casi iguales en la misma sesión (11l).
+- [x] Nombre del récord en 2 líneas en el resumen final (11l).
 - [ ] ⛔ Probar en iPhone: háptico de récord, "Mantener", copia del peso.
 - [ ] "Discos por lado" solo si el usuario quiere un ajuste de barra (⛔ decisión).
 

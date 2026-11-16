@@ -127,7 +127,7 @@
     var reps = repsForGoal(goal, opts.intensity);
     var weightPer = function (e) {
       if (isBodyweightExercise(e)) return { w: 0, src: 'bodyweight' };
-      if (bench.has(e.id)) return { w: weightFromOneRm(bench.get(e.id), reps, opts.intensity), src: 'benchmark' };
+      if (bench.has(e.id)) return { w: Math.max(2.5, roundW(weightFromOneRm(bench.get(e.id), reps, opts.intensity))), src: 'benchmark' };
       var r = recent.get(e.id);
       if (r && r.last_weight > 0) {
         var scaled = weightFromOneRm(r.last_weight * (1 + r.last_reps / 30), reps, opts.intensity);

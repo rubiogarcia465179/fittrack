@@ -322,7 +322,8 @@ export default function SessionScreen({
   session: ActiveSession;
   onSessionChange: (next: ActiveSession) => void;
   onSaved: (s: Session) => void;
-  onDiscard: () => void;
+  /** quiet = salir sin aviso (no había nada registrado que descartar). */
+  onDiscard: (quiet?: boolean) => void;
 }) {
   const { t, i18n } = useTranslation();
   const { p, SHADOW, GRADIENT } = useTheme();
@@ -345,6 +346,8 @@ export default function SessionScreen({
   const [error, setError] = useState('');
   const [toast, setToast] = useState('');
   const [confirmDiscard, setConfirmDiscard] = useState(false);
+  /** Ejercicio con series hechas pendiente de confirmar "Quitar ejercicio". */
+  const [confirmRemove, setConfirmRemove] = useState<string | null>(null);
   const scrollRef = useRef<any>(null);
   const cardOffsets = useRef<Record<string, number>>({});
 
@@ -444,8 +447,10 @@ export default function SessionScreen({
   // ---- progreso: series COMPLETADAS (marcadas por el usuario) / totales ----
   // Los valores prellenados (sugeridos) NO cuentan: solo marca la serie
   // cuando se completa. Así la barra refleja trabajo real, no el plan.
-  const totalSets = draft.reduce((a, d) => a + d.sets.length, 0);
-  const doneSets = draft.reduce((a, d) => a + d.sets.filter((s) => s.done).length, 0);
+  // Las series ya hechas de un ejercicio aplazado también cuentan (y se guardan).
+  const postponedDone = postponed.reduce((a, x) => a + (x.sets || []).filter((s) => s.done).length, 0);
+  const totalSets = draft.reduce((a, d) => a + d.sets.length, 0) + postponedDone;
+  const doneSets = draft.reduce((a, d) => a + d.sets.filter((s) => s.done).length, 0) + postponedDone;
   const progress = totalSets > 0 ? doneSets / totalSets : 0;
 
   // ---- tiempo transcurrido (con pausa acumulada) ----
@@ -657,7 +662,7 @@ export default function SessionScreen({
       setCurrentIndex(idx + 1);
       const nid = draft[idx + 1].exercise_id;
       setTimeout(() => focusScroll(nid), 60);
-      flash(t('sess_next', { name: nameOf(nextInPlan ?? undefined) }));
+      tapLight(); // el salto de tarjeta ya lo dice; sin aviso redundante
       return;
     }
     flash(t('sess_done_all'));
@@ -785,7 +790,8 @@ export default function SessionScreen({
     // Al COMPLETAR una serie de fuerza empieza el descanso del plan
     // (rest_after) o 90 s por defecto. Desmarcar no lo inicia.
     if (!wasDone) tapLight(); // háptico al completar una serie
-    if (!wasDone && d0 && !isCardio(id)) startRest(d0.rest_after || 90);
+    // Tras la última serie del entreno no hay descanso: solo queda Finalizar.
+    if (!wasDone && d0 && !isCardio(id) && doneSets + 1 < totalSets) startRest(d0.rest_after || 90);
   };
 
   // ---- Temporizador de descanso (estado declarado arriba; se persiste) ----
@@ -846,6 +852,11 @@ export default function SessionScreen({
   const usePostponedAlt = (origId: string, altId: string) => {
     const alt = byId.get(altId);
     if (!alt) return;
+    // Ya está en la lista: se enfoca, sin aviso (no ha cambiado nada).
+    if (draft.some((x) => x.exercise_id === altId)) {
+      jumpToExercise(altId);
+      return;
+    }
     // El sustituto usa SU propio peso (movimiento/máquina distintos):
     // no se copia el del ejercicio original.
     const rec = weightForExercise(alt, {
@@ -874,7 +885,9 @@ export default function SessionScreen({
           ],
     );
     flash(`${t('alt_use')}: ${nameOf(alt)}`);
-    setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 60);
+    // "Usar" = hacerlo ahora: pasa a ser el ejercicio actual.
+    setCurrentIndex(draft.length);
+    setTimeout(() => focusScroll(altId), 60);
   };
 
   const nextSuggestion = (id: string) =>
@@ -890,14 +903,29 @@ export default function SessionScreen({
             { reps: 10, weight_kg: 0 },
             { reps: 10, weight_kg: 0 },
           ];
+    const exists = draft.some((x) => x.exercise_id === id);
     setDraft((d) =>
       d.some((x) => x.exercise_id === id) ? d : [...d, { exercise_id: id, equipment_status: 'available', sets }],
     );
     setPostponed((pp) => pp.filter((x) => x.exercise_id !== id));
     flash(t('postponed_returned'));
+    // "Hacerlo ahora": el ejercicio pasa a ser el actual y se enfoca.
+    if (exists) jumpToExercise(id);
+    else {
+      setCurrentIndex(draft.length);
+      setTimeout(() => focusScroll(id), 60);
+    }
   };
 
   const skipPostponed = (id: string) => {
+    // Saltar quita lo pendiente; lo ya hecho vuelve a la lista como hecho.
+    const done = (postponed.find((x) => x.exercise_id === id)?.sets || []).filter((x) => x.done);
+    if (done.length > 0)
+      setDraft((d) =>
+        d.some((x) => x.exercise_id === id)
+          ? d
+          : [...d, { exercise_id: id, equipment_status: 'available', sets: done.map((x) => ({ ...x })) }],
+      );
     setPostponed((pp) => pp.filter((x) => x.exercise_id !== id));
     flash(t('postponed_skipped'));
   };
@@ -929,7 +957,7 @@ export default function SessionScreen({
       setDraft((d) =>
         d.map((x) =>
           x.exercise_id === wid
-            ? { ...x, sets: x.sets.map((s, i) => (i === widx || (i > widx && !s.done) ? { ...s, weight_kg: w } : s)) }
+            ? { ...x, sets: x.sets.map((s, i) => (i === widx || (!isBenchmark && i > widx && !s.done) ? { ...s, weight_kg: w } : s)) }
             : x,
         ),
       );
@@ -974,7 +1002,7 @@ export default function SessionScreen({
         date,
         type: isBenchmark ? 'benchmark' : 'training',
         // Solo las series HECHAS entran al historial y a las marcas.
-        exercises: completedExercises(draft, []),
+        exercises: completedExercises(draft, postponed),
         notes,
         duration_min: autoDuration,
         body_weight_kg: bodyWeight > 0 ? bodyWeight : null,
@@ -1065,7 +1093,8 @@ export default function SessionScreen({
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={t('sess_discard')}
-          onPress={() => setConfirmDiscard(true)}
+          // Sin series hechas no hay nada que perder: se cierra sin preguntar.
+          onPress={() => (doneSets === 0 ? onDiscard(true) : setConfirmDiscard(true))}
           style={({ pressed }) => [styles.pauseBtn, { opacity: pressed ? 0.7 : 1, borderColor: p.border, backgroundColor: p.card }]}
         >
           <XGlyph size={14} color={p.text} />
@@ -1174,7 +1203,9 @@ export default function SessionScreen({
                 ? plural(0, t, 'hist_set', 'hist_sets_total')
                 : isCardio(d.exercise_id)
                   ? `${fmtNum(cardioMin)} min${cardioKm > 0 ? ` · ${fmtNum(cardioKm)} km` : ''}`
-                  : `${d.sets.length} × ${first.reps} · ${first.weight_kg > 0 || !needsWeight(d.exercise_id) ? fmtNum(first.weight_kg) : '—'} kg`;
+                  : !needsWeight(d.exercise_id)
+                    ? `${d.sets.length} × ${first.reps}` // peso corporal: sin "0 kg"
+                    : `${d.sets.length} × ${first.reps} · ${first.weight_kg > 0 ? fmtNum(first.weight_kg) : '—'} kg`;
               return (
                 <Pressable
                   key={d.exercise_id}
@@ -1241,23 +1272,26 @@ export default function SessionScreen({
 
                 {/* Progresión (B): una línea; un toque mantiene el peso de la última vez. */}
                 {d.progress && !d.sets.some((s) => s.done) ? (
-                  <Pressable
-                    accessibilityRole="button"
-                    accessibilityLabel={t('prog_a11y', { step: fmtNum(d.progress.to - d.progress.from), w: fmtNum(d.progress.from) })}
-                    onPress={() => keepWeight(d.exercise_id)}
-                    style={({ pressed }) => [styles.progRow, { opacity: pressed ? 0.6 : 1 }]}
-                  >
-                    <Text style={[styles.progText, { color: p.secondary }]} numberOfLines={2}>
+                  <View style={styles.progBox}>
+                    <Text style={[styles.progText, { color: p.secondary }]}>
                       {t('prog_line', {
                         step: fmtNum(d.progress.to - d.progress.from),
                         sets: d.progress.sets,
                         reps: d.progress.reps,
                         w: fmtNum(d.progress.from),
                       })}
-                      {'  '}
-                      <Text style={{ color: p.text, fontWeight: '700' }}>{t('prog_keep', { w: fmtNum(d.progress.from) })}</Text>
                     </Text>
-                  </Pressable>
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={t('prog_a11y', { step: fmtNum(d.progress.to - d.progress.from), w: fmtNum(d.progress.from) })}
+                      onPress={() => keepWeight(d.exercise_id)}
+                      style={({ pressed }) => [styles.progRow, { opacity: pressed ? 0.6 : 1 }]}
+                    >
+                      <Text style={[styles.progKeep, { color: p.text }]} numberOfLines={1}>
+                        {t('prog_keep', { w: fmtNum(d.progress.from) })}
+                      </Text>
+                    </Pressable>
+                  </View>
                 ) : null}
 
                 {/* ¿Cómo se hace? → hoja con fotos, qué entrena y pasos. */}
@@ -1277,17 +1311,12 @@ export default function SessionScreen({
 
                 {/* benchmark: 1RM */}
                 {isBenchmark ? (
-                  <View style={styles.benchRow}>
-                    <View style={styles.benchCol}>
-                      <Text style={[styles.setCaption, { color: p.secondary }]}>{t('bench_1rm_auto')}</Text>
-                      <View style={[styles.benchBox, { backgroundColor: p.fieldBg, borderColor: p.border }]}>
-                        <Text style={[styles.benchBoxNum, { color: p.text }]}>{est1rm > 0 ? `${est1rm} kg` : '—'}</Text>
-                      </View>
-                    </View>
-                    {/* Las marcas salen de los datos: sin 1RM manual. */}
-                    <View style={[styles.benchCol, { flex: 2, justifyContent: 'flex-end' }]}>
-                      <Text style={[styles.setCaption, { color: p.secondary, lineHeight: 18 }]}>{t('bench_hint')}</Text>
-                    </View>
+                  // El 1RM es un resultado calculado: texto, no casilla (no se escribe).
+                  <View style={{ gap: 4, marginBottom: 8 }}>
+                    <Text style={[styles.benchBoxNum, { color: p.text, textAlign: 'left' }]}>
+                      {t('bench_1rm_auto')}: {est1rm > 0 ? `${est1rm} kg` : '—'}
+                    </Text>
+                    <Text style={[styles.setCaption, { color: p.secondary, lineHeight: 18 }]}>{t('bench_hint')}</Text>
                   </View>
                 ) : null}
 
@@ -1355,7 +1384,8 @@ export default function SessionScreen({
                             ]}
                             accessibilityRole="checkbox"
                             accessibilityLabel={`${t('sess_set')} ${i + 1}: ${fmtNum(s.duration_min || 0)} min`}
-                            accessibilityState={{ checked: !!s.done }}
+                            accessibilityState={{ checked: !!s.done, disabled: !s.done && !setReady(d.exercise_id, s) }}
+                            disabled={!s.done && !setReady(d.exercise_id, s)}
                             onPress={() => toggleSetDone(d.exercise_id, i)}
                             hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
                           >
@@ -1384,11 +1414,19 @@ export default function SessionScreen({
                         </View>
                       </View>
                     ) : (
-                      <Text style={[styles.setNum, { color: s.done ? p.text : p.secondary }]}>{i + 1}</Text>
+                      // Test de marcas: la 2.ª serie es "Test" (la 1.ª es el calentamiento).
+                      <Text
+                        style={[styles.setNum, { color: s.done ? p.text : p.secondary }]}
+                        numberOfLines={1}
+                        adjustsFontSizeToFit
+                        accessibilityLabel={isBenchmark && i === 1 ? t('bench_test_a11y') : undefined}
+                      >
+                        {isBenchmark && i === 1 ? t('bench_test') : i + 1}
+                      </Text>
                     )}
                     <View style={styles.setFieldWrap}>
                       <ValueBox
-                        value={String(s.reps)}
+                        value={s.reps > 0 ? String(s.reps) : '—'}
                         unit="reps"
                         onPress={() => setPick({ kind: 'reps', ex: d.exercise_id, idx: i })}
                         done={!!s.done}
@@ -1416,7 +1454,7 @@ export default function SessionScreen({
                           },
                         ]}
                         accessibilityRole="checkbox"
-                        accessibilityLabel={`${t('sess_set')} ${i + 1}: ${s.reps} reps, ${s.weight_kg > 0 ? fmtNum(s.weight_kg) : '—'} kg`}
+                        accessibilityLabel={`${t('sess_set')} ${i + 1}: ${s.reps} reps${needsWeight(d.exercise_id) ? `, ${s.weight_kg > 0 ? fmtNum(s.weight_kg) : '—'} kg` : ''}`}
                         accessibilityState={{ checked: !!s.done, disabled: !s.done && !setReady(d.exercise_id, s) }}
                         disabled={!s.done && !setReady(d.exercise_id, s)}
                         onPress={() => toggleSetDone(d.exercise_id, i)}
@@ -1439,11 +1477,16 @@ export default function SessionScreen({
                   >
                     <Text style={[styles.textBtnLabel, { color: p.text }]}>+ {t('sess_add_set')}</Text>
                   </Pressable>
-                  {d.sets.length > 1 ? (
+                  {/* Solo se quita una serie PENDIENTE (lo hecho no se borra). */}
+                  {d.sets.length > 1 && d.sets.some((x) => !x.done) ? (
                     <Pressable
                       style={({ pressed }) => [styles.textBtn, { opacity: pressed ? 0.6 : 1 }]}
                       accessibilityRole="button"
-                      onPress={() => removeSet(d.exercise_id, d.sets.length - 1)}
+                      onPress={() => {
+                        let last = -1;
+                        d.sets.forEach((x, k) => { if (!x.done) last = k; });
+                        if (last >= 0) removeSet(d.exercise_id, last);
+                      }}
                     >
                       <Text style={[styles.textBtnLabel, { color: p.secondary }]}>− {t('sess_remove_set')}</Text>
                     </Pressable>
@@ -1485,7 +1528,10 @@ export default function SessionScreen({
                     <Pressable
                       style={({ pressed }) => [styles.moreRow, { borderBottomWidth: 0, opacity: pressed ? 0.6 : 1 }]}
                       accessibilityRole="button"
-                      onPress={() => removeExercise(d.exercise_id)}
+                      // Con series hechas, se confirma (se perderían datos reales).
+                      onPress={() =>
+                        d.sets.some((x) => x.done) ? setConfirmRemove(d.exercise_id) : removeExercise(d.exercise_id)
+                      }
                     >
                       <Text style={[styles.moreText, { color: p.secondary }]}>{t('sess_remove_ex')}</Text>
                     </Pressable>
@@ -1703,7 +1749,7 @@ export default function SessionScreen({
               : pick.kind === 'weight'
                 ? draft.find((x) => x.exercise_id === pick!.ex)?.sets[pick!.idx]?.weight_kg ?? 0
                 : pick.kind === 'duration'
-                  ? duration
+                  ? (duration > 0 ? duration : Math.max(1, Math.round(elapsedMs / 60000)))
                   : pick.kind === 'height'
                     ? Number(heightStr) || 0
                     : pick.kind === 'bench'
@@ -1798,11 +1844,23 @@ export default function SessionScreen({
           <Pressable style={[styles.searchBack, { backgroundColor: p.overlay }]} onPress={() => setCheckinOpen(false)} accessibilityLabel={t('cancel')} />
           <View style={[styles.searchSheet, styles.checkinSheet, { backgroundColor: p.card }]}>
             <View style={styles.searchHandle} />
-            <Text style={[styles.searchTitle, { color: p.text }]} accessibilityRole="header">{t('checkin_title')}</Text>
+            <Text style={[styles.doneTitle, { color: p.text }]} accessibilityRole="header">{t('checkin_title')}</Text>
             {/* Resumen (A): solo datos reales; sin récords, la cifra no aparece. */}
             <View style={styles.sumRow}>
+              {/* Los minutos son los que se guardan; se pueden corregir (p. ej. si
+                  se olvidó Finalizar y el reloj siguió corriendo). */}
+              <Pressable
+                style={({ pressed }) => [styles.sumCell, { minHeight: 44, opacity: pressed ? 0.6 : 1 }]}
+                accessibilityRole="button"
+                accessibilityLabel={`${t('picker_duration')}: ${duration > 0 ? duration : Math.max(1, Math.round(elapsedMs / 60000))} ${t('sum_min')}`}
+                onPress={() => setPick({ kind: 'duration' })}
+              >
+                <Text style={[styles.sumNum, { color: p.text, textDecorationLine: 'underline', textDecorationStyle: 'dotted' }]}>
+                  {String(duration > 0 ? duration : Math.max(1, Math.round(elapsedMs / 60000)))}
+                </Text>
+                <Text style={[styles.sumLabel, { color: p.secondary }]}>{t('sum_min')}</Text>
+              </Pressable>
               {[
-                [String(Math.max(1, Math.round(elapsedMs / 60000))), t('sum_min')],
                 [String(doneSets), t(doneSets === 1 ? 'sum_set' : 'sum_sets')],
                 ...(liveRecords.size > 0 ? [[String(liveRecords.size), t(liveRecords.size === 1 ? 'sum_record' : 'sum_records')]] : []),
               ].map(([v, l]) => (
@@ -1815,7 +1873,7 @@ export default function SessionScreen({
             {[...liveRecords.entries()].slice(0, 3).map(([id, r]) => (
               <View key={id} style={[styles.sumRec, { borderTopColor: p.border }]}>
                 <View style={[styles.sumDot, { backgroundColor: RECORD_GREEN }]} />
-                <Text style={[styles.sumRecName, { color: p.text }]} numberOfLines={1}>
+                <Text style={[styles.sumRecName, { color: p.text }]} numberOfLines={2}>
                   {nameOf(byId.get(id))}
                 </Text>
                 <Text style={[styles.sumRecKg, { color: p.text }]}>{t('rec_row', { kg: fmtNum(r.kg), prev: fmtNum(r.prev) })}</Text>
@@ -1846,28 +1904,38 @@ export default function SessionScreen({
       {howToId && byId.get(howToId) ? <ExerciseHowTo exercise={byId.get(howToId)!} onClose={() => setHowToId(null)} /> : null}
 
       {/* Confirmación de descartar el entrenamiento activo */}
-      {confirmDiscard ? (
-        <View style={styles.modalBack} pointerEvents="box-none">
-          <View style={[styles.modalCard, { backgroundColor: p.card, borderColor: p.cardBorder }]}>
-            <Text style={[styles.modalTitle, { color: p.text }]}>{t('sess_discard_q')}</Text>
-            <Text style={[styles.modalMsg, { color: p.secondary }]}>{t('sess_discard_msg')}</Text>
+      {confirmDiscard || confirmRemove ? (
+        <View style={styles.modalBack}>
+          {/* Fondo: capta los toques (nada de detrás responde) y tocarlo = Cancelar. */}
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => { setConfirmDiscard(false); setConfirmRemove(null); }} accessibilityLabel={t('cancel')} />
+          <View style={[styles.modalCard, { backgroundColor: p.card, borderColor: p.cardBorder }]} accessibilityViewIsModal>
+            <Text style={[styles.modalTitle, { color: p.text }]}>{t(confirmRemove ? 'sess_remove_q' : 'sess_discard_q')}</Text>
+            {/* Sin series hechas no hay nada que "perder": solo título y botones. */}
+            {confirmRemove || doneSets > 0 ? (
+              <Text style={[styles.modalMsg, { color: p.secondary }]}>{t(confirmRemove ? 'sess_remove_msg' : 'sess_discard_msg')}</Text>
+            ) : null}
             <View style={styles.modalRow}>
               <Pressable
                 accessibilityRole="button"
+                onPress={() => { setConfirmDiscard(false); setConfirmRemove(null); }}
+                style={({ pressed }) => [styles.modalBtn, { backgroundColor: p.section, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' }]}
+              >
+                <Text style={[styles.modalBtnText, { color: p.secondary }]}>{t('cancel')}</Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
                 onPress={() => {
+                  if (confirmRemove) {
+                    removeExercise(confirmRemove);
+                    setConfirmRemove(null);
+                    return;
+                  }
                   setConfirmDiscard(false);
                   onDiscard();
                 }}
                 style={({ pressed }) => [styles.modalBtn, { backgroundColor: p.red, opacity: pressed ? 0.85 : 1, transition: 'opacity 90ms ease' }]}
               >
-                <Text style={styles.modalBtnTextYes}>{t('sess_discard')}</Text>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => setConfirmDiscard(false)}
-                style={({ pressed }) => [styles.modalBtn, { backgroundColor: p.section, opacity: pressed ? 0.8 : 1, transition: 'opacity 90ms ease' }]}
-              >
-                <Text style={[styles.modalBtnText, { color: p.secondary }]}>{t('cancel')}</Text>
+                <Text style={styles.modalBtnTextYes} numberOfLines={1} adjustsFontSizeToFit>{t(confirmRemove ? 'sess_remove_btn' : 'sess_discard')}</Text>
               </Pressable>
             </View>
           </View>
@@ -1880,15 +1948,18 @@ export default function SessionScreen({
       <View style={[styles.footer, { backgroundColor: p.headerBg, borderTopColor: p.border }]}>
         {/* Descanso en curso: cuenta atrás grande + barra + "+15 s" / "Saltar". */}
         {restUntil && restLeft > 0 ? (
-          <View style={styles.restBox} accessible accessibilityLiveRegion="polite" accessibilityLabel={`${t('rest_title')}: ${restLeft} s`}>
+          <View style={styles.restBox}>
             <View style={styles.restTop}>
-              <Text style={[styles.restLabel, { color: p.secondary }]}>{t('rest_title')}</Text>
-              <Text style={[styles.restTime, { color: p.text }]}>
-                {Math.floor(restLeft / 60)}:{String(restLeft % 60).padStart(2, '0')}
-              </Text>
+              <View style={styles.restClock} accessible accessibilityLabel={`${t('rest_title')}: ${restLeft} s`}>
+                <Text style={[styles.restLabel, { color: p.secondary }]}>{t('rest_title')}</Text>
+                <Text style={[styles.restTime, { color: p.text }]}>
+                  {Math.floor(restLeft / 60)}:{String(restLeft % 60).padStart(2, '0')}
+                </Text>
+              </View>
               <View style={styles.restBtns}>
                 <Pressable
                   accessibilityRole="button"
+                  accessibilityLabel={t('rest_add15')}
                   onPress={() => addRest(15)}
                   style={({ pressed }) => [styles.restBtn, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
                 >
@@ -1896,6 +1967,7 @@ export default function SessionScreen({
                 </Pressable>
                 <Pressable
                   accessibilityRole="button"
+                  accessibilityLabel={t('rest_skip_a11y')}
                   onPress={() => setRestUntil(null)}
                   style={({ pressed }) => [styles.restBtn, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
                 >
@@ -1911,15 +1983,13 @@ export default function SessionScreen({
             </View>
           </View>
         ) : null}
-        {/* Leyenda solo cuando aporta: qué viene después, o el guardado. */}
-        {!(restUntil && restLeft > 0) && (saved || (currentId && !isLastExercise)) ? (
+        {/* Leyenda solo para el guardado: el siguiente ya se ve en la lista. */}
+        {!(restUntil && restLeft > 0) && saved ? (
           <Text
             style={[styles.footerCaption, { color: saved ? p.text : p.secondary }]}
-            numberOfLines={saved ? 2 : 1}
+            numberOfLines={2}
           >
-            {saved
-              ? `${t('sess_saved')} — ${t('sess_saved_hint')}`
-              : `${t('sess_next_prefix')} ${nameOf(nextInPlan ?? undefined)}`}
+            {`${t('sess_saved')} — ${t('sess_saved_hint')}`}
           </Text>
         ) : null}
         {error ? <Text style={[styles.footerCaption, { color: p.red }]} numberOfLines={2}>{error}</Text> : null}
@@ -1934,7 +2004,6 @@ export default function SessionScreen({
                   { borderColor: p.border, opacity: saving ? 0.4 : pressed ? 0.7 : 1 },
                 ]}
                 accessibilityRole="button"
-                accessibilityLabel={isBenchmark ? t('bench_save') : t('sess_save')}
                 disabled={saving}
                 onPress={finish}
               >
@@ -1945,6 +2014,7 @@ export default function SessionScreen({
               <Pressable
                 style={({ pressed }) => [{ flex: 1, opacity: pressed ? 0.85 : 1 }]}
                 accessibilityRole="button"
+                accessibilityHint={nextInPlan ? `${t('sess_next_prefix')} ${nameOf(nextInPlan)}` : undefined}
                 onPress={finishExercise}
               >
                 <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
@@ -1964,7 +2034,7 @@ export default function SessionScreen({
             >
               <Gradient colors={GRADIENT.cta} style={styles.saveBtnBox} contentStyle={styles.saveBtn}>
                 <Text style={[styles.saveBtnText, { color: p.onAccent }]} numberOfLines={1} adjustsFontSizeToFit>
-                  {saving ? t('saving') : isBenchmark ? t('bench_save') : currentId ? t('sess_finish_save') : t('sess_save')}
+                  {saving ? t('saving') : t('sess_finish_save')}
                 </Text>
               </Gradient>
             </Pressable>
@@ -2304,6 +2374,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
   },
+  doneTitle: {
+    fontSize: 30,
+    fontWeight: '800',
+    letterSpacing: -0.6,
+    lineHeight: 36,
+  },
   searchTitle: {
     fontSize: 18,
     fontWeight: '700',
@@ -2509,6 +2585,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   statusChip: {
+    minHeight: 44,
     borderRadius: 999,
     borderWidth: 1,
     paddingVertical: 8,
@@ -2695,10 +2772,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 28,
   },
+  progBox: {
+    marginTop: 6,
+  },
   progRow: {
     minHeight: 44,
     justifyContent: 'center',
-    marginTop: 2,
+    alignSelf: 'flex-start',
+  },
+  progKeep: {
+    fontSize: 14,
+    fontWeight: '700',
   },
   progText: {
     fontSize: 13,
@@ -2810,6 +2894,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
+  restClock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
   restLabel: {
     fontSize: 13,
     fontWeight: '600',
@@ -2828,7 +2917,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   restBtn: {
-    minHeight: 40,
+    minHeight: 44,
     minWidth: 64,
     borderRadius: 20,
     borderWidth: 1,
@@ -3055,8 +3144,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'flex-start',
     gap: 8,
-    minHeight: 40,
-    borderRadius: 20,
+    minHeight: 44,
+    borderRadius: 22,
     borderWidth: 1,
     paddingHorizontal: 14,
     marginTop: 12,

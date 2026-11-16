@@ -169,6 +169,18 @@ const wlib = await import(path.join(tmp, 'workout_app.mjs'));
 eq(wlib.isBodyweightExercise(byId.get('back_squat')), false, 'back_squat (wger "other") = con carga, no peso corporal');
 eq(wlib.isBodyweightExercise(byId.get('crunches')), true, 'crunches = peso corporal (el nombre manda)');
 eq(wlib.isBodyweightExercise(byId.get('crunches_with_cable')), false, 'crunches_with_cable = con carga (polea)');
+eq(wlib.movementKey(byId.get('bent_over_barbell_row')) === wlib.movementKey(byId.get('bent_over_rowing')), true, 'movementKey: "Bent Over Barbell Row" ≈ "Bent Over Rowing"');
+{
+  const allEx = [...byId.values()];
+  const plan = wlib.generateWorkout({ groups: ['back'], equipment_mode: 'full_gym', experience: 'intermediate', intensity: 'moderate', exercises: allEx });
+  const keys = plan.exercises.map((x) => wlib.movementKey(byId.get(x.exercise_id)));
+  eq(new Set(keys).size, keys.length, 'generateWorkout: sin dos ejercicios casi iguales en la sesión');
+  // Con marcas, los pesos se pueden cargar de verdad (múltiplos de 2,5 kg; nunca "37,1").
+  const bm = plan.exercises.filter((x) => !wlib.isBodyweightExercise(byId.get(x.exercise_id))).map((x) => ({ exercise_id: x.exercise_id, estimated_1rm: 57 }));
+  const plan2 = wlib.generateWorkout({ groups: ['back'], equipment_mode: 'full_gym', experience: 'intermediate', intensity: 'moderate', exercises: allEx, benchmarks: bm });
+  const ws = plan2.exercises.map((x) => x.recommended_weight_kg).filter((w) => w > 0);
+  eq(ws.length > 0 && ws.every((w) => Math.abs(w / 2.5 - Math.round(w / 2.5)) < 1e-9), true, 'generateWorkout: pesos desde marcas en múltiplos de 2,5 kg');
+}
 
 // records.ts: marcas efectivas y días de récord (círculo verde).
 const rTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/records.ts'), 'utf8');
@@ -210,6 +222,13 @@ const doneOnly = ss.completedExercises([
   { exercise_id: 'run', sets: [{ reps: 0, weight_kg: 0, duration_min: 20, done: true }] },
 ], []);
 eq(doneOnly.map((e) => [e.exercise_id, e.sets.length]), [['bench_press', 1], ['run', 1]], 'completedExercises: fuera las series sin hacer; el cardio hecho cuenta');
+const withPostponed = ss.completedExercises(
+  [{ exercise_id: 'curl', sets: [{ reps: 12, weight_kg: 12, done: true }] }],
+  [{ exercise_id: 'bench_press', reason: 'busy', attempts: 0, sets: [{ reps: 8, weight_kg: 50, done: true }, { reps: 8, weight_kg: 50, done: true }, { reps: 8, weight_kg: 50 }] }],
+);
+eq(withPostponed.map((e) => [e.exercise_id, e.sets.length]), [['curl', 1], ['bench_press', 2]], 'completedExercises: las series hechas de un ejercicio aplazado se guardan');
+const sessSrc = fs.readFileSync(path.join(ROOT, 'app/src/screens/SessionScreen.tsx'), 'utf8');
+eq(/completedExercises\(draft, postponed\)/.test(sessSrc), true, 'SessionScreen guarda también los aplazados (completedExercises(draft, postponed))');
 
 const todayISO = web.todayISO;
 const mk = (id, date, exercises, extra = {}) => ({

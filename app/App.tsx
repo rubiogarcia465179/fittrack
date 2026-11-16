@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleSheet,
   Platform,
+  AccessibilityInfo,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 // SafeAreaView de react-native está obsoleto: se usa react-native-safe-area-context.
@@ -36,6 +37,7 @@ import SessionStartScreen from './src/screens/SessionStartScreen';
 import { loadFonts, MONT } from './src/lib/fonts';
 import { nextSplit, mondayPushSkipped } from './src/lib/nextSplit';
 import { BackBar } from './src/components/BackBar';
+import { saveHomePhoto } from './src/lib/homePhoto';
 
 // 3 pestañas (Inicio · Entrenar · Perfil). Historial y Ejercicios se abren
 // desde Inicio como pantallas con "atrás" (no son pestañas).
@@ -159,6 +161,7 @@ function Root({
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const flash = (msg: string) => {
     setToast(msg);
+    AccessibilityInfo.announceForAccessibility?.(msg);
     if (toastTimer.current) clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(''), 2800);
   };
@@ -270,7 +273,9 @@ function Root({
     setQsOpen(true);
   };
 
-  const quickStart = () => {
+  /** La hoja trabaja sobre una copia: solo "Continuar" aplica y guarda la elección. */
+  const quickStart = (qs: QuickStartOptions) => {
+    setQs(qs);
     setQsOpen(false);
     void AsyncStorage.setItem(QS_KEY, JSON.stringify(qs));
     // Energía baja → un nivel menos de intensidad (nunca por debajo de suave).
@@ -324,7 +329,8 @@ function Root({
           exercise_id: e.id,
           sets: [
             { reps: 10, weight_kg: round25(w * 0.6) },
-            { reps: 8, weight_kg: w },
+            // "Tantas como puedas": las reps las apunta el usuario (nada supuesto).
+            { reps: 0, weight_kg: w },
           ],
           equipment_status: 'available' as const,
           rest_after: 120,
@@ -340,7 +346,9 @@ function Root({
     setSessions((prev) => sortByDate([s, ...prev]));
     // Al guardar, el entrenamiento activo termina: de vuelta al modo normal.
     persistActive(null);
-    flash(t(s.type === 'benchmark' ? 'bench_saved' : 'sess_saved') + ' ✓');
+    flash(t(s.type === 'benchmark' ? 'bench_saved' : 'sess_saved'));
+    // El orgullo cae donde vive el progreso: Inicio (día marcado, marcas al día).
+    setTab('dashboard');
     if (s.type === 'benchmark') {
       void store.benchmarks().then(setBenchmarks);
     }
@@ -353,6 +361,8 @@ function Root({
   const handleExport = () => store.toJson();
   const handleClearAll = async () => {
     await store.clearAll();
+    // "Todos los datos" incluye la foto personal de Inicio.
+    await saveHomePhoto(null);
     setSessions([]);
     setBenchmarks([]);
     persistActive(null);
@@ -367,9 +377,10 @@ function Root({
 
   const openExercise = (id: string) => setDetailId(id);
   const detail = detailId ? exercises.find((e) => e.id === detailId) || exercises[0] : null;
-  const handleDiscard = () => {
+  const handleDiscard = (quiet?: boolean) => {
     persistActive(null);
-    flash(t('sess_discarded'));
+    if (!quiet) flash(t('sess_discarded'));
+    setTab('dashboard');
   };
 
   // Fondo premium: la sesión activa pinta un degradado navy profundo en
@@ -395,7 +406,7 @@ function Root({
 
       <View style={styles.body}>
         {toast ? (
-          <View style={[styles.appToast, { backgroundColor: p.headerBg, borderColor: p.border }]}>
+          <View style={[styles.appToast, { backgroundColor: p.card, borderColor: p.border }]}>
             <Text style={[styles.appToastText, { color: p.text }]}>{toast}</Text>
           </View>
         ) : null}
@@ -505,7 +516,7 @@ function Root({
         })}
       </View>
       {qsOpen ? (
-        <QuickStartSheet value={qs} onChange={setQs} onCancel={() => setQsOpen(false)} onContinue={quickStart} />
+        <QuickStartSheet value={qs} onCancel={() => setQsOpen(false)} onContinue={quickStart} />
       ) : null}
     </SafeAreaView>
   );
@@ -525,9 +536,9 @@ const styles = StyleSheet.create({
   appToast: {
     position: 'absolute',
     bottom: 16, // abajo, sobre la barra (no tapa títulos)
-    left: '50%',
-    transform: [{ translateX: -140 }],
-    width: 280,
+    // Ancho completo con los márgenes de la app y fondo opaco: nada asoma detrás.
+    left: 16,
+    right: 16,
     borderRadius: RADII.card,
     borderWidth: 1,
     paddingVertical: 10,

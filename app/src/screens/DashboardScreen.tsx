@@ -101,6 +101,8 @@ export default function DashboardScreen({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [sessions, benchmarks, byId],
   );
+  // Ya entrenaste hoy → lo propuesto es "Próxima", no "Hoy toca" (no se afirma lo que no es).
+  const trainedToday = sessions.some((x) => x.date === todayISO());
   const dayMap = useMemo(() => {
     const m: Record<string, DayStat> = {};
     for (const s of sessions) m[s.date] = { sets: (m[s.date]?.sets ?? 0) + sessionSets(s), pr: prDays.has(s.date) };
@@ -123,10 +125,10 @@ export default function DashboardScreen({
       ) : null}
 
       {/* ---- 2. Qué toca hoy ---- */}
-      <View style={[styles.today, photo ? { marginTop: 20 } : null]} accessible accessibilityRole="header">
+      <View style={[styles.today, photo ? { marginTop: 20 } : null]}>
         <View style={styles.todayHead}>
           <Text style={[styles.todayLabel, { color: p.secondary }]}>
-            {activeWorkout ? t('home_in_progress') : t('home_today')}
+            {activeWorkout ? t('home_in_progress') : trainedToday ? t('home_next') : t('home_today')}
           </Text>
           {activeWorkout ? null : (
             <Pressable
@@ -142,7 +144,13 @@ export default function DashboardScreen({
         </View>
         {activeWorkout ? null : (
           <>
-            <Text style={[styles.todayTitle, { color: p.text }]}>{todayLabel}</Text>
+            <Text
+              style={[styles.todayTitle, { color: p.text }]}
+              accessibilityRole="header"
+              accessibilityLabel={`${trainedToday ? t('home_next') : t('home_today')}: ${todayLabel}`}
+            >
+              {todayLabel}
+            </Text>
             <Text style={[styles.todayMeta, { color: p.secondary }]}>{todayMeta}</Text>
             {mondayNote ? <Text style={[styles.todayMeta, { color: p.secondary }]}>{t('home_monday_note')}</Text> : null}
           </>
@@ -320,7 +328,7 @@ const styles = StyleSheet.create({
   today: { paddingTop: 8, paddingHorizontal: 2 },
   todayHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 36 },
   todayLabel: { fontSize: 13, fontWeight: '600', letterSpacing: 1.2, textTransform: 'uppercase' },
-  changeBtn: { minHeight: 34, paddingHorizontal: 14, borderRadius: 17, borderWidth: 1, justifyContent: 'center' },
+  changeBtn: { minHeight: 44, paddingHorizontal: 16, borderRadius: 22, borderWidth: 1, justifyContent: 'center' },
   changeText: { fontSize: 14, fontWeight: '600' },
   todayMeta: { fontSize: 15, marginTop: 6, lineHeight: 20 },
   todayTitle: { fontSize: 30, fontWeight: '800', letterSpacing: -0.6, lineHeight: 36, marginTop: 6 },

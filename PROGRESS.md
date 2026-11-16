@@ -3,11 +3,12 @@
 Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 (`CLAUDE.md §2.6`); la historia completa está en el **Log** (abajo) y en git.
 
-## Estado actual (2026-11-15)
+## Estado actual (2026-11-16)
 
 > `main` = versión "Foco a 10" (rama `SteveJobs` fusionada; la anterior en
 > `v1`) + Fase 11e (Hoy toca con Cambiar, marcas desde datos, días de récord
-> en verde, mapa del cuerpo SVG). Siguiente: Fase 15 (InstaGym).
+> en verde, mapa del cuerpo SVG) + Fases 11f–11l (bucle de 10 rondas UX +
+> Jobs, 77 → 87). Siguiente: Fase 15 (InstaGym).
 
 | Área | Estado |
 |---|---|
@@ -18,18 +19,19 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Idioma | **Todo en el idioma elegido** (NL/ES/EN/FR): interfaz, nombres de ejercicio, pasos "cómo se hace" (226 × 4), fechas; cambio instantáneo |
 | Datos | 226 ejercicios reales de wger; iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
 | Web (Astro) | Atrasada: lógica al día, diseño de la 11c (no el monocromo X); pasos por idioma copiados a `web/src/data/howto/` pero sin usar |
-| i18n | NL/ES/EN/FR, **390 claves**, espejos idénticos |
+| i18n | NL/ES/EN/FR, **396 claves**, espejos idénticos; francés todo en "tu" |
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación (2026-11-16, WSL del host, commit Fase 11k)
+## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 11l)
 
-- `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **125/125, 0 fallos**
-  (5 nuevas: progresión y solo series hechas).
+- `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **130/130, 0 fallos**
+  (3 nuevas: series de aplazados guardadas, guardado con aplazados, pesos en
+  múltiplos de 2,5 kg).
 - `npx expo export --platform web` → OK.
-- Capturas **01–27**, **0 errores de consola**, revisadas una a una; vídeo
-  266 fotogramas.
-- **Prueba "Steve Jobs": SÍ** (ver Log "2026-11-16").
+- Capturas **01–32** (nueva: 32 quitar ejercicio), **0 errores de consola**,
+  revisadas una a una (hojas de contacto); vídeo **324 fotogramas**.
+- **Prueba "Steve Jobs": SÍ, 87** (ver Log "2026-11-16 (tarde)").
 
 ## Decisiones vigentes
 
@@ -645,3 +647,36 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   significado, nada inventado (1RM y pesos solo de datos). Pendiente menor:
   ejercicios casi iguales en el generador, nombre del récord cortado,
   prueba en iPhone (⛔).
+
+- 2026-11-16 (tarde) — **Fase 11l en curso.** Petición: bucle de 10 rondas
+  con 2 revisores UX, aceptar solo lo perfecto, `/SteveJobs analyze` por ronda
+  sin que baje ninguna nota, todo al playbook, arreglar pendientes (salvo
+  vibración). Hecho: pendientes (movementKey; récord en 2 líneas) y rondas
+  1–4 (78, 79, 80, 81). Rechazadas: títulos sin mayúsculas (SPEC, ⛔),
+  cambiar datos de capturas para tapar un duplicado del catálogo (⛔ fusionar
+  duplicados). El clasificador de seguridad falló a ratos; se comprobó con
+  `git status` que los revisores no tocaron archivos. Playbook: §7 (bucle)
+  y §8 (lista de detalles). **Veredicto ronda 4: SÍ (81).**
+
+- 2026-11-16 (tarde) — **Fase 11l cerrada** (rondas 5–10 en esta pasada;
+  detalle en `docs/LOOP-11l.md`). 2 revisores UX de solo lectura por ronda;
+  aceptado solo lo perfecto. Fallos reales arreglados: series hechas de
+  ejercicios aplazados que no se guardaban; "Quitar serie/ejercicio" borraba
+  trabajo hecho sin avisar; "Borrar todos los datos" dejaba el perfil viejo
+  en pantalla y la foto de Inicio; cancelar "Tu entreno de hoy" no
+  cancelaba; duración guardada siempre = reloj (ahora corregible en "Bien
+  hecho"); pesos imposibles ("37,1 kg") desde marcas; borrar la última
+  sesión del día filtrado decía "aún no hay sesiones"; ruedas sin acciones
+  de VoiceOver; casilla de cardio sin minutos; descanso tras la última
+  serie; "Hacerlo ahora"/"Usar" sin foco. Pulido: fichas a 44 pt, primer
+  arranque y nota del lunes más cortos, barra fija sin "Siguiente: X", "×"
+  sin series cierra sin preguntar, Historial de un día sin fecha repetida,
+  músculos como texto, serie "Test" y 1RM como texto, aviso a ancho
+  completo, detalle con "CÓMO SE HACE", francés en "tu", "Ver todas".
+  Rechazado con motivo (y ⛔ al usuario): "Hacerlo ahora" desde el inicio
+  (R-11). **Prueba Jobs: SÍ** — 87 (Foco 9 · Simplicidad 10 · Cómo funciona
+  10 · Punta a punta 10 · Oficio 10 · Artes liberales 9 · Autenticidad 10 ·
+  1.ª impresión 9 · Funciona solo 10); motivos: cada pantalla con una
+  acción, nada falso (pesos, minutos, diálogos), datos que no se pierden.
+  Para subir más: Foco/1.ª impresión (Historial con el récord del día,
+  Ejercicios con el título primero).

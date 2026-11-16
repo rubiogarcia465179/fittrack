@@ -76,8 +76,11 @@ export function DataSection({ t, onExport, onClear, onDone, children }: DataSect
   return (
     <View>
       <View style={[styles.card, { borderRadius: RADII.tile, backgroundColor: p.card, borderColor: p.cardBorder, ...SHADOW.card }]}>
-        {children ? <View style={{ marginBottom: 18 }}>{children}</View> : null}
-        <Text style={[styles.title, { fontSize: fs(scale, 19), color: p.text }]}>{t('data_title')}</Text>
+        {children ? <View>{children}</View> : null}
+        {/* Mismo sistema de etiquetas que el resto de Perfil (CUERPO · SOBRE TI…). */}
+        <View style={children ? [styles.split, { borderTopColor: p.border }] : null}>
+          <Text style={[styles.label, { color: p.secondary }]}>{t('data_title')}</Text>
+        </View>
         <Text style={[styles.note, { fontSize: fs(scale, 15), color: p.secondary, marginTop: 6 }]}>{t('data_note')}</Text>
         <View style={styles.row}>
           <Pressable
@@ -92,16 +95,18 @@ export function DataSection({ t, onExport, onClear, onDone, children }: DataSect
                 minHeight: 50,
                 paddingHorizontal: 16,
                 borderRadius: RADII.pill,
-                backgroundColor: p.accent,
-                opacity: pressed ? 0.85 : 1,
+                backgroundColor: 'transparent',
+                borderWidth: 1,
+                borderColor: p.border,
+                opacity: pressed ? 0.6 : 1,
                 transition: 'opacity 90ms ease',
               },
             ]}
           >
             {busy === 'export' ? (
-              <ActivityIndicator size="small" color="#fff" />
+              <ActivityIndicator size="small" color={p.text} />
             ) : (
-              <Text style={[styles.btnText, { fontSize: fs(scale, 16), color: p.onAccent }]}>{t('data_export')}</Text>
+              <Text style={[styles.btnText, { fontSize: fs(scale, 16), color: p.text }]}>{t('data_export')}</Text>
             )}
           </Pressable>
           <Pressable
@@ -128,7 +133,7 @@ export function DataSection({ t, onExport, onClear, onDone, children }: DataSect
           </Pressable>
         </View>
         {status ? (
-          <Text style={[styles.status, { fontSize: fs(scale, 15), color: p.green }]}>{status}</Text>
+          <Text style={[styles.status, { fontSize: fs(scale, 15), color: p.secondary }]} accessibilityLiveRegion="polite">{status}</Text>
         ) : null}
       </View>
 
@@ -153,7 +158,8 @@ const styles = StyleSheet.create({
     padding: 16,
     borderWidth: 1,
   },
-  title: { fontWeight: '700' },
+  label: { fontSize: 12, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.5 },
+  split: { marginTop: 14, paddingTop: 14, borderTopWidth: StyleSheet.hairlineWidth },
   note: { lineHeight: 21 },
   row: {
     flexDirection: 'column',

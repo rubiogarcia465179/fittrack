@@ -70,6 +70,24 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 - **Guardar**: solo series hechas (`completedExercises` en
   `lib/session-save.ts`, incluye cardio por minutos).
 - **Guía de UX para otra app**: `docs/UX-PLAYBOOK.md`.
+- **Sin ejercicios casi iguales**: `movementKey` (`lib/workout.ts`) quita
+  material/postura y compara las dos primeras palabras; `generateWorkout` no
+  repite clave.
+- **Bucle de revisión (Fase 11l)**: brief, log y receta en
+  `docs/LOOP-11l.md`. Hojas de contacto: `ffmpeg hstack` de 7 capturas
+  (ver la receta); los revisores son agentes de solo lectura.
+- **Tras guardar o descartar** la app vuelve a Inicio (`App.handleSaved` /
+  `handleDiscard`); los avisos se anuncian a VoiceOver (`flash`).
+- **Aplazados**: sus series hechas se guardan (`completedExercises(draft,
+  postponed)`) y cuentan en "x/y series"; "Saltar" devuelve lo hecho a la
+  lista. Test en `tests/run.js`.
+- **Hoja "Tu entreno de hoy"**: trabaja sobre una copia; solo "Continuar"
+  llama a `App.quickStart(qs)` (aplica y guarda en `QS_KEY`).
+- **Pesos**: todo peso recomendado pasa por `roundW` (2,5 kg; 5 kg desde
+  50), también desde marcas (app y `web/public/js/workout.js`).
+- **i18n**: tras tocar `i18n/*.json` y sus 2 espejos, regenera
+  `web/public/js/i18n.js` con `python3 scripts/generate_web_i18n.py`.
+  Francés en "tu".
 - **Vibración**: `lib/haptics.ts` → `restDone()` (Vibration de RN + háptico)
   al terminar el descanso; `tapLight()` al marcar series; `success()` al
   guardar.
