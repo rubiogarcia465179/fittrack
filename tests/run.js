@@ -350,6 +350,65 @@ eq(est && est.tdee, Math.round(1780 * 1.55), 'TDEE = BMR × factor');
 eq(E.estimateEnergy({ weight_kg: 80, height_cm: null, birth_year: 1996, sessions_28d: 0, cardio_min_28d: 0 }), null, 'sin altura → sin cálculo');
 eq(E.cardioKcal(30, 70, 'moderate'), 245, 'kcal cardio: MET 7 × 70 kg × 0,5 h = 245');
 
+// ------------------------------------------------- Fase 16: copia de seguridad
+section('Fase 16 — copia de seguridad completa (store.backupJson / parseBackup / restore)');
+{
+  const storeTs = fs.readFileSync(path.join(ROOT, 'app/src/store.ts'), 'utf8');
+  const storeJs = ts.transpileModule(storeTs, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }).outputText;
+  const mem = new Map();
+  const AS = {
+    getItem: async (k) => (mem.has(k) ? mem.get(k) : null),
+    setItem: async (k, v) => void mem.set(k, v),
+    removeItem: async (k) => void mem.delete(k),
+  };
+  const photos = new Map();
+  let home = null;
+  const stubs = {
+    '@react-native-async-storage/async-storage': { __esModule: true, default: AS },
+    './lib/merged-ids': { currentExerciseId: (id) => ({ squats: 'back_squat' })[id] || id },
+    './lib/sessionPhotos': {
+      deletePhotos: async (ids) => ids.forEach((i) => photos.delete(i)),
+      deleteAllPhotos: async () => photos.clear(),
+      exportPhotos: async (ids) => Object.fromEntries(ids.filter((i) => photos.has(i)).map((i) => [i, photos.get(i)])),
+      importPhotos: async (m) => { for (const [k, v] of Object.entries(m)) photos.set(k, v); return Object.keys(m).length; },
+    },
+    './lib/homePhoto': { loadHomePhoto: async () => home, saveHomePhoto: async (u) => void (home = u) },
+  };
+  const mod = { exports: {} };
+  new Function('module', 'exports', 'require', storeJs)(mod, mod.exports, (n) => {
+    if (!(n in stubs)) throw new Error('stub falta: ' + n);
+    return stubs[n];
+  });
+  const S = mod.exports;
+  const sess = { id: 's1', date: '2026-11-10', exercises: [{ exercise_id: 'squats', sets: [{ reps: 5, weight_kg: 80, done: true }] }], photos: ['p1'], comments: [{ id: 'c1', text: 'ok', at: '2026-11-10T10:00:00Z' }] };
+  await S.store.addSession(sess);
+  await S.store.logWeight(80, '2026-11-10');
+  photos.set('p1', 'data:image/jpeg;base64,AAAA');
+  home = 'data:image/jpeg;base64,BBBB';
+  const json = await S.store.backupJson();
+  const b = S.parseBackup(json);
+  ok(b && b.version === S.BACKUP_VERSION, 'la copia se lee (versión ' + S.BACKUP_VERSION + ')');
+  eq(b && Object.keys(b.photos), ['p1'], 'la copia lleva las fotos del diario');
+  eq(b && b.home_photo, 'data:image/jpeg;base64,BBBB', 'la copia lleva la foto de Inicio');
+  await S.store.clearAll(); home = null;
+  eq((await S.store.sessions()).length, 0, 'tras borrar todo no queda nada');
+  const n = await S.store.restore(b);
+  eq(n, 1, 'restaurar devuelve 1 sesión');
+  const back = await S.store.all();
+  eq(back.sessions[0].exercises[0].exercise_id, 'back_squat', 'restaurar migra ids fusionados (squats → back_squat)');
+  eq(back.sessions[0].comments.length, 1, 'restaurar conserva los comentarios');
+  eq(back.profile.weight_entries, [{ date: '2026-11-10', value: 80 }], 'restaurar conserva el peso corporal');
+  eq(photos.get('p1'), 'data:image/jpeg;base64,AAAA', 'restaurar devuelve la foto con su id');
+  eq(home, 'data:image/jpeg;base64,BBBB', 'restaurar devuelve la foto de Inicio');
+  eq(S.parseBackup('no es json'), null, 'rechaza texto que no es JSON');
+  eq(S.parseBackup(JSON.stringify({ app: 'otra', version: 1, sessions: [], profile: {} })), null, 'rechaza la copia de otra app');
+  eq(S.parseBackup(JSON.stringify({ app: 'fittrack', version: 99, sessions: [], profile: {} })), null, 'rechaza una versión más nueva');
+  const v1 = S.parseBackup(JSON.stringify({ app: 'fittrack', version: 1, exported_at: 'x', sessions: [sess, null, 7], profile: { benchmarks: [] } }));
+  ok(v1 && v1.sessions.length === 1 && Object.keys(v1.photos).length === 0, 'acepta la exportación vieja (v1, sin fotos) y filtra entradas rotas');
+  ok(/^fittrack-backup-\d{4}-\d{2}-\d{2}\.json$/.test(S.backupFileName(new Date(2026, 0, 5))), 'nombre del archivo: fittrack-backup-AAAA-MM-DD.json');
+  eq(S.backupFileName(new Date(2026, 0, 5)), 'fittrack-backup-2026-01-05.json', 'fecha con ceros');
+}
+
 // ------------------------------------------------------------- typecheck
 section('typecheck — tsc --noEmit (app/)');
 let tscOk = true;

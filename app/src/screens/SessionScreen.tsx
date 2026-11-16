@@ -45,6 +45,7 @@ import { RECORD_GREEN } from '../components/Calendar';
 import { completedExercises } from '../lib/session-save';
 import { pickPhoto } from '../lib/pickPhoto';
 import { savePhoto } from '../lib/sessionPhotos';
+import { scheduleRestAlert, cancelRestAlert } from '../lib/restAlert';
 import {
   suggestAlternatives,
   isBodyweightExercise,
@@ -816,6 +817,14 @@ export default function SessionScreen({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [now, restUntil]);
+  // Con el móvil bloqueado: notificación local a la hora exacta (Fase 16).
+  // Sin limpieza al desmontar: si cambias de pestaña el aviso sigue; al
+  // terminar o descartar el entreno lo cancela App (persistActive(null)).
+  useEffect(() => {
+    if (restUntil && restUntil > Date.now()) void scheduleRestAlert(restUntil, t('rest_done'));
+    else void cancelRestAlert();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [restUntil]);
 
   const setBenchValue = (id: string, v: number) =>
     setBenchManual((m) => ({ ...m, [id]: Math.round(v) }));

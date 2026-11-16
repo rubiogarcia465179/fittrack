@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LANG_KEY, type Lang, setLanguage } from './src/i18n';
 import { loadExercises, type Exercise } from './src/data';
-import { store, type Session, type BenchmarkRef, type Profile } from './src/store';
+import { store, backupFileName, type Backup, type Session, type BenchmarkRef, type Profile } from './src/store';
 import { sortByDate, uid, todayISO } from './src/lib/gym';
 import { ThemeProvider, useTheme } from './src/theme-context';
 import { RADII, THEME_IDS, type ThemeId } from './src/theme';
@@ -38,6 +38,8 @@ import { loadFonts, MONT } from './src/lib/fonts';
 import { nextSplit, mondayPushSkipped } from './src/lib/nextSplit';
 import { BackBar } from './src/components/BackBar';
 import { saveHomePhoto } from './src/lib/homePhoto';
+import { saveBackupFile } from './src/lib/backupFile';
+import { cancelRestAlert } from './src/lib/restAlert';
 import { currentExerciseId } from './src/lib/merged-ids';
 
 // 3 pestañas (Inicio · Entrenar · Perfil). Historial y Ejercicios se abren
@@ -58,7 +60,10 @@ export default function App() {
   const persistActive = (a: ActiveSession | null) => {
     setActive(a);
     if (a) void AsyncStorage.setItem(ACTIVE_KEY, JSON.stringify(a));
-    else void AsyncStorage.removeItem(ACTIVE_KEY);
+    else {
+      void AsyncStorage.removeItem(ACTIVE_KEY);
+      void cancelRestAlert(); // sin entreno no hay descanso que avisar
+    }
   };
   const [tab, setTab] = useState<Tab>('dashboard');
   // UN solo lenguaje de diseño en toda la app; el usuario elige el tema en
@@ -367,7 +372,14 @@ function Root({
     await store.deleteSession(id);
     setSessions((prev) => prev.filter((s) => s.id !== id));
   };
-  const handleExport = () => store.toJson();
+  // Copia de seguridad completa a un archivo y su restauración (Fase 16).
+  const handleBackup = async () => saveBackupFile(backupFileName(), await store.backupJson());
+  const handleRestore = async (b: Backup) => {
+    const n = await store.restore(b);
+    handleDataChanged();
+    void store.profile().then(setProfile);
+    return n;
+  };
   const handleClearAll = async () => {
     await store.clearAll();
     // "Todos los datos" incluye la foto personal de Inicio.
@@ -480,7 +492,8 @@ function Root({
                 onHeightLogged={() => {}}
                 lng={lng}
                 onPickLang={pickLang}
-                onExport={handleExport}
+                onBackup={handleBackup}
+                onRestore={handleRestore}
                 onClearAll={handleClearAll}
                 onDataChanged={handleDataChanged}
                 onProfileChanged={setProfile}

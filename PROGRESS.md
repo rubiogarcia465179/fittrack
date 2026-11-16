@@ -7,8 +7,10 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 
 > `main` = versión "Foco a 10" (rama `SteveJobs` fusionada; la anterior en
 > `v1`) + Fase 11e (Hoy toca con Cambiar, marcas desde datos, días de récord
-> en verde, mapa del cuerpo SVG) + Fases 11f–11l (bucle de 10 rondas UX +
-> Jobs, 77 → 87). Siguiente: Fase 14 (contenido por ejercicio).
+> en verde, mapa del cuerpo SVG) + Fases 11f–11m, 15 (diario con fotos) y
+> 16 (copia de seguridad, aviso del descanso bloqueado, fotos como
+> archivos). Fase 14 descartada. Siguiente: manuales (R-129) y 5 vueltas
+> Jobs (R-130).
 
 | Área | Estado |
 |---|---|
@@ -19,17 +21,19 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Idioma | **Todo en el idioma elegido** (NL/ES/EN/FR): interfaz, nombres de ejercicio, pasos "cómo se hace" (226 × 4), fechas; cambio instantáneo |
 | Datos | 205 ejercicios reales de wger (sin duplicados); iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
 | Web (Astro) | Atrasada: lógica al día, diseño de la 11c (no el monocromo X); pasos por idioma copiados a `web/src/data/howto/` pero sin usar |
-| i18n | NL/ES/EN/FR, **396 claves**, espejos idénticos; francés todo en "tu" |
+| Copia de seguridad | Perfil → Guardar / Restaurar (un archivo con todo, fotos incluidas) |
+| i18n | NL/ES/EN/FR, **413 claves**, espejos idénticos; francés todo en "tu" |
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 11l)
+## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 16)
 
-- `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **135/135, 0 fallos**.
-- `npx expo export --platform web` → OK.
-- Capturas **01–34** (nueva: 34 comentar), **0 errores de consola**,
-  revisadas una a una (hojas de contacto); vídeo **393 fotogramas**.
-- **Prueba "Steve Jobs": SÍ, 89** (ver Log "Fase 15").
+- `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **151/151, 0 fallos**.
+- `npx expo export --platform web` → OK · `npx expo config --type prebuild` → OK (plugins).
+- Capturas **01–34**, **errors none**; cambia solo la 16 (Tus datos), revisada;
+  el resto idénticas píxel a píxel. Vídeo **396 fotogramas**.
+- **Prueba "Steve Jobs": SÍ, 90** (ver Log "Fase 16").
+- Sin probar en dispositivo (lo hace el usuario, R-128).
 
 ## Decisiones vigentes
 
@@ -56,6 +60,8 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 
 - ⛔ Fotos de ejercicios: las genera el usuario con `docs/fotos/PROMPTS.md`.
 - ⛔ `cd web && npm ci` para compilar la web (paridad de diseño).
+- ⛔ Prueba en iPhone real (usuario, R-128): copia → Archivos, restaurar,
+  aviso del descanso con el móvil bloqueado (necesita build de desarrollo).
 
 ## Log
 - 2026-10-31 — Repo inicializado; estructura base y docs (Fase 0).
@@ -704,3 +710,20 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   errores · vídeo 393 fotogramas. **Prueba Jobs: SÍ — 89** (Artes liberales
   9→10: el diario con tus fotos y notas hace la app personal sin ruido
   social). ⛔: `expo-file-system` (dependencia) y paridad web (`npm ci`).
+
+- 2026-11-16 — **Fase 16** (R-124…R-128). Peticiones: "Implement 1 [copia
+  de seguridad]. 2 I do myself [iPhone]. Can you try 3 already [aviso del
+  descanso bloqueado]? Do 4 [fotos como archivos]. Drop 5 [discos]".
+  `npx expo install expo-file-system expo-notifications` (aprobadas).
+  Copia v2 con fotos y foto de Inicio; restaurar valida (`parseBackup`:
+  app, versión ≤ 2, sesiones con id) y confirma con fecha y nº de sesiones.
+  Fotos nativas en archivos con migración automática de las viejas.
+  Notificación local con permiso en el primer descanso, sin banner con la
+  app abierta. 16 tests nuevos (ida y vuelta, ids fusionados, rechazo de
+  archivos ajenos/más nuevos, v1). Verificación: tsc 0, 151/151, export OK,
+  capturas sin errores (cambia la 16), vídeo 396 fotogramas.
+  **Jobs SÍ, 90**: la copia cumple "sin cuenta" sin miedo a perderlo todo;
+  el permiso se pide cuando tiene sentido. Pega: tres botones de contorno
+  seguidos en "Tus datos" y nada probado en el teléfono real (R-128).
+  Peticiones nuevas apuntadas: manuales para otra app (R-129) y 5 vueltas
+  Jobs (R-130).

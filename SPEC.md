@@ -188,8 +188,12 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    muestra "Hoy toca").
 3. **Apariencia**: **Noche** (por defecto) · **Día** (inverso); **Foto de
    Inicio** opcional (Elegir / Cambiar / Quitar).
-4. **Ajustes**: idioma (NL/ES/EN/FR) y tus datos (exportar JSON / borrar
-   todo con confirmación).
+4. **Ajustes**: idioma (NL/ES/EN/FR) y **tus datos**: "Guardar copia de
+   seguridad" (UN archivo `fittrack-backup-AAAA-MM-DD.json` con sesiones,
+   perfil, fotos del diario y foto de Inicio; iOS: hoja de compartir →
+   Archivos/iCloud; Android: elegir carpeta; web: descarga), "Restaurar una
+   copia" (elige el archivo → confirma "Copia del <fecha>: N sesiones.
+   Sustituye todo…") y "Borrar todos los datos" (con confirmación).
 - Al pie, plegado: **"Licencias y créditos"** (wger CC BY-SA / CC0 y sus
   autores; pasos y traducciones de FitTrack; imagen de ejemplo generada con
   IA).
@@ -199,13 +203,23 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 
 ## 3. Datos
 
-- `data/exercises/all.json` → 226 ejercicios: `id, name_en, name_nl,
+- `data/exercises/all.json` → 205 ejercicios: `id, name_en, name_nl,
   aliases, muscle_group, secondary_muscles, equipment, level, instructions,
   image, source, license, credit`. Lista legible: `docs/EJERCICIOS.md`.
 - Sesión: `{ id, date, type: training|benchmark, exercises: [{ exercise_id,
   sets: [{ reps, weight_kg, done?, duration_min?, distance_km?,
   intensity? }] }], notes?, duration_min?, body_weight_kg?, height_cm?,
-  energy?, feeling? }`.
+  energy?, feeling?, photos?: string[], comments?: [{ id, text, at }] }`.
+- Fotos del diario: iOS/Android = archivos `<documentos>/photos/<id>.jpg`
+  (`expo-file-system`); web = `fittrack.photo.<id>` en localStorage. La
+  sesión guarda solo los ids.
+- Copia de seguridad (versión 2): `{ app: 'fittrack', version, exported_at,
+  sessions, profile, photos: { id: dataURL }, home_photo? }`; acepta la
+  exportación vieja (versión 1, sin fotos).
+- **Aviso del descanso con el móvil bloqueado**: notificación local a la
+  hora exacta del fin del descanso (`expo-notifications`); el permiso se pide
+  en el primer descanso; con la app abierta no hay banner (ya avisan la
+  pantalla y la vibración). Web: no aplica.
 - Entreno activo (`fittrack.active.v1`): borrador + aplazados + descanso en
   curso (`rest_until`, `rest_total`).
 - Perfil: `benchmarks[]`, `height_entries[]`, `weight_entries[]`,

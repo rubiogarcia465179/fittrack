@@ -352,3 +352,12 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-121 [⏸] No probar todavía en iPhone (decisión del usuario)
 ### R-122 [DONE] Seguir después con la siguiente tarea (Fase 15 InstaGym) mientras la prueba Jobs lo apruebe (Fase 15 hecha; Jobs SÍ, 89; capturas 11–13 y 34)
 
+### R-123 [DONE] Descartar la Fase 14 (por qué se usa + favoritos de atletas) tras el NO de la prueba Jobs al plan (2026-11-16; anotado en TASKS)
+
+### R-124 [DONE] Copia de seguridad: exportar e importar TODOS los datos (sesiones, perfil, fotos) a un archivo (2026-11-16, Fase 16; Jobs SÍ 90, tests 151/151)
+### R-125 [DONE] Probar ya el aviso del descanso con el móvil bloqueado (notificación local; aprueba `expo-notifications`) (2026-11-16, Fase 16; Jobs SÍ 90, tests 151/151)
+### R-126 [DONE] Fotos del diario como archivos (aprueba `expo-file-system`) (2026-11-16, Fase 16; Jobs SÍ 90, tests 151/151)
+### R-127 [DONE] Descartar la calculadora de discos (2026-11-16)
+### R-128 [⏸] Prueba en iPhone real: la hace el usuario (2026-11-16)
+### R-129 [EN CURSO] Manuales completos para que otra app, desde cero y de forma autónoma, llegue a la misma calidad (2026-11-16; después de la Fase 16)
+### R-130 [EN CURSO] Después: 5 vueltas del bucle /stevejobs analyze → suggest → aplicar, para pulir la app para producción (2026-11-16)

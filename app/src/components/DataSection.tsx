@@ -1,11 +1,10 @@
-/** Bloque "Tus datos" en el Resumen: exporta todo a JSON y permite borrar
- *  todo el historial con confirmación explícita (acción peligrosa = dos
- *  pasos grandes y claros). El feedback de éxito es una línea en pantalla
+/** Bloque "Tus datos" en Perfil: copia de seguridad COMPLETA a un archivo
+ *  (sesiones, perfil y fotos), restaurarla (con confirmación: sustituye
+ *  todo) y borrar todo con confirmación explícita (Fase 16, R-124). El feedback de éxito es una línea en pantalla
  *  (Alert.alert no existe en react-native-web; esto funciona en todo). */
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  Clipboard,
   Pressable,
   StyleSheet,
   Text,
@@ -15,21 +14,29 @@ import { RADII } from '../theme';
 import { useTheme } from '../theme-context';
 import { useScale, fs } from '../scale';
 import { ConfirmDialog } from './ConfirmDialog';
+import { parseBackup, type Backup } from '../store';
+import { pickBackupFile } from '../lib/backupFile';
+import { plural } from '../lib/plural';
 
 export interface DataSectionProps {
   t: (k: string) => string;
-  onExport: () => Promise<string>;
+  /** Guarda la copia (hoja de compartir / carpeta / descarga). */
+  onBackup: () => Promise<boolean>;
+  /** Sustituye todos los datos por la copia. */
+  onRestore: (b: Backup) => Promise<number>;
+  lng: string;
   onClear: () => Promise<void>;
   onDone: () => void; // recargar datos en pantalla
   /** Ajustes que van en la misma tarjeta, arriba (p. ej. el idioma). */
   children?: React.ReactNode;
 }
 
-export function DataSection({ t, onExport, onClear, onDone, children }: DataSectionProps) {
+export function DataSection({ t, onBackup, onRestore, lng, onClear, onDone, children }: DataSectionProps) {
   const { p, SHADOW } = useTheme();
   const scale = useScale();
   const [confirming, setConfirming] = useState(false);
-  const [busy, setBusy] = useState<'export' | 'clear' | null>(null);
+  const [busy, setBusy] = useState<'export' | 'restore' | 'clear' | null>(null);
+  const [pending, setPending] = useState<Backup | null>(null);
   const [status, setStatus] = useState('');
 
   // El estado de éxito se limpia solo pasados 4 s.
@@ -44,21 +51,43 @@ export function DataSection({ t, onExport, onClear, onDone, children }: DataSect
     setBusy('export');
     setStatus('');
     try {
-      const json = await onExport();
-      let copied = false;
-      try {
-        await Clipboard.setString(json);
-        copied = true;
-      } catch {
-        copied = false;
-      }
-      setStatus(copied ? t('data_copied') : t('data_exported'));
-    } catch {
-      setStatus('');
+      if (await onBackup()) setStatus(t('data_backup_done'));
     } finally {
       setBusy(null);
     }
   }
+
+  async function pickRestore() {
+    if (busy) return;
+    setStatus('');
+    const text = await pickBackupFile();
+    if (text == null) return; // cancelado: nada
+    const b = parseBackup(text);
+    if (!b) {
+      setStatus(t('data_restore_bad'));
+      return;
+    }
+    setPending(b);
+  }
+
+  async function confirmRestore() {
+    if (!pending || busy) return;
+    setBusy('restore');
+    try {
+      await onRestore(pending);
+      setPending(null);
+      onDone();
+      setStatus(t('data_restored'));
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  const pendingDate = (() => {
+    if (!pending?.exported_at) return '';
+    const d = new Date(pending.exported_at);
+    return isNaN(d.getTime()) ? '' : d.toLocaleDateString(lng, { day: 'numeric', month: 'long', year: 'numeric' });
+  })();
 
   async function confirmClear() {
     if (busy) return;
@@ -85,7 +114,7 @@ export function DataSection({ t, onExport, onClear, onDone, children }: DataSect
         <View style={styles.row}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={t('data_export')}
+            accessibilityLabel={t('data_backup')}
             disabled={busy != null}
             onPress={exportData}
             style={({ pressed }) => [
@@ -106,8 +135,30 @@ export function DataSection({ t, onExport, onClear, onDone, children }: DataSect
             {busy === 'export' ? (
               <ActivityIndicator size="small" color={p.text} />
             ) : (
-              <Text style={[styles.btnText, { fontSize: fs(scale, 16), color: p.text }]}>{t('data_export')}</Text>
+              <Text style={[styles.btnText, { fontSize: fs(scale, 16), color: p.text }]}>{t('data_backup')}</Text>
             )}
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('data_restore')}
+            disabled={busy != null}
+            onPress={pickRestore}
+            style={({ pressed }) => [
+              styles.btn,
+              {
+                alignSelf: 'stretch',
+                minHeight: 50,
+                paddingHorizontal: 16,
+                borderRadius: RADII.pill,
+                backgroundColor: 'transparent',
+                borderWidth: 1,
+                borderColor: p.border,
+                opacity: pressed ? 0.6 : 1,
+                transition: 'opacity 90ms ease',
+              },
+            ]}
+          >
+            <Text style={[styles.btnText, { fontSize: fs(scale, 16), color: p.text }]}>{t('data_restore')}</Text>
           </Pressable>
           <Pressable
             accessibilityRole="button"
@@ -136,6 +187,20 @@ export function DataSection({ t, onExport, onClear, onDone, children }: DataSect
           <Text style={[styles.status, { fontSize: fs(scale, 15), color: p.secondary }]} accessibilityLiveRegion="polite">{status}</Text>
         ) : null}
       </View>
+
+      {/* Restaurar: sustituye todo, así que se confirma con lo que trae la copia. */}
+      <ConfirmDialog
+        visible={pending != null}
+        title={t('data_restore_q')}
+        message={t('data_restore_msg')
+          .replace('{{date}}', pendingDate)
+          .replace('{{sessions}}', plural(pending?.sessions.length ?? 0, t, 'data_sess_one', 'data_sess_many'))}
+        confirmLabel={t('data_restore_btn')}
+        cancelLabel={t('cancel')}
+        loading={busy === 'restore'}
+        onConfirm={confirmRestore}
+        onCancel={() => setPending(null)}
+      />
 
       {/* Confirmación de borrado total (Modal propio: funciona en web y nativa). */}
       <ConfirmDialog

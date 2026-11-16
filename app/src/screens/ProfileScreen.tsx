@@ -12,7 +12,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '../store';
-import { store, type Profile, type ProfileEntry, type Sex } from '../store';
+import { store, type Backup, type Profile, type ProfileEntry, type Sex } from '../store';
 import { todayISO, sessionCardioMinutes } from '../lib/gym';
 import type { Experience, Goal } from '../lib/types';
 import { estimateEnergy, missingForEnergy } from '../lib/energy';
@@ -55,7 +55,8 @@ export default function ProfileScreen({
   onHeightLogged,
   lng,
   onPickLang,
-  onExport,
+  onBackup,
+  onRestore,
   onClearAll,
   onDataChanged,
   onProfileChanged,
@@ -67,7 +68,8 @@ export default function ProfileScreen({
   /** Ajustes (antes en la cabecera / el Resumen): idioma y datos. */
   lng: Lang;
   onPickLang: (l: Lang) => void;
-  onExport: () => Promise<string>;
+  onBackup: () => Promise<boolean>;
+  onRestore: (b: Backup) => Promise<number>;
   onClearAll: () => Promise<void>;
   onDataChanged: () => void;
   onProfileChanged?: (p: Profile) => void;
@@ -340,7 +342,9 @@ export default function ProfileScreen({
       {/* ---- 4. Ajustes: idioma + tus datos, una sola tarjeta ---- */}
       <DataSection
         t={t}
-        onExport={onExport}
+        onBackup={onBackup}
+        onRestore={onRestore}
+        lng={lng}
         onClear={onClearAll}
         onDone={() => {
           // Tras borrar, la pantalla vuelve a leer el perfil (nada viejo a la vista).
@@ -350,7 +354,7 @@ export default function ProfileScreen({
             if (np) onProfileChanged?.(np);
           });
           void store.heightHistory().then(setHeights);
-          setHomePhoto(null);
+          void loadHomePhoto().then(setHomePhoto);
         }}
       >
         <Text style={[styles.cardLabel, { color: p.secondary, marginBottom: 2 }]}>{t('profile_language')}</Text>

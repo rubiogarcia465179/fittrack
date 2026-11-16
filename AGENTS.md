@@ -168,7 +168,15 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 
 ## 4. Entorno y dependencias
 
-- Dependencias aprobadas recientes: `expo-haptics`, `expo-image-picker`,
+- **Módulos por plataforma**: `X.ts` (iOS/Android) + `X.web.ts` (web, Metro
+  lo elige solo) con la MISMA API: `pickPhoto`, `sessionPhotos`, `backupFile`,
+  `restAlert`, `Gradient`. tsc solo comprueba la versión nativa; la web se
+  comprueba con `expo export` y las capturas.
+
+- Dependencias aprobadas recientes: `expo-file-system` (~58.0.13, fotos del
+  diario y copia de seguridad) y `expo-notifications` (~58.1.9, aviso del
+  descanso), ambas 2026-11-16 con `npx expo install` y en `app.json → plugins`;
+  `expo-haptics`, `expo-image-picker`,
   `react-native-svg` (15.16.0, lo usa `BarChart`),
   `react-native-safe-area-context` (5.11, petición del usuario: sustituye al
   `SafeAreaView` obsoleto de RN; `SafeAreaProvider` envuelve la app). three, @react-three/fiber,

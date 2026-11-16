@@ -9,10 +9,12 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
 2. Trabaja **en el orden de esta lista**, de arriba abajo.
 3. **No commitees** hasta cerrar una fase y que la prueba "Steve Jobs" dé
    **sí** (`CLAUDE.md §2`; se evalúa como **versión 2.0**). Estado al
-   2026-11-16: **Fases 11l, 11m y 15 en `main`** (Jobs 89). **Siguiente:
-   Fase 14** (por qué se usa + favoritos con cita verificable), si la
-   prueba Jobs lo aprueba (R-122). Luego paridad web (⛔ `npm ci`) y Fase 13
-   (fotos). ⛔ abiertos: `expo-file-system` para las fotos del diario.
+   2026-11-16: **Fases 11l, 11m y 15 en `main`** (Jobs 89). Fase 14
+   **descartada** (R-123). **Fase 16** (copia de seguridad, aviso del
+   descanso bloqueado, fotos como archivos) en `main`. **Siguiente:**
+   manuales para otra app (R-129) y 5 vueltas Jobs analyze → suggest →
+   aplicar (R-130). Luego paridad web (⛔ `npm ci`) y Fase 13 (fotos).
+   Prueba en iPhone: la hace el usuario (R-128).
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
    no las supongas.
 
@@ -164,7 +166,7 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
 - [x] El generador evita ejercicios casi iguales en la misma sesión (11l).
 - [x] Nombre del récord en 2 líneas en el resumen final (11l).
 - [ ] ⛔ Probar en iPhone: háptico de récord, "Mantener", copia del peso.
-- [ ] "Discos por lado" solo si el usuario quiere un ajuste de barra (⛔ decisión).
+- [x] "Discos por lado": descartado por el usuario (R-127).
 
 ### (Pedido original de la 11k)
 - [x] **Terminar la sesión**: en la hoja final, un solo botón "Finalizar"
@@ -243,6 +245,24 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
   i18n regenerado (390 claves); pendiente el tema X, 3 pestañas, Inicio,
   Perfil y pasos por idioma en `web/`.
 
+### Fase 16 — Copia de seguridad, aviso del descanso bloqueado, fotos como archivos ✅ (Jobs SÍ, 90)
+- [x] **Copia de seguridad** (R-124): Perfil → "Guardar copia de seguridad"
+      (un archivo con sesiones, perfil, fotos y foto de Inicio) y "Restaurar
+      una copia" (validada, con confirmación; sustituye todo). `store.backupJson`,
+      `parseBackup`, `store.restore`; `lib/backupFile(.web).ts`. 16 tests.
+- [x] **Aviso del descanso con el móvil bloqueado** (R-125): notificación
+      local programada (`lib/restAlert(.web).ts`, `expo-notifications`,
+      aprobada). Se cancela con +15 s/Saltar/fin y al terminar o descartar.
+- [x] **Fotos como archivos** (R-126): `lib/sessionPhotos.ts` (nativo,
+      `expo-file-system`, aprobada) y `.web.ts` (localStorage). Migra solas
+      las fotos viejas de AsyncStorage.
+- [x] Calculadora de discos descartada (R-127).
+- [ ] ⛔ **Usuario** (R-128): probar en iPhone real — compartir la copia a
+      Archivos, restaurarla, y el aviso con el móvil bloqueado. Necesita un
+      build de desarrollo (`expo-notifications`/`expo-file-system` nativos;
+      Expo Go no basta para las notificaciones).
+- ⛔ Paridad web de la copia: la web (Astro) aún exporta solo al portapapeles; necesita `cd web && npm ci`.
+
 ### Fase 15 — InstaGym (sustituye a Historial) ✅ (Jobs SÍ, 89)
 - [x] Diario tipo post (estilo X): resumen, **fotos** (deslizables) y
       **comentarios** (tocar uno → borrar con confirmación).
@@ -250,15 +270,14 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       diario; "Quitar foto". Fotos en su propia clave de AsyncStorage
       (`lib/sessionPhotos.ts`); se borran con la sesión y con "Borrar todo".
 - [x] Tocar un día entrenado del calendario abre esa sesión (Historial de ese día).
-- ⛔ Guardar las fotos como archivos con `expo-file-system`: **no** está en
-  `package.json` (solo transitivo) → añadirlo necesita aprobación.
+- [x] Fotos como archivos con `expo-file-system` → hecho en la Fase 16.
 - ⛔ Paridad web (fotos vía `<input type="file">`): necesita `cd web && npm ci`.
 
-### Fase 14 — Biblioteca: contenido por ejercicio — ⏸ prueba Jobs al plan: **NO** (2026-11-16)
-> "Por qué se usa" repite "Qué entrena" (el usuario acaba de pedir quitar
-> todo lo duplicado) y los favoritos de atletas son decoración, no el
-> núcleo (Foco). Se para aquí hasta que el usuario decida: ¿se hace igual,
-> se reduce (p. ej. solo los 5 clásicos) o se descarta?
+### Fase 14 — Biblioteca: contenido por ejercicio — ✖ DESCARTADA por el usuario (2026-11-16, R-123)
+> La prueba Jobs al plan dijo **NO**: "Por qué se usa" repite "Qué entrena"
+> y los favoritos de atletas son decoración, no el núcleo (Foco). El
+> usuario la descarta. Lo hecho (cómo se hace + qué entrena) se queda; las
+> casillas abiertas no se hacen (salvo la de la web, que pasa a paridad).
 - [x] **Cómo se hace** (3 pasos para principiantes, 4 idiomas) y **qué
       entrena** (grupo + músculos secundarios) — hoja de la sesión y detalle.
 - [ ] **Por qué se usa** (una frase por ejercicio, 4 idiomas, redactada

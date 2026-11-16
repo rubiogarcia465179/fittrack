@@ -11,7 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { CardioIntensity } from './lib/gym';
 import type { Goal } from './lib/types';
 import { currentExerciseId } from './lib/merged-ids';
-import { deletePhotos, deleteAllPhotos } from './lib/sessionPhotos';
+import { deletePhotos, deleteAllPhotos, exportPhotos, importPhotos } from './lib/sessionPhotos';
+import { loadHomePhoto, saveHomePhoto } from './lib/homePhoto';
 
 /** Ejercicios fusionados (R-119): el historial y las marcas apuntan al que queda. */
 function remapSessions(list: Session[]): Session[] {
@@ -270,10 +271,33 @@ export const store = {
     await write(d);
     return d.profile;
   },
-  /** JSON completo de los datos (exportación). */
-  async toJson(): Promise<string> {
+  /** Copia de seguridad COMPLETA (Fase 16, R-124): sesiones, perfil, fotos
+   *  del diario y foto de Inicio, en un solo JSON que se puede restaurar. */
+  async backupJson(): Promise<string> {
     const d = await read();
-    return JSON.stringify({ app: 'fittrack', version: 1, exported_at: new Date().toISOString(), ...d }, null, 2);
+    const ids = d.sessions.flatMap((s) => s.photos || []);
+    const photos = await exportPhotos(ids);
+    const home = await loadHomePhoto();
+    const b: Backup = {
+      app: 'fittrack',
+      version: BACKUP_VERSION,
+      exported_at: new Date().toISOString(),
+      sessions: d.sessions,
+      profile: d.profile,
+      photos,
+      ...(home && home.startsWith('data:image/') ? { home_photo: home } : {}),
+    };
+    return JSON.stringify(b);
+  },
+  /** Sustituye TODOS los datos por los de una copia ya validada
+   *  (`parseBackup`). Devuelve el nº de sesiones restauradas. */
+  async restore(b: Backup): Promise<number> {
+    const data = migrate({ sessions: b.sessions, profile: b.profile });
+    await deleteAllPhotos();
+    await write(data);
+    if (b.photos) await importPhotos(b.photos);
+    await saveHomePhoto(b.home_photo && b.home_photo.startsWith('data:image/') ? b.home_photo : null);
+    return data.sessions.length;
   },
   /** Borra TODOS los datos (sesiones y perfil incluidos). */
   async clearAll(): Promise<void> {
@@ -281,3 +305,49 @@ export const store = {
     await deleteAllPhotos();
   },
 };
+
+/* ---------------- copia de seguridad (Fase 16) ---------------- */
+
+export const BACKUP_VERSION = 2;
+
+export interface Backup {
+  app: 'fittrack';
+  version: number;
+  exported_at: string;
+  sessions: Session[];
+  profile: Profile;
+  /** id de foto → data URL JPEG. */
+  photos?: Record<string, string>;
+  home_photo?: string;
+}
+
+/** Lee el texto de un archivo de copia. null = no es una copia de FitTrack
+ *  (o es de una versión más nueva que esta app). Acepta también la
+ *  exportación vieja (versión 1, sin fotos). */
+export function parseBackup(text: string): Backup | null {
+  try {
+    const o = JSON.parse(text);
+    if (!o || typeof o !== 'object' || o.app !== 'fittrack') return null;
+    if (typeof o.version !== 'number' || o.version > BACKUP_VERSION) return null;
+    if (!Array.isArray(o.sessions) || !o.profile || typeof o.profile !== 'object') return null;
+    const photos: Record<string, string> = {};
+    if (o.photos && typeof o.photos === 'object') {
+      for (const [k, v] of Object.entries(o.photos)) if (typeof v === 'string') photos[k] = v;
+    }
+    return {
+      app: 'fittrack',
+      version: o.version,
+      exported_at: typeof o.exported_at === 'string' ? o.exported_at : '',
+      sessions: o.sessions.filter((s: unknown) => s && typeof s === 'object' && typeof (s as Session).id === 'string'),
+      profile: o.profile,
+      photos,
+      home_photo: typeof o.home_photo === 'string' ? o.home_photo : undefined,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/** Nombre del archivo: fittrack-backup-AAAA-MM-DD.json */
+export const backupFileName = (d = new Date()) =>
+  `fittrack-backup-${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}.json`;
