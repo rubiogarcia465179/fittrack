@@ -11,7 +11,7 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const SRC = path.join(ROOT, 'data/exercises/all.json');
-const MIRRORS = ['app/src/data/exercises.json', 'web/src/data/exercises.json'].map((p) => path.join(ROOT, p));
+const MIRRORS = ['app/src/data/exercises.json'].map((p) => path.join(ROOT, p));
 const names = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/exercises/names-i18n.json'), 'utf8'));
 
 const db = JSON.parse(fs.readFileSync(SRC, 'utf8'));

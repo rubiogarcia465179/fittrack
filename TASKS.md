@@ -13,9 +13,10 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
    **descartada** (R-123). **Fase 16** (copia de seguridad, aviso del
    descanso bloqueado, fotos como archivos) en `main`. **Fase 17**
    (manual `docs/kit/`) y **Fase 18** (5 vueltas Jobs, 86 → 90,
-   `docs/LOOP-18.md`) hechas. **Siguiente:** prueba en iPhone (usuario,
-   R-128). Luego paridad web (⛔ `npm ci`) y Fase 13 (fotos).
-   Prueba en iPhone: la hace el usuario (R-128).
+   `docs/LOOP-18.md`) hechas. **Fase 19**: la web ES la app (`web/` =
+   build web; Astro en la rama `web-astro`). **En curso: Fase 13** con
+   dibujos reales de Everkinetic (`scripts/fetch_everkinetic.py`, estado en
+   `docs/fotos/STATUS.md`). Prueba en iPhone: la hace el usuario (R-128).
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
    no las supongas.
 
@@ -241,10 +242,19 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
   de widget nativa) / Android notificación en curso → requiere build propia
   (no funciona en Expo Go) y dependencias nuevas. Paso intermedio posible:
   `expo-notifications` (notificación programada al acabar el descanso, con
-  vibración aunque el móvil esté bloqueado). Decide el usuario.
-- ⏸ **Paridad web en pausa** (el usuario pidió parar): `npm ci` y build OK,
-  i18n regenerado (390 claves); pendiente el tema X, 3 pestañas, Inicio,
-  Perfil y pasos por idioma en `web/`.
+  vibración aunque el móvil esté bloqueado) → **hecho en la Fase 16**.
+- [x] Paridad web: resuelta en la Fase 19 (la web ES la app).
+
+### Fase 19 — La web ES la app (R-131) ✅
+- [x] Decisión del usuario: la web = build web de la app (paridad total);
+      el sitio Astro se guarda en la rama `web-astro`.
+- [x] `web/` nuevo: `build.js` (`expo export --platform web` de `app/` →
+      `web/dist/` + `404.html`), `serve.js` (:8080), README. Sin dependencias.
+- [x] `app/public/index.html`: fondo negro (sin destello), `lang="es"`,
+      descripción, `theme-color`, favicon.
+- [x] Tests y scripts sin Astro: vectores de lógica sobre `gym.ts`; fuera
+      `tests/runtime.js`, `generate_web_i18n.py`, `generate_gym_browser.py`,
+      espejos `web/src/*` y `docs/web-screenshots/`.
 
 ### Fase 18 — 5 vueltas Jobs para producción (R-130) ✅ (Jobs SÍ, 90/90)
 - [x] V1: nombres a 2 líneas en la sesión; "14 min · 2 series" igual en
@@ -282,7 +292,7 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       Archivos, restaurarla, y el aviso con el móvil bloqueado. Necesita un
       build de desarrollo (`expo-notifications`/`expo-file-system` nativos;
       Expo Go no basta para las notificaciones).
-- ⛔ Paridad web de la copia: la web (Astro) aún exporta solo al portapapeles; necesita `cd web && npm ci`.
+- [x] Copia en la web: descarga + restaurar desde archivo (`backupFile.web.ts`; la web es la app desde la Fase 19).
 
 ### Fase 15 — InstaGym (sustituye a Historial) ✅ (Jobs SÍ, 89)
 - [x] Diario tipo post (estilo X): resumen, **fotos** (deslizables) y
@@ -303,7 +313,7 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       entrena** (grupo + músculos secundarios) — hoja de la sesión y detalle.
 - [ ] **Por qué se usa** (una frase por ejercicio, 4 idiomas, redactada
       localmente y declarada).
-- [ ] Web: usar `web/src/data/howto/<lang>.json` en las páginas de detalle.
+- [x] Web: ya no aplica (la web es la app, Fase 19).
 - [ ] **Favoritos de atletas famosos con cita verificable** (entrevista,
       vídeo, libro, enlace), investigados con búsqueda web, nunca de memoria;
       solo donde exista fuente (los clásicos), no en los 226.
@@ -317,12 +327,6 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
 - [ ] Agente, al recibir lotes: `image` → lista de 3, carrusel en el
       detalle, sync, `source_note` "generadas con IA", compresión JPEG.
 
-### Paridad web (Astro) con la app (⏸ en pausa por el usuario)
-- [ ] Tema monocromo estilo X en `web/src/styles/global.css` (hoy la web
-      tiene las variables grises de la 11c, no el negro/blanco de la 11d).
-- [ ] `dashboard.astro` → Inicio; `session.astro` → sesión actual (descanso,
-      cardio, valoración); Perfil con datos y calorías (`energy.ts`).
-- [x] `npm ci` (aprobado) + `npm run build` OK (233 páginas).
 
 ## Hecho recientemente
 

@@ -27,6 +27,7 @@ import type { Lang } from '../i18n';
 import { Image } from 'react-native';
 import { canPickPhoto, pickPhoto } from '../lib/pickPhoto';
 import { loadHomePhoto, saveHomePhoto } from '../lib/homePhoto';
+import { PHOTO_COUNT } from '../exercisePhotos';
 
 import { Chevron } from '../components/Chevron';
 import { loadExercises } from '../data';
@@ -377,6 +378,7 @@ export default function ProfileScreen({
           <Text style={[styles.flagSub, { color: p.secondary }]}>
             {t('credits_authors')} {CREDIT_AUTHORS.join(', ')}.
           </Text>
+          {PHOTO_COUNT > 0 ? <Text style={[styles.flagSub, { color: p.secondary }]}>{t('credits_drawings')}</Text> : null}
           <Text style={[styles.flagSub, { color: p.secondary }]}>{t('credits_photo')}</Text>
         </View>
       ) : null}

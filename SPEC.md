@@ -235,11 +235,14 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 - Última elección de la hoja de inicio: `fittrack.quickstart.v1`.
 - Foto de Inicio (opcional): `fittrack.homephoto.v1` (data URL).
 - Persistencia: AsyncStorage (app) / localStorage (web). Sin backend.
+- **Web = la app** (R-131): `web/` compila `app/` con `expo export --platform
+  web`; misma UI y funciones. Diferencias por plataforma en `*.web.ts`
+  (fotos en localStorage, copia descargada, sin aviso con pantalla bloqueada).
 
 ## 4. Idiomas
 
-NL, ES, EN, FR. `i18n/` con espejos idénticos en `app/src/i18n-data/` y
-`web/src/i18n/`; mismo nº de claves en los 4.
+NL, ES, EN, FR. `i18n/` con espejo idéntico en `app/src/i18n-data/`; mismo
+nº de claves en los 4.
 
 **Todo lo escrito cambia al idioma elegido, al instante y sin red**: interfaz,
 nombres de ejercicio, pasos "¿Cómo se hace?" (un dataset por idioma en
@@ -257,13 +260,13 @@ otro idioma salvo unidades (kg, min, km, reps).
 
 ## 6. Hoja de ruta (orden en `TASKS.md`)
 
-1. Cerrar la prueba "Steve Jobs" (Fase 11d).
-2. Fase 15 — InstaGym (fotos y comentarios por sesión; calendario → sesión).
-3. Fase 14 — Biblioteca con explicaciones, favoritos citados y nombres
-   traducidos.
-4. Fase 13 — Fotos de ejercicios (las genera el usuario; prompts listos).
-5. Paridad de la web (Astro) con la app.
-6. Fase 7 — Sync en la nube (Supabase): en espera.
+1. Prueba en iPhone real (usuario, R-128).
+2. Fase 13 — Imágenes de ejercicios: dibujos reales de Everkinetic donde
+   existen; el resto, fotos del usuario con `docs/fotos/PROMPTS.md`
+   (estado en `docs/fotos/STATUS.md`).
+3. Fase 7 — Sync en la nube (Supabase): en espera.
+(Hechas: Steve Jobs 11d, InstaGym 15, copia de seguridad 16, web = app 19.
+Descartada: Fase 14.)
 
 ## Fuera de alcance (por ahora)
 

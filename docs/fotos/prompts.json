@@ -690,29 +690,6 @@
     ]
   },
   {
-    "id": "bench_press_narrow_grip",
-    "name": "Bench Press Narrow Grip",
-    "muscle_group": "arms",
-    "equipment": "barbell",
-    "photos": [
-      {
-        "file": "bench_press_narrow_grip-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Bench Press Narrow Grip\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. Lay down on a bench, the bar is directly over your eyes, the knees form a slight angle and the feet are firmly on the ground. Circle the key setup points (upper arms fixed close to the body, wrists neutral, controlled elbow movement). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "bench_press_narrow_grip-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Bench Press Narrow Grip\" using a loaded Olympic barbell. Photo 2 of 3 — MID-MOVEMENT / PEAK. Hold the bar with a narrow grip (around 20cm.). Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "bench_press_narrow_grip-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Bench Press Narrow Grip\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. When bringing the bar down, don't let it down on your nipples as with the regular bench pressing, but somewhat lower. Circle the most common mistake area to watch (upper arms fixed close to the body, wrists neutral, controlled elbow movement); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
     "id": "biceps_curl_with_cable",
     "name": "Biceps Curl With Cable",
     "muscle_group": "arms",
@@ -893,29 +870,6 @@
         "file": "deadhang-3.png",
         "title": "Técnica clave y vuelta",
         "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Deadhang\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. Deadhang performed on an edge either with or without added weight (adujst edge or weight to adjust difficulty). Circle the most common mistake area to watch (upper arms fixed close to the body, wrists neutral, controlled elbow movement); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "dips_1",
-    "name": "Dips",
-    "muscle_group": "arms",
-    "equipment": "other",
-    "photos": [
-      {
-        "file": "dips_1-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Dips\" using the appropriate equipment for this exercise. Photo 1 of 3 — STARTING POSITION. Hold onto the bars at a narrow place (if they are not parallel) and press yourself up, but don't stretch the arms completely, so the muscles stay during the whole exercise under tension. Circle the key setup points (upper arms fixed close to the body, wrists neutral, controlled elbow movement). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "dips_1-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Dips\" using the appropriate equipment for this exercise. Photo 2 of 3 — MID-MOVEMENT / PEAK. Now bend the arms and go down as much as you can, keeping the elbows always pointing back, At this point, you can make a short pause before repeating the movement. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "dips_1-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Dips\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. Now bend the arms and go down as much as you can, keeping the elbows always pointing back, At this point, you can make a short pause before repeating the movement. Circle the most common mistake area to watch (upper arms fixed close to the body, wrists neutral, controlled elbow movement); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -1175,13 +1129,13 @@
   {
     "id": "military_press_1",
     "name": "Military Press",
-    "muscle_group": "arms",
+    "muscle_group": "shoulders",
     "equipment": "barbell",
     "photos": [
       {
         "file": "military_press_1-1.png",
         "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Military Press\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. On an SZ-bar grip your hands on the outside of each bend and stand with your arms straight down, palms facing your legs. Circle the key setup points (upper arms fixed close to the body, wrists neutral, controlled elbow movement). One small arrow showing where the movement will go next."
+        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Military Press\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. On an SZ-bar grip your hands on the outside of each bend and stand with your arms straight down, palms facing your legs. Circle the key setup points (core braced, ribs down, wrists stacked over elbows, no lower-back arch). One small arrow showing where the movement will go next."
       },
       {
         "file": "military_press_1-2.png",
@@ -1191,7 +1145,7 @@
       {
         "file": "military_press_1-3.png",
         "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Military Press\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. Return the bar to it's origional position (stand with your arms straight down, palms facing your legs.). Circle the most common mistake area to watch (upper arms fixed close to the body, wrists neutral, controlled elbow movement); an arrow showing the controlled return to the start."
+        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Military Press\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. Return the bar to it's origional position (stand with your arms straight down, palms facing your legs.). Circle the most common mistake area to watch (core braced, ribs down, wrists stacked over elbows, no lower-back arch); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -1244,13 +1198,13 @@
   {
     "id": "push_ups",
     "name": "Push Ups",
-    "muscle_group": "arms",
+    "muscle_group": "chest",
     "equipment": "bodyweight",
     "photos": [
       {
         "file": "push_ups-1.png",
         "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Push Ups\" using only body weight. Photo 1 of 3 — STARTING POSITION. Start with your body streched, your hands are shoulder-wide appart on the ground. Circle the key setup points (upper arms fixed close to the body, wrists neutral, controlled elbow movement). One small arrow showing where the movement will go next."
+        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Push Ups\" using only body weight. Photo 1 of 3 — STARTING POSITION. Start with your body streched, your hands are shoulder-wide appart on the ground. Circle the key setup points (elbows at about 45° from the torso, wrists stacked over elbows, shoulder blades pulled together). One small arrow showing where the movement will go next."
       },
       {
         "file": "push_ups-2.png",
@@ -1260,30 +1214,7 @@
       {
         "file": "push_ups-3.png",
         "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Push Ups\" using only body weight. Photo 3 of 3 — KEY FORM AND RETURN. Lower yourself to the initial position and repeat. Circle the most common mistake area to watch (upper arms fixed close to the body, wrists neutral, controlled elbow movement); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "reverse_bar_curl",
-    "name": "Reverse Bar Curl",
-    "muscle_group": "arms",
-    "equipment": "barbell",
-    "photos": [
-      {
-        "file": "reverse_bar_curl-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Reverse Bar Curl\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. Hold bar with reverse (or \"overhand\") grip, palms facing the floor. Circle the key setup points (upper arms fixed close to the body, wrists neutral, controlled elbow movement). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "reverse_bar_curl-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Reverse Bar Curl\" using a loaded Olympic barbell. Photo 2 of 3 — MID-MOVEMENT / PEAK. Hold bar with reverse (or \"overhand\") grip, palms facing the floor. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "reverse_bar_curl-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Reverse Bar Curl\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. Hold bar with reverse (or \"overhand\") grip, palms facing the floor. Circle the most common mistake area to watch (upper arms fixed close to the body, wrists neutral, controlled elbow movement); an arrow showing the controlled return to the start."
+        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Push Ups\" using only body weight. Photo 3 of 3 — KEY FORM AND RETURN. Lower yourself to the initial position and repeat. Circle the most common mistake area to watch (elbows at about 45° from the torso, wrists stacked over elbows, shoulder blades pulled together); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -1399,29 +1330,6 @@
         "file": "smith_machine_close_grip_bench_press-3.png",
         "title": "Técnica clave y vuelta",
         "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Smith Machine Close-grip Bench Press\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. Perform a standard bench press on the smith machine, but have your hands on the bar about shoulder width apart, and keep your elbows close to your body. Circle the most common mistake area to watch (upper arms fixed close to the body, wrists neutral, controlled elbow movement); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "standing_bicep_curl",
-    "name": "Standing Bicep Curl",
-    "muscle_group": "arms",
-    "equipment": "dumbbell",
-    "photos": [
-      {
-        "file": "standing_bicep_curl-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Standing Bicep Curl\" using a pair of dumbbells. Photo 1 of 3 — STARTING POSITION. Stand holding dumbbells at shoulder width apart. Circle the key setup points (upper arms fixed close to the body, wrists neutral, controlled elbow movement). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "standing_bicep_curl-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Standing Bicep Curl\" using a pair of dumbbells. Photo 2 of 3 — MID-MOVEMENT / PEAK. Face forearm upward and keep upper arm still while raising each dumbbell up to your shoulder. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "standing_bicep_curl-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Standing Bicep Curl\" using a pair of dumbbells. Photo 3 of 3 — KEY FORM AND RETURN. Face forearm upward and keep upper arm still while raising each dumbbell up to your shoulder. Circle the most common mistake area to watch (upper arms fixed close to the body, wrists neutral, controlled elbow movement); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -1656,29 +1564,6 @@
     ]
   },
   {
-    "id": "bent_over_rowing",
-    "name": "Bent Over Rowing",
-    "muscle_group": "back",
-    "equipment": "barbell",
-    "photos": [
-      {
-        "file": "bent_over_rowing-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Bent Over Rowing\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. Grab the barbell with a wide grip (slightly more than shoulder wide) and lean forward. Circle the key setup points (neutral spine, shoulder blades squeezing back and down, elbows driving toward the hips). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "bent_over_rowing-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Bent Over Rowing\" using a loaded Olympic barbell. Photo 2 of 3 — MID-MOVEMENT / PEAK. Your upper body is not quite parallel to the floor, but forms a slight angle. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "bent_over_rowing-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Bent Over Rowing\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. Don't swing with your body and keep your arms next to your body. Circle the most common mistake area to watch (neutral spine, shoulder blades squeezing back and down, elbows driving toward the hips); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
     "id": "bent_over_rowing_reverse",
     "name": "Bent Over Rowing Reverse",
     "muscle_group": "back",
@@ -1721,29 +1606,6 @@
         "file": "bentover_dumbbell_rows-3.png",
         "title": "Técnica clave y vuelta",
         "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Bentover Dumbbell Rows\" using a pair of dumbbells. Photo 3 of 3 — KEY FORM AND RETURN. Try not to stand up with every rep, check hands go below knees on every rep. Circle the most common mistake area to watch (neutral spine, shoulder blades squeezing back and down, elbows driving toward the hips); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "chin_up",
-    "name": "Chin Up",
-    "muscle_group": "back",
-    "equipment": "bodyweight",
-    "photos": [
-      {
-        "file": "chin_up-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Chin Up\" using only body weight. Photo 1 of 3 — STARTING POSITION. The chin-up (also known as a chin or chinup) is a strength training exercise. Circle the key setup points (neutral spine, shoulder blades squeezing back and down, elbows driving toward the hips). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "chin_up-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Chin Up\" using only body weight. Photo 2 of 3 — MID-MOVEMENT / PEAK. People frequently do this exercise with the intention of strengthening muscles such as the latissimus dorsi and biceps, which extend the shoulder and flex the elbow, respectively. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "chin_up-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Chin Up\" using only body weight. Photo 3 of 3 — KEY FORM AND RETURN. It is a form of pull-up in which the range of motion is established in relation to a person's chin. Circle the most common mistake area to watch (neutral spine, shoulder blades squeezing back and down, elbows driving toward the hips); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -1836,29 +1698,6 @@
         "file": "deficit_deadlift-3.png",
         "title": "Técnica clave y vuelta",
         "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Deficit Deadlift\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. Repeat. Circle the most common mistake area to watch (neutral spine, shoulder blades squeezing back and down, elbows driving toward the hips); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "hip_raise_lying",
-    "name": "Hip Raise, Lying",
-    "muscle_group": "back",
-    "equipment": "bodyweight",
-    "photos": [
-      {
-        "file": "hip_raise_lying-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Hip Raise, Lying\" using only body weight. Photo 1 of 3 — STARTING POSITION. Lying down on your back, with your feet flat on the floor. Circle the key setup points (neutral spine, shoulder blades squeezing back and down, elbows driving toward the hips). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "hip_raise_lying-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Hip Raise, Lying\" using only body weight. Photo 2 of 3 — MID-MOVEMENT / PEAK. Raise your hips up evenly as high as you can and hold for as long as you can. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "hip_raise_lying-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Hip Raise, Lying\" using only body weight. Photo 3 of 3 — KEY FORM AND RETURN. Raise your hips up evenly as high as you can and hold for as long as you can. Circle the most common mistake area to watch (neutral spine, shoulder blades squeezing back and down, elbows driving toward the hips); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -2208,29 +2047,6 @@
     ]
   },
   {
-    "id": "row",
-    "name": "Row",
-    "muscle_group": "back",
-    "equipment": "barbell",
-    "photos": [
-      {
-        "file": "row-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Row\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. In strength training, rowing (or a row, usually preceded by a qualifying adjective — for instance a seated row) is an exercise where the purpose is to strengthen the muscles that draw the rower's arms toward the body (latissimus dorsi) as well as those that retract the scapulae (trapezius and rhomboids) and those that support the spine (erector spinae). Circle the key setup points (neutral spine, shoulder blades squeezing back and down, elbows driving toward the hips). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "row-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Row\" using a loaded Olympic barbell. Photo 2 of 3 — MID-MOVEMENT / PEAK. When done on a rowing machine, rowing also exercises muscles that extend and support the legs (quadriceps and thigh muscles). Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "row-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Row\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. In all cases, the abdominal and lower back muscles must be used in order to support the body and prevent back injury. Circle the most common mistake area to watch (neutral spine, shoulder blades squeezing back and down, elbows driving toward the hips); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
     "id": "rowing_lying_on_bench",
     "name": "Rowing, Lying on Bench",
     "muscle_group": "back",
@@ -2526,29 +2342,6 @@
         "file": "calf_press_using_leg_press_machine-3.png",
         "title": "Técnica clave y vuelta",
         "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Calf Press Using Leg Press Machine\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. This exercise builds mass and strength in the Gastrocnemius and Soleus muscles as well, if not better, than any calf exercise. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "calf_raises",
-    "name": "Calf Raises",
-    "muscle_group": "legs",
-    "equipment": "dumbbell",
-    "photos": [
-      {
-        "file": "calf_raises-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Calf Raises\" using a pair of dumbbells. Photo 1 of 3 — STARTING POSITION. Calf raises are a method of exercising the gastrocnemius, tibialis posterior and soleus muscles of the lower leg. Circle the key setup points (knees tracking over the toes, heels flat on the floor, neutral spine). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "calf_raises-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Calf Raises\" using a pair of dumbbells. Photo 2 of 3 — MID-MOVEMENT / PEAK. The movement performed is plantar flexion, a.k.a. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "calf_raises-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Calf Raises\" using a pair of dumbbells. Photo 3 of 3 — KEY FORM AND RETURN. ankle extension. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -3197,29 +2990,6 @@
     ]
   },
   {
-    "id": "pushups",
-    "name": "Pushups",
-    "muscle_group": "chest",
-    "equipment": "bodyweight",
-    "photos": [
-      {
-        "file": "pushups-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Pushups\" using only body weight. Photo 1 of 3 — STARTING POSITION. A push-up (or press-up if the hands are wider than shoulders placing more emphasis on the pectoral muscles) is a common calisthenics exercise beginning from the prone position. Circle the key setup points (elbows at about 45° from the torso, wrists stacked over elbows, shoulder blades pulled together). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "pushups-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Pushups\" using only body weight. Photo 2 of 3 — MID-MOVEMENT / PEAK. By raising and lowering the body using the arms, push-ups exercise the pectoral muscles, triceps, and anterior deltoids, with ancillary benefits to the rest of the deltoids, serratus anterior, coracobrachialis and the midsection as a whole. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "pushups-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Pushups\" using only body weight. Photo 3 of 3 — KEY FORM AND RETURN. They are also a common form of punishment used in the military, school sport, or some martial arts disciplines. Circle the most common mistake area to watch (elbows at about 45° from the torso, wrists stacked over elbows, shoulder blades pulled together); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
     "id": "reverse_grip_bench_press",
     "name": "Reverse Grip Bench Press",
     "muscle_group": "chest",
@@ -3315,22 +3085,22 @@
     "id": "back_squat",
     "name": "Back Squat",
     "muscle_group": "legs",
-    "equipment": "other",
+    "equipment": "barbell",
     "photos": [
       {
         "file": "back_squat-1.png",
         "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Back Squat\" using the appropriate equipment for this exercise. Photo 1 of 3 — STARTING POSITION. Place a barbell in a rack just below shoulder-height. Circle the key setup points (knees tracking over the toes, heels flat on the floor, neutral spine). One small arrow showing where the movement will go next."
+        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Back Squat\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. Place a barbell in a rack just below shoulder-height. Circle the key setup points (knees tracking over the toes, heels flat on the floor, neutral spine). One small arrow showing where the movement will go next."
       },
       {
         "file": "back_squat-2.png",
         "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Back Squat\" using the appropriate equipment for this exercise. Photo 2 of 3 — MID-MOVEMENT / PEAK. Dip under the bar to put it behind the neck across the top of the back, and grip the bar with the hands wider than shoulder-width apart. Large curved arrows showing the path of the movement; circle the working muscles and joints."
+        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Back Squat\" using a loaded Olympic barbell. Photo 2 of 3 — MID-MOVEMENT / PEAK. Dip under the bar to put it behind the neck across the top of the back, and grip the bar with the hands wider than shoulder-width apart. Large curved arrows showing the path of the movement; circle the working muscles and joints."
       },
       {
         "file": "back_squat-3.png",
         "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Back Squat\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. From the bottom of the squat, press feet into the ground and push hips forward to return to the top of the standing position. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
+        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Back Squat\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. From the bottom of the squat, press feet into the ground and push hips forward to return to the top of the standing position. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -3565,29 +3335,6 @@
     ]
   },
   {
-    "id": "high_knee_jumps",
-    "name": "High Knee Jumps",
-    "muscle_group": "cardio",
-    "equipment": "other",
-    "photos": [
-      {
-        "file": "high_knee_jumps-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"High Knee Jumps\" using the appropriate equipment for this exercise. Photo 1 of 3 — STARTING POSITION. -Start with legs slightly wider than shoulder width -Drop into a bodyweight squat -As you hit the bottom of the squat, explode upwards into a jump while simultaneously tucking your knees into your chest midflight. Circle the key setup points (upright posture, relaxed shoulders, soft landing under the hips). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "high_knee_jumps-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"High Knee Jumps\" using the appropriate equipment for this exercise. Photo 2 of 3 — MID-MOVEMENT / PEAK. Remain tucked until the apex of your jump. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "high_knee_jumps-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"High Knee Jumps\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. Collect yourself into the next rep as quickly but under control as possible. Circle the most common mistake area to watch (upright posture, relaxed shoulders, soft landing under the hips); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
     "id": "high_knees",
     "name": "High Knees",
     "muscle_group": "cardio",
@@ -3657,29 +3404,6 @@
     ]
   },
   {
-    "id": "jogging",
-    "name": "Jogging",
-    "muscle_group": "cardio",
-    "equipment": "other",
-    "photos": [
-      {
-        "file": "jogging-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Jogging\" using the appropriate equipment for this exercise. Photo 1 of 3 — STARTING POSITION. Get your shoes on, go outside and start running at a moderate pace. Circle the key setup points (upright posture, relaxed shoulders, soft landing under the hips). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "jogging-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Jogging\" using the appropriate equipment for this exercise. Photo 2 of 3 — MID-MOVEMENT / PEAK. Get your shoes on, go outside and start running at a moderate pace. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "jogging-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Jogging\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. Get your shoes on, go outside and start running at a moderate pace. Circle the most common mistake area to watch (upright posture, relaxed shoulders, soft landing under the hips); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
     "id": "jumping_jacks",
     "name": "Jumping Jacks",
     "muscle_group": "cardio",
@@ -3722,29 +3446,6 @@
         "file": "kettlebell_swings-3.png",
         "title": "Técnica clave y vuelta",
         "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Kettlebell Swings\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. Don't try to lift the kettlebell with your arms. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "leg_curl",
-    "name": "Leg Curl",
-    "muscle_group": "legs",
-    "equipment": "other",
-    "photos": [
-      {
-        "file": "leg_curl-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Curl\" using the appropriate equipment for this exercise. Photo 1 of 3 — STARTING POSITION. The leg curl, also known as the hamstring curl, is an isolation exercise that targets the hamstring muscles. Circle the key setup points (knees tracking over the toes, heels flat on the floor, neutral spine). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "leg_curl-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Curl\" using the appropriate equipment for this exercise. Photo 2 of 3 — MID-MOVEMENT / PEAK. The exercise involves flexing the lower leg against resistance towards the buttocks. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "leg_curl-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Curl\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. Other exercises that can be used to strengthen the hamstrings are the glute-ham raise and the deadlift. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -3841,52 +3542,6 @@
     ]
   },
   {
-    "id": "leg_extension_2",
-    "name": "Leg Extension",
-    "muscle_group": "legs",
-    "equipment": "other",
-    "photos": [
-      {
-        "file": "leg_extension_2-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Extension\" using the appropriate equipment for this exercise. Photo 1 of 3 — STARTING POSITION. The leg extension is a resistance weight training exercise that targets the quadriceps muscle in the legs. Circle the key setup points (knees tracking over the toes, heels flat on the floor, neutral spine). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "leg_extension_2-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Extension\" using the appropriate equipment for this exercise. Photo 2 of 3 — MID-MOVEMENT / PEAK. The exercise is done using a machine called the Leg Extension Machine. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "leg_extension_2-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Extension\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. It should not be considered as a total leg workout, such as the squat or deadlift. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "leg_extension_3",
-    "name": "Leg Extension",
-    "muscle_group": "legs",
-    "equipment": "other",
-    "photos": [
-      {
-        "file": "leg_extension_3-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Extension\" using the appropriate equipment for this exercise. Photo 1 of 3 — STARTING POSITION. Seated Leg Extension Machine. Circle the key setup points (knees tracking over the toes, heels flat on the floor, neutral spine). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "leg_extension_3-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Extension\" using the appropriate equipment for this exercise. Photo 2 of 3 — MID-MOVEMENT / PEAK. Seated Leg Extension Machine. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "leg_extension_3-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Extension\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. Seated Leg Extension Machine. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
     "id": "leg_press",
     "name": "Leg Press",
     "muscle_group": "legs",
@@ -3975,29 +3630,6 @@
         "file": "leg_presses_wide-3.png",
         "title": "Técnica clave y vuelta",
         "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Presses (wide)\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. When in the lower position, the knees point a bit outwards and the movement should be always fluid. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "leg_raise",
-    "name": "Leg Raise",
-    "muscle_group": "legs",
-    "equipment": "other",
-    "photos": [
-      {
-        "file": "leg_raise-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Raise\" using the appropriate equipment for this exercise. Photo 1 of 3 — STARTING POSITION. The leg raise is a strength training exercise which targets the iliopsoas (the anterior hip flexors). Circle the key setup points (knees tracking over the toes, heels flat on the floor, neutral spine). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "leg_raise-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Raise\" using the appropriate equipment for this exercise. Photo 2 of 3 — MID-MOVEMENT / PEAK. Because the abdominal muscles are used isometrically to stabilize the body during the motion, leg raises are also often used to strengthen the rectus abdominis muscle and the internal and external oblique muscles. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "leg_raise-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Leg Raise\" using the appropriate equipment for this exercise. Photo 3 of 3 — KEY FORM AND RETURN. Because the abdominal muscles are used isometrically to stabilize the body during the motion, leg raises are also often used to strengthen the rectus abdominis muscle and the internal and external oblique muscles. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -4232,29 +3864,6 @@
     ]
   },
   {
-    "id": "squats",
-    "name": "Squats",
-    "muscle_group": "legs",
-    "equipment": "barbell",
-    "photos": [
-      {
-        "file": "squats-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Squats\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. Make sure you have put the barbell at a height where you can comfortably take it out and put it back in. Circle the key setup points (knees tracking over the toes, heels flat on the floor, neutral spine). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "squats-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Squats\" using a loaded Olympic barbell. Photo 2 of 3 — MID-MOVEMENT / PEAK. Take it out and make yourself ready: The bar is somewhat lower than your shoulders The feet are quite apart and point out The head is in your neck and looks up The chest is out Go now slowly down, till your thighs are parallel with the floor, not lower. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "squats-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Squats\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. Make a pause of 2 seconds and repeat. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
     "id": "stationary_bike",
     "name": "Stationary Bike",
     "muscle_group": "cardio",
@@ -4389,29 +3998,6 @@
         "file": "wall_squat-3.png",
         "title": "Técnica clave y vuelta",
         "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Wall Squat\" using only body weight. Photo 3 of 3 — KEY FORM AND RETURN. Variant: put a big inflated rubber ball (like a small basketball) between your knees and squeeze the ball while holding the squat position. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "weighted_step",
-    "name": "Weighted Step",
-    "muscle_group": "legs",
-    "equipment": "barbell",
-    "photos": [
-      {
-        "file": "weighted_step-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Weighted Step\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. Box step-ups w/ barbell, 45's on each side. Circle the key setup points (knees tracking over the toes, heels flat on the floor, neutral spine). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "weighted_step-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Weighted Step\" using a loaded Olympic barbell. Photo 2 of 3 — MID-MOVEMENT / PEAK. Box step-ups w/ barbell, 45's on each side. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "weighted_step-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Weighted Step\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. Box step-ups w/ barbell, 45's on each side. Circle the most common mistake area to watch (knees tracking over the toes, heels flat on the floor, neutral spine); an arrow showing the controlled return to the start."
       }
     ]
   },
@@ -4761,29 +4347,6 @@
     ]
   },
   {
-    "id": "military_press_2",
-    "name": "Military Press",
-    "muscle_group": "shoulders",
-    "equipment": "barbell",
-    "photos": [
-      {
-        "file": "military_press_2-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Military Press\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. The military press is a variation of the overhead press weight training exercise using very strict form and no pre-movement momentum.The military press targets the deltoid muscles in the shoulders as well as the triceps. Circle the key setup points (core braced, ribs down, wrists stacked over elbows, no lower-back arch). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "military_press_2-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Military Press\" using a loaded Olympic barbell. Photo 2 of 3 — MID-MOVEMENT / PEAK. Additionally, it works the core and legs, which the lifter uses to help stabilize the weight.The lift begins with the lifter standing and the barbell on the anterior deltoids. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "military_press_2-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Military Press\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. The lifter then raises the barbell overhead by pressing the palms of the hands against the underside of the barbell. Circle the most common mistake area to watch (core braced, ribs down, wrists stacked over elbows, no lower-back arch); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
     "id": "power_clean",
     "name": "Power Clean",
     "muscle_group": "shoulders",
@@ -4968,29 +4531,6 @@
     ]
   },
   {
-    "id": "shoulder_shrug",
-    "name": "Shoulder Shrug",
-    "muscle_group": "shoulders",
-    "equipment": "barbell",
-    "photos": [
-      {
-        "file": "shoulder_shrug-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Shoulder Shrug\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. The shoulder shrug (usually called simply the shrug) is an exercise in weight training used to develop the upper trapezius muscle. Circle the key setup points (core braced, ribs down, wrists stacked over elbows, no lower-back arch). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "shoulder_shrug-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Shoulder Shrug\" using a loaded Olympic barbell. Photo 2 of 3 — MID-MOVEMENT / PEAK. The lifter stands erect, hands about shoulder width apart, and raises the shoulders as high as possible, and then lowers them, while not bending the elbows, or moving the body at all. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "shoulder_shrug-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Shoulder Shrug\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. It is usually considered good form if the slope of the shoulders is horizontal in the elevated position. Circle the most common mistake area to watch (core braced, ribs down, wrists stacked over elbows, no lower-back arch); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
     "id": "shrugs_barbells",
     "name": "Shrugs, Barbells",
     "muscle_group": "shoulders",
@@ -5033,29 +4573,6 @@
         "file": "shrugs_dumbbells-3.png",
         "title": "Técnica clave y vuelta",
         "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Shrugs, Dumbbells\" using a pair of dumbbells. Photo 3 of 3 — KEY FORM AND RETURN. When training with a higher weight, make sure that you still do the whole movement! Circle the most common mistake area to watch (core braced, ribs down, wrists stacked over elbows, no lower-back arch); an arrow showing the controlled return to the start."
-      }
-    ]
-  },
-  {
-    "id": "side_raise",
-    "name": "Side Raise",
-    "muscle_group": "shoulders",
-    "equipment": "barbell",
-    "photos": [
-      {
-        "file": "side_raise-1.png",
-        "title": "Posición inicial",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Side Raise\" using a loaded Olympic barbell. Photo 1 of 3 — STARTING POSITION. Stand up or sit , keep both weights in front against legs or at side. Circle the key setup points (core braced, ribs down, wrists stacked over elbows, no lower-back arch). One small arrow showing where the movement will go next."
-      },
-      {
-        "file": "side_raise-2.png",
-        "title": "Movimiento",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Side Raise\" using a loaded Olympic barbell. Photo 2 of 3 — MID-MOVEMENT / PEAK. Keep arms at around a 90 degree angle. Large curved arrows showing the path of the movement; circle the working muscles and joints."
-      },
-      {
-        "file": "side_raise-3.png",
-        "title": "Técnica clave y vuelta",
-        "prompt": "Photorealistic fitness photograph, shot on a full-frame camera, 50mm, natural soft daylight. Bright minimalist modern gym: light grey concrete walls, dark rubber floor, large window on the left, one green plant, black equipment. Athletic adult in a plain grey tank top, black shorts and grey sneakers; correct, safe technique; realistic anatomy and hands. Full body visible, camera at a 3/4 side angle so the movement is easy to read. Vertical 4:5 format. Annotations drawn on top of the photo in clean flat orange (#F05B1F): thick curved arrows for the direction of movement and thin circles around the key form points. Arrows and circles only — NO text, letters, numbers or logos anywhere. Exercise: \"Side Raise\" using a loaded Olympic barbell. Photo 3 of 3 — KEY FORM AND RETURN. 2 seconds up, 2 seconds down. Circle the most common mistake area to watch (core braced, ribs down, wrists stacked over elbows, no lower-back arch); an arrow showing the controlled return to the start."
       }
     ]
   },

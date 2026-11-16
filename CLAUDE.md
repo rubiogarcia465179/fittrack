@@ -83,8 +83,10 @@ error real y se apunta en `PROGRESS.md`; no se da por bueno.
   (`wsl.exe -d Ubuntu-24.04 sh -c 'cd ~/fittrack && …'`); para rutas `/tmp`
   desde Git Bash, `MSYS_NO_PATHCONV=1`.
 - No añadir dependencias ni ejecutar `npm install`/`npm ci` sin aprobación.
-- Paridad app ↔ web: si no da tiempo, se apunta en `TASKS.md`.
-- i18n: toda cadena nueva en los 4 idiomas (NL/ES/EN/FR) y en los 3 espejos.
+- La web ES la app (`web/` = build web de `app/`, R-131): paridad automática;
+  lo que difiera por plataforma va en módulos `*.web.ts`.
+- i18n: toda cadena nueva en los 4 idiomas (NL/ES/EN/FR), en `i18n/` y en su
+  espejo `app/src/i18n-data/`.
 - Regla de oro de datos: nada inventado se presenta como real; citas de
   personas reales solo con fuente verificable.
 - Mensajes del usuario a mitad de tarea: se apuntan en `TASKS.md` /

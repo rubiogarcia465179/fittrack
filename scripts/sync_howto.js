@@ -14,7 +14,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const LANGS = ['nl', 'es', 'en', 'fr'];
 const SRC = path.join(ROOT, 'data/exercises/howto');
-const DESTS = [path.join(ROOT, 'app/src/data/howto'), path.join(ROOT, 'web/src/data/howto')];
+const DESTS = [path.join(ROOT, 'app/src/data/howto')];
 
 const all = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/exercises/all.json'), 'utf8'));
 const ids = all.exercises.map((e) => e.id);
@@ -37,6 +37,6 @@ for (const l of LANGS) {
     fs.mkdirSync(d, { recursive: true });
     fs.writeFileSync(path.join(d, l + '.json'), text);
   }
-  console.log(`${l}: ${ids.length} ejercicios → app + web`);
+  console.log(`${l}: ${ids.length} ejercicios → app`);
 }
 process.exit(bad ? 1 : 0);

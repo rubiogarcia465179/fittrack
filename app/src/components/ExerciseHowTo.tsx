@@ -20,7 +20,7 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
   const { t, i18n } = useTranslation();
   const { p } = useTheme();
   const lang = i18n.language as string;
-  const { images, placeholder } = photosFor(exercise.id);
+  const { images, placeholder, kind } = photosFor(exercise.id);
   const width = Math.min(Dimensions.get('window').width, 640) - 40;
   const [page, setPage] = useState(0);
   const secondary = exercise.secondary_muscles || [];
@@ -51,7 +51,20 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
           >
             {images.map((src, i) => (
               <View key={i} style={{ width }}>
-                <Image source={src} style={[styles.photo, { width, borderColor: p.border }]} resizeMode="cover" accessibilityLabel={`${exName(exercise, lang)} ${i + 1}/${images.length}`} />
+                {kind === 'drawing' ? (
+                  // Dibujo de línea (fondo transparente): se tiñe con el color del
+                  // texto, así es blanco en Noche y negro en Día.
+                  <View style={[styles.photo, { width, borderColor: p.border, backgroundColor: p.card, alignItems: 'center', justifyContent: 'center' }]}>
+                    <Image
+                      source={src}
+                      style={{ width: width - 24, height: '92%', tintColor: p.text }}
+                      resizeMode="contain"
+                      accessibilityLabel={`${exName(exercise, lang)}: ${t(i === 0 ? 'howto_pos_start' : 'howto_pos_end')}`}
+                    />
+                  </View>
+                ) : (
+                  <Image source={src} style={[styles.photo, { width, borderColor: p.border }]} resizeMode="cover" accessibilityLabel={`${exName(exercise, lang)} ${i + 1}/${images.length}`} />
+                )}
                 {placeholder ? (
                   <View style={styles.badge}>
                     <Text style={styles.badgeText}>{t('howto_sample_photo')}</Text>
@@ -65,6 +78,12 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
               <View key={i} style={[styles.dot, { backgroundColor: i === page ? p.text : p.border }]} />
             ))}
           </View>
+          {kind === 'drawing' ? (
+            // Atribución CC BY-SA junto a la obra (y en Licencias y créditos).
+            <Text style={[styles.credit, { color: p.dim }]}>
+              {`${t(page === 0 ? 'howto_pos_start' : 'howto_pos_end')} · ${t('howto_drawing_credit')}`}
+            </Text>
+          ) : null}
 
           {/* Qué entrena */}
           <Text style={[styles.section, { color: p.secondary }]}>{t('howto_trains')}</Text>
@@ -126,6 +145,7 @@ const styles = StyleSheet.create({
   },
   badgeText: { color: '#FFFFFF', fontSize: 12, fontWeight: '600' },
   dots: { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 10 },
+  credit: { fontSize: 12, textAlign: 'center', marginTop: 6 },
   dot: { width: 7, height: 7, borderRadius: 4 },
   section: { fontSize: 13, fontWeight: '600', letterSpacing: 1.2, textTransform: 'uppercase', marginTop: 22, marginBottom: 10 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },

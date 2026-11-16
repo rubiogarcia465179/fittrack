@@ -5,14 +5,20 @@
  */
 const HERO = require('../assets/session-hero.jpg');
 
-const PHOTOS: Record<string, number[]> = {
+/** kind: 'drawing' = dibujo de línea real (Everkinetic, CC BY-SA 3.0; fondo
+ *  transparente, se tiñe con el color del tema); 'photo' = foto propia. */
+const PHOTOS: Record<string, { kind: 'drawing' | 'photo'; images: number[] }> = {
 
 };
 
-/** Fotos de un ejercicio; si aún no tiene, 3 imágenes de ejemplo (placeholder: true). */
-export function photosFor(id: string): { images: number[]; placeholder: boolean } {
+export type PhotoKind = 'drawing' | 'photo' | 'sample';
+
+/** Imágenes de un ejercicio; si aún no tiene, la imagen de ejemplo (kind 'sample', marcada). */
+export function photosFor(id: string): { images: number[]; kind: PhotoKind; placeholder: boolean } {
   const own = PHOTOS[id];
-  return own && own.length ? { images: own, placeholder: false } : { images: [HERO, HERO, HERO], placeholder: true };
+  return own && own.images.length
+    ? { images: own.images, kind: own.kind, placeholder: false }
+    : { images: [HERO, HERO, HERO], kind: 'sample', placeholder: true };
 }
 
 export const PHOTO_COUNT = 0;

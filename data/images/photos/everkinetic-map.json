@@ -1,0 +1,257 @@
+{
+ "note": "candidates = variantes a revisar; chosen = lo elegido tras MIRAR cada dibujo (id -> nombre base en Commons)",
+ "candidates": {
+  "arnold_shoulder_press": [
+   "Arnold press",
+   "Arnold-press"
+  ],
+  "back_squat": [
+   "Squats"
+  ],
+  "barbell_ab_rollout": [
+   "Ab rollout with barbell"
+  ],
+  "barbell_hack_squats": [
+   "Hack squat with barbell"
+  ],
+  "barbell_lunges": [
+   "Lunges",
+   "Lunges-2"
+  ],
+  "bench_press": [
+   "Bench press",
+   "Bench-press"
+  ],
+  "benchpress_dumbbells": [
+   "Dumbbell-bench-press",
+   "Bench press dumbbell"
+  ],
+  "bent_over_lateral_raises": [
+   "Bent over rear deltoid raise with head on bench"
+  ],
+  "bent_over_rowing_reverse": [
+   "Reverse-grip-bent-over-rows"
+  ],
+  "biceps_curl_with_cable": [
+   "Standing biceps curl with cable"
+  ],
+  "biceps_curls_with_barbell": [
+   "Bicep curls with barbell"
+  ],
+  "biceps_curls_with_dumbbell": [
+   "Biceps curl with dumbbell"
+  ],
+  "butterfly": [
+   "Butterfly machine"
+  ],
+  "cable_cross_over": [
+   "Cable-crossover"
+  ],
+  "calf_press_using_leg_press_machine": [
+   "Calves-press-on-leg-machine"
+  ],
+  "chin_ups": [
+   "Chin-ups",
+   "Chin ups"
+  ],
+  "close_grip_bench_press": [
+   "Close-grip-bench-press"
+  ],
+  "close_grip_lat_pull_down": [
+   "Close-grip-front-lat-pull-down"
+  ],
+  "crunches": [
+   "Crunches"
+  ],
+  "decline_bench_press_barbell": [
+   "Decline barbell bench press",
+   "Decline-bench-press"
+  ],
+  "decline_bench_press_dumbbell": [
+   "Decline dumbbell bench press"
+  ],
+  "dips_2": [
+   "Chest dips"
+  ],
+  "dumbbell_concentration_curl": [
+   "Concentration curls with dumbbell",
+   "Concentration-curls"
+  ],
+  "dumbbell_incline_curl": [
+   "Alternating incline curl with dumbbell",
+   "Alternate-incline-curl"
+  ],
+  "dumbbell_lunges_walking": [
+   "Walking-lunges"
+  ],
+  "flutter_kicks": [
+   "Flutter-kicks",
+   "Flutter kicks"
+  ],
+  "fly_with_dumbbells": [
+   "Dumbbell flys"
+  ],
+  "fly_with_dumbbells_decline_bench": [
+   "Decline dumbbell flys",
+   "Dumbbell-decline-flys"
+  ],
+  "front_raises": [
+   "Front raises"
+  ],
+  "front_squats": [
+   "Front-squat"
+  ],
+  "glute_bridge": [
+   "Bridge"
+  ],
+  "good_mornings": [
+   "Good-mornings"
+  ],
+  "hammercurls": [
+   "Bicep-hammer-curl"
+  ],
+  "hyperextensions": [
+   "Hyperextensions"
+  ],
+  "incline_bench_press": [
+   "Incline-bench-press",
+   "Incline bench press"
+  ],
+  "incline_dumbbell_flye": [
+   "Incline dumbbell flys"
+  ],
+  "incline_dumbbell_press": [
+   "Incline dumbbell press"
+  ],
+  "lateral_raises": [
+   "Dumbbell-lateral-raises",
+   "Lateral dumbbell raises"
+  ],
+  "leg_curls_laying": [
+   "Lying leg curl machine"
+  ],
+  "leg_curls_sitting": [
+   "Seated-leg-curl"
+  ],
+  "leg_curls_standing": [
+   "Standing leg curls"
+  ],
+  "leg_extension_1": [
+   "Leg-extensions",
+   "Leg extensions"
+  ],
+  "leg_press": [
+   "Leg-press"
+  ],
+  "leg_presses_narrow": [
+   "Narrow-stance-leg-press"
+  ],
+  "leg_raises_lying": [
+   "Leg-raises"
+  ],
+  "leverage_machine_chest_press": [
+   "Machine bench press"
+  ],
+  "overhead_squat": [
+   "Overhead-squat"
+  ],
+  "preacher_curls": [
+   "Preacher-curl"
+  ],
+  "pull_ups": [
+   "Pull ups"
+  ],
+  "push_ups": [
+   "Push ups",
+   "Push-ups"
+  ],
+  "rear_delt_raises": [
+   "Lying rear lateral raise"
+  ],
+  "reverse_curl": [
+   "Biceps-curl-reverse"
+  ],
+  "romanian_deadlift": [
+   "Romanian-deadlift"
+  ],
+  "rowing_seated": [
+   "Cable-seated-rows"
+  ],
+  "rowing_t_bar": [
+   "T-bar-row"
+  ],
+  "seated_triceps_press": [
+   "Seated-triceps-press"
+  ],
+  "shoulder_press_barbell": [
+   "Barbell shoulder press"
+  ],
+  "shoulder_press_dumbbells": [
+   "Dumbbell shoulder press"
+  ],
+  "shoulder_press_on_machine": [
+   "Shoulder-press-machine"
+  ],
+  "shrugs_barbells": [
+   "Shoulder shrugs"
+  ],
+  "shrugs_dumbbells": [
+   "Dumbbell-shrugs"
+  ],
+  "side_dumbbell_trunk_flexion": [
+   "Side bend with dumbbell"
+  ],
+  "side_plank": [
+   "Side plank",
+   "Side-plank"
+  ],
+  "single_arm_preacher_curl": [
+   "One-arm-preacher-curl"
+  ],
+  "sitting_calf_raises": [
+   "Seated-calf-raise",
+   "Seated calf raise using machine"
+  ],
+  "smith_machine_close_grip_bench_press": [
+   "Smith machine close grip bench press"
+  ],
+  "standing_calf_raises": [
+   "Standing-calf-raises"
+  ],
+  "superman": [
+   "Supermans"
+  ],
+  "tricep_dumbbell_kickback": [
+   "Triceps kickback with dumbbell",
+   "Triceps-kickback"
+  ],
+  "triceps_dips": [
+   "Tricep-dips",
+   "Tricep dips"
+  ],
+  "triceps_machine": [
+   "Triceps extensions using machine"
+  ],
+  "underhand_lat_pull_down": [
+   "Underhand-pull-downs"
+  ],
+  "upright_row_sz_bar": [
+   "Upright barbell rows",
+   "Barbell-upright-rows"
+  ],
+  "upright_row_w_dumbbells": [
+   "Dumbbell-upright-row"
+  ],
+  "v_bar_pulldown": [
+   "V-bar-pull-down"
+  ],
+  "weighted_step_ups": [
+   "Step ups with dumbbells",
+   "Step-ups"
+  ],
+  "wide_grip_pulldown": [
+   "Wide-grip-lat-pull-down"
+  ]
+ },
+ "chosen": {}
+}

@@ -2,14 +2,15 @@
 /** FitTrack — QA (Fase 5): integridad de datos + lógica + i18n + typecheck.
  *
  *  Salidas: 0 fallos. Secciones:
- *   1. data       — all.json (61 ejercicios, campos, enums) + imágenes en las
- *                   3 ubicaciones + copias sincronizadas + mapa de assets.
+ *   1. data       — all.json (campos, enums) + imágenes en data/ y app/assets/
+ *                   + copia sincronizada + mapa de assets.
  *   2. i18n       — 4 bundles (nl/es/en/fr), mismo nº de claves, valores
- *                   no vacíos; espejos app/ y web/ idénticos a i18n/.
- *   3. logic      — vectores de prueba sobre web/src/lib/gym.js (ESM).
- *   4. parity     — app/src/lib/gym.ts (transpilado) produce idénticos
- *                   resultados que la lógica de la web con las mismas entradas.
+ *                   no vacíos; espejo app/ idéntico a i18n/.
+ *   3. logic      — vectores sobre la lógica de la app (gym, workout, records,
+ *                   progression, session-save, energy), transpilada.
+ *   4. store      — copia de seguridad: ida y vuelta, migración, rechazos.
  *   5. typecheck  — tsc --noEmit en app/ (0 errores).
+ *  La web ES la app (web/ compila app/ con expo export; R-131).
  *
  *  Uso:  node tests/run.js
  */
@@ -48,11 +49,9 @@ const groups = new Set(ALL.groups);
 const equipment = new Set(ALL.equipment);
 const levels = new Set(ALL.levels);
 const IMG = path.join(ROOT, 'data/images');
-const WEB_IMG = path.join(ROOT, 'web/public/images/exercises');
 const APP_IMG = path.join(ROOT, 'app/assets/exercises');
 const APP_MAP = fs.readFileSync(path.join(ROOT, 'app/src/images.ts'), 'utf8');
 const APP_DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'app/src/data/exercises.json'), 'utf8'));
-const WEB_DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'web/src/data/exercises.json'), 'utf8'));
 
 // ------------------------------------------------- 1. integridad de datos
 section('data — base de ejercicios');
@@ -93,16 +92,15 @@ let missingFiles = [];
 for (const e of ALL.exercises) {
   const expect = '/images/exercises/' + e.id + '.png';
   if (e.image !== expect) wrongImage.push(e.id);
-  for (const dir of [IMG, WEB_IMG, APP_IMG]) {
+  for (const dir of [IMG, APP_IMG]) {
     if (!fs.existsSync(path.join(dir, e.id + '.png'))) missingFiles.push(path.relative(ROOT, dir) + '/' + e.id + '.png');
   }
 }
 eq(wrongImage, [], 'rutas de imagen consistentes (/images/exercises/<id>.png)');
-eq(missingFiles, [], EXPECTED_COUNT + ' PNG en data/, web/public/ y app/assets/');
+eq(missingFiles, [], EXPECTED_COUNT + ' PNG en data/ y app/assets/');
 eq(fs.readdirSync(IMG).filter((f) => f.endsWith('.png')).length, EXPECTED_COUNT, 'solo ' + EXPECTED_COUNT + ' PNG en data/images');
 
 eq(APP_DATA, ALL, 'app/src/data/exercises.json sincronizado con all.json');
-eq(WEB_DATA, ALL, 'web/src/data/exercises.json sincronizado con all.json');
 
 const mapIds = [...APP_MAP.matchAll(/'([a-z0-9_]+)':\s*require\('\.\.\/assets\/exercises\/([a-z0-9_]+)\.png'\)/g)].map((m) => m[1]);
 eq(mapIds.length, EXPECTED_COUNT, 'mapa de assets: ' + EXPECTED_COUNT + ' requires');
@@ -127,9 +125,7 @@ for (const l of LANGS) {
 }
 for (const l of LANGS) {
   const appCopy = JSON.parse(fs.readFileSync(path.join(ROOT, 'app/src/i18n-data', l + '.json'), 'utf8'));
-  const webCopy = JSON.parse(fs.readFileSync(path.join(ROOT, 'web/src/i18n', l + '.json'), 'utf8'));
   eq(appCopy, bundles[l], 'app/src/i18n-data/' + l + '.json == i18n/' + l + '.json');
-  eq(webCopy, bundles[l], 'web/src/i18n/' + l + '.json == i18n/' + l + '.json');
 }
 
 // ------------------------------------------- "cómo se hace" por idioma
@@ -139,17 +135,16 @@ for (const l of LANGS) {
   const bad = ids.filter((id) => !Array.isArray(src[id]) || src[id].length < 2 || !src[id].every((s) => typeof s === 'string' && s.trim()));
   eq(bad, [], 'howto/' + l + '.json: ' + EXPECTED_COUNT + ' ejercicios con ≥2 pasos');
   eq(Object.keys(src).filter((id) => !byId.has(id)), [], 'howto/' + l + '.json: sin ids desconocidos');
-  for (const mirror of ['app/src/data/howto', 'web/src/data/howto']) {
+  for (const mirror of ['app/src/data/howto']) {
     const copy = JSON.parse(fs.readFileSync(path.join(ROOT, mirror, l + '.json'), 'utf8'));
     eq(copy, Object.fromEntries(ids.map((id) => [id, src[id]])), mirror + '/' + l + '.json sincronizado (node scripts/sync_howto.js)');
   }
 }
 
-// ------------------------------------------------------- lógica (web ESM)
+// ------------------------------------------------------- lógica (app, TS transpilado)
 async function main() {
-section('logic — vectores sobre web/src/lib/gym.js');
+section('logic — vectores sobre app/src/lib/gym.ts');
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'fittrack-test-'));
-fs.copyFileSync(path.join(ROOT, 'web/src/lib/gym.js'), path.join(tmp, 'gym_web.mjs'));
 
 // transpila el puerto TS de la app (misma entrada → salida comparable)
 const ts = require(path.join(ROOT, 'app/node_modules/typescript'));
@@ -157,8 +152,9 @@ const gymTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/gym.ts'), 'utf8');
 const out = ts.transpileModule(gymTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } });
 fs.writeFileSync(path.join(tmp, 'gym_app.mjs'), out.outputText);
 
-const web = await import(path.join(tmp, 'gym_web.mjs'));
 const app = await import(path.join(tmp, 'gym_app.mjs'));
+// La web ES la app (R-131): los vectores corren sobre el mismo módulo.
+const web = app;
 
 // workout.ts (app): clasificación peso corporal / carga — nunca 0 kg en un
 // ejercicio con barra aunque wger lo marque "other" (back_squat: "Dip under the bar").
@@ -299,25 +295,6 @@ ok(threw, 'normalizeSession lanza sin ejercicios');
 
 eq(web.sortByDate([S1, S2]).map((s) => s.id), ['s2', 's1'], 'sortByDate más reciente primero');
 
-// ------------------------------------------------------ paridad TS vs JS
-section('parity — app/src/lib/gym.ts ≡ web/src/lib/gym.js');
-function same(fn, inputs, label) {
-  const a = JSON.stringify(fn(web, ...inputs));
-  const b = JSON.stringify(fn(app, ...inputs));
-  ok(a === b, label);
-}
-same((m) => m.oneRm(100, 10), [], 'oneRm');
-same((m) => m.sessionVolume(S2), [], 'sessionVolume');
-same((m) => m.weekStart(todayISO(0)), [], 'weekStart');
-same((m) => m.weeklyVolume([S1, S2], 4), [], 'weeklyVolume');
-same((m) => m.streakDays([S1, S2]), [], 'streakDays');
-same((m) => m.newPrs(S2, [S1, S2]), [], 'newPrs');
-same((m) => m.groupTotals([S2, S1], ALL.exercises, 14), [], 'groupTotals');
-same((m) => m.weightTrend([S1, S2]), [], 'weightTrend');
-same((m) => m.searchExercises(ALL.exercises, 'row', 'back', 'barbell'), [], 'searchExercises');
-same((m) => m.normalizeSession({ id: 'p', date: todayISO(0), created_at: '2026-11-10T12:00:00.000Z', exercises: [{ exercise_id: 'x', sets: [{ reps: 3, weight_kg: 12.345 }]}] }), [], 'normalizeSession');
-same((m) => m.sortByDate([S2, S1]), [], 'sortByDate');
-
 // ------------------------------------------- Fase 12: cardio + valoración
 section('Fase 12 — cardio, valoración y calorías');
 const CARDIO = { id: 'c', date: todayISO(0), created_at: '2026-11-15T10:00:00.000Z', energy: 4, feeling: 9,
@@ -331,8 +308,6 @@ eq(nc.energy, 4, 'valoración: energía 1–5 conservada');
 eq(nc.feeling, undefined, 'valoración: fuera de rango (9) se descarta');
 eq('energy' in norm, false, 'sesión sin valoración no añade campos');
 eq(web.sessionCardioMinutes(nc), 25, 'sessionCardioMinutes');
-same((m) => m.normalizeSession(CARDIO), [], 'normalizeSession (cardio + valoración)');
-same((m) => m.sessionCardioMinutes(CARDIO), [], 'sessionCardioMinutes');
 
 const energyTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/energy.ts'), 'utf8');
 const energyJs = ts.transpileModule(energyTs, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }).outputText;

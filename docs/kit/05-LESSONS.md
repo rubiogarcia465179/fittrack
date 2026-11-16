@@ -38,7 +38,7 @@ column is what to do from the first day.
 | Five themes and national-flag themes, later cut to two | One design language; offer the minimum (dark + light) |
 | A whole content phase ("why it's used" + athlete favourites) was rejected on its plan: it duplicated "what it trains" and was decoration | Check every new section against what's already on screen |
 | A "plates per side" calculator assumed a 20 kg bar | Never present an assumption as a fact; drop or ask |
-| The web version fell behind the app | Decide early whether web is a product or only a screenshot target; log parity debt in TASKS |
+| The web version (a separate Astro site) fell behind the app for weeks | Ship the app's own web build (`expo export --platform web`) as the website: one codebase, parity by construction. FitTrack switched in Phase 19 |
 | A doc claimed a dependency was installed when it was only transitive | Verify claims against `package.json`, not `node_modules` |
 
 ## Process lessons

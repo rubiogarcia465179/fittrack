@@ -20,14 +20,20 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Perfil | Datos fijos + calorías (explicadas) + temas (Noche/Día/Ámbar/Neón/Rubí) + nacionalidad y tema de bandera + idioma y datos |
 | Idioma | **Todo en el idioma elegido** (NL/ES/EN/FR): interfaz, nombres de ejercicio, pasos "cómo se hace" (226 × 4), fechas; cambio instantáneo |
 | Datos | 205 ejercicios reales de wger (sin duplicados); iconos de línea distintos por grupo; nunca 0 kg en ejercicios con carga |
-| Web (Astro) | Atrasada: lógica al día, diseño de la 11c (no el monocromo X); pasos por idioma copiados a `web/src/data/howto/` pero sin usar |
+| Web | **Es la app** (build web de `app/` en `web/dist/`); Astro en la rama `web-astro` |
 | Copia de seguridad | Perfil → Guardar / Restaurar (un archivo con todo, fotos incluidas) |
 | Primer arranque | Un solo paso: "Hoy toca" + "Empezar sesión", marcas y Ejercicios (calendario e Historial aparecen con la 1.ª sesión) |
 | i18n | NL/ES/EN/FR, **413 claves**, espejos idénticos; francés todo en "tu" |
 | Fotos (Fase 13) | 678 prompts listos; esperando imágenes del usuario (hoy: foto de ejemplo marcada) |
 | Nube | ⏸ en espera |
 
-## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 18)
+## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 19)
+
+- tsc **0** · tests **129/129** (sin las secciones de la web Astro) · export OK ·
+  `cd web && npm run build` OK y `npm run preview` sirve página, favicon y
+  bundle (200) · capturas 01–34 **errors none** (sin cambios visibles) · **Jobs SÍ, 90**.
+
+## Verificación anterior (commit Fase 18)
 
 - tsc **0** · tests **151/151** · export OK · capturas 01–34 **errors none**
   (cambiadas en el bucle: 05–07, 09–14, 16, 18–19, 21, 25–26, 28, 30–34,
@@ -67,7 +73,6 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 ## Bloqueos (necesitan al usuario)
 
 - ⛔ Fotos de ejercicios: las genera el usuario con `docs/fotos/PROMPTS.md`.
-- ⛔ `cd web && npm ci` para compilar la web (paridad de diseño).
 - ⛔ Prueba en iPhone real (usuario, R-128): copia → Archivos, restaurar,
   aviso del descanso con el móvil bloqueado (necesita build de desarrollo).
 
@@ -757,3 +762,17 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   151/151, export OK, capturas sin errores, vídeo 396 fotogramas.
   **Jobs SÍ, 90/90**; lo único pendiente para producción es el iPhone real
   (R-128). Lecciones añadidas a `docs/kit/05-LESSONS.md`.
+
+- 2026-11-16 — **Fase 19: la web ES la app** (R-131). El usuario aprobó
+  `cd web && npm ci` (hecho; el build Astro pasaba, 212 páginas) y eligió
+  "Use the app's web build": `web/` pasa a ser `build.js` + `serve.js` +
+  README (sin dependencias) que compilan `app/` con `expo export --platform
+  web`; plantilla `app/public/index.html` (fondo negro, `lang="es"`,
+  favicon). Astro guardado en la rama `web-astro`. Fuera de main:
+  `tests/runtime.js`, `generate_web_i18n.py`, `generate_gym_browser.py`,
+  espejos `web/src/*`, `docs/web-screenshots/`. Tests: los vectores de
+  lógica corren sobre `gym.ts` (129/129). Preparado para la Fase 13: hoja
+  "¿Cómo se hace?" con dibujos de línea teñidos al tema y crédito
+  Everkinetic; `scripts/fetch_everkinetic.py`, `scripts/photo_status.js`;
+  PROMPTS regenerado para 205 ejercicios (615). **Jobs SÍ, 90** (una sola
+  app en todas las plataformas: punta a punta).

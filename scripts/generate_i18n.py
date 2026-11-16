@@ -324,8 +324,7 @@ def main() -> int:
         assert sets[lang] == base, f"paridad de claves fallida en {lang}"
     print(f"OK: {len(keys)} claves idénticas en los 4 bundles")
 
-    # JS de i18n para la web (bundles embebidos, 0 peticiones de red)
-    emit_i18n_js(os.path.join(ROOT, "web", "public", "js", "i18n.js"))
+    # (La web ES la app desde R-131: ya no se genera web/public/js/i18n.js.)
     return 0
 
 

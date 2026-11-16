@@ -11,11 +11,11 @@ Reglas para cualquier agente (o persona) que trabaje en FitTrack.
 
 ```
 data/      base de ejercicios (JSON) + imágenes        ← fuente de verdad
-scripts/   sync_data.py (copia data/ e i18n/ a app/ y web/), generadores
-i18n/      nl/es/en/fr — espejos idénticos en app/src/i18n-data/ y web/src/i18n/
-tests/     run.js (datos + lógica + i18n + tsc), runtime.js (web)
+scripts/   sync_data.py (copia data/ e i18n/ a app/), generadores
+i18n/      nl/es/en/fr — espejo idéntico en app/src/i18n-data/
+tests/     run.js (datos + i18n + lógica + copia de seguridad + tsc)
 app/       Expo SDK 58 / RN 0.88 — su propio package.json
-web/       Astro 4 + Tailwind 3.4 — su propio package.json
+web/       la web = build web de la app (build.js, serve.js; sin dependencias)
 ```
 La raíz no tiene `package.json`: los comandos `npm` van en `app/` o `web/`.
 
@@ -85,17 +85,18 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 - **Hoja "Tu entreno de hoy"**: trabaja sobre una copia; solo "Continuar"
   llama a `App.quickStart(qs)` (aplica y guarda en `QS_KEY`).
 - **Pesos**: todo peso recomendado pasa por `roundW` (2,5 kg; 5 kg desde
-  50), también desde marcas (app y `web/public/js/workout.js`).
-- **i18n**: tras tocar `i18n/*.json` y sus 2 espejos, regenera
-  `web/public/js/i18n.js` con `python3 scripts/generate_web_i18n.py`.
-  Francés en "tu".
+  50), también desde marcas.
+- **i18n**: toda clave nueva en `i18n/*.json` y en su espejo
+  `app/src/i18n-data/` (o `python3 scripts/sync_data.py`). Francés en "tu".
 - **Vibración**: `lib/haptics.ts` → `restDone()` (Vibration de RN + háptico)
   al terminar el descanso; `tapLight()` al marcar series; `success()` al
   guardar.
-- **Web**: `web/node_modules` instalado (`npm ci`, aprobado 2026-11-15) y
-  `npm run build` OK; `web/public/js/i18n.js` se regenera con
-  `python3 scripts/generate_web_i18n.py`. La paridad de diseño está EN PAUSA
-  por decisión del usuario (TASKS).
+- **Web = la app** (R-131, 2026-11-16): `cd web && npm run build` ejecuta
+  `expo export --platform web` de `app/` → `web/dist/` (+ `404.html`);
+  `npm run preview` la sirve en :8080. Plantilla HTML en
+  `app/public/index.html` (fondo negro, `lang="es"`, favicon). El sitio Astro
+  anterior vive en la rama `web-astro` (no se mantiene). Lo que difiere por
+  plataforma va en módulos `*.web.ts`.
 - **Ramas**: `main` (actual), `SteveJobs` (versión "Foco a 10", ya
   fusionada) y `v1` (versión anterior, 5 pestañas). Por defecto se trabaja y
   commitea en `main` (`CLAUDE.md §1`).
@@ -140,8 +141,8 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
 - Objetivos táctiles ≥ 44 pt; contraste AA; `accessibilityLabel` /
   `accessibilityRole` / `accessibilityState` en todo control.
 - Números con `fontVariant: ['tabular-nums']`.
-- Paridad: lo que cambie en la app debe llegar a la web (Astro) y viceversa;
-  si no da tiempo, se apunta en `TASKS.md`.
+- Paridad: automática (la web es la app). Comprueba en las capturas (que son
+  el build web) todo lo que toque `*.web.ts`.
 
 ## 3. Reglas de datos
 
@@ -152,10 +153,10 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   `wger 2.1` con `scripts/fetch_exercises_wger_pypi.py`). `name_nl` y `level`
   son curados localmente; 16 ejercicios llevan pasos generados localmente.
 - **Pasos para principiantes por idioma**: `data/exercises/howto/<lang>.json`
-  (226 × 3 pasos, redactados localmente por FitTrack; la UI lo dice:
+  (205 × 3 pasos, redactados localmente por FitTrack; la UI lo dice:
   "Explicación sencilla redactada por FitTrack"). Tras editarlos:
-  `node scripts/sync_howto.js` (copia a `app/src/data/howto/` y
-  `web/src/data/howto/`; falla si falta un id). Los tests comprueban cobertura
+  `node scripts/sync_howto.js` (copia a `app/src/data/howto/`; falla si
+  falta un id). Los tests comprueban cobertura
   y espejos.
 - **Peso corporal vs carga** (`isBodyweightExercise`, app y web): máquina en el
   texto → carga; pista de peso corporal en el NOMBRE → peso corporal; barra/
@@ -192,8 +193,7 @@ Resumen de lo aprendido con las skills `impeccable` y `accessibility` (ver
   necesita, márcala ⛔ en `TASKS.md` con el comando exacto.
 - Estado (2026-11-15): `app/node_modules` completo (se instalaron
   `react-native-linear-gradient` y `@expo/metro-runtime` con aprobación del
-  usuario). `web/node_modules` **no** está instalado (`cd web && npm ci`
-  pendiente de aprobación).
+  usuario). `web/` ya no tiene dependencias (es el build de la app).
 - Desde Git Bash de Windows, las rutas `/tmp/...` dentro de `wsl.exe sh -c`
   se reescriben: usa `MSYS_NO_PATHCONV=1`.
 - Capturas y vídeo: harness versionado en `app/qa/shots/` (`shoot.js`
@@ -228,7 +228,7 @@ Si algo no se puede ejecutar, dilo con el error real; no lo des por bueno.
 
 - **Datos** — base de ejercicios, imágenes, `data/datasets.json`, `source`.
 - **App** — Expo: 3 pestañas (Inicio · Entrenar · Perfil), AsyncStorage.
-- **Web** — Astro: mismo contenido que la app.
+- **Web** — el build web de la app (`web/`).
 - **i18n** — 4 bundles con el mismo nº de claves; cambio de idioma sin red.
 - **QA** — `tests/`, capturas, criterios de `SPEC.md §5`.
 

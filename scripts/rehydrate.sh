@@ -5,8 +5,8 @@
 #        (source: real). Si no, mantiene la base seed existente.
 # clasificar: normaliza/valida el JSON (scripts/classify_exercises.py — por
 #             ahora validado en tests/run.js).
-# sync: scripts/sync_data.py (base → app/ y web/).
-# build: web (Astro) + app (tsc + bundle Metro).
+# sync: scripts/sync_data.py (base → app/).
+# build: app (tsc + bundle Metro) + web (= build web de la app).
 # test: node tests/run.js.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -30,11 +30,11 @@ fi
 echo "==> [2/4] sync"
 python3 scripts/sync_data.py
 
-echo "==> [3/4] build (web)"
-(cd web && npm run build)
-
 echo "==> [3/4] build (app: tsc + bundle metro)"
 (cd app && npx tsc --noEmit && node bundle-check.js)
+
+echo "==> [3/4] build (web = la app con expo export)"
+(cd web && npm run build)
 
 echo "==> [4/4] tests"
 node tests/run.js

@@ -1,63 +1,41 @@
 # FitTrack
 
-Monitor de progreso de gimnasio: base de ejercicios, registro de sesiones
-(juegos, repeticiones, peso) y dashboard de resumen. Web estática
-(Astro + Tailwind) y app móvil (Expo / React Native). Sin backend en el MVP:
-datos embebidos y persistencia local (localStorage / AsyncStorage).
+App de gimnasio sencilla (Expo / React Native, iOS · Android · web): te
+propone qué entrenar hoy, registras series con dos toques y ves tu progreso
+real. **Sin cuenta y sin nube**: todo se guarda en el dispositivo, con copia
+de seguridad a un archivo. 4 idiomas (ES/EN/NL/FR).
 
 ## Estado
 Ver `PROGRESS.md` (estado y verificaciones) y `TASKS.md` (pendientes).
-La base de ejercicios es **real** (226 ejercicios de wger, CC-BY-SA, vía
-wheel de PyPI — ver `AGENTS.md`). Las **imágenes** siguen siendo
-placeholders generados (`static.wger.de` no está resuelto en internet) y la
-UI lo declara.
+Base de ejercicios **real**: 205 ejercicios de wger (CC BY-SA). Dibujos de
+ejercicios reales de Everkinetic (CC BY-SA 3.0) donde existen; el resto
+muestra una imagen de ejemplo marcada (`docs/fotos/STATUS.md`).
 
-## Estructura (importante: son dos sub-proyectos)
+## Estructura
 ```
 fittrack/
-├── AGENTS.md  SPEC.md  PROGRESS.md  TASKS.md  README.md
-├── data/      ← base de ejercicios (JSON, source: real) + imágenes
-├── scripts/   ← sync_data.py, fetch_exercises_wger_pypi.py, generadores
-├── i18n/      ← bundles nl/es/en/fr (312 claves)
+├── CLAUDE.md AGENTS.md SPEC.md TASKS.md PROGRESS.md REQUIREMENTS.md
+├── data/      ← base de ejercicios (JSON) + imágenes + fotos/dibujos
+├── scripts/   ← sync_data.py, generadores, fetch_everkinetic.py …
+├── i18n/      ← bundles nl/es/en/fr (fuente; espejo en app/src/i18n-data/)
 ├── tests/     ← node tests/run.js
-├── web/       ← Astro 4 (static) + Tailwind 3.4   → su package.json AQUÍ
-└── app/       ← Expo SDK 58 / React Native 0.88   → su package.json AQUÍ
+├── app/       ← Expo SDK 58 / React Native 0.88   → su package.json
+├── web/       ← la web = build web de la app (sin dependencias propias)
+└── docs/      ← capturas, vídeo, kit portable, playbook de UX
 ```
-**La raíz NO tiene `package.json`** (son dos proyectos independientes).
-Todos los comandos `npm` se ejecutan desde `web/` o desde `app/`.
+Los comandos `npm` van en `app/` o `web/` (la raíz no tiene `package.json`).
 
 ## Web: probarla en el host
 
-1. Instala dependencias (solo la primera vez):
-   ```bash
-   cd web
-   npm ci          # usa package-lock.json versionado
-   ```
-2. Sirve el sitio (elige una):
-   ```bash
-   npm run build && npm run preview -- --host    # build + preview en :4321
-   #  ó desarrollo en caliente:
-   npm run dev -- --host
-   ```
-   Abre `http://<ip-del-host>:4321/` (con `--host` también desde otro
-   dispositivo de la red).
-   También vale cualquier hosting estático con `web/dist/`.
-
-3. Rutas (231 páginas):
-   - `/` — home estilo apple.com (hero + grid 2×2 de tiles + franja gris)
-   - `/dashboard/` — resumen con métricas (volumen, racha, PRs, peso)
-   - `/exercises/` — biblioteca: 226 ejercicios, búsqueda + filtros por grupo/material
-   - `/exercises/<id>/` — detalle (instrucciones, imagen, licencia)
-   - `/session/` — registro de una sesión (añadir ejercicios/sets, peso corporal)
-   - `/history/` — historial con borrar
-   Cambia de idioma con NL/ES/EN/FR en la cabecera (instantáneo, sin red);
-   en móvil se abre el **menú hamburguesa** (pantalla completa, como
-   apple.com) con los enlaces grandes y el selector de idioma. Guarda una
-   sesión en `/session/` y comprueba que el dashboard y el historial la
-   reflejan (persistencia en localStorage).
-
-Si `npm run preview` da `ENOENT ... fittrack/package.json` → estabas en la
-raíz del repo: haz `cd web` antes.
+La web **es la app** (mismo código, compilado con react-native-web; el sitio
+Astro anterior está en la rama `web-astro`).
+```bash
+cd app && npm ci            # solo la primera vez
+cd ../web && npm run build  # → web/dist/
+npm run preview             # → http://localhost:8080
+```
+Sube `web/dist/` a cualquier hosting estático, en la raíz del dominio.
+Detalles y diferencias con el móvil: `web/README.md`.
 
 ## App Android: probarla en tu móvil
 
@@ -91,14 +69,19 @@ adb install android/app/build/outputs/apk/debug/app-debug.apk
 
 ### Opción C — web en el móvil
 `cd app && npx expo start --web` abre la app en el navegador (React Native
-Web); útil para probar la UI sin instalar nada. (La web principal es
-`web/`; esta sirve para ejercitar la app.)
+Web) con recarga en caliente; es lo mismo que `web/` (la web ES la app).
 
-Checklist en el móvil: 5 pestañas (Resumen, Ejercicios, Sesión, Historial,
-Perfil); cambio de idioma instantáneo en **Perfil → Idioma**; empezar una
-sesión desde el botón del Resumen, marcar series como hechas, "Siguiente
-ejercicio" y "Terminar y guardar"; borrar del historial; volver a abrir la
-app y ver que las sesiones persisten (AsyncStorage).
+Checklist en el móvil (R-128): 3 pestañas (Inicio · Entrenar · Perfil);
+"Empezar sesión" → "Continuar al entreno"; marcar series, descanso con
+**el móvil bloqueado** (debe llegar el aviso), "Finalizar" y valorar;
+diario con foto y comentario; idioma en **Perfil**; **Perfil → Guardar una
+copia** (a Archivos/iCloud o una carpeta) y **Restaurar una copia**; cerrar
+y reabrir: todo sigue ahí.
+
+> El aviso del descanso usa `expo-notifications`, que **no funciona en Expo
+> Go** desde SDK 53: para probarlo hace falta un *development build*
+> (`npx expo run:ios` / `npx expo run:android`, o EAS Build). El resto sí se
+> puede probar en Expo Go.
 
 ## App iPhone: probarla en tu móvil (Expo Go)
 
@@ -216,17 +199,16 @@ Developer (o perfil gratuito con expiración de 7 días) y confianza del
 computadora en el iPhone.
 
 ### Opción D — web en el iPhone
-`npx expo start --web` y abre `http://IP-DEL-HOST:8081` en Safari. La web
-principal también va genial en el navegador del iPhone (es
-mobile-first): abre `http://IP-DEL-HOST:4321/` de la web de Astro.
+`npx expo start --web` y abre `http://IP-DEL-HOST:8081` en Safari, o
+`cd web && npm run build && npm run preview` y abre `http://IP-DEL-HOST:8080`.
 
-Mismo checklist que Android: 5 pestañas, cambio de idioma instantáneo,
-crear sesión, borrar del historial, persistencia al reabrir (AsyncStorage).
+Mismo checklist que Android (arriba), incluido el aviso del descanso con
+el móvil bloqueado (solo en *development build*).
 
 ## Tests
 ```bash
-node tests/run.js        # integridad de datos + lógica + i18n + paridad
+node tests/run.js        # datos + i18n + lógica + copia de seguridad + tsc
 cd app && npm run typecheck && npm run bundle:check
-cd web  && npm run build
+cd web  && npm run build   # build web de la app
 ```
 `tests/run.js` → 0 fallos.

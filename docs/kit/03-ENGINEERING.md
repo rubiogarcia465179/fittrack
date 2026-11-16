@@ -8,7 +8,7 @@ correct. Copy the patterns; adapt the names.
 | Piece | Choice | Why |
 |---|---|---|
 | App | Expo (managed) + React Native + TypeScript, strict | One codebase for iOS, Android **and a web export used for screenshots** |
-| Web export | `react-native-web` via `npx expo export --platform web` | The daily visual check runs in headless Chrome, no simulator needed |
+| Web export | `react-native-web` via `npx expo export --platform web` | The daily visual check runs in headless Chrome, no simulator needed — **and it is the website** (no second codebase) |
 | i18n | `i18next` + `react-i18next`, flat JSON bundles embedded at build | Instant language switch, no network |
 | Storage | `@react-native-async-storage/async-storage` (one JSON document) | Offline, private, simple; localStorage on web |
 | Files | `expo-file-system` (photos, backup files) | Keeps big binaries out of AsyncStorage (Android's limit is small) |
