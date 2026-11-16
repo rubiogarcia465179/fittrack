@@ -467,6 +467,7 @@ function Root({
                   sessions={sessions}
                   exercises={exercises}
                   onDeleted={handleDeleted}
+                  onUpdated={(ns) => setSessions((list) => list.map((x) => (x.id === ns.id ? ns : x)))}
                   onOpenExercise={openExercise}
                   onStartSession={openQuickStart}
                   focusDate={histDate}

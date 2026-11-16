@@ -17,7 +17,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 09 | Descanso | Cuenta atrás tras completar una serie (+15 s, Saltar) |
 | 10 | Cardio | min · km · intensidad; "Terminar y guardar" |
 | 11 | Finalizar | "Bien hecho": min · series + "Cómo te has sentido" + un solo "Finalizar" |
-| 12 | Historial | Desde Inicio (con "atrás"); fechas localizadas |
+| 12 | Historial (diario) | Cada sesión como un post: fotos, series, sensación, comentarios; "Añadir foto · Comentar" |
 | 13 | Historial · un día | Al tocar un día del calendario: solo ese día + "Ver todas" |
 | 14 | Ejercicios | Desde Inicio (con "atrás"); icono por grupo |
 | 15 | Perfil | Cuerpo (peso, altura, IMC; evolución con ≥ 3 puntos) + calorías |
@@ -39,6 +39,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 31 | Ejercicio (hoja) | Desde Ejercicios se abre la misma hoja "¿Cómo se hace?": material · nivel, qué entrena, pasos |
 | 32 | Quitar ejercicio | Con series hechas se confirma: "Cancelar" y "Quitar" |
 | 33 | Aplazado | "Máquina ocupada": el original con "Hacerlo ahora" desde el primer momento + sugerencia con "Usar" |
+| 34 | Comentar | El comentario se escribe en la propia tarjeta; "Publicar" |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 

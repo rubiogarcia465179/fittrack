@@ -83,8 +83,9 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    hoy con anillo; leyenda "Día entrenado · N · Récord · N". Un día de récord
    = una sesión que supera la marca previa (la primera vez no cuenta).
    **Tocar un día entrenado abre el Historial de ese día** (con "Ver todas").
-6. Filas: **Historial** ("N sesiones este mes") y **Ejercicios** ("226
-   ejercicios, con cómo se hacen").
+6. Filas: **Historial** (sin subtítulo: la leyenda del calendario ya da el
+   número) y **Ejercicios** ("205 ejercicios, con cómo se hacen"; tocar uno
+   abre la hoja "¿Cómo se hace?", la única vista de un ejercicio).
 - Sin fecha, sin racha, sin volumen (decisiones del usuario).
 - **Sin cuerpo 3D** (2026-11-15): la prueba Jobs lo suspendió (cadáver sin
   piel en la portada, choca con el estilo, quita foco). Vive en la rama
@@ -122,7 +123,7 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   **pendientes**. Pesos en múltiplos reales de disco (2,5 / 5 kg). En el
   test de marcas la 2.ª serie se rotula **"Test"** y el 1RM es texto.
 - **Cardio**: `nº · min · km · intensidad · Hecha` y kcal estimadas (METs).
-- **Resto de ejercicios**: filas planas (icono de línea, TÍTULO, resumen
+- **Resto de ejercicios**: filas planas (icono de línea, título, resumen
   `3 × 10 · 20 kg` o `20 min · 3 km`, series hechas, chevron).
 - **Descanso**: al marcar una serie de fuerza empieza la cuenta atrás del
   plan (`rest_after`, 90 s por defecto) en la barra fija, con "+15 s" y
@@ -162,12 +163,19 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 - Futuro: por qué se usa y favoritos de atletas con cita verificable
   (Fase 14); 3 fotos por ejercicio (Fase 13).
 
-### Historial (desde Inicio → futuro InstaGym, Fase 15)
-- Lista por fecha (localizada: "dom 15 nov") con ejercicios, series (cardio
-  en min/km/intensidad) y valoración; borrar con confirmación. Desde un día
-  del calendario: solo ese día + "Ver todas".
-- Futuro **InstaGym**: feed tipo Instagram con cada sesión y sus **fotos y
-  comentarios**.
+### Historial = diario InstaGym (desde Inicio; Fase 15)
+- Cada sesión es un **post** (estilo X, monocromo): fecha localizada
+  ("dom 15 nov") + "Eliminar"; "N series · N min"; **fotos** (4:3,
+  deslizables con puntos); ejercicios con sus series (cardio en
+  min/km/intensidad); sensación; **comentarios** propios (tocar uno →
+  "¿Borrar este comentario?").
+- Acciones de texto (sin relleno): **Añadir foto · Comentar** (y "Quitar
+  foto" si hay). El comentario se escribe en la propia tarjeta ("Publicar").
+- En "Bien hecho" se puede añadir una foto opcional ("+ Añadir foto") que
+  va al post de esa sesión.
+- Fotos guardadas en el teléfono, cada una en su clave (no van en la
+  exportación JSON); "Borrar todos los datos" las borra.
+- Desde un día del calendario: solo ese día + "Ver todas".
 
 ### Perfil (4 tarjetas)
 1. **Cuerpo**: peso y altura juntos (cada uno con "+ Registrar"), IMC,

@@ -350,5 +350,5 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-119 [DONE] Quitar los duplicados del catálogo de ejercicios (21 fusionados, 226 → 205; `scripts/dedupe_catalog.js`, `data/exercises/merged-ids.json`, migración del historial; tests)
 ### R-120 [DONE] Quitar todo lo duplicado en la app (Inicio sin "N sesiones este mes"; Historial sin "N ejercicios"; una sola vista de ejercicio)
 ### R-121 [⏸] No probar todavía en iPhone (decisión del usuario)
-### R-122 [IN PROGRESS] Seguir después con la siguiente tarea (Fase 15 InstaGym) mientras la prueba Jobs lo apruebe
+### R-122 [DONE] Seguir después con la siguiente tarea (Fase 15 InstaGym) mientras la prueba Jobs lo apruebe (Fase 15 hecha; Jobs SÍ, 89; capturas 11–13 y 34)
 

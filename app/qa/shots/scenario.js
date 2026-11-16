@@ -194,4 +194,11 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await tap('Ocupado');
   await sleep(3500); // que se vaya el aviso
   await shot('33-postponed');
+
+  // 34 Diario (Fase 15): escribir un comentario en una sesión
+  await load({ ...base, 'fittrack.data.v1': DATA });
+  await tap('Historial');
+  await tap('Comentar');
+  await sleep(300);
+  await shot('34-feed-comment');
 };

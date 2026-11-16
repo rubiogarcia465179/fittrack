@@ -43,6 +43,8 @@ import { plural } from '../lib/plural';
 import { GroupGlyph } from '../components/GroupGlyph';
 import { RECORD_GREEN } from '../components/Calendar';
 import { completedExercises } from '../lib/session-save';
+import { pickPhoto } from '../lib/pickPhoto';
+import { savePhoto } from '../lib/sessionPhotos';
 import {
   suggestAlternatives,
   isBodyweightExercise,
@@ -348,6 +350,8 @@ export default function SessionScreen({
   const [confirmDiscard, setConfirmDiscard] = useState(false);
   /** Ejercicio con series hechas pendiente de confirmar "Quitar ejercicio". */
   const [confirmRemove, setConfirmRemove] = useState<string | null>(null);
+  /** Fase 15: foto opcional elegida en "Bien hecho" (data URL). */
+  const [finishPhoto, setFinishPhoto] = useState<string | null>(null);
   const scrollRef = useRef<any>(null);
   const cardOffsets = useRef<Record<string, number>>({});
 
@@ -1008,6 +1012,11 @@ export default function SessionScreen({
         energy: rating?.energy ?? session.energy ?? null,
         feeling: rating?.feeling ?? null,
       }) as Session;
+      // Fase 15: la foto elegida en "Bien hecho" va al post de la sesión.
+      if (finishPhoto) {
+        const pid = await savePhoto(finishPhoto);
+        if (pid) normalized.photos = [pid];
+      }
       await store.addSession(normalized);
       success();
       // Benchmark: 1RM de cada ejercicio (el mejor set + ajuste manual).
@@ -1870,8 +1879,24 @@ export default function SessionScreen({
               value={feeling}
               onChange={setFeeling}
             />
+            {/* Fase 15: una foto opcional para el diario (texto, sin relleno). */}
+            <View style={styles.finishPhotoRow}>
+              {finishPhoto ? (
+                <Image source={{ uri: finishPhoto }} style={[styles.finishThumb, { borderColor: p.border }]} accessibilityLabel={t('feed_photo')} />
+              ) : null}
+              <Pressable
+                accessibilityRole="button"
+                onPress={async () => {
+                  const uri = await pickPhoto();
+                  if (uri) setFinishPhoto(uri);
+                }}
+                style={({ pressed }) => [{ minHeight: 44, justifyContent: 'center', opacity: pressed ? 0.6 : 1 }]}
+              >
+                <Text style={[styles.finishPhotoText, { color: p.text }]}>{finishPhoto ? t('home_photo_change') : `+ ${t('feed_add_photo')}`}</Text>
+              </Pressable>
+            </View>
             <Pressable
-              style={({ pressed }) => [{ marginTop: 20, opacity: saving ? 0.4 : pressed ? 0.85 : 1 }]}
+              style={({ pressed }) => [{ marginTop: 12, opacity: saving ? 0.4 : pressed ? 0.85 : 1 }]}
               accessibilityRole="button"
               disabled={saving}
               onPress={() => save({ energy, feeling })}
@@ -3093,6 +3118,9 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 12,
   },
+  finishPhotoRow: { flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 14 },
+  finishThumb: { width: 44, height: 44, borderRadius: 8, borderWidth: StyleSheet.hairlineWidth },
+  finishPhotoText: { fontSize: 15, fontWeight: '600' },
   footerCaption: {
     fontSize: 14,
     fontWeight: '600',

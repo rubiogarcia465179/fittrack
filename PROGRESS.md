@@ -8,7 +8,7 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 > `main` = versión "Foco a 10" (rama `SteveJobs` fusionada; la anterior en
 > `v1`) + Fase 11e (Hoy toca con Cambiar, marcas desde datos, días de récord
 > en verde, mapa del cuerpo SVG) + Fases 11f–11l (bucle de 10 rondas UX +
-> Jobs, 77 → 87). Siguiente: Fase 15 (InstaGym).
+> Jobs, 77 → 87). Siguiente: Fase 14 (contenido por ejercicio).
 
 | Área | Estado |
 |---|---|
@@ -27,9 +27,9 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 
 - `npx tsc --noEmit` (app) → **0 errores** · `node tests/run.js` → **135/135, 0 fallos**.
 - `npx expo export --platform web` → OK.
-- Capturas **01–33** (nueva: 33 aplazado), **0 errores de consola**,
-  revisadas una a una (hojas de contacto); vídeo **373 fotogramas**.
-- **Prueba "Steve Jobs": SÍ, 88** (ver Log "2026-11-16 (noche)").
+- Capturas **01–34** (nueva: 34 comentar), **0 errores de consola**,
+  revisadas una a una (hojas de contacto); vídeo **393 fotogramas**.
+- **Prueba "Steve Jobs": SÍ, 89** (ver Log "Fase 15").
 
 ## Decisiones vigentes
 
@@ -691,3 +691,16 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   Verificación: tsc 0 · tests 135/135 · export OK · capturas 01–33, 0
   errores · vídeo 373 fotogramas. **Prueba Jobs: SÍ — 88** (Foco 9→10: una
   vista por ejercicio, nada repetido; resto igual). Siguiente: Fase 15.
+
+- 2026-11-16 (noche) — **Fase 15 InstaGym**: el Historial pasa a diario:
+  cada sesión es un post con fotos (4:3, deslizables), series, sensación y
+  comentarios; acciones de texto "Añadir foto · Comentar" (+ "Quitar foto");
+  comentario en la propia tarjeta ("Publicar"); tocar un comentario →
+  "¿Borrar este comentario?"; "+ Añadir foto" opcional en "Bien hecho".
+  Fotos en su propia clave (`lib/sessionPhotos.ts`, `store.updateSession`),
+  fuera de la exportación; se borran con la sesión y con "Borrar todo".
+  Fallo visto en las capturas y arreglado: la foto se salía de la tarjeta.
+  Verificación: tsc 0 · tests 135/135 · export OK · capturas 01–34, 0
+  errores · vídeo 393 fotogramas. **Prueba Jobs: SÍ — 89** (Artes liberales
+  9→10: el diario con tus fotos y notas hace la app personal sin ruido
+  social). ⛔: `expo-file-system` (dependencia) y paridad web (`npm ci`).

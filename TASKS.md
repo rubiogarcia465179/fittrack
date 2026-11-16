@@ -9,9 +9,10 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
 2. Trabaja **en el orden de esta lista**, de arriba abajo.
 3. **No commitees** hasta cerrar una fase y que la prueba "Steve Jobs" dé
    **sí** (`CLAUDE.md §2`; se evalúa como **versión 2.0**). Estado al
-   2026-11-16: **Fases 11l y 11m en `main`** (Jobs 88). **Siguiente: Fase 15
-   (InstaGym)** — el usuario pidió seguir mientras la prueba Jobs apruebe
-   (R-122). Luego Fase 14, paridad web (⛔ `npm ci`) y Fase 13 (fotos).
+   2026-11-16: **Fases 11l, 11m y 15 en `main`** (Jobs 89). **Siguiente:
+   Fase 14** (por qué se usa + favoritos con cita verificable), si la
+   prueba Jobs lo aprueba (R-122). Luego paridad web (⛔ `npm ci`) y Fase 13
+   (fotos). ⛔ abiertos: `expo-file-system` para las fotos del diario.
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
    no las supongas.
 
@@ -242,15 +243,16 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
   i18n regenerado (390 claves); pendiente el tema X, 3 pestañas, Inicio,
   Perfil y pasos por idioma en `web/`.
 
-### Fase 15 — InstaGym (sustituye a Historial) ← SIGUIENTE
-- [ ] Feed tipo Instagram (estilo X): cada sesión con su resumen (fecha,
-      ejercicios, series, cardio, valoración), **fotos** y **comentarios**.
-- [ ] Añadir fotos a una sesión (al terminar y desde el feed) y comentarios.
-      `expo-image-picker` ya instalado (`app/src/lib/pickPhoto.ts`). Guardar
-      fotos como archivos con `expo-file-system` (ya instalado), no en
-      AsyncStorage.
-- [ ] Tocar un día entrenado del calendario de Inicio abre esa sesión.
-- [ ] Paridad web (fotos vía `<input type="file">`).
+### Fase 15 — InstaGym (sustituye a Historial) ✅ (Jobs SÍ, 89)
+- [x] Diario tipo post (estilo X): resumen, **fotos** (deslizables) y
+      **comentarios** (tocar uno → borrar con confirmación).
+- [x] Añadir fotos al terminar ("Bien hecho" → "+ Añadir foto") y desde el
+      diario; "Quitar foto". Fotos en su propia clave de AsyncStorage
+      (`lib/sessionPhotos.ts`); se borran con la sesión y con "Borrar todo".
+- [x] Tocar un día entrenado del calendario abre esa sesión (Historial de ese día).
+- ⛔ Guardar las fotos como archivos con `expo-file-system`: **no** está en
+  `package.json` (solo transitivo) → añadirlo necesita aprobación.
+- ⛔ Paridad web (fotos vía `<input type="file">`): necesita `cd web && npm ci`.
 
 ### Fase 14 — Biblioteca: contenido por ejercicio
 - [x] **Cómo se hace** (3 pasos para principiantes, 4 idiomas) y **qué

@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { CardioIntensity } from './lib/gym';
 import type { Goal } from './lib/types';
 import { currentExerciseId } from './lib/merged-ids';
+import { deletePhotos, deleteAllPhotos } from './lib/sessionPhotos';
 
 /** Ejercicios fusionados (R-119): el historial y las marcas apuntan al que queda. */
 function remapSessions(list: Session[]): Session[] {
@@ -72,6 +73,16 @@ export interface Session {
   energy?: number | null;
   feeling?: number | null;
   created_at?: string;
+  /** Fase 15: ids de fotos (cada una en su clave; ver lib/sessionPhotos). */
+  photos?: string[];
+  /** Fase 15: comentarios propios en el diario. */
+  comments?: SessionComment[];
+}
+
+export interface SessionComment {
+  id: string;
+  text: string;
+  at: string; // ISO
 }
 
 export interface Benchmark {
@@ -238,8 +249,19 @@ export const store = {
   },
   async deleteSession(id: string): Promise<void> {
     const d = await read();
+    const gone = d.sessions.find((x) => x.id === id);
     d.sessions = d.sessions.filter((x) => x.id !== id);
     await write(d);
+    if (gone?.photos?.length) await deletePhotos(gone.photos);
+  },
+  /** Cambia campos de una sesión (fotos, comentarios). */
+  async updateSession(id: string, patch: Partial<Pick<Session, 'photos' | 'comments'>>): Promise<Session | null> {
+    const d = await read();
+    const i = d.sessions.findIndex((x) => x.id === id);
+    if (i < 0) return null;
+    d.sessions[i] = { ...d.sessions[i], ...patch };
+    await write(d);
+    return d.sessions[i];
   },
   /** Actualiza el perfil (experiencia, intensidad). */
   async setProfile(p: Partial<Profile>): Promise<Profile> {
@@ -256,5 +278,6 @@ export const store = {
   /** Borra TODOS los datos (sesiones y perfil incluidos). */
   async clearAll(): Promise<void> {
     await write(emptyData());
+    await deleteAllPhotos();
   },
 };

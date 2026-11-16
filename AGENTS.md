@@ -245,3 +245,8 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   `make_image_map.py`, `make_photo_map.js`.
 - **Un ejercicio = una vista**: `ExerciseHowTo` (sesión y Ejercicios); ya no
   existe `DetailScreen`.
+- **Diario (Fase 15)**: `Session.photos` (ids) + `Session.comments`; cada
+  foto es un data URL en `fittrack.photo.<id>` (`lib/sessionPhotos.ts`);
+  `store.updateSession` cambia fotos/comentarios. Las capturas usan una
+  foto de ejemplo (`fittrack.photo.demo1`, en `shoot.js`).
+
