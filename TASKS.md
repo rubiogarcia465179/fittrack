@@ -335,15 +335,14 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
 - [x] **Dibujos reales de Everkinetic** (CC BY-SA 3.0, Wikimedia Commons;
       R-132): 77 candidatos por nombre, **cada dibujo revisado a mano**
       (`data/images/photos/everkinetic-map.json`: `chosen` y `rejected` con
-      motivo). **63 ejercicios** con posición inicial + final (126
+      motivo). **65 ejercicios** con posición inicial + final (130
       imágenes); 9 rechazados (p. ej. "Bench press" de Commons es un press
       inclinado; dibujos con mancuerna para ejercicios con barra). Fondo
       transparente y teñido con el tema; crédito en la hoja y en Licencias.
       `scripts/fetch_everkinetic.py` (baja con pausa y miniaturas estándar),
       `scripts/make_photo_map.js`, `scripts/photo_status.js`.
-- [ ] 5 dibujos aceptados a medio bajar (Wikimedia limita: 429): overhead
-      squat, shrugs con mancuernas, jalón supino, remo al mentón con
-      mancuernas, jalón con barra V. Se completan al reintentar.
+- [ ] 3 dibujos aceptados a medio bajar (Wikimedia limita: 429): shrugs
+      con mancuernas, jalón supino, jalón con barra V. Se completan al reintentar.
 - ⛔ **Usuario**: el resto (142 ejercicios sin dibujo + el hueco 3 de todos):
       fotos propias o generadas con `docs/fotos/PROMPTS.md` →
       `data/images/photos/<id>-<n>.png` y `node scripts/make_photo_map.js`.

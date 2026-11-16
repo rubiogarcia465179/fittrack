@@ -294,6 +294,7 @@
   "leg_presses_narrow": "Narrow-stance-leg-press-1-1024x671.png",
   "leg_raises_lying": "Leg-raises",
   "leverage_machine_chest_press": "Machine bench press",
+  "overhead_squat": "Overhead-squat-1.gif",
   "preacher_curls": "Preacher curl with barbell 1.svg",
   "pull_ups": "Pull ups",
   "push_ups": "Push ups",
@@ -315,6 +316,7 @@
   "tricep_dumbbell_kickback": "Triceps kickback with dumbbell 1.svg",
   "triceps_machine": "Triceps extensions using machine 1.svg",
   "upright_row_sz_bar": "Upright barbell rows 1.svg",
+  "upright_row_w_dumbbells": "Dumbbell-upright-row-1.png",
   "weighted_step_ups": "Step ups with dumbbells 1.svg",
   "wide_grip_pulldown": "Wide grip lat pull down 1.svg"
  },

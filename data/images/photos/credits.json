@@ -639,6 +639,22 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "overhead_squat-1.png": {
+  "file": "overhead_squat-1.png",
+  "commons": "File:Overhead-squat-2.gif",
+  "page": "https://commons.wikimedia.org/wiki/File:Overhead-squat-2.gif",
+  "author": "Everkinetic",
+  "license": "CC BY-SA 3.0",
+  "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
+ "overhead_squat-2.png": {
+  "file": "overhead_squat-2.png",
+  "commons": "File:Overhead-squat-1.gif",
+  "page": "https://commons.wikimedia.org/wiki/File:Overhead-squat-1.gif",
+  "author": "Everkinetic",
+  "license": "CC BY-SA 3.0",
+  "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
  "preacher_curls-1.png": {
   "file": "preacher_curls-1.png",
   "commons": "File:Preacher curl with barbell 1.svg",
@@ -971,6 +987,22 @@
   "file": "upright_row_sz_bar-2.png",
   "commons": "File:Upright barbell rows 1.svg",
   "page": "https://commons.wikimedia.org/wiki/File:Upright_barbell_rows_1.svg",
+  "author": "Everkinetic",
+  "license": "CC BY-SA 3.0",
+  "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
+ "upright_row_w_dumbbells-1.png": {
+  "file": "upright_row_w_dumbbells-1.png",
+  "commons": "File:Dumbbell-upright-row-2.png",
+  "page": "https://commons.wikimedia.org/wiki/File:Dumbbell-upright-row-2.png",
+  "author": "Everkinetic",
+  "license": "CC BY-SA 3.0",
+  "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
+ "upright_row_w_dumbbells-2.png": {
+  "file": "upright_row_w_dumbbells-2.png",
+  "commons": "File:Dumbbell-upright-row-1.png",
+  "page": "https://commons.wikimedia.org/wiki/File:Dumbbell-upright-row-1.png",
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"

@@ -8,10 +8,10 @@ cada imagen: `data/images/photos/credits.json`. Prompts para las que faltan:
 |---|---|
 | Ejercicios | 205 |
 | Huecos (3 por ejercicio) | 615 |
-| ✏️ Dibujo real Everkinetic (CC BY-SA 3.0) | 126 |
+| ✏️ Dibujo real Everkinetic (CC BY-SA 3.0) | 130 |
 | 📷 Foto propia / generada | 0 |
-| ⬜ Pendientes | 489 |
-| Ejercicios con al menos una imagen real | 63 de 205 |
+| ⬜ Pendientes | 485 |
+| Ejercicios con al menos una imagen real | 65 de 205 |
 
 Leyenda: ✏️ dibujo real (posición inicial = 1, final = 2) · 📷 foto propia ·
 ⬜ pendiente (la app muestra la imagen de ejemplo, marcada como tal).
@@ -181,7 +181,7 @@ foto propia.
 | legs | Leg Presses (narrow) | `leg_presses_narrow` | ✏️ | ✏️ | ⬜ |
 | legs | Leg Presses (wide) | `leg_presses_wide` | ⬜ | ⬜ | ⬜ |
 | legs | Low Box Squat - Wide Stance | `low_box_squat_wide_stance` | ⬜ | ⬜ | ⬜ |
-| legs | Overhead Squat | `overhead_squat` | ⬜ | ⬜ | ⬜ |
+| legs | Overhead Squat | `overhead_squat` | ✏️ | ✏️ | ⬜ |
 | legs | Pistol Squat | `pistol_squat` | ⬜ | ⬜ | ⬜ |
 | legs | Romanian Deadlift | `romanian_deadlift` | ✏️ | ✏️ | ⬜ |
 | legs | Sitting Calf Raises | `sitting_calf_raises` | ✏️ | ✏️ | ⬜ |
@@ -221,7 +221,7 @@ foto propia.
 | shoulders | Shrugs, Dumbbells | `shrugs_dumbbells` | ⬜ | ⬜ | ⬜ |
 | shoulders | Side-lying External Rotation | `side_lying_external_rotation` | ⬜ | ⬜ | ⬜ |
 | shoulders | Snach | `snach` | ⬜ | ⬜ | ⬜ |
-| shoulders | Upright Row w/ Dumbbells | `upright_row_w_dumbbells` | ⬜ | ⬜ | ⬜ |
+| shoulders | Upright Row w/ Dumbbells | `upright_row_w_dumbbells` | ✏️ | ✏️ | ⬜ |
 | shoulders | Upright Row, on Multi Press | `upright_row_on_multi_press` | ⬜ | ⬜ | ⬜ |
 | shoulders | Upright Row, SZ-bar | `upright_row_sz_bar` | ✏️ | ✏️ | ⬜ |
 | shoulders | Wall Handstand | `wall_handstand` | ⬜ | ⬜ | ⬜ |

@@ -48,6 +48,7 @@ const PHOTOS: Record<string, { kind: 'drawing' | 'photo'; images: number[] }> = 
   "leg_presses_narrow": { kind: 'drawing', images: [require('../assets/photos/leg_presses_narrow-1.png'), require('../assets/photos/leg_presses_narrow-2.png')] },
   "leg_raises_lying": { kind: 'drawing', images: [require('../assets/photos/leg_raises_lying-1.png'), require('../assets/photos/leg_raises_lying-2.png')] },
   "leverage_machine_chest_press": { kind: 'drawing', images: [require('../assets/photos/leverage_machine_chest_press-1.png'), require('../assets/photos/leverage_machine_chest_press-2.png')] },
+  "overhead_squat": { kind: 'drawing', images: [require('../assets/photos/overhead_squat-1.png'), require('../assets/photos/overhead_squat-2.png')] },
   "preacher_curls": { kind: 'drawing', images: [require('../assets/photos/preacher_curls-1.png'), require('../assets/photos/preacher_curls-2.png')] },
   "pull_ups": { kind: 'drawing', images: [require('../assets/photos/pull_ups-1.png'), require('../assets/photos/pull_ups-2.png')] },
   "push_ups": { kind: 'drawing', images: [require('../assets/photos/push_ups-1.png'), require('../assets/photos/push_ups-2.png')] },
@@ -69,6 +70,7 @@ const PHOTOS: Record<string, { kind: 'drawing' | 'photo'; images: number[] }> = 
   "tricep_dumbbell_kickback": { kind: 'drawing', images: [require('../assets/photos/tricep_dumbbell_kickback-1.png'), require('../assets/photos/tricep_dumbbell_kickback-2.png')] },
   "triceps_machine": { kind: 'drawing', images: [require('../assets/photos/triceps_machine-1.png'), require('../assets/photos/triceps_machine-2.png')] },
   "upright_row_sz_bar": { kind: 'drawing', images: [require('../assets/photos/upright_row_sz_bar-1.png'), require('../assets/photos/upright_row_sz_bar-2.png')] },
+  "upright_row_w_dumbbells": { kind: 'drawing', images: [require('../assets/photos/upright_row_w_dumbbells-1.png'), require('../assets/photos/upright_row_w_dumbbells-2.png')] },
   "weighted_step_ups": { kind: 'drawing', images: [require('../assets/photos/weighted_step_ups-1.png'), require('../assets/photos/weighted_step_ups-2.png')] },
   "wide_grip_pulldown": { kind: 'drawing', images: [require('../assets/photos/wide_grip_pulldown-1.png'), require('../assets/photos/wide_grip_pulldown-2.png')] },
 };
@@ -83,4 +85,4 @@ export function photosFor(id: string): { images: number[]; kind: PhotoKind; plac
     : { images: [HERO, HERO, HERO], kind: 'sample', placeholder: true };
 }
 
-export const PHOTO_COUNT = 63;
+export const PHOTO_COUNT = 65;
