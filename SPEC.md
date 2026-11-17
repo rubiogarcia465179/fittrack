@@ -229,8 +229,8 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
    copia" (elige el archivo → confirma "Copia del <fecha>: N sesiones.
    Sustituye todo…") y "Borrar todos los datos" (con confirmación).
 - Al pie, plegado: **"Licencias y créditos"** (wger CC BY-SA / CC0 y sus
-  autores; pasos y traducciones de FitTrack; imagen de ejemplo generada con
-  IA).
+  autores; pasos y traducciones de FitTrack; dibujos de Everkinetic CC BY-SA
+  3.0 modificados, con enlaces a la licencia y a la lista de originales).
 - Las marcas viven en Inicio ("Ver todo"), no en Perfil. Sin nacionalidad ni
   temas extra (Ámbar, Neón, Rubí, banderas): quitados en la Fase 11i por foco
   (el código de temas sigue en `theme.ts` / `theme-flags.ts`, sin UI).
