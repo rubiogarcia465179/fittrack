@@ -400,7 +400,6 @@ export default function ProfileScreen({
               </View>
             </View>
           ) : null}
-          <Text style={[styles.flagSub, { color: p.secondary }]}>{t('credits_photo')}</Text>
         </View>
       ) : null}
 

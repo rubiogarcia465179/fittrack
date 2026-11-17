@@ -58,7 +58,11 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
             {[exercise.equipment !== 'other' ? t(`equip_${exercise.equipment}`) : null, t(`level_${exercise.level}`)].filter(Boolean).join(' · ')}
           </Text>
 
-          {/* Fotos */}
+          {/* Imágenes (R-145): solo si el ejercicio tiene una imagen propia en el
+              código (dibujo de Everkinetic o añadido por el usuario). Sin ella, no
+              hay imagen: ni la de ejemplo; la hoja va directa a "Qué entrena". */}
+          {kind !== 'sample' ? (
+          <View>
           <ScrollView
             horizontal
             pagingEnabled
@@ -116,6 +120,9 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
                 {`${t(page === 0 ? 'howto_pos_start' : 'howto_pos_end')} · ${t(credit === 'ai' ? 'howto_drawing_ai' : 'howto_drawing_credit')}`}
               </Text>
             )
+          ) : null}
+
+          </View>
           ) : null}
 
           {/* Qué entrena */}

@@ -1,0 +1,822 @@
+{
+ "2_handed_kettlebell_swing": [
+  "Two-hand kettlebell swing",
+  "Kettlebell swing met twee handen"
+ ],
+ "arnold_shoulder_press": [
+  "Arnold press",
+  "Arnold press"
+ ],
+ "axe_hold": [
+  "Dumbbell side hold",
+  "Zijwaartse dumbbell-hold"
+ ],
+ "back_squat": [
+  "Barbell back squat",
+  "Squat met halterstang"
+ ],
+ "barbell_ab_rollout": [
+  "Barbell ab rollout",
+  "Ab rollout met halterstang"
+ ],
+ "barbell_hack_squats": [
+  "Barbell hack squat",
+  "Hack squat met halterstang"
+ ],
+ "barbell_lunges": [
+  "Barbell lunge",
+  "Lunges met halterstang"
+ ],
+ "barbell_triceps_extension": [
+  "Barbell skull crusher",
+  "Skull crusher met halterstang"
+ ],
+ "bear_walk": [
+  "Bear crawl",
+  "Beerloop"
+ ],
+ "bench_press": [
+  "Barbell bench press",
+  "Bankdrukken met halterstang"
+ ],
+ "benchpress_dumbbells": [
+  "Dumbbell bench press",
+  "Bankdrukken met dumbbells"
+ ],
+ "bent_high_pulls": [
+  "Bent-over dumbbell high pull",
+  "Voorovergebogen high pull met dumbbells"
+ ],
+ "bent_over_barbell_row": [
+  "Barbell bent-over row",
+  "Voorovergebogen roeien met halterstang"
+ ],
+ "bent_over_lateral_raises": [
+  "Bent-over lateral raise",
+  "Voorovergebogen zijwaarts heffen"
+ ],
+ "bent_over_rowing_reverse": [
+  "Reverse-grip barbell row",
+  "Roeien met halterstang in ondergreep"
+ ],
+ "bentover_dumbbell_rows": [
+  "Bent-over dumbbell row",
+  "Voorovergebogen roeien met dumbbells"
+ ],
+ "biceps_curl_with_cable": [
+  "Cable biceps curl",
+  "Bicep curl aan de kabel"
+ ],
+ "biceps_curls_with_barbell": [
+  "Barbell biceps curl",
+  "Bicep curl met halterstang"
+ ],
+ "biceps_curls_with_dumbbell": [
+  "Dumbbell biceps curl",
+  "Bicep curl met dumbbells"
+ ],
+ "biceps_curls_with_sz_bar": [
+  "EZ-bar biceps curl",
+  "Bicep curl met EZ-stang"
+ ],
+ "body_ups": [
+  "Plank up-downs",
+  "Plank up-downs"
+ ],
+ "braced_squat": [
+  "Plate-hold squat",
+  "Squat met halterschijf vooruit"
+ ],
+ "burpees": [
+  "Burpee",
+  "Burpee"
+ ],
+ "butterfly": [
+  "Pec deck fly",
+  "Butterfly-machine"
+ ],
+ "butterfly_narrow_grip": [
+  "Narrow-grip pec deck fly",
+  "Butterfly-machine met smalle greep"
+ ],
+ "butterfly_reverse": [
+  "Reverse pec deck fly",
+  "Omgekeerde butterfly-machine"
+ ],
+ "cable_cross_over": [
+  "Cable crossover",
+  "Cable crossover"
+ ],
+ "cable_external_rotation": [
+  "Cable external rotation",
+  "Externe rotatie aan de kabel"
+ ],
+ "cable_woodchoppers": [
+  "Cable woodchopper",
+  "Woodchopper aan de kabel"
+ ],
+ "calf_press_using_leg_press_machine": [
+  "Leg press calf raise",
+  "Kuitheffen op de leg press"
+ ],
+ "calf_raises_on_hackenschmitt_machine": [
+  "Hack machine calf raise",
+  "Kuitheffen in de hackmachine"
+ ],
+ "chin_ups": [
+  "Chin-up",
+  "Chin-up"
+ ],
+ "close_grip_bench_press": [
+  "Close-grip bench press",
+  "Bankdrukken met smalle greep"
+ ],
+ "close_grip_lat_pull_down": [
+  "Close-grip lat pulldown",
+  "Lat pulldown met smalle greep"
+ ],
+ "cross_bench_dumbbell_pullovers": [
+  "Dumbbell pullover",
+  "Pullover met dumbbell"
+ ],
+ "crunches": [
+  "Crunch",
+  "Crunch"
+ ],
+ "crunches_on_machine": [
+  "Machine crunch",
+  "Crunch op de machine"
+ ],
+ "crunches_with_cable": [
+  "Kneeling cable crunch",
+  "Knielende crunch aan de kabel"
+ ],
+ "crunches_with_legs_up": [
+  "Legs-up crunch",
+  "Crunch met benen omhoog"
+ ],
+ "curl_su_panca_a_45": [
+  "Incline bench curl",
+  "Curl op de schuine bank"
+ ],
+ "cycling": [
+  "Cycling",
+  "Fietsen"
+ ],
+ "deadbug": [
+  "Dead bug",
+  "Dead bug"
+ ],
+ "deadhang": [
+  "Dead hang",
+  "Dead hang"
+ ],
+ "deadlifts": [
+  "Barbell deadlift",
+  "Deadlift"
+ ],
+ "decline_bench_press_barbell": [
+  "Decline barbell bench press",
+  "Bankdrukken op de declinebank"
+ ],
+ "decline_bench_press_dumbbell": [
+  "Decline dumbbell bench press",
+  "Bankdrukken met dumbbells op de declinebank"
+ ],
+ "decline_pushups": [
+  "Decline push-up",
+  "Opdrukken met voeten hoog"
+ ],
+ "deficit_deadlift": [
+  "Deficit deadlift",
+  "Deficit deadlift"
+ ],
+ "diagonal_shoulder_press": [
+  "Incline machine shoulder press",
+  "Schouderdrukken op de schuine machine"
+ ],
+ "dips_2": [
+  "Chest dip",
+  "Dips voor de borst"
+ ],
+ "dips_between_two_benches": [
+  "Bench dip",
+  "Bankdips"
+ ],
+ "dumbbell_concentration_curl": [
+  "Dumbbell concentration curl",
+  "Concentratiecurl met dumbbell"
+ ],
+ "dumbbell_goblet_squat": [
+  "Dumbbell goblet squat",
+  "Goblet squat met dumbbell"
+ ],
+ "dumbbell_incline_curl": [
+  "Incline dumbbell curl",
+  "Curl met dumbbells op de schuine bank"
+ ],
+ "dumbbell_lunges_standing": [
+  "Dumbbell lunge",
+  "Lunges met dumbbells"
+ ],
+ "dumbbell_lunges_walking": [
+  "Dumbbell walking lunge",
+  "Walking lunges met dumbbells"
+ ],
+ "dumbbell_triceps_extension": [
+  "Dumbbell overhead triceps extension",
+  "Tricepsextensie boven het hoofd met dumbbell"
+ ],
+ "dumbbells_on_scott_machine": [
+  "Machine preacher curl",
+  "Preacher curl op de machine"
+ ],
+ "extenseurs_face": [
+  "Band pull-apart",
+  "Band pull-apart"
+ ],
+ "facepull": [
+  "Cable face pull",
+  "Face pull aan de kabel"
+ ],
+ "flutter_kicks": [
+  "Flutter kicks",
+  "Flutter kicks"
+ ],
+ "fly_with_cable": [
+  "Standing cable fly",
+  "Staande fly aan de kabel"
+ ],
+ "fly_with_dumbbells": [
+  "Dumbbell fly",
+  "Dumbbell fly"
+ ],
+ "fly_with_dumbbells_decline_bench": [
+  "Decline dumbbell fly",
+  "Dumbbell fly op de declinebank"
+ ],
+ "french_press_skullcrusher_dumbbells": [
+  "Dumbbell skull crusher",
+  "Skull crusher met dumbbells"
+ ],
+ "french_press_skullcrusher_sz_bar": [
+  "EZ-bar skull crusher",
+  "Skull crusher met EZ-stang"
+ ],
+ "front_raises": [
+  "Barbell front raise",
+  "Voorwaarts heffen met halterstang"
+ ],
+ "front_squats": [
+  "Barbell front squat",
+  "Front squat met halterstang"
+ ],
+ "full_sit_outs": [
+  "Sit-out",
+  "Sit-out"
+ ],
+ "glute_bridge": [
+  "Glute bridge",
+  "Bilbrug"
+ ],
+ "good_mornings": [
+  "Barbell good morning",
+  "Good morning met halterstang"
+ ],
+ "hammercurls": [
+  "Dumbbell hammer curl",
+  "Hammer curl met dumbbells"
+ ],
+ "hammercurls_on_cable": [
+  "Cable rope hammer curl",
+  "Hammer curl aan de kabel met touw"
+ ],
+ "hand_grip": [
+  "Hand gripper",
+  "Handknijper"
+ ],
+ "handstand_pushup": [
+  "Wall handstand push-up",
+  "Handstand push-up tegen de muur"
+ ],
+ "hanging_leg_raises": [
+  "Hanging leg raise",
+  "Hangend benen heffen"
+ ],
+ "hercules_pillars": [
+  "Cable Hercules hold",
+  "Hercules-hold aan de kabels"
+ ],
+ "high_knees": [
+  "High knees",
+  "Knieheffen"
+ ],
+ "high_pull": [
+  "Barbell high pull",
+  "High pull met halterstang"
+ ],
+ "hindu_squats": [
+  "Hindu squat",
+  "Hindu squat"
+ ],
+ "hip_thrust": [
+  "Barbell hip thrust",
+  "Hip thrust met halterstang"
+ ],
+ "hollow_hold": [
+  "Hollow hold",
+  "Hollow hold"
+ ],
+ "hyperextensions": [
+  "Back extension",
+  "Rugstrekken"
+ ],
+ "incline_bench_press": [
+  "Incline barbell bench press",
+  "Bankdrukken op de schuine bank"
+ ],
+ "incline_dumbbell_flye": [
+  "Incline dumbbell fly",
+  "Dumbbell fly op de schuine bank"
+ ],
+ "incline_dumbbell_press": [
+  "Incline dumbbell press",
+  "Dumbbell press op de schuine bank"
+ ],
+ "incline_dumbbell_row": [
+  "Chest-supported dumbbell row",
+  "Roeien met dumbbells op de schuine bank"
+ ],
+ "incline_plank_with_alternate_floor_touch": [
+  "Stability ball plank with foot tap",
+  "Plank op fitnessbal met voettik"
+ ],
+ "incline_pushups": [
+  "Incline push-up",
+  "Opdrukken met handen hoog"
+ ],
+ "isometric_wipers": [
+  "Side-to-side plank shift",
+  "Plank met zijwaartse verschuiving"
+ ],
+ "jumping_jacks": [
+  "Jumping jacks",
+  "Jumping jacks"
+ ],
+ "kettlebell_swings": [
+  "Kettlebell swing",
+  "Kettlebell swing"
+ ],
+ "l_hold": [
+  "L-sit hold",
+  "L-sit"
+ ],
+ "lat_pull_down_leaning_back": [
+  "Lat pulldown leaning back",
+  "Lat pulldown licht achterover"
+ ],
+ "lat_pull_down_straight_back": [
+  "Lat pulldown upright",
+  "Lat pulldown met rechte rug"
+ ],
+ "lateral_raises": [
+  "Dumbbell lateral raise",
+  "Zijwaarts heffen met dumbbells"
+ ],
+ "lateral_raises_on_cable_one_armed": [
+  "Single-arm cable lateral raise",
+  "Eenarmig zijwaarts heffen aan de kabel"
+ ],
+ "lateral_to_front_raises": [
+  "Dumbbell lateral to front raise",
+  "Zijwaarts naar voorwaarts heffen met dumbbells"
+ ],
+ "leg_curls_laying": [
+  "Lying leg curl",
+  "Liggende leg curl"
+ ],
+ "leg_curls_sitting": [
+  "Seated leg curl",
+  "Zittende leg curl"
+ ],
+ "leg_curls_standing": [
+  "Standing leg curl",
+  "Staande leg curl"
+ ],
+ "leg_extension_1": [
+  "Leg extension",
+  "Leg extension"
+ ],
+ "leg_press": [
+  "Leg press",
+  "Leg press"
+ ],
+ "leg_press_on_hackenschmidt_machine": [
+  "Hack squat machine",
+  "Hack squat-machine"
+ ],
+ "leg_presses_narrow": [
+  "Narrow-stance leg press",
+  "Leg press met smalle voetstand"
+ ],
+ "leg_presses_wide": [
+  "Wide-stance leg press",
+  "Leg press met brede voetstand"
+ ],
+ "leg_raises_lying": [
+  "Lying leg raise",
+  "Liggend benen heffen"
+ ],
+ "leg_raises_standing": [
+  "Standing leg raise",
+  "Staand benen heffen"
+ ],
+ "leverage_machine_chest_press": [
+  "Machine chest press",
+  "Chest press-machine"
+ ],
+ "leverage_machine_iso_row": [
+  "Machine iso row",
+  "Roeien op de iso-machine"
+ ],
+ "long_pulley_low_row": [
+  "Seated cable row",
+  "Zittend roeien aan de kabel"
+ ],
+ "long_pulley_narrow": [
+  "Close-grip seated cable row",
+  "Zittend roeien aan de kabel met smalle greep"
+ ],
+ "low_box_squat_wide_stance": [
+  "Wide-stance barbell box squat",
+  "Box squat met brede voetstand"
+ ],
+ "lying_rotator_cuff_exercise": [
+  "Side-lying dumbbell external rotation",
+  "Liggende externe rotatie met dumbbell"
+ ],
+ "mgm_machine": [
+  "Seated machine chest press",
+  "Zittende chest press-machine"
+ ],
+ "military_press_1": [
+  "Barbell overhead press",
+  "Overhead press met halterstang"
+ ],
+ "muscle_up": [
+  "Muscle-up",
+  "Muscle-up"
+ ],
+ "negative_crunches": [
+  "Decline crunch",
+  "Crunch op de declinebank"
+ ],
+ "overhand_cable_curl": [
+  "Cable reverse curl",
+  "Reverse curl aan de kabel"
+ ],
+ "overhead_squat": [
+  "Barbell overhead squat",
+  "Overhead squat met halterstang"
+ ],
+ "pause_bench": [
+  "Paused bench press",
+  "Bankdrukken met pauze"
+ ],
+ "pendelay_rows": [
+  "Barbell Pendlay row",
+  "Pendlay row met halterstang"
+ ],
+ "perfect_push_up": [
+  "Strict push-up",
+  "Strak opdrukken"
+ ],
+ "pike_push_ups": [
+  "Pike push-up",
+  "Pike push-up"
+ ],
+ "pistol_squat": [
+  "Pistol squat",
+  "Pistol squat"
+ ],
+ "plank": [
+  "Plank",
+  "Plank"
+ ],
+ "power_clean": [
+  "Barbell power clean",
+  "Power clean met halterstang"
+ ],
+ "preacher_curls": [
+  "Barbell preacher curl",
+  "Preacher curl met halterstang"
+ ],
+ "prone_scapular_retraction_arms_at_side": [
+  "Prone scapular retraction",
+  "Liggend schouderbladen knijpen"
+ ],
+ "pull_ups": [
+  "Pull-up",
+  "Optrekken"
+ ],
+ "pull_ups_on_machine": [
+  "Assisted pull-up machine",
+  "Optrekken met hulpmachine"
+ ],
+ "push_press": [
+  "Barbell push press",
+  "Push press met halterstang"
+ ],
+ "push_ups": [
+  "Push-up",
+  "Opdrukken"
+ ],
+ "rack_deadlift": [
+  "Rack pull",
+  "Rack pull"
+ ],
+ "rear_delt_raises": [
+  "Dumbbell rear delt raise",
+  "Achterste schouder heffen met dumbbells"
+ ],
+ "renegade_row": [
+  "Dumbbell renegade row",
+  "Renegade row met dumbbells"
+ ],
+ "reverse_curl": [
+  "Barbell reverse curl",
+  "Reverse curl met halterstang"
+ ],
+ "reverse_grip_bench_press": [
+  "Reverse-grip bench press",
+  "Bankdrukken in ondergreep"
+ ],
+ "reverse_plank": [
+  "Reverse plank",
+  "Omgekeerde plank"
+ ],
+ "ring_dips": [
+  "Ring dip",
+  "Dips aan de ringen"
+ ],
+ "roman_chair": [
+  "Roman chair sit-up",
+  "Sit-up op de Roman chair"
+ ],
+ "romanian_deadlift": [
+  "Barbell Romanian deadlift",
+  "Roemeense deadlift"
+ ],
+ "rowing_lying_on_bench": [
+  "Prone bench dumbbell row",
+  "Liggend roeien op de bank"
+ ],
+ "rowing_seated": [
+  "Seated cable row with V-handle",
+  "Zittend roeien aan de kabel met V-greep"
+ ],
+ "rowing_t_bar": [
+  "T-bar row",
+  "T-bar row"
+ ],
+ "run": [
+  "Running",
+  "Hardlopen"
+ ],
+ "run_interval_training": [
+  "Interval running",
+  "Intervaltraining hardlopen"
+ ],
+ "run_treadmill": [
+  "Treadmill running",
+  "Hardlopen op de loopband"
+ ],
+ "scissors": [
+  "Scissor kicks",
+  "Schaarbewegingen"
+ ],
+ "seated_triceps_press": [
+  "Seated dumbbell triceps press",
+  "Zittende tricepspress met dumbbell"
+ ],
+ "shotgun_row": [
+  "Single-arm cable row",
+  "Eenarmig roeien aan de kabel"
+ ],
+ "shoulder_fly": [
+  "Dumbbell shoulder fly",
+  "Schouderfly met dumbbells"
+ ],
+ "shoulder_press_barbell": [
+  "Seated barbell shoulder press",
+  "Zittend schouderdrukken met halterstang"
+ ],
+ "shoulder_press_dumbbells": [
+  "Dumbbell shoulder press",
+  "Schouderdrukken met dumbbells"
+ ],
+ "shoulder_press_on_machine": [
+  "Machine shoulder press",
+  "Schouderdrukken op de machine"
+ ],
+ "shoulder_press_on_multi_press": [
+  "Smith machine shoulder press",
+  "Schouderdrukken in de smithmachine"
+ ],
+ "shrugs_barbells": [
+  "Barbell shrug",
+  "Shrugs met halterstang"
+ ],
+ "shrugs_dumbbells": [
+  "Dumbbell shrug",
+  "Shrugs met dumbbells"
+ ],
+ "side_crunch": [
+  "Oblique crunch",
+  "Schuine crunch"
+ ],
+ "side_dumbbell_trunk_flexion": [
+  "Dumbbell side bend",
+  "Zijwaarts buigen met dumbbell"
+ ],
+ "side_lying_external_rotation": [
+  "Side-lying external rotation",
+  "Liggende externe rotatie"
+ ],
+ "side_plank": [
+  "Side plank",
+  "Zijplank"
+ ],
+ "side_to_side_push_ups": [
+  "Side-to-side push-up",
+  "Opdrukken van links naar rechts"
+ ],
+ "single_arm_preacher_curl": [
+  "Single-arm dumbbell preacher curl",
+  "Eenarmige preacher curl met dumbbell"
+ ],
+ "sit_ups": [
+  "Sit-up",
+  "Sit-up"
+ ],
+ "sitting_calf_raises": [
+  "Seated calf raise",
+  "Zittend kuitheffen"
+ ],
+ "skipping_standard": [
+  "Jump rope",
+  "Touwtjespringen"
+ ],
+ "smith_machine_close_grip_bench_press": [
+  "Smith machine close-grip bench press",
+  "Bankdrukken met smalle greep in de smithmachine"
+ ],
+ "snach": [
+  "Barbell snatch",
+  "Snatch met halterstang"
+ ],
+ "speed_deadlift": [
+  "Speed deadlift",
+  "Speed deadlift"
+ ],
+ "splinter_sit_ups": [
+  "Twisting sit-up",
+  "Draaiende sit-up"
+ ],
+ "squat_jumps": [
+  "Jump squat",
+  "Squat jump"
+ ],
+ "squat_thrust": [
+  "Squat thrust",
+  "Squat thrust"
+ ],
+ "standing_calf_raises": [
+  "Standing calf raise",
+  "Staand kuitheffen"
+ ],
+ "standing_rope_forearm": [
+  "Wrist roller",
+  "Polsroller"
+ ],
+ "stationary_bike": [
+  "Stationary bike",
+  "Hometrainer"
+ ],
+ "stiff_legged_deadlifts": [
+  "Barbell stiff-leg deadlift",
+  "Stiff-leg deadlift met halterstang"
+ ],
+ "straight_arm_pull_down_bar_attachment": [
+  "Straight-arm cable pulldown",
+  "Pulldown met gestrekte armen aan de kabel"
+ ],
+ "straight_arm_pull_down_rope_attachment": [
+  "Straight-arm rope pulldown",
+  "Pulldown met gestrekte armen en touw"
+ ],
+ "sumo_deadlift": [
+  "Sumo deadlift",
+  "Sumo deadlift"
+ ],
+ "sumo_squats": [
+  "Barbell sumo squat",
+  "Sumo squat met halterstang"
+ ],
+ "superman": [
+  "Superman",
+  "Superman"
+ ],
+ "thruster": [
+  "Barbell thruster",
+  "Thruster met halterstang"
+ ],
+ "tricep_dumbbell_kickback": [
+  "Dumbbell triceps kickback",
+  "Triceps kickback met dumbbell"
+ ],
+ "triceps_bench_press_one_barbell": [
+  "Single-arm dumbbell overhead press",
+  "Eenarmig drukken boven het hoofd met dumbbell"
+ ],
+ "triceps_dips": [
+  "Triceps dip",
+  "Triceps dips"
+ ],
+ "triceps_extensions_on_cable": [
+  "Cable triceps pushdown",
+  "Triceps pushdown aan de kabel"
+ ],
+ "triceps_extensions_on_cable_with_bar": [
+  "Straight-bar triceps pushdown",
+  "Triceps pushdown met rechte stang"
+ ],
+ "triceps_machine": [
+  "Machine triceps extension",
+  "Tricepsextensie op de machine"
+ ],
+ "trunk_rotation_with_cable": [
+  "Cable trunk rotation",
+  "Romprotatie aan de kabel"
+ ],
+ "turkish_get_up": [
+  "Turkish get-up",
+  "Turkish get-up"
+ ],
+ "underhand_lat_pull_down": [
+  "Underhand lat pulldown",
+  "Lat pulldown in ondergreep"
+ ],
+ "upper_body": [
+  "Upper-body circuit",
+  "Bovenlichaamscircuit"
+ ],
+ "upper_external_oblique": [
+  "Upper oblique crunch",
+  "Crunch voor de bovenste schuine buikspieren"
+ ],
+ "upright_row_on_multi_press": [
+  "Smith machine upright row",
+  "Upright row in de smithmachine"
+ ],
+ "upright_row_sz_bar": [
+  "EZ-bar upright row",
+  "Upright row met EZ-stang"
+ ],
+ "upright_row_w_dumbbells": [
+  "Dumbbell upright row",
+  "Upright row met dumbbells"
+ ],
+ "v_bar_pulldown": [
+  "V-bar lat pulldown",
+  "Lat pulldown met V-greep"
+ ],
+ "wall_handstand": [
+  "Wall handstand hold",
+  "Handstand tegen de muur"
+ ],
+ "wall_pushup": [
+  "Wall push-up",
+  "Opdrukken tegen de muur"
+ ],
+ "wall_slides": [
+  "Wall slide",
+  "Wall slide"
+ ],
+ "wall_squat": [
+  "Wall sit",
+  "Wall sit"
+ ],
+ "weighted_step_ups": [
+  "Dumbbell step-up",
+  "Step-up met dumbbells"
+ ],
+ "wide_grip_pulldown": [
+  "Wide-grip lat pulldown",
+  "Lat pulldown met brede greep"
+ ],
+ "z_curls": [
+  "Dumbbell Zottman curl",
+  "Zottman curl met dumbbells"
+ ]
+}

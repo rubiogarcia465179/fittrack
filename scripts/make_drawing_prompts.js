@@ -96,13 +96,13 @@ for (const e of ex.slice().sort((a, b) => a.muscle_group.localeCompare(b.muscle_
     const refs = closestRefs(e);
     items.push({
       id: e.id,
-      name: e.name_en,
+      name: e.display_en || e.name_en,
       group: e.muscle_group,
       equipment: e.equipment,
       frame: n,
       out: `data/images/photos/inbox/${e.id}-${n}.png`,
       references: n === 2 ? [...refs, `data/images/photos/inbox/${e.id}-1.png`] : refs,
-      prompt: `${STYLE} Attached examples from docs/fotos/referencias/: ${refs.map((r) => r.split('/').pop()).join(', ')}. Exercise: "${e.name_en}" (muscle group: ${e.muscle_group}), performed with ${EQUIP[e.equipment] || EQUIP.other}. ${pos}${same}`,
+      prompt: `${STYLE} Attached examples from docs/fotos/referencias/: ${refs.map((r) => r.split('/').pop()).join(', ')}. Exercise: "${e.display_en || e.name_en}" (muscle group: ${e.muscle_group}), performed with ${EQUIP[e.equipment] || EQUIP.other}. ${pos}${same}`,
     });
   }
 }

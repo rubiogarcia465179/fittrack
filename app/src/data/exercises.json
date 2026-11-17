@@ -48,7 +48,9 @@
       "license": "CC-BY-SA 4",
       "credit": "deusinvictus",
       "name_es": "Swing con kettlebell a dos manos",
-      "name_fr": "Swing kettlebell à deux mains"
+      "name_fr": "Swing kettlebell à deux mains",
+      "display_en": "Two-hand kettlebell swing",
+      "display_nl": "Kettlebell swing met twee handen"
     },
     {
       "id": "barbell_ab_rollout",
@@ -75,7 +77,9 @@
       "license": "CC-BY-SA 4",
       "credit": "sevae",
       "name_es": "Rueda abdominal con barra",
-      "name_fr": "Roulement abdominal à la barre"
+      "name_fr": "Roulement abdominal à la barre",
+      "display_en": "Barbell ab rollout",
+      "display_nl": "Ab rollout met halterstang"
     },
     {
       "id": "cable_woodchoppers",
@@ -99,7 +103,9 @@
       "license": "CC-BY-SA 3",
       "credit": "robhoyt",
       "name_es": "Leñador en polea",
-      "name_fr": "Bûcheron à la poulie"
+      "name_fr": "Bûcheron à la poulie",
+      "display_en": "Cable woodchopper",
+      "display_nl": "Woodchopper aan de kabel"
     },
     {
       "id": "crunches",
@@ -125,7 +131,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Crunch abdominal",
-      "name_fr": "Crunch"
+      "name_fr": "Crunch",
+      "display_en": "Crunch",
+      "display_nl": "Crunch"
     },
     {
       "id": "crunches_on_machine",
@@ -152,7 +160,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Crunch en máquina",
-      "name_fr": "Crunch à la machine"
+      "name_fr": "Crunch à la machine",
+      "display_en": "Machine crunch",
+      "display_nl": "Crunch op de machine"
     },
     {
       "id": "crunches_with_cable",
@@ -178,7 +188,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Crunch en polea",
-      "name_fr": "Crunch à la poulie"
+      "name_fr": "Crunch à la poulie",
+      "display_en": "Kneeling cable crunch",
+      "display_nl": "Knielende crunch aan de kabel"
     },
     {
       "id": "crunches_with_legs_up",
@@ -199,7 +211,9 @@
       "license": "CC-BY-SA 4",
       "credit": "krisbbb",
       "name_es": "Crunch con piernas elevadas",
-      "name_fr": "Crunch jambes levées"
+      "name_fr": "Crunch jambes levées",
+      "display_en": "Legs-up crunch",
+      "display_nl": "Crunch met benen omhoog"
     },
     {
       "id": "deadbug",
@@ -225,7 +239,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Metin",
       "name_es": "Bicho muerto (dead bug)",
-      "name_fr": "Dead bug"
+      "name_fr": "Dead bug",
+      "display_en": "Dead bug",
+      "display_nl": "Dead bug"
     },
     {
       "id": "flutter_kicks",
@@ -251,7 +267,9 @@
       "license": "CC-BY-SA 4",
       "credit": "nate303303",
       "name_es": "Patadas alternas",
-      "name_fr": "Battements de jambes"
+      "name_fr": "Battements de jambes",
+      "display_en": "Flutter kicks",
+      "display_nl": "Flutter kicks"
     },
     {
       "id": "full_sit_outs",
@@ -276,7 +294,9 @@
       "license": "CC-BY-SA 4",
       "credit": "http://www.realsimple.com/health/fitness-exercise/",
       "name_es": "Sit-outs completos",
-      "name_fr": "Sit-outs complets"
+      "name_fr": "Sit-outs complets",
+      "display_en": "Sit-out",
+      "display_nl": "Sit-out"
     },
     {
       "id": "hanging_leg_raises",
@@ -297,7 +317,9 @@
       "license": "CC-BY-SA 3",
       "credit": "robhoyt",
       "name_es": "Elevación de piernas colgado",
-      "name_fr": "Relevé de jambes suspendu"
+      "name_fr": "Relevé de jambes suspendu",
+      "display_en": "Hanging leg raise",
+      "display_nl": "Hangend benen heffen"
     },
     {
       "id": "hollow_hold",
@@ -320,7 +342,9 @@
       "license": "CC0",
       "credit": "Behrooz",
       "name_es": "Hollow hold (posición hueca)",
-      "name_fr": "Hollow hold"
+      "name_fr": "Hollow hold",
+      "display_en": "Hollow hold",
+      "display_nl": "Hollow hold"
     },
     {
       "id": "incline_plank_with_alternate_floor_touch",
@@ -344,7 +368,9 @@
       "license": "CC-BY-SA 3",
       "credit": "Mahoney",
       "name_es": "Plancha inclinada tocando el suelo alterno",
-      "name_fr": "Planche inclinée avec touche alternée au sol"
+      "name_fr": "Planche inclinée avec touche alternée au sol",
+      "display_en": "Stability ball plank with foot tap",
+      "display_nl": "Plank op fitnessbal met voettik"
     },
     {
       "id": "l_hold",
@@ -365,7 +391,9 @@
       "license": "CC-BY-SA 3",
       "credit": "bizyguy",
       "name_es": "L-sit (escuadra)",
-      "name_fr": "L-sit (équerre)"
+      "name_fr": "L-sit (équerre)",
+      "display_en": "L-sit hold",
+      "display_nl": "L-sit"
     },
     {
       "id": "leg_raises_lying",
@@ -396,7 +424,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Elevación de piernas tumbado",
-      "name_fr": "Relevé de jambes allongé"
+      "name_fr": "Relevé de jambes allongé",
+      "display_en": "Lying leg raise",
+      "display_nl": "Liggend benen heffen"
     },
     {
       "id": "leg_raises_standing",
@@ -421,7 +451,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Elevación de piernas de pie",
-      "name_fr": "Relevé de jambes debout"
+      "name_fr": "Relevé de jambes debout",
+      "display_en": "Standing leg raise",
+      "display_nl": "Staand benen heffen"
     },
     {
       "id": "negative_crunches",
@@ -446,7 +478,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Crunch negativo",
-      "name_fr": "Crunch négatif"
+      "name_fr": "Crunch négatif",
+      "display_en": "Decline crunch",
+      "display_nl": "Crunch op de declinebank"
     },
     {
       "id": "overhand_cable_curl",
@@ -467,7 +501,9 @@
       "license": "CC-BY-SA 3",
       "credit": "ThisGirl0819",
       "name_es": "Curl en polea agarre prono",
-      "name_fr": "Curl à la poulie prise pronation"
+      "name_fr": "Curl à la poulie prise pronation",
+      "display_en": "Cable reverse curl",
+      "display_nl": "Reverse curl aan de kabel"
     },
     {
       "id": "plank",
@@ -497,7 +533,9 @@
       "license": "CC-BY-SA 3",
       "credit": "YYCfit / BFad07",
       "name_es": "Plancha",
-      "name_fr": "Planche"
+      "name_fr": "Planche",
+      "display_en": "Plank",
+      "display_nl": "Plank"
     },
     {
       "id": "reverse_plank",
@@ -518,7 +556,9 @@
       "license": "CC-BY-SA 4",
       "credit": "spacetowaste",
       "name_es": "Plancha invertida",
-      "name_fr": "Planche inversée"
+      "name_fr": "Planche inversée",
+      "display_en": "Reverse plank",
+      "display_nl": "Omgekeerde plank"
     },
     {
       "id": "roman_chair",
@@ -541,7 +581,9 @@
       "license": "CC-BY-SA 3",
       "credit": "MaddieBeasley",
       "name_es": "Silla romana",
-      "name_fr": "Chaise romaine"
+      "name_fr": "Chaise romaine",
+      "display_en": "Roman chair sit-up",
+      "display_nl": "Sit-up op de Roman chair"
     },
     {
       "id": "scissors",
@@ -565,7 +607,9 @@
       "license": "CC-BY-SA 4",
       "credit": "vkylamba",
       "name_es": "Tijeras",
-      "name_fr": "Ciseaux"
+      "name_fr": "Ciseaux",
+      "display_en": "Scissor kicks",
+      "display_nl": "Schaarbewegingen"
     },
     {
       "id": "side_crunch",
@@ -588,7 +632,9 @@
       "license": "CC-BY-SA 3",
       "credit": "kwrindy",
       "name_es": "Crunch lateral",
-      "name_fr": "Crunch latéral"
+      "name_fr": "Crunch latéral",
+      "display_en": "Oblique crunch",
+      "display_nl": "Schuine crunch"
     },
     {
       "id": "side_plank",
@@ -610,7 +656,9 @@
       "license": "CC-BY-SA 4",
       "credit": "http://www.bodybuilding.com/",
       "name_es": "Plancha lateral",
-      "name_fr": "Planche latérale"
+      "name_fr": "Planche latérale",
+      "display_en": "Side plank",
+      "display_nl": "Zijplank"
     },
     {
       "id": "sit_ups",
@@ -637,7 +685,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Abdominales completos (sit-ups)",
-      "name_fr": "Redressements assis"
+      "name_fr": "Redressements assis",
+      "display_en": "Sit-up",
+      "display_nl": "Sit-up"
     },
     {
       "id": "splinter_sit_ups",
@@ -661,7 +711,9 @@
       "license": "CC-BY-SA 3",
       "credit": "djblitzd",
       "name_es": "Sit-ups splinter",
-      "name_fr": "Redressements assis splinter"
+      "name_fr": "Redressements assis splinter",
+      "display_en": "Twisting sit-up",
+      "display_nl": "Draaiende sit-up"
     },
     {
       "id": "trunk_rotation_with_cable",
@@ -684,7 +736,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Robertcoop",
       "name_es": "Rotación de tronco en polea",
-      "name_fr": "Rotation du tronc à la poulie"
+      "name_fr": "Rotation du tronc à la poulie",
+      "display_en": "Cable trunk rotation",
+      "display_nl": "Romprotatie aan de kabel"
     },
     {
       "id": "turkish_get_up",
@@ -706,7 +760,9 @@
       "license": "CC-BY-SA 4",
       "credit": "dookie1481",
       "name_es": "Levantamiento turco",
-      "name_fr": "Relevé turc"
+      "name_fr": "Relevé turc",
+      "display_en": "Turkish get-up",
+      "display_nl": "Turkish get-up"
     },
     {
       "id": "axe_hold",
@@ -727,7 +783,9 @@
       "license": "CC-BY-SA 3",
       "credit": "GrosseHund",
       "name_es": "Sujeción de hacha",
-      "name_fr": "Maintien de hache"
+      "name_fr": "Maintien de hache",
+      "display_en": "Dumbbell side hold",
+      "display_nl": "Zijwaartse dumbbell-hold"
     },
     {
       "id": "barbell_triceps_extension",
@@ -754,7 +812,9 @@
       "license": "CC-BY-SA 4",
       "credit": "sevae",
       "name_es": "Extensión de tríceps con barra",
-      "name_fr": "Extension triceps à la barre"
+      "name_fr": "Extension triceps à la barre",
+      "display_en": "Barbell skull crusher",
+      "display_nl": "Skull crusher met halterstang"
     },
     {
       "id": "biceps_curl_with_cable",
@@ -779,7 +839,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Curl de bíceps en polea",
-      "name_fr": "Curl biceps à la poulie"
+      "name_fr": "Curl biceps à la poulie",
+      "display_en": "Cable biceps curl",
+      "display_nl": "Bicep curl aan de kabel"
     },
     {
       "id": "biceps_curls_with_barbell",
@@ -805,7 +867,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Curl de bíceps con barra",
-      "name_fr": "Curl biceps à la barre"
+      "name_fr": "Curl biceps à la barre",
+      "display_en": "Barbell biceps curl",
+      "display_nl": "Bicep curl met halterstang"
     },
     {
       "id": "biceps_curls_with_dumbbell",
@@ -835,7 +899,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Curl de bíceps con mancuerna",
-      "name_fr": "Curl biceps aux haltères"
+      "name_fr": "Curl biceps aux haltères",
+      "display_en": "Dumbbell biceps curl",
+      "display_nl": "Bicep curl met dumbbells"
     },
     {
       "id": "biceps_curls_with_sz_bar",
@@ -861,7 +927,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Curl de bíceps con barra Z",
-      "name_fr": "Curl biceps à la barre EZ"
+      "name_fr": "Curl biceps à la barre EZ",
+      "display_en": "EZ-bar biceps curl",
+      "display_nl": "Bicep curl met EZ-stang"
     },
     {
       "id": "body_ups",
@@ -887,7 +955,9 @@
       "license": "CC-BY-SA 4",
       "credit": "cal.zabel",
       "name_es": "Body-ups",
-      "name_fr": "Body-ups"
+      "name_fr": "Body-ups",
+      "display_en": "Plank up-downs",
+      "display_nl": "Plank up-downs"
     },
     {
       "id": "close_grip_bench_press",
@@ -913,7 +983,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Press de banca con agarre cerrado",
-      "name_fr": "Développé couché prise serrée (barre)"
+      "name_fr": "Développé couché prise serrée (barre)",
+      "display_en": "Close-grip bench press",
+      "display_nl": "Bankdrukken met smalle greep"
     },
     {
       "id": "curl_su_panca_a_45",
@@ -935,7 +1007,9 @@
       "license": "CC-BY-SA 4",
       "credit": "csequino",
       "name_es": "Curl en banco a 45°",
-      "name_fr": "Curl sur banc à 45°"
+      "name_fr": "Curl sur banc à 45°",
+      "display_en": "Incline bench curl",
+      "display_nl": "Curl op de schuine bank"
     },
     {
       "id": "deadhang",
@@ -956,7 +1030,9 @@
       "license": "CC-BY-SA 4",
       "credit": "2dPREtEZP221u68Akf0JImv5L48",
       "name_es": "Colgado pasivo",
-      "name_fr": "Suspension passive"
+      "name_fr": "Suspension passive",
+      "display_en": "Dead hang",
+      "display_nl": "Dead hang"
     },
     {
       "id": "dips_between_two_benches",
@@ -982,7 +1058,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Fondos entre dos bancos",
-      "name_fr": "Dips entre deux bancs"
+      "name_fr": "Dips entre deux bancs",
+      "display_en": "Bench dip",
+      "display_nl": "Bankdips"
     },
     {
       "id": "dumbbell_concentration_curl",
@@ -1008,7 +1086,9 @@
       "license": "CC-BY-SA 3",
       "credit": "http://www.exrx.net/WeightExercises/Brachialis/DBC",
       "name_es": "Curl concentrado con mancuerna",
-      "name_fr": "Curl concentré à l'haltère"
+      "name_fr": "Curl concentré à l'haltère",
+      "display_en": "Dumbbell concentration curl",
+      "display_nl": "Concentratiecurl met dumbbell"
     },
     {
       "id": "dumbbell_incline_curl",
@@ -1033,7 +1113,9 @@
       "license": "CC-BY-SA 4",
       "credit": "ExRx",
       "name_es": "Curl inclinado con mancuernas",
-      "name_fr": "Curl incliné aux haltères"
+      "name_fr": "Curl incliné aux haltères",
+      "display_en": "Incline dumbbell curl",
+      "display_nl": "Curl met dumbbells op de schuine bank"
     },
     {
       "id": "dumbbell_triceps_extension",
@@ -1061,7 +1143,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuninx",
       "name_es": "Extensión de tríceps con mancuerna",
-      "name_fr": "Extension triceps à l'haltère"
+      "name_fr": "Extension triceps à l'haltère",
+      "display_en": "Dumbbell overhead triceps extension",
+      "display_nl": "Tricepsextensie boven het hoofd met dumbbell"
     },
     {
       "id": "dumbbells_on_scott_machine",
@@ -1086,7 +1170,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Curl con mancuernas en banco Scott",
-      "name_fr": "Curl aux haltères au pupitre Larry Scott"
+      "name_fr": "Curl aux haltères au pupitre Larry Scott",
+      "display_en": "Machine preacher curl",
+      "display_nl": "Preacher curl op de machine"
     },
     {
       "id": "french_press_skullcrusher_dumbbells",
@@ -1112,7 +1198,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Press francés con mancuernas",
-      "name_fr": "Barre au front aux haltères"
+      "name_fr": "Barre au front aux haltères",
+      "display_en": "Dumbbell skull crusher",
+      "display_nl": "Skull crusher met dumbbells"
     },
     {
       "id": "french_press_skullcrusher_sz_bar",
@@ -1138,7 +1226,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Press francés con barra Z",
-      "name_fr": "Barre au front à la barre EZ"
+      "name_fr": "Barre au front à la barre EZ",
+      "display_en": "EZ-bar skull crusher",
+      "display_nl": "Skull crusher met EZ-stang"
     },
     {
       "id": "hammercurls",
@@ -1164,7 +1254,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Curl martillo",
-      "name_fr": "Curl marteau"
+      "name_fr": "Curl marteau",
+      "display_en": "Dumbbell hammer curl",
+      "display_nl": "Hammer curl met dumbbells"
     },
     {
       "id": "hammercurls_on_cable",
@@ -1191,7 +1283,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Curl martillo en polea",
-      "name_fr": "Curl marteau à la poulie"
+      "name_fr": "Curl marteau à la poulie",
+      "display_en": "Cable rope hammer curl",
+      "display_nl": "Hammer curl aan de kabel met touw"
     },
     {
       "id": "hand_grip",
@@ -1212,7 +1306,9 @@
       "license": "CC-BY-SA 4",
       "credit": "vince63",
       "name_es": "Hand grip (pinza de agarre)",
-      "name_fr": "Pince de préhension"
+      "name_fr": "Pince de préhension",
+      "display_en": "Hand gripper",
+      "display_nl": "Handknijper"
     },
     {
       "id": "hercules_pillars",
@@ -1235,7 +1331,9 @@
       "license": "CC-BY-SA 3",
       "credit": "GrosseHund",
       "name_es": "Pilares de Hércules",
-      "name_fr": "Piliers d'Hercule"
+      "name_fr": "Piliers d'Hercule",
+      "display_en": "Cable Hercules hold",
+      "display_nl": "Hercules-hold aan de kabels"
     },
     {
       "id": "military_press_1",
@@ -1261,7 +1359,9 @@
       "license": "CC-BY-SA 3",
       "credit": "mbozi1",
       "name_es": "Press militar",
-      "name_fr": "Développé militaire"
+      "name_fr": "Développé militaire",
+      "display_en": "Barbell overhead press",
+      "display_nl": "Overhead press met halterstang"
     },
     {
       "id": "pike_push_ups",
@@ -1284,7 +1384,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Nash",
       "name_es": "Flexiones en pica",
-      "name_fr": "Pompes en pike"
+      "name_fr": "Pompes en pike",
+      "display_en": "Pike push-up",
+      "display_nl": "Pike push-up"
     },
     {
       "id": "preacher_curls",
@@ -1310,7 +1412,9 @@
       "license": "CC-BY-SA 3",
       "credit": "cgoob883",
       "name_es": "Curl predicador",
-      "name_fr": "Curl au pupitre"
+      "name_fr": "Curl au pupitre",
+      "display_en": "Barbell preacher curl",
+      "display_nl": "Preacher curl met halterstang"
     },
     {
       "id": "push_ups",
@@ -1341,7 +1445,9 @@
       "license": "CC-BY-SA 3",
       "credit": "maxamillion1414",
       "name_es": "Flexiones",
-      "name_fr": "Pompes"
+      "name_fr": "Pompes",
+      "display_en": "Push-up",
+      "display_nl": "Opdrukken"
     },
     {
       "id": "reverse_curl",
@@ -1367,7 +1473,9 @@
       "license": "CC0",
       "credit": "BFad07",
       "name_es": "Curl invertido",
-      "name_fr": "Curl inversé"
+      "name_fr": "Curl inversé",
+      "display_en": "Barbell reverse curl",
+      "display_nl": "Reverse curl met halterstang"
     },
     {
       "id": "ring_dips",
@@ -1388,7 +1496,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Nash",
       "name_es": "Fondos en anillas",
-      "name_fr": "Dips aux anneaux"
+      "name_fr": "Dips aux anneaux",
+      "display_en": "Ring dip",
+      "display_nl": "Dips aan de ringen"
     },
     {
       "id": "seated_triceps_press",
@@ -1411,7 +1521,9 @@
       "license": "CC-BY-SA 4",
       "credit": "richmr2174@gmail.com",
       "name_es": "Press de tríceps sentado",
-      "name_fr": "Extension triceps assis"
+      "name_fr": "Extension triceps assis",
+      "display_en": "Seated dumbbell triceps press",
+      "display_nl": "Zittende tricepspress met dumbbell"
     },
     {
       "id": "single_arm_preacher_curl",
@@ -1433,7 +1545,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Curl predicador a una mano",
-      "name_fr": "Curl au pupitre à un bras"
+      "name_fr": "Curl au pupitre à un bras",
+      "display_en": "Single-arm dumbbell preacher curl",
+      "display_nl": "Eenarmige preacher curl met dumbbell"
     },
     {
       "id": "smith_machine_close_grip_bench_press",
@@ -1456,7 +1570,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Press de banca agarre cerrado en Smith",
-      "name_fr": "Développé couché prise serrée à la Smith"
+      "name_fr": "Développé couché prise serrée à la Smith",
+      "display_en": "Smith machine close-grip bench press",
+      "display_nl": "Bankdrukken met smalle greep in de smithmachine"
     },
     {
       "id": "standing_rope_forearm",
@@ -1482,7 +1598,9 @@
       "license": "CC-BY-SA 4",
       "credit": "pwiltrout",
       "name_es": "Enrollador de antebrazo de pie",
-      "name_fr": "Enrouleur d'avant-bras debout"
+      "name_fr": "Enrouleur d'avant-bras debout",
+      "display_en": "Wrist roller",
+      "display_nl": "Polsroller"
     },
     {
       "id": "tricep_dumbbell_kickback",
@@ -1510,7 +1628,9 @@
       "license": "CC-BY-SA 3",
       "credit": "http://www.bodybuilding.com/",
       "name_es": "Patada de tríceps con mancuerna",
-      "name_fr": "Kickback triceps à l'haltère"
+      "name_fr": "Kickback triceps à l'haltère",
+      "display_en": "Dumbbell triceps kickback",
+      "display_nl": "Triceps kickback met dumbbell"
     },
     {
       "id": "triceps_bench_press_one_barbell",
@@ -1535,7 +1655,9 @@
       "license": "CC-BY-SA 3",
       "credit": "Horal_cz",
       "name_es": "Press de tríceps en banco con barra",
-      "name_fr": "Développé triceps sur banc à la barre"
+      "name_fr": "Développé triceps sur banc à la barre",
+      "display_en": "Single-arm dumbbell overhead press",
+      "display_nl": "Eenarmig drukken boven het hoofd met dumbbell"
     },
     {
       "id": "triceps_dips",
@@ -1558,7 +1680,9 @@
       "license": "CC-BY-SA 3",
       "credit": "Mahoney",
       "name_es": "Fondos de tríceps",
-      "name_fr": "Dips triceps"
+      "name_fr": "Dips triceps",
+      "display_en": "Triceps dip",
+      "display_nl": "Triceps dips"
     },
     {
       "id": "triceps_extensions_on_cable",
@@ -1583,7 +1707,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Extensión de tríceps en polea",
-      "name_fr": "Extension triceps à la poulie"
+      "name_fr": "Extension triceps à la poulie",
+      "display_en": "Cable triceps pushdown",
+      "display_nl": "Triceps pushdown aan de kabel"
     },
     {
       "id": "triceps_extensions_on_cable_with_bar",
@@ -1608,7 +1734,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Extensión de tríceps en polea con barra",
-      "name_fr": "Extension triceps à la poulie avec barre"
+      "name_fr": "Extension triceps à la poulie avec barre",
+      "display_en": "Straight-bar triceps pushdown",
+      "display_nl": "Triceps pushdown met rechte stang"
     },
     {
       "id": "triceps_machine",
@@ -1633,7 +1761,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Máquina de tríceps",
-      "name_fr": "Machine à triceps"
+      "name_fr": "Machine à triceps",
+      "display_en": "Machine triceps extension",
+      "display_nl": "Tricepsextensie op de machine"
     },
     {
       "id": "wall_pushup",
@@ -1658,7 +1788,9 @@
       "license": "CC-BY-SA 3",
       "credit": "Dexter",
       "name_es": "Flexiones en pared",
-      "name_fr": "Pompes au mur"
+      "name_fr": "Pompes au mur",
+      "display_en": "Wall push-up",
+      "display_nl": "Opdrukken tegen de muur"
     },
     {
       "id": "z_curls",
@@ -1684,7 +1816,9 @@
       "license": "CC-BY-SA 4",
       "credit": "nate303303",
       "name_es": "Curl Zottman",
-      "name_fr": "Curl Zottman"
+      "name_fr": "Curl Zottman",
+      "display_en": "Dumbbell Zottman curl",
+      "display_nl": "Zottman curl met dumbbells"
     },
     {
       "id": "bent_over_barbell_row",
@@ -1716,7 +1850,9 @@
       "license": "CC-BY-SA 4",
       "credit": "warchildmd",
       "name_es": "Remo inclinado con barra",
-      "name_fr": "Rowing buste penché à la barre"
+      "name_fr": "Rowing buste penché à la barre",
+      "display_en": "Barbell bent-over row",
+      "display_nl": "Voorovergebogen roeien met halterstang"
     },
     {
       "id": "bent_over_rowing_reverse",
@@ -1745,7 +1881,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Remo inclinado agarre supino",
-      "name_fr": "Rowing buste penché prise supination"
+      "name_fr": "Rowing buste penché prise supination",
+      "display_en": "Reverse-grip barbell row",
+      "display_nl": "Roeien met halterstang in ondergreep"
     },
     {
       "id": "bentover_dumbbell_rows",
@@ -1772,7 +1910,9 @@
       "license": "CC-BY-SA 4",
       "credit": "sebk",
       "name_es": "Remo inclinado con mancuernas",
-      "name_fr": "Rowing buste penché aux haltères"
+      "name_fr": "Rowing buste penché aux haltères",
+      "display_en": "Bent-over dumbbell row",
+      "display_nl": "Voorovergebogen roeien met dumbbells"
     },
     {
       "id": "chin_ups",
@@ -1796,7 +1936,9 @@
       "license": "CC-BY-SA 3",
       "credit": "oliser67",
       "name_es": "Dominadas supinas",
-      "name_fr": "Tractions en supination"
+      "name_fr": "Tractions en supination",
+      "display_en": "Chin-up",
+      "display_nl": "Chin-up"
     },
     {
       "id": "close_grip_lat_pull_down",
@@ -1820,7 +1962,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Jalón al pecho agarre estrecho",
-      "name_fr": "Tirage vertical prise serrée"
+      "name_fr": "Tirage vertical prise serrée",
+      "display_en": "Close-grip lat pulldown",
+      "display_nl": "Lat pulldown met smalle greep"
     },
     {
       "id": "deadlifts",
@@ -1850,7 +1994,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Peso muerto",
-      "name_fr": "Soulevé de terre"
+      "name_fr": "Soulevé de terre",
+      "display_en": "Barbell deadlift",
+      "display_nl": "Deadlift"
     },
     {
       "id": "deficit_deadlift",
@@ -1882,7 +2028,9 @@
       "license": "CC-BY-SA 4",
       "credit": "bobbyprince89",
       "name_es": "Peso muerto en déficit",
-      "name_fr": "Soulevé de terre en déficit"
+      "name_fr": "Soulevé de terre en déficit",
+      "display_en": "Deficit deadlift",
+      "display_nl": "Deficit deadlift"
     },
     {
       "id": "hyperextensions",
@@ -1905,7 +2053,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Hiperextensiones",
-      "name_fr": "Hyperextensions"
+      "name_fr": "Hyperextensions",
+      "display_en": "Back extension",
+      "display_nl": "Rugstrekken"
     },
     {
       "id": "incline_dumbbell_row",
@@ -1932,7 +2082,9 @@
       "license": "CC-BY-SA 4",
       "credit": "cal.zabel",
       "name_es": "Remo con mancuernas en banco inclinado",
-      "name_fr": "Rowing aux haltères sur banc incliné"
+      "name_fr": "Rowing aux haltères sur banc incliné",
+      "display_en": "Chest-supported dumbbell row",
+      "display_nl": "Roeien met dumbbells op de schuine bank"
     },
     {
       "id": "lat_pull_down_leaning_back",
@@ -1953,7 +2105,9 @@
       "license": "CC-BY-SA 3",
       "credit": "drthurlow",
       "name_es": "Jalón al pecho inclinado hacia atrás",
-      "name_fr": "Tirage vertical buste incliné"
+      "name_fr": "Tirage vertical buste incliné",
+      "display_en": "Lat pulldown leaning back",
+      "display_nl": "Lat pulldown licht achterover"
     },
     {
       "id": "lat_pull_down_straight_back",
@@ -1974,7 +2128,9 @@
       "license": "CC-BY-SA 3",
       "credit": "drthurlow",
       "name_es": "Jalón al pecho con espalda recta",
-      "name_fr": "Tirage vertical dos droit"
+      "name_fr": "Tirage vertical dos droit",
+      "display_en": "Lat pulldown upright",
+      "display_nl": "Lat pulldown met rechte rug"
     },
     {
       "id": "leverage_machine_iso_row",
@@ -1995,7 +2151,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Remo iso-lateral en máquina",
-      "name_fr": "Rowing iso-latéral à la machine"
+      "name_fr": "Rowing iso-latéral à la machine",
+      "display_en": "Machine iso row",
+      "display_nl": "Roeien op de iso-machine"
     },
     {
       "id": "long_pulley_low_row",
@@ -2025,7 +2183,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Remo en polea baja",
-      "name_fr": "Tirage horizontal poulie basse"
+      "name_fr": "Tirage horizontal poulie basse",
+      "display_en": "Seated cable row",
+      "display_nl": "Zittend roeien aan de kabel"
     },
     {
       "id": "long_pulley_narrow",
@@ -2055,7 +2215,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Remo en polea baja agarre estrecho",
-      "name_fr": "Tirage horizontal prise serrée"
+      "name_fr": "Tirage horizontal prise serrée",
+      "display_en": "Close-grip seated cable row",
+      "display_nl": "Zittend roeien aan de kabel met smalle greep"
     },
     {
       "id": "mgm_machine",
@@ -2078,7 +2240,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Máquina MGM",
-      "name_fr": "Machine MGM"
+      "name_fr": "Machine MGM",
+      "display_en": "Seated machine chest press",
+      "display_nl": "Zittende chest press-machine"
     },
     {
       "id": "muscle_up",
@@ -2104,7 +2268,9 @@
       "license": "CC-BY-SA 4",
       "credit": "arson",
       "name_es": "Muscle-up",
-      "name_fr": "Muscle-up"
+      "name_fr": "Muscle-up",
+      "display_en": "Muscle-up",
+      "display_nl": "Muscle-up"
     },
     {
       "id": "pendelay_rows",
@@ -2129,7 +2295,9 @@
       "license": "CC-BY-SA 3",
       "credit": "Nallitnas",
       "name_es": "Remo Pendlay",
-      "name_fr": "Rowing Pendlay"
+      "name_fr": "Rowing Pendlay",
+      "display_en": "Barbell Pendlay row",
+      "display_nl": "Pendlay row met halterstang"
     },
     {
       "id": "prone_scapular_retraction_arms_at_side",
@@ -2152,7 +2320,9 @@
       "license": "CC-BY-SA 4",
       "credit": "donaddon",
       "name_es": "Retracción escapular boca abajo (brazos a los lados)",
-      "name_fr": "Rétraction scapulaire allongé (bras le long du corps)"
+      "name_fr": "Rétraction scapulaire allongé (bras le long du corps)",
+      "display_en": "Prone scapular retraction",
+      "display_nl": "Liggend schouderbladen knijpen"
     },
     {
       "id": "pull_ups_on_machine",
@@ -2181,7 +2351,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Dominadas asistidas en máquina",
-      "name_fr": "Tractions assistées à la machine"
+      "name_fr": "Tractions assistées à la machine",
+      "display_en": "Assisted pull-up machine",
+      "display_nl": "Optrekken met hulpmachine"
     },
     {
       "id": "pull_ups",
@@ -2210,7 +2382,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Dominadas",
-      "name_fr": "Tractions"
+      "name_fr": "Tractions",
+      "display_en": "Pull-up",
+      "display_nl": "Optrekken"
     },
     {
       "id": "rack_deadlift",
@@ -2236,7 +2410,9 @@
       "license": "CC-BY-SA 3",
       "credit": "Mahoney",
       "name_es": "Peso muerto desde soportes",
-      "name_fr": "Soulevé de terre partiel (rack pull)"
+      "name_fr": "Soulevé de terre partiel (rack pull)",
+      "display_en": "Rack pull",
+      "display_nl": "Rack pull"
     },
     {
       "id": "renegade_row",
@@ -2260,7 +2436,9 @@
       "license": "CC0",
       "credit": "fletchgraham",
       "name_es": "Remo renegado",
-      "name_fr": "Rowing renégat"
+      "name_fr": "Rowing renégat",
+      "display_en": "Dumbbell renegade row",
+      "display_nl": "Renegade row met dumbbells"
     },
     {
       "id": "rowing_lying_on_bench",
@@ -2283,7 +2461,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Remo tumbado en banco",
-      "name_fr": "Rowing allongé sur banc"
+      "name_fr": "Rowing allongé sur banc",
+      "display_en": "Prone bench dumbbell row",
+      "display_nl": "Liggend roeien op de bank"
     },
     {
       "id": "rowing_seated",
@@ -2308,7 +2488,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Remo sentado",
-      "name_fr": "Rowing assis"
+      "name_fr": "Rowing assis",
+      "display_en": "Seated cable row with V-handle",
+      "display_nl": "Zittend roeien aan de kabel met V-greep"
     },
     {
       "id": "rowing_t_bar",
@@ -2338,7 +2520,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Remo en barra T",
-      "name_fr": "Rowing à la barre T"
+      "name_fr": "Rowing à la barre T",
+      "display_en": "T-bar row",
+      "display_nl": "T-bar row"
     },
     {
       "id": "shotgun_row",
@@ -2364,7 +2548,9 @@
       "license": "CC-BY-SA 4",
       "credit": "cal.zabel",
       "name_es": "Remo shotgun a una mano",
-      "name_fr": "Rowing shotgun à un bras"
+      "name_fr": "Rowing shotgun à un bras",
+      "display_en": "Single-arm cable row",
+      "display_nl": "Eenarmig roeien aan de kabel"
     },
     {
       "id": "side_dumbbell_trunk_flexion",
@@ -2387,7 +2573,9 @@
       "license": "CC-BY-SA 3",
       "credit": "GiglioRosso",
       "name_es": "Flexión lateral de tronco con mancuerna",
-      "name_fr": "Flexion latérale du tronc à l'haltère"
+      "name_fr": "Flexion latérale du tronc à l'haltère",
+      "display_en": "Dumbbell side bend",
+      "display_nl": "Zijwaarts buigen met dumbbell"
     },
     {
       "id": "straight_arm_pull_down_bar_attachment",
@@ -2412,7 +2600,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Pullover en polea con barra",
-      "name_fr": "Pull-over à la poulie avec barre"
+      "name_fr": "Pull-over à la poulie avec barre",
+      "display_en": "Straight-arm cable pulldown",
+      "display_nl": "Pulldown met gestrekte armen aan de kabel"
     },
     {
       "id": "straight_arm_pull_down_rope_attachment",
@@ -2437,7 +2627,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Pullover en polea con cuerda",
-      "name_fr": "Pull-over à la poulie avec corde"
+      "name_fr": "Pull-over à la poulie avec corde",
+      "display_en": "Straight-arm rope pulldown",
+      "display_nl": "Pulldown met gestrekte armen en touw"
     },
     {
       "id": "superman",
@@ -2460,7 +2652,9 @@
       "license": "CC-BY-SA 4",
       "credit": "baldurmen",
       "name_es": "Superman",
-      "name_fr": "Superman"
+      "name_fr": "Superman",
+      "display_en": "Superman",
+      "display_nl": "Superman"
     },
     {
       "id": "underhand_lat_pull_down",
@@ -2485,7 +2679,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Jalón al pecho agarre supino",
-      "name_fr": "Tirage vertical prise supination"
+      "name_fr": "Tirage vertical prise supination",
+      "display_en": "Underhand lat pulldown",
+      "display_nl": "Lat pulldown in ondergreep"
     },
     {
       "id": "v_bar_pulldown",
@@ -2506,7 +2702,9 @@
       "license": "CC-BY-SA 4",
       "credit": "apeschel",
       "name_es": "Jalón con barra en V",
-      "name_fr": "Tirage vertical barre en V"
+      "name_fr": "Tirage vertical barre en V",
+      "display_en": "V-bar lat pulldown",
+      "display_nl": "Lat pulldown met V-greep"
     },
     {
       "id": "wall_slides",
@@ -2529,7 +2727,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Whythebigpaws",
       "name_es": "Deslizamientos en pared",
-      "name_fr": "Glissements au mur"
+      "name_fr": "Glissements au mur",
+      "display_en": "Wall slide",
+      "display_nl": "Wall slide"
     },
     {
       "id": "wide_grip_pulldown",
@@ -2550,7 +2750,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Jalón al pecho agarre ancho",
-      "name_fr": "Tirage vertical prise large"
+      "name_fr": "Tirage vertical prise large",
+      "display_en": "Wide-grip lat pulldown",
+      "display_nl": "Lat pulldown met brede greep"
     },
     {
       "id": "calf_press_using_leg_press_machine",
@@ -2575,7 +2777,9 @@
       "license": "CC-BY-SA 4",
       "credit": "nate303303",
       "name_es": "Gemelos en prensa",
-      "name_fr": "Mollets à la presse"
+      "name_fr": "Mollets à la presse",
+      "display_en": "Leg press calf raise",
+      "display_nl": "Kuitheffen op de leg press"
     },
     {
       "id": "calf_raises_on_hackenschmitt_machine",
@@ -2602,7 +2806,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Gemelos en máquina Hack",
-      "name_fr": "Mollets à la machine Hack"
+      "name_fr": "Mollets à la machine Hack",
+      "display_en": "Hack machine calf raise",
+      "display_nl": "Kuitheffen in de hackmachine"
     },
     {
       "id": "sitting_calf_raises",
@@ -2627,7 +2833,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Gemelos sentado",
-      "name_fr": "Mollets assis"
+      "name_fr": "Mollets assis",
+      "display_en": "Seated calf raise",
+      "display_nl": "Zittend kuitheffen"
     },
     {
       "id": "skipping_standard",
@@ -2649,7 +2857,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Cerin",
       "name_es": "Saltar a la comba",
-      "name_fr": "Corde à sauter"
+      "name_fr": "Corde à sauter",
+      "display_en": "Jump rope",
+      "display_nl": "Touwtjespringen"
     },
     {
       "id": "standing_calf_raises",
@@ -2677,7 +2887,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Gemelos de pie",
-      "name_fr": "Mollets debout"
+      "name_fr": "Mollets debout",
+      "display_en": "Standing calf raise",
+      "display_nl": "Staand kuitheffen"
     },
     {
       "id": "bear_walk",
@@ -2708,7 +2920,9 @@
       "license": "CC-BY-SA 4",
       "credit": "nate303303",
       "name_es": "Paso de oso",
-      "name_fr": "Marche de l'ours"
+      "name_fr": "Marche de l'ours",
+      "display_en": "Bear crawl",
+      "display_nl": "Beerloop"
     },
     {
       "id": "bench_press",
@@ -2739,7 +2953,9 @@
       "license": "CC-BY-SA 3",
       "credit": "sistab2",
       "name_es": "Press de banca",
-      "name_fr": "Développé couché"
+      "name_fr": "Développé couché",
+      "display_en": "Barbell bench press",
+      "display_nl": "Bankdrukken met halterstang"
     },
     {
       "id": "benchpress_dumbbells",
@@ -2768,7 +2984,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Press de banca con mancuernas",
-      "name_fr": "Développé couché aux haltères"
+      "name_fr": "Développé couché aux haltères",
+      "display_en": "Dumbbell bench press",
+      "display_nl": "Bankdrukken met dumbbells"
     },
     {
       "id": "burpees",
@@ -2789,7 +3007,9 @@
       "license": "CC-BY-SA 4",
       "credit": "er0355",
       "name_es": "Burpees",
-      "name_fr": "Burpees"
+      "name_fr": "Burpees",
+      "display_en": "Burpee",
+      "display_nl": "Burpee"
     },
     {
       "id": "butterfly",
@@ -2815,7 +3035,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Contractor de pecho (butterfly)",
-      "name_fr": "Butterfly (pec deck)"
+      "name_fr": "Butterfly (pec deck)",
+      "display_en": "Pec deck fly",
+      "display_nl": "Butterfly-machine"
     },
     {
       "id": "butterfly_narrow_grip",
@@ -2841,7 +3063,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Contractor de pecho agarre estrecho",
-      "name_fr": "Butterfly prise serrée"
+      "name_fr": "Butterfly prise serrée",
+      "display_en": "Narrow-grip pec deck fly",
+      "display_nl": "Butterfly-machine met smalle greep"
     },
     {
       "id": "cable_cross_over",
@@ -2865,7 +3089,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Cruce de poleas",
-      "name_fr": "Écarté à la poulie vis-à-vis"
+      "name_fr": "Écarté à la poulie vis-à-vis",
+      "display_en": "Cable crossover",
+      "display_nl": "Cable crossover"
     },
     {
       "id": "cross_bench_dumbbell_pullovers",
@@ -2891,7 +3117,9 @@
       "license": "CC-BY-SA 3",
       "credit": "powerade69",
       "name_es": "Pullover con mancuerna cruzado en banco",
-      "name_fr": "Pull-over à l'haltère en travers du banc"
+      "name_fr": "Pull-over à l'haltère en travers du banc",
+      "display_en": "Dumbbell pullover",
+      "display_nl": "Pullover met dumbbell"
     },
     {
       "id": "decline_bench_press_barbell",
@@ -2917,7 +3145,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Press declinado con barra",
-      "name_fr": "Développé décliné à la barre"
+      "name_fr": "Développé décliné à la barre",
+      "display_en": "Decline barbell bench press",
+      "display_nl": "Bankdrukken op de declinebank"
     },
     {
       "id": "decline_bench_press_dumbbell",
@@ -2942,7 +3172,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Press declinado con mancuernas",
-      "name_fr": "Développé décliné aux haltères"
+      "name_fr": "Développé décliné aux haltères",
+      "display_en": "Decline dumbbell bench press",
+      "display_nl": "Bankdrukken met dumbbells op de declinebank"
     },
     {
       "id": "decline_pushups",
@@ -2969,7 +3201,9 @@
       "license": "CC-BY-SA 3",
       "credit": "aszc",
       "name_es": "Flexiones declinadas",
-      "name_fr": "Pompes déclinées"
+      "name_fr": "Pompes déclinées",
+      "display_en": "Decline push-up",
+      "display_nl": "Opdrukken met voeten hoog"
     },
     {
       "id": "dips_2",
@@ -2991,7 +3225,9 @@
       "license": "CC0",
       "credit": "BFad07",
       "name_es": "Fondos",
-      "name_fr": "Dips"
+      "name_fr": "Dips",
+      "display_en": "Chest dip",
+      "display_nl": "Dips voor de borst"
     },
     {
       "id": "extenseurs_face",
@@ -3012,7 +3248,9 @@
       "license": "CC-BY-SA 4",
       "credit": "geantvert",
       "name_es": "Extensores frontales",
-      "name_fr": "Extenseurs - face"
+      "name_fr": "Extenseurs - face",
+      "display_en": "Band pull-apart",
+      "display_nl": "Band pull-apart"
     },
     {
       "id": "fly_with_cable",
@@ -3035,7 +3273,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Aperturas en polea",
-      "name_fr": "Écarté à la poulie"
+      "name_fr": "Écarté à la poulie",
+      "display_en": "Standing cable fly",
+      "display_nl": "Staande fly aan de kabel"
     },
     {
       "id": "fly_with_dumbbells",
@@ -3061,7 +3301,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Aperturas con mancuernas",
-      "name_fr": "Écarté couché aux haltères"
+      "name_fr": "Écarté couché aux haltères",
+      "display_en": "Dumbbell fly",
+      "display_nl": "Dumbbell fly"
     },
     {
       "id": "fly_with_dumbbells_decline_bench",
@@ -3087,7 +3329,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Aperturas con mancuernas en banco declinado",
-      "name_fr": "Écarté aux haltères sur banc décliné"
+      "name_fr": "Écarté aux haltères sur banc décliné",
+      "display_en": "Decline dumbbell fly",
+      "display_nl": "Dumbbell fly op de declinebank"
     },
     {
       "id": "incline_bench_press",
@@ -3110,7 +3354,9 @@
       "license": "CC-BY-SA 3",
       "credit": "Mahoney",
       "name_es": "Press inclinado con barra",
-      "name_fr": "Développé incliné à la barre"
+      "name_fr": "Développé incliné à la barre",
+      "display_en": "Incline barbell bench press",
+      "display_nl": "Bankdrukken op de schuine bank"
     },
     {
       "id": "incline_dumbbell_flye",
@@ -3133,7 +3379,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Aperturas inclinadas con mancuernas",
-      "name_fr": "Écarté incliné aux haltères"
+      "name_fr": "Écarté incliné aux haltères",
+      "display_en": "Incline dumbbell fly",
+      "display_nl": "Dumbbell fly op de schuine bank"
     },
     {
       "id": "incline_dumbbell_press",
@@ -3154,7 +3402,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Press inclinado con mancuernas",
-      "name_fr": "Développé incliné aux haltères"
+      "name_fr": "Développé incliné aux haltères",
+      "display_en": "Incline dumbbell press",
+      "display_nl": "Dumbbell press op de schuine bank"
     },
     {
       "id": "incline_pushups",
@@ -3177,7 +3427,9 @@
       "license": "CC-BY-SA 3",
       "credit": "kwrindy",
       "name_es": "Flexiones inclinadas",
-      "name_fr": "Pompes inclinées"
+      "name_fr": "Pompes inclinées",
+      "display_en": "Incline push-up",
+      "display_nl": "Opdrukken met handen hoog"
     },
     {
       "id": "isometric_wipers",
@@ -3203,7 +3455,9 @@
       "license": "CC-BY-SA 4",
       "credit": "cal.zabel",
       "name_es": "Limpiaparabrisas isométrico",
-      "name_fr": "Essuie-glaces isométriques"
+      "name_fr": "Essuie-glaces isométriques",
+      "display_en": "Side-to-side plank shift",
+      "display_nl": "Plank met zijwaartse verschuiving"
     },
     {
       "id": "leverage_machine_chest_press",
@@ -3224,7 +3478,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Press de pecho en máquina",
-      "name_fr": "Développé pectoraux à la machine"
+      "name_fr": "Développé pectoraux à la machine",
+      "display_en": "Machine chest press",
+      "display_nl": "Chest press-machine"
     },
     {
       "id": "pause_bench",
@@ -3250,7 +3506,9 @@
       "license": "CC0",
       "credit": "Mens Fitness",
       "name_es": "Press de banca con pausa",
-      "name_fr": "Développé couché avec pause"
+      "name_fr": "Développé couché avec pause",
+      "display_en": "Paused bench press",
+      "display_nl": "Bankdrukken met pauze"
     },
     {
       "id": "perfect_push_up",
@@ -3271,7 +3529,9 @@
       "license": "CC-BY-SA 3",
       "credit": "OGhTebfCxhexZXuf35mUxV9C--A",
       "name_es": "Flexión perfecta",
-      "name_fr": "Pompe parfaite"
+      "name_fr": "Pompe parfaite",
+      "display_en": "Strict push-up",
+      "display_nl": "Strak opdrukken"
     },
     {
       "id": "reverse_grip_bench_press",
@@ -3294,7 +3554,9 @@
       "license": "CC-BY-SA 4",
       "credit": "bl0sh",
       "name_es": "Press de banca agarre invertido",
-      "name_fr": "Développé couché prise inversée"
+      "name_fr": "Développé couché prise inversée",
+      "display_en": "Reverse-grip bench press",
+      "display_nl": "Bankdrukken in ondergreep"
     },
     {
       "id": "side_to_side_push_ups",
@@ -3315,7 +3577,9 @@
       "license": "CC-BY-SA 4",
       "credit": "nate303303",
       "name_es": "Flexiones de lado a lado",
-      "name_fr": "Pompes latérales alternées"
+      "name_fr": "Pompes latérales alternées",
+      "display_en": "Side-to-side push-up",
+      "display_nl": "Opdrukken van links naar rechts"
     },
     {
       "id": "upper_body",
@@ -3340,7 +3604,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Vazco",
       "name_es": "Tren superior",
-      "name_fr": "Haut du corps"
+      "name_fr": "Haut du corps",
+      "display_en": "Upper-body circuit",
+      "display_nl": "Bovenlichaamscircuit"
     },
     {
       "id": "upper_external_oblique",
@@ -3361,7 +3627,9 @@
       "license": "CC-BY-SA 3",
       "credit": "http://www.carinatum.com/",
       "name_es": "Oblicuo externo superior",
-      "name_fr": "Oblique externe supérieur"
+      "name_fr": "Oblique externe supérieur",
+      "display_en": "Upper oblique crunch",
+      "display_nl": "Crunch voor de bovenste schuine buikspieren"
     },
     {
       "id": "back_squat",
@@ -3390,7 +3658,9 @@
       "license": "CC-BY-SA 4",
       "credit": "axel",
       "name_es": "Sentadilla trasera",
-      "name_fr": "Squat arrière"
+      "name_fr": "Squat arrière",
+      "display_en": "Barbell back squat",
+      "display_nl": "Squat met halterstang"
     },
     {
       "id": "barbell_hack_squats",
@@ -3413,7 +3683,9 @@
       "license": "CC-BY-SA 4",
       "credit": "BePieToday",
       "name_es": "Sentadilla hack con barra",
-      "name_fr": "Hack squat à la barre"
+      "name_fr": "Hack squat à la barre",
+      "display_en": "Barbell hack squat",
+      "display_nl": "Hack squat met halterstang"
     },
     {
       "id": "barbell_lunges",
@@ -3440,7 +3712,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Mikko Ruohola",
       "name_es": "Zancadas con barra",
-      "name_fr": "Fentes à la barre"
+      "name_fr": "Fentes à la barre",
+      "display_en": "Barbell lunge",
+      "display_nl": "Lunges met halterstang"
     },
     {
       "id": "braced_squat",
@@ -3467,7 +3741,9 @@
       "license": "CC-BY-SA 4",
       "credit": "sevae",
       "name_es": "Sentadilla con disco al pecho",
-      "name_fr": "Squat avec disque contre la poitrine"
+      "name_fr": "Squat avec disque contre la poitrine",
+      "display_en": "Plate-hold squat",
+      "display_nl": "Squat met halterschijf vooruit"
     },
     {
       "id": "cycling",
@@ -3496,7 +3772,9 @@
       "license": "CC0",
       "credit": "BFad07",
       "name_es": "Ciclismo",
-      "name_fr": "Vélo"
+      "name_fr": "Vélo",
+      "display_en": "Cycling",
+      "display_nl": "Fietsen"
     },
     {
       "id": "dumbbell_goblet_squat",
@@ -3522,7 +3800,9 @@
       "license": "CC-BY-SA 4",
       "credit": "ataraxie67",
       "name_es": "Sentadilla goblet con mancuerna",
-      "name_fr": "Goblet squat à l'haltère"
+      "name_fr": "Goblet squat à l'haltère",
+      "display_en": "Dumbbell goblet squat",
+      "display_nl": "Goblet squat met dumbbell"
     },
     {
       "id": "dumbbell_lunges_standing",
@@ -3550,7 +3830,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Zancadas con mancuernas en el sitio",
-      "name_fr": "Fentes sur place aux haltères"
+      "name_fr": "Fentes sur place aux haltères",
+      "display_en": "Dumbbell lunge",
+      "display_nl": "Lunges met dumbbells"
     },
     {
       "id": "dumbbell_lunges_walking",
@@ -3578,7 +3860,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Zancadas caminando con mancuernas",
-      "name_fr": "Fentes marchées aux haltères"
+      "name_fr": "Fentes marchées aux haltères",
+      "display_en": "Dumbbell walking lunge",
+      "display_nl": "Walking lunges met dumbbells"
     },
     {
       "id": "front_squats",
@@ -3603,7 +3887,9 @@
       "license": "CC-BY-SA 3",
       "credit": "sistab2",
       "name_es": "Sentadilla frontal",
-      "name_fr": "Squat avant"
+      "name_fr": "Squat avant",
+      "display_en": "Barbell front squat",
+      "display_nl": "Front squat met halterstang"
     },
     {
       "id": "glute_bridge",
@@ -3631,7 +3917,9 @@
       "license": "CC-BY-SA 4",
       "credit": "tdprice12",
       "name_es": "Puente de glúteos",
-      "name_fr": "Pont fessier"
+      "name_fr": "Pont fessier",
+      "display_en": "Glute bridge",
+      "display_nl": "Bilbrug"
     },
     {
       "id": "good_mornings",
@@ -3654,7 +3942,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Buenos días con barra",
-      "name_fr": "Good morning"
+      "name_fr": "Good morning",
+      "display_en": "Barbell good morning",
+      "display_nl": "Good morning met halterstang"
     },
     {
       "id": "high_knees",
@@ -3680,7 +3970,9 @@
       "license": "CC0",
       "credit": "BNolet",
       "name_es": "Rodillas arriba",
-      "name_fr": "Montées de genoux"
+      "name_fr": "Montées de genoux",
+      "display_en": "High knees",
+      "display_nl": "Knieheffen"
     },
     {
       "id": "hindu_squats",
@@ -3706,7 +3998,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Vilhelmo",
       "name_es": "Sentadillas hindúes",
-      "name_fr": "Squats hindous"
+      "name_fr": "Squats hindous",
+      "display_en": "Hindu squat",
+      "display_nl": "Hindu squat"
     },
     {
       "id": "hip_thrust",
@@ -3732,7 +4026,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Bret Contreras",
       "name_es": "Hip thrust (empuje de cadera)",
-      "name_fr": "Hip thrust"
+      "name_fr": "Hip thrust",
+      "display_en": "Barbell hip thrust",
+      "display_nl": "Hip thrust met halterstang"
     },
     {
       "id": "jumping_jacks",
@@ -3753,7 +4049,9 @@
       "license": "CC-BY-SA 4",
       "credit": "student1234",
       "name_es": "Saltos de tijera (jumping jacks)",
-      "name_fr": "Jumping jacks"
+      "name_fr": "Jumping jacks",
+      "display_en": "Jumping jacks",
+      "display_nl": "Jumping jacks"
     },
     {
       "id": "kettlebell_swings",
@@ -3781,7 +4079,9 @@
       "license": "CC-BY-SA 3",
       "credit": "J120290,cerin",
       "name_es": "Swing con kettlebell",
-      "name_fr": "Swing kettlebell"
+      "name_fr": "Swing kettlebell",
+      "display_en": "Kettlebell swing",
+      "display_nl": "Kettlebell swing"
     },
     {
       "id": "leg_curls_laying",
@@ -3809,7 +4109,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Curl femoral tumbado",
-      "name_fr": "Leg curl allongé"
+      "name_fr": "Leg curl allongé",
+      "display_en": "Lying leg curl",
+      "display_nl": "Liggende leg curl"
     },
     {
       "id": "leg_curls_sitting",
@@ -3832,7 +4134,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Curl femoral sentado",
-      "name_fr": "Leg curl assis"
+      "name_fr": "Leg curl assis",
+      "display_en": "Seated leg curl",
+      "display_nl": "Zittende leg curl"
     },
     {
       "id": "leg_curls_standing",
@@ -3857,7 +4161,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Curl femoral de pie",
-      "name_fr": "Leg curl debout"
+      "name_fr": "Leg curl debout",
+      "display_en": "Standing leg curl",
+      "display_nl": "Staande leg curl"
     },
     {
       "id": "leg_extension_1",
@@ -3885,7 +4191,9 @@
       "license": "CC0",
       "credit": "BFad07",
       "name_es": "Extensión de cuádriceps",
-      "name_fr": "Leg extension"
+      "name_fr": "Leg extension",
+      "display_en": "Leg extension",
+      "display_nl": "Leg extension"
     },
     {
       "id": "leg_press",
@@ -3908,7 +4216,9 @@
       "license": "CC0",
       "credit": "BFad07",
       "name_es": "Prensa de piernas",
-      "name_fr": "Presse à cuisses"
+      "name_fr": "Presse à cuisses",
+      "display_en": "Leg press",
+      "display_nl": "Leg press"
     },
     {
       "id": "leg_press_on_hackenschmidt_machine",
@@ -3933,7 +4243,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Prensa en máquina Hack",
-      "name_fr": "Presse à la machine Hack"
+      "name_fr": "Presse à la machine Hack",
+      "display_en": "Hack squat machine",
+      "display_nl": "Hack squat-machine"
     },
     {
       "id": "leg_presses_narrow",
@@ -3962,7 +4274,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Prensa de piernas pies juntos",
-      "name_fr": "Presse à cuisses pieds serrés"
+      "name_fr": "Presse à cuisses pieds serrés",
+      "display_en": "Narrow-stance leg press",
+      "display_nl": "Leg press met smalle voetstand"
     },
     {
       "id": "leg_presses_wide",
@@ -3989,7 +4303,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Prensa de piernas pies abiertos",
-      "name_fr": "Presse à cuisses pieds écartés"
+      "name_fr": "Presse à cuisses pieds écartés",
+      "display_en": "Wide-stance leg press",
+      "display_nl": "Leg press met brede voetstand"
     },
     {
       "id": "low_box_squat_wide_stance",
@@ -4014,7 +4330,9 @@
       "license": "CC-BY-SA 4",
       "credit": "taylorbarbell",
       "name_es": "Sentadilla a cajón bajo con apertura amplia",
-      "name_fr": "Box squat bas en écart large"
+      "name_fr": "Box squat bas en écart large",
+      "display_en": "Wide-stance barbell box squat",
+      "display_nl": "Box squat met brede voetstand"
     },
     {
       "id": "overhead_squat",
@@ -4035,7 +4353,9 @@
       "license": "CC-BY-SA 4",
       "credit": "geraldbaeck",
       "name_es": "Sentadilla con barra sobre la cabeza",
-      "name_fr": "Squat bras tendus au-dessus de la tête"
+      "name_fr": "Squat bras tendus au-dessus de la tête",
+      "display_en": "Barbell overhead squat",
+      "display_nl": "Overhead squat met halterstang"
     },
     {
       "id": "pistol_squat",
@@ -4062,7 +4382,9 @@
       "license": "CC-BY-SA 3",
       "credit": "minifigmaster125",
       "name_es": "Sentadilla pistol (a una pierna)",
-      "name_fr": "Pistol squat"
+      "name_fr": "Pistol squat",
+      "display_en": "Pistol squat",
+      "display_nl": "Pistol squat"
     },
     {
       "id": "romanian_deadlift",
@@ -4083,7 +4405,9 @@
       "license": "CC-BY-SA 4",
       "credit": "pjwirth",
       "name_es": "Peso muerto rumano",
-      "name_fr": "Soulevé de terre roumain"
+      "name_fr": "Soulevé de terre roumain",
+      "display_en": "Barbell Romanian deadlift",
+      "display_nl": "Roemeense deadlift"
     },
     {
       "id": "run",
@@ -4107,7 +4431,9 @@
       "license": "CC-BY-SA 4",
       "credit": "BeLikeWater",
       "name_es": "Correr",
-      "name_fr": "Course"
+      "name_fr": "Course",
+      "display_en": "Running",
+      "display_nl": "Hardlopen"
     },
     {
       "id": "run_interval_training",
@@ -4128,7 +4454,9 @@
       "license": "CC-BY-SA 4",
       "credit": "BeLikeWater",
       "name_es": "Correr por intervalos",
-      "name_fr": "Course fractionnée"
+      "name_fr": "Course fractionnée",
+      "display_en": "Interval running",
+      "display_nl": "Intervaltraining hardlopen"
     },
     {
       "id": "run_treadmill",
@@ -4149,7 +4477,9 @@
       "license": "CC-BY-SA 3",
       "credit": "foguinho.peruca",
       "name_es": "Correr en cinta",
-      "name_fr": "Course sur tapis"
+      "name_fr": "Course sur tapis",
+      "display_en": "Treadmill running",
+      "display_nl": "Hardlopen op de loopband"
     },
     {
       "id": "speed_deadlift",
@@ -4170,7 +4500,9 @@
       "license": "CC-BY-SA 4",
       "credit": "MrSteele",
       "name_es": "Peso muerto explosivo",
-      "name_fr": "Soulevé de terre de vitesse"
+      "name_fr": "Soulevé de terre de vitesse",
+      "display_en": "Speed deadlift",
+      "display_nl": "Speed deadlift"
     },
     {
       "id": "squat_jumps",
@@ -4193,7 +4525,9 @@
       "license": "CC-BY-SA 3",
       "credit": "OGhTebfCxhexZXuf35mUxV9C--A",
       "name_es": "Sentadillas con salto",
-      "name_fr": "Squats sautés"
+      "name_fr": "Squats sautés",
+      "display_en": "Jump squat",
+      "display_nl": "Squat jump"
     },
     {
       "id": "squat_thrust",
@@ -4219,7 +4553,9 @@
       "license": "CC0",
       "credit": "BFad07",
       "name_es": "Squat thrust",
-      "name_fr": "Squat thrust"
+      "name_fr": "Squat thrust",
+      "display_en": "Squat thrust",
+      "display_nl": "Squat thrust"
     },
     {
       "id": "stationary_bike",
@@ -4240,7 +4576,9 @@
       "license": "CC-BY-SA 4",
       "credit": "intelman",
       "name_es": "Bicicleta estática",
-      "name_fr": "Vélo d'appartement"
+      "name_fr": "Vélo d'appartement",
+      "display_en": "Stationary bike",
+      "display_nl": "Hometrainer"
     },
     {
       "id": "stiff_legged_deadlifts",
@@ -4263,7 +4601,9 @@
       "license": "CC-BY-SA 3",
       "credit": "tuckerm",
       "name_es": "Peso muerto con piernas rígidas",
-      "name_fr": "Soulevé de terre jambes tendues"
+      "name_fr": "Soulevé de terre jambes tendues",
+      "display_en": "Barbell stiff-leg deadlift",
+      "display_nl": "Stiff-leg deadlift met halterstang"
     },
     {
       "id": "sumo_deadlift",
@@ -4289,7 +4629,9 @@
       "license": "CC-BY-SA 4",
       "credit": "magdy",
       "name_es": "Peso muerto sumo",
-      "name_fr": "Soulevé de terre sumo"
+      "name_fr": "Soulevé de terre sumo",
+      "display_en": "Sumo deadlift",
+      "display_nl": "Sumo deadlift"
     },
     {
       "id": "sumo_squats",
@@ -4315,7 +4657,9 @@
       "license": "CC-BY-SA 4",
       "credit": "sophialj",
       "name_es": "Sentadilla sumo",
-      "name_fr": "Squat sumo"
+      "name_fr": "Squat sumo",
+      "display_en": "Barbell sumo squat",
+      "display_nl": "Sumo squat met halterstang"
     },
     {
       "id": "thruster",
@@ -4341,7 +4685,9 @@
       "license": "CC0",
       "credit": "BeLikeWater",
       "name_es": "Thruster",
-      "name_fr": "Thruster"
+      "name_fr": "Thruster",
+      "display_en": "Barbell thruster",
+      "display_nl": "Thruster met halterstang"
     },
     {
       "id": "wall_squat",
@@ -4365,7 +4711,9 @@
       "license": "CC0",
       "credit": "Blablabla",
       "name_es": "Sentadilla isométrica en pared",
-      "name_fr": "Chaise au mur"
+      "name_fr": "Chaise au mur",
+      "display_en": "Wall sit",
+      "display_nl": "Wall sit"
     },
     {
       "id": "weighted_step_ups",
@@ -4389,7 +4737,9 @@
       "license": "CC0",
       "credit": "jigglychipmunk",
       "name_es": "Subidas al cajón con peso",
-      "name_fr": "Montées sur banc lestées"
+      "name_fr": "Montées sur banc lestées",
+      "display_en": "Dumbbell step-up",
+      "display_nl": "Step-up met dumbbells"
     },
     {
       "id": "arnold_shoulder_press",
@@ -4413,7 +4763,9 @@
       "license": "CC-BY-SA 3",
       "credit": "trzr23",
       "name_es": "Press Arnold",
-      "name_fr": "Développé Arnold"
+      "name_fr": "Développé Arnold",
+      "display_en": "Arnold press",
+      "display_nl": "Arnold press"
     },
     {
       "id": "bent_high_pulls",
@@ -4435,7 +4787,9 @@
       "license": "CC-BY-SA 3",
       "credit": "lakerbeezel",
       "name_es": "Remo alto inclinado",
-      "name_fr": "Tirage haut buste penché"
+      "name_fr": "Tirage haut buste penché",
+      "display_en": "Bent-over dumbbell high pull",
+      "display_nl": "Voorovergebogen high pull met dumbbells"
     },
     {
       "id": "bent_over_lateral_raises",
@@ -4460,7 +4814,9 @@
       "license": "CC-BY-SA 4",
       "credit": "apeschel",
       "name_es": "Elevaciones laterales inclinado",
-      "name_fr": "Élévations latérales buste penché"
+      "name_fr": "Élévations latérales buste penché",
+      "display_en": "Bent-over lateral raise",
+      "display_nl": "Voorovergebogen zijwaarts heffen"
     },
     {
       "id": "butterfly_reverse",
@@ -4483,7 +4839,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Contractor inverso (deltoides posterior)",
-      "name_fr": "Butterfly inversé"
+      "name_fr": "Butterfly inversé",
+      "display_en": "Reverse pec deck fly",
+      "display_nl": "Omgekeerde butterfly-machine"
     },
     {
       "id": "cable_external_rotation",
@@ -4507,7 +4865,9 @@
       "license": "CC-BY-SA 3",
       "credit": "lauroernesto",
       "name_es": "Rotación externa en polea",
-      "name_fr": "Rotation externe à la poulie"
+      "name_fr": "Rotation externe à la poulie",
+      "display_en": "Cable external rotation",
+      "display_nl": "Externe rotatie aan de kabel"
     },
     {
       "id": "diagonal_shoulder_press",
@@ -4533,7 +4893,9 @@
       "license": "CC-BY-SA 4",
       "credit": "oboema",
       "name_es": "Press de hombro diagonal",
-      "name_fr": "Développé épaules en diagonale"
+      "name_fr": "Développé épaules en diagonale",
+      "display_en": "Incline machine shoulder press",
+      "display_nl": "Schouderdrukken op de schuine machine"
     },
     {
       "id": "facepull",
@@ -4561,7 +4923,9 @@
       "license": "CC-BY-SA 4",
       "credit": "abeworld",
       "name_es": "Face pull",
-      "name_fr": "Face pull"
+      "name_fr": "Face pull",
+      "display_en": "Cable face pull",
+      "display_nl": "Face pull aan de kabel"
     },
     {
       "id": "front_raises",
@@ -4590,7 +4954,9 @@
       "license": "CC-BY-SA 3",
       "credit": "Manu, wikipedia",
       "name_es": "Elevaciones frontales",
-      "name_fr": "Élévations frontales"
+      "name_fr": "Élévations frontales",
+      "display_en": "Barbell front raise",
+      "display_nl": "Voorwaarts heffen met halterstang"
     },
     {
       "id": "handstand_pushup",
@@ -4614,7 +4980,9 @@
       "license": "CC0",
       "credit": "BFad07",
       "name_es": "Flexiones en pino",
-      "name_fr": "Pompes en équilibre"
+      "name_fr": "Pompes en équilibre",
+      "display_en": "Wall handstand push-up",
+      "display_nl": "Handstand push-up tegen de muur"
     },
     {
       "id": "high_pull",
@@ -4639,7 +5007,9 @@
       "license": "CC-BY-SA 3",
       "credit": "Mahoney",
       "name_es": "Remo alto",
-      "name_fr": "Tirage haut"
+      "name_fr": "Tirage haut",
+      "display_en": "Barbell high pull",
+      "display_nl": "High pull met halterstang"
     },
     {
       "id": "lateral_raises",
@@ -4665,7 +5035,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Elevaciones laterales",
-      "name_fr": "Élévations latérales"
+      "name_fr": "Élévations latérales",
+      "display_en": "Dumbbell lateral raise",
+      "display_nl": "Zijwaarts heffen met dumbbells"
     },
     {
       "id": "lateral_raises_on_cable_one_armed",
@@ -4690,7 +5062,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Elevación lateral en polea a una mano",
-      "name_fr": "Élévation latérale à la poulie à un bras"
+      "name_fr": "Élévation latérale à la poulie à un bras",
+      "display_en": "Single-arm cable lateral raise",
+      "display_nl": "Eenarmig zijwaarts heffen aan de kabel"
     },
     {
       "id": "lateral_to_front_raises",
@@ -4716,7 +5090,9 @@
       "license": "CC-BY-SA 4",
       "credit": "nate303303",
       "name_es": "Elevaciones laterales a frontales",
-      "name_fr": "Élévations latérales vers frontales"
+      "name_fr": "Élévations latérales vers frontales",
+      "display_en": "Dumbbell lateral to front raise",
+      "display_nl": "Zijwaarts naar voorwaarts heffen met dumbbells"
     },
     {
       "id": "lying_rotator_cuff_exercise",
@@ -4742,7 +5118,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Trix",
       "name_es": "Ejercicio de manguito rotador tumbado",
-      "name_fr": "Exercice de la coiffe des rotateurs allongé"
+      "name_fr": "Exercice de la coiffe des rotateurs allongé",
+      "display_en": "Side-lying dumbbell external rotation",
+      "display_nl": "Liggende externe rotatie met dumbbell"
     },
     {
       "id": "power_clean",
@@ -4765,7 +5143,9 @@
       "license": "CC-BY-SA 3",
       "credit": "sistab2",
       "name_es": "Cargada de potencia",
-      "name_fr": "Épaulé en puissance"
+      "name_fr": "Épaulé en puissance",
+      "display_en": "Barbell power clean",
+      "display_nl": "Power clean met halterstang"
     },
     {
       "id": "push_press",
@@ -4788,7 +5168,9 @@
       "license": "CC-BY-SA 3",
       "credit": "sistab2",
       "name_es": "Push press",
-      "name_fr": "Push press"
+      "name_fr": "Push press",
+      "display_en": "Barbell push press",
+      "display_nl": "Push press met halterstang"
     },
     {
       "id": "rear_delt_raises",
@@ -4809,7 +5191,9 @@
       "license": "CC-BY-SA 3",
       "credit": "YYCfit",
       "name_es": "Elevaciones para deltoides posterior",
-      "name_fr": "Élévations deltoïdes postérieurs"
+      "name_fr": "Élévations deltoïdes postérieurs",
+      "display_en": "Dumbbell rear delt raise",
+      "display_nl": "Achterste schouder heffen met dumbbells"
     },
     {
       "id": "shoulder_fly",
@@ -4835,7 +5219,9 @@
       "license": "CC0",
       "credit": "BFad07",
       "name_es": "Aperturas de hombro",
-      "name_fr": "Écarté épaules"
+      "name_fr": "Écarté épaules",
+      "display_en": "Dumbbell shoulder fly",
+      "display_nl": "Schouderfly met dumbbells"
     },
     {
       "id": "shoulder_press_barbell",
@@ -4861,7 +5247,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Press de hombro con barra",
-      "name_fr": "Développé épaules à la barre"
+      "name_fr": "Développé épaules à la barre",
+      "display_en": "Seated barbell shoulder press",
+      "display_nl": "Zittend schouderdrukken met halterstang"
     },
     {
       "id": "shoulder_press_dumbbells",
@@ -4887,7 +5275,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Press de hombro con mancuernas",
-      "name_fr": "Développé épaules aux haltères"
+      "name_fr": "Développé épaules aux haltères",
+      "display_en": "Dumbbell shoulder press",
+      "display_nl": "Schouderdrukken met dumbbells"
     },
     {
       "id": "shoulder_press_on_machine",
@@ -4910,7 +5300,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Press de hombro en máquina",
-      "name_fr": "Développé épaules à la machine"
+      "name_fr": "Développé épaules à la machine",
+      "display_en": "Machine shoulder press",
+      "display_nl": "Schouderdrukken op de machine"
     },
     {
       "id": "shoulder_press_on_multi_press",
@@ -4934,7 +5326,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Press de hombro en Smith",
-      "name_fr": "Développé épaules à la Smith"
+      "name_fr": "Développé épaules à la Smith",
+      "display_en": "Smith machine shoulder press",
+      "display_nl": "Schouderdrukken in de smithmachine"
     },
     {
       "id": "shrugs_barbells",
@@ -4962,7 +5356,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Encogimientos con barra",
-      "name_fr": "Shrugs à la barre"
+      "name_fr": "Shrugs à la barre",
+      "display_en": "Barbell shrug",
+      "display_nl": "Shrugs met halterstang"
     },
     {
       "id": "shrugs_dumbbells",
@@ -4988,7 +5384,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Encogimientos con mancuernas",
-      "name_fr": "Shrugs aux haltères"
+      "name_fr": "Shrugs aux haltères",
+      "display_en": "Dumbbell shrug",
+      "display_nl": "Shrugs met dumbbells"
     },
     {
       "id": "side_lying_external_rotation",
@@ -5014,7 +5412,9 @@
       "license": "CC-BY-SA 4",
       "credit": "apeschel",
       "name_es": "Rotación externa tumbado de lado",
-      "name_fr": "Rotation externe couché sur le côté"
+      "name_fr": "Rotation externe couché sur le côté",
+      "display_en": "Side-lying external rotation",
+      "display_nl": "Liggende externe rotatie"
     },
     {
       "id": "snach",
@@ -5038,7 +5438,9 @@
       "license": "CC0",
       "credit": "Mens Fitness",
       "name_es": "Arrancada",
-      "name_fr": "Arraché"
+      "name_fr": "Arraché",
+      "display_en": "Barbell snatch",
+      "display_nl": "Snatch met halterstang"
     },
     {
       "id": "upright_row_w_dumbbells",
@@ -5062,7 +5464,9 @@
       "license": "CC-BY-SA 4",
       "credit": "koreyhinton",
       "name_es": "Remo al mentón con mancuernas",
-      "name_fr": "Tirage menton aux haltères"
+      "name_fr": "Tirage menton aux haltères",
+      "display_en": "Dumbbell upright row",
+      "display_nl": "Upright row met dumbbells"
     },
     {
       "id": "upright_row_on_multi_press",
@@ -5089,7 +5493,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Remo al mentón en Smith",
-      "name_fr": "Tirage menton à la Smith"
+      "name_fr": "Tirage menton à la Smith",
+      "display_en": "Smith machine upright row",
+      "display_nl": "Upright row in de smithmachine"
     },
     {
       "id": "upright_row_sz_bar",
@@ -5116,7 +5522,9 @@
       "license": "CC-BY-SA 3",
       "credit": "wger.de",
       "name_es": "Remo al mentón con barra Z",
-      "name_fr": "Tirage menton à la barre EZ"
+      "name_fr": "Tirage menton à la barre EZ",
+      "display_en": "EZ-bar upright row",
+      "display_nl": "Upright row met EZ-stang"
     },
     {
       "id": "wall_handstand",
@@ -5137,7 +5545,9 @@
       "license": "CC-BY-SA 4",
       "credit": "Nash",
       "name_es": "Pino en pared",
-      "name_fr": "Équilibre contre le mur"
+      "name_fr": "Équilibre contre le mur",
+      "display_en": "Wall handstand hold",
+      "display_nl": "Handstand tegen de muur"
     }
   ]
 }

@@ -170,10 +170,15 @@ eq(wlib.movementKey(byId.get('leg_curls_laying')) === wlib.movementKey(byId.get(
 {
   const merged = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/exercises/merged-ids.json'), 'utf8'));
   eq(Object.keys(merged).every((g) => !byId.has(g) && byId.has(merged[g])), true, 'merged-ids: cada id fusionado ya no existe y apunta a uno que sí');
-  for (const k of ['name_en', 'name_nl', 'name_es', 'name_fr']) {
+  for (const k of ['name_en', 'name_nl', 'name_es', 'name_fr', 'display_en', 'display_nl']) {
     const names = [...byId.values()].map((e) => (e[k] || '').toLowerCase().trim());
     eq(new Set(names).size, names.length, `catálogo sin nombres repetidos (${k})`);
   }
+  // R-143: nombres de pantalla EN/NL naturales: sin comas ni paréntesis, mayúscula solo al principio.
+  const bad = [...byId.values()].filter((e) => /[,()]/.test(e.display_en + e.display_nl) || !e.display_en || !e.display_nl);
+  eq(bad.map((e) => e.id), [], 'nombres de pantalla EN/NL sin comas ni paréntesis y sin huecos');
+  const titleCase = [...byId.values()].filter((e) => e.display_en.split(' ').length > 2 && e.display_en.split(' ').slice(1).every((w) => /^[A-Z]/.test(w)));
+  eq(titleCase.map((e) => e.id), [], 'nombres EN en formato frase (no "Title Case")');
 }
 {
   const allEx = [...byId.values()];

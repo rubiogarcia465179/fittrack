@@ -17,7 +17,7 @@ Estado: `[x]` hecho · `[ ]` pendiente · `⛔` bloqueado (con motivo) ·
    build web; Astro en la rama `web-astro`). **Fase 21**: la web pública es
    una pantalla que crea un entreno (Jobs 86, Foco 10). **En curso: Fase 13** con
    dibujos reales de Everkinetic (`scripts/fetch_everkinetic.py`, estado en
-   `docs/fotos/STATUS.md`). Prueba en iPhone: la hace el usuario (R-128).
+   `docs/fotos/STATUS.md`). iPhone: probado por el usuario (R-128).
 4. Las decisiones que necesitan al usuario están marcadas ⛔: pregúntaselas,
    no las supongas.
 
@@ -246,6 +246,18 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
   vibración aunque el móvil esté bloqueado) → **hecho en la Fase 16**.
 - [x] Paridad web: resuelta en la Fase 19 (la web ES la app).
 
+### Fase 23 — Nombres naturales EN/NL y sin imagen de ejemplo (R-143…R-145) ✅
+- [x] `data/exercises/names-display.json`: 205 nombres de pantalla en inglés
+      (frase, material primero, sin comas: "Dumbbell shoulder press") y
+      neerlandés de gimnasio ("Schouderdrukken met dumbbells", "Optrekken",
+      "Kuitheffen"); `display_en`/`display_nl` en la base; `exName` y la
+      búsqueda los usan; `name_en`/`name_nl` (wger) siguen para la lógica.
+      Tests: sin duplicados, sin comas ni paréntesis, nada de "Title Case".
+- [x] "¿Cómo se hace?" sin imagen propia en el código = sin imagen (ni la de
+      ejemplo); crédito de la imagen de ejemplo fuera de Perfil. Captura 40.
+- [x] Descartado por el usuario de la crítica Jobs: un solo lenguaje visual,
+      la imagen de ejemplo y recortar funciones (R-144).
+
 ### Fase 22 — Paquete de tiendas (App Store / Google Play) (R-142) ✅
 - [x] `app.json`: bundle ID iOS `nl.fittrack.app`, build 1 / versionCode 1,
       solo vertical, solo iPhone, texto de permiso de fotos,
@@ -280,7 +292,7 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       oEmbed (1 no incrustable sustituido).
 - [x] Reproductor dentro de la hoja con `react-native-webview` (aprobado) y
       `<iframe>` en web; la hoja baja hasta el vídeo. Captura 35.
-- [ ] ⛔ Usuario (R-128): probar el reproductor en el iPhone (development build o Expo Go).
+- [x] Reproductor probado en el iPhone por el usuario (R-128).
 
 ### Fase 19 — La web ES la app (R-131) ✅
 - [x] Decisión del usuario: la web = build web de la app (paridad total);
@@ -300,7 +312,7 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
 - [x] V3: cabecera de la sesión con lo que entrenas ("Espalda y brazos").
 - [x] V4: primer arranque sin la nota del lunes; nota reescrita (4 idiomas).
 - [x] V5: primer arranque sin calendario ni Historial vacíos.
-- [ ] ⛔ Único pendiente para producción: prueba en iPhone real (R-128).
+- [x] Prueba en iPhone real: hecha por el usuario (R-128).
 
 ### Fase 17 — Manual portable para otra app (R-129) ✅
 - [x] `docs/kit/`: README (qué copiar, orden), 01-BOOTSTRAP (prompt, preguntas
@@ -325,10 +337,7 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       `expo-file-system`, aprobada) y `.web.ts` (localStorage). Migra solas
       las fotos viejas de AsyncStorage.
 - [x] Calculadora de discos descartada (R-127).
-- [ ] ⛔ **Usuario** (R-128): probar en iPhone real — compartir la copia a
-      Archivos, restaurarla, y el aviso con el móvil bloqueado. Necesita un
-      build de desarrollo (`expo-notifications`/`expo-file-system` nativos;
-      Expo Go no basta para las notificaciones).
+- [x] Probado en iPhone real por el usuario (R-128, 2026-11-17): "works well".
 - [x] Copia en la web: descarga + restaurar desde archivo (`backupFile.web.ts`; la web es la app desde la Fase 19).
 
 ### Fase 15 — InstaGym (sustituye a Historial) ✅ (Jobs SÍ, 89)

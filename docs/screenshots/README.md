@@ -45,6 +45,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 37 | Dibujo · dominadas | Otro grupo (espalda) |
 | 38 | Dibujo · elevaciones laterales | Hombros |
 | 39 | Dibujo · tema Día | El mismo dibujo se tiñe de negro en el tema Día |
+| 40 | Ejercicio sin dibujo | Sin imagen propia en el código no hay imagen (ni la de ejemplo): título, qué entrena, pasos y vídeo |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 

@@ -225,4 +225,6 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await drawing('Espalda', 'Dominadas', '37-drawing-pullups');
   await drawing('Hombros', 'Elevaciones laterales', '38-drawing-lateral');
   await drawing('Piernas', 'Puente de glúteos', '39-drawing-day', { 'fittrack.theme.v1': 'day' });
+  // 40 Sin imagen propia (R-145): la hoja no muestra imagen, va directa a qué entrena
+  await drawing('Piernas', "Swing con kettlebell", '40-howto-no-image');
 };

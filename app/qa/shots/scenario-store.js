@@ -5,12 +5,11 @@
 const path = require('path');
 const B = (l) => require(path.join(__dirname, '../../../i18n', `${l}.json`));
 const NAMES = require(path.join(__dirname, '../../../data/exercises/names-i18n.json'));
-const ALL = require(path.join(__dirname, '../../../data/exercises/all.json')).exercises;
+const DISPLAY = require(path.join(__dirname, '../../../data/exercises/names-display.json'));
 const exName = (id, l) => {
-  const e = ALL.find((x) => x.id === id);
   if (l === 'es') return NAMES[id][0];
   if (l === 'fr') return NAMES[id][1];
-  return l === 'nl' ? e.name_nl : e.name_en;
+  return l === 'nl' ? DISPLAY[id][1] : DISPLAY[id][0];
 };
 module.exports = async ({ load, shot, tap, tapLabel, scrollBy, sleep, evaluate, base, DATA, ACTIVE }) => {
   let w = 0;
