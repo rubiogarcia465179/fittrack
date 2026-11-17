@@ -37,6 +37,10 @@ y el orden de trabajo en `TASKS.md`; las reglas de trabajo en `CLAUDE.md` y
   lo generado localmente o con IA, declarado).
 - **Offline y privado.**
 
+- **Icono** (R-141): círculo blanco con check negro sobre negro (el botón de
+  "serie hecha"), a sangre; mismo disco en la pantalla de carga, el favicon y
+  la cabecera de la web. Fuente y tamaños: `docs/icon/`.
+
 ## 2. Pantallas (app Expo)
 
 Barra inferior estilo X: ancho completo, negra, línea fina arriba, **solo

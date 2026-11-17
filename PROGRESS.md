@@ -866,3 +866,17 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   `scripts/generate_drawings_openai.py` (curl, sin dependencias, dry-run
   probado), `add_drawings.py` que actualiza mapa, créditos, STATUS (con lista
   de pendientes) y prompts, y la guía `docs/fotos/CODEX-DIBUJOS.md`.
+
+- 2026-11-17 — **Icono nuevo** (R-141). Petición: "The icon of both app and
+  website is a bit ugly … a very appealing icon, that would be approved by
+  SteveJobs". El viejo: mancuerna genérica azul con esquinas blancas
+  pegadas (iOS ya redondea). 3 rondas de conceptos (barra inclinada, perfil
+  de barra, check, check+barra, disco, disco con aro, barra "heroica")
+  juzgados a 180/60/29/16 px sobre fondos claro y oscuro. **Gana el círculo
+  blanco con check negro**: una idea, se lee a 16 px, es el botón de "serie
+  hecha" (el icono es el momento central de la app) y monocromo. Refinado:
+  centrado óptico, profundidad sutil. Aplicado a icono iOS/Android
+  (adaptativo con fondo negro), splash negro, favicon 32/192, apple-touch-icon
+  y la cabecera de la web. Vista previa: `docs/icon/preview.png`. Jobs (crítica
+  imaginada): SÍ — restricción que destaca entre iconos de colores; reserva:
+  por sí solo no dice "gimnasio", lo dice el nombre debajo.

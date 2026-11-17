@@ -10,7 +10,7 @@
  * La app de iOS/Android y el build de capturas siguen siendo la app completa.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Linking, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Image, Linking, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { CC_BY_SA_3, DRAWINGS_CREDITS } from '../lib/attribution';
 import { useTranslation } from 'react-i18next';
 import { ThemeProvider, useTheme } from '../theme-context';
@@ -25,6 +25,8 @@ import { photosFor } from '../exercisePhotos';
 import { ExerciseHowTo } from '../components/ExerciseHowTo';
 import { ExerciseThumb } from '../components/ExerciseThumb';
 import { Chevron } from '../components/Chevron';
+
+const BRAND_ICON = require('../../assets/icon.png');
 
 type Focus = 'push' | 'pull' | 'legs' | 'full';
 const FOCUS_GROUPS: Record<Focus, string[]> = {
@@ -316,7 +318,11 @@ function Planner() {
         <View style={[styles.page, { maxWidth: wide ? 1120 : 560 }]}>
           {/* Cabecera: marca a la izquierda, idioma a la derecha */}
           <View style={styles.header}>
-            <Text style={[styles.brand, { color: p.text }]}>FitTrack</Text>
+            {/* Marca: el icono (círculo de "serie hecha") + el nombre, igual que en el móvil. */}
+            <View style={styles.brandRow} accessibilityRole="header">
+              <Image source={BRAND_ICON} style={styles.brandIcon} accessibilityIgnoresInvertColors />
+              <Text style={[styles.brand, { color: p.text }]}>FitTrack</Text>
+            </View>
             <View style={styles.langs} accessibilityRole="radiogroup" accessibilityLabel={t('profile_language')}>
               {LANGS.slice()
                 .sort((a, b) => ['es', 'en', 'nl', 'fr'].indexOf(a) - ['es', 'en', 'nl', 'fr'].indexOf(b))
@@ -400,6 +406,8 @@ const styles = StyleSheet.create({
   scroll: { flexGrow: 1, alignItems: 'center' },
   page: { width: '100%', paddingHorizontal: 20, paddingBottom: 40 },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 12, paddingBottom: 8 },
+  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  brandIcon: { width: 30, height: 30, borderRadius: 7 },
   brand: { fontSize: 20, fontWeight: '800', letterSpacing: -0.3 },
   langs: { flexDirection: 'row' },
   lang: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },

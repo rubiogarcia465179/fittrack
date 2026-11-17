@@ -295,3 +295,7 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   archivo). Las versiones modificadas son CC BY-SA 3.0
   (`data/images/photos/LICENSE.md`). Si cambias cómo se procesan los dibujos,
   actualiza la lista de cambios en esos tres sitios.
+- **Icono (R-141)**: fuente `docs/icon/icon.svg` (+ `adaptive-foreground.svg`);
+  PNG en `app/assets/` (icon, adaptive-icon, splash) y `app/public/` (favicons,
+  apple-touch-icon); `app.json`: fondo `#000000` en splash e icono adaptativo.
+  Detalles y cómo regenerarlo: `docs/icon/README.md`.
