@@ -246,6 +246,20 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
   vibración aunque el móvil esté bloqueado) → **hecho en la Fase 16**.
 - [x] Paridad web: resuelta en la Fase 19 (la web ES la app).
 
+### Fase 22 — Paquete de tiendas (App Store / Google Play) (R-142) ✅
+- [x] `app.json`: bundle ID iOS `nl.fittrack.app`, build 1 / versionCode 1,
+      solo vertical, solo iPhone, texto de permiso de fotos,
+      `ITSAppUsesNonExemptEncryption=false`, permiso de notificaciones Android.
+- [x] `app/eas.json` (development / preview / production + submit).
+- [x] Fichas en 4 idiomas con límites comprobados (`docs/store/<idioma>.md`).
+- [x] Capturas: Apple 6,9" 1320×2868 y Google 1080×2160, 5 × 4 idiomas, con
+      titular (`scripts/make_store_frames.py`); gráfico destacado 1024×500.
+- [x] Política de privacidad y soporte en la web (`/privacy.html`, `/support.html`).
+- [x] Guía paso a paso y respuestas de privacidad (`docs/store/README.md`).
+- [ ] ⛔ Usuario: cuentas de Apple Developer (99 USD/año) y Google Play
+      (25 USD); prueba cerrada de 12 testers × 14 días en Google; `appleId`/
+      `ascAppId` en `eas.json`; `expo-dev-client` solo si quieres build de desarrollo.
+
 ### Fase 21 — Web pública: una pantalla que crea un entreno (R-136, R-138) ✅ (Jobs SÍ, 86; Foco 10)
 - [x] `WebPlanner` (solo web, `EXPO_PUBLIC_WEB_MODE=planner`): preguntas →
       sesión; idioma ES/EN/NL/FR arriba a la derecha; sin perfil ni guardado.

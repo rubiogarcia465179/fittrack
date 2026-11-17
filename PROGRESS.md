@@ -880,3 +880,14 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   y la cabecera de la web. Vista previa: `docs/icon/preview.png`. Jobs (crítica
   imaginada): SÍ — restricción que destaca entre iconos de colores; reserva:
   por sí solo no dice "gimnasio", lo dice el nombre debajo.
+
+- 2026-11-17 — **Fase 22: paquete de tiendas** (R-142). Petición: "Can you
+  do 5?" (preparar App Store y Google Play). `app.json` listo para revisión
+  (bundle ID, solo iPhone y vertical, texto del permiso de fotos, cifrado
+  declarado, permiso de notificaciones), `app/eas.json`, fichas en 4 idiomas
+  (límites de Apple/Google comprobados por script), 40 capturas a los
+  tamaños exigidos (Apple 6,9" 1320×2868; Google 1080×2160) con titular,
+  gráficos destacados 1024×500, `/privacy.html` y `/support.html` en la web
+  (4 idiomas, honestas: sin recogida de datos; YouTube al tocar "Ver vídeo"),
+  y la guía `docs/store/README.md`. Verificación: `expo config` válido, web
+  build con las dos páginas, capturas de tienda sin errores de consola.

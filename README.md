@@ -213,6 +213,11 @@ cd web  && npm run build   # build web de la app
 ```
 `tests/run.js` → 0 fallos.
 
+## Publicar en las tiendas
+
+Todo listo en `docs/store/` (textos, capturas, privacidad y pasos):
+`docs/store/README.md`.
+
 ## Créditos y licencias
 
 - **Ejercicios**: base de datos de wger.de (CC BY-SA 4.0 / 3.0 / CC0 según el ejercicio).

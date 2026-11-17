@@ -15,6 +15,7 @@ const argv = process.argv;
 const argOf = (k) => (argv.includes(k) ? argv[argv.indexOf(k) + 1] : null);
 const [W, H] = (argOf('--size') || '393x852').split('x').map(Number);
 const SCENARIO_FILE = argOf('--scenario');
+const DPR = argOf('--dpr') ? Number(argOf('--dpr')) : null; // p. ej. 3 para capturas de tienda
 const PORT = 8095, DBG = 9333;
 fs.mkdirSync(OUT, { recursive: true });
 if (FRAMES) fs.mkdirSync(FRAMES, { recursive: true });
@@ -154,7 +155,7 @@ async function load(storage) {
     else if (d.method) listeners.forEach((l) => l(d));
   };
   await send('Page.enable'); await send('Runtime.enable');
-  await send('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: W > 700 ? 1 : 2, mobile: W <= 700 });
+  await send('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: DPR || (W > 700 ? 1 : 2), mobile: W <= 700 });
   await send('Emulation.setTouchEmulationEnabled', { enabled: false });
   const errors = [];
   listeners.push((d) => { if (d.method === 'Runtime.exceptionThrown') errors.push(d.params.exceptionDetails.text + ' ' + (d.params.exceptionDetails.exception?.description || '').slice(0, 200)); });

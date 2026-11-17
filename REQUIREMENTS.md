@@ -372,3 +372,4 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-139 [DONE] Atribuir bien a Everkinetic según su licencia (CC BY-SA 3.0) (2026-11-17; autor + fuente + licencia + cambios en la hoja, Perfil y web; docs/CREDITOS-DIBUJOS.md por archivo; versiones modificadas CC BY-SA 3.0)
 ### R-140 [DONE] Prompt exacto para OpenAI (estilo Everkinetic) para cada ejercicio sin dibujo + lista de imágenes siempre al día; lo ejecutará el usuario con Codex (2026-11-17; 254 prompts con la carpeta de ejemplos `docs/fotos/referencias/` y los 4 ejemplos a adjuntar; guía `CODEX-DIBUJOS.md`; generador y lista que se actualizan solos)
 ### R-141 [DONE] Icono de app y web muy atractivo, aprobado por Steve Jobs (2026-11-17; círculo de "serie hecha" monocromo; 3 rondas de conceptos; `docs/icon/`)
+### R-142 [DONE] Paquete para App Store / Google Play: textos 4 idiomas, capturas a los tamaños exigidos, privacidad, eas.json (2026-11-17; Fase 22, `docs/store/`)

@@ -299,3 +299,10 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   PNG en `app/assets/` (icon, adaptive-icon, splash) y `app/public/` (favicons,
   apple-touch-icon); `app.json`: fondo `#000000` en splash e icono adaptativo.
   Detalles y cómo regenerarlo: `docs/icon/README.md`.
+- **Tiendas (R-142)**: `docs/store/` (README con pasos y privacidad, fichas
+  por idioma desde `listing.json`, capturas `apple/` y `google/`). Capturas:
+  `shoot.js --size 440x956 --dpr 3 --scenario app/qa/shots/scenario-store.js`
+  (y `360x720`) → `docs/store/raw/` (fuera de git) → `python3
+  scripts/make_store_frames.py`. `app.json`: solo iPhone, vertical; build con
+  `npx eas-cli build` (perfiles en `app/eas.json`). El perfil `development`
+  necesita `expo-dev-client` (dependencia: pedir aprobación).
