@@ -891,3 +891,14 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   (4 idiomas, honestas: sin recogida de datos; YouTube al tocar "Ver vídeo"),
   y la guía `docs/store/README.md`. Verificación: `expo config` válido, web
   build con las dos páginas, capturas de tienda sin errores de consola.
+
+- 2026-11-17 — **Fase 23** (R-128, R-143…R-145). Tras `/stevejobs Critique`
+  (NO, 77/90: sin iPhone, dos lenguajes visuales, imagen de ejemplo falsa,
+  nombres de base de datos, demasiadas funciones), el usuario: "I tested
+  already on iphone and works well … Fix 4. drop 5, 3, 2. And where there is
+  no image, show no drawing, unless a image is added in the codebase".
+  Hecho: iPhone fuera de pendientes; 205 nombres de pantalla EN/NL naturales
+  (sin tocar la lógica, que sigue con los de wger); hoja sin imagen cuando no
+  hay imagen propia (captura 40); crédito de la imagen de ejemplo fuera.
+  Verificación: tsc 0, tests 133/133, capturas app 01–40, web y tienda sin
+  errores, vídeo 801 fotogramas.

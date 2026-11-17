@@ -306,3 +306,8 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   scripts/make_store_frames.py`. `app.json`: solo iPhone, vertical; build con
   `npx eas-cli build` (perfiles en `app/eas.json`). El perfil `development`
   necesita `expo-dev-client` (dependencia: pedir aprobación).
+- **Nombres (R-143)**: en pantalla, siempre `exName(e, lang)` (EN/NL →
+  `display_en`/`display_nl`). Para renombrar: edita
+  `data/exercises/names-display.json` y ejecuta `node scripts/merge_exercise_names.js`
+  (falla si falta un id). No cambies `name_en`: lo usan `movementKey`,
+  `isBodyweightExercise` y los filtros de la web.

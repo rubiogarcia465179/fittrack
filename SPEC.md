@@ -176,7 +176,8 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   (autor, fuente, licencia). En Perfil → Licencias y créditos: autor,
   licencia, cambios hechos y "se comparten con la misma licencia", con
   enlaces a la licencia y a `docs/CREDITOS-DIBUJOS.md`; igual en el pie de la
-  web (R-139). Sin dibujo: la imagen de ejemplo, **marcada**. Estado:
+  web (R-139). **Sin imagen propia en el código: no hay imagen** (ni la de
+  ejemplo); la hoja va directa a "Qué entrena" (R-145). Estado:
   `docs/fotos/STATUS.md`.
 - Hoja **"¿Cómo se hace?"** (la única vista de un ejercicio): imágenes, qué
   entrena, 3 pasos y **"Ver vídeo"** (R-133/R-134): una fila de texto; al
@@ -275,6 +276,12 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   iOS/Android y el build de capturas siguen siendo la app completa.
 
 ## 4. Idiomas
+
+- **Nombres de ejercicio** (R-143): EN y NL con nombres de pantalla naturales
+  (`data/exercises/names-display.json` → `display_en`/`display_nl`); ES/FR con
+  `names-i18n.json`. Los nombres originales de wger (`name_en`/`name_nl`) solo
+  los usa la lógica interna.
+
 
 NL, ES, EN, FR. `i18n/` con espejo idéntico en `app/src/i18n-data/`; mismo
 nº de claves en los 4.
