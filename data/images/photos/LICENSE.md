@@ -12,3 +12,8 @@ licencia CC BY-SA 3.0**.
 
 Atribución por archivo (título, fuente, cambios): `credits.json` y
 `docs/CREDITOS-DIBUJOS.md`.
+
+Los archivos cuyo autor en `credits.json` es **"IA (usuario)"** son dibujos
+generados con IA usando los de Everkinetic como ejemplo de estilo
+(`docs/fotos/CODEX-DIBUJOS.md`); por respeto a esa licencia se comparten
+también bajo **CC BY-SA 3.0**.

@@ -279,6 +279,10 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   `--scenario <ruta>`. La web prefiere clásicos con dibujo (`prefer` de
   `generateWorkout`) y excluye avanzados y lo que pide máquina/barra según
   el material.
+- **Dibujos con IA vía Codex (R-140)**: guía `docs/fotos/CODEX-DIBUJOS.md`;
+  ejemplos `docs/fotos/referencias/` (los 156 de Everkinetic en blanco);
+  trabajos `docs/fotos/prompts-dibujos.json`; generador
+  `scripts/generate_drawings_openai.py` (curl, `OPENAI_API_KEY`).
 - **Dibujos generados por el usuario (R-137)**: `docs/fotos/PROMPTS-DIBUJOS.md`
   (`node scripts/make_drawing_prompts.js`) → imágenes en
   `data/images/photos/inbox/<id>-1.png/-2.png` → `python3 scripts/add_drawings.py`

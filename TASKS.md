@@ -354,9 +354,10 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       transparente y teñido con el tema; crédito en la hoja y en Licencias.
       `scripts/fetch_everkinetic.py` (baja con pausa y miniaturas estándar),
       `scripts/make_photo_map.js`, `scripts/photo_status.js`.
-- ⛔ **Usuario** (R-135/R-137): los 117 sin dibujo (sin cardio): dibujos de
-      línea con `docs/fotos/PROMPTS-DIBUJOS.md` → `data/images/photos/inbox/`
-      → `python3 scripts/add_drawings.py` (quedan marcados "generado con IA").
+- ⛔ **Usuario con Codex** (R-140): los 127 sin dibujo (254 imágenes) con
+      `docs/fotos/CODEX-DIBUJOS.md` (OpenAI + ejemplos de `docs/fotos/referencias/`)
+      → `python3 scripts/add_drawings.py` (marcados "Dibujo generado con IA";
+      `docs/fotos/STATUS.md` se actualiza solo).
 
 
 ## Hecho recientemente

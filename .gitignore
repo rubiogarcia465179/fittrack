@@ -12,3 +12,6 @@ __pycache__/
 
 # Metadatos de Windows (descargas)
 *:Zone.Identifier
+
+# Originales generados con IA (se procesan con scripts/add_drawings.py)
+data/images/photos/inbox/originales/

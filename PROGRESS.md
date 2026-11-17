@@ -854,3 +854,15 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   (156 archivos: original, autor, licencia, cambios), `LICENSE.md` de la
   carpeta, README y la galería con la línea de licencia. Verificación: tsc 0,
   129/129, capturas app 01–39 y web sin errores.
+
+- 2026-11-17 — **Prompts para OpenAI vía Codex** (R-140). Petición: "give me
+  the exact prompt to give OpenAI to generate the images according to the
+  everkinetic ones … for everyone … maintain a list … I will open a session
+  with codex" y "provide the folder to take images as example. Add in the
+  prompt". Hecho: `docs/fotos/referencias/` (los 156 dibujos de Everkinetic en
+  negro sobre blanco, 2 MB), 254 prompts (127 ejercicios × 2) que nombran esa
+  carpeta y los 4 ejemplos a adjuntar (2 generales + 2 del mismo grupo y
+  material; la imagen 2 adjunta además la 1), `prompts-dibujos.json`,
+  `scripts/generate_drawings_openai.py` (curl, sin dependencias, dry-run
+  probado), `add_drawings.py` que actualiza mapa, créditos, STATUS (con lista
+  de pendientes) y prompts, y la guía `docs/fotos/CODEX-DIBUJOS.md`.

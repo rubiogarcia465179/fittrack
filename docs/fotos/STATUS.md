@@ -226,3 +226,135 @@ foto propia.
 | shoulders | Upright Row, on Multi Press | `upright_row_on_multi_press` | ✏️ | ✏️ | ⬜ |
 | shoulders | Upright Row, SZ-bar | `upright_row_sz_bar` | ✏️ | ✏️ | ⬜ |
 | shoulders | Wall Handstand | `wall_handstand` | ⬜ | ⬜ | ⬜ |
+
+## Pendientes de dibujo (127)
+
+Prompts: `docs/fotos/PROMPTS-DIBUJOS.md` · trabajos: `docs/fotos/prompts-dibujos.json`.
+
+- `axe_hold` — Axe Hold
+- `biceps_curls_with_sz_bar` — Biceps Curls With SZ-bar
+- `body_ups` — Body-Ups
+- `curl_su_panca_a_45` — Curl su Panca a 45°
+- `deadhang` — Deadhang
+- `dumbbell_triceps_extension` — Dumbbell Triceps Extension
+- `dumbbells_on_scott_machine` — Dumbbells on Scott Machine
+- `french_press_skullcrusher_sz_bar` — French Press (skullcrusher) SZ-bar
+- `hammercurls_on_cable` — Hammercurls on Cable
+- `hand_grip` — Hand Grip
+- `hercules_pillars` — Hercules Pillars
+- `pike_push_ups` — Pike Push Ups
+- `reverse_curl` — Reverse Curl
+- `ring_dips` — Ring Dips
+- `standing_rope_forearm` — Standing Rope Forearm
+- `triceps_bench_press_one_barbell` — Triceps Bench Press One Barbell
+- `triceps_dips` — Triceps Dips
+- `wall_pushup` — Wall Pushup
+- `z_curls` — Z Curls
+- `bent_over_barbell_row` — Bent Over Barbell Row
+- `bentover_dumbbell_rows` — Bentover Dumbbell Rows
+- `deadlifts` — Deadlifts
+- `deficit_deadlift` — Deficit Deadlift
+- `incline_dumbbell_row` — Incline Dumbbell Row
+- `lat_pull_down_leaning_back` — Lat Pull Down (Leaning Back)
+- `lat_pull_down_straight_back` — Lat Pull Down (Straight Back)
+- `leverage_machine_iso_row` — Leverage Machine Iso Row
+- `long_pulley_low_row` — Long-Pulley (low Row)
+- `long_pulley_narrow` — Long-Pulley, Narrow
+- `mgm_machine` — MGM Machine
+- `muscle_up` — Muscle up
+- `pendelay_rows` — Pendelay Rows
+- `prone_scapular_retraction_arms_at_side` — Prone Scapular Retraction - Arms at Side
+- `pull_ups_on_machine` — Pull Ups on Machine
+- `rack_deadlift` — Rack Deadlift
+- `renegade_row` — Renegade Row
+- `rowing_lying_on_bench` — Rowing, Lying on Bench
+- `shotgun_row` — Shotgun Row
+- `straight_arm_pull_down_bar_attachment` — Straight-arm Pull Down (bar Attachment)
+- `straight_arm_pull_down_rope_attachment` — Straight-arm Pull Down (rope Attachment)
+- `wall_slides` — Wall Slides
+- `burpees` — Burpees
+- `cycling` — Cycling
+- `high_knees` — High Knees
+- `jumping_jacks` — Jumping Jacks
+- `run` — Run
+- `run_interval_training` — Run - Interval Training 
+- `run_treadmill` — Run - Treadmill
+- `skipping_standard` — Skipping - Standard
+- `squat_jumps` — Squat Jumps
+- `stationary_bike` — Stationary Bike
+- `bear_walk` — Bear Walk
+- `bench_press` — Bench Press
+- `benchpress_dumbbells` — Benchpress Dumbbells
+- `butterfly_narrow_grip` — Butterfly Narrow Grip
+- `decline_pushups` — Decline Pushups
+- `extenseurs_face` — Extenseurs - Face
+- `fly_with_cable` — Fly With Cable
+- `incline_pushups` — Incline Pushups
+- `isometric_wipers` — Isometric Wipers
+- `pause_bench` — Pause Bench
+- `perfect_push_up` — Perfect Push Up
+- `reverse_grip_bench_press` — Reverse Grip Bench Press
+- `side_to_side_push_ups` — Side to Side Push Ups
+- `upper_body` — Upper Body
+- `upper_external_oblique` — Upper External Oblique
+- `2_handed_kettlebell_swing` — 2 Handed Kettlebell Swing
+- `cable_woodchoppers` — Cable Woodchoppers
+- `crunches_on_machine` — Crunches on Machine
+- `crunches_with_cable` — Crunches With Cable
+- `crunches_with_legs_up` — Crunches With Legs Up
+- `deadbug` — Deadbug
+- `flutter_kicks` — Flutter Kicks
+- `full_sit_outs` — Full Sit Outs
+- `hanging_leg_raises` — Hanging Leg Raises
+- `hollow_hold` — Hollow Hold
+- `incline_plank_with_alternate_floor_touch` — Incline Plank With Alternate Floor Touch
+- `l_hold` — L Hold
+- `leg_raises_standing` — Leg Raises, Standing
+- `overhand_cable_curl` — Overhand Cable Curl
+- `plank` — Plank
+- `reverse_plank` — Reverse Plank
+- `roman_chair` — Roman Chair
+- `scissors` — Scissors
+- `side_crunch` — Side Crunch
+- `sit_ups` — Sit-ups
+- `splinter_sit_ups` — Splinter Sit-ups
+- `trunk_rotation_with_cable` — Trunk Rotation With Cable 
+- `turkish_get_up` — Turkish Get-Up
+- `braced_squat` — Braced Squat
+- `calf_raises_on_hackenschmitt_machine` — Calf Raises on Hackenschmitt Machine
+- `dumbbell_goblet_squat` — Dumbbell Goblet Squat
+- `dumbbell_lunges_standing` — Dumbbell Lunges Standing
+- `hindu_squats` — Hindu Squats
+- `hip_thrust` — Hip Thrust
+- `kettlebell_swings` — Kettlebell Swings
+- `leg_press_on_hackenschmidt_machine` — Leg Press on Hackenschmidt Machine
+- `leg_presses_wide` — Leg Presses (wide)
+- `low_box_squat_wide_stance` — Low Box Squat - Wide Stance
+- `pistol_squat` — Pistol Squat
+- `speed_deadlift` — Speed Deadlift
+- `squat_thrust` — Squat Thrust
+- `stiff_legged_deadlifts` — Stiff-legged Deadlifts
+- `sumo_deadlift` — Sumo Deadlift
+- `thruster` — Thruster
+- `wall_squat` — Wall Squat
+- `bent_high_pulls` — Bent High Pulls
+- `bent_over_lateral_raises` — Bent-over Lateral Raises
+- `butterfly_reverse` — Butterfly Reverse
+- `cable_external_rotation` — Cable External Rotation
+- `diagonal_shoulder_press` — Diagonal Shoulder Press
+- `facepull` — Facepull
+- `front_raises` — Front Raises
+- `handstand_pushup` — Handstand Pushup
+- `high_pull` — High Pull
+- `lateral_raises_on_cable_one_armed` — Lateral Raises on Cable, One Armed
+- `lateral_to_front_raises` — Lateral-to-Front Raises
+- `lying_rotator_cuff_exercise` — Lying Rotator Cuff Exercise
+- `military_press_1` — Military Press
+- `power_clean` — Power Clean
+- `push_press` — Push Press
+- `shoulder_fly` — Shoulder Fly
+- `shoulder_press_on_multi_press` — Shoulder Press, on Multi Press
+- `shrugs_barbells` — Shrugs, Barbells
+- `side_lying_external_rotation` — Side-lying External Rotation
+- `snach` — Snach
+- `wall_handstand` — Wall Handstand

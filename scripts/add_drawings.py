@@ -5,9 +5,10 @@ data/images/photos/inbox/<id>-<n>.png a data/images/photos/ con el mismo
 tratamiento que los de Everkinetic: fondo transparente (alfa = oscuridad),
 recorte, PNG gris+alfa. En credits.json quedan como "generado con IA" para
 que la app lo diga (regla de oro: nada inventado se presenta como real).
-Después: node scripts/make_photo_map.js && node scripts/photo_status.js
+Después actualiza solo: mapa de la app, docs/fotos/STATUS.md (lista de
+pendientes) y los prompts que quedan (PROMPTS-DIBUJOS.md / .json).
 """
-import json, os, re, sys
+import json, os, re, shutil, subprocess, sys
 from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INBOX = os.path.join(ROOT, 'data/images/photos/inbox')
@@ -34,8 +35,14 @@ for f in sorted(os.listdir(INBOX)) if os.path.isdir(INBOX) else []:
         continue
     out = f'{m.group(1)}-{m.group(2)}.png'
     clean(os.path.join(INBOX, f), os.path.join(DST, out))
+    # El original generado se guarda aparte (fuera de git) para poder rehacerlo.
+    os.makedirs(os.path.join(INBOX, 'originales'), exist_ok=True)
+    shutil.move(os.path.join(INBOX, f), os.path.join(INBOX, 'originales', f))
     credits[out] = {'file': out, 'author': 'IA (usuario)', 'license': 'propia', 'kind': 'drawing',
-                    'note': 'dibujo generado con IA a partir de docs/fotos/PROMPTS-DIBUJOS.md; fondo transparente y recortado'}
+                    'note': 'dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0'}
     n += 1
 json.dump(dict(sorted(credits.items())), open(CRED, 'w'), indent=1, ensure_ascii=False)
-print(f'OK {n} dibujos añadidos. Ahora: node scripts/make_photo_map.js && node scripts/photo_status.js')
+print(f'OK {n} dibujos añadidos')
+# Todo al día de una vez: mapa de la app, créditos, estado y prompts pendientes.
+for cmd in (['node', 'scripts/make_photo_map.js'], ['node', 'scripts/photo_status.js'], ['node', 'scripts/make_drawing_prompts.js']):
+    subprocess.run(cmd, cwd=ROOT, check=True)
