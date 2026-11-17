@@ -212,3 +212,18 @@ cd app && npm run typecheck && npm run bundle:check
 cd web  && npm run build   # build web de la app
 ```
 `tests/run.js` → 0 fallos.
+
+## Créditos y licencias
+
+- **Ejercicios**: base de datos de wger.de (CC BY-SA 4.0 / 3.0 / CC0 según el ejercicio).
+- **Dibujos de ejercicios**: **Everkinetic** (http://everkinetic.com/), vía
+  Wikimedia Commons, licencia **CC BY-SA 3.0**
+  (https://creativecommons.org/licenses/by-sa/3.0/). **Modificados** por
+  FitTrack (fondo transparente, recorte, tamaño, escala de grises; tinte del
+  tema en la app; en algunos, orden de los fotogramas). Las versiones
+  modificadas se distribuyen bajo la misma licencia CC BY-SA 3.0. Original,
+  fuente y cambios de cada archivo: `docs/CREDITOS-DIBUJOS.md` y
+  `data/images/photos/credits.json` (licencia de la carpeta:
+  `data/images/photos/LICENSE.md`).
+- **Vídeos**: YouTube (cada uno de su canal; se reproducen con el reproductor oficial).
+- **Fuente**: Montserrat (SIL OFL, `docs/OFL-Montserrat-LICENSE.txt`).

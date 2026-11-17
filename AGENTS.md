@@ -284,3 +284,10 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   `data/images/photos/inbox/<id>-1.png/-2.png` → `python3 scripts/add_drawings.py`
   (limpia igual que Everkinetic y marca `kind: drawing`, autor "IA") →
   `make_photo_map.js` y `photo_status.js`. La app dice "Dibujo generado con IA".
+- **Atribución CC BY-SA 3.0 (R-139)**: cada dibujo de Everkinetic lleva en la
+  app autor + licencia + "(modificado)" y enlace al original; Perfil y el pie
+  de la web enlazan la licencia y `docs/CREDITOS-DIBUJOS.md` (lo genera
+  `make_photo_map.js` desde `credits.json`: título, fuente, cambios por
+  archivo). Las versiones modificadas son CC BY-SA 3.0
+  (`data/images/photos/LICENSE.md`). Si cambias cómo se procesan los dibujos,
+  actualiza la lista de cambios en esos tres sitios.

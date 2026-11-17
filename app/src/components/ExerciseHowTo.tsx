@@ -8,7 +8,7 @@
  *   (data/exercises/howto/, redactada por FitTrack; ver app/src/howto.ts).
  */
 import { useEffect, useRef, useState } from 'react';
-import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Image, Linking, Modal, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../theme-context';
 import { exName } from '../lib/names';
@@ -22,7 +22,7 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
   const { t, i18n } = useTranslation();
   const { p } = useTheme();
   const lang = i18n.language as string;
-  const { images, placeholder, kind, credit } = photosFor(exercise.id);
+  const { images, placeholder, kind, credit, pages } = photosFor(exercise.id);
   const video = videoFor(exercise.id);
   const [playing, setPlaying] = useState(false);
   // Otro ejercicio (o cerrar la hoja) → el vídeo se para.
@@ -98,10 +98,24 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
             ))}
           </View>
           {kind === 'drawing' ? (
-            // Atribución CC BY-SA junto a la obra (y en Licencias y créditos).
-            <Text style={[styles.credit, { color: p.dim }]}>
-              {`${t(page === 0 ? 'howto_pos_start' : 'howto_pos_end')} · ${t(credit === 'ai' ? 'howto_drawing_ai' : 'howto_drawing_credit')}`}
-            </Text>
+            // Atribución CC BY-SA 3.0 junto a la obra: autor, licencia y que
+            // está modificada; al tocarla abre el original (fuente + licencia).
+            credit === 'everkinetic' && pages[page] ? (
+              <Pressable
+                accessibilityRole="link"
+                accessibilityHint={t('howto_source_hint')}
+                onPress={() => void Linking.openURL(pages[page]).catch(() => undefined)}
+                style={({ pressed }) => [{ minHeight: 44, justifyContent: 'center', opacity: pressed ? 0.6 : 1 }]}
+              >
+                <Text style={[styles.credit, { color: p.dim, marginTop: 0, textDecorationLine: 'underline' }]}>
+                  {`${t(page === 0 ? 'howto_pos_start' : 'howto_pos_end')} · ${t('howto_drawing_credit')}`}
+                </Text>
+              </Pressable>
+            ) : (
+              <Text style={[styles.credit, { color: p.dim }]}>
+                {`${t(page === 0 ? 'howto_pos_start' : 'howto_pos_end')} · ${t(credit === 'ai' ? 'howto_drawing_ai' : 'howto_drawing_credit')}`}
+              </Text>
+            )
           ) : null}
 
           {/* Qué entrena */}

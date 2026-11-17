@@ -10,7 +10,8 @@
  * La app de iOS/Android y el build de capturas siguen siendo la app completa.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { CC_BY_SA_3, DRAWINGS_CREDITS } from '../lib/attribution';
 import { useTranslation } from 'react-i18next';
 import { ThemeProvider, useTheme } from '../theme-context';
 import { LANGS, setLanguage, type Lang } from '../i18n';
@@ -341,7 +342,21 @@ function Planner() {
             {result ?? empty}
           </View>
 
-          <Text style={[styles.footer, { color: p.dim }]}>{t('web_footer')}</Text>
+          {/* Créditos: dibujos de Everkinetic con licencia CC BY-SA 3.0, modificados
+              (el enlace lleva a la lista de originales, fuentes y cambios). */}
+          <View style={styles.footerWrap}>
+            <Text style={[styles.footer, { color: p.dim }]}>{t('web_footer')}</Text>
+            <View style={styles.footerLinks}>
+              {[
+                [t('web_footer_drawings'), DRAWINGS_CREDITS],
+                [t('credits_license_link'), CC_BY_SA_3],
+              ].map(([label, url]) => (
+                <Pressable key={url} accessibilityRole="link" onPress={() => void Linking.openURL(url).catch(() => undefined)} style={styles.footerLink}>
+                  <Text style={[styles.footer, { color: p.secondary, textDecorationLine: 'underline', marginTop: 0 }]}>{label}</Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
         </View>
       </ScrollView>
       {detailEx ? <ExerciseHowTo exercise={detailEx} onClose={() => setDetail(null)} /> : null}
@@ -417,5 +432,8 @@ const styles = StyleSheet.create({
   resultHead: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
   change: { minHeight: 44, paddingHorizontal: 16, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   changeText: { fontSize: 15, fontWeight: '700' },
-  footer: { fontSize: 12, lineHeight: 18, marginTop: 40, textAlign: 'center' },
+  footerWrap: { marginTop: 40, alignItems: 'center' },
+  footer: { fontSize: 12, lineHeight: 18, textAlign: 'center' },
+  footerLinks: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', columnGap: 16 },
+  footerLink: { minHeight: 44, justifyContent: 'center' },
 });

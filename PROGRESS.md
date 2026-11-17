@@ -843,3 +843,14 @@ Para pasar a SÍ → `TASKS.md` Fase 11d.
   calidad (Jobs: "nada barato"), así que `PROMPTS-DIBUJOS.md` (117) +
   `add_drawings.py` (marcados "generado con IA"). Verificación: tsc 0,
   129/129, capturas app 01–39 y web 21 sin errores, vídeo 762 fotogramas.
+
+- 2026-11-17 — **Atribución CC BY-SA 3.0 de Everkinetic** (R-139). Petición:
+  "Can you properly attribute to everkinetic, following their licenses?".
+  Antes solo "Dibujo: Everkinetic, CC BY-SA 3.0" sin enlaces ni cambios.
+  Ahora: título/autor + fuente + licencia + cambios (TASL) — en la hoja
+  "¿Cómo se hace?" (texto "(modificado)" que abre el original en Commons),
+  en Perfil → Licencias y créditos (cambios, ShareAlike y enlaces a la
+  licencia y a la lista) y en el pie de la web; `docs/CREDITOS-DIBUJOS.md`
+  (156 archivos: original, autor, licencia, cambios), `LICENSE.md` de la
+  carpeta, README y la galería con la línea de licencia. Verificación: tsc 0,
+  129/129, capturas app 01–39 y web sin errores.

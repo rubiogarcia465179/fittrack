@@ -190,6 +190,10 @@ rounding, generator rules).
   Profile).
 - Locally written content (beginner steps, translations) is declared as such
   in the UI.
+- CC BY-SA media: show **title/author, source link, licence link and "modified"**
+  next to the work (tappable to the original), keep a per-file credits list
+  (source + changes) in the repo, and release your modified versions under the
+  same licence (ShareAlike). FitTrack: `docs/CREDITOS-DIBUJOS.md`.
 - Deduplicate the catalogue with a script (merge map, aliases kept, history
   migrated), never by hand.
 - External APIs: own User-Agent, ≤ 2 req/s, exponential backoff on 429/503.

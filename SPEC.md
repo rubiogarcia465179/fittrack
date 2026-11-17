@@ -167,8 +167,12 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
 - **Imágenes del ejercicio**: dibujos de línea reales de **Everkinetic**
   (CC BY-SA 3.0) cuando existen y se revisaron (posición inicial y final),
   teñidos con el color del texto (blancos en Noche, negros en Día) sobre la
-  tarjeta, con "Posición inicial · Dibujo: Everkinetic, CC BY-SA 3.0"
-  debajo. Sin dibujo: la imagen de ejemplo, **marcada**. Estado:
+  tarjeta, con "Posición inicial · Dibujo de Everkinetic (modificado) ·
+  CC BY-SA 3.0" debajo; al tocarlo se abre el original en Wikimedia Commons
+  (autor, fuente, licencia). En Perfil → Licencias y créditos: autor,
+  licencia, cambios hechos y "se comparten con la misma licencia", con
+  enlaces a la licencia y a `docs/CREDITOS-DIBUJOS.md`; igual en el pie de la
+  web (R-139). Sin dibujo: la imagen de ejemplo, **marcada**. Estado:
   `docs/fotos/STATUS.md`.
 - Hoja **"¿Cómo se hace?"** (la única vista de un ejercicio): imágenes, qué
   entrena, 3 pasos y **"Ver vídeo"** (R-133/R-134): una fila de texto; al

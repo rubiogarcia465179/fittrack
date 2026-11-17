@@ -9,7 +9,7 @@
  * Todo es opcional: si no se rellena, la pantalla no fuerza nada.
  */
 import { useEffect, useMemo, useState } from 'react';
-import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Pressable, StyleSheet, Linking } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Session } from '../store';
 import { store, type Backup, type Profile, type ProfileEntry, type Sex } from '../store';
@@ -28,6 +28,7 @@ import { Image } from 'react-native';
 import { canPickPhoto, pickPhoto } from '../lib/pickPhoto';
 import { loadHomePhoto, saveHomePhoto } from '../lib/homePhoto';
 import { PHOTO_COUNT } from '../exercisePhotos';
+import { CC_BY_SA_3, DRAWINGS_CREDITS } from '../lib/attribution';
 
 import { Chevron } from '../components/Chevron';
 import { loadExercises } from '../data';
@@ -378,7 +379,27 @@ export default function ProfileScreen({
           <Text style={[styles.flagSub, { color: p.secondary }]}>
             {t('credits_authors')} {CREDIT_AUTHORS.join(', ')}.
           </Text>
-          {PHOTO_COUNT > 0 ? <Text style={[styles.flagSub, { color: p.secondary }]}>{t('credits_drawings')}</Text> : null}
+          {PHOTO_COUNT > 0 ? (
+            <View>
+              <Text style={[styles.flagSub, { color: p.secondary }]}>{t('credits_drawings')}</Text>
+              {/* CC BY-SA 3.0: enlace a la licencia y a la lista de originales (fuente + cambios). */}
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
+                {[
+                  [t('credits_license_link'), CC_BY_SA_3],
+                  [t('credits_list_link'), DRAWINGS_CREDITS],
+                ].map(([label, url]) => (
+                  <Pressable
+                    key={url}
+                    accessibilityRole="link"
+                    onPress={() => void Linking.openURL(url).catch(() => undefined)}
+                    style={({ pressed }) => [{ minHeight: 44, justifyContent: 'center', opacity: pressed ? 0.6 : 1 }]}
+                  >
+                    <Text style={[styles.flagSub, { color: p.text, textDecorationLine: 'underline', marginTop: 0 }]}>{label}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
+          ) : null}
           <Text style={[styles.flagSub, { color: p.secondary }]}>{t('credits_photo')}</Text>
         </View>
       ) : null}
