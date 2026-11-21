@@ -191,6 +191,29 @@ eq(wlib.movementKey(byId.get('leg_curls_laying')) === wlib.movementKey(byId.get(
   const ws = plan2.exercises.map((x) => x.recommended_weight_kg).filter((w) => w > 0);
   eq(ws.length > 0 && ws.every((w) => Math.abs(w / 2.5 - Math.round(w / 2.5)) < 1e-9), true, 'generateWorkout: pesos desde marcas en múltiplos de 2,5 kg');
 }
+// R-150: web sin historial — el press de banca da nivel y pesos para toda la sesión.
+{
+  const bTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/benchEstimate.ts'), 'utf8');
+  const bOut = ts.transpileModule(bTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } });
+  fs.writeFileSync(path.join(tmp, 'bench_app.mjs'), bOut.outputText);
+  const be = await import(path.join(tmp, 'bench_app.mjs'));
+  const allEx = [...byId.values()];
+  eq([20, 60, 100].map((kg) => be.levelFromBench(be.benchOneRm(kg))), ['beginner', 'intermediate', 'advanced'], 'banca 20/60/100 kg × 8 → principiante/intermedio/avanzado');
+  const bm = be.benchmarksFromBench(60, allEx, wlib.isBodyweightExercise);
+  eq(bm.some((b) => b.exercise_id === 'push_ups' || b.exercise_id === 'crunches'), false, 'benchmarksFromBench: nada para ejercicios de peso corporal');
+  const one = (id) => bm.find((b) => b.exercise_id === id)?.estimated_1rm || 0;
+  eq(one('bench_press') > 0 && one('back_squat') > one('bench_press') && one('lateral_raises') < one('bench_press') / 5, true, 'cocientes: sentadilla > banca > elevaciones laterales');
+  for (const goal of ['strength', 'build_muscle', 'endurance']) {
+    const plan = wlib.generateWorkout({ groups: ['chest', 'shoulders', 'arms'], equipment_mode: 'full_gym', experience: 'intermediate', intensity: 'moderate', goal, exercises: allEx, benchmarks: bm });
+    const loaded = plan.exercises.filter((x) => !wlib.isBodyweightExercise(byId.get(x.exercise_id)));
+    eq(loaded.length > 0 && loaded.every((x) => x.recommended_weight_kg > 0), true, `web con banca (${goal}): peso recomendado en cada ejercicio con carga`);
+  }
+  const heavy = wlib.generateWorkout({ groups: ['chest'], equipment_mode: 'full_gym', experience: 'intermediate', intensity: 'moderate', goal: 'strength', exercises: allEx, benchmarks: [{ exercise_id: 'bench_press', estimated_1rm: 76 }], prefer: { bench_press: 99 } });
+  const light = wlib.generateWorkout({ groups: ['chest'], equipment_mode: 'full_gym', experience: 'intermediate', intensity: 'moderate', goal: 'endurance', exercises: allEx, benchmarks: [{ exercise_id: 'bench_press', estimated_1rm: 76 }], prefer: { bench_press: 99 } });
+  const w = (pl) => pl.exercises.find((x) => x.exercise_id === 'bench_press').recommended_weight_kg;
+  eq(w(heavy) > w(light), true, `objetivo manda: fuerza (${w(heavy)} kg) > resistencia (${w(light)} kg)`);
+  eq([be.setsForLevel(3, 'beginner'), be.setsForLevel(3, 'advanced'), be.setsForLevel(2, 'beginner')], [2, 4, 2], 'series por nivel (mín. 2)');
+}
 
 // records.ts: marcas efectivas y días de récord (círculo verde).
 const rTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/records.ts'), 'utf8');

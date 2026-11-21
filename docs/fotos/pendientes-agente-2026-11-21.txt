@@ -1,0 +1,99 @@
+scissors-2.png # personaje con rasgos faciales
+trunk_rotation_with_cable-2.png # revisión visual pendiente tras normalización técnica: resolución original incorrecta (1254×1254); rellenos blancos o grises: limpieza técnica aplicada
+turkish_get_up-2.png # revisión visual pendiente tras normalización técnica: resolución original incorrecta (1254×1254); rellenos blancos o grises: limpieza técnica aplicada
+axe_hold-3.png # rasgos faciales y calzado
+biceps_curls_with_sz_bar-2.png # rasgos faciales y calzado
+hercules_pillars-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+military_press_1-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+pike_push_ups-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+reverse_curl-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+standing_rope_forearm-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+triceps_bench_press_one_barbell-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+wall_pushup-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+z_curls-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+bent_over_barbell_row-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+bentover_dumbbell_rows-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+incline_dumbbell_row-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+lat_pull_down_straight_back-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+leverage_machine_iso_row-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+long_pulley_low_row-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+mgm_machine-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+mgm_machine-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+muscle_up-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+muscle_up-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+pendelay_rows-2.png # muestra una máquina de encogimientos, no remo Pendlay
+pendelay_rows-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+prone_scapular_retraction_arms_at_side-1.png # revisión visual pendiente tras normalización técnica: bajo detalle; comprobar anatomía / estilo Everkinetic; inspección visual: Dibujo geométrico simplificado
+prone_scapular_retraction_arms_at_side-2.png # muestra salto a la comba, no retracción escapular
+prone_scapular_retraction_arms_at_side-3.png # el banco inclinado contradice la posición prono indicada
+pull_ups_on_machine-2.png # muestra escalador en el suelo, no dominada en máquina
+pull_ups_on_machine-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+rack_deadlift-2.png # muestra press de banca, no peso muerto desde rack
+rack_deadlift-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+renegade_row-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+renegade_row-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+rowing_lying_on_bench-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+shotgun_row-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+shotgun_row-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+straight_arm_pull_down_bar_attachment-2.png # muestra flexión declinada, no jalón de brazos rectos
+straight_arm_pull_down_bar_attachment-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+straight_arm_pull_down_rope_attachment-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+straight_arm_pull_down_rope_attachment-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+wall_slides-2.png # muestra poleas, no deslizamiento de brazos contra pared
+wall_slides-3.png # muestra suspensión de barra, no deslizamiento contra pared
+calf_raises_on_hackenschmitt_machine-2.png # muestra flexión inclinada, no elevación de talones en máquina
+calf_raises_on_hackenschmitt_machine-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+skipping_standard-2.png # muestra elevación de piernas suspendido, no salto a la comba
+skipping_standard-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+bear_walk-2.png # muestra press de banca, no desplazamiento del oso
+bear_walk-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+bench_press-3.png # inconsistencia de cámara/figura y lleva calzado
+benchpress_dumbbells-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+benchpress_dumbbells-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+burpees-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+burpees-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+butterfly_narrow_grip-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+butterfly_narrow_grip-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+decline_pushups-2.png # muestra ejercicio de pie, no flexión declinada
+decline_pushups-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+extenseurs_face-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+fly_with_cable-2.png # muestra bicicleta, no aperturas con polea
+fly_with_cable-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+incline_pushups-2.png # muestra sentadilla con mancuerna, no flexión inclinada
+incline_pushups-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+isometric_wipers-2.png # muestra zancada, no limpiaparabrisas isométricos
+isometric_wipers-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+pause_bench-2.png # muestra carrera con rodilla elevada, no press de banca con pausa
+pause_bench-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+reverse_grip_bench_press-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+reverse_grip_bench_press-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+side_to_side_push_ups-2.png # muestra apertura de brazos y piernas, no flexión lateral
+side_to_side_push_ups-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+upper_body-3.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada
+upper_external_oblique-2.png # muestra prensa de piernas, no trabajo de oblicuos
+upper_external_oblique-3.png # muestra ejercicio de máquina de piernas, no trabajo de oblicuos
+braced_squat-2.png # muestra prensa de piernas, no sentadilla con apoyo
+cycling-2.png # muestra sentadilla en banco, no ciclismo
+dumbbell_goblet_squat-2.png # muestra sentadilla a una pierna sin mancuerna
+dumbbell_lunges_standing-2.png # muestra un corredor en vez de una zancada con mancuernas
+high_knees-2.png # revisión visual pendiente tras normalización técnica: duplicado exacto de run_interval_training-2.png
+hindu_squats-2.png # muestra carrera en cinta, no sentadilla hindú
+hip_thrust-2.png # muestra peso muerto de pie, no empuje de cadera
+jumping_jacks-2.png # no representa correctamente apertura de brazos y piernas
+kettlebell_swings-2.png # muestra plancha, no balanceo de pesa rusa
+leg_press_on_hackenschmidt_machine-2.png # muestra bicicleta, no prensa de piernas
+leg_presses_wide-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada; duplicado exacto de braced_squat-2.png; inspección visual: Imagen duplicada de braced_squat-2.png, aunque el ejercicio es diferente
+leg_presses_wide-3.png # revisión visual pendiente tras normalización técnica: inspección visual: Pose geométrica que no sigue el diseño muscular
+low_box_squat_wide_stance-2.png # personaje lleva calzado
+pistol_squat-2.png # personaje con pelo y calzado
+run-2.png # personaje con pelo y calzado
+run_interval_training-2.png # personaje lleva calzado
+run_treadmill-2.png # personaje con pelo y calzado
+speed_deadlift-2.png # personaje lleva calzado
+squat_jumps-2.png # personaje lleva calzado
+squat_thrust-2.png # personaje lleva calzado
+stationary_bike-2.png # personaje lleva calzado
+thruster-2.png # revisión visual pendiente tras normalización técnica: duplicado exacto de push_press-2.png; bajo detalle; comprobar anatomía / estilo Everkinetic
+handstand_pushup-3.png # revisión visual pendiente tras normalización técnica: duplicado exacto de wall_handstand-2.png; bajo detalle; comprobar anatomía / estilo Everkinetic
+push_press-2.png # revisión visual pendiente tras normalización técnica: duplicado exacto de thruster-2.png; bajo detalle; comprobar anatomía / estilo Everkinetic
+wall_handstand-2.png # revisión visual pendiente tras normalización técnica: duplicado exacto de handstand_pushup-3.png; bajo detalle; comprobar anatomía / estilo Everkinetic

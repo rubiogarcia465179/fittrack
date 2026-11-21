@@ -1,0 +1,306 @@
+pendelay_rows-2.png # muestra una máquina de encogimientos, no remo Pendlay
+prone_scapular_retraction_arms_at_side-2.png # muestra salto a la comba, no retracción escapular
+prone_scapular_retraction_arms_at_side-3.png # el banco inclinado contradice la posición prono indicada
+pull_ups_on_machine-2.png # muestra escalador en el suelo, no dominada en máquina
+rack_deadlift-2.png # muestra press de banca, no peso muerto desde rack
+straight_arm_pull_down_bar_attachment-2.png # muestra flexión declinada, no jalón de brazos rectos
+wall_slides-2.png # muestra poleas, no deslizamiento de brazos contra pared
+wall_slides-3.png # muestra suspensión de barra, no deslizamiento contra pared
+calf_raises_on_hackenschmitt_machine-2.png # muestra flexión inclinada, no elevación de talones en máquina
+skipping_standard-2.png # muestra elevación de piernas suspendido, no salto a la comba
+bear_walk-2.png # muestra press de banca, no desplazamiento del oso
+decline_pushups-2.png # muestra ejercicio de pie, no flexión declinada
+fly_with_cable-2.png # muestra bicicleta, no aperturas con polea
+incline_pushups-2.png # muestra sentadilla con mancuerna, no flexión inclinada
+isometric_wipers-2.png # muestra zancada, no limpiaparabrisas isométricos
+pause_bench-2.png # muestra carrera con rodilla elevada, no press de banca con pausa
+side_to_side_push_ups-2.png # muestra apertura de brazos y piernas, no flexión lateral
+upper_external_oblique-2.png # muestra prensa de piernas, no trabajo de oblicuos
+upper_external_oblique-3.png # muestra ejercicio de máquina de piernas, no trabajo de oblicuos
+braced_squat-2.png # muestra prensa de piernas, no sentadilla con apoyo
+cycling-2.png # muestra sentadilla en banco, no ciclismo
+dumbbell_goblet_squat-2.png # muestra sentadilla a una pierna sin mancuerna
+dumbbell_lunges_standing-2.png # muestra un corredor en vez de una zancada con mancuernas
+hindu_squats-2.png # muestra carrera en cinta, no sentadilla hindú
+hip_thrust-2.png # muestra peso muerto de pie, no empuje de cadera
+jumping_jacks-2.png # no representa correctamente apertura de brazos y piernas
+kettlebell_swings-2.png # muestra plancha, no balanceo de pesa rusa
+leg_press_on_hackenschmidt_machine-2.png # muestra bicicleta, no prensa de piernas
+rowing_lying_on_bench-2.png # muestra flexiones en el suelo, no remo tumbado en banco
+high_knees-2.png # revisión visual pendiente tras normalización técnica: duplicado exacto de run_interval_training-2.png
+leg_presses_wide-2.png # revisión visual pendiente tras normalización técnica: rellenos blancos o grises: limpieza técnica aplicada; duplicado exacto de braced_squat-2.png; inspección visual: Imagen duplicada de braced_squat-2.png, aunque el ejercicio es diferente
+thruster-2.png # revisión visual pendiente tras normalización técnica: duplicado exacto de push_press-2.png; bajo detalle; comprobar anatomía / estilo Everkinetic
+handstand_pushup-3.png # revisión visual pendiente tras normalización técnica: duplicado exacto de wall_handstand-2.png; bajo detalle; comprobar anatomía / estilo Everkinetic
+push_press-2.png # revisión visual pendiente tras normalización técnica: duplicado exacto de thruster-2.png; bajo detalle; comprobar anatomía / estilo Everkinetic
+wall_handstand-2.png # revisión visual pendiente tras normalización técnica: duplicado exacto de handstand_pushup-3.png; bajo detalle; comprobar anatomía / estilo Everkinetic
+barbell_triceps_extension-3.png # silueta negra maciza: en la app sale como mancha blanca
+body_ups-1.png # silueta negra maciza: en la app sale como mancha blanca
+close_grip_bench_press-3.png # silueta negra maciza: en la app sale como mancha blanca
+dumbbell_triceps_extension-1.png # silueta negra maciza: en la app sale como mancha blanca
+french_press_skullcrusher_dumbbells-3.png # silueta negra maciza: en la app sale como mancha blanca
+french_press_skullcrusher_sz_bar-1.png # silueta negra maciza: en la app sale como mancha blanca
+hand_grip-1.png # silueta negra maciza: en la app sale como mancha blanca
+hercules_pillars-1.png # silueta negra maciza: en la app sale como mancha blanca
+roman_chair-1.png # silueta negra maciza: en la app sale como mancha blanca
+scissors-1.png # silueta negra maciza: en la app sale como mancha blanca
+side_plank-3.png # silueta negra maciza: en la app sale como mancha blanca
+sit_ups-1.png # silueta negra maciza: en la app sale como mancha blanca
+splinter_sit_ups-1.png # silueta negra maciza: en la app sale como mancha blanca
+turkish_get_up-1.png # silueta negra maciza: en la app sale como mancha blanca
+prone_scapular_retraction_arms_at_side-1.png # maniquí geométrico, poco detalle
+leg_presses_wide-3.png # maniquí geométrico, poco detalle
+arnold_shoulder_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+back_squat-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+barbell_hack_squats-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+barbell_lunges-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bear_walk-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+benchpress_dumbbells-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bent_high_pulls-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bent_high_pulls-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bent_high_pulls-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bent_over_barbell_row-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bent_over_barbell_row-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bent_over_lateral_raises-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bent_over_lateral_raises-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bent_over_lateral_raises-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bent_over_rowing_reverse-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bentover_dumbbell_rows-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+bentover_dumbbell_rows-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+braced_squat-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+burpees-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+butterfly-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+butterfly_narrow_grip-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+butterfly_reverse-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+butterfly_reverse-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+butterfly_reverse-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+cable_cross_over-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+cable_external_rotation-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+cable_external_rotation-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+cable_external_rotation-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+calf_press_using_leg_press_machine-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+calf_raises_on_hackenschmitt_machine-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+chin_ups-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+close_grip_lat_pull_down-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+cross_bench_dumbbell_pullovers-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+cycling-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+deadlifts-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+deadlifts-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+decline_bench_press_barbell-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+decline_bench_press_dumbbell-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+decline_pushups-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+deficit_deadlift-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+deficit_deadlift-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+diagonal_shoulder_press-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+diagonal_shoulder_press-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+diagonal_shoulder_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+dips_2-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+dumbbell_goblet_squat-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+dumbbell_lunges_standing-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+dumbbell_lunges_walking-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+extenseurs_face-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+facepull-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+facepull-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+facepull-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+fly_with_cable-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+fly_with_dumbbells-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+fly_with_dumbbells_decline_bench-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+front_raises-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+front_raises-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+front_raises-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+front_squats-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+glute_bridge-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+good_mornings-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+handstand_pushup-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+handstand_pushup-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+hercules_pillars-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+high_knees-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+high_pull-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+high_pull-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+high_pull-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+hindu_squats-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+hip_thrust-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+hyperextensions-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+incline_bench_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+incline_dumbbell_flye-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+incline_dumbbell_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+incline_dumbbell_row-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+incline_dumbbell_row-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+incline_plank_with_alternate_floor_touch-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+incline_plank_with_alternate_floor_touch-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+incline_plank_with_alternate_floor_touch-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+incline_pushups-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+isometric_wipers-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+jumping_jacks-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+kettlebell_swings-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+l_hold-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+l_hold-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+l_hold-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lat_pull_down_leaning_back-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lat_pull_down_leaning_back-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lat_pull_down_straight_back-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lat_pull_down_straight_back-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lateral_raises-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lateral_raises_on_cable_one_armed-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lateral_raises_on_cable_one_armed-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lateral_raises_on_cable_one_armed-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lateral_to_front_raises-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lateral_to_front_raises-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lateral_to_front_raises-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_curls_laying-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_curls_sitting-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_curls_standing-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_extension_1-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_press_on_hackenschmidt_machine-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_presses_narrow-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_presses_wide-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_raises_lying-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_raises_standing-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_raises_standing-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leg_raises_standing-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leverage_machine_chest_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leverage_machine_iso_row-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+leverage_machine_iso_row-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+long_pulley_low_row-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+long_pulley_low_row-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+long_pulley_narrow-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+low_box_squat_wide_stance-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+low_box_squat_wide_stance-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lying_rotator_cuff_exercise-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lying_rotator_cuff_exercise-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+lying_rotator_cuff_exercise-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+mgm_machine-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+military_press_1-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+muscle_up-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+negative_crunches-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+overhand_cable_curl-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+overhand_cable_curl-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+overhand_cable_curl-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+overhead_squat-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+pause_bench-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+pendelay_rows-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+perfect_push_up-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+pike_push_ups-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+pike_push_ups-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+pistol_squat-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+pistol_squat-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+plank-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+plank-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+plank-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+power_clean-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+power_clean-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+power_clean-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+preacher_curls-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+pull_ups-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+pull_ups_on_machine-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+push_press-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+push_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+push_ups-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+rack_deadlift-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+rear_delt_raises-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+renegade_row-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+reverse_curl-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+reverse_curl-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+reverse_plank-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+reverse_plank-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+reverse_plank-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+romanian_deadlift-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+rowing_lying_on_bench-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+rowing_seated-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+rowing_t_bar-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+run-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+run-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+run_interval_training-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+run_interval_training-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+run_treadmill-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+run_treadmill-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+seated_triceps_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shotgun_row-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shoulder_fly-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shoulder_fly-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shoulder_fly-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shoulder_press_barbell-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shoulder_press_dumbbells-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shoulder_press_on_machine-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shoulder_press_on_multi_press-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shoulder_press_on_multi_press-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shoulder_press_on_multi_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shrugs_barbells-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shrugs_barbells-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shrugs_barbells-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+shrugs_dumbbells-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+side_dumbbell_trunk_flexion-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+side_lying_external_rotation-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+side_lying_external_rotation-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+side_lying_external_rotation-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+side_to_side_push_ups-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+single_arm_preacher_curl-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+sitting_calf_raises-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+skipping_standard-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+smith_machine_close_grip_bench_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+snach-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+snach-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+snach-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+speed_deadlift-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+speed_deadlift-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+squat_jumps-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+squat_jumps-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+squat_thrust-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+squat_thrust-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+standing_calf_raises-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+standing_rope_forearm-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+standing_rope_forearm-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+stationary_bike-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+stationary_bike-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+stiff_legged_deadlifts-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+stiff_legged_deadlifts-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+stiff_legged_deadlifts-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+straight_arm_pull_down_bar_attachment-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+straight_arm_pull_down_rope_attachment-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+sumo_deadlift-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+sumo_deadlift-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+sumo_deadlift-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+sumo_squats-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+superman-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+thruster-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+thruster-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+tricep_dumbbell_kickback-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+triceps_bench_press_one_barbell-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+triceps_bench_press_one_barbell-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+triceps_dips-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+triceps_dips-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+triceps_extensions_on_cable-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+triceps_extensions_on_cable_with_bar-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+triceps_machine-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+underhand_lat_pull_down-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+upper_body-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+upper_external_oblique-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+upright_row_on_multi_press-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+upright_row_sz_bar-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+upright_row_w_dumbbells-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+v_bar_pulldown-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+wall_handstand-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+wall_handstand-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+wall_pushup-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+wall_pushup-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+wall_slides-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+wall_squat-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+wall_squat-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+wall_squat-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+weighted_step_ups-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+wide_grip_pulldown-3.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+z_curls-1.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+z_curls-2.png # maniquí geométrico (muñeco de madera), no estilo Everkinetic
+scissors-2.png # personaje con rasgos faciales
+axe_hold-3.png # rasgos faciales y calzado
+biceps_curls_with_sz_bar-2.png # rasgos faciales y calzado
+pistol_squat-2.png # personaje con pelo y calzado
+run-2.png # personaje con pelo y calzado
+run_treadmill-2.png # personaje con pelo y calzado
+bench_press-3.png # inconsistencia de cámara/figura y lleva calzado
+low_box_squat_wide_stance-2.png # personaje lleva calzado
+run_interval_training-2.png # personaje lleva calzado
+speed_deadlift-2.png # personaje lleva calzado
+squat_jumps-2.png # personaje lleva calzado
+squat_thrust-2.png # personaje lleva calzado
+stationary_bike-2.png # personaje lleva calzado

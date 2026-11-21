@@ -37,7 +37,7 @@
   "checkin_low": "Low",
   "checkin_title": "Well done",
   "credits_authors": "Authors on wger:",
-  "credits_drawings": "Exercise drawings: Everkinetic (everkinetic.com), CC BY-SA 3.0, via Wikimedia Commons. FitTrack modified them (transparent background, cropping, theme colour and, in some, the frame order); the modified versions are shared under the same licence.",
+  "credits_drawings": "Exercise drawings: Everkinetic (everkinetic.com), CC BY-SA 3.0, via Wikimedia Commons. FitTrack modified them (transparent background, cropping, theme colour and, in some, the frame order); the modified versions are shared under the same licence. Drawings not by Everkinetic are AI-generated (marked on each one) and are also shared under CC BY-SA 3.0.",
   "credits_license_link": "CC BY-SA 3.0 licence",
   "credits_list_link": "List of drawings and originals",
   "credits_photo": "Sample image in “How to do it?”: AI-generated.",
@@ -420,7 +420,7 @@
   "web_eq_dumbbells": "Dumbbells",
   "web_eq_full_gym": "Gym",
   "web_footer": "Exercises: wger.de (CC BY-SA) · Videos: YouTube · Nothing is stored.",
-  "web_footer_drawings": "Drawings: Everkinetic (modified), CC BY-SA 3.0",
+  "web_footer_drawings": "Drawings: Everkinetic (modified), CC BY-SA 3.0 · others AI-generated",
   "web_q_equipment": "Equipment",
   "web_q_focus": "What you train",
   "web_q_goal": "Goal",
@@ -436,5 +436,10 @@
   "workout_pause": "Pause",
   "workout_paused": "Paused",
   "workout_resume": "Resume",
-  "workout_sets_done": "sets done"
+  "workout_sets_done": "sets done",
+  "howto_pos_technique": "Technique",
+  "web_q_bench": "Bench press · your weight for 8 reps",
+  "web_bench_unknown": "Don't know",
+  "web_kg_hand": "{{kg}} kg per hand",
+  "web_weight_tip_bench": "Weights estimated from your bench press. If you have more than 2 reps left, go up; if your form breaks, go down."
 }

@@ -1,4 +1,25 @@
 {
+ "2_handed_kettlebell_swing-1.png": {
+  "file": "2_handed_kettlebell_swing-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "2_handed_kettlebell_swing-2.png": {
+  "file": "2_handed_kettlebell_swing-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "2_handed_kettlebell_swing-3.png": {
+  "file": "2_handed_kettlebell_swing-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "arnold_shoulder_press-1.png": {
   "file": "arnold_shoulder_press-1.png",
   "commons": "File:Arnold-press-1.png",
@@ -14,6 +35,34 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "arnold_shoulder_press-3.png": {
+  "file": "arnold_shoulder_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "axe_hold-1.png": {
+  "file": "axe_hold-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "axe_hold-2.png": {
+  "file": "axe_hold-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "axe_hold-3.png": {
+  "file": "axe_hold-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "back_squat-1.png": {
   "file": "back_squat-1.png",
@@ -31,6 +80,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "back_squat-3.png": {
+  "file": "back_squat-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "barbell_ab_rollout-1.png": {
   "file": "barbell_ab_rollout-1.png",
   "commons": "File:Ab rollout with barbell 1.svg",
@@ -46,6 +102,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "barbell_ab_rollout-3.png": {
+  "file": "barbell_ab_rollout-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "barbell_hack_squats-1.png": {
   "file": "barbell_hack_squats-1.png",
@@ -63,6 +126,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "barbell_hack_squats-3.png": {
+  "file": "barbell_hack_squats-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "barbell_lunges-1.png": {
   "file": "barbell_lunges-1.png",
   "commons": "File:Lunges-2.png",
@@ -78,6 +148,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
+ "barbell_lunges-3.png": {
+  "file": "barbell_lunges-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "barbell_triceps_extension-1.png": {
   "file": "barbell_triceps_extension-1.png",
@@ -95,6 +172,139 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "barbell_triceps_extension-3.png": {
+  "file": "barbell_triceps_extension-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bear_walk-1.png": {
+  "file": "bear_walk-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bear_walk-2.png": {
+  "file": "bear_walk-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bear_walk-3.png": {
+  "file": "bear_walk-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bench_press-1.png": {
+  "file": "bench_press-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bench_press-2.png": {
+  "file": "bench_press-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bench_press-3.png": {
+  "file": "bench_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "benchpress_dumbbells-1.png": {
+  "file": "benchpress_dumbbells-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "benchpress_dumbbells-2.png": {
+  "file": "benchpress_dumbbells-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "benchpress_dumbbells-3.png": {
+  "file": "benchpress_dumbbells-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bent_high_pulls-1.png": {
+  "file": "bent_high_pulls-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bent_high_pulls-2.png": {
+  "file": "bent_high_pulls-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bent_high_pulls-3.png": {
+  "file": "bent_high_pulls-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bent_over_barbell_row-1.png": {
+  "file": "bent_over_barbell_row-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bent_over_barbell_row-2.png": {
+  "file": "bent_over_barbell_row-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bent_over_barbell_row-3.png": {
+  "file": "bent_over_barbell_row-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bent_over_lateral_raises-1.png": {
+  "file": "bent_over_lateral_raises-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bent_over_lateral_raises-2.png": {
+  "file": "bent_over_lateral_raises-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bent_over_lateral_raises-3.png": {
+  "file": "bent_over_lateral_raises-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "bent_over_rowing_reverse-1.png": {
   "file": "bent_over_rowing_reverse-1.png",
   "commons": "File:Reverse-grip-bent-over-rows-1.png",
@@ -110,6 +320,34 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "bent_over_rowing_reverse-3.png": {
+  "file": "bent_over_rowing_reverse-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bentover_dumbbell_rows-1.png": {
+  "file": "bentover_dumbbell_rows-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bentover_dumbbell_rows-2.png": {
+  "file": "bentover_dumbbell_rows-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "bentover_dumbbell_rows-3.png": {
+  "file": "bentover_dumbbell_rows-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "biceps_curl_with_cable-1.png": {
   "file": "biceps_curl_with_cable-1.png",
@@ -127,6 +365,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "biceps_curl_with_cable-3.png": {
+  "file": "biceps_curl_with_cable-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "biceps_curls_with_barbell-1.png": {
   "file": "biceps_curls_with_barbell-1.png",
   "commons": "File:Bicep curls with barbell 1.svg",
@@ -142,6 +387,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "biceps_curls_with_barbell-3.png": {
+  "file": "biceps_curls_with_barbell-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "biceps_curls_with_dumbbell-1.png": {
   "file": "biceps_curls_with_dumbbell-1.png",
@@ -159,6 +411,97 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "biceps_curls_with_dumbbell-3.png": {
+  "file": "biceps_curls_with_dumbbell-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "biceps_curls_with_sz_bar-1.png": {
+  "file": "biceps_curls_with_sz_bar-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "biceps_curls_with_sz_bar-2.png": {
+  "file": "biceps_curls_with_sz_bar-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "biceps_curls_with_sz_bar-3.png": {
+  "file": "biceps_curls_with_sz_bar-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "body_ups-1.png": {
+  "file": "body_ups-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "body_ups-2.png": {
+  "file": "body_ups-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "body_ups-3.png": {
+  "file": "body_ups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "braced_squat-1.png": {
+  "file": "braced_squat-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "braced_squat-2.png": {
+  "file": "braced_squat-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "braced_squat-3.png": {
+  "file": "braced_squat-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "burpees-1.png": {
+  "file": "burpees-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "burpees-2.png": {
+  "file": "burpees-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "burpees-3.png": {
+  "file": "burpees-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "butterfly-1.png": {
   "file": "butterfly-1.png",
   "commons": "File:Butterfly-machine-1.png",
@@ -174,6 +517,55 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "butterfly-3.png": {
+  "file": "butterfly-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "butterfly_narrow_grip-1.png": {
+  "file": "butterfly_narrow_grip-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "butterfly_narrow_grip-2.png": {
+  "file": "butterfly_narrow_grip-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "butterfly_narrow_grip-3.png": {
+  "file": "butterfly_narrow_grip-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "butterfly_reverse-1.png": {
+  "file": "butterfly_reverse-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "butterfly_reverse-2.png": {
+  "file": "butterfly_reverse-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "butterfly_reverse-3.png": {
+  "file": "butterfly_reverse-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "cable_cross_over-1.png": {
   "file": "cable_cross_over-1.png",
@@ -191,6 +583,55 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
  },
+ "cable_cross_over-3.png": {
+  "file": "cable_cross_over-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "cable_external_rotation-1.png": {
+  "file": "cable_external_rotation-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "cable_external_rotation-2.png": {
+  "file": "cable_external_rotation-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "cable_external_rotation-3.png": {
+  "file": "cable_external_rotation-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "cable_woodchoppers-1.png": {
+  "file": "cable_woodchoppers-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "cable_woodchoppers-2.png": {
+  "file": "cable_woodchoppers-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "cable_woodchoppers-3.png": {
+  "file": "cable_woodchoppers-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "calf_press_using_leg_press_machine-1.png": {
   "file": "calf_press_using_leg_press_machine-1.png",
   "commons": "File:Calves-press-on-leg-machine-1.png",
@@ -206,6 +647,34 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "calf_press_using_leg_press_machine-3.png": {
+  "file": "calf_press_using_leg_press_machine-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "calf_raises_on_hackenschmitt_machine-1.png": {
+  "file": "calf_raises_on_hackenschmitt_machine-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "calf_raises_on_hackenschmitt_machine-2.png": {
+  "file": "calf_raises_on_hackenschmitt_machine-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "calf_raises_on_hackenschmitt_machine-3.png": {
+  "file": "calf_raises_on_hackenschmitt_machine-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "chin_ups-1.png": {
   "file": "chin_ups-1.png",
@@ -223,6 +692,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "chin_ups-3.png": {
+  "file": "chin_ups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "close_grip_bench_press-1.png": {
   "file": "close_grip_bench_press-1.png",
   "commons": "File:Close grip barbell bench press 2.svg",
@@ -238,6 +714,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
+ "close_grip_bench_press-3.png": {
+  "file": "close_grip_bench_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "close_grip_lat_pull_down-1.png": {
   "file": "close_grip_lat_pull_down-1.png",
@@ -255,6 +738,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
  },
+ "close_grip_lat_pull_down-3.png": {
+  "file": "close_grip_lat_pull_down-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "cross_bench_dumbbell_pullovers-1.png": {
   "file": "cross_bench_dumbbell_pullovers-1.png",
   "commons": "File:Dumbbell-bent-arm-pullover-1.png",
@@ -270,6 +760,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "cross_bench_dumbbell_pullovers-3.png": {
+  "file": "cross_bench_dumbbell_pullovers-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "crunches-1.png": {
   "file": "crunches-1.png",
@@ -287,6 +784,181 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "crunches-3.png": {
+  "file": "crunches-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "crunches_on_machine-1.png": {
+  "file": "crunches_on_machine-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "crunches_on_machine-2.png": {
+  "file": "crunches_on_machine-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "crunches_on_machine-3.png": {
+  "file": "crunches_on_machine-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "crunches_with_cable-1.png": {
+  "file": "crunches_with_cable-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "crunches_with_cable-2.png": {
+  "file": "crunches_with_cable-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "crunches_with_cable-3.png": {
+  "file": "crunches_with_cable-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "crunches_with_legs_up-1.png": {
+  "file": "crunches_with_legs_up-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "crunches_with_legs_up-2.png": {
+  "file": "crunches_with_legs_up-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "crunches_with_legs_up-3.png": {
+  "file": "crunches_with_legs_up-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "curl_su_panca_a_45-1.png": {
+  "file": "curl_su_panca_a_45-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "curl_su_panca_a_45-2.png": {
+  "file": "curl_su_panca_a_45-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "curl_su_panca_a_45-3.png": {
+  "file": "curl_su_panca_a_45-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "cycling-1.png": {
+  "file": "cycling-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "cycling-2.png": {
+  "file": "cycling-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "cycling-3.png": {
+  "file": "cycling-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deadbug-1.png": {
+  "file": "deadbug-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deadbug-2.png": {
+  "file": "deadbug-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deadbug-3.png": {
+  "file": "deadbug-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deadhang-1.png": {
+  "file": "deadhang-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deadhang-2.png": {
+  "file": "deadhang-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deadhang-3.png": {
+  "file": "deadhang-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deadlifts-1.png": {
+  "file": "deadlifts-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deadlifts-2.png": {
+  "file": "deadlifts-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deadlifts-3.png": {
+  "file": "deadlifts-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "decline_bench_press_barbell-1.png": {
   "file": "decline_bench_press_barbell-1.png",
   "commons": "File:Decline barbell bench press 1.svg",
@@ -302,6 +974,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "decline_bench_press_barbell-3.png": {
+  "file": "decline_bench_press_barbell-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "decline_bench_press_dumbbell-1.png": {
   "file": "decline_bench_press_dumbbell-1.png",
@@ -319,6 +998,76 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "decline_bench_press_dumbbell-3.png": {
+  "file": "decline_bench_press_dumbbell-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "decline_pushups-1.png": {
+  "file": "decline_pushups-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "decline_pushups-2.png": {
+  "file": "decline_pushups-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "decline_pushups-3.png": {
+  "file": "decline_pushups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deficit_deadlift-1.png": {
+  "file": "deficit_deadlift-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deficit_deadlift-2.png": {
+  "file": "deficit_deadlift-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "deficit_deadlift-3.png": {
+  "file": "deficit_deadlift-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "diagonal_shoulder_press-1.png": {
+  "file": "diagonal_shoulder_press-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "diagonal_shoulder_press-2.png": {
+  "file": "diagonal_shoulder_press-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "diagonal_shoulder_press-3.png": {
+  "file": "diagonal_shoulder_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "dips_2-1.png": {
   "file": "dips_2-1.png",
   "commons": "File:Chest dips 1.svg",
@@ -334,6 +1083,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "dips_2-3.png": {
+  "file": "dips_2-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "dips_between_two_benches-1.png": {
   "file": "dips_between_two_benches-1.png",
@@ -351,6 +1107,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
  },
+ "dips_between_two_benches-3.png": {
+  "file": "dips_between_two_benches-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "dumbbell_concentration_curl-1.png": {
   "file": "dumbbell_concentration_curl-1.png",
   "commons": "File:Concentration curls with dumbbell 1.svg",
@@ -366,6 +1129,34 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "dumbbell_concentration_curl-3.png": {
+  "file": "dumbbell_concentration_curl-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbell_goblet_squat-1.png": {
+  "file": "dumbbell_goblet_squat-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbell_goblet_squat-2.png": {
+  "file": "dumbbell_goblet_squat-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbell_goblet_squat-3.png": {
+  "file": "dumbbell_goblet_squat-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "dumbbell_incline_curl-1.png": {
   "file": "dumbbell_incline_curl-1.png",
@@ -383,6 +1174,34 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "dumbbell_incline_curl-3.png": {
+  "file": "dumbbell_incline_curl-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbell_lunges_standing-1.png": {
+  "file": "dumbbell_lunges_standing-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbell_lunges_standing-2.png": {
+  "file": "dumbbell_lunges_standing-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbell_lunges_standing-3.png": {
+  "file": "dumbbell_lunges_standing-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "dumbbell_lunges_walking-1.png": {
   "file": "dumbbell_lunges_walking-1.png",
   "commons": "File:Walking-lunges-1.png",
@@ -398,6 +1217,139 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "dumbbell_lunges_walking-3.png": {
+  "file": "dumbbell_lunges_walking-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbell_triceps_extension-1.png": {
+  "file": "dumbbell_triceps_extension-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbell_triceps_extension-2.png": {
+  "file": "dumbbell_triceps_extension-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbell_triceps_extension-3.png": {
+  "file": "dumbbell_triceps_extension-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbells_on_scott_machine-1.png": {
+  "file": "dumbbells_on_scott_machine-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbells_on_scott_machine-2.png": {
+  "file": "dumbbells_on_scott_machine-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "dumbbells_on_scott_machine-3.png": {
+  "file": "dumbbells_on_scott_machine-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "extenseurs_face-1.png": {
+  "file": "extenseurs_face-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "extenseurs_face-2.png": {
+  "file": "extenseurs_face-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "extenseurs_face-3.png": {
+  "file": "extenseurs_face-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "facepull-1.png": {
+  "file": "facepull-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "facepull-2.png": {
+  "file": "facepull-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "facepull-3.png": {
+  "file": "facepull-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "flutter_kicks-1.png": {
+  "file": "flutter_kicks-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "flutter_kicks-2.png": {
+  "file": "flutter_kicks-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "flutter_kicks-3.png": {
+  "file": "flutter_kicks-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "fly_with_cable-1.png": {
+  "file": "fly_with_cable-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "fly_with_cable-2.png": {
+  "file": "fly_with_cable-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "fly_with_cable-3.png": {
+  "file": "fly_with_cable-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "fly_with_dumbbells-1.png": {
   "file": "fly_with_dumbbells-1.png",
@@ -415,6 +1367,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "fly_with_dumbbells-3.png": {
+  "file": "fly_with_dumbbells-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "fly_with_dumbbells_decline_bench-1.png": {
   "file": "fly_with_dumbbells_decline_bench-1.png",
   "commons": "File:Decline dumbbell flys 1.svg",
@@ -430,6 +1389,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "fly_with_dumbbells_decline_bench-3.png": {
+  "file": "fly_with_dumbbells_decline_bench-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "french_press_skullcrusher_dumbbells-1.png": {
   "file": "french_press_skullcrusher_dumbbells-1.png",
@@ -447,6 +1413,55 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "french_press_skullcrusher_dumbbells-3.png": {
+  "file": "french_press_skullcrusher_dumbbells-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "french_press_skullcrusher_sz_bar-1.png": {
+  "file": "french_press_skullcrusher_sz_bar-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "french_press_skullcrusher_sz_bar-2.png": {
+  "file": "french_press_skullcrusher_sz_bar-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "french_press_skullcrusher_sz_bar-3.png": {
+  "file": "french_press_skullcrusher_sz_bar-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "front_raises-1.png": {
+  "file": "front_raises-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "front_raises-2.png": {
+  "file": "front_raises-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "front_raises-3.png": {
+  "file": "front_raises-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "front_squats-1.png": {
   "file": "front_squats-1.png",
   "commons": "File:Front-squat-1-857x1024.png",
@@ -462,6 +1477,34 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "front_squats-3.png": {
+  "file": "front_squats-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "full_sit_outs-1.png": {
+  "file": "full_sit_outs-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "full_sit_outs-2.png": {
+  "file": "full_sit_outs-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "full_sit_outs-3.png": {
+  "file": "full_sit_outs-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "glute_bridge-1.png": {
   "file": "glute_bridge-1.png",
@@ -479,6 +1522,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
  },
+ "glute_bridge-3.png": {
+  "file": "glute_bridge-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "good_mornings-1.png": {
   "file": "good_mornings-1.png",
   "commons": "File:Good-mornings-2.png",
@@ -494,6 +1544,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
+ "good_mornings-3.png": {
+  "file": "good_mornings-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "hammercurls-1.png": {
   "file": "hammercurls-1.png",
@@ -511,6 +1568,223 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "hammercurls-3.png": {
+  "file": "hammercurls-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hammercurls_on_cable-1.png": {
+  "file": "hammercurls_on_cable-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hammercurls_on_cable-2.png": {
+  "file": "hammercurls_on_cable-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hammercurls_on_cable-3.png": {
+  "file": "hammercurls_on_cable-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hand_grip-1.png": {
+  "file": "hand_grip-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hand_grip-2.png": {
+  "file": "hand_grip-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hand_grip-3.png": {
+  "file": "hand_grip-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "handstand_pushup-1.png": {
+  "file": "handstand_pushup-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "handstand_pushup-2.png": {
+  "file": "handstand_pushup-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "handstand_pushup-3.png": {
+  "file": "handstand_pushup-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hanging_leg_raises-1.png": {
+  "file": "hanging_leg_raises-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hanging_leg_raises-2.png": {
+  "file": "hanging_leg_raises-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hanging_leg_raises-3.png": {
+  "file": "hanging_leg_raises-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hercules_pillars-1.png": {
+  "file": "hercules_pillars-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hercules_pillars-2.png": {
+  "file": "hercules_pillars-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hercules_pillars-3.png": {
+  "file": "hercules_pillars-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "high_knees-1.png": {
+  "file": "high_knees-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "high_knees-2.png": {
+  "file": "high_knees-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "high_knees-3.png": {
+  "file": "high_knees-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "high_pull-1.png": {
+  "file": "high_pull-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "high_pull-2.png": {
+  "file": "high_pull-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "high_pull-3.png": {
+  "file": "high_pull-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hindu_squats-1.png": {
+  "file": "hindu_squats-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hindu_squats-2.png": {
+  "file": "hindu_squats-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hindu_squats-3.png": {
+  "file": "hindu_squats-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hip_thrust-1.png": {
+  "file": "hip_thrust-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hip_thrust-2.png": {
+  "file": "hip_thrust-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hip_thrust-3.png": {
+  "file": "hip_thrust-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hollow_hold-1.png": {
+  "file": "hollow_hold-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hollow_hold-2.png": {
+  "file": "hollow_hold-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "hollow_hold-3.png": {
+  "file": "hollow_hold-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "hyperextensions-1.png": {
   "file": "hyperextensions-1.png",
   "commons": "File:Hyperextensions-1.png",
@@ -526,6 +1800,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "hyperextensions-3.png": {
+  "file": "hyperextensions-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "incline_bench_press-1.png": {
   "file": "incline_bench_press-1.png",
@@ -543,6 +1824,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "incline_bench_press-3.png": {
+  "file": "incline_bench_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "incline_dumbbell_flye-1.png": {
   "file": "incline_dumbbell_flye-1.png",
   "commons": "File:Incline dumbbell flys 1.svg",
@@ -558,6 +1846,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "incline_dumbbell_flye-3.png": {
+  "file": "incline_dumbbell_flye-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "incline_dumbbell_press-1.png": {
   "file": "incline_dumbbell_press-1.png",
@@ -575,6 +1870,202 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "incline_dumbbell_press-3.png": {
+  "file": "incline_dumbbell_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "incline_dumbbell_row-1.png": {
+  "file": "incline_dumbbell_row-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "incline_dumbbell_row-2.png": {
+  "file": "incline_dumbbell_row-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "incline_dumbbell_row-3.png": {
+  "file": "incline_dumbbell_row-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "incline_plank_with_alternate_floor_touch-1.png": {
+  "file": "incline_plank_with_alternate_floor_touch-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "incline_plank_with_alternate_floor_touch-2.png": {
+  "file": "incline_plank_with_alternate_floor_touch-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "incline_plank_with_alternate_floor_touch-3.png": {
+  "file": "incline_plank_with_alternate_floor_touch-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "incline_pushups-1.png": {
+  "file": "incline_pushups-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "incline_pushups-2.png": {
+  "file": "incline_pushups-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "incline_pushups-3.png": {
+  "file": "incline_pushups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "isometric_wipers-1.png": {
+  "file": "isometric_wipers-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "isometric_wipers-2.png": {
+  "file": "isometric_wipers-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "isometric_wipers-3.png": {
+  "file": "isometric_wipers-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "jumping_jacks-1.png": {
+  "file": "jumping_jacks-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "jumping_jacks-2.png": {
+  "file": "jumping_jacks-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "jumping_jacks-3.png": {
+  "file": "jumping_jacks-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "kettlebell_swings-1.png": {
+  "file": "kettlebell_swings-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "kettlebell_swings-2.png": {
+  "file": "kettlebell_swings-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "kettlebell_swings-3.png": {
+  "file": "kettlebell_swings-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "l_hold-1.png": {
+  "file": "l_hold-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "l_hold-2.png": {
+  "file": "l_hold-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "l_hold-3.png": {
+  "file": "l_hold-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lat_pull_down_leaning_back-1.png": {
+  "file": "lat_pull_down_leaning_back-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lat_pull_down_leaning_back-2.png": {
+  "file": "lat_pull_down_leaning_back-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lat_pull_down_leaning_back-3.png": {
+  "file": "lat_pull_down_leaning_back-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lat_pull_down_straight_back-1.png": {
+  "file": "lat_pull_down_straight_back-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lat_pull_down_straight_back-2.png": {
+  "file": "lat_pull_down_straight_back-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lat_pull_down_straight_back-3.png": {
+  "file": "lat_pull_down_straight_back-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "lateral_raises-1.png": {
   "file": "lateral_raises-1.png",
   "commons": "File:Dumbbell-lateral-raises-2.png",
@@ -590,6 +2081,55 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
+ "lateral_raises-3.png": {
+  "file": "lateral_raises-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lateral_raises_on_cable_one_armed-1.png": {
+  "file": "lateral_raises_on_cable_one_armed-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lateral_raises_on_cable_one_armed-2.png": {
+  "file": "lateral_raises_on_cable_one_armed-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lateral_raises_on_cable_one_armed-3.png": {
+  "file": "lateral_raises_on_cable_one_armed-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lateral_to_front_raises-1.png": {
+  "file": "lateral_to_front_raises-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lateral_to_front_raises-2.png": {
+  "file": "lateral_to_front_raises-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lateral_to_front_raises-3.png": {
+  "file": "lateral_to_front_raises-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "leg_curls_laying-1.png": {
   "file": "leg_curls_laying-1.png",
@@ -607,6 +2147,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "leg_curls_laying-3.png": {
+  "file": "leg_curls_laying-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "leg_curls_sitting-1.png": {
   "file": "leg_curls_sitting-1.png",
   "commons": "File:Seated-leg-curl-1.png",
@@ -622,6 +2169,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "leg_curls_sitting-3.png": {
+  "file": "leg_curls_sitting-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "leg_curls_standing-1.png": {
   "file": "leg_curls_standing-1.png",
@@ -639,6 +2193,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "leg_curls_standing-3.png": {
+  "file": "leg_curls_standing-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "leg_extension_1-1.png": {
   "file": "leg_extension_1-1.png",
   "commons": "File:Leg-extensions-1-672x1024.png",
@@ -654,6 +2215,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "leg_extension_1-3.png": {
+  "file": "leg_extension_1-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "leg_press-1.png": {
   "file": "leg_press-1.png",
@@ -671,6 +2239,34 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "leg_press-3.png": {
+  "file": "leg_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leg_press_on_hackenschmidt_machine-1.png": {
+  "file": "leg_press_on_hackenschmidt_machine-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leg_press_on_hackenschmidt_machine-2.png": {
+  "file": "leg_press_on_hackenschmidt_machine-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leg_press_on_hackenschmidt_machine-3.png": {
+  "file": "leg_press_on_hackenschmidt_machine-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "leg_presses_narrow-1.png": {
   "file": "leg_presses_narrow-1.png",
   "commons": "File:Narrow-stance-leg-press-1-1024x671.png",
@@ -686,6 +2282,34 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "leg_presses_narrow-3.png": {
+  "file": "leg_presses_narrow-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leg_presses_wide-1.png": {
+  "file": "leg_presses_wide-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leg_presses_wide-2.png": {
+  "file": "leg_presses_wide-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leg_presses_wide-3.png": {
+  "file": "leg_presses_wide-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "leg_raises_lying-1.png": {
   "file": "leg_raises_lying-1.png",
@@ -703,6 +2327,34 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
  },
+ "leg_raises_lying-3.png": {
+  "file": "leg_raises_lying-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leg_raises_standing-1.png": {
+  "file": "leg_raises_standing-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leg_raises_standing-2.png": {
+  "file": "leg_raises_standing-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leg_raises_standing-3.png": {
+  "file": "leg_raises_standing-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "leverage_machine_chest_press-1.png": {
   "file": "leverage_machine_chest_press-1.png",
   "commons": "File:Machine bench press 1.svg",
@@ -718,6 +2370,181 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "leverage_machine_chest_press-3.png": {
+  "file": "leverage_machine_chest_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leverage_machine_iso_row-1.png": {
+  "file": "leverage_machine_iso_row-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leverage_machine_iso_row-2.png": {
+  "file": "leverage_machine_iso_row-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "leverage_machine_iso_row-3.png": {
+  "file": "leverage_machine_iso_row-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "long_pulley_low_row-1.png": {
+  "file": "long_pulley_low_row-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "long_pulley_low_row-2.png": {
+  "file": "long_pulley_low_row-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "long_pulley_low_row-3.png": {
+  "file": "long_pulley_low_row-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "long_pulley_narrow-1.png": {
+  "file": "long_pulley_narrow-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "long_pulley_narrow-2.png": {
+  "file": "long_pulley_narrow-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "long_pulley_narrow-3.png": {
+  "file": "long_pulley_narrow-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "low_box_squat_wide_stance-1.png": {
+  "file": "low_box_squat_wide_stance-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "low_box_squat_wide_stance-2.png": {
+  "file": "low_box_squat_wide_stance-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "low_box_squat_wide_stance-3.png": {
+  "file": "low_box_squat_wide_stance-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lying_rotator_cuff_exercise-1.png": {
+  "file": "lying_rotator_cuff_exercise-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lying_rotator_cuff_exercise-2.png": {
+  "file": "lying_rotator_cuff_exercise-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "lying_rotator_cuff_exercise-3.png": {
+  "file": "lying_rotator_cuff_exercise-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "mgm_machine-1.png": {
+  "file": "mgm_machine-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "mgm_machine-2.png": {
+  "file": "mgm_machine-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "mgm_machine-3.png": {
+  "file": "mgm_machine-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "military_press_1-1.png": {
+  "file": "military_press_1-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "military_press_1-2.png": {
+  "file": "military_press_1-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "military_press_1-3.png": {
+  "file": "military_press_1-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "muscle_up-1.png": {
+  "file": "muscle_up-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "muscle_up-2.png": {
+  "file": "muscle_up-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "muscle_up-3.png": {
+  "file": "muscle_up-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "negative_crunches-1.png": {
   "file": "negative_crunches-1.png",
@@ -735,6 +2562,34 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "negative_crunches-3.png": {
+  "file": "negative_crunches-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "overhand_cable_curl-1.png": {
+  "file": "overhand_cable_curl-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "overhand_cable_curl-2.png": {
+  "file": "overhand_cable_curl-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "overhand_cable_curl-3.png": {
+  "file": "overhand_cable_curl-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "overhead_squat-1.png": {
   "file": "overhead_squat-1.png",
   "commons": "File:Overhead-squat-2.gif",
@@ -750,6 +2605,160 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
+ "overhead_squat-3.png": {
+  "file": "overhead_squat-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pause_bench-1.png": {
+  "file": "pause_bench-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pause_bench-2.png": {
+  "file": "pause_bench-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pause_bench-3.png": {
+  "file": "pause_bench-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pendelay_rows-1.png": {
+  "file": "pendelay_rows-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pendelay_rows-2.png": {
+  "file": "pendelay_rows-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pendelay_rows-3.png": {
+  "file": "pendelay_rows-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "perfect_push_up-1.png": {
+  "file": "perfect_push_up-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "perfect_push_up-2.png": {
+  "file": "perfect_push_up-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "perfect_push_up-3.png": {
+  "file": "perfect_push_up-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pike_push_ups-1.png": {
+  "file": "pike_push_ups-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pike_push_ups-2.png": {
+  "file": "pike_push_ups-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pike_push_ups-3.png": {
+  "file": "pike_push_ups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pistol_squat-1.png": {
+  "file": "pistol_squat-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pistol_squat-2.png": {
+  "file": "pistol_squat-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pistol_squat-3.png": {
+  "file": "pistol_squat-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "plank-1.png": {
+  "file": "plank-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "plank-2.png": {
+  "file": "plank-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "plank-3.png": {
+  "file": "plank-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "power_clean-1.png": {
+  "file": "power_clean-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "power_clean-2.png": {
+  "file": "power_clean-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "power_clean-3.png": {
+  "file": "power_clean-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "preacher_curls-1.png": {
   "file": "preacher_curls-1.png",
@@ -767,6 +2776,34 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "preacher_curls-3.png": {
+  "file": "preacher_curls-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "prone_scapular_retraction_arms_at_side-1.png": {
+  "file": "prone_scapular_retraction_arms_at_side-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "prone_scapular_retraction_arms_at_side-2.png": {
+  "file": "prone_scapular_retraction_arms_at_side-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "prone_scapular_retraction_arms_at_side-3.png": {
+  "file": "prone_scapular_retraction_arms_at_side-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "pull_ups-1.png": {
   "file": "pull_ups-1.png",
   "commons": "File:Pull ups 1.svg",
@@ -782,6 +2819,55 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "pull_ups-3.png": {
+  "file": "pull_ups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pull_ups_on_machine-1.png": {
+  "file": "pull_ups_on_machine-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pull_ups_on_machine-2.png": {
+  "file": "pull_ups_on_machine-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "pull_ups_on_machine-3.png": {
+  "file": "pull_ups_on_machine-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "push_press-1.png": {
+  "file": "push_press-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "push_press-2.png": {
+  "file": "push_press-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "push_press-3.png": {
+  "file": "push_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "push_ups-1.png": {
   "file": "push_ups-1.png",
@@ -799,6 +2885,34 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "push_ups-3.png": {
+  "file": "push_ups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "rack_deadlift-1.png": {
+  "file": "rack_deadlift-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "rack_deadlift-2.png": {
+  "file": "rack_deadlift-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "rack_deadlift-3.png": {
+  "file": "rack_deadlift-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "rear_delt_raises-1.png": {
   "file": "rear_delt_raises-1.png",
   "commons": "File:Lying-rear-lateral-raise-1.png",
@@ -814,6 +2928,139 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "rear_delt_raises-3.png": {
+  "file": "rear_delt_raises-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "renegade_row-1.png": {
+  "file": "renegade_row-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "renegade_row-2.png": {
+  "file": "renegade_row-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "renegade_row-3.png": {
+  "file": "renegade_row-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "reverse_curl-1.png": {
+  "file": "reverse_curl-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "reverse_curl-2.png": {
+  "file": "reverse_curl-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "reverse_curl-3.png": {
+  "file": "reverse_curl-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "reverse_grip_bench_press-1.png": {
+  "file": "reverse_grip_bench_press-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "reverse_grip_bench_press-2.png": {
+  "file": "reverse_grip_bench_press-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "reverse_grip_bench_press-3.png": {
+  "file": "reverse_grip_bench_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "reverse_plank-1.png": {
+  "file": "reverse_plank-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "reverse_plank-2.png": {
+  "file": "reverse_plank-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "reverse_plank-3.png": {
+  "file": "reverse_plank-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "ring_dips-1.png": {
+  "file": "ring_dips-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "ring_dips-2.png": {
+  "file": "ring_dips-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "ring_dips-3.png": {
+  "file": "ring_dips-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "roman_chair-1.png": {
+  "file": "roman_chair-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "roman_chair-2.png": {
+  "file": "roman_chair-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "roman_chair-3.png": {
+  "file": "roman_chair-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "romanian_deadlift-1.png": {
   "file": "romanian_deadlift-1.png",
@@ -831,6 +3078,34 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "romanian_deadlift-3.png": {
+  "file": "romanian_deadlift-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "rowing_lying_on_bench-1.png": {
+  "file": "rowing_lying_on_bench-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "rowing_lying_on_bench-2.png": {
+  "file": "rowing_lying_on_bench-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "rowing_lying_on_bench-3.png": {
+  "file": "rowing_lying_on_bench-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "rowing_seated-1.png": {
   "file": "rowing_seated-1.png",
   "commons": "File:Cable-seated-rows-1.png",
@@ -846,6 +3121,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "rowing_seated-3.png": {
+  "file": "rowing_seated-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "rowing_t_bar-1.png": {
   "file": "rowing_t_bar-1.png",
@@ -863,6 +3145,97 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "rowing_t_bar-3.png": {
+  "file": "rowing_t_bar-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "run-1.png": {
+  "file": "run-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "run-2.png": {
+  "file": "run-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "run-3.png": {
+  "file": "run-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "run_interval_training-1.png": {
+  "file": "run_interval_training-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "run_interval_training-2.png": {
+  "file": "run_interval_training-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "run_interval_training-3.png": {
+  "file": "run_interval_training-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "run_treadmill-1.png": {
+  "file": "run_treadmill-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "run_treadmill-2.png": {
+  "file": "run_treadmill-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "run_treadmill-3.png": {
+  "file": "run_treadmill-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "scissors-1.png": {
+  "file": "scissors-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "scissors-2.png": {
+  "file": "scissors-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "scissors-3.png": {
+  "file": "scissors-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "seated_triceps_press-1.png": {
   "file": "seated_triceps_press-1.png",
   "commons": "File:Seated triceps press with dumbbell 1.svg",
@@ -878,6 +3251,55 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "seated_triceps_press-3.png": {
+  "file": "seated_triceps_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shotgun_row-1.png": {
+  "file": "shotgun_row-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shotgun_row-2.png": {
+  "file": "shotgun_row-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shotgun_row-3.png": {
+  "file": "shotgun_row-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shoulder_fly-1.png": {
+  "file": "shoulder_fly-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shoulder_fly-2.png": {
+  "file": "shoulder_fly-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shoulder_fly-3.png": {
+  "file": "shoulder_fly-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "shoulder_press_barbell-1.png": {
   "file": "shoulder_press_barbell-1.png",
@@ -895,6 +3317,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "shoulder_press_barbell-3.png": {
+  "file": "shoulder_press_barbell-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "shoulder_press_dumbbells-1.png": {
   "file": "shoulder_press_dumbbells-1.png",
   "commons": "File:Dumbbell-shoulder-press-1.png",
@@ -910,6 +3339,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "shoulder_press_dumbbells-3.png": {
+  "file": "shoulder_press_dumbbells-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "shoulder_press_on_machine-1.png": {
   "file": "shoulder_press_on_machine-1.png",
@@ -927,6 +3363,55 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "shoulder_press_on_machine-3.png": {
+  "file": "shoulder_press_on_machine-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shoulder_press_on_multi_press-1.png": {
+  "file": "shoulder_press_on_multi_press-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shoulder_press_on_multi_press-2.png": {
+  "file": "shoulder_press_on_multi_press-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shoulder_press_on_multi_press-3.png": {
+  "file": "shoulder_press_on_multi_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shrugs_barbells-1.png": {
+  "file": "shrugs_barbells-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shrugs_barbells-2.png": {
+  "file": "shrugs_barbells-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "shrugs_barbells-3.png": {
+  "file": "shrugs_barbells-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "shrugs_dumbbells-1.png": {
   "file": "shrugs_dumbbells-1.png",
   "commons": "File:Dumbbell-shrugs-1.png",
@@ -942,6 +3427,34 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "shrugs_dumbbells-3.png": {
+  "file": "shrugs_dumbbells-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "side_crunch-1.png": {
+  "file": "side_crunch-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "side_crunch-2.png": {
+  "file": "side_crunch-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "side_crunch-3.png": {
+  "file": "side_crunch-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "side_dumbbell_trunk_flexion-1.png": {
   "file": "side_dumbbell_trunk_flexion-1.png",
@@ -959,6 +3472,34 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "side_dumbbell_trunk_flexion-3.png": {
+  "file": "side_dumbbell_trunk_flexion-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "side_lying_external_rotation-1.png": {
+  "file": "side_lying_external_rotation-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "side_lying_external_rotation-2.png": {
+  "file": "side_lying_external_rotation-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "side_lying_external_rotation-3.png": {
+  "file": "side_lying_external_rotation-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "side_plank-1.png": {
   "file": "side_plank-1.png",
   "commons": "File:Side-plank-1.png",
@@ -974,6 +3515,34 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "side_plank-3.png": {
+  "file": "side_plank-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "side_to_side_push_ups-1.png": {
+  "file": "side_to_side_push_ups-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "side_to_side_push_ups-2.png": {
+  "file": "side_to_side_push_ups-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "side_to_side_push_ups-3.png": {
+  "file": "side_to_side_push_ups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "single_arm_preacher_curl-1.png": {
   "file": "single_arm_preacher_curl-1.png",
@@ -991,6 +3560,34 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "single_arm_preacher_curl-3.png": {
+  "file": "single_arm_preacher_curl-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "sit_ups-1.png": {
+  "file": "sit_ups-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "sit_ups-2.png": {
+  "file": "sit_ups-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "sit_ups-3.png": {
+  "file": "sit_ups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "sitting_calf_raises-1.png": {
   "file": "sitting_calf_raises-1.png",
   "commons": "File:Seated calf raise using machine 1.svg",
@@ -1006,6 +3603,34 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "sitting_calf_raises-3.png": {
+  "file": "sitting_calf_raises-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "skipping_standard-1.png": {
+  "file": "skipping_standard-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "skipping_standard-2.png": {
+  "file": "skipping_standard-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "skipping_standard-3.png": {
+  "file": "skipping_standard-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "smith_machine_close_grip_bench_press-1.png": {
   "file": "smith_machine_close_grip_bench_press-1.png",
@@ -1023,6 +3648,118 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "smith_machine_close_grip_bench_press-3.png": {
+  "file": "smith_machine_close_grip_bench_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "snach-1.png": {
+  "file": "snach-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "snach-2.png": {
+  "file": "snach-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "snach-3.png": {
+  "file": "snach-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "speed_deadlift-1.png": {
+  "file": "speed_deadlift-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "speed_deadlift-2.png": {
+  "file": "speed_deadlift-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "speed_deadlift-3.png": {
+  "file": "speed_deadlift-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "splinter_sit_ups-1.png": {
+  "file": "splinter_sit_ups-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "splinter_sit_ups-2.png": {
+  "file": "splinter_sit_ups-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "splinter_sit_ups-3.png": {
+  "file": "splinter_sit_ups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "squat_jumps-1.png": {
+  "file": "squat_jumps-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "squat_jumps-2.png": {
+  "file": "squat_jumps-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "squat_jumps-3.png": {
+  "file": "squat_jumps-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "squat_thrust-1.png": {
+  "file": "squat_thrust-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "squat_thrust-2.png": {
+  "file": "squat_thrust-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "squat_thrust-3.png": {
+  "file": "squat_thrust-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "standing_calf_raises-1.png": {
   "file": "standing_calf_raises-1.png",
   "commons": "File:Standing calf raises using machine 1.svg",
@@ -1038,6 +3775,139 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "standing_calf_raises-3.png": {
+  "file": "standing_calf_raises-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "standing_rope_forearm-1.png": {
+  "file": "standing_rope_forearm-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "standing_rope_forearm-2.png": {
+  "file": "standing_rope_forearm-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "standing_rope_forearm-3.png": {
+  "file": "standing_rope_forearm-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "stationary_bike-1.png": {
+  "file": "stationary_bike-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "stationary_bike-2.png": {
+  "file": "stationary_bike-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "stationary_bike-3.png": {
+  "file": "stationary_bike-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "stiff_legged_deadlifts-1.png": {
+  "file": "stiff_legged_deadlifts-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "stiff_legged_deadlifts-2.png": {
+  "file": "stiff_legged_deadlifts-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "stiff_legged_deadlifts-3.png": {
+  "file": "stiff_legged_deadlifts-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "straight_arm_pull_down_bar_attachment-1.png": {
+  "file": "straight_arm_pull_down_bar_attachment-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "straight_arm_pull_down_bar_attachment-2.png": {
+  "file": "straight_arm_pull_down_bar_attachment-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "straight_arm_pull_down_bar_attachment-3.png": {
+  "file": "straight_arm_pull_down_bar_attachment-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "straight_arm_pull_down_rope_attachment-1.png": {
+  "file": "straight_arm_pull_down_rope_attachment-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "straight_arm_pull_down_rope_attachment-2.png": {
+  "file": "straight_arm_pull_down_rope_attachment-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "straight_arm_pull_down_rope_attachment-3.png": {
+  "file": "straight_arm_pull_down_rope_attachment-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "sumo_deadlift-1.png": {
+  "file": "sumo_deadlift-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "sumo_deadlift-2.png": {
+  "file": "sumo_deadlift-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "sumo_deadlift-3.png": {
+  "file": "sumo_deadlift-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "sumo_squats-1.png": {
   "file": "sumo_squats-1.png",
@@ -1055,6 +3925,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "sumo_squats-3.png": {
+  "file": "sumo_squats-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "superman-1.png": {
   "file": "superman-1.png",
   "commons": "File:Supermans 1.svg",
@@ -1070,6 +3947,34 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "superman-3.png": {
+  "file": "superman-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "thruster-1.png": {
+  "file": "thruster-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "thruster-2.png": {
+  "file": "thruster-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "thruster-3.png": {
+  "file": "thruster-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "tricep_dumbbell_kickback-1.png": {
   "file": "tricep_dumbbell_kickback-1.png",
@@ -1087,6 +3992,55 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "tricep_dumbbell_kickback-3.png": {
+  "file": "tricep_dumbbell_kickback-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "triceps_bench_press_one_barbell-1.png": {
+  "file": "triceps_bench_press_one_barbell-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "triceps_bench_press_one_barbell-2.png": {
+  "file": "triceps_bench_press_one_barbell-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "triceps_bench_press_one_barbell-3.png": {
+  "file": "triceps_bench_press_one_barbell-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "triceps_dips-1.png": {
+  "file": "triceps_dips-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "triceps_dips-2.png": {
+  "file": "triceps_dips-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "triceps_dips-3.png": {
+  "file": "triceps_dips-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "triceps_extensions_on_cable-1.png": {
   "file": "triceps_extensions_on_cable-1.png",
   "commons": "File:Triceps pushdown with cable 1.svg",
@@ -1102,6 +4056,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "triceps_extensions_on_cable-3.png": {
+  "file": "triceps_extensions_on_cable-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "triceps_extensions_on_cable_with_bar-1.png": {
   "file": "triceps_extensions_on_cable_with_bar-1.png",
@@ -1119,6 +4080,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "triceps_extensions_on_cable_with_bar-3.png": {
+  "file": "triceps_extensions_on_cable_with_bar-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "triceps_machine-1.png": {
   "file": "triceps_machine-1.png",
   "commons": "File:Triceps extensions using machine 1.svg",
@@ -1134,6 +4102,55 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "triceps_machine-3.png": {
+  "file": "triceps_machine-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "trunk_rotation_with_cable-1.png": {
+  "file": "trunk_rotation_with_cable-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "trunk_rotation_with_cable-2.png": {
+  "file": "trunk_rotation_with_cable-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "trunk_rotation_with_cable-3.png": {
+  "file": "trunk_rotation_with_cable-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "turkish_get_up-1.png": {
+  "file": "turkish_get_up-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "turkish_get_up-2.png": {
+  "file": "turkish_get_up-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "turkish_get_up-3.png": {
+  "file": "turkish_get_up-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "underhand_lat_pull_down-1.png": {
   "file": "underhand_lat_pull_down-1.png",
@@ -1151,6 +4168,55 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "underhand_lat_pull_down-3.png": {
+  "file": "underhand_lat_pull_down-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "upper_body-1.png": {
+  "file": "upper_body-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "upper_body-2.png": {
+  "file": "upper_body-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "upper_body-3.png": {
+  "file": "upper_body-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "upper_external_oblique-1.png": {
+  "file": "upper_external_oblique-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "upper_external_oblique-2.png": {
+  "file": "upper_external_oblique-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "upper_external_oblique-3.png": {
+  "file": "upper_external_oblique-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "upright_row_on_multi_press-1.png": {
   "file": "upright_row_on_multi_press-1.png",
   "commons": "File:Smith-machine-upright-row-2.png",
@@ -1166,6 +4232,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
+ "upright_row_on_multi_press-3.png": {
+  "file": "upright_row_on_multi_press-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "upright_row_sz_bar-1.png": {
   "file": "upright_row_sz_bar-1.png",
@@ -1183,6 +4256,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
  },
+ "upright_row_sz_bar-3.png": {
+  "file": "upright_row_sz_bar-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "upright_row_w_dumbbells-1.png": {
   "file": "upright_row_w_dumbbells-1.png",
   "commons": "File:Dumbbell-upright-row-2.png",
@@ -1198,6 +4278,13 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
+ },
+ "upright_row_w_dumbbells-3.png": {
+  "file": "upright_row_w_dumbbells-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  },
  "v_bar_pulldown-1.png": {
   "file": "v_bar_pulldown-1.png",
@@ -1215,6 +4302,97 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema) · orden invertido (inicio primero)"
  },
+ "v_bar_pulldown-3.png": {
+  "file": "v_bar_pulldown-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_handstand-1.png": {
+  "file": "wall_handstand-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_handstand-2.png": {
+  "file": "wall_handstand-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_handstand-3.png": {
+  "file": "wall_handstand-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_pushup-1.png": {
+  "file": "wall_pushup-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_pushup-2.png": {
+  "file": "wall_pushup-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_pushup-3.png": {
+  "file": "wall_pushup-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_slides-1.png": {
+  "file": "wall_slides-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_slides-2.png": {
+  "file": "wall_slides-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_slides-3.png": {
+  "file": "wall_slides-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_squat-1.png": {
+  "file": "wall_squat-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_squat-2.png": {
+  "file": "wall_squat-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "wall_squat-3.png": {
+  "file": "wall_squat-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "weighted_step_ups-1.png": {
   "file": "weighted_step_ups-1.png",
   "commons": "File:Step ups with dumbbells 1.svg",
@@ -1231,6 +4409,13 @@
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
  },
+ "weighted_step_ups-3.png": {
+  "file": "weighted_step_ups-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
  "wide_grip_pulldown-1.png": {
   "file": "wide_grip_pulldown-1.png",
   "commons": "File:Wide grip lat pull down 1.svg",
@@ -1246,5 +4431,33 @@
   "author": "Everkinetic",
   "license": "CC BY-SA 3.0",
   "note": "fondo hecho transparente y recortado (para teñirlo con el tema)"
+ },
+ "wide_grip_pulldown-3.png": {
+  "file": "wide_grip_pulldown-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "z_curls-1.png": {
+  "file": "z_curls-1.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "z_curls-2.png": {
+  "file": "z_curls-2.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
+ },
+ "z_curls-3.png": {
+  "file": "z_curls-3.png",
+  "author": "IA (usuario)",
+  "license": "propia",
+  "kind": "drawing",
+  "note": "dibujo generado con IA (docs/fotos/PROMPTS-DIBUJOS.md) con dibujos de Everkinetic (CC BY-SA 3.0) como ejemplo de estilo; fondo transparente y recortado; se comparte bajo CC BY-SA 3.0"
  }
 }

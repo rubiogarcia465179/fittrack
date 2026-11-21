@@ -279,10 +279,17 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   `--scenario <ruta>`. La web prefiere clásicos con dibujo (`prefer` de
   `generateWorkout`) y excluye avanzados y lo que pide máquina/barra según
   el material.
-- **Dibujos con IA vía Codex (R-140)**: guía `docs/fotos/CODEX-DIBUJOS.md`;
-  ejemplos `docs/fotos/referencias/` (los 156 de Everkinetic en blanco);
-  trabajos `docs/fotos/prompts-dibujos.json`; generador
-  `scripts/generate_drawings_openai.py` (curl, `OPENAI_API_KEY`).
+- **Sin OpenAI (R-148)**: se quitaron el generador por API de OpenAI y la
+  guía de Codex; no hay ningún flujo con `OPENAI_API_KEY`. Ejemplos de estilo
+  en `docs/fotos/referencias/` (los 156 de Everkinetic); trabajos en
+  `docs/fotos/prompts-dibujos.json`.
+- **Dibujos del agente web (R-149)**: `add_drawings.py` acepta `<id>-1/2/3.png`
+  (sustituye lo que haya); `exercisePhotos.ts` lleva `credits[]` y `slots[]`
+  **por imagen** (un ejercicio mezcla Everkinetic y generados: nunca un crédito
+  único). Lista de los que hay que rehacer: `docs/fotos/DIBUJOS-A-ARREGLAR.md`.
+- **Banca en la web (R-150)**: `app/src/lib/benchEstimate.ts` (1RM Epley →
+  nivel, series, intensidad y marcas por cocientes); solo lo usa
+  `WebPlanner.tsx`. Cambiar un cociente = revisar los tests "R-150".
 - **Dibujos generados por el usuario (R-137)**: `docs/fotos/PROMPTS-DIBUJOS.md`
   (`node scripts/make_drawing_prompts.js`) → imágenes en
   `data/images/photos/inbox/<id>-1.png/-2.png` → `python3 scripts/add_drawings.py`

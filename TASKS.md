@@ -377,10 +377,24 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       transparente y teñido con el tema; crédito en la hoja y en Licencias.
       `scripts/fetch_everkinetic.py` (baja con pausa y miniaturas estándar),
       `scripts/make_photo_map.js`, `scripts/photo_status.js`.
-- ⛔ **Usuario con Codex** (R-140): los 127 sin dibujo (254 imágenes) con
-      `docs/fotos/CODEX-DIBUJOS.md` (OpenAI + ejemplos de `docs/fotos/referencias/`)
-      → `python3 scripts/add_drawings.py` (marcados "Dibujo generado con IA";
-      `docs/fotos/STATUS.md` se actualiza solo).
+- [x] R-148: quitada la opción OpenAI (`OPENAI_API_KEY`, generador de
+      fotografías R-146 y guía Codex R-140) por petición del usuario.
+- [x] R-148 / R-147: los 459 huecos se llenaron con el agente web
+      (`docs/fotos/PROMPT-AGENTE-WEB.md`).
+- [x] R-149 (2026-11-21): **los 459 dibujos del agente están en la app y la
+      web** (205/205 ejercicios con 3 dibujos; `add_drawings.py` acepta `-3`;
+      crédito por imagen: Everkinetic o "Dibujo generado con IA"; la 3.ª se
+      rotula "Técnica"). Por decisión del usuario se añadieron todos, también
+      los que no están bien.
+- [ ] **Rehacer 306 dibujos** con el agente web: `docs/fotos/DIBUJOS-A-ARREGLAR.md`
+      / `dibujos-a-arreglar.txt` (prioridad: 29 muestran otro ejercicio, 6
+      duplicados, 14 siluetas macizas que salen como mancha blanca, 244
+      maniquíes geométricos, 6 con cara/pelo, 7 con calzado). Al recibirlos:
+      `data/images/photos/inbox/` → `python3 scripts/add_drawings.py`.
+      **Es lo que impide el SÍ de la prueba Jobs** (2026-11-21).
+- [x] R-150 (2026-11-21): web sin historial → pregunta del press de banca
+      que da nivel, series, intensidad y pesos de toda la sesión según el
+      objetivo (`app/src/lib/benchEstimate.ts`, tests, captura `web-*-2b-banca`).
 
 
 ## Hecho recientemente

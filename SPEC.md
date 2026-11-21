@@ -176,7 +176,10 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   (autor, fuente, licencia). En Perfil → Licencias y créditos: autor,
   licencia, cambios hechos y "se comparten con la misma licencia", con
   enlaces a la licencia y a `docs/CREDITOS-DIBUJOS.md`; igual en el pie de la
-  web (R-139). **Sin imagen propia en el código: no hay imagen** (ni la de
+  web (R-139). **Los 205 ejercicios tienen 3 dibujos** (R-149: Everkinetic +
+  generados con IA por el usuario, cada uno con su crédito en la hoja; la 3.ª
+  se rotula "Técnica"); los que hay que rehacer están en
+  `docs/fotos/DIBUJOS-A-ARREGLAR.md`. **Sin imagen propia en el código: no hay imagen** (ni la de
   ejemplo); la hoja va directa a "Qué entrena" (R-145). Estado:
   `docs/fotos/STATUS.md`.
 - Hoja **"¿Cómo se hace?"** (la única vista de un ejercicio): imágenes, qué
@@ -265,8 +268,13 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   perfil ni datos guardados. Arriba: "FitTrack" e idioma a la derecha
   (ES · EN · NL · FR; por defecto el del navegador). Preguntas: qué entrenas
   (empuje / tirón / piernas y core / cuerpo completo), objetivo (4), tiempo
-  (30/45/60), material (gimnasio / mancuernas / sin material) → "Crear
-  entreno". La sesión: ejercicios clásicos con dibujo real, multiarticular
+  (30/45/60), material (gimnasio / mancuernas / sin material) y, si hay
+  carga, **press de banca** (peso para 8 repeticiones: No lo sé / 20–100 kg,
+  R-150) → "Crear entreno". La web no tiene historial: la banca da el nivel
+  (principiante / intermedio / avanzado: series ±1 e intensidad) y una marca
+  estimada para cada ejercicio con carga, así cada fila lleva su peso
+  ("42,5 kg"; mancuernas "17,5 kg por mano") según el objetivo. "No lo sé" =
+  sin pesos y el consejo de siempre. Solo en la web (`lib/benchEstimate.ts`). La sesión: ejercicios clásicos con dibujo real, multiarticular
   primero, brazos según el día; series y descanso una vez arriba; cada fila
   abre "¿Cómo se hace?" (dibujo + vídeo). Escritorio: dos columnas (la
   derecha con estado vacío antes; después se actualiza al cambiar una

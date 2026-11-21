@@ -49,7 +49,11 @@ const lines = [...byId.entries()]
     const credit = fs_.every(isEk) ? 'everkinetic' : 'ai';
     // Página de cada original en Wikimedia Commons (autor, licencia, fuente).
     const pages = fs_.map((f) => (credits[f] && credits[f].page) || '');
-    return `  ${JSON.stringify(id)}: { kind: '${kind}', credit: '${credit}', pages: ${JSON.stringify(pages)}, images: [${fs_.map((f) => `require('../assets/photos/${f}')`).join(', ')}] },`;
+    // Crédito por imagen: un ejercicio puede mezclar Everkinetic (1, 2) y uno generado (3).
+    const each = fs_.map((f) => (isEk(f) ? 'everkinetic' : 'ai'));
+    // Posición de cada imagen (1 inicial, 2 esfuerzo/final, 3 vuelta/técnica).
+    const slots = fs_.map((f) => Number(/-([1-3])\.\w+$/.exec(f)[1]));
+    return `  ${JSON.stringify(id)}: { kind: '${kind}', credit: '${credit}', credits: ${JSON.stringify(each)}, slots: ${JSON.stringify(slots)}, pages: ${JSON.stringify(pages)}, images: [${fs_.map((f) => `require('../assets/photos/${f}')`).join(', ')}] },`;
   });
 
 const ts = `/**
@@ -61,7 +65,8 @@ const HERO = require('../assets/session-hero.jpg');
 
 /** kind: 'drawing' = dibujo de línea real (Everkinetic, CC BY-SA 3.0; fondo
  *  transparente, se tiñe con el color del tema); 'photo' = foto propia. */
-const PHOTOS: Record<string, { kind: 'drawing' | 'photo'; credit: 'everkinetic' | 'ai'; pages: string[]; images: number[] }> = {
+type Credit = 'everkinetic' | 'ai';
+const PHOTOS: Record<string, { kind: 'drawing' | 'photo'; credit: Credit; credits: Credit[]; slots: number[]; pages: string[]; images: number[] }> = {
 ${lines.join('\n')}
 };
 
@@ -69,11 +74,12 @@ export type PhotoKind = 'drawing' | 'photo' | 'sample';
 
 /** Imágenes de un ejercicio; si aún no tiene, la imagen de ejemplo (kind 'sample', marcada). */
 /** credit: 'everkinetic' (dibujo real, CC BY-SA 3.0) o 'ai' (generado con IA por el usuario). */
-export function photosFor(id: string): { images: number[]; kind: PhotoKind; placeholder: boolean; credit: 'everkinetic' | 'ai' | null; pages: string[] } {
+/** credits[i] / slots[i]: crédito y posición (1–3) de cada imagen. */
+export function photosFor(id: string): { images: number[]; kind: PhotoKind; placeholder: boolean; credit: Credit | null; credits: Credit[]; slots: number[]; pages: string[] } {
   const own = PHOTOS[id];
   return own && own.images.length
-    ? { images: own.images, kind: own.kind, placeholder: false, credit: own.credit, pages: own.pages }
-    : { images: [HERO, HERO, HERO], kind: 'sample', placeholder: true, credit: null, pages: [] };
+    ? { images: own.images, kind: own.kind, placeholder: false, credit: own.credit, credits: own.credits, slots: own.slots, pages: own.pages }
+    : { images: [HERO, HERO, HERO], kind: 'sample', placeholder: true, credit: null, credits: [], slots: [1, 2, 3], pages: [] };
 }
 
 export const PHOTO_COUNT = ${byId.size};

@@ -52,7 +52,7 @@ foto propia.
 |---|---|---|---|---|---|
 `;
 for (const { e, s } of rows) md += `| ${e.muscle_group} | ${e.name_en} | \`${e.id}\` | ${s.join(' | ')} |\n`;
-// Lista corta de lo pendiente (huecos 1 y 2, los que llevan dibujo): la usa Codex.
+// Lista corta de lo pendiente (huecos 1 y 2, los que llevan dibujo): la usan los generadores de dibujos.
 const pending = rows.filter((r) => r.s[0] === '⬜' || r.s[1] === '⬜');
 md += `\n## Pendientes de dibujo (${pending.length})\n\nPrompts: \`docs/fotos/PROMPTS-DIBUJOS.md\` · trabajos: \`docs/fotos/prompts-dibujos.json\`.\n\n`;
 md += pending.map((r) => `- \`${r.e.id}\` — ${r.e.name_en}${r.s[0] !== '⬜' ? ' (falta la 2)' : r.s[1] !== '⬜' ? ' (falta la 1)' : ''}`).join('\n') + '\n';

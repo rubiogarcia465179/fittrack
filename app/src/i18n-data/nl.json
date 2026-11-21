@@ -37,7 +37,7 @@
   "checkin_low": "Laag",
   "checkin_title": "Goed gedaan",
   "credits_authors": "Auteurs op wger:",
-  "credits_drawings": "Oefeningtekeningen: Everkinetic (everkinetic.com), CC BY-SA 3.0, via Wikimedia Commons. FitTrack heeft ze aangepast (transparante achtergrond, bijsnijden, themakleur en bij sommige de volgorde van de beelden); de aangepaste versies worden onder dezelfde licentie gedeeld.",
+  "credits_drawings": "Oefeningtekeningen: Everkinetic (everkinetic.com), CC BY-SA 3.0, via Wikimedia Commons. FitTrack heeft ze aangepast (transparante achtergrond, bijsnijden, themakleur en bij sommige de volgorde van de beelden); de aangepaste versies worden onder dezelfde licentie gedeeld. Tekeningen die niet van Everkinetic zijn, zijn met AI gemaakt (bij elke tekening vermeld) en worden ook onder CC BY-SA 3.0 gedeeld.",
   "credits_license_link": "Licentie CC BY-SA 3.0",
   "credits_list_link": "Lijst met tekeningen en originelen",
   "credits_photo": "Voorbeeldafbeelding bij „Hoe doe je het?”: gemaakt met AI.",
@@ -420,7 +420,7 @@
   "web_eq_dumbbells": "Dumbbells",
   "web_eq_full_gym": "Sportschool",
   "web_footer": "Oefeningen: wger.de (CC BY-SA) · Video's: YouTube · Er wordt niets opgeslagen.",
-  "web_footer_drawings": "Tekeningen: Everkinetic (aangepast), CC BY-SA 3.0",
+  "web_footer_drawings": "Tekeningen: Everkinetic (aangepast), CC BY-SA 3.0 · overige met AI gemaakt",
   "web_q_equipment": "Materiaal",
   "web_q_focus": "Wat je traint",
   "web_q_goal": "Doel",
@@ -436,5 +436,10 @@
   "workout_pause": "Pauzeren",
   "workout_paused": "Gepauzeerd",
   "workout_resume": "Hervatten",
-  "workout_sets_done": "sets klaar"
+  "workout_sets_done": "sets klaar",
+  "howto_pos_technique": "Techniek",
+  "web_q_bench": "Bankdrukken · je gewicht voor 8 herhalingen",
+  "web_bench_unknown": "Weet ik niet",
+  "web_kg_hand": "{{kg}} kg per hand",
+  "web_weight_tip_bench": "Gewichten geschat op basis van je bankdrukken. Heb je meer dan 2 herhalingen over, ga omhoog; verlies je de techniek, ga omlaag."
 }

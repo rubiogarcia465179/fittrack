@@ -37,7 +37,7 @@
   "checkin_low": "Baja",
   "checkin_title": "Bien hecho",
   "credits_authors": "Autores en wger:",
-  "credits_drawings": "Dibujos de los ejercicios: Everkinetic (everkinetic.com), CC BY-SA 3.0, vía Wikimedia Commons. FitTrack los modificó (fondo transparente, recorte, color del tema y, en algunos, el orden de los fotogramas); las versiones modificadas se comparten con la misma licencia.",
+  "credits_drawings": "Dibujos de los ejercicios: Everkinetic (everkinetic.com), CC BY-SA 3.0, vía Wikimedia Commons. FitTrack los modificó (fondo transparente, recorte, color del tema y, en algunos, el orden de los fotogramas); las versiones modificadas se comparten con la misma licencia. Los dibujos que no son de Everkinetic están generados con IA (se indica en cada uno) y se comparten también bajo CC BY-SA 3.0.",
   "credits_license_link": "Licencia CC BY-SA 3.0",
   "credits_list_link": "Lista de dibujos y originales",
   "credits_photo": "Imagen de ejemplo de «¿Cómo se hace?»: generada con IA.",
@@ -420,7 +420,7 @@
   "web_eq_dumbbells": "Mancuernas",
   "web_eq_full_gym": "Gimnasio",
   "web_footer": "Ejercicios: wger.de (CC BY-SA) · Vídeos: YouTube · No se guarda nada.",
-  "web_footer_drawings": "Dibujos: Everkinetic (modificados), CC BY-SA 3.0",
+  "web_footer_drawings": "Dibujos: Everkinetic (modificados), CC BY-SA 3.0 · resto, generados con IA",
   "web_q_equipment": "Material",
   "web_q_focus": "Qué entrenas",
   "web_q_goal": "Objetivo",
@@ -436,5 +436,10 @@
   "workout_pause": "Pausar",
   "workout_paused": "Pausado",
   "workout_resume": "Reanudar",
-  "workout_sets_done": "series hechas"
+  "workout_sets_done": "series hechas",
+  "howto_pos_technique": "Técnica",
+  "web_q_bench": "Press de banca · tu peso para 8 repeticiones",
+  "web_bench_unknown": "No lo sé",
+  "web_kg_hand": "{{kg}} kg por mano",
+  "web_weight_tip_bench": "Pesos estimados a partir de tu press de banca. Si te sobran más de 2 repeticiones, sube; si pierdes la técnica, baja."
 }

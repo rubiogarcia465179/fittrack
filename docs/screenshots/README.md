@@ -45,7 +45,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 37 | Dibujo · dominadas | Otro grupo (espalda) |
 | 38 | Dibujo · elevaciones laterales | Hombros |
 | 39 | Dibujo · tema Día | El mismo dibujo se tiñe de negro en el tema Día |
-| 40 | Ejercicio sin dibujo | Sin imagen propia en el código no hay imagen (ni la de ejemplo): título, qué entrena, pasos y vídeo |
+| 40 | Dibujo generado | "Curl en banco a 45°" con su dibujo (fase 13, R-149): todos los ejercicios tienen ya 3 dibujos; crédito "Dibujo generado con IA" |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 
@@ -66,6 +66,6 @@ cambie la UI).
 
 `web-<ancho>-<paso>.png` a 393 (móvil), 834 (tableta) y 1440 (escritorio):
 `1-inicio` (preguntas; en escritorio con el estado vacío a la derecha),
-`2-sesion`, `3-ejercicio` (hoja "¿Cómo se hace?"; tarjeta centrada en
+`2-sesion`, `2b-banca` (press de banca 60 kg → nivel y pesos, R-150), `3-ejercicio` (hoja "¿Cómo se hace?"; tarjeta centrada en
 pantallas anchas), `4-es` / `4-nl` / `4-fr` (idiomas) y, en escritorio,
 `5-pull`, `5-legs` (mancuernas), `5-full` (sin material, perder grasa).

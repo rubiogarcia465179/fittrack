@@ -24,10 +24,22 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 | Copia de seguridad | Perfil → Guardar / Restaurar (un archivo con todo, fotos incluidas) |
 | Primer arranque | Un solo paso: "Hoy toca" + "Empezar sesión", marcas y Ejercicios (calendario e Historial aparecen con la 1.ª sesión) |
 | i18n | NL/ES/EN/FR, **413 claves**, espejos idénticos; francés todo en "tu" |
-| Imágenes (Fase 13) | 78 ejercicios con dibujos reales de Everkinetic (revisados a mano), también como miniatura en las listas; el resto, icono de grupo / foto de ejemplo marcada; cuenta en `docs/fotos/STATUS.md` |
+| Imágenes (Fase 13) | **205/205 ejercicios con 3 dibujos** (156 de Everkinetic + 459 generados por el agente web, R-149); 306 por rehacer (`docs/fotos/DIBUJOS-A-ARREGLAR.md`); cuenta en `docs/fotos/STATUS.md` |
 | Nube | ⏸ en espera |
 
-## Última verificación commiteada (2026-11-16, WSL del host, commit Fase 21)
+## Fase 13 en curso
+
+- 2026-11-21 (R-149): los 459 huecos llenos con los dibujos del agente web;
+  306 por rehacer (`docs/fotos/DIBUJOS-A-ARREGLAR.md`).
+
+## Última verificación commiteada (2026-11-21, WSL, commit dibujos + banca web)
+
+- tsc **0** · tests **141/141** · export OK · capturas app 01–40 **errors none**
+  (revisadas en hojas de contacto) · capturas web 24 a 393/834/1440
+  **errors none** (nueva `2b-banca`) · vídeo 781 fotogramas ·
+  **Jobs: NO** (dibujos por rehacer); commit por petición expresa del usuario.
+
+## Verificación anterior (2026-11-16, WSL del host, commit Fase 21)
 
 - tsc **0** · tests **129/129** · export OK · capturas app 01–39 **errors none**
   (miniaturas con dibujo en las listas; revisadas en hojas de contacto) ·
@@ -95,6 +107,26 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
   aviso del descanso con el móvil bloqueado (necesita build de desarrollo).
 
 ## Log
+- 2026-11-21 — **Dibujos (R-149) + banca en la web (R-150).** Entraron los
+  459 dibujos del agente web (`fittrack-dibujos/`): revisados a mano en
+  hojas de contacto. El usuario pidió (a mitad de tarea) añadirlos **todos**
+  aunque no estén bien y hacer la lista de los que hay que rehacer:
+  `docs/fotos/DIBUJOS-A-ARREGLAR.md` (306: 29 otro ejercicio, 6 duplicados,
+  14 siluetas, 244 maniquíes, 6 cara/pelo, 7 calzado). `add_drawings.py`
+  acepta `-3`; `make_photo_map.js` da crédito **por imagen** (`credits[]`,
+  `slots[]`) para no quitar la atribución de Everkinetic en los ejercicios
+  mixtos; etiqueta nueva "Técnica" para la 3.ª; créditos de Perfil y pie de
+  la web mencionan los dibujos con IA. Web: pregunta "Press de banca · tu
+  peso para 8 repeticiones" → 1RM Epley → nivel (<45 / <95 kg),
+  series ±1, intensidad y marcas estimadas por cocientes prudentes
+  (`lib/benchEstimate.ts`); los pesos salen en cada fila (mancuernas por
+  mano). 8 tests nuevos. **Veredicto Jobs (analyze): NO** — lo que ama: la
+  web ya da pesos concretos con una sola pregunta; cada ejercicio tiene
+  dibujo. Por qué no: 29 dibujos enseñan otro ejercicio (p. ej. bicicleta en
+  "Aperturas en polea") = dato falso; 14 siluetas salen como manchas
+  blancas; mezcla de maniquíes y figuras anatómicas en el mismo ejercicio =
+  dos lenguajes visuales. Para pasar a SÍ: rehacer los 306 de la lista.
+  Commit hecho por petición expresa del usuario (`CLAUDE.md §1`).
 - 2026-10-31 — Repo inicializado; estructura base y docs (Fase 0).
 
 - 2026-10-31 — Fase 2 (web) cerrada: build + preview 200 OK. Correcciones:

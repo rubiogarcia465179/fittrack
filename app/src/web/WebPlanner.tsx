@@ -17,7 +17,7 @@ import { ThemeProvider, useTheme } from '../theme-context';
 import { LANGS, setLanguage, type Lang } from '../i18n';
 import { loadFonts } from '../lib/fonts';
 import { loadExercises } from '../data';
-import { generateWorkout, type EquipmentMode, type WorkoutPlan } from '../lib/workout';
+import { generateWorkout, isBodyweightExercise, type EquipmentMode, type WorkoutPlan } from '../lib/workout';
 import { SPLITS, splitLabel } from '../lib/nextSplit';
 import { exName } from '../lib/names';
 import type { Goal } from '../lib/types';
@@ -25,6 +25,7 @@ import { photosFor } from '../exercisePhotos';
 import { ExerciseHowTo } from '../components/ExerciseHowTo';
 import { ExerciseThumb } from '../components/ExerciseThumb';
 import { Chevron } from '../components/Chevron';
+import { BENCH_CHOICES, benchmarksFromBench, benchOneRm, intensityForLevel, levelFromBench, setsForLevel } from '../lib/benchEstimate';
 
 const BRAND_ICON = require('../../assets/icon.png');
 
@@ -95,6 +96,11 @@ function Planner() {
   const [goal, setGoal] = useState<Goal>('build_muscle');
   const [duration, setDuration] = useState(45);
   const [mode, setMode] = useState<EquipmentMode>('full_gym');
+  // R-150: la web no tiene historial; el press de banca (peso para 8 reps)
+  // da el nivel y los pesos de toda la sesión. null = "No lo sé" (sin pesos).
+  const [bench, setBench] = useState<number | null>(null);
+  const loads = mode !== 'bodyweight' && bench != null;
+  const level = loads ? levelFromBench(benchOneRm(bench!)) : null;
   const [plan, setPlan] = useState<WorkoutPlan | null>(null);
   const [detail, setDetail] = useState<string | null>(null);
   const scrollRef = useRef<React.ComponentRef<typeof ScrollView>>(null);
@@ -120,7 +126,7 @@ function Planner() {
     }
     setPlan((prev) => (prev && wide ? build([]) : null));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [focus, goal, duration, mode]);
+  }, [focus, goal, duration, mode, bench]);
 
   // Brazos según el día: en empuje, tríceps; en tirón, bíceps (como en un
   // gimnasio de verdad). Dentro de cada grupo, el multiarticular primero.
@@ -135,10 +141,12 @@ function Planner() {
       groups: FOCUS_GROUPS[focus],
       equipment_mode: mode,
       duration_min: duration,
-      experience: 'intermediate',
+      experience: level ?? 'intermediate',
+      // Marcas estimadas desde la banca → peso recomendado en cada ejercicio con carga.
+      benchmarks: loads ? benchmarksFromBench(bench!, exercises, isBodyweightExercise) : undefined,
       // Los clásicos con dibujo real primero: reconocibles y con imagen en cada fila.
       prefer,
-      intensity: 'moderate',
+      intensity: level ? intensityForLevel(level) : 'moderate',
       goal,
       exercises,
       // La web no pregunta el nivel: nada avanzado (pinos, muscle-ups…), y sin
@@ -167,6 +175,11 @@ function Planner() {
         a.i - b.i,
       )
       .map(({ x }) => x);
+    // Series según el nivel (principiante una menos, avanzado una más).
+    if (level) {
+      plan.exercises = plan.exercises.map((x) => ({ ...x, sets: setsForLevel(x.sets, level) }));
+      plan.estimated_duration_min = Math.ceil(plan.exercises.reduce((a, x) => a + (x.sets * (60 + x.rest_sec)) / 60, 0));
+    }
     return plan;
   };
   const create = (exclude: string[] = []) => {
@@ -205,6 +218,15 @@ function Planner() {
           <Chip key={m} label={t(`web_eq_${m}`)} on={mode === m} onPress={() => setMode(m)} />
         ))}
       </Question>
+      {/* Sin historial: una pregunta da el nivel y los pesos (solo si hay carga). */}
+      {mode !== 'bodyweight' ? (
+        <Question label={t('web_q_bench')}>
+          <Chip label={t('web_bench_unknown')} on={bench == null} onPress={() => setBench(null)} />
+          {BENCH_CHOICES.map((kg) => (
+            <Chip key={kg} label={`${kg} kg`} on={bench === kg} onPress={() => setBench(kg)} />
+          ))}
+        </Question>
+      ) : null}
 
       {wide && plan ? null : (
       <Pressable
@@ -261,14 +283,17 @@ function Planner() {
       </View>
       <Text style={[styles.resultMeta, { color: p.secondary }]}>
         {(wide
-          ? [sameScheme]
-          : [t(`goal_${goal}`), `${plan.estimated_duration_min || duration} min`, t(`web_eq_${mode}`), sameScheme]
+          ? [level ? t(`level_${level}`) : null, sameScheme]
+          : [t(`goal_${goal}`), level ? t(`level_${level}`) : null, `${plan.estimated_duration_min || duration} min`, t(`web_eq_${mode}`), sameScheme]
         ).filter(Boolean).join(' · ')}
       </Text>
       {plan.exercises.map((x, i) => {
         const e = byId.get(x.exercise_id);
         if (!e) return null;
         const cardio = e.muscle_group === 'cardio';
+        // Peso recomendado (desde la banca); en mancuernas, por mano.
+        const kg = x.recommended_weight_kg > 0 ? (e.equipment === 'dumbbell' ? t('web_kg_hand', { kg: x.recommended_weight_kg }) : `${x.recommended_weight_kg} kg`) : null;
+        const line = cardio ? `${Math.max(10, Math.round(duration / 3))} min` : [sameScheme ? null : `${x.sets} × ${x.reps} · ${t('web_rest', { s: x.rest_sec })}`, kg].filter(Boolean).join(' · ');
         return (
           <Pressable
             key={x.exercise_id}
@@ -288,10 +313,8 @@ function Planner() {
                 {exName(e, lang)}
               </Text>
               {/* Series y descanso: si son iguales en todos, ya están arriba (una vez). */}
-              {cardio || !sameScheme ? (
-                <Text style={[styles.rowSets, { color: p.secondary }]}>
-                  {cardio ? `${Math.max(10, Math.round(duration / 3))} min` : `${x.sets} × ${x.reps} · ${t('web_rest', { s: x.rest_sec })}`}
-                </Text>
+              {line ? (
+                <Text style={[styles.rowSets, { color: kg && sameScheme ? p.text : p.secondary }]}>{line}</Text>
               ) : null}
             </View>
             <Chevron color={p.secondary} />
@@ -300,7 +323,7 @@ function Planner() {
       })}
       {/* El consejo del peso solo si hay algo que cargar. */}
       {mode !== 'bodyweight' ? (
-        <Text style={[styles.tip, { color: p.secondary, borderTopColor: p.border }]}>{t('web_weight_tip')}</Text>
+        <Text style={[styles.tip, { color: p.secondary, borderTopColor: p.border }]}>{t(loads ? 'web_weight_tip_bench' : 'web_weight_tip')}</Text>
       ) : null}
       <Pressable
         accessibilityRole="button"

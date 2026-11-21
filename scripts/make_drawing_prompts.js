@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 /**
- * R-137 / R-140 — prompts EXACTOS para generar con OpenAI (o cualquier modelo
- * de imagen con imágenes de referencia) los dibujos que faltan, en el estilo
+ * R-137 — prompts EXACTOS para generar con cualquier modelo (
+ * de imagen que acepte imágenes de referencia) los dibujos que faltan, en el estilo
  * de los de Everkinetic que ya tiene FitTrack.
  *
  * Salidas (no editar a mano; se regeneran solas con add_drawings.py):
  *   docs/fotos/PROMPTS-DIBUJOS.md   — para personas (un bloque por imagen)
- *   docs/fotos/prompts-dibujos.json — para scripts / Codex (lista de trabajos)
- * Instrucciones para Codex: docs/fotos/CODEX-DIBUJOS.md
+ *   docs/fotos/prompts-dibujos.json — para scripts (lista de trabajos)
  *
  * Uso: node scripts/make_drawing_prompts.js
  */
@@ -113,12 +112,11 @@ fs.writeFileSync(
 );
 
 const ids = [...new Set(items.map((i) => i.id))];
-let md = `# Prompts de dibujos para OpenAI (estilo Everkinetic)
+let md = `# Prompts de dibujos (estilo Everkinetic)
 
 Generado por \`node scripts/make_drawing_prompts.js\` (no editar a mano; se
 regenera solo cada vez que entran dibujos). **${ids.length} ejercicios ·
-${items.length} imágenes pendientes.** Instrucciones paso a paso para Codex:
-\`docs/fotos/CODEX-DIBUJOS.md\`. Versión para scripts:
+${items.length} imágenes pendientes.** Versión para scripts:
 \`docs/fotos/prompts-dibujos.json\`. Estado de todas las imágenes:
 \`docs/fotos/STATUS.md\`.
 

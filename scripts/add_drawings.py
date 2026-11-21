@@ -29,9 +29,9 @@ def clean(src, out):
     Image.merge('LA', (Image.new('L', a.size, 0), a)).save(out, optimize=True)
 n = 0
 for f in sorted(os.listdir(INBOX)) if os.path.isdir(INBOX) else []:
-    m = re.match(r'^(.+)-([12])\.(png|jpe?g|webp)$', f, re.I)
+    m = re.match(r'^(.+)-([123])\.(png|jpe?g|webp)$', f, re.I)
     if not m or m.group(1) not in ids:
-        if not f.startswith('.'): print('salto', f, '(nombre: <id>-1.png / <id>-2.png)')
+        if not f.startswith('.'): print('salto', f, '(nombre: <id>-1.png / -2.png / -3.png)')
         continue
     out = f'{m.group(1)}-{m.group(2)}.png'
     clean(os.path.join(INBOX, f), os.path.join(DST, out))

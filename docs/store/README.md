@@ -101,4 +101,4 @@ que guarda el usuario.
       bloqueado, vídeo, diario. Lo que falle, se arregla antes de subir.
 - [ ] La web publicada (Netlify) para que las URLs de privacidad y soporte
       funcionen.
-- [ ] (Opcional) Dibujos que faltan (`docs/fotos/CODEX-DIBUJOS.md`).
+- [ ] (Opcional) Dibujos que faltan (`docs/fotos/PROMPTS-DIBUJOS.md`).

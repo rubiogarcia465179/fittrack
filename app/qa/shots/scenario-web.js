@@ -10,6 +10,15 @@ module.exports = async ({ load, shot, tap, sleep, evaluate }) => {
   await tap('Crear entreno', { prefix: false }).catch(async () => tap('Create workout'));
   await sleep(700);
   await shot(n('2-sesion'));
+  // R-150: sin historial, el press de banca da nivel y pesos (60 kg × 8 → intermedio).
+  await load({});
+  await tap('60 kg');
+  await tap('Create workout');
+  await sleep(700);
+  await shot(n('2b-banca'));
+  await load({});
+  await tap('Create workout');
+  await sleep(700);
   const first = await evaluate(`(() => { const r=[...document.querySelectorAll('[role=button]')].find(e=>/^1\\./.test(e.getAttribute('aria-label')||'')); if(!r) return null; r.click(); return true; })()`);
   await sleep(900);
   if (first) await shot(n('3-ejercicio'));

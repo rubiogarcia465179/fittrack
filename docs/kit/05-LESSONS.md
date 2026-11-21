@@ -83,3 +83,5 @@ column is what to do from the first day.
 | After creating, the form and the result competed on a phone | One thing at a time on small screens: fold the questions into a "Change" button |
 | "Gym-free" sessions included machines and pull-up bars | Filter by what the user said they have; equipment is a hard constraint, not a hint |
 | The same code served the full app and a one-screen web | One codebase, a build-time mode switch (`EXPO_PUBLIC_*`), separate screenshot scenario |
+
+- **Crédito por imagen, no por grupo** (FitTrack, 2026-11-21): al mezclar imágenes de fuentes con licencias distintas en una misma ficha, guarda el crédito de cada archivo; un crédito único por ejercicio borra la atribución obligatoria (CC BY-SA) en cuanto entra una imagen de otra fuente.
