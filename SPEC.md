@@ -283,7 +283,9 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   **"Empezar entreno"** (botón blanco, debajo de "Otro entreno", R-152,
   `web/WebSession.tsx` + `lib/webSession.ts`): la pantalla pasa a seguir la
   sesión, una serie cada vez — arriba cerrar · tiempo total · series hechas
-  (y una línea de progreso); en medio dibujo (abre "¿Cómo se hace?"),
+  (y una línea de progreso); en medio el dibujo **en movimiento** (alterna
+  sus 3 dibujos cada 1,2 s; quieto con "reducir movimiento") y el botón
+  "¿Cómo se hace?" (la misma hoja: dibujos, qué entrena, pasos, vídeo),
   nombre, "Serie n de m", reps y kg con − / + y un único botón "Serie hecha";
   después, descanso a pantalla completa con cuenta atrás grande, "+15 s" y
   "Saltar" (vibra al acabar; la pestaña muestra la cuenta). Cerrar con series

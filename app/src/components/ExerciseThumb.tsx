@@ -13,18 +13,22 @@ export function ExerciseThumb({
   group,
   size,
   color,
+  frame = 0,
 }: {
   id?: string;
   group: string;
   /** Lado del dibujo en pt; el icono de grupo usa ~55 % de este tamaño. */
   size: number;
   color: string;
+  /** Qué dibujo mostrar (se repite en bucle): la sesión de la web los alterna
+   *  para que se vea el movimiento. 0 = posición inicial. */
+  frame?: number;
 }) {
   const ph = id ? photosFor(id) : null;
   if (ph && ph.kind === 'drawing') {
     return (
       <Image
-        source={ph.images[0]}
+        source={ph.images[frame % ph.images.length]}
         style={{ width: size, height: size, tintColor: color }}
         resizeMode="contain"
         accessibilityElementsHidden

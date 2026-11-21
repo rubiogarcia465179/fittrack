@@ -400,6 +400,9 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       la sesión (tiempo, serie hecha, descanso con cuenta atrás, resumen),
       minimalista (`web/WebSession.tsx`, `lib/webSession.ts`, 8 tests,
       capturas `web-*-6-*`).
+- [x] R-155 (2026-11-21): durante la sesión web, el dibujo se mueve (sus 3
+      dibujos en bucle) y "¿Cómo se hace?" abre la hoja completa (captura
+      `web-*-6-como`).
 - [x] R-153 (2026-11-21): web → la sesión cabe en el tiempo elegido (series,
       ejercicios y descansos) y opciones 1 h 30 y 2 h (`lib/webFit.ts`, test
       60 combinaciones, captura `web-*-2c-2h`).

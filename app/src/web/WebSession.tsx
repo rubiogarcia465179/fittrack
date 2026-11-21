@@ -49,6 +49,16 @@ export function WebSession({
   }, [s.finished]);
 
   const left = restLeft(s, now);
+  // El dibujo de la serie se mueve (inicio → final → técnica, 1,2 s cada uno)
+  // para visualizar el ejercicio; quieto si el sistema pide menos movimiento.
+  const [still] = useState(() => {
+    try {
+      return typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    } catch {
+      return false;
+    }
+  });
+  const frame = still ? 0 : Math.floor(now / 1200);
   // Fin del descanso: vibra y vuelve a la serie.
   useEffect(() => {
     if (s.restUntil && left === 0) {
@@ -170,7 +180,15 @@ export function WebSession({
             onPress={() => setHowto(ex.id)}
             style={({ pressed }) => [styles.art, { borderColor: p.border, opacity: pressed ? 0.7 : 1 }]}
           >
-            <ExerciseThumb id={ex.id} group={e?.muscle_group || 'core'} size={150} color={p.text} />
+            <ExerciseThumb id={ex.id} group={e?.muscle_group || 'core'} size={190} color={p.text} frame={frame} />
+          </Pressable>
+          {/* La misma hoja que en la lista: dibujos, qué entrena, pasos y vídeo. */}
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => setHowto(ex.id)}
+            style={({ pressed }) => [styles.howto, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
+          >
+            <Text style={[styles.howtoText, { color: p.text }]}>{t('howto_button')}</Text>
           </Pressable>
           <Text style={[styles.exName, { color: p.text }]} accessibilityRole="header" numberOfLines={3}>{name(ex.id)}</Text>
           <Text style={[styles.label, { color: p.secondary, marginTop: 8 }]}>
@@ -279,8 +297,10 @@ const styles = StyleSheet.create({
   bar: { height: 2, borderRadius: 1, marginTop: 12, overflow: 'hidden' },
   barFill: { height: 2 },
   center: { alignItems: 'center', paddingTop: 28 },
-  art: { width: 180, height: 180, borderRadius: 24, borderWidth: StyleSheet.hairlineWidth, alignItems: 'center', justifyContent: 'center' },
-  exName: { fontSize: 28, fontWeight: '800', letterSpacing: -0.5, textAlign: 'center', marginTop: 20, lineHeight: 34 },
+  howto: { marginTop: 14, minHeight: 44, paddingHorizontal: 18, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  howtoText: { fontSize: 15, fontWeight: '700' },
+  art: { width: 220, height: 220, borderRadius: 24, borderWidth: StyleSheet.hairlineWidth, alignItems: 'center', justifyContent: 'center' },
+  exName: { fontSize: 28, fontWeight: '800', letterSpacing: -0.5, textAlign: 'center', marginTop: 16, lineHeight: 34 },
   label: { fontSize: 13, fontWeight: '700', letterSpacing: 0.6, textTransform: 'uppercase' },
   steppers: { marginTop: 24, gap: 12, width: '100%' },
   stepper: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20 },

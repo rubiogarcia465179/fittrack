@@ -30,6 +30,12 @@ module.exports = async ({ load, shot, tap, tapLabel, sleep, evaluate }) => {
   await tap('Start workout');
   await sleep(500);
   await shot(n('6-serie'));
+  // Durante la serie: "¿Cómo se hace?" abre la misma hoja (dibujos, pasos, vídeo).
+  await tap('How to do it');
+  await sleep(800);
+  await shot(n('6-como'));
+  await tap('Close');
+  await sleep(400);
   await tap('Set done');
   await sleep(1200);
   await shot(n('6-descanso'));

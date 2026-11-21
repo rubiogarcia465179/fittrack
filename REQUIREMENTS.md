@@ -385,3 +385,4 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-152 [DONE] Web: botón "Empezar entreno" tras "Otro entreno" que sigue la sesión de verdad (tiempo, marcar series hechas, descanso con cuenta atrás…), solo en la web y minimalista (2026-11-21; `web/WebSession.tsx`, `lib/webSession.ts`, 8 tests, capturas `web-*-6-*`)
 ### R-153 [DONE] Web: ajustar series/repeticiones/ejercicios al tiempo elegido (con 1 h, como mucho 1 h) y añadir 1 h 30 y 2 h (2026-11-21; `lib/webFit.ts`, test de 60 combinaciones, captura `web-*-2c-2h`)
 ### R-154 [DONE] Web: aclarar bajo "Press de banca" que es solo una estimación para ajustar el entreno (2026-11-21)
+### R-155 [DONE] Web: durante la sesión, ver cómo se hace el ejercicio (como en la explicación del ejercicio) para visualizarlo mientras se hace (2026-11-21; dibujo animado + "¿Cómo se hace?", captura `web-*-6-como`)

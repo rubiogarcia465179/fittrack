@@ -107,6 +107,14 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
   aviso del descanso con el móvil bloqueado (necesita build de desarrollo).
 
 ## Log
+- 2026-11-21 (3) — **Web: visualizar el ejercicio durante la sesión
+  (R-155).** El dibujo de la serie alterna sus 3 dibujos (1,2 s; quieto con
+  `prefers-reduced-motion`) y hay un botón "¿Cómo se hace?" con la hoja
+  completa (pasos y vídeo). `ExerciseThumb` admite `frame`. Verificación:
+  tsc 0 · tests 150/150 · export OK · capturas app 01–40 y web
+  393/834/1440 errors none (nueva `6-como`), revisadas · vídeo 788
+  fotogramas. Jobs: igual que antes (NO solo por los dibujos, R-151).
+  Commit por petición del usuario.
 - 2026-11-21 (2) — **Web: seguir la sesión (R-152), tiempo real (R-153),
   aclaración de la banca (R-154).** "Empezar entreno" bajo "Otro entreno"
   abre una sesión de una serie cada vez (tiempo total, Serie hecha,
