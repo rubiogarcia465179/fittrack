@@ -158,9 +158,13 @@ const web = app;
 
 // workout.ts (app): clasificación peso corporal / carga — nunca 0 kg en un
 // ejercicio con barra aunque wger lo marque "other" (back_squat: "Dip under the bar").
+// plates.ts (R-163/R-171): discos, mancuernas y pesos estándar.
+const plTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/plates.ts'), 'utf8');
+fs.writeFileSync(path.join(tmp, 'plates_app.mjs'), ts.transpileModule(plTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } }).outputText);
+const pl = await import(path.join(tmp, 'plates_app.mjs'));
 const wTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/workout.ts'), 'utf8');
 const wOut = ts.transpileModule(wTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } });
-fs.writeFileSync(path.join(tmp, 'workout_app.mjs'), wOut.outputText.replace(/from '\.\/gym'/g, "from './gym_app.mjs'"));
+fs.writeFileSync(path.join(tmp, 'workout_app.mjs'), wOut.outputText.replace(/from '\.\/gym'/g, "from './gym_app.mjs'").replace(/from '\.\/plates'/g, "from './plates_app.mjs'"));
 const wlib = await import(path.join(tmp, 'workout_app.mjs'));
 eq(wlib.isBodyweightExercise(byId.get('back_squat')), false, 'back_squat (wger "other") = con carga, no peso corporal');
 eq(wlib.isBodyweightExercise(byId.get('crunches')), true, 'crunches = peso corporal (el nombre manda)');
@@ -189,7 +193,8 @@ eq(wlib.movementKey(byId.get('leg_curls_laying')) === wlib.movementKey(byId.get(
   const bm = plan.exercises.filter((x) => !wlib.isBodyweightExercise(byId.get(x.exercise_id))).map((x) => ({ exercise_id: x.exercise_id, estimated_1rm: 57 }));
   const plan2 = wlib.generateWorkout({ groups: ['back'], equipment_mode: 'full_gym', experience: 'intermediate', intensity: 'moderate', exercises: allEx, benchmarks: bm });
   const ws = plan2.exercises.map((x) => x.recommended_weight_kg).filter((w) => w > 0);
-  eq(ws.length > 0 && ws.every((w) => Math.abs(w / 2.5 - Math.round(w / 2.5)) < 1e-9), true, 'generateWorkout: pesos desde marcas en múltiplos de 2,5 kg');
+  const std = plan2.exercises.filter((x) => x.recommended_weight_kg > 0).every((x) => { const e = byId.get(x.exercise_id); return pl.snapWeight(e.equipment, x.recommended_weight_kg, e.name_en) === x.recommended_weight_kg; });
+  eq(ws.length > 0 && std, true, 'generateWorkout: pesos desde marcas = pesos estándar (discos de 2,5 / mancuernas reales)');
 }
 // R-150: web sin historial — el press de banca da nivel y pesos para toda la sesión.
 {
@@ -268,6 +273,80 @@ eq(wlib.movementKey(byId.get('leg_curls_laying')) === wlib.movementKey(byId.get(
   eq([early.finished, ws.doneSets(early)], [9, 1], 'Terminar antes: lo hecho queda en el resumen');
 }
 
+// R-163 / R-171: cómo cargar la barra y pesos estándar.
+{
+  eq(pl.platesPerSide(85), { perSide: [25, 5, 2.5], exact: true, total: 85 }, 'barra 85 kg → por lado 25 + 5 + 2,5 (barra 20)');
+  eq(pl.platesPerSide(20).perSide, [], 'barra 20 kg → solo la barra');
+  eq(pl.loadFor('dumbbell', 12), { kind: 'dumbbell', perHand: 12, total: 24 }, 'mancuernas 12 kg por mano → 24 kg en total');
+  eq(pl.loadFor('machine', 50), null, 'máquina: sin desglose');
+  eq(pl.loadFor('barbell', 15), null, 'menos que la barra olímpica: sin desglose');
+  eq([pl.snapWeight('dumbbell', 13.7), pl.snapWeight('dumbbell', 7.4), pl.snapWeight('dumbbell', 31)], [14, 7, 30], 'mancuernas: 13,7 → 14 · 7,4 → 7 · 31 → 30');
+  eq([pl.snapWeight('barbell', 43, 'Bench Press'), pl.snapWeight('barbell', 12, 'Bench Press'), pl.snapWeight('machine', 47)], [42.5, 20, 45], 'barra: múltiplos de 2,5 (mín. 20) · máquina: placas de 5');
+  eq([pl.stepWeight('dumbbell', 12, 1), pl.stepWeight('dumbbell', 10, 1), pl.stepWeight('dumbbell', 32.5, -1), pl.stepWeight('barbell', 20, -1, 'Squat')], [14, 12, 30, 0], 'stepWeight: 12→14, 10→12, 32,5→30, barra 20→0');
+  eq(pl.weightChoices('dumbbell').slice(0, 13), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14], 'rueda de mancuernas: solo pesos que existen');
+}
+// R-165 / R-166 / R-168: abdominales, varios objetivos y "Cansadísimo".
+{
+  const allEx = [...byId.values()];
+  eq(wlib.schemeFor(['strength', 'endurance']), { sets: 4, reps: [12, 16], rest: 90 }, 'schemeFor: fuerza + resistencia = media (4 × 12-16, 90 s)');
+  const absPlan = wlib.generateWorkout({ groups: ['chest', 'back'], equipment_mode: 'full_gym', experience: 'intermediate', intensity: 'moderate', goals: ['build_muscle', 'abs'], exercises: allEx });
+  eq(absPlan.exercises.filter((x) => byId.get(x.exercise_id).muscle_group === 'core').length, 3, 'objetivo "abs": tres ejercicios de core aunque no se pidiera el grupo');
+  eq(absPlan.goals, ['build_muscle', 'abs'], 'el plan guarda todos los objetivos');
+  const rows = [80, 80, 80, 80].map((w, i) => ({ exercise_id: 'x' + i, sets: 3, recommended_weight_kg: w }));
+  const tired = wlib.applyTired(rows);
+  eq(tired.map((r) => r.recommended_weight_kg), [47.5, 55, 60, 70], 'Cansadísimo: 80 kg → del 60 % al 85 %, subiendo en cada ejercicio');
+  eq(tired.every((r) => r.sets === 2), true, 'Cansadísimo: una serie menos');
+}
+// R-164 / R-170: consejos y mensajes al azar.
+{
+  const tTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/restTips.ts'), 'utf8');
+  fs.writeFileSync(path.join(tmp, 'tips_app.mjs'), ts.transpileModule(tTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } }).outputText);
+  const tp = await import(path.join(tmp, 'tips_app.mjs'));
+  const seq = [0, 0.2, 0.5, 0.99, 0.01].map((r) => tp.pickTip(5, r));
+  eq(seq.every((n) => n >= 1 && n <= tp.TIP_COUNT && n !== 5), true, 'pickTip: dentro del rango y nunca repite el anterior');
+  const es = JSON.parse(fs.readFileSync(path.join(ROOT, 'i18n/es.json'), 'utf8'));
+  const missing = [];
+  for (let i = 1; i <= tp.TIP_COUNT; i++) if (!es['tip_' + i]) missing.push('tip_' + i);
+  for (let i = 1; i <= tp.GOGGINS_COUNT; i++) if (!es['gg_' + i]) missing.push('gg_' + i);
+  eq(missing, [], `i18n: ${tp.TIP_COUNT} consejos y ${tp.GOGGINS_COUNT} mensajes de Goggins`);
+  eq(Object.keys(es).filter((k) => /^gg_\d+$/.test(k)).some((k) => /["“”«»]/.test(es[k])), false, 'Goggins: sin comillas (inspirado en, no citas literales)');
+}
+// R-169 / R-172: WhatsApp (texto y JSON, ida y vuelta) y racha Extra mile.
+{
+  const lTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/webLog.ts'), 'utf8');
+  fs.writeFileSync(path.join(tmp, 'log_app.mjs'), ts.transpileModule(lTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } }).outputText);
+  const lg = await import(path.join(tmp, 'log_app.mjs'));
+  const names = { bench_press: 'Press de banca', treadmill: 'Cinta de correr' };
+  const entry = { date: '2026-11-21', min: 52, extra: true, ex: [{ id: 'bench_press', sets: 3, reps: 10, kg: 42.5 }, { id: 'treadmill', sets: 1, reps: 0, kg: 0, min: 15 }] };
+  const text = lg.toText(entry, (id) => names[id]);
+  eq(text, 'FitTrack · 2026-11-21 · 52 min\n- Press de banca: 3 × 10 · 42.5 kg\n- Cinta de correr: 15 min\nExtra mile', 'toText: formato de WhatsApp');
+  const idOf = (n) => Object.keys(names).find((k) => names[k].toLowerCase() === n.toLowerCase()) || null;
+  const chat = ['[21/11/26, 10:03:12] Carlos: ' + text.split('\n')[0], ...text.split('\n').slice(1), '[21/11/26, 10:05:00] Carlos: hola', '21/11/2026 11:00 - Carlos: ' + lg.toJson({ ...entry, date: '2026-11-20', extra: undefined }), '[22/11/26, 9:00] Carlos: FitTrack · 2026-11-22 · 30 min', '- Ejercicio raro: 3 × 8'].join('\n');
+  const r = lg.parseLog(chat, idOf);
+  eq([r.entries.length, r.entries[0].date, r.entries[0].min, r.entries[0].extra, r.entries[0].ex, r.unknown], [2, entry.date, entry.min, true, entry.ex, ['Ejercicio raro']], 'parseLog: conversación de WhatsApp (texto + JSON) → entrenos; lo desconocido se dice');
+  eq(lg.mergeLog(r.entries, r.entries).map((e) => e.date), ['2026-11-21', '2026-11-20'], 'mergeLog: sin duplicados, recientes primero');
+  eq([lg.extraStreak([true, true, false, true]), lg.extraStreak([false, true])], [2, 0], 'racha Extra mile: seguidas desde la última');
+  const sTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/webSession.ts'), 'utf8');
+  fs.writeFileSync(path.join(tmp, 'ws2_app.mjs'), ts.transpileModule(sTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } }).outputText);
+  const ws = await import(path.join(tmp, 'ws2_app.mjs'));
+  const info = () => ({ cardio: false, bodyweight: false });
+  let s = ws.startSession([{ exercise_id: 'a', sets: 2, reps: 10, rest_sec: 60, recommended_weight_kg: 40 }, { exercise_id: 'b', sets: 1, reps: 10, rest_sec: 60, recommended_weight_kg: 20 }], info, 15, 0);
+  s = ws.completeSet(s, 1000);
+  // R-158: durante el descanso, lo siguiente ES la serie actual (antes decía "Serie 3 de 3").
+  eq([ws.current(s), ws.lastDoneEi(s)], [{ ei: 0, si: 1 }, 0], 'descanso tras la serie 1: lo siguiente es la serie 2 del mismo ejercicio (consejo)');
+  s = ws.completeSet(ws.skipRest(s), 2000);
+  eq([ws.current(s).ei, ws.lastDoneEi(s)], [1, 0], 'descanso al cambiar de ejercicio: vista previa del siguiente');
+  s = ws.completeSet(ws.skipRest(s), 3000);
+  eq([!!s.finished, ws.extraDone(s)], [true, false], 'terminado, sin Extra mile');
+  s = ws.addExtra(s, ws.exerciseFromRow({ exercise_id: 'c', sets: 2, reps: 10, rest_sec: 60, recommended_weight_kg: 10 }, info, 15));
+  eq([s.finished, ws.current(s)], [null, { ei: 2, si: 0 }], 'Extra mile: la sesión sigue con un ejercicio más');
+  s = ws.completeSet(s, 4000);
+  eq(ws.extraDone(s), true, 'Extra mile hecha tras una serie del ejercicio extra');
+  eq(lg.entryFromSession(ws.endNow(s, 61000), '2026-11-21', true).ex.map((x) => [x.id, x.sets]), [['a', 2], ['b', 1], ['c', 1]], 'entryFromSession: solo lo hecho');
+  s = ws.setField(s, 'kg', 14);
+  eq(s.ex[2].sets[1].kg, 14, 'setField: el peso nuevo pasa a la serie que queda');
+}
+
 // records.ts: marcas efectivas y días de récord (círculo verde).
 const rTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/records.ts'), 'utf8');
 const rOut = ts.transpileModule(rTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } });
@@ -296,6 +375,10 @@ eq(prog.progressionFor('bench_press', [P1], 8, '2026-03-05'), { from: 50, to: 52
 eq(prog.progressionFor('bench_press', [P2], 8, '2026-03-05'), null, 'progressionFor: una serie fallida → sin subida');
 eq(prog.progressionFor('bench_press', [P1], 8, '2026-04-01'), null, 'progressionFor: más de 21 días → sin subida');
 eq(prog.progressionFor('bench_press', [P1], 10, '2026-03-05'), null, 'progressionFor: hoy pide más reps de las hechas → sin subida');
+{
+  const D1 = { id: 'd1', date: '2026-03-01', exercises: [{ exercise_id: 'hammercurls', sets: [{ reps: 10, weight_kg: 12 }, { reps: 10, weight_kg: 12 }] }] };
+  eq(prog.progressionFor('hammercurls', [D1], 10, '2026-03-05', (w) => pl.stepWeight('dumbbell', w, 1))?.to, 14, 'progresión con mancuernas: 12 → 14 kg (no 14,5) (R-171)');
+}
 
 // session-save.ts: solo las series HECHAS se guardan (también cardio por minutos).
 const ssTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/session-save.ts'), 'utf8');

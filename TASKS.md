@@ -407,6 +407,31 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       ejercicios y descansos) y opciones 1 h 30 y 2 h (`lib/webFit.ts`, test
       60 combinaciones, captura `web-*-2c-2h`).
 
+### Fase 24 — Feedback de uso (2026-11-21, R-156…R-172; app y web)
+- [x] R-158 contador de la sesión web arreglado (ejercicio n de m, serie n de m, "x/y series", "Siguiente" correcto en el descanso).
+- [x] R-159 aviso al acabar el descanso en la web: vibración / háptico iOS / pitido. ⛔ probar en el iPhone del usuario (Safari no tiene vibración; el háptico depende de iOS 18+).
+- [x] R-160 sin créditos durante la sesión.
+- [x] R-161 dibujos 1-2-1-2 (el 3.º ya no se muestra).
+- [x] R-157 logo/nombre → inicio (web).
+- [x] R-162 logo nuevo (`scripts/make_logo.py`).
+- [x] R-163 cómo cargar el peso (discos por lado / mancuernas) y total.
+- [x] R-171 pesos estándar de discos y mancuernas en todo (recomendación, rueda, − / +, progresión).
+- [x] R-164 / R-167 descanso: consejo (mismo ejercicio) o vista previa del siguiente.
+- [x] R-165 objetivo "Abdominales"; R-166 varios objetivos.
+- [x] R-168 "Cansadísimo".
+- [x] R-169 web: WhatsApp / JSON y pegar la conversación como historial.
+- [x] R-170 mensajes inspirados en David Goggins al terminar.
+- [x] R-172 Extra mile y racha para compartir.
+- Futuras (R-173 calorías por pulso, R-174 Fitbit): `FUTURE_TASKS.md`.
+
+### Fase 25 — 5 vueltas Jobs sobre la Fase 24 (2026-11-21, R-175) ✅
+Sin contar dibujos (R-151) ni la prueba en iPhone (decisión del usuario). Nota: 71 → 86.
+- [x] V1 (75): resumen con una sola acción principal (Extra mile arriba; WhatsApp secundario; JSON como enlace); filas sin truncar; barra dibujada simétrica; "Cansadísimo" como un solo interruptor; atribución corta; sin la cifra de racha repetida.
+- [x] V2 (79): sesión web a pantalla completa (sin cabecera); reps y kg lado a lado → "Serie hecha" sin desplazar en el móvil; sin repetir el peso en la vista previa.
+- [x] V3 (82): "Crear entreno" fijo abajo en móvil/tableta; dibujo del ejercicio actual en movimiento en la app.
+- [x] V4 (84): línea de carga corta en una línea ("15 por lado · barra 20 · 50 kg"; "2 × 18 kg = 36 kg").
+- [x] V5 (86): cuenta atrás sin región "en vivo" (lector de pantalla); coma decimal en ES/NL/FR en toda la web; capturas de sesión en NL.
+
 
 ## Hecho recientemente
 

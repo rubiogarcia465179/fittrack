@@ -18,6 +18,8 @@ export interface WsExercise {
   /** Sin carga: no se muestra el peso. */
   bodyweight: boolean;
   sets: WsSet[];
+  /** Añadido con "Extra mile" (R-172). */
+  extra?: boolean;
 }
 export interface WsState {
   started: number;
@@ -35,29 +37,51 @@ export interface WsPlanRow {
   recommended_weight_kg: number;
 }
 
-export function startSession(
-  rows: WsPlanRow[],
-  info: (id: string) => { cardio: boolean; bodyweight: boolean },
-  cardioMin: number,
-  now: number,
-): WsState {
+export type WsInfo = (id: string) => { cardio: boolean; bodyweight: boolean };
+
+/** Una fila del plan → ejercicio de la sesión. */
+export function exerciseFromRow(r: WsPlanRow, info: WsInfo, cardioMin: number): WsExercise {
+  const { cardio, bodyweight } = info(r.exercise_id);
   return {
-    started: now,
-    restUntil: null,
-    finished: null,
-    ex: rows.map((r) => {
-      const { cardio, bodyweight } = info(r.exercise_id);
-      return {
-        id: r.exercise_id,
-        rest: r.rest_sec,
-        cardio,
-        bodyweight: bodyweight || cardio,
-        sets: cardio
-          ? [{ reps: 0, kg: 0, min: cardioMin }]
-          : Array.from({ length: Math.max(1, r.sets) }, () => ({ reps: r.reps, kg: bodyweight ? 0 : r.recommended_weight_kg })),
-      };
-    }),
+    id: r.exercise_id,
+    rest: r.rest_sec,
+    cardio,
+    bodyweight: bodyweight || cardio,
+    sets: cardio
+      ? [{ reps: 0, kg: 0, min: cardioMin }]
+      : Array.from({ length: Math.max(1, r.sets) }, () => ({ reps: r.reps, kg: bodyweight ? 0 : r.recommended_weight_kg })),
   };
+}
+
+export function startSession(rows: WsPlanRow[], info: WsInfo, cardioMin: number, now: number): WsState {
+  return { started: now, restUntil: null, finished: null, ex: rows.map((r) => exerciseFromRow(r, info, cardioMin)) };
+}
+
+/**
+ * "Extra mile" (R-172): con la sesión terminada, un ejercicio más. La sesión
+ * sigue (mismo reloj) y el ejercicio queda marcado como extra.
+ */
+export function addExtra(s: WsState, ex: WsExercise): WsState {
+  return { ...s, finished: null, restUntil: null, ex: [...s.ex, { ...ex, extra: true }] };
+}
+/** ¿Se hizo al menos una serie del ejercicio extra? */
+export const extraDone = (s: WsState) => s.ex.some((e) => e.extra && e.sets.some((x) => x.done_at));
+
+/** Ejercicio de la última serie hecha (para saber si el descanso cambia de ejercicio). */
+export function lastDoneEi(s: WsState): number | null {
+  let best: { ei: number; at: number } | null = null;
+  s.ex.forEach((e, ei) => e.sets.forEach((x) => {
+    if (x.done_at && (!best || x.done_at >= best.at)) best = { ei, at: x.done_at };
+  }));
+  return best ? (best as { ei: number }).ei : null;
+}
+
+/** Pone un valor en la serie actual y en las que quedan de ese ejercicio. */
+export function setField(s: WsState, field: 'reps' | 'kg' | 'min', value: number): WsState {
+  const c = current(s);
+  if (!c) return s;
+  const v = Math.max(field === 'kg' ? 0 : 1, Math.round(value * 100) / 100);
+  return { ...s, ex: s.ex.map((e, ei) => (ei !== c.ei ? e : { ...e, sets: e.sets.map((x, si) => (si >= c.si ? { ...x, [field]: v } : x)) })) };
 }
 
 /** La serie que toca: el primer ejercicio con una serie sin hacer. null = todo hecho. */

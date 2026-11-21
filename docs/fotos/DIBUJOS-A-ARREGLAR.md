@@ -1,5 +1,7 @@
 # Dibujos que hay que rehacer (estilo Everkinetic)
 
+> **2026-11-21 (R-161):** la app y la web solo muestran los dibujos **1 y 2** (alternando 1-2-1-2). El 3.º ya no se ve; al rehacer, lo importante es que 1 y 2 estén bien.
+
 Revisión a mano de los 459 dibujos del agente web (2026-11-21, R-149). **Todos
 están ya en la app y la web** (decisión del usuario: añadirlos aunque no estén
 bien); esta lista es lo que hay que **rehacer** para que sigan el estilo de

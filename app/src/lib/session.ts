@@ -57,6 +57,8 @@ export type ActiveSession = {
   /** Descanso entre series en curso: instante de fin (ms) y duración total (s). */
   rest_until?: number;
   rest_total?: number;
+  /** "Extra mile" (R-172): ejercicio añadido tras terminar el plan. */
+  extra_id?: string;
 };
 
 export function newActiveSession(

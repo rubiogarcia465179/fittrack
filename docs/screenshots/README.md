@@ -66,6 +66,6 @@ cambie la UI).
 
 `web-<ancho>-<paso>.png` a 393 (móvil), 834 (tableta) y 1440 (escritorio):
 `1-inicio` (preguntas; en escritorio con el estado vacío a la derecha),
-`2-sesion`, `2b-banca` (press de banca 60 kg → nivel y pesos, R-150), `2c-2h` (2 horas, R-153), `6-serie` / `6-como` / `6-descanso` / `6-terminar` / `6-resumen` (seguir la sesión, R-152), `3-ejercicio` (hoja "¿Cómo se hace?"; tarjeta centrada en
+`2-sesion`, `2b-banca` (press de banca 60 kg → nivel y pesos, R-150), `2c-2h` (2 horas, R-153), `2d-cansado-abs` (varios objetivos + Cansadísimo, R-166/R-168), `6-serie` / `6-como` / `6-descanso` (consejo) / `6-descanso-siguiente` (vista previa) / `6-terminar` / `6-resumen` / `6-extra` / `6-racha` (seguir la sesión, Extra mile, R-152/R-164/R-172), `7-historial` (importar de WhatsApp, R-169), `6-racha-fin` (final del resumen: WhatsApp / JSON / Nuevo entreno), `8-nl-serie` / `8-nl-descanso` (textos largos en NL), `3-ejercicio` (hoja "¿Cómo se hace?"; tarjeta centrada en
 pantallas anchas), `4-es` / `4-nl` / `4-fr` (idiomas) y, en escritorio,
 `5-pull`, `5-legs` (mancuernas), `5-full` (sin material, perder grasa).

@@ -10,18 +10,20 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '../theme-context';
 import type { Goal, Intensity } from '../lib/types';
 
-export type Energy = 'low' | 'normal' | 'high';
+/** 'exhausted' = "Cansadísimo" (R-168): sesión muy ligera que sube poco a poco. */
+export type Energy = 'exhausted' | 'low' | 'normal' | 'high';
 export interface QuickStartOptions {
   duration: number;
   intensity: Intensity;
   energy: Energy;
-  goal: Goal;
+  /** Uno o varios objetivos (R-166). */
+  goals: Goal[];
 }
 
 const DURATIONS = [30, 45, 60, 75];
 const INTENSITIES: Intensity[] = ['low', 'moderate', 'high'];
-const ENERGIES: Energy[] = ['low', 'normal', 'high'];
-const GOALS: Goal[] = ['build_muscle', 'lose_weight', 'strength', 'lose_fat', 'definition', 'endurance'];
+const ENERGIES: Energy[] = ['exhausted', 'low', 'normal', 'high'];
+const GOALS: Goal[] = ['build_muscle', 'lose_weight', 'strength', 'lose_fat', 'definition', 'endurance', 'abs'];
 
 export function QuickStartSheet({
   value: initial,
@@ -37,7 +39,7 @@ export function QuickStartSheet({
   const { t } = useTranslation();
   const { p } = useTheme();
   const intLabel = (i: Intensity) => t(i === 'low' ? 'int_easy' : i === 'high' ? 'int_hard' : 'int_moderate');
-  const enLabel = (e: Energy) => t(e === 'low' ? 'checkin_low' : e === 'high' ? 'checkin_high' : 'qs_normal');
+  const enLabel = (e: Energy) => t(e === 'exhausted' ? 'web_today_tired' : e === 'low' ? 'checkin_low' : e === 'high' ? 'checkin_high' : 'qs_normal');
 
   return (
     <Modal visible transparent animationType="slide" onRequestClose={onCancel}>
@@ -59,19 +61,33 @@ export function QuickStartSheet({
               <Chip key={i} label={intLabel(i)} on={value.intensity === i} onPress={() => onChange({ ...value, intensity: i })} />
             ))}
           </Group>
-          <Group fill label={t('checkin_energy')}>
+          <Group grow label={t('checkin_energy')}>
             {ENERGIES.map((e) => (
               <Chip key={e} label={enLabel(e)} on={value.energy === e} onPress={() => onChange({ ...value, energy: e })} />
             ))}
           </Group>
-          {value.energy === 'low' && value.intensity !== 'low' ? (
+          {value.energy === 'exhausted' ? (
+            <Text style={[styles.hint, { color: p.secondary }]}>{t('web_tired_hint')}</Text>
+          ) : value.energy === 'low' && value.intensity !== 'low' ? (
             <Text style={[styles.hint, { color: p.secondary }]}>{t('qs_energy_hint')}</Text>
           ) : null}
-          <Group label={t('profile_goal')}>
+          {/* Varios objetivos a la vez (R-166). */}
+          <Group label={t('profile_goal')} multi>
             {GOALS.map((g) => (
-              <Chip key={g} label={t(`goal_${g}`)} on={value.goal === g} onPress={() => onChange({ ...value, goal: g })} />
+              <Chip
+                key={g}
+                multi
+                label={t(`goal_${g}`)}
+                on={value.goals.includes(g)}
+                onPress={() => {
+                  const has = value.goals.includes(g);
+                  const goals = has ? (value.goals.length > 1 ? value.goals.filter((x) => x !== g) : value.goals) : [...value.goals, g];
+                  onChange({ ...value, goals });
+                }}
+              />
             ))}
           </Group>
+          <Text style={[styles.hint, { color: p.secondary }]}>{t('web_q_goal_hint')}</Text>
 
           <Pressable
             accessibilityRole="button"
@@ -86,30 +102,31 @@ export function QuickStartSheet({
   );
 }
 
-function Group({ label, children, fill }: { label: string; children: React.ReactNode; fill?: boolean }) {
+function Group({ label, children, fill, multi, grow }: { label: string; children: React.ReactNode; fill?: boolean; multi?: boolean; grow?: boolean }) {
   const { p } = useTheme();
   return (
     <View style={styles.group}>
       <Text style={[styles.groupLabel, { color: p.secondary }]}>{label}</Text>
-      <View style={[styles.chips, fill && styles.chipsFill]} accessibilityRole="radiogroup" accessibilityLabel={label}>
-        {fill
-          ? React.Children.map(children, (c) => (React.isValidElement(c) ? React.cloneElement(c as React.ReactElement<{ fill?: boolean }>, { fill: true }) : c))
+      <View style={[styles.chips, (fill || grow) && styles.chipsFill]} accessibilityRole={multi ? undefined : 'radiogroup'} accessibilityLabel={label}>
+        {fill || grow
+          ? React.Children.map(children, (c) => (React.isValidElement(c) ? React.cloneElement(c as React.ReactElement<{ fill?: boolean; grow?: boolean }>, fill ? { fill: true } : { grow: true }) : c))
           : children}
       </View>
     </View>
   );
 }
 
-function Chip({ label, on, onPress, fill }: { label: string; on: boolean; onPress: () => void; fill?: boolean }) {
+function Chip({ label, on, onPress, fill, multi, grow }: { label: string; on: boolean; onPress: () => void; fill?: boolean; multi?: boolean; grow?: boolean }) {
   const { p } = useTheme();
   return (
     <Pressable
-      accessibilityRole="radio"
+      accessibilityRole={multi ? 'checkbox' : 'radio'}
       accessibilityState={{ checked: on }}
       onPress={onPress}
       style={({ pressed }) => [
         styles.chip,
         fill && styles.chipFill,
+        grow && styles.chipGrow,
         {
           backgroundColor: on ? p.accent : 'transparent',
           borderColor: on ? p.accent : p.border,
@@ -141,6 +158,8 @@ const styles = StyleSheet.create({
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chipsFill: { flexWrap: 'nowrap' },
   chipFill: { flex: 1, paddingHorizontal: 6 },
+  // Ancho según el texto y repartido el sobrante ("Cansadísimo" no cabe en cuartos iguales).
+  chipGrow: { flexGrow: 1, paddingHorizontal: 12 },
   chip: { minHeight: 44, borderRadius: 20, borderWidth: 1, paddingHorizontal: 16, alignItems: 'center', justifyContent: 'center' },
   chipText: { fontSize: 15, fontWeight: '600' },
   hint: { fontSize: 13, marginTop: 8 },

@@ -291,8 +291,17 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   nivel, series, intensidad y marcas por cocientes); solo lo usa
   `WebPlanner.tsx`. Cambiar un cociente = revisar los tests "R-150".
 - **Sesión en la web (R-152)**: `app/src/web/WebSession.tsx` (pantalla) +
-  `app/src/lib/webSession.ts` (estado puro, probado). En memoria: no se
-  guarda nada (la web lo promete en el pie).
+  `app/src/lib/webSession.ts` (estado puro, probado). La sesión va en
+  memoria; al terminar se guarda una copia en localStorage (R-169).
+- **Fase 24**: pesos estándar y discos en `app/src/lib/plates.ts`
+  (`snapWeight`, `stepWeight`, `weightChoices`, `loadFor`); consejos y
+  Goggins en `lib/restTips.ts` (+ claves `tip_N` / `gg_N` en i18n, plurales
+  v3 `clave` / `clave_plural`); WhatsApp e historial local en
+  `lib/webLog.ts` + `web/WebHistory.tsx`; `schemeFor` / `applyTired` en
+  `lib/workout.ts`; componentes `LoadLine`, `RestPreview`, `GogginsCard`.
+  Logo: `python3 scripts/make_logo.py` regenera icon, adaptive, splash,
+  `logo-mark.png` y favicons. La web ya guarda (solo en el navegador) los
+  entrenos terminados e importados.
 - **Tiempo de la web (R-153)**: `app/src/lib/webFit.ts` ajusta la sesión al
   tiempo (máximo); `WebPlanner.build` genera la base sin `duration_min` y
   pide ejercicios extra con `more()` (grupo con menos, sin repetir

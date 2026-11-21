@@ -107,6 +107,52 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
   aviso del descanso con el móvil bloqueado (necesita build de desarrollo).
 
 ## Log
+- 2026-11-21 (5) — **Fase 25: 5 vueltas Jobs (R-175)**, a petición del
+  usuario, sin contar dibujos ni la prueba en iPhone. Notas (media de los
+  principios 1–9 × 10): inicio 71 → V1 75 → V2 79 → V3 82 → V4 84 → V5 **86**.
+  V1 resumen con una acción principal, filas enteras, barra simétrica,
+  "Cansadísimo" interruptor único. V2 sesión web sin cabecera y reps/kg lado a
+  lado ("Serie hecha" visible sin desplazar; bug visto y arreglado: los
+  pasos se salían por la derecha). V3 "Crear entreno" fijo abajo en móvil;
+  dibujo actual animado en la app. V4 línea de carga en una línea. V5
+  accesibilidad (cuenta atrás sin región en vivo) y coma decimal en NL/ES/FR
+  (bug visto en la captura NL: "42.5" junto a "42,5").
+  Verificación final: tsc 0 · tests **179/179** · export OK · capturas app
+  01–40 errors none · web 393/834/1440 errors none (nuevas `6-racha-fin`,
+  `8-nl-serie`, `8-nl-descanso`) · vídeo 815 fotogramas. Veredicto Jobs con
+  el marco del usuario (sin dibujos ni iPhone): **SÍ**.
+- 2026-11-21 (4) — **Fase 24: feedback de uso, en app y web (R-156…R-172) +
+  pesos estándar (R-171).** Contador de la sesión web arreglado (en el
+  descanso decía "Serie 3 de 3" tras la 1.ª); "Ejercicio n de m · Serie n de
+  m" y "x/y series". Aviso del descanso en la web: vibración + háptico iOS 18+
+  + pitido (Safari no vibra). Sin créditos durante la sesión. Dibujos 1-2-1-2
+  (el 3.º fuera). Logo/nombre → inicio. Logo nuevo (sentadilla con barra;
+  `scripts/make_logo.py`, versión "mark" para 34 px). Cómo cargar el peso
+  (discos por lado con barra de 20 kg / mancuernas) y pesos estándar en
+  recomendación, rueda, − / + y progresión (12 → 14 kg, no 14,5). Descanso:
+  consejo (16, comer/beber/descansar) o vista previa del siguiente.
+  Objetivo Abdominales y varios objetivos. "Cansadísimo" (60 → 85 %, una serie
+  menos; en la app es una opción de "Energía hoy", no una pregunta aparte).
+  Web: WhatsApp / JSON y pegar la conversación como historial (solo en el
+  navegador; el pie ya no dice "no se guarda nada"). 32 mensajes
+  **inspirados en** David Goggins (no citas: regla de oro). Extra mile (solo
+  con el plan cumplido) y racha para compartir. Futuras R-173/R-174 en
+  `FUTURE_TASKS.md`. R-163 sustituye la decisión R-127 (descartar
+  calculadora de discos) por petición expresa.
+  Arreglos vistos en capturas: plurales con formato v3 (salían las claves),
+  Extra mile ofrecida tras terminar antes de tiempo, energía partida en dos
+  líneas, logo ilegible a 30 px, consejo de la app demasiado alto, página sin
+  volver arriba al añadir la Extra mile.
+  Verificación: tsc 0 · tests **179/179** · export OK · capturas app 01–40
+  errors none (revisadas las que cambiaron) · web 393/834/1440 errors none
+  (nuevas `2d-cansado-abs`, `6-descanso-siguiente`, `6-extra`, `6-racha`,
+  `7-historial`) · vídeo 787 fotogramas.
+  **Jobs (2 vueltas): NO.** Le gustaría: el descanso que prepara el
+  siguiente ejercicio, los discos dibujados y el contador claro. Motivos del
+  no: (1) dibujos por rehacer (R-151; p. ej. la Extra mile "pec deck" enseña
+  un cruce de poleas); (2) el aviso del descanso en iPhone no está probado en
+  el dispositivo (⛔ usuario). Sin commit (el usuario no lo pidió y el
+  veredicto es NO).
 - 2026-11-21 (3) — **Web: visualizar el ejercicio durante la sesión
   (R-155).** El dibujo de la serie alterna sus 3 dibujos (1,2 s; quieto con
   `prefers-reduced-motion`) y hay un botón "¿Cómo se hace?" con la hoja

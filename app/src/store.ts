@@ -78,6 +78,8 @@ export interface Session {
   photos?: string[];
   /** Fase 15: comentarios propios en el diario. */
   comments?: SessionComment[];
+  /** R-172: se hizo la "Extra mile" (un ejercicio más tras acabar el plan). */
+  extra_mile?: boolean;
 }
 
 export interface SessionComment {

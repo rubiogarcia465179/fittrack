@@ -28,6 +28,8 @@ export function progressionFor(
   sessions: Session[],
   plannedReps: number,
   today: string,
+  /** Siguiente peso estándar (R-171: mancuerna de 12 → 14, no 14,5). Por defecto +2,5. */
+  next: (w: number) => number = (w) => w + PROGRESS_STEP,
 ): Progression | null {
   const last = sessions
     .filter((s) => s.type !== 'benchmark' && s.exercises.some((e) => e.exercise_id === exerciseId))
@@ -41,5 +43,5 @@ export function progressionFor(
   const top = sets.filter((s) => s.weight_kg === w);
   const minReps = Math.min(...top.map((s) => s.reps));
   if (minReps < plannedReps) return null;
-  return { from: w, to: Math.round((w + PROGRESS_STEP) * 100) / 100, sets: top.length, reps: minReps };
+  return { from: w, to: Math.round(next(w) * 100) / 100, sets: top.length, reps: minReps };
 }

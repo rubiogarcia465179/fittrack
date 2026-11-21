@@ -16,13 +16,27 @@ import { photosFor } from '../exercisePhotos';
 import { howtoFor } from '../howto';
 import { videoFor } from '../videos';
 import { VideoPlayer } from './VideoPlayer';
+import { USED_FRAMES } from './ExerciseThumb';
 import type { ExerciseRow } from '../lib/gym';
 
-export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; onClose: () => void }) {
+export function ExerciseHowTo({
+  exercise,
+  onClose,
+  hideCredit = false,
+}: {
+  exercise: ExerciseRow;
+  onClose: () => void;
+  /** Durante la sesión (R-160): la pantalla es solo para entrenar, sin créditos
+   *  (siguen en la web, en Perfil y en la lista de ejercicios). */
+  hideCredit?: boolean;
+}) {
   const { t, i18n } = useTranslation();
   const { p } = useTheme();
   const lang = i18n.language as string;
-  const { images, placeholder, kind, credits, slots, pages } = photosFor(exercise.id);
+  const all = photosFor(exercise.id);
+  const { placeholder, kind, credits, slots, pages } = all;
+  // R-161: solo inicio y final (el 3.er dibujo está mal en muchos ejercicios).
+  const images = all.kind === 'drawing' ? all.images.slice(0, USED_FRAMES) : all.images;
   // Posición de cada imagen: 1 inicial, 2 final, 3 técnica (vuelta o alineación).
   const posKey = (i: number) => (['howto_pos_start', 'howto_pos_end', 'howto_pos_technique'] as const)[(slots[i] || i + 1) - 1] ?? 'howto_pos_end';
   const video = videoFor(exercise.id);
@@ -103,7 +117,9 @@ export function ExerciseHowTo({ exercise, onClose }: { exercise: ExerciseRow; on
               <View key={i} style={[styles.dot, { backgroundColor: i === page ? p.text : p.border }]} />
             ))}
           </View>
-          {kind === 'drawing' ? (
+          {kind === 'drawing' && hideCredit ? (
+            <Text style={[styles.credit, { color: p.dim }]}>{t(posKey(page))}</Text>
+          ) : kind === 'drawing' ? (
             // Atribución CC BY-SA 3.0 junto a la obra: autor, licencia y que
             // está modificada; al tocarla abre el original (fuente + licencia).
             credits[page] === 'everkinetic' && pages[page] ? (

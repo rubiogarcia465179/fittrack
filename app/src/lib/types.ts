@@ -9,7 +9,9 @@ export type Goal =
   | 'definition'
   | 'lose_weight'
   | 'strength'
-  | 'endurance';
+  | 'endurance'
+  /** Abdominales (R-165): más trabajo de core en la sesión. */
+  | 'abs';
 
 export interface ExerciseRow {
   id: string;

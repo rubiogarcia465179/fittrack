@@ -17,7 +17,10 @@ import { ThemeProvider, useTheme } from '../theme-context';
 import { LANGS, setLanguage, type Lang } from '../i18n';
 import { loadFonts } from '../lib/fonts';
 import { loadExercises } from '../data';
-import { GOAL_SCHEME, generateWorkout, isBodyweightExercise, movementKey, type EquipmentMode, type WorkoutPlan } from '../lib/workout';
+import { applyTired, generateWorkout, isBodyweightExercise, movementKey, recentRows, schemeFor, type EquipmentMode, type WorkoutPlan } from '../lib/workout';
+import { fmtKg, snapPlan } from '../lib/plates';
+import { asSessions, loadLog, type LogEntry } from '../lib/webLog';
+import { WebHistory } from './WebHistory';
 import { SPLITS, splitLabel } from '../lib/nextSplit';
 import { exName } from '../lib/names';
 import type { Goal } from '../lib/types';
@@ -27,10 +30,10 @@ import { ExerciseThumb } from '../components/ExerciseThumb';
 import { Chevron } from '../components/Chevron';
 import { WebSession } from './WebSession';
 import { fitToDuration, planMinutes } from '../lib/webFit';
-import { startSession, type WsState } from '../lib/webSession';
+import { exerciseFromRow, startSession, type WsState } from '../lib/webSession';
 import { BENCH_CHOICES, benchmarksFromBench, benchOneRm, intensityForLevel, levelFromBench, setsForLevel } from '../lib/benchEstimate';
 
-const BRAND_ICON = require('../../assets/icon.png');
+const BRAND_ICON = require('../../assets/logo-mark.png');
 
 type Focus = 'push' | 'pull' | 'legs' | 'full';
 const FOCUS_GROUPS: Record<Focus, string[]> = {
@@ -40,7 +43,8 @@ const FOCUS_GROUPS: Record<Focus, string[]> = {
   full: ['legs', 'chest', 'back', 'shoulders', 'core'],
 };
 const FOCI: Focus[] = ['push', 'pull', 'legs', 'full'];
-const GOALS: Goal[] = ['build_muscle', 'strength', 'lose_fat', 'endurance'];
+// Varios a la vez (R-166); "Abdominales" (R-165) añade core a cualquier sesión.
+const GOALS: Goal[] = ['build_muscle', 'strength', 'lose_fat', 'endurance', 'abs'];
 const DURATIONS = [30, 45, 60, 90, 120];
 /** "45 min", "1 h 30", "2 h". */
 const durLabel = (d: number) => (d < 90 ? `${d} min` : d % 60 ? `${Math.floor(d / 60)} h ${d % 60}` : `${d / 60} h`);
@@ -98,7 +102,15 @@ function Planner() {
   }
 
   const [focus, setFocus] = useState<Focus>('push');
-  const [goal, setGoal] = useState<Goal>('build_muscle');
+  const [goals, setGoals] = useState<Goal[]>(['build_muscle']);
+  const toggleGoal = (g: Goal) => setGoals((gs) => (gs.includes(g) ? (gs.length > 1 ? gs.filter((x) => x !== g) : gs) : [...gs, g]));
+  // R-168: "Cansadísimo" — ligero al principio, el peso sube poco a poco.
+  const [tired, setTired] = useState(false);
+  // R-169: historial pegado de WhatsApp (solo en este navegador).
+  const [log, setLog] = useState<LogEntry[]>(() => loadLog());
+  const [historyOpen, setHistoryOpen] = useState(false);
+  // Logo durante la sesión: avisa a la sesión para que pida terminar.
+  const [exitSignal, setExitSignal] = useState(0);
   const [duration, setDuration] = useState(45);
   const [mode, setMode] = useState<EquipmentMode>('full_gym');
   // R-150: la web no tiene historial; el press de banca (peso para 8 reps)
@@ -149,7 +161,7 @@ function Planner() {
     }
     setPlan((prev) => (prev && wide ? build([]) : null));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [focus, goal, duration, mode, bench]);
+  }, [focus, goals, tired, duration, mode, bench]);
 
   // Brazos según el día: en empuje, tríceps; en tirón, bíceps (como en un
   // gimnasio de verdad). Dentro de cada grupo, el multiarticular primero.
@@ -170,7 +182,9 @@ function Planner() {
       // Los clásicos con dibujo real primero: reconocibles y con imagen en cada fila.
       prefer,
       intensity: level ? intensityForLevel(level) : ('moderate' as const),
-      goal,
+      goals,
+      // Historial importado de WhatsApp → pesos de lo que ya hiciste.
+      recent: log.length ? recentRows(asSessions(log)) : undefined,
       exercises,
       // La web no pregunta el nivel: nada avanzado (pinos, muscle-ups…), y sin
       // gimnasio nada que necesite máquina; sin material, tampoco barra fija.
@@ -189,12 +203,13 @@ function Planner() {
       ],
     });
     const plan = generateWorkout(genOpts([]));
+    const order = plan.muscle_groups;
     const groupOf = (id: string) => byId.get(id)?.muscle_group || '';
     const isCompound = (id: string) => COMPOUND.test(byId.get(id)?.name_en || '');
-    const order = FOCUS_GROUPS[focus];
     const isCardio = (id: string) => groupOf(id) === 'cardio';
     // Series según el nivel (principiante una menos, avanzado una más).
-    const baseSets = level ? setsForLevel(GOAL_SCHEME[goal].sets, level) : GOAL_SCHEME[goal].sets;
+    const scheme = schemeFor(goals);
+    const baseSets = level ? setsForLevel(scheme.sets, level) : scheme.sets;
     plan.exercises = plan.exercises.map((x) => ({ ...x, sets: baseSets }));
     // R-153: ejercicios, series y descansos caben en el tiempo elegido (máximo).
     plan.exercises = fitToDuration(plan.exercises, duration, {
@@ -218,6 +233,10 @@ function Planner() {
         a.i - b.i,
       )
       .map(({ x }) => x);
+    // Cansadísimo: rampa sobre el orden final; luego, pesos que existen (R-171).
+    if (tired) plan.exercises = applyTired(plan.exercises);
+    plan.exercises = snapPlan(plan.exercises, (id) => byId.get(id));
+    plan.tired = tired || undefined;
     plan.estimated_duration_min = Math.round(planMinutes(plan.exercises, isCardio, cardioMin));
     return plan;
   };
@@ -225,6 +244,18 @@ function Planner() {
     setPlan(build(exclude));
     // En móvil las preguntas se pliegan en un resumen: se vuelve arriba.
     if (!wide) setTimeout(() => scrollRef.current?.scrollTo({ y: 0, animated: true }), 30);
+  };
+
+  const stickyCreate = !wide && !plan && !running;
+  const goHome = () => {
+    if (running) {
+      setExitSignal((n) => n + 1);
+      return;
+    }
+    setPlan(null);
+    setDetail(null);
+    setHistoryOpen(false);
+    setTimeout(() => scrollRef.current?.scrollTo({ y: 0, animated: true }), 0);
   };
 
   const focusLabel = (f: Focus) => (f === 'full' ? t('group_full_body') : splitLabel(FOCUS_GROUPS[f], t));
@@ -242,9 +273,9 @@ function Planner() {
           <Chip key={f} label={focusLabel(f)} on={focus === f} onPress={() => setFocus(f)} />
         ))}
       </Question>
-      <Question label={t('web_q_goal')}>
+      <Question label={t('web_q_goal')} hint={t('web_q_goal_hint')} multi>
         {GOALS.map((g) => (
-          <Chip key={g} label={t(`goal_${g}`)} on={goal === g} onPress={() => setGoal(g)} />
+          <Chip key={g} label={t(`goal_${g}`)} on={goals.includes(g)} onPress={() => toggleGoal(g)} multi />
         ))}
       </Question>
       <Question label={t('gen_duration')}>
@@ -267,7 +298,13 @@ function Planner() {
         </Question>
       ) : null}
 
-      {wide && plan ? null : (
+      {/* Un solo interruptor: casi siempre es "normal"; se marca solo el día que hace falta. */}
+      <Question label={t('web_q_today')} hint={tired ? t('web_tired_hint') : undefined} multi>
+        <Chip label={t('web_today_tired')} on={tired} onPress={() => setTired((v) => !v)} multi />
+      </Question>
+
+      {/* Móvil: el botón vive fijo abajo (siempre a la vista); aquí solo en ancho. */}
+      {(wide && plan) || !wide ? null : (
       <Pressable
         accessibilityRole="button"
         onPress={() => create()}
@@ -279,6 +316,16 @@ function Planner() {
         <Text style={[styles.primaryText, { color: p.onAccent }]}>{t('web_create')}</Text>
       </Pressable>
       )}
+      {/* R-169: historial con WhatsApp (pegar la conversación). */}
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => setHistoryOpen(true)}
+        style={({ pressed }) => [styles.histLink, { opacity: pressed ? 0.6 : 1 }]}
+      >
+        <Text style={[styles.histText, { color: p.secondary }]}>
+          {log.length ? t('wa_history_n', { count: log.length }) : t('wa_history_link')}
+        </Text>
+      </Pressable>
     </View>
   );
 
@@ -322,8 +369,8 @@ function Planner() {
       </View>
       <Text style={[styles.resultMeta, { color: p.secondary }]}>
         {(wide
-          ? [level ? t(`level_${level}`) : null, sameScheme]
-          : [t(`goal_${goal}`), level ? t(`level_${level}`) : null, durLabel(plan.estimated_duration_min || duration), t(`web_eq_${mode}`), sameScheme]
+          ? [tired ? t('web_today_tired') : null, level ? t(`level_${level}`) : null, sameScheme]
+          : [goals.map((g) => t(`goal_${g}`)).join(' + '), tired ? t('web_today_tired') : null, level ? t(`level_${level}`) : null, durLabel(plan.estimated_duration_min || duration), t(`web_eq_${mode}`), sameScheme]
         ).filter(Boolean).join(' · ')}
       </Text>
       {plan.exercises.map((x, i) => {
@@ -331,7 +378,7 @@ function Planner() {
         if (!e) return null;
         const cardio = e.muscle_group === 'cardio';
         // Peso recomendado (desde la banca); en mancuernas, por mano.
-        const kg = x.recommended_weight_kg > 0 ? (e.equipment === 'dumbbell' ? t('web_kg_hand', { kg: x.recommended_weight_kg }) : `${x.recommended_weight_kg} kg`) : null;
+        const kg = x.recommended_weight_kg > 0 ? (e.equipment === 'dumbbell' ? t('web_kg_hand', { kg: fmtKg(x.recommended_weight_kg, lang) }) : `${fmtKg(x.recommended_weight_kg, lang)} kg`) : null;
         const line = cardio ? `${cardioMin} min` : [sameScheme ? null : `${x.sets} × ${x.reps} · ${t('web_rest', { s: x.rest_sec })}`, kg].filter(Boolean).join(' · ');
         return (
           <Pressable
@@ -387,15 +434,23 @@ function Planner() {
 
   return (
     <View style={[styles.root, { backgroundColor: p.bg }]}>
-      <ScrollView ref={scrollRef} contentContainerStyle={styles.scroll}>
+      <ScrollView ref={scrollRef} contentContainerStyle={[styles.scroll, stickyCreate && { paddingBottom: 96 }]}>
         <View style={[styles.page, { maxWidth: wide ? 1120 : 560 }]}>
           {/* Cabecera: marca a la izquierda, idioma a la derecha */}
+          {/* En la sesión, la pantalla entera es para entrenar (R-160): sin cabecera. */}
+          {running ? null : (
           <View style={styles.header}>
             {/* Marca: el icono (círculo de "serie hecha") + el nombre, igual que en el móvil. */}
-            <View style={styles.brandRow} accessibilityRole="header">
+            {/* R-157: logo y nombre = volver al inicio (en la sesión, pide terminar). */}
+            <Pressable
+              accessibilityRole="link"
+              accessibilityLabel={`FitTrack. ${t('web_home')}`}
+              onPress={goHome}
+              style={({ pressed }) => [styles.brandRow, { opacity: pressed ? 0.7 : 1 }]}
+            >
               <Image source={BRAND_ICON} style={styles.brandIcon} accessibilityIgnoresInvertColors />
               <Text style={[styles.brand, { color: p.text }]}>FitTrack</Text>
-            </View>
+            </Pressable>
             <View style={styles.langs} accessibilityRole="radiogroup" accessibilityLabel={t('profile_language')}>
               {LANGS.slice()
                 .sort((a, b) => ['es', 'en', 'nl', 'fr'].indexOf(a) - ['es', 'en', 'nl', 'fr'].indexOf(b))
@@ -415,6 +470,7 @@ function Planner() {
                 ))}
             </View>
           </View>
+          )}
 
           {running ? (
             <WebSession
@@ -424,6 +480,17 @@ function Planner() {
               onNew={() => {
                 setRunning(null);
                 setPlan(null);
+              }}
+              exitSignal={exitSignal}
+              onLog={setLog}
+              onTop={() => setTimeout(() => scrollRef.current?.scrollTo({ y: 0, animated: false }), 0)}
+              onExtra={(taken) => {
+                // Un ejercicio más, con las mismas reglas (grupo con menos, sin repetir movimiento).
+                const keys = new Set(taken.map((id) => movementKey(byId.get(id)!)));
+                const cand = build(taken).exercises.find((x) => !taken.includes(x.exercise_id) && !keys.has(movementKey(byId.get(x.exercise_id)!)));
+                if (!cand) return null;
+                const e = byId.get(cand.exercise_id);
+                return exerciseFromRow(cand, () => ({ cardio: e?.muscle_group === 'cardio', bodyweight: !e || isBodyweightExercise(e) }), cardioMin);
               }}
             />
           ) : (
@@ -435,6 +502,7 @@ function Planner() {
 
           {/* Créditos: dibujos de Everkinetic con licencia CC BY-SA 3.0, modificados
               (el enlace lleva a la lista de originales, fuentes y cambios). */}
+          {running ? null : (
           <View style={styles.footerWrap}>
             <Text style={[styles.footer, { color: p.dim }]}>{t('web_footer')}</Text>
             <View style={styles.footerLinks}>
@@ -448,17 +516,31 @@ function Planner() {
               ))}
             </View>
           </View>
+          )}
         </View>
       </ScrollView>
+      {/* Móvil: "Crear entreno" fijo abajo — la acción principal siempre visible (Fase 25). */}
+      {stickyCreate ? (
+        <View style={[styles.sticky, { backgroundColor: p.bg, borderTopColor: p.border }]}>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => create()}
+            style={({ pressed }) => [styles.primary, { marginTop: 0, width: '100%', maxWidth: 520, backgroundColor: p.accent, opacity: pressed ? 0.85 : 1 }]}
+          >
+            <Text style={[styles.primaryText, { color: p.onAccent }]}>{t('web_create')}</Text>
+          </Pressable>
+        </View>
+      ) : null}
+      {historyOpen ? <WebHistory log={log} exercises={exercises} onChange={setLog} onClose={() => setHistoryOpen(false)} /> : null}
       {detailEx ? <ExerciseHowTo exercise={detailEx} onClose={() => setDetail(null)} /> : null}
     </View>
   );
 }
 
-function Question({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
+function Question({ label, hint, children, multi }: { label: string; hint?: string; children: React.ReactNode; multi?: boolean }) {
   const { p } = useTheme();
   return (
-    <View style={styles.q} accessibilityRole="radiogroup" accessibilityLabel={hint ? `${label}. ${hint}` : label}>
+    <View style={styles.q} accessibilityRole={multi ? undefined : 'radiogroup'} accessibilityLabel={hint ? `${label}. ${hint}` : label}>
       <Text style={[styles.qLabel, { color: p.secondary }, hint ? { marginBottom: 4 } : null]}>{label}</Text>
       {/* Aclaración opcional (p. ej. la banca: solo es una estimación para ajustar la sesión). */}
       {hint ? <Text style={[styles.qHint, { color: p.secondary }]}>{hint}</Text> : null}
@@ -467,11 +549,11 @@ function Question({ label, hint, children }: { label: string; hint?: string; chi
   );
 }
 
-function Chip({ label, on, onPress }: { label: string; on: boolean; onPress: () => void }) {
+function Chip({ label, on, onPress, multi }: { label: string; on: boolean; onPress: () => void; multi?: boolean }) {
   const { p } = useTheme();
   return (
     <Pressable
-      accessibilityRole="radio"
+      accessibilityRole={multi ? 'checkbox' : 'radio'}
       accessibilityState={{ checked: on }}
       onPress={onPress}
       style={({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => [
@@ -494,7 +576,7 @@ const styles = StyleSheet.create({
   page: { width: '100%', paddingHorizontal: 20, paddingBottom: 40 },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 12, paddingBottom: 8 },
   brandRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  brandIcon: { width: 30, height: 30, borderRadius: 7 },
+  brandIcon: { width: 34, height: 34, borderRadius: 8 },
   brand: { fontSize: 20, fontWeight: '800', letterSpacing: -0.3 },
   langs: { flexDirection: 'row' },
   lang: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
@@ -529,6 +611,9 @@ const styles = StyleSheet.create({
   change: { minHeight: 44, paddingHorizontal: 16, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   changeText: { fontSize: 15, fontWeight: '700' },
   footerWrap: { marginTop: 40, alignItems: 'center' },
+  sticky: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 20, paddingTop: 12, paddingBottom: 16, borderTopWidth: StyleSheet.hairlineWidth, alignItems: 'center' },
+  histLink: { minHeight: 44, alignSelf: 'center', justifyContent: 'center', marginTop: 8, paddingHorizontal: 12 },
+  histText: { fontSize: 15, fontWeight: '600', textDecorationLine: 'underline' },
   footer: { fontSize: 12, lineHeight: 18, textAlign: 'center' },
   footerLinks: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', columnGap: 16 },
   footerLink: { minHeight: 44, justifyContent: 'center', maxWidth: '100%', flexShrink: 1 },

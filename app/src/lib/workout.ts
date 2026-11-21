@@ -12,6 +12,7 @@
  */
 import type { ExerciseRow, Experience, Intensity, Goal } from './types';
 import { oneRm, type SessionLike } from './gym';
+import { snapPlan, snapWeight } from './plates';
 
 export type { Experience, Intensity, Goal } from './types';
 
@@ -72,6 +73,10 @@ export interface WorkoutPlan {
   experience: Experience;
   intensity: Intensity;
   goal: Goal;
+  /** Todos los objetivos elegidos (R-166); `goal` es el primero. */
+  goals?: Goal[];
+  /** Modo "Cansadísimo" (R-168). */
+  tired?: boolean;
 }
 
 /** Palabras que delatan peso corporal aunque la base lo marque "other". */
@@ -161,11 +166,43 @@ export const GOAL_SCHEME: Record<
   lose_fat: { sets: 3, reps: [15, 20], rest: 45 },
   lose_weight: { sets: 3, reps: [12, 20], rest: 45 },
   endurance: { sets: 3, reps: [20, 25], rest: 30 },
+  abs: { sets: 3, reps: [12, 20], rest: 45 },
 };
 
+/**
+ * Varios objetivos a la vez (R-166): series, reps y descanso son la media de
+ * los elegidos (descanso redondeado a 15 s). Con uno solo, su esquema tal cual.
+ */
+export function schemeFor(goals: Goal[]): { sets: number; reps: [number, number]; rest: number } {
+  const gs = goals.length ? goals : (['build_muscle'] as Goal[]);
+  const avg = (f: (g: Goal) => number) => gs.reduce((a, g) => a + f(g), 0) / gs.length;
+  return {
+    sets: Math.round(avg((g) => GOAL_SCHEME[g].sets)),
+    reps: [Math.round(avg((g) => GOAL_SCHEME[g].reps[0])), Math.round(avg((g) => GOAL_SCHEME[g].reps[1]))],
+    rest: Math.round(avg((g) => GOAL_SCHEME[g].rest) / 15) * 15,
+  };
+}
+
+/**
+ * Modo "Cansadísimo" (R-168): la sesión empieza muy ligera y el peso sube poco
+ * a poco, porque el cuerpo se despierta al entrenar. Ejercicio i de n: del 60 %
+ * al 85 % del peso normal; una serie menos (mínimo 2). Se aplica sobre la
+ * sesión YA ordenada (el orden decide la rampa).
+ */
+export const TIRED_FROM = 0.6;
+export const TIRED_TO = 0.85;
+export function applyTired<T extends { sets: number; recommended_weight_kg: number }>(rows: T[]): T[] {
+  const n = rows.length;
+  return rows.map((r, i) => {
+    const f = n > 1 ? TIRED_FROM + ((TIRED_TO - TIRED_FROM) * i) / (n - 1) : TIRED_FROM;
+    const w = r.recommended_weight_kg > 0 ? Math.max(2.5, roundW(r.recommended_weight_kg * f)) : 0;
+    return { ...r, sets: Math.max(2, r.sets - 1), recommended_weight_kg: w };
+  });
+}
+
 /** Reps objetivo a partir del objetivo + intensidad (ajuste fino). */
-export function repsForGoal(goal: Goal, intensity: Intensity = 'moderate'): number {
-  const [lo, hi] = GOAL_SCHEME[goal].reps;
+export function repsForGoal(goal: Goal | Goal[], intensity: Intensity = 'moderate'): number {
+  const [lo, hi] = (typeof goal === 'string' ? GOAL_SCHEME[goal] : schemeFor(goal)).reps;
   const base = Math.round((lo + hi) / 2);
   const shift = intensity === 'low' ? 2 : intensity === 'high' ? -2 : 0;
   return Math.min(30, Math.max(3, base + shift));
@@ -216,6 +253,10 @@ export function generateWorkout(opts: {
   experience: Experience;
   intensity: Intensity;
   goal?: Goal; // objetivo (por defecto: build_muscle)
+  /** Varios objetivos (R-166): manda sobre `goal`. Con "abs", el core entra siempre. */
+  goals?: Goal[];
+  /** Modo "Cansadísimo" (R-168): ligero al principio, el peso sube poco a poco. */
+  tired?: boolean;
   benchmarks?: BenchmarkRef[];
   exercises: ExerciseRow[];
   recent?: RecentRow[];
@@ -224,15 +265,18 @@ export function generateWorkout(opts: {
    *  real, y entre ellos los multiarticulares primero). */
   prefer?: Record<string, number>;
 }): WorkoutPlan {
-  const goal: Goal = opts.goal || 'build_muscle';
-  const scheme = GOAL_SCHEME[goal];
+  const goals: Goal[] = opts.goals && opts.goals.length ? opts.goals : [opts.goal || 'build_muscle'];
+  const goal: Goal = goals[0];
+  const scheme = schemeFor(goals);
+  const abs = goals.includes('abs');
+  const groups = abs && !opts.groups.includes('core') ? [...opts.groups, 'core'] : opts.groups;
   const bench = new Map((opts.benchmarks || []).map((b) => [b.exercise_id, b.estimated_1rm]));
   const recent = new Map((opts.recent || []).map((r) => [r.exercise_id, r]));
   const excluded = new Set(opts.exclude_ids || []);
   const prefer = opts.prefer || {};
 
   const pool = opts.exercises.filter(
-    (e) => opts.groups.includes(e.muscle_group) && fitsMode(e, opts.equipment_mode) && !excluded.has(e.id),
+    (e) => groups.includes(e.muscle_group) && fitsMode(e, opts.equipment_mode) && !excluded.has(e.id),
   );
 
   // Prioridad por grupo (máx. 2 por grupo para no duplicar volumen).
@@ -252,11 +296,13 @@ export function generateWorkout(opts: {
     (e.level === opts.experience ? 0.5 : 0);
   const picked: ExerciseRow[] = [];
   const seen = new Set<string>(); // un mismo movimiento no se repite en la sesión
-  for (const g of opts.groups) {
+  for (const g of groups) {
     const arr = (byGroup.get(g) || []).sort((a, b) => rank(b) - rank(a) || a.name_en.localeCompare(b.name_en));
     let n = 0;
+    // Con "abs", tres de core (no dos).
+    const cap = abs && g === 'core' ? 3 : 2;
     for (const e of arr) {
-      if (n >= 2) break;
+      if (n >= cap) break;
       const k = movementKey(e);
       if (seen.has(k)) continue;
       seen.add(k);
@@ -265,7 +311,7 @@ export function generateWorkout(opts: {
     }
   }
 
-  const reps = repsForGoal(goal, opts.intensity);
+  const reps = repsForGoal(goals, opts.intensity);
   const weightPer = (e: ExerciseRow): { w: number; src: WorkoutPlanExercise['weight_source'] } => {
     if (isBodyweightExercise(e)) return { w: 0, src: 'bodyweight' };
     if (bench.has(e.id)) {
@@ -311,15 +357,22 @@ export function generateWorkout(opts: {
     }
   }
 
+  if (opts.tired) out = applyTired(out);
+  // R-171: discos y mancuernas reales (nada de "13,7 kg por mano").
+  const exById = new Map(picked.map((e) => [e.id, e]));
+  out = snapPlan(out, (id) => exById.get(id));
+
   return {
     id: 'w-' + Date.now().toString(36),
-    muscle_groups: opts.groups,
+    muscle_groups: groups,
     equipment_mode: opts.equipment_mode,
     exercises: out,
     estimated_duration_min: estMin(out),
     experience: opts.experience,
     intensity: opts.intensity,
     goal,
+    ...(goals.length > 1 ? { goals } : {}),
+    ...(opts.tired ? { tired: true } : {}),
   };
 }
 
@@ -428,11 +481,11 @@ export function weightForExercise(
   const intensity = opts.intensity ?? 'moderate';
   if (isBodyweightExercise(ex)) return { weight_kg: 0, source: 'bodyweight' };
   const b = (opts.benchmarks || []).find((x) => x.exercise_id === ex.id);
-  if (b && b.estimated_1rm > 0) return { weight_kg: Math.max(2.5, roundW(weightFromOneRm(b.estimated_1rm, reps, intensity))), source: 'benchmark' };
+  if (b && b.estimated_1rm > 0) return { weight_kg: snapWeight(ex.equipment, Math.max(2.5, roundW(weightFromOneRm(b.estimated_1rm, reps, intensity))), ex.name_en), source: 'benchmark' };
   const r = (opts.recent || []).find((x) => x.exercise_id === ex.id);
   if (r && r.last_weight > 0) {
     return {
-      weight_kg: roundW(weightFromOneRm(oneRm(r.last_weight, r.last_reps), reps, intensity)) || r.last_weight,
+      weight_kg: snapWeight(ex.equipment, roundW(weightFromOneRm(oneRm(r.last_weight, r.last_reps), reps, intensity)) || r.last_weight, ex.name_en),
       source: 'history',
     };
   }

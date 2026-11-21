@@ -48,6 +48,8 @@ export interface SessionLike {
   energy?: number | null;
   feeling?: number | null;
   created_at?: string;
+  /** R-172: Extra mile hecha. */
+  extra_mile?: boolean;
 }
 
 /** Volumen total de una sesión (suma de sus sets). */
@@ -291,6 +293,7 @@ export function normalizeSession(s: SessionLike): SessionLike {
   if (energy) out.energy = energy;
   const feeling = level5(s.feeling);
   if (feeling) out.feeling = feeling;
+  if (s.extra_mile === true) out.extra_mile = true;
   return out;
 }
 

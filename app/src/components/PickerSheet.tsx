@@ -29,6 +29,8 @@ export interface PickerSheetProps {
   onSelect: (v: number) => void; // se mantiene por compatibilidad
   onConfirm: (v: number) => void; // aplica y cierra
   custom?: { min: number; max: number; step: number }; // rango de la rueda + escritura libre
+  /** Rueda con valores concretos aunque haya `custom` (p. ej. mancuernas estándar, R-171). */
+  ladder?: number[];
   labelCustom?: string; // 'Escribir'
   labelUse?: string; // (sin uso: ya no hay botón "Usar")
   /** Unidad alternativa solo para mostrar (p. ej. altura en m: factor 0,01). */
@@ -48,9 +50,11 @@ const MAX_ITEMS = 600; // la rueda nunca pinta más filas que esto
 
 /** Valores de la rueda: el rango `custom` (con paso agrandado si saldrían
  *  demasiadas filas) o la lista `values`. Siempre incluye el valor actual. */
-function wheelValues(values: number[], custom: PickerSheetProps['custom'], current: number): number[] {
+function wheelValues(values: number[], custom: PickerSheetProps['custom'], current: number, ladder?: number[]): number[] {
   let out: number[];
-  if (custom) {
+  if (ladder && ladder.length) {
+    out = [...ladder];
+  } else if (custom) {
     let step = custom.step;
     const n = (custom.max - custom.min) / step;
     if (n > MAX_ITEMS) step = step * Math.ceil(n / MAX_ITEMS);
@@ -76,10 +80,11 @@ export function PickerSheet({
   custom,
   labelCustom = 'Escribir',
   altUnit,
+  ladder,
 }: PickerSheetProps) {
   const { p } = useTheme();
   const scale = useScale();
-  const items = useMemo(() => wheelValues(values, custom, value), [values, custom, value]);
+  const items = useMemo(() => wheelValues(values, custom, value, ladder), [values, custom, value, ladder]);
   const startIdx = () => {
     if (!items.length) return 0;
     let best = 0;

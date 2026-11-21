@@ -23,6 +23,7 @@ import { newActiveSession, type ActiveSession, type ActiveDraftExercise } from '
 import { generateWorkout, recentRows, weightForExercise, type WorkoutPlan } from './src/lib/workout';
 import { effectiveRecords, recordsAsBenchmarks, BENCHMARK_TEST } from './src/lib/records';
 import { progressionFor } from './src/lib/progression';
+import { stepWeight } from './src/lib/plates';
 import type { Goal, Intensity } from './src/lib/types';
 import { QuickStartSheet, type QuickStartOptions } from './src/components/QuickStartSheet';
 import TabIcon from './src/components/TabIcon';
@@ -221,10 +222,14 @@ function Root({
   ) => {
     const today = todayISO();
     const draft: ActiveDraftExercise[] = plan.exercises.map((x) => {
-      const cardio = exercises.find((e) => e.id === x.exercise_id)?.muscle_group === 'cardio';
+      const ex = exercises.find((e) => e.id === x.exercise_id);
+      const cardio = ex?.muscle_group === 'cardio';
       // Progresión (B): con histórico manda lo que levantaste de verdad. Si
       // completaste todas las reps, +2,5 kg; con energía baja, el mismo peso.
-      const prog = cardio || type === 'benchmark' ? null : progressionFor(x.exercise_id, sessions, x.reps, today);
+      // Cansadísimo (R-168): la rampa ligera manda; sin progresión hoy.
+      const prog = cardio || type === 'benchmark' || plan.tired
+        ? null
+        : progressionFor(x.exercise_id, sessions, x.reps, today, (kg) => stepWeight(ex?.equipment, kg, 1, ex?.name_en));
       const easy = opts.intensity === 'low';
       const w = prog ? (easy ? prog.from : prog.to) : x.recommended_weight_kg;
       return {
@@ -259,18 +264,22 @@ function Root({
   // objetivo); "Continuar al entreno" genera el plan. Se recuerda la última
   // elección (AsyncStorage) y, si no hay, se parte del Perfil.
   const [qsOpen, setQsOpen] = useState(false);
-  const [qs, setQs] = useState<QuickStartOptions>({ duration: 45, intensity: 'moderate', energy: 'normal', goal: 'build_muscle' });
+  const [qs, setQs] = useState<QuickStartOptions>({ duration: 45, intensity: 'moderate', energy: 'normal', goals: ['build_muscle'] });
   useEffect(() => {
     void AsyncStorage.getItem(QS_KEY).then((raw) => {
       if (raw) {
         try {
-          setQs((q) => ({ ...q, ...(JSON.parse(raw) as Partial<QuickStartOptions>) }));
+          // Antes se guardaba un solo objetivo (`goal`): pasa a la lista.
+          const v = JSON.parse(raw) as Partial<QuickStartOptions> & { goal?: Goal };
+          if (!v.goals?.length) v.goals = [v.goal || profile?.goal || 'build_muscle'];
+          delete v.goal;
+          setQs((q) => ({ ...q, ...v }));
           return;
         } catch {
           /* datos corruptos: se ignoran */
         }
       }
-      if (profile?.goal) setQs((q) => ({ ...q, goal: profile.goal as Goal }));
+      if (profile?.goal) setQs((q) => ({ ...q, goals: [profile.goal as Goal] }));
     });
   }, [profile?.goal]);
   // "Hoy toca": propuesta por defecto + "Cambiar" (un toque, sin menús).
@@ -294,7 +303,7 @@ function Root({
     void AsyncStorage.setItem(QS_KEY, JSON.stringify(qs));
     // Energía baja → un nivel menos de intensidad (nunca por debajo de suave).
     const order: Intensity[] = ['low', 'moderate', 'high'];
-    const intensity = qs.energy === 'low' ? order[Math.max(0, order.indexOf(qs.intensity) - 1)] : qs.intensity;
+    const intensity = qs.energy === 'low' || qs.energy === 'exhausted' ? order[Math.max(0, order.indexOf(qs.intensity) - 1)] : qs.intensity;
     const split = todaySplit;
     setSplitSkip(0);
     const plan = generateWorkout({
@@ -303,13 +312,14 @@ function Root({
       duration_min: qs.duration,
       experience: profile?.experience || 'intermediate',
       intensity,
-      goal: qs.goal,
+      goals: qs.goals,
+      tired: qs.energy === 'exhausted',
       benchmarks: effBench,
       exercises,
       recent: recentRows(sessions),
     });
     // Energía de la hoja de inicio → escala 1–5 de la valoración (no se repregunta).
-    const energy = qs.energy === 'low' ? 2 : qs.energy === 'high' ? 4 : 3;
+    const energy = qs.energy === 'exhausted' ? 1 : qs.energy === 'low' ? 2 : qs.energy === 'high' ? 4 : 3;
     startWorkout(plan, 'training', { intensity, energy });
     setTab('session');
   };
@@ -441,7 +451,7 @@ function Root({
                 activeWorkout={active != null}
                 onStartSession={openQuickStart}
                 todayGroups={todaySplit}
-                todayMeta={`${t(`goal_${qs.goal}`)} · ${qs.duration} min`}
+                todayMeta={`${qs.goals.map((g) => t(`goal_${g}`)).join(' + ')} · ${qs.duration} min`}
                 mondayNote={splitSkip === 0 && sessions.length > 0 && /* primer arranque: un solo mensaje */ mondayPushSkipped(sessions, new Map(exercises.map((e) => [e.id, e.muscle_group])))}
                 onChangeSplit={() => setSplitSkip((n) => n + 1)}
                 onOpenHistory={(d) => {

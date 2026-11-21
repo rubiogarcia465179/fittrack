@@ -41,7 +41,7 @@ const MODES: { id: EquipmentMode; labelKey: string }[] = [
 const EXPS: Experience[] = ['beginner', 'intermediate', 'advanced'];
 const INTENS: Intensity[] = ['low', 'moderate', 'high'];
 const DURATIONS = [20, 30, 40, 60, 90];
-const GOALS: Goal[] = ['build_muscle', 'lose_fat', 'definition', 'lose_weight', 'strength', 'endurance'];
+const GOALS: Goal[] = ['build_muscle', 'lose_fat', 'definition', 'lose_weight', 'strength', 'endurance', 'abs'];
 
 type Page = 'type' | 'goal' | 'groups' | 'duration' | 'mode' | 'review';
 
@@ -70,7 +70,9 @@ export default function WorkoutBuilderScreen({
 
   const [kind, setKind] = useState<'training' | 'benchmark'>('training');
   const [idx, setIdx] = useState(0);
-  const [goal, setGoal] = useState<Goal>(defaultGoal || 'build_muscle');
+  // Varios objetivos a la vez (R-166): se marcan y desmarcan (siempre queda uno).
+  const [goals, setGoals] = useState<Goal[]>([defaultGoal || 'build_muscle']);
+  const toggleGoal = (g: Goal) => setGoals((gs) => (gs.includes(g) ? (gs.length > 1 ? gs.filter((x) => x !== g) : gs) : [...gs, g]));
   const [mode, setMode] = useState<EquipmentMode>('full_gym');
   const [exp, setExp] = useState<Experience>(defaultExperience || 'intermediate');
   const [intensity, setIntensity] = useState<Intensity>('moderate');
@@ -108,7 +110,7 @@ export default function WorkoutBuilderScreen({
         duration_min: duration,
         experience: exp,
         intensity,
-        goal,
+        goals,
         benchmarks,
         exercises,
         recent: recentRows(sessions),
@@ -273,16 +275,16 @@ export default function WorkoutBuilderScreen({
 
         {page === 'goal' ? (
           <>
-            <StepHeader title={t('wiz_goal')} />
+            <StepHeader title={t('wiz_goal')} sub={t('web_q_goal_hint')} />
             <View style={styles.goalList}>
               {GOALS.map((g) => {
-                const active = goal === g;
+                const active = goals.includes(g);
                 return (
                   <Pressable
                     key={g}
-                    accessibilityRole="button"
-                    accessibilityState={{ selected: active }}
-                    onPress={() => setGoal(g)}
+                    accessibilityRole="checkbox"
+                    accessibilityState={{ checked: active }}
+                    onPress={() => toggleGoal(g)}
                     style={({ pressed }) => [
                       styles.goalRow,
                       {
@@ -297,6 +299,7 @@ export default function WorkoutBuilderScreen({
                       style={[
                         styles.goalRadio,
                         {
+                          borderRadius: 7, // casilla (varios a la vez), no círculo
                           borderColor: active ? p.accent : p.border,
                           backgroundColor: active ? p.accent : 'transparent',
                         },

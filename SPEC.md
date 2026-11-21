@@ -99,6 +99,13 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   `cuerpo-3d` (modelo anatómico Z-Anatomy) para retomarlo si se rediseña.
 
 ### Entrenar (sesión)
+- **Fase 24 (R-163/R-164/R-170/R-172)**: bajo las series, cómo cargar el
+  peso (discos por lado con barra de 20 kg / mancuernas por mano + total); la
+  rueda de peso solo ofrece pesos estándar; en el descanso (barra inferior),
+  consejo o vista previa del siguiente ejercicio; "Bien hecho" con mensaje
+  inspirado en David Goggins y "Extra mile" (con el plan cumplido; racha para
+  compartir). Hoja de inicio: energía "Cansadísimo" y varios objetivos
+  (incl. Abdominales).
 - **Cabecera**: cerrar (descartar con confirmación) · **lo que entrenas**
   ("Espalda y brazos", como "Hoy toca"; 1–2 grupos sin cardio; si no,
   "Sesión"; en el test, "Marcas") + "x/y series hechas" · línea fina de
@@ -290,8 +297,20 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   después, descanso a pantalla completa con cuenta atrás grande, "+15 s" y
   "Saltar" (vibra al acabar; la pestaña muestra la cuenta). Cerrar con series
   hechas pregunta "¿Terminar el entreno?" (Seguir / Terminar). Al final,
-  "Bien hecho": min · series y lo hecho por ejercicio + "Nuevo entreno". No
-  se guarda nada. La sesión: ejercicios clásicos con dibujo real, multiarticular
+  "Bien hecho": min · series y lo hecho por ejercicio + "Nuevo entreno".
+  **Fase 24 (feedback de uso, R-156…R-172)**: arriba "x/y series" y bajo el
+  nombre "Ejercicio n de m · Serie n de m"; el dibujo alterna 1-2-1-2 (el 3.º
+  no se usa); bajo el peso, **cómo cargarlo** (discos por lado con barra de
+  20 kg, o "2 × 12 kg · 24 kg en total"); − / + saltan a **pesos estándar**;
+  el descanso vibra/suena al acabar y enseña un **consejo** (mismo ejercicio)
+  o la **vista previa del siguiente** (si cambia). Sin pie de créditos
+  durante la sesión. "Bien hecho" muestra un mensaje **inspirado en David
+  Goggins**, la **Extra mile** (un ejercicio más, solo con el plan cumplido;
+  racha para compartir), **Enviar a WhatsApp** y **Copiar JSON**. En el
+  inicio: **varios objetivos** (incl. Abdominales), "¿Cómo estás hoy?"
+  (Normal / **Cansadísimo**) y "Historial · importar de WhatsApp" (pegar la
+  conversación; se guarda solo en el navegador y da los pesos). El logo
+  lleva al inicio. La sesión: ejercicios clásicos con dibujo real, multiarticular
   primero, brazos según el día; series y descanso una vez arriba; cada fila
   abre "¿Cómo se hace?" (dibujo + vídeo). Escritorio: dos columnas (la
   derecha con estado vacío antes; después se actualiza al cambiar una

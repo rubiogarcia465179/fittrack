@@ -22,6 +22,7 @@ import {
   KeyboardAvoidingView,
   Modal,
   AccessibilityInfo,
+  Share,
 } from 'react-native';
 import { exName } from '../lib/names';
 import { useTranslation } from 'react-i18next';
@@ -48,6 +49,12 @@ import { savePhoto } from '../lib/sessionPhotos';
 import { scheduleRestAlert, cancelRestAlert } from '../lib/restAlert';
 import { splitLabel } from '../lib/nextSplit';
 import { ExerciseThumb } from '../components/ExerciseThumb';
+import { weightChoices } from '../lib/plates';
+import { LoadLine } from '../components/LoadLine';
+import { RestPreview } from '../components/RestPreview';
+import { GogginsCard } from '../components/GogginsCard';
+import { pickTip } from '../lib/restTips';
+import { extraStreak } from '../lib/webLog';
 import {
   suggestAlternatives,
   isBodyweightExercise,
@@ -98,15 +105,18 @@ export function ExerciseGlyph({
   size = 24,
   color,
   id,
+  animate,
 }: {
   label: string;
   size?: number;
   color?: string;
   /** Con id: el dibujo real del ejercicio si existe (R-137). */
   id?: string;
+  /** Ejercicio actual: alterna inicio y final para ver el movimiento. */
+  animate?: boolean;
 }) {
   const c = color || GROUP_COLORS[(label as string) in GROUP_COLORS ? (label as string) : 'legs'];
-  if (id) return <ExerciseThumb id={id} group={label} size={Math.round(size * 1.75)} color={c} />;
+  if (id) return <ExerciseThumb id={id} group={label} size={Math.round(size * 1.75)} color={c} animate={animate} />;
   return <GroupGlyph group={label} size={size} color={c} />;
 }
 
@@ -398,6 +408,11 @@ export default function SessionScreen({
   // Se guarda en la sesión activa: sobrevive a cambiar de pestaña.
   const [restUntil, setRestUntil] = useState<number | null>(session.rest_until ?? null);
   const [restTotal, setRestTotal] = useState<number>(session.rest_total ?? 90);
+  // R-164: en el descanso, consejo (mismo ejercicio) o el siguiente ejercicio.
+  const [tip, setTip] = useState(() => pickTip(null));
+  const [lastDoneId, setLastDoneId] = useState<string | null>(null);
+  // R-172: "Extra mile" — un ejercicio más tras terminar; racha para compartir.
+  const [extraId, setExtraId] = useState<string | null>(session.extra_id ?? null);
   useEffect(() => setEquipOpen(false), [currentIndex]);
 
   const byId = useMemo(() => new Map(exercises.map((e) => [e.id, e])), [exercises]);
@@ -463,9 +478,10 @@ export default function SessionScreen({
       postponed,
       rest_until: restUntil ?? undefined,
       rest_total: restTotal,
+      extra_id: extraId ?? undefined,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, duration, weightStr, heightStr, notes, draft, postponed, restUntil, restTotal]);
+  }, [date, duration, weightStr, heightStr, notes, draft, postponed, restUntil, restTotal, extraId]);
 
   // ---- progreso: series COMPLETADAS (marcadas por el usuario) / totales ----
   // Los valores prellenados (sugeridos) NO cuentan: solo marca la serie
@@ -652,6 +668,27 @@ export default function SessionScreen({
   // El ejercicio que SIGUE según el plan (lo indica la app al "acabar").
   const nextInPlan = draft[currentIndex + 1] ? byId.get(draft[currentIndex + 1].exercise_id) ?? null : null;
   const isLastExercise = currentIndex >= draft.length - 1;
+  // Descanso (R-164): si quedan series del ejercicio recién hecho → consejo;
+  // si no, vista previa del siguiente ejercicio con series pendientes.
+  const restNext = useMemo(() => {
+    const li = draft.findIndex((x) => x.exercise_id === lastDoneId);
+    if (li < 0 || draft[li].sets.some((x) => !x.done)) return null;
+    const nx = draft.slice(li + 1).find((x) => x.sets.some((y) => !y.done)) ?? draft.find((x) => x.sets.some((y) => !y.done));
+    const e = nx ? byId.get(nx.exercise_id) : undefined;
+    if (!nx || !e) return null;
+    const st = nx.sets.find((y) => !y.done)!;
+    const cardio = e.muscle_group === 'cardio';
+    return {
+      id: e.id,
+      group: e.muscle_group,
+      name: nameOf(e),
+      line: cardio ? `${fmtNum(st.duration_min || 0)} min` : `${nx.sets.length} × ${st.reps}${st.weight_kg > 0 ? ` · ${fmtNum(st.weight_kg)} kg` : ''}`,
+      equipment: e.equipment,
+      name_en: e.name_en,
+      kg: st.weight_kg,
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draft, lastDoneId, byId, lang]);
 
   // Scroll de foco: centra la tarjeta ACTUAL en la parte superior de la zona
   // visible (franja "AHORA" + nombre del ejercicio siempre a la vista). La
@@ -812,13 +849,17 @@ export default function SessionScreen({
     );
     // Al COMPLETAR una serie de fuerza empieza el descanso del plan
     // (rest_after) o 90 s por defecto. Desmarcar no lo inicia.
-    if (!wasDone) tapLight(); // háptico al completar una serie
+    if (!wasDone) {
+      tapLight(); // háptico al completar una serie
+      setLastDoneId(id);
+    }
     // Tras la última serie del entreno no hay descanso: solo queda Finalizar.
     if (!wasDone && d0 && !isCardio(id) && doneSets + 1 < totalSets) startRest(d0.rest_after || 90);
   };
 
   // ---- Temporizador de descanso (estado declarado arriba; se persiste) ----
   const startRest = (sec: number) => {
+    setTip((x) => pickTip(x));
     setRestTotal(sec);
     setRestUntil(Date.now() + sec * 1000);
   };
@@ -1012,6 +1053,22 @@ export default function SessionScreen({
     setCheckinOpen(true);
   };
 
+  const extraDone = !!extraId && !!draft.find((x) => x.exercise_id === extraId)?.sets.some((y) => y.done);
+  /** Racha: sesiones seguidas (la de hoy incluida si cuenta) con Extra mile. */
+  const xmStreak = extraDone ? 1 + extraStreak(sessions.filter((x) => x.type !== 'benchmark').map((x) => !!x.extra_mile)) : 0;
+  const goExtraMile = () => {
+    const groups = [...new Set(draft.map((x) => byId.get(x.exercise_id)?.muscle_group).filter((g): g is string => !!g && g !== 'cardio'))];
+    const opts = { mode: session.equipment_mode, benchmarks: session.benchmarks, recent, exclude: draft.map((x) => x.exercise_id) };
+    const cand = suggestNextExercise(exercises, { ...opts, groups }) ?? suggestNextExercise(exercises, opts);
+    if (!cand) return;
+    setCheckinOpen(false);
+    addExercise(cand.id);
+    setExtraId(cand.id);
+  };
+  const shareStreak = () => {
+    void Share.share({ message: t('xm_share', { count: xmStreak }) }).catch(() => undefined);
+  };
+
   const save = async (rating?: { energy: number | null; feeling: number | null }) => {
     if (saving) return;
     setCheckinOpen(false);
@@ -1038,6 +1095,7 @@ export default function SessionScreen({
         height_cm: heightVal > 0 ? heightVal : null,
         energy: rating?.energy ?? session.energy ?? null,
         feeling: rating?.feeling ?? null,
+        extra_mile: extraDone || undefined,
       }) as Session;
       // Fase 15: la foto elegida en "Bien hecho" va al post de la sesión.
       if (finishPhoto) {
@@ -1288,7 +1346,7 @@ export default function SessionScreen({
               >
                 <View style={styles.draftHeader}>
                   <View style={styles.draftTitleWrap}>
-                    <ExerciseGlyph id={ex?.id} label={ex?.muscle_group || 'legs'} size={22} color={p.text} />
+                    <ExerciseGlyph id={ex?.id} label={ex?.muscle_group || 'legs'} size={30} color={p.text} animate />
                     <Text style={[styles.draftName, { color: p.text }]} numberOfLines={2} accessibilityRole="header">
                       {ex ? nameOf(ex) : d.exercise_id}
                     </Text>
@@ -1501,6 +1559,20 @@ export default function SessionScreen({
                 ))}
                   </>
                 )}
+
+                {/* R-163: cómo cargar el peso de la próxima serie (discos por lado
+                    con la barra de 20 kg, o mancuerna por mano) y el total. */}
+                {!isCardio(d.exercise_id) && needsWeight(d.exercise_id)
+                  ? (() => {
+                      const nx = d.sets.find((x) => !x.done) ?? d.sets[d.sets.length - 1];
+                      const exr = byId.get(d.exercise_id);
+                      return nx ? (
+                        <View style={{ marginTop: 10 }}>
+                          <LoadLine equipment={exr?.equipment} kg={nx.weight_kg} name_en={exr?.name_en} center={false} />
+                        </View>
+                      ) : null;
+                    })()
+                  : null}
 
                 {/* Series: añadir / quitar la última (sin una X por fila). */}
                 <View style={styles.setActions}>
@@ -1727,6 +1799,7 @@ export default function SessionScreen({
       {pick ? (
         <PickerSheet
           open
+          ladder={pick.kind === 'weight' ? weightChoices(byId.get(pick.ex)?.equipment, byId.get(pick.ex)?.name_en) : undefined}
           title={
             pick.kind === 'cmin'
               ? t('picker_duration')
@@ -1868,6 +1941,8 @@ export default function SessionScreen({
           <View style={[styles.searchSheet, styles.checkinSheet, { backgroundColor: p.card }]}>
             <View style={styles.searchHandle} />
             <Text style={[styles.doneTitle, { color: p.text }]} accessibilityRole="header">{t('checkin_title')}</Text>
+            {/* R-170: un mensaje al azar inspirado en David Goggins. */}
+            <GogginsCard />
             {/* Resumen (A): solo datos reales; sin récords, la cifra no aparece. */}
             <View style={styles.sumRow}>
               {/* Los minutos son los que se guardan; se pueden corregir (p. ej. si
@@ -1925,6 +2000,24 @@ export default function SessionScreen({
                 <Text style={[styles.finishPhotoText, { color: p.text }]}>{finishPhoto ? t('home_photo_change') : `+ ${t('feed_add_photo')}`}</Text>
               </Pressable>
             </View>
+            {/* R-172: Extra mile — un ejercicio más (y la racha, para compartir). */}
+            {isBenchmark || (!extraDone && (extraId || doneSets < totalSets)) ? null : extraDone ? (
+              <View style={styles.xmRow}>
+                <Text style={[styles.xmText, { color: p.text }]}>{t('xm_done', { count: xmStreak })}</Text>
+                <Pressable accessibilityRole="button" onPress={shareStreak} style={({ pressed }) => [styles.xmBtn, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}>
+                  <Text style={[styles.xmBtnText, { color: p.text }]}>{t('xm_share_btn')}</Text>
+                </Pressable>
+              </View>
+            ) : (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityHint={t('xm_hint')}
+                onPress={goExtraMile}
+                style={({ pressed }) => [styles.xmBtn, styles.xmWide, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
+              >
+                <Text style={[styles.xmBtnText, { color: p.text }]}>{t('xm_button')}</Text>
+              </Pressable>
+            )}
             <Pressable
               style={({ pressed }) => [{ marginTop: 12, opacity: saving ? 0.4 : pressed ? 0.85 : 1 }]}
               accessibilityRole="button"
@@ -1940,7 +2033,7 @@ export default function SessionScreen({
         </View>
       ) : null}
 
-      {howToId && byId.get(howToId) ? <ExerciseHowTo exercise={byId.get(howToId)!} onClose={() => setHowToId(null)} /> : null}
+      {howToId && byId.get(howToId) ? <ExerciseHowTo exercise={byId.get(howToId)!} onClose={() => setHowToId(null)} hideCredit /> : null}
 
       {/* Confirmación de descartar el entrenamiento activo */}
       {confirmDiscard || confirmRemove ? (
@@ -2020,6 +2113,7 @@ export default function SessionScreen({
                 style={[styles.restFill, { width: `${Math.max(2, Math.round((restLeft / Math.max(1, restTotal)) * 100))}%` }]}
               />
             </View>
+            <RestPreview compact tip={tip} onHowTo={setHowToId} next={restNext} />
           </View>
         ) : null}
         {/* Leyenda solo para el guardado: el siguiente ya se ve en la lista. */}
@@ -3148,6 +3242,11 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 12,
   },
+  xmRow: { flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 14 },
+  xmText: { flex: 1, fontSize: 15, fontWeight: '700' },
+  xmBtn: { minHeight: 44, paddingHorizontal: 16, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  xmWide: { marginTop: 14, alignSelf: 'stretch' },
+  xmBtnText: { fontSize: 15, fontWeight: '700' },
   finishPhotoRow: { flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 14 },
   finishThumb: { width: 44, height: 44, borderRadius: 8, borderWidth: StyleSheet.hairlineWidth },
   finishPhotoText: { fontSize: 15, fontWeight: '600' },
