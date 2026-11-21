@@ -1,7 +1,7 @@
 // Web pública (R-136): una pantalla que crea un entreno. Se ejecuta a varios
 // anchos (móvil 393, tableta 834, escritorio 1440) con --size y el build
 // EXPO_PUBLIC_WEB_MODE=planner. Prefijo de archivo = ancho.
-module.exports = async ({ load, shot, tap, sleep, evaluate }) => {
+module.exports = async ({ load, shot, tap, tapLabel, sleep, evaluate }) => {
   await load({});
   const w = await evaluate('innerWidth');
   const n = (s) => `web-${w}-${s}`;
@@ -16,6 +16,33 @@ module.exports = async ({ load, shot, tap, sleep, evaluate }) => {
   await tap('Create workout');
   await sleep(700);
   await shot(n('2b-banca'));
+  // R-153: 2 horas → más ejercicios y series, sin pasarse.
+  await load({});
+  await tap('2 h');
+  await tap('Create workout');
+  await sleep(700);
+  await shot(n('2c-2h'));
+  await load({});
+  await tap('60 kg');
+  await tap('Create workout');
+  await sleep(700);
+  // R-152: seguir la sesión — serie, descanso, salir y resumen.
+  await tap('Start workout');
+  await sleep(500);
+  await shot(n('6-serie'));
+  await tap('Set done');
+  await sleep(1200);
+  await shot(n('6-descanso'));
+  await tapLabel('Skip rest');
+  await sleep(300);
+  await tap('Set done');
+  await sleep(300);
+  await tapLabel('End workout?');
+  await sleep(300);
+  await shot(n('6-terminar'));
+  await tap('End');
+  await sleep(500);
+  await shot(n('6-resumen'));
   await load({});
   await tap('Create workout');
   await sleep(700);

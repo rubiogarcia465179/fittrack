@@ -438,8 +438,20 @@
   "workout_resume": "Reanudar",
   "workout_sets_done": "series hechas",
   "howto_pos_technique": "Técnica",
-  "web_q_bench": "Press de banca · tu peso para 8 repeticiones",
+  "web_q_bench": "Press de banca",
   "web_bench_unknown": "No lo sé",
   "web_kg_hand": "{{kg}} kg por mano",
-  "web_weight_tip_bench": "Pesos estimados a partir de tu press de banca. Si te sobran más de 2 repeticiones, sube; si pierdes la técnica, baja."
+  "web_weight_tip_bench": "Pesos estimados a partir de tu press de banca. Si te sobran más de 2 repeticiones, sube; si pierdes la técnica, baja.",
+  "web_q_bench_hint": "Solo es una estimación para ajustar tu entreno: ¿cuál es el máximo que mueves en press de banca haciendo 8 repeticiones?",
+  "web_start": "Empezar entreno",
+  "ws_set_of": "Serie {{n}} de {{total}}",
+  "ws_set_done": "Serie hecha",
+  "ws_done": "Hecho",
+  "ws_next": "Siguiente: {{what}}",
+  "ws_end_q": "¿Terminar el entreno?",
+  "ws_keep": "Seguir",
+  "ws_end": "Terminar",
+  "ws_new": "Nuevo entreno",
+  "ws_more": "Más",
+  "ws_less": "Menos"
 }

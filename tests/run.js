@@ -214,6 +214,59 @@ eq(wlib.movementKey(byId.get('leg_curls_laying')) === wlib.movementKey(byId.get(
   eq(w(heavy) > w(light), true, `objetivo manda: fuerza (${w(heavy)} kg) > resistencia (${w(light)} kg)`);
   eq([be.setsForLevel(3, 'beginner'), be.setsForLevel(3, 'advanced'), be.setsForLevel(2, 'beginner')], [2, 4, 2], 'series por nivel (mín. 2)');
 }
+// R-153: la sesión de la web cabe en el tiempo elegido (máximo) y no se queda corta.
+{
+  const fTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/webFit.ts'), 'utf8');
+  const fOut = ts.transpileModule(fTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } });
+  fs.writeFileSync(path.join(tmp, 'fit_app.mjs'), fOut.outputText);
+  const fit = await import(path.join(tmp, 'fit_app.mjs'));
+  const allEx = [...byId.values()];
+  const groupOf = (id) => byId.get(id)?.muscle_group || '';
+  const bad = [];
+  const groupsSets = { push: ['chest', 'shoulders', 'arms'], legs: ['legs', 'core'], full: ['legs', 'chest', 'back', 'shoulders', 'core'] };
+  for (const [fname, groups] of Object.entries(groupsSets)) for (const goal of ['strength', 'build_muscle', 'lose_fat', 'endurance']) for (const T of [30, 45, 60, 90, 120]) {
+    const gen = (ex) => wlib.generateWorkout({ groups, equipment_mode: 'full_gym', experience: 'intermediate', intensity: 'moderate', goal, exercises: allEx, exclude_ids: ex });
+    const base = wlib.GOAL_SCHEME[goal].sets;
+    const rows = fit.fitToDuration(gen([]).exercises.map((x) => ({ ...x, sets: base })), T, {
+      isCardio: () => false, cardioMin: 15, baseSets: base, groupOf,
+      more: (taken) => {
+        const keys = new Set(taken.map((id) => wlib.movementKey(byId.get(id))));
+        const c = gen(taken).exercises.filter((x) => !keys.has(wlib.movementKey(byId.get(x.exercise_id))));
+        const n = (g) => taken.filter((id) => groupOf(id) === g).length;
+        return c.sort((a, b) => n(groupOf(a.exercise_id)) - n(groupOf(b.exercise_id)))[0] ?? null;
+      },
+    });
+    const m = fit.planMinutes(rows, () => false, 15);
+    if (m > T || m < T - 10) bad.push(`${fname}/${goal}/${T}: ${m.toFixed(1)} min, ${rows.length} ej.`);
+  }
+  eq(bad, [], 'webFit: 3 enfoques × 4 objetivos × 30/45/60/90/120 min → entre T−10 y T minutos');
+}
+// R-152: seguir la sesión en la web (series, descanso, resumen).
+{
+  const sTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/webSession.ts'), 'utf8');
+  const sOut = ts.transpileModule(sTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } });
+  fs.writeFileSync(path.join(tmp, 'ws_app.mjs'), sOut.outputText);
+  const ws = await import(path.join(tmp, 'ws_app.mjs'));
+  const rows = [
+    { exercise_id: 'a', sets: 2, reps: 10, rest_sec: 60, recommended_weight_kg: 40 },
+    { exercise_id: 'b', sets: 1, reps: 12, rest_sec: 45, recommended_weight_kg: 0 },
+  ];
+  let s = ws.startSession(rows, (id) => ({ cardio: false, bodyweight: id === 'b' }), 15, 0);
+  eq([ws.totalSets(s), ws.current(s)], [3, { ei: 0, si: 0 }], 'webSession: 3 series, empieza por la 1.ª');
+  s = ws.adjust(s, 'kg', 2.5);
+  eq(s.ex[0].sets.map((x) => x.kg), [42.5, 42.5], 'ajustar kg pasa a las series que quedan');
+  s = ws.completeSet(s, 1000);
+  eq([ws.restLeft(s, 1000), ws.restLeft(s, 31000)], [60, 30], 'tras "Serie hecha": descanso de 60 s que cuenta atrás');
+  s = ws.addRest(s, 15, 31000);
+  eq(ws.restLeft(s, 31000), 45, '+15 s');
+  s = ws.skipRest(s);
+  eq([ws.restLeft(s, 31000), ws.current(s)], [0, { ei: 0, si: 1 }], 'Saltar → siguiente serie');
+  s = ws.completeSet(ws.skipRest(ws.completeSet(s, 40000)), 90000);
+  eq([s.finished, ws.doneSets(s), s.restUntil], [90000, 3, null], 'última serie → resumen, sin descanso');
+  eq([ws.clock(65), ws.clock(754), ws.clock(3723)], ['1:05', '12:34', '1:02:03'], 'reloj m:ss / h:mm:ss');
+  const early = ws.endNow(ws.completeSet(ws.startSession(rows, () => ({ cardio: false, bodyweight: false }), 15, 0), 5), 9);
+  eq([early.finished, ws.doneSets(early)], [9, 1], 'Terminar antes: lo hecho queda en el resumen');
+}
 
 // records.ts: marcas efectivas y días de récord (círculo verde).
 const rTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/records.ts'), 'utf8');

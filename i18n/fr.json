@@ -438,8 +438,20 @@
   "workout_resume": "Reprendre",
   "workout_sets_done": "séries faites",
   "howto_pos_technique": "Technique",
-  "web_q_bench": "Développé couché · ta charge pour 8 répétitions",
+  "web_q_bench": "Développé couché",
   "web_bench_unknown": "Je ne sais pas",
   "web_kg_hand": "{{kg}} kg par main",
-  "web_weight_tip_bench": "Charges estimées à partir de ton développé couché. S’il te reste plus de 2 répétitions, monte ; si ta technique se dégrade, baisse."
+  "web_weight_tip_bench": "Charges estimées à partir de ton développé couché. S’il te reste plus de 2 répétitions, monte ; si ta technique se dégrade, baisse.",
+  "web_q_bench_hint": "Juste une estimation pour ajuster ta séance : quelle est la charge maximale que tu soulèves au développé couché sur 8 répétitions ?",
+  "web_start": "Commencer la séance",
+  "ws_set_of": "Série {{n}} sur {{total}}",
+  "ws_set_done": "Série faite",
+  "ws_done": "Fait",
+  "ws_next": "Ensuite : {{what}}",
+  "ws_end_q": "Terminer la séance ?",
+  "ws_keep": "Continuer",
+  "ws_end": "Terminer",
+  "ws_new": "Nouvelle séance",
+  "ws_more": "Plus",
+  "ws_less": "Moins"
 }

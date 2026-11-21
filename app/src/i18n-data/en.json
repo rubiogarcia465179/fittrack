@@ -438,8 +438,20 @@
   "workout_resume": "Resume",
   "workout_sets_done": "sets done",
   "howto_pos_technique": "Technique",
-  "web_q_bench": "Bench press · your weight for 8 reps",
+  "web_q_bench": "Bench press",
   "web_bench_unknown": "Don't know",
   "web_kg_hand": "{{kg}} kg per hand",
-  "web_weight_tip_bench": "Weights estimated from your bench press. If you have more than 2 reps left, go up; if your form breaks, go down."
+  "web_weight_tip_bench": "Weights estimated from your bench press. If you have more than 2 reps left, go up; if your form breaks, go down.",
+  "web_q_bench_hint": "Just an estimate to size your workout: what's the most you can bench press for 8 reps?",
+  "web_start": "Start workout",
+  "ws_set_of": "Set {{n}} of {{total}}",
+  "ws_set_done": "Set done",
+  "ws_done": "Done",
+  "ws_next": "Next: {{what}}",
+  "ws_end_q": "End workout?",
+  "ws_keep": "Keep going",
+  "ws_end": "End",
+  "ws_new": "New workout",
+  "ws_more": "More",
+  "ws_less": "Less"
 }

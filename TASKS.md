@@ -394,7 +394,15 @@ vibración. Log completo, brief de los revisores y receta: `docs/LOOP-11l.md`.
       **Es lo que impide el SÍ de la prueba Jobs** (2026-11-21).
 - [x] R-150 (2026-11-21): web sin historial → pregunta del press de banca
       que da nivel, series, intensidad y pesos de toda la sesión según el
-      objetivo (`app/src/lib/benchEstimate.ts`, tests, captura `web-*-2b-banca`).
+      objetivo (`app/src/lib/benchEstimate.ts`, tests, captura `web-*-2b-banca`);
+      línea aclaratoria "solo es una estimación…" bajo la pregunta.
+- [x] R-152 (2026-11-21): web → "Empezar entreno" bajo "Otro entreno": seguir
+      la sesión (tiempo, serie hecha, descanso con cuenta atrás, resumen),
+      minimalista (`web/WebSession.tsx`, `lib/webSession.ts`, 8 tests,
+      capturas `web-*-6-*`).
+- [x] R-153 (2026-11-21): web → la sesión cabe en el tiempo elegido (series,
+      ejercicios y descansos) y opciones 1 h 30 y 2 h (`lib/webFit.ts`, test
+      60 combinaciones, captura `web-*-2c-2h`).
 
 
 ## Hecho recientemente

@@ -382,3 +382,6 @@ pero simple, como apple.com y las apps de iPhone".
 ### R-149 [DONE] Añadir a la app y la web los dibujos del agente (3 por ejercicio, `fittrack-dibujos/`), aunque no estén bien, y hacer la lista de los que hay que rehacer al estilo Everkinetic; commit y push (2026-11-21; 459 añadidos, 205/205 con 3; lista `docs/fotos/DIBUJOS-A-ARREGLAR.md`, 306)
 ### R-150 [DONE] Web sin historial: preguntar cuánto levanta en press de banca y recomendar pesos, series y repeticiones de toda la rutina según eso y el objetivo; solo en la web (2026-11-21; `lib/benchEstimate.ts`, 8 tests, captura `web-*-2b-banca`)
 ### R-151 [TODO] Rehacer los 306 dibujos de `docs/fotos/DIBUJOS-A-ARREGLAR.md` (agente web) (2026-11-21)
+### R-152 [DONE] Web: botón "Empezar entreno" tras "Otro entreno" que sigue la sesión de verdad (tiempo, marcar series hechas, descanso con cuenta atrás…), solo en la web y minimalista (2026-11-21; `web/WebSession.tsx`, `lib/webSession.ts`, 8 tests, capturas `web-*-6-*`)
+### R-153 [DONE] Web: ajustar series/repeticiones/ejercicios al tiempo elegido (con 1 h, como mucho 1 h) y añadir 1 h 30 y 2 h (2026-11-21; `lib/webFit.ts`, test de 60 combinaciones, captura `web-*-2c-2h`)
+### R-154 [DONE] Web: aclarar bajo "Press de banca" que es solo una estimación para ajustar el entreno (2026-11-21)

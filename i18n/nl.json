@@ -438,8 +438,20 @@
   "workout_resume": "Hervatten",
   "workout_sets_done": "sets klaar",
   "howto_pos_technique": "Techniek",
-  "web_q_bench": "Bankdrukken · je gewicht voor 8 herhalingen",
+  "web_q_bench": "Bankdrukken",
   "web_bench_unknown": "Weet ik niet",
   "web_kg_hand": "{{kg}} kg per hand",
-  "web_weight_tip_bench": "Gewichten geschat op basis van je bankdrukken. Heb je meer dan 2 herhalingen over, ga omhoog; verlies je de techniek, ga omlaag."
+  "web_weight_tip_bench": "Gewichten geschat op basis van je bankdrukken. Heb je meer dan 2 herhalingen over, ga omhoog; verlies je de techniek, ga omlaag.",
+  "web_q_bench_hint": "Alleen een schatting om je training af te stemmen: wat is het meeste dat je 8 keer kunt bankdrukken?",
+  "web_start": "Training starten",
+  "ws_set_of": "Set {{n}} van {{total}}",
+  "ws_set_done": "Set klaar",
+  "ws_done": "Klaar",
+  "ws_next": "Volgende: {{what}}",
+  "ws_end_q": "Training beëindigen?",
+  "ws_keep": "Doorgaan",
+  "ws_end": "Stoppen",
+  "ws_new": "Nieuwe training",
+  "ws_more": "Meer",
+  "ws_less": "Minder"
 }

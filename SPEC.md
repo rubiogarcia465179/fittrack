@@ -268,13 +268,28 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   perfil ni datos guardados. Arriba: "FitTrack" e idioma a la derecha
   (ES · EN · NL · FR; por defecto el del navegador). Preguntas: qué entrenas
   (empuje / tirón / piernas y core / cuerpo completo), objetivo (4), tiempo
-  (30/45/60), material (gimnasio / mancuernas / sin material) y, si hay
+  (30/45/60 min, 1 h 30, 2 h), material (gimnasio / mancuernas / sin material) y, si hay
   carga, **press de banca** (peso para 8 repeticiones: No lo sé / 20–100 kg,
   R-150) → "Crear entreno". La web no tiene historial: la banca da el nivel
   (principiante / intermedio / avanzado: series ±1 e intensidad) y una marca
   estimada para cada ejercicio con carga, así cada fila lleva su peso
   ("42,5 kg"; mancuernas "17,5 kg por mano") según el objetivo. "No lo sé" =
-  sin pesos y el consejo de siempre. Solo en la web (`lib/benchEstimate.ts`). La sesión: ejercicios clásicos con dibujo real, multiarticular
+  sin pesos y el consejo de siempre. Solo en la web (`lib/benchEstimate.ts`).
+  Debajo de "Press de banca", una línea aclara que solo es una estimación
+  para ajustar el entreno. **La sesión cabe en el tiempo elegido** (R-153,
+  `lib/webFit.ts`): series × (trabajo + descanso) + 1 min por ejercicio; se
+  quitan series/ejercicios si se pasa y se añaden series y ejercicios si
+  sobra (nunca más del tiempo, como mucho 10 min menos).
+  **"Empezar entreno"** (botón blanco, debajo de "Otro entreno", R-152,
+  `web/WebSession.tsx` + `lib/webSession.ts`): la pantalla pasa a seguir la
+  sesión, una serie cada vez — arriba cerrar · tiempo total · series hechas
+  (y una línea de progreso); en medio dibujo (abre "¿Cómo se hace?"),
+  nombre, "Serie n de m", reps y kg con − / + y un único botón "Serie hecha";
+  después, descanso a pantalla completa con cuenta atrás grande, "+15 s" y
+  "Saltar" (vibra al acabar; la pestaña muestra la cuenta). Cerrar con series
+  hechas pregunta "¿Terminar el entreno?" (Seguir / Terminar). Al final,
+  "Bien hecho": min · series y lo hecho por ejercicio + "Nuevo entreno". No
+  se guarda nada. La sesión: ejercicios clásicos con dibujo real, multiarticular
   primero, brazos según el día; series y descanso una vez arriba; cada fila
   abre "¿Cómo se hace?" (dibujo + vídeo). Escritorio: dos columnas (la
   derecha con estado vacío antes; después se actualiza al cambiar una

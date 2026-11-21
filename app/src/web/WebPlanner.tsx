@@ -17,7 +17,7 @@ import { ThemeProvider, useTheme } from '../theme-context';
 import { LANGS, setLanguage, type Lang } from '../i18n';
 import { loadFonts } from '../lib/fonts';
 import { loadExercises } from '../data';
-import { generateWorkout, isBodyweightExercise, type EquipmentMode, type WorkoutPlan } from '../lib/workout';
+import { GOAL_SCHEME, generateWorkout, isBodyweightExercise, movementKey, type EquipmentMode, type WorkoutPlan } from '../lib/workout';
 import { SPLITS, splitLabel } from '../lib/nextSplit';
 import { exName } from '../lib/names';
 import type { Goal } from '../lib/types';
@@ -25,6 +25,9 @@ import { photosFor } from '../exercisePhotos';
 import { ExerciseHowTo } from '../components/ExerciseHowTo';
 import { ExerciseThumb } from '../components/ExerciseThumb';
 import { Chevron } from '../components/Chevron';
+import { WebSession } from './WebSession';
+import { fitToDuration, planMinutes } from '../lib/webFit';
+import { startSession, type WsState } from '../lib/webSession';
 import { BENCH_CHOICES, benchmarksFromBench, benchOneRm, intensityForLevel, levelFromBench, setsForLevel } from '../lib/benchEstimate';
 
 const BRAND_ICON = require('../../assets/icon.png');
@@ -38,7 +41,9 @@ const FOCUS_GROUPS: Record<Focus, string[]> = {
 };
 const FOCI: Focus[] = ['push', 'pull', 'legs', 'full'];
 const GOALS: Goal[] = ['build_muscle', 'strength', 'lose_fat', 'endurance'];
-const DURATIONS = [30, 45, 60];
+const DURATIONS = [30, 45, 60, 90, 120];
+/** "45 min", "1 h 30", "2 h". */
+const durLabel = (d: number) => (d < 90 ? `${d} min` : d % 60 ? `${Math.floor(d / 60)} h ${d % 60}` : `${d / 60} h`);
 const MODES: EquipmentMode[] = ['full_gym', 'dumbbells', 'bodyweight'];
 
 /** Idioma inicial: el del navegador si es uno de los 4; si no, inglés. */
@@ -103,6 +108,24 @@ function Planner() {
   const level = loads ? levelFromBench(benchOneRm(bench!)) : null;
   const [plan, setPlan] = useState<WorkoutPlan | null>(null);
   const [detail, setDetail] = useState<string | null>(null);
+  // R-152: la sesión en marcha (solo web, en memoria: no se guarda nada).
+  const [running, setRunning] = useState<WsState | null>(null);
+  const cardioMin = Math.max(10, Math.round(duration / 3));
+  const start = () => {
+    if (!plan) return;
+    setRunning(
+      startSession(
+        plan.exercises,
+        (id) => {
+          const e = byId.get(id);
+          return { cardio: e?.muscle_group === 'cardio', bodyweight: !e || isBodyweightExercise(e) };
+        },
+        cardioMin,
+        Date.now(),
+      ),
+    );
+    setTimeout(() => scrollRef.current?.scrollTo({ y: 0, animated: false }), 0);
+  };
   const scrollRef = useRef<React.ComponentRef<typeof ScrollView>>(null);
 
   useEffect(() => {
@@ -137,22 +160,23 @@ function Planner() {
       const tri = TRICEPS.test(e.name_en);
       if ((focus === 'push' && !tri) || (focus === 'pull' && tri)) prefer[e.id] = (prefer[e.id] || 0) - 6;
     }
-    const plan = generateWorkout({
+    // Mismas reglas para la sesión base y para cada ejercicio extra.
+    const genOpts = (extraExclude: string[]) => ({
       groups: FOCUS_GROUPS[focus],
       equipment_mode: mode,
-      duration_min: duration,
       experience: level ?? 'intermediate',
       // Marcas estimadas desde la banca → peso recomendado en cada ejercicio con carga.
       benchmarks: loads ? benchmarksFromBench(bench!, exercises, isBodyweightExercise) : undefined,
       // Los clásicos con dibujo real primero: reconocibles y con imagen en cada fila.
       prefer,
-      intensity: level ? intensityForLevel(level) : 'moderate',
+      intensity: level ? intensityForLevel(level) : ('moderate' as const),
       goal,
       exercises,
       // La web no pregunta el nivel: nada avanzado (pinos, muscle-ups…), y sin
       // gimnasio nada que necesite máquina; sin material, tampoco barra fija.
       exclude_ids: [
         ...exclude,
+        ...extraExclude,
         ...exercises
           .filter(
             (e) =>
@@ -164,9 +188,28 @@ function Planner() {
           .map((e) => e.id),
       ],
     });
+    const plan = generateWorkout(genOpts([]));
     const groupOf = (id: string) => byId.get(id)?.muscle_group || '';
     const isCompound = (id: string) => COMPOUND.test(byId.get(id)?.name_en || '');
     const order = FOCUS_GROUPS[focus];
+    const isCardio = (id: string) => groupOf(id) === 'cardio';
+    // Series según el nivel (principiante una menos, avanzado una más).
+    const baseSets = level ? setsForLevel(GOAL_SCHEME[goal].sets, level) : GOAL_SCHEME[goal].sets;
+    plan.exercises = plan.exercises.map((x) => ({ ...x, sets: baseSets }));
+    // R-153: ejercicios, series y descansos caben en el tiempo elegido (máximo).
+    plan.exercises = fitToDuration(plan.exercises, duration, {
+      isCardio,
+      cardioMin,
+      baseSets,
+      groupOf,
+      // Otro ejercicio: del grupo con menos ejercicios y que no repita movimiento.
+      more: (taken) => {
+        const keys = new Set(taken.map((id) => movementKey(byId.get(id)!)));
+        const cands = generateWorkout(genOpts(taken)).exercises.filter((x) => !keys.has(movementKey(byId.get(x.exercise_id)!)));
+        const n = (g: string) => taken.filter((id) => groupOf(id) === g).length;
+        return cands.sort((a, b) => n(groupOf(a.exercise_id)) - n(groupOf(b.exercise_id)))[0] ?? null;
+      },
+    }) as typeof plan.exercises;
     plan.exercises = plan.exercises
       .map((x, i) => ({ x, i }))
       .sort((a, b) =>
@@ -175,11 +218,7 @@ function Planner() {
         a.i - b.i,
       )
       .map(({ x }) => x);
-    // Series según el nivel (principiante una menos, avanzado una más).
-    if (level) {
-      plan.exercises = plan.exercises.map((x) => ({ ...x, sets: setsForLevel(x.sets, level) }));
-      plan.estimated_duration_min = Math.ceil(plan.exercises.reduce((a, x) => a + (x.sets * (60 + x.rest_sec)) / 60, 0));
-    }
+    plan.estimated_duration_min = Math.round(planMinutes(plan.exercises, isCardio, cardioMin));
     return plan;
   };
   const create = (exclude: string[] = []) => {
@@ -210,7 +249,7 @@ function Planner() {
       </Question>
       <Question label={t('gen_duration')}>
         {DURATIONS.map((d) => (
-          <Chip key={d} label={`${d} min`} on={duration === d} onPress={() => setDuration(d)} />
+          <Chip key={d} label={durLabel(d)} on={duration === d} onPress={() => setDuration(d)} />
         ))}
       </Question>
       <Question label={t('web_q_equipment')}>
@@ -220,7 +259,7 @@ function Planner() {
       </Question>
       {/* Sin historial: una pregunta da el nivel y los pesos (solo si hay carga). */}
       {mode !== 'bodyweight' ? (
-        <Question label={t('web_q_bench')}>
+        <Question label={t('web_q_bench')} hint={t('web_q_bench_hint')}>
           <Chip label={t('web_bench_unknown')} on={bench == null} onPress={() => setBench(null)} />
           {BENCH_CHOICES.map((kg) => (
             <Chip key={kg} label={`${kg} kg`} on={bench === kg} onPress={() => setBench(kg)} />
@@ -284,7 +323,7 @@ function Planner() {
       <Text style={[styles.resultMeta, { color: p.secondary }]}>
         {(wide
           ? [level ? t(`level_${level}`) : null, sameScheme]
-          : [t(`goal_${goal}`), level ? t(`level_${level}`) : null, `${plan.estimated_duration_min || duration} min`, t(`web_eq_${mode}`), sameScheme]
+          : [t(`goal_${goal}`), level ? t(`level_${level}`) : null, durLabel(plan.estimated_duration_min || duration), t(`web_eq_${mode}`), sameScheme]
         ).filter(Boolean).join(' · ')}
       </Text>
       {plan.exercises.map((x, i) => {
@@ -293,7 +332,7 @@ function Planner() {
         const cardio = e.muscle_group === 'cardio';
         // Peso recomendado (desde la banca); en mancuernas, por mano.
         const kg = x.recommended_weight_kg > 0 ? (e.equipment === 'dumbbell' ? t('web_kg_hand', { kg: x.recommended_weight_kg }) : `${x.recommended_weight_kg} kg`) : null;
-        const line = cardio ? `${Math.max(10, Math.round(duration / 3))} min` : [sameScheme ? null : `${x.sets} × ${x.reps} · ${t('web_rest', { s: x.rest_sec })}`, kg].filter(Boolean).join(' · ');
+        const line = cardio ? `${cardioMin} min` : [sameScheme ? null : `${x.sets} × ${x.reps} · ${t('web_rest', { s: x.rest_sec })}`, kg].filter(Boolean).join(' · ');
         return (
           <Pressable
             key={x.exercise_id}
@@ -332,6 +371,17 @@ function Planner() {
       >
         <Text style={[styles.secondaryText, { color: p.text }]}>{t('web_again')}</Text>
       </Pressable>
+      {/* Seguir la sesión de verdad: tiempo, series hechas y descansos (R-152). */}
+      <Pressable
+        accessibilityRole="button"
+        onPress={start}
+        style={({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => [
+          styles.primary,
+          { marginTop: 12, backgroundColor: p.accent, opacity: pressed ? 0.85 : hovered ? 0.92 : 1 },
+        ]}
+      >
+        <Text style={[styles.primaryText, { color: p.onAccent }]}>{t('web_start')}</Text>
+      </Pressable>
     </View>
   ) : null;
 
@@ -366,10 +416,22 @@ function Planner() {
             </View>
           </View>
 
+          {running ? (
+            <WebSession
+              initial={running}
+              byId={byId}
+              onExit={() => setRunning(null)}
+              onNew={() => {
+                setRunning(null);
+                setPlan(null);
+              }}
+            />
+          ) : (
           <View style={wide ? styles.columns : null}>
             {!wide && plan ? null : form}
             {result ?? empty}
           </View>
+          )}
 
           {/* Créditos: dibujos de Everkinetic con licencia CC BY-SA 3.0, modificados
               (el enlace lleva a la lista de originales, fuentes y cambios). */}
@@ -393,11 +455,13 @@ function Planner() {
   );
 }
 
-function Question({ label, children }: { label: string; children: React.ReactNode }) {
+function Question({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   const { p } = useTheme();
   return (
-    <View style={styles.q} accessibilityRole="radiogroup" accessibilityLabel={label}>
-      <Text style={[styles.qLabel, { color: p.secondary }]}>{label}</Text>
+    <View style={styles.q} accessibilityRole="radiogroup" accessibilityLabel={hint ? `${label}. ${hint}` : label}>
+      <Text style={[styles.qLabel, { color: p.secondary }, hint ? { marginBottom: 4 } : null]}>{label}</Text>
+      {/* Aclaración opcional (p. ej. la banca: solo es una estimación para ajustar la sesión). */}
+      {hint ? <Text style={[styles.qHint, { color: p.secondary }]}>{hint}</Text> : null}
       <View style={styles.chips}>{children}</View>
     </View>
   );
@@ -441,6 +505,7 @@ const styles = StyleSheet.create({
   h1Wide: { fontSize: 44, marginTop: 28 },
   tagline: { fontSize: 17, lineHeight: 24, marginTop: 8 },
   q: { marginTop: 24 },
+  qHint: { fontSize: 15, lineHeight: 21, marginBottom: 12 },
   qLabel: { fontSize: 12, fontWeight: '700', letterSpacing: 0.6, textTransform: 'uppercase', marginBottom: 10 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   chip: { minHeight: 44, paddingHorizontal: 16, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
@@ -466,5 +531,5 @@ const styles = StyleSheet.create({
   footerWrap: { marginTop: 40, alignItems: 'center' },
   footer: { fontSize: 12, lineHeight: 18, textAlign: 'center' },
   footerLinks: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', columnGap: 16 },
-  footerLink: { minHeight: 44, justifyContent: 'center' },
+  footerLink: { minHeight: 44, justifyContent: 'center', maxWidth: '100%', flexShrink: 1 },
 });

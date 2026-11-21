@@ -290,6 +290,13 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
 - **Banca en la web (R-150)**: `app/src/lib/benchEstimate.ts` (1RM Epley →
   nivel, series, intensidad y marcas por cocientes); solo lo usa
   `WebPlanner.tsx`. Cambiar un cociente = revisar los tests "R-150".
+- **Sesión en la web (R-152)**: `app/src/web/WebSession.tsx` (pantalla) +
+  `app/src/lib/webSession.ts` (estado puro, probado). En memoria: no se
+  guarda nada (la web lo promete en el pie).
+- **Tiempo de la web (R-153)**: `app/src/lib/webFit.ts` ajusta la sesión al
+  tiempo (máximo); `WebPlanner.build` genera la base sin `duration_min` y
+  pide ejercicios extra con `more()` (grupo con menos, sin repetir
+  `movementKey`).
 - **Dibujos generados por el usuario (R-137)**: `docs/fotos/PROMPTS-DIBUJOS.md`
   (`node scripts/make_drawing_prompts.js`) → imágenes en
   `data/images/photos/inbox/<id>-1.png/-2.png` → `python3 scripts/add_drawings.py`

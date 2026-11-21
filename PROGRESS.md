@@ -107,6 +107,19 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
   aviso del descanso con el móvil bloqueado (necesita build de desarrollo).
 
 ## Log
+- 2026-11-21 (2) — **Web: seguir la sesión (R-152), tiempo real (R-153),
+  aclaración de la banca (R-154).** "Empezar entreno" bajo "Otro entreno"
+  abre una sesión de una serie cada vez (tiempo total, Serie hecha,
+  descanso grande con +15 s / Saltar y vibración, ¿Terminar?, "Bien hecho").
+  La sesión ahora cabe en el tiempo elegido (antes 45 min podían ser 60+);
+  opciones 1 h 30 y 2 h. Arreglos vistos en capturas: el pie de la web
+  desbordaba en móvil (ahora se parte en líneas) y el resumen decía
+  "2 × 10 × 42,5 kg" (ahora "2 × 10 reps · 42,5 kg"). Verificación: tsc 0 ·
+  tests 150/150 · export OK · capturas web a 393/834/1440 errors none
+  (nuevas `2c-2h`, `6-serie`, `6-descanso`, `6-terminar`, `6-resumen`),
+  revisadas. Jobs (analyze): la web sigue en **NO** solo por los dibujos
+  por rehacer (R-151); la sesión nueva en sí: un botón por pantalla, número
+  grande, nada que configurar — sí.
 - 2026-11-21 — **Dibujos (R-149) + banca en la web (R-150).** Entraron los
   459 dibujos del agente web (`fittrack-dibujos/`): revisados a mano en
   hojas de contacto. El usuario pidió (a mitad de tarea) añadirlos **todos**
