@@ -295,13 +295,19 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   memoria; al terminar se guarda una copia en localStorage (R-169).
 - **Fase 24**: pesos estándar y discos en `app/src/lib/plates.ts`
   (`snapWeight`, `stepWeight`, `weightChoices`, `loadFor`); consejos y
-  Goggins en `lib/restTips.ts` (+ claves `tip_N` / `gg_N` en i18n, plurales
+  mensajes motivadores en `lib/restTips.ts` (+ claves `tip_N` / `gg_N` en i18n, plurales
   v3 `clave` / `clave_plural`); WhatsApp e historial local en
   `lib/webLog.ts` + `web/WebHistory.tsx`; `schemeFor` / `applyTired` en
-  `lib/workout.ts`; componentes `LoadLine`, `RestPreview`, `GogginsCard`.
+  `lib/workout.ts`; componentes `LoadLine`, `RestPreview`, `MotivationCard`.
   Logo: `python3 scripts/make_logo.py` regenera icon, adaptive, splash,
   `logo-mark.png` y favicons. La web ya guarda (solo en el navegador) los
   entrenos terminados e importados.
+- **Mancuernas (R-183)**: todo ejercicio cuyo `name_en` dice "dumbbell"
+  lleva `equipment: dumbbell` (test). `singleDumbbell(name_en)` en
+  `lib/plates.ts` marca los de UNA mancuerna (goblet, pullover, concentración,
+  kickback, a una mano…): total = esa mancuerna y sin "por mano" (`perHand`).
+- **Mensajes al terminar (R-182)**: `MotivationCard` + `gg_N`; sin nombre de
+  personas reales ni sus frases características (test).
 - **Sesión: foco y Cambiar (R-176…R-178)**: `lib/sessionFocus.ts` (puro,
   probado) decide el ejercicio actual de la app (`nextPendingIndex`,
   `otherPending`, `positionOf`, `restSecondsLeft`, `moveItem`, `swapEntry`);

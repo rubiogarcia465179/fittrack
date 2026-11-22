@@ -12,6 +12,6 @@ export function pickTip(prev: number | null, rand: number = Math.random()): numb
   return prev && n >= prev ? n + 1 : n;
 }
 
-/** Mensajes al terminar (R-170), inspirados en David Goggins: `gg_1` … `gg_N`. */
-export const GOGGINS_COUNT = 32;
-export const pickGoggins = (rand: number = Math.random()) => Math.floor(rand * GOGGINS_COUNT) + 1;
+/** Mensajes al terminar (R-170/R-182), propios y sin nombre de nadie: `gg_1` … `gg_N`. */
+export const MOTIVATION_COUNT = 32;
+export const pickMotivation = (rand: number = Math.random()) => Math.floor(rand * MOTIVATION_COUNT) + 1;

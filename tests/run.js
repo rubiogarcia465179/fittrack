@@ -296,7 +296,12 @@ eq(wlib.movementKey(byId.get('leg_curls_laying')) === wlib.movementKey(byId.get(
 {
   eq(pl.platesPerSide(85), { perSide: [25, 5, 2.5], exact: true, total: 85 }, 'barra 85 kg → por lado 25 + 5 + 2,5 (barra 20)');
   eq(pl.platesPerSide(20).perSide, [], 'barra 20 kg → solo la barra');
-  eq(pl.loadFor('dumbbell', 12), { kind: 'dumbbell', perHand: 12, total: 24 }, 'mancuernas 12 kg por mano → 24 kg en total');
+  eq(pl.loadFor('dumbbell', 12), { kind: 'dumbbell', perHand: 12, total: 24, single: false }, 'mancuernas 12 kg por mano → 24 kg en total');
+  eq([pl.loadFor('dumbbell', 20, 'Dumbbell Goblet Squat').total, pl.loadFor('dumbbell', 16, 'Cross-Bench Dumbbell Pullovers').single, pl.perHand({ equipment: 'dumbbell', name_en: 'Benchpress Dumbbells' }), pl.perHand({ equipment: 'dumbbell', name_en: 'Dumbbell Goblet Squat' })], [20, true, true, false], 'una sola mancuerna (goblet, pullover): total = esa mancuerna, sin "por mano"');
+  {
+    const all = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/exercises/all.json'), 'utf8')).exercises;
+    eq(all.filter((e) => /dumbbell/i.test(e.name_en) && e.equipment !== 'dumbbell').map((e) => e.id), [], 'datos: todo lo que dice "dumbbell" tiene material mancuernas');
+  }
   eq(pl.loadFor('machine', 50), null, 'máquina: sin desglose');
   eq(pl.loadFor('barbell', 15), null, 'menos que la barra olímpica: sin desglose');
   eq([pl.snapWeight('dumbbell', 13.7), pl.snapWeight('dumbbell', 7.4), pl.snapWeight('dumbbell', 31)], [14, 7, 30], 'mancuernas: 13,7 → 14 · 7,4 → 7 · 31 → 30');
@@ -326,9 +331,14 @@ eq(wlib.movementKey(byId.get('leg_curls_laying')) === wlib.movementKey(byId.get(
   const es = JSON.parse(fs.readFileSync(path.join(ROOT, 'i18n/es.json'), 'utf8'));
   const missing = [];
   for (let i = 1; i <= tp.TIP_COUNT; i++) if (!es['tip_' + i]) missing.push('tip_' + i);
-  for (let i = 1; i <= tp.GOGGINS_COUNT; i++) if (!es['gg_' + i]) missing.push('gg_' + i);
-  eq(missing, [], `i18n: ${tp.TIP_COUNT} consejos y ${tp.GOGGINS_COUNT} mensajes de Goggins`);
-  eq(Object.keys(es).filter((k) => /^gg_\d+$/.test(k)).some((k) => /["“”«»]/.test(es[k])), false, 'Goggins: sin comillas (inspirado en, no citas literales)');
+  for (let i = 1; i <= tp.MOTIVATION_COUNT; i++) if (!es['gg_' + i]) missing.push('gg_' + i);
+  eq(missing, [], `i18n: ${tp.TIP_COUNT} consejos y ${tp.MOTIVATION_COUNT} mensajes motivadores`);
+  eq(Object.keys(es).filter((k) => /^gg_\d+$/.test(k)).some((k) => /["“”«»]/.test(es[k])), false, 'mensajes: sin comillas (no son citas)');
+  // R-182: ningún nombre de persona real ni frases características suyas (pauta 5.2.1 de Apple).
+  for (const l of ['es', 'en', 'nl', 'fr']) {
+    const b = JSON.parse(fs.readFileSync(path.join(ROOT, 'app/src/i18n-data', l + '.json'), 'utf8'));
+    eq(Object.entries(b).filter(([k, v]) => /^gg_/.test(k) && /goggins|stay hard|carry the boats|cookie jar|callus|never finished|uncommon|souls?\b/i.test(v)).map(([k]) => k), [], `mensajes ${l}: sin nombre ni frases de Goggins`);
+  }
 }
 // R-169 / R-172: WhatsApp (texto y JSON, ida y vuelta) y racha Extra mile.
 {

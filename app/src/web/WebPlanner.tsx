@@ -18,7 +18,7 @@ import { LANGS, setLanguage, type Lang } from '../i18n';
 import { loadFonts } from '../lib/fonts';
 import { loadExercises, type Exercise } from '../data';
 import { applyTired, generateWorkout, isBodyweightExercise, movementKey, recentRows, schemeFor, suggestAlternatives, weightForExercise, type EquipmentMode, type WorkoutPlan } from '../lib/workout';
-import { fmtKg, snapPlan } from '../lib/plates';
+import { perHand, fmtKg, snapPlan } from '../lib/plates';
 import { asSessions, loadLog, type LogEntry } from '../lib/webLog';
 import { WebHistory } from './WebHistory';
 import { SPLITS, splitLabel } from '../lib/nextSplit';
@@ -401,7 +401,7 @@ function Planner() {
         if (!e) return null;
         const cardio = e.muscle_group === 'cardio';
         // Peso recomendado (desde la banca); en mancuernas, por mano.
-        const kg = x.recommended_weight_kg > 0 ? (e.equipment === 'dumbbell' ? t('web_kg_hand', { kg: fmtKg(x.recommended_weight_kg, lang) }) : `${fmtKg(x.recommended_weight_kg, lang)} kg`) : null;
+        const kg = x.recommended_weight_kg > 0 ? (perHand(e) ? t('web_kg_hand', { kg: fmtKg(x.recommended_weight_kg, lang) }) : `${fmtKg(x.recommended_weight_kg, lang)} kg`) : null;
         const line = cardio ? `${cardioMin} min` : [sameScheme ? null : `${x.sets} × ${x.reps} · ${t('web_rest', { s: x.rest_sec })}`, kg].filter(Boolean).join(' · ');
         return (
           <Pressable

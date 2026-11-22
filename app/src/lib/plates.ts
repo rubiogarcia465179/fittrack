@@ -3,7 +3,8 @@
  * 20 kg, o mancuerna por mano, y el total. Lógica pura (tests/run.js).
  * - Barra: (total − 20) / 2 por lado, con los discos habituales de gimnasio
  *   (25 · 20 · 15 · 10 · 5 · 2,5 · 1,25), de mayor a menor.
- * - Mancuernas: el peso de la sesión es POR MANO; total = 2 × mano.
+ * - Mancuernas: el peso de la sesión es POR MANO; total = 2 × mano (o el de
+ *   la única mancuerna en goblet, pullover, a una mano…: `singleDumbbell`).
  * - Máquina, polea y el resto: sin desglose (se elige en la columna).
  */
 export const BAR_KG = 20;
@@ -11,7 +12,14 @@ export const PLATES = [25, 20, 15, 10, 5, 2.5, 1.25] as const;
 
 export type Load =
   | { kind: 'barbell'; bar: number; perSide: number[]; total: number; exact: boolean }
-  | { kind: 'dumbbell'; perHand: number; total: number };
+  | { kind: 'dumbbell'; perHand: number; total: number; single: boolean };
+
+/**
+ * Ejercicios con UNA mancuerna (goblet, pullover, concentración, a una mano…):
+ * el total es el peso de esa mancuerna, no 2 × (y no se dice "por mano").
+ */
+export const singleDumbbell = (name_en = '') =>
+  /turkish|concentration|single[- ]arm|one[- ]arm|kickback|trunk flexion|goblet|rotator cuff|external rotation|pullover|seated triceps press|dumbbell triceps extension/i.test(name_en);
 
 /** Discos por lado para `total` kg (barra incluida). `exact` = cuadra sin sobrar. */
 export function platesPerSide(total: number, bar = BAR_KG): { perSide: number[]; exact: boolean; total: number } {
@@ -30,7 +38,10 @@ export function platesPerSide(total: number, bar = BAR_KG): { perSide: number[];
 /** Desglose de carga según el material, o null si no aplica (máquina, sin peso). */
 export function loadFor(equipment: string | undefined, kg: number, name_en = ''): Load | null {
   if (!(kg > 0)) return null;
-  if (equipment === 'dumbbell') return { kind: 'dumbbell', perHand: kg, total: Math.round(kg * 2 * 100) / 100 };
+  if (equipment === 'dumbbell') {
+    const single = singleDumbbell(name_en);
+    return { kind: 'dumbbell', perHand: kg, total: Math.round(kg * (single ? 1 : 2) * 100) / 100, single };
+  }
   // Barra olímpica: press, sentadilla, peso muerto, remo… (no la barra Z ni la Smith).
   if (equipment === 'barbell' && !/sz|ez|smith/i.test(name_en)) {
     if (kg < BAR_KG) return null; // menos que la barra: no se puede cargar en barra olímpica
@@ -39,6 +50,9 @@ export function loadFor(equipment: string | undefined, kg: number, name_en = '')
   }
   return null;
 }
+
+/** ¿Se dice "por mano"? Solo con dos mancuernas. */
+export const perHand = (e?: { equipment?: string; name_en?: string }) => e?.equipment === 'dumbbell' && !singleDumbbell(e?.name_en);
 
 /** "20 + 10 + 2,5" (coma decimal en ES/NL/FR, punto en EN). */
 export function fmtKg(v: number, lang = 'en'): string {

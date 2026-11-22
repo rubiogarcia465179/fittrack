@@ -32,7 +32,11 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 - 2026-11-21 (R-149): los 459 huecos llenos con los dibujos del agente web;
   306 por rehacer (`docs/fotos/DIBUJOS-A-ARREGLAR.md`).
 
-## Última verificación commiteada (2026-11-22, WSL, Fase 26)
+## Última verificación commiteada (2026-11-22, WSL, R-182/R-183)
+
+- tsc **0** · tests **200/200** · export OK · capturas app 01–41 y web **errors none** · vídeo 852 fotogramas · **Jobs: SÍ**.
+
+## Verificación anterior (2026-11-22, WSL, Fase 26)
 
 - tsc **0** · tests **194/194** · export OK · capturas app 01–41 **errors none**
   (nuevas 33-change y 41-change-swapped; revisadas 06, 09, 33, 41) · capturas
@@ -114,6 +118,17 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
   aviso del descanso con el móvil bloqueado (necesita build de desarrollo).
 
 ## Log
+- 2026-11-22 (2) — **R-182/R-183**. Sin el nombre "David Goggins" (decisión
+  del usuario, riesgo pauta 5.2.1 de Apple); 8 mensajes que eran frases suyas
+  ("Stay hard", "carry the boats", "cookie jar"…) reescritos en los 4 idiomas;
+  test que lo impide. Mancuernas: 9 ejercicios con nombre "dumbbell" tenían
+  `equipment: other` (sin "por mano", sin pesos de mancuerna ni modo
+  "Mancuernas"); corregidos en `data/` + sync. Los de una sola mancuerna
+  (goblet, pullover, kickback…) ya no dicen "2 × X = 2X kg" ni "por mano".
+  Verificación: tsc 0 · tests 200/200 · export OK · capturas app 01–41 y web
+  errors none (revisadas 27 y web 6-resumen) · vídeo 852 fotogramas.
+  **Jobs: SÍ** (marco 2.0): quitar un nombre ajeno es autenticidad; la línea
+  de carga ya no dice algo falso.
 - 2026-11-22 — **Fase 26 (R-176…R-181)**. Contador: en la app la tarjeta
   "actual" no avanzaba al completar todas las series (el contador, la vista
   previa del descanso y el botón "Siguiente ejercicio" se contradecían);

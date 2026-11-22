@@ -103,7 +103,7 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   peso (discos por lado con barra de 20 kg / mancuernas por mano + total); la
   rueda de peso solo ofrece pesos estándar; en el descanso (barra inferior),
   consejo o vista previa del siguiente ejercicio; "Bien hecho" con mensaje
-  inspirado en David Goggins y "Extra mile" (con el plan cumplido; racha para
+  motivador (propio, sin nombre de nadie) y "Extra mile" (con el plan cumplido; racha para
   compartir). Hoja de inicio: energía "Cansadísimo" y varios objetivos
   (incl. Abdominales).
 - **Cabecera**: cerrar (descartar con confirmación) · **lo que entrenas**
@@ -312,8 +312,8 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   20 kg, o "2 × 12 kg · 24 kg en total"); − / + saltan a **pesos estándar**;
   el descanso vibra/suena al acabar y enseña un **consejo** (mismo ejercicio)
   o la **vista previa del siguiente** (si cambia). Sin pie de créditos
-  durante la sesión. "Bien hecho" muestra un mensaje **inspirado en David
-  Goggins**, la **Extra mile** (un ejercicio más, solo con el plan cumplido;
+  durante la sesión. "Bien hecho" muestra un **mensaje motivador**
+  (propio, sin nombre de nadie), la **Extra mile** (un ejercicio más, solo con el plan cumplido;
   racha para compartir), **Enviar a WhatsApp** y **Copiar JSON**. En el
   inicio: **varios objetivos** (incl. Abdominales), "¿Cómo estás hoy?"
   (Normal / **Cansadísimo**) y "Historial · importar de WhatsApp" (pegar la

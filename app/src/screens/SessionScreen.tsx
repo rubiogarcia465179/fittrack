@@ -52,7 +52,7 @@ import { ExerciseThumb } from '../components/ExerciseThumb';
 import { weightChoices } from '../lib/plates';
 import { LoadLine } from '../components/LoadLine';
 import { RestPreview } from '../components/RestPreview';
-import { GogginsCard } from '../components/GogginsCard';
+import { MotivationCard } from '../components/MotivationCard';
 import { pickTip } from '../lib/restTips';
 import { extraStreak } from '../lib/webLog';
 import { moveItem, nextPendingIndex, otherPending, pendingFrom, positionOf, restSecondsLeft, swapEntry } from '../lib/sessionFocus';
@@ -2041,8 +2041,8 @@ export default function SessionScreen({
           <View style={[styles.searchSheet, styles.checkinSheet, { backgroundColor: p.card }]}>
             <View style={styles.searchHandle} />
             <Text style={[styles.doneTitle, { color: p.text }]} accessibilityRole="header">{t('checkin_title')}</Text>
-            {/* R-170: un mensaje al azar inspirado en David Goggins. */}
-            <GogginsCard />
+            {/* R-170: un mensaje motivador al azar (sin nombre de nadie, R-182). */}
+            <MotivationCard />
             {/* Resumen (A): solo datos reales; sin récords, la cifra no aparece. */}
             <View style={styles.sumRow}>
               {/* Los minutos son los que se guardan; se pueden corregir (p. ej. si

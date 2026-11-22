@@ -18,7 +18,7 @@ export function LoadLine({ equipment, kg, name_en, center = true }: { equipment?
   if (!load) return null;
   const f = (v: number) => fmtKg(v, lang);
   if (load.kind === 'dumbbell') {
-    const text = t('load_dumbbells', { hand: f(load.perHand), total: f(load.total) });
+    const text = load.single ? t('load_one_dumbbell', { kg: f(load.perHand) }) : t('load_dumbbells', { hand: f(load.perHand), total: f(load.total) });
     return (
       <Text style={[styles.text, { color: p.secondary, textAlign: center ? 'center' : 'left' }]} accessibilityLabel={text}>
         {text}

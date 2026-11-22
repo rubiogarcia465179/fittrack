@@ -152,8 +152,5 @@ revisión**. Al aprobarla, "Publicar".
       bloqueado, vídeo, diario. Lo que falle, se arregla antes de subir.
 - [ ] La web publicada (Netlify) para que las URLs de privacidad y soporte
       funcionen.
-- [ ] ⛔ Decidir si el mensaje final lleva el nombre "David Goggins": usar el
-      nombre de una persona real en una app comercial puede hacer que Apple
-      la rechace (pauta 5.2.1, derechos de terceros) aunque diga "inspirado
-      en". Alternativa segura: quitar la línea `gg_by` en la build de tienda.
+- [x] Sin nombres de personas reales en la app (R-182: pauta 5.2.1 de Apple).
 - [ ] (Opcional) Dibujos que faltan (`docs/fotos/PROMPTS-DIBUJOS.md`).

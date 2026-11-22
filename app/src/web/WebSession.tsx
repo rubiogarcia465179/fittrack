@@ -5,8 +5,8 @@
  * reps y kg (pesos estándar, R-171) con cómo cargarlos (R-163) y un único
  * botón blanco ("Serie hecha"). El descanso, a pantalla completa con cuenta
  * atrás que vibra/suena al acabar (R-159), enseña el siguiente ejercicio si
- * cambia o un consejo si se repite (R-164). Al final: mensaje inspirado en
- * David Goggins (R-170), "Extra mile" (R-172) y enviar a WhatsApp (R-169).
+ * cambia o un consejo si se repite (R-164). Al final:
+ * mensaje motivador (R-170), "Extra mile" (R-172) y enviar a WhatsApp (R-169).
  * Lógica pura: lib/webSession y lib/webLog.
  */
 import { useEffect, useRef, useState } from 'react';
@@ -21,10 +21,10 @@ import { ExerciseThumb } from '../components/ExerciseThumb';
 import { ExerciseHowTo } from '../components/ExerciseHowTo';
 import { LoadLine } from '../components/LoadLine';
 import { RestPreview } from '../components/RestPreview';
-import { GogginsCard } from '../components/GogginsCard';
+import { MotivationCard } from '../components/MotivationCard';
 import { ChangeSheet } from '../components/ChangeSheet';
 import { pickTip } from '../lib/restTips';
-import { fmtKg, loadFor, stepWeight } from '../lib/plates';
+import { perHand, fmtKg, loadFor, stepWeight } from '../lib/plates';
 import { extraStreak, entryFromSession, loadLog, mergeLog, saveLog, toJson, toText, type LogEntry } from '../lib/webLog';
 import {
   addExtra, addRest, clock, completeSet, current, doneSets, endNow, extraDone, laterExercise, lastDoneEi, moveExercise, restLeft, setField, skipRest, swapExercise, totalSets,
@@ -104,7 +104,7 @@ export function WebSession({
     return r ? exName(r, lang) : id;
   };
   // Coma decimal en ES/NL/FR (42,5), punto en EN: igual que la línea de carga.
-  const kgText = (kg: number, id: string) => (byId.get(id)?.equipment === 'dumbbell' ? t('web_kg_hand', { kg: fmtKg(kg, lang) }) : `${fmtKg(kg, lang)} kg`);
+  const kgText = (kg: number, id: string) => (perHand(byId.get(id)) ? t('web_kg_hand', { kg: fmtKg(kg, lang) }) : `${fmtKg(kg, lang)} kg`);
   const setLine = (x: { reps: number; kg: number; min?: number }, id: string, bw: boolean) =>
     x.min ? `${x.min} min` : bw || !x.kg ? `${x.reps} reps` : `${x.reps} reps · ${kgText(x.kg, id)}`;
 
@@ -203,7 +203,7 @@ export function WebSession({
     return (
       <View style={styles.wrap}>
         <Text style={[styles.h1, { color: p.text }]} accessibilityRole="header">{t('checkin_title')}</Text>
-        <GogginsCard />
+        <MotivationCard />
         <View style={styles.stats}>
           <Stat value={String(Math.max(1, Math.round(elapsed / 60)))} label="min" />
           <Stat value={String(done)} label={t('workout_sets_done')} />
@@ -363,7 +363,7 @@ export function WebSession({
                 {!ex.bodyweight ? (
                   <Stepper
                     value={fmtKg(set.kg, lang)}
-                    unit={e?.equipment === 'dumbbell' ? t('web_kg_hand', { kg: '' }).trim() : 'kg'}
+                    unit={perHand(e) ? t('web_kg_hand', { kg: '' }).trim() : 'kg'}
                     // Solo pesos que existen (R-171): mancuerna 12 → 14, barra de 2,5 en 2,5.
                     onMinus={() => setS((x) => setField(x, 'kg', stepWeight(e?.equipment, set.kg, -1, e?.name_en)))}
                     onPlus={() => setS((x) => setField(x, 'kg', stepWeight(e?.equipment, set.kg, 1, e?.name_en)))}
