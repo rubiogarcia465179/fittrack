@@ -55,6 +55,8 @@ import { RestPreview } from '../components/RestPreview';
 import { GogginsCard } from '../components/GogginsCard';
 import { pickTip } from '../lib/restTips';
 import { extraStreak } from '../lib/webLog';
+import { moveItem, nextPendingIndex, otherPending, pendingFrom, positionOf, restSecondsLeft, swapEntry } from '../lib/sessionFocus';
+import { ChangeSheet } from '../components/ChangeSheet';
 import {
   suggestAlternatives,
   isBodyweightExercise,
@@ -404,6 +406,8 @@ export default function SessionScreen({
   const [equipOpen, setEquipOpen] = useState(false);
   // Hoja "¿Cómo se hace?" del ejercicio actual (id) o null.
   const [howToId, setHowToId] = useState<string | null>(null);
+  // R-176/R-177: hoja "Cambiar ejercicio" del ejercicio actual.
+  const [changeOpen, setChangeOpen] = useState(false);
   // Descanso entre series: instante de fin + duración total (para la barra).
   // Se guarda en la sesión activa: sobrevive a cambiar de pestaña.
   const [restUntil, setRestUntil] = useState<number | null>(session.rest_until ?? null);
@@ -666,8 +670,12 @@ export default function SessionScreen({
   const currentId = draft[currentIndex]?.exercise_id ?? null;
 
   // El ejercicio que SIGUE según el plan (lo indica la app al "acabar").
-  const nextInPlan = draft[currentIndex + 1] ? byId.get(draft[currentIndex + 1].exercise_id) ?? null : null;
-  const isLastExercise = currentIndex >= draft.length - 1;
+  // "Siguiente" = el próximo ejercicio con series sin hacer (no solo idx + 1).
+  const nextIdx = nextPendingIndex(draft, currentIndex);
+  const nextInPlan = nextIdx >= 0 ? byId.get(draft[nextIdx].exercise_id) ?? null : null;
+  // Con todo lo demás hecho, la acción principal es Finalizar (aunque no sea el último de la lista).
+  const isLastExercise = !otherPending(draft, currentIndex);
+  const pos = positionOf(draft, currentIndex);
   // Descanso (R-164): si quedan series del ejercicio recién hecho → consejo;
   // si no, vista previa del siguiente ejercicio con series pendientes.
   const restNext = useMemo(() => {
@@ -717,10 +725,10 @@ export default function SessionScreen({
   }, []);
 
   const finishExercise = () => {
-    const idx = currentIndex;
-    if (idx + 1 < draft.length) {
-      setCurrentIndex(idx + 1);
-      const nid = draft[idx + 1].exercise_id;
+    const ni = nextPendingIndex(draft, currentIndex);
+    if (ni >= 0) {
+      setCurrentIndex(ni);
+      const nid = draft[ni].exercise_id;
       setTimeout(() => focusScroll(nid), 60);
       tapLight(); // el salto de tarjeta ya lo dice; sin aviso redundante
       return;
@@ -733,6 +741,67 @@ export default function SessionScreen({
     if (i < 0) return;
     setCurrentIndex(i);
     setTimeout(() => focusScroll(id), 60);
+  };
+
+  // ---- R-176/R-177: cambiar el ejercicio actual / el orden ----
+  const changeAlts = useMemo(() => {
+    const cur = currentId ? byId.get(currentId) : null;
+    if (!changeOpen || !cur) return [];
+    return suggestAlternatives(cur, exercises, {
+      mode: session.equipment_mode,
+      benchmarks: session.benchmarks,
+      intensity: 'moderate',
+      exclude: [...draft.map((x) => x.exercise_id), ...postponed.map((x) => x.exercise_id)],
+      recent,
+      limit: 3,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [changeOpen, currentId, exercises, draft, postponed, recent]);
+  /** Sustituye el actual por `altId` con SU peso; lo hecho del original se queda. */
+  const swapCurrent = (altId: string) => {
+    const cur = draft[currentIndex];
+    const alt = byId.get(altId);
+    setChangeOpen(false);
+    if (!cur || !alt) return;
+    const pend = cur.sets.filter((x) => !x.done);
+    const base = pend[0] ?? cur.sets[cur.sets.length - 1];
+    const reps = base?.reps || 10;
+    const rec = weightForExercise(alt, { benchmarks: session.benchmarks, mode: session.equipment_mode, intensity: 'moderate', reps, recent });
+    const n = Math.max(1, pend.length);
+    const fresh: ActiveDraftExercise = {
+      exercise_id: altId,
+      equipment_status: 'available',
+      rest_after: cur.rest_after,
+      sets: isCardio(altId) ? [cardioSet(altId)] : Array.from({ length: n }, () => ({ reps, weight_kg: rec?.weight_kg ?? 0 })),
+    };
+    const r = swapEntry(draft, currentIndex, fresh);
+    setDraft(r.draft);
+    setCurrentIndex(r.index);
+    setSaved(false);
+    flash(t('chg_swapped', { name: nameOf(alt) }));
+    setTimeout(() => focusScroll(altId), 60);
+  };
+  /** "Hacerlo más tarde": el actual va al final y la tarjeta pasa al siguiente pendiente. */
+  const laterCurrent = () => {
+    setChangeOpen(false);
+    const nd = moveItem(draft, currentIndex, draft.length - 1);
+    if (nd === draft) return;
+    setDraft(nd);
+    const ni = pendingFrom(nd, currentIndex);
+    if (ni >= 0) {
+      setCurrentIndex(ni);
+      const nid = nd[ni].exercise_id;
+      setTimeout(() => focusScroll(nid), 60);
+    }
+    flash(t('chg_moved'));
+  };
+  /** Subir / Bajar: la tarjeta actual sigue siendo la misma. */
+  const moveExercise = (from: number, to: number) => {
+    const nd = moveItem(draft, from, to);
+    if (nd === draft) return;
+    setDraft(nd);
+    const ci = nd.findIndex((x) => x.exercise_id === currentId);
+    if (ci >= 0) setCurrentIndex(ci);
   };
 
   // Sugerir del MISMO grupo muscular que el ejercicio actual.
@@ -852,6 +921,18 @@ export default function SessionScreen({
     if (!wasDone) {
       tapLight(); // háptico al completar una serie
       setLastDoneId(id);
+      // Última serie del ejercicio actual → la tarjeta pasa sola al siguiente
+      // pendiente (el contador y la vista previa del descanso dicen lo mismo).
+      const di = draft.findIndex((x) => x.exercise_id === id);
+      const after = draft.map((x, i) => (i === di ? { ...x, sets: x.sets.map((s, j) => (j === idx ? { ...s, done: true } : s)) } : x));
+      if (di >= 0 && di === currentIndex && after[di].sets.every((s) => s.done)) {
+        const ni = nextPendingIndex(after, di);
+        if (ni >= 0) {
+          setCurrentIndex(ni);
+          const nid = after[ni].exercise_id;
+          setTimeout(() => focusScroll(nid), 60);
+        }
+      }
     }
     // Tras la última serie del entreno no hay descanso: solo queda Finalizar.
     if (!wasDone && d0 && !isCardio(id) && doneSets + 1 < totalSets) startRest(d0.rest_after || 90);
@@ -867,7 +948,8 @@ export default function SessionScreen({
     setRestTotal((tt) => tt + sec);
     setRestUntil((u) => (u ?? Date.now()) + sec * 1000);
   };
-  const restLeft = restUntil ? Math.max(0, Math.ceil((restUntil - now) / 1000)) : 0;
+  // Nunca más que el total: el tic de 1 s puede ir hasta 1 s por detrás (se veía 1:31 con 90 s).
+  const restLeft = restSecondsLeft(restUntil, now, restTotal);
   useEffect(() => {
     if (restUntil && now >= restUntil) {
       setRestUntil(null);
@@ -1362,6 +1444,16 @@ export default function SessionScreen({
                   </Text>
                 ) : null}
 
+                {/* Dónde estás: ejercicio n de m · serie n de m (igual que en la web). */}
+                {pos ? (
+                  <Text style={[styles.draftMeta, { color: p.secondary }]} numberOfLines={1}>
+                    {[
+                      d.exercise_id === extraId ? 'Extra mile' : t('ws_ex_of', { n: pos.ex, total: pos.exTotal }),
+                      isCardio(d.exercise_id) ? null : t('ws_set_of', { n: pos.set, total: pos.setTotal }),
+                    ].filter(Boolean).join(' · ')}
+                  </Text>
+                ) : null}
+
                 {/* Progresión (B): una línea; un toque mantiene el peso de la última vez. */}
                 {d.progress && !d.sets.some((s) => s.done) ? (
                   <View style={styles.progBox}>
@@ -1386,8 +1478,10 @@ export default function SessionScreen({
                   </View>
                 ) : null}
 
-                {/* ¿Cómo se hace? → hoja con fotos, qué entrena y pasos. */}
+                {/* ¿Cómo se hace? → hoja con fotos, qué entrena y pasos. Al lado,
+                    "Cambiar": otro parecido, más tarde u otro orden (R-176/R-177). */}
                 {ex ? (
+                  <View style={styles.howRow}>
                   <Pressable
                     accessibilityRole="button"
                     accessibilityLabel={`${t('howto_button')}: ${nameOf(ex)}`}
@@ -1399,6 +1493,17 @@ export default function SessionScreen({
                     </View>
                     <Text style={[styles.howText, { color: p.text }]}>{t('howto_button')}</Text>
                   </Pressable>
+                  {!isBenchmark ? (
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={`${t('chg_title')}: ${nameOf(ex)}`}
+                      onPress={() => setChangeOpen(true)}
+                      style={({ pressed }) => [styles.howBtn, { borderColor: p.border, opacity: pressed ? 0.7 : 1 }]}
+                    >
+                      <Text style={[styles.howText, { color: p.text }]}>{t('chg_button')}</Text>
+                    </Pressable>
+                  ) : null}
+                  </View>
                 ) : null}
 
                 {/* benchmark: 1RM */}
@@ -1624,13 +1729,8 @@ export default function SessionScreen({
                     >
                       <Text style={[styles.moreText, { color: p.text }]}>{t('sess_suggest')}</Text>
                     </Pressable>
-                    <View style={[styles.moreRow, { borderBottomColor: p.cardBorder }]}>
-                      <Text style={[styles.moreText, { color: p.text }]}>{t('sess_equip_q')}</Text>
-                      <View style={[styles.statusRow, { marginTop: 8, justifyContent: 'flex-start' }]}>
-                        {statusChip(d.exercise_id, 'busy', t('status_busy'))}
-                        {statusChip(d.exercise_id, 'unavailable', t('status_unavailable'))}
-                      </View>
-                    </View>
+                    {/* "¿Máquina ocupada?" ya no va aquí: "Cambiar" (junto a ¿Cómo se hace?)
+                        lo resuelve en un toque (otro parecido o más tarde, R-177). */}
                     <Pressable
                       style={({ pressed }) => [styles.moreRow, { borderBottomWidth: 0, opacity: pressed ? 0.6 : 1 }]}
                       accessibilityRole="button"
@@ -2033,6 +2133,29 @@ export default function SessionScreen({
         </View>
       ) : null}
 
+      {changeOpen && currentId ? (
+        <ChangeSheet
+          title={nameOf(byId.get(currentId))}
+          alts={changeAlts.map((a) => ({
+            id: a.id,
+            group: a.muscle_group,
+            name: nameOf(a),
+            sub: [a.equipment !== 'other' ? t(`equip_${a.equipment}`) : null, t(`group_${a.muscle_group}`)].filter(Boolean).join(' · '),
+          }))}
+          rows={draft.map((x, i) => ({
+            key: x.exercise_id,
+            id: x.exercise_id,
+            group: byId.get(x.exercise_id)?.muscle_group || 'core',
+            name: nameOf(byId.get(x.exercise_id)),
+            done: x.sets.length > 0 && x.sets.every((y) => y.done),
+            current: i === currentIndex,
+          }))}
+          onSwap={swapCurrent}
+          onLater={draft.slice(currentIndex + 1).some((x) => x.sets.some((y) => !y.done)) ? laterCurrent : null}
+          onMove={moveExercise}
+          onClose={() => setChangeOpen(false)}
+        />
+      ) : null}
       {howToId && byId.get(howToId) ? <ExerciseHowTo exercise={byId.get(howToId)!} onClose={() => setHowToId(null)} hideCredit /> : null}
 
       {/* Confirmación de descartar el entrenamiento activo */}
@@ -3280,6 +3403,7 @@ const styles = StyleSheet.create({
     color: '#000000', // botón blanco, texto negro
   },
   // ---- "¿Cómo se hace?" ----
+  howRow: { flexDirection: 'row', gap: 10, flexWrap: 'wrap' },
   howBtn: {
     flexDirection: 'row',
     alignItems: 'center',

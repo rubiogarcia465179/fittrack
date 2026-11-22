@@ -32,7 +32,14 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
 - 2026-11-21 (R-149): los 459 huecos llenos con los dibujos del agente web;
   306 por rehacer (`docs/fotos/DIBUJOS-A-ARREGLAR.md`).
 
-## Última verificación commiteada (2026-11-21, WSL, commit dibujos + banca web)
+## Última verificación commiteada (2026-11-22, WSL, Fase 26)
+
+- tsc **0** · tests **194/194** · export OK · capturas app 01–41 **errors none**
+  (nuevas 33-change y 41-change-swapped; revisadas 06, 09, 33, 41) · capturas
+  web 393/834/1440 **errors none** (nueva `6-cambiar`) · vídeo 820 fotogramas ·
+  capturas de tienda regeneradas · **Jobs: SÍ** (marco 2.0).
+
+## Verificación anterior (2026-11-21, WSL, commit dibujos + banca web)
 
 - tsc **0** · tests **141/141** · export OK · capturas app 01–40 **errors none**
   (revisadas en hojas de contacto) · capturas web 24 a 393/834/1440
@@ -107,6 +114,21 @@ Estado de FitTrack y cómo se verificó. Se actualiza en cada commit
   aviso del descanso con el móvil bloqueado (necesita build de desarrollo).
 
 ## Log
+- 2026-11-22 — **Fase 26 (R-176…R-181)**. Contador: en la app la tarjeta
+  "actual" no avanzaba al completar todas las series (el contador, la vista
+  previa del descanso y el botón "Siguiente ejercicio" se contradecían);
+  ahora avanza sola al siguiente pendiente, muestra "Ejercicio n de m · Serie
+  n de m" y Finalizar es la acción principal cuando no queda nada. App y web:
+  el descanso empezaba 1 s por encima (1:31 con 90 s) por el tic retrasado.
+  Nueva hoja **Cambiar** (app y web, mismo componente): 3 parecidos con su
+  propio peso, "Hacerlo más tarde", Orden con Subir/Bajar; lo hecho del
+  original se conserva. "¿Máquina ocupada?" sale de "Más opciones". Goggins:
+  sin citas literales (R-179). Tiendas: capturas regeneradas, build numbers
+  remotos en EAS, guía TestFlight. **Jobs: SÍ** (marco 2.0): "Cambiar" resuelve
+  el problema real del gimnasio en un toque y quita un camino escondido; el
+  contador ya no miente. Pegas menores: un parecido sin peso conocido muestra
+  "—" (honesto), la hoja web con 6+ ejercicios necesita desplazar hasta
+  "Cerrar" (se cierra también tocando fuera).
 - 2026-11-21 (5) — **Fase 25: 5 vueltas Jobs (R-175)**, a petición del
   usuario, sin contar dibujos ni la prueba en iPhone. Notas (media de los
   principios 1–9 × 10): inicio 71 → V1 75 → V2 79 → V3 82 → V4 84 → V5 **86**.

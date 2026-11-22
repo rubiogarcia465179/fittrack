@@ -111,6 +111,14 @@ con barra "‹ Inicio" arriba (Inicio sigue marcado en la barra).
   "Sesión"; en el test, "Marcas") + "x/y series hechas" · línea fina de
   progreso debajo. Lista: nombres hasta 2 líneas (nunca dos nombres
   truncados iguales).
+- **Ejercicio n de m · Serie n de m** bajo el nombre (app y web). Al hacer
+  la última serie de un ejercicio, la tarjeta pasa sola al siguiente
+  pendiente; con todo lo demás hecho, la acción principal es Finalizar.
+- **Cambiar** (junto a "¿Cómo se hace?", app y web; R-176/R-177): hoja con
+  3 ejercicios parecidos ("Usar": lo hecho del original se guarda y el nuevo
+  hereda las series que faltan, con su propio peso), "Hacerlo más tarde" (al
+  final) y **Orden** (Subir / Bajar los pendientes). Sustituye a "¿Máquina
+  ocupada?" en "Más opciones".
 - **Añadir ejercicio**: con la lista vacía, círculo arriba (y **Sugerir**);
   con ejercicios, una línea de texto "+ Añadir ejercicio" al final de la lista
   (el ejercicio actual manda). Los detalles (fecha, duración, peso, altura, notas) van al

@@ -38,7 +38,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 30 | Ejercicios · filtro | Ficha elegida en blanco (sin colores por grupo) |
 | 31 | Ejercicio (hoja) | Desde Ejercicios se abre la misma hoja "¿Cómo se hace?": material · nivel, qué entrena, pasos |
 | 32 | Quitar ejercicio | Con series hechas se confirma: "Cancelar" y "Quitar" |
-| 33 | Aplazado | "Máquina ocupada": el original con "Hacerlo ahora" desde el primer momento + sugerencia con "Usar" (mismo botón de contorno) |
+| 33 | Cambiar | Hoja "Cambiar ejercicio": 3 parecidos con "Usar", "Hacerlo más tarde" y Orden (Subir / Bajar) |
 | 34 | Comentar | El comentario se escribe en la propia tarjeta; "Publicar" |
 | 35 | Vídeo en la ficha | "Ver vídeo" abre el reproductor de YouTube dentro de la hoja "¿Cómo se hace?" (sin salir de la app); canal y "en inglés" debajo |
 | 36 | Dibujo · sentadilla | Dibujo real de Everkinetic (posición inicial), líneas blancas en Noche; crédito debajo |
@@ -46,6 +46,7 @@ Chrome headless con viewport de iPhone 16. Datos de ejemplo locales, sin red.
 | 38 | Dibujo · elevaciones laterales | Hombros |
 | 39 | Dibujo · tema Día | El mismo dibujo se tiñe de negro en el tema Día |
 | 40 | Dibujo generado | "Curl en banco a 45°" con su dibujo (fase 13, R-149): todos los ejercicios tienen ya 3 dibujos; crédito "Dibujo generado con IA" |
+| 41 | Tras "Usar" | El nuevo ejercicio es el actual ("Ejercicio 2 de 4"); la serie hecha queda en el original |
 
 **Vídeo** — `video-iphone16.mp4` (H.264, 786×1704, 30 fps): el mismo recorrido que las capturas.
 
@@ -66,6 +67,6 @@ cambie la UI).
 
 `web-<ancho>-<paso>.png` a 393 (móvil), 834 (tableta) y 1440 (escritorio):
 `1-inicio` (preguntas; en escritorio con el estado vacío a la derecha),
-`2-sesion`, `2b-banca` (press de banca 60 kg → nivel y pesos, R-150), `2c-2h` (2 horas, R-153), `2d-cansado-abs` (varios objetivos + Cansadísimo, R-166/R-168), `6-serie` / `6-como` / `6-descanso` (consejo) / `6-descanso-siguiente` (vista previa) / `6-terminar` / `6-resumen` / `6-extra` / `6-racha` (seguir la sesión, Extra mile, R-152/R-164/R-172), `7-historial` (importar de WhatsApp, R-169), `6-racha-fin` (final del resumen: WhatsApp / JSON / Nuevo entreno), `8-nl-serie` / `8-nl-descanso` (textos largos en NL), `3-ejercicio` (hoja "¿Cómo se hace?"; tarjeta centrada en
+`2-sesion`, `2b-banca` (press de banca 60 kg → nivel y pesos, R-150), `2c-2h` (2 horas, R-153), `2d-cansado-abs` (varios objetivos + Cansadísimo, R-166/R-168), `6-serie` / `6-como` / `6-cambiar` (hoja Cambiar, R-176/R-177) / `6-descanso` (consejo) / `6-descanso-siguiente` (vista previa) / `6-terminar` / `6-resumen` / `6-extra` / `6-racha` (seguir la sesión, Extra mile, R-152/R-164/R-172), `7-historial` (importar de WhatsApp, R-169), `6-racha-fin` (final del resumen: WhatsApp / JSON / Nuevo entreno), `8-nl-serie` / `8-nl-descanso` (textos largos en NL), `3-ejercicio` (hoja "¿Cómo se hace?"; tarjeta centrada en
 pantallas anchas), `4-es` / `4-nl` / `4-fr` (idiomas) y, en escritorio,
 `5-pull`, `5-legs` (mancuernas), `5-full` (sin material, perder grasa).

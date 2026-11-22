@@ -542,5 +542,15 @@
   "xm_share": "Vandaag ging ik de Extra mile in de sportschool met FitTrack. Reeks: {{count}} training.",
   "xm_share_btn": "Reeks delen",
   "xm_share_plural": "Ik ga al {{count}} trainingen op rij de Extra mile met FitTrack.",
-  "xm_streak": "extra mile"
+  "xm_streak": "extra mile",
+  "chg_button": "Wijzigen",
+  "chg_title": "Oefening wijzigen",
+  "chg_similar": "Vervangen door een vergelijkbare",
+  "chg_none": "Geen vergelijkbare oefening met je materiaal.",
+  "chg_later": "Later doen",
+  "chg_order": "Volgorde",
+  "chg_up": "Omhoog",
+  "chg_down": "Omlaag",
+  "chg_swapped": "Vervangen door {{name}}",
+  "chg_moved": "Je doet hem aan het eind"
 }

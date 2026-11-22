@@ -144,3 +144,33 @@ export function clock(sec: number): string {
   const ss = String(s % 60).padStart(2, '0');
   return h ? `${h}:${String(m).padStart(2, '0')}:${ss}` : `${m}:${ss}`;
 }
+
+/**
+ * Cambiar un ejercicio por otro parecido (R-177). Si ya había series hechas,
+ * esas se quedan con el original (cuentan) y el nuevo hereda las que faltan.
+ */
+export function swapExercise(s: WsState, ei: number, repl: WsExercise): WsState {
+  const old = s.ex[ei];
+  if (!old) return s;
+  const done = old.sets.filter((x) => x.done_at);
+  const left = old.sets.length - done.length;
+  if (left <= 0) return s;
+  const fresh: WsExercise = { ...repl, extra: old.extra, sets: Array.from({ length: left }, (_, i) => ({ ...repl.sets[Math.min(i, repl.sets.length - 1)], done_at: undefined })) };
+  const ex = done.length
+    ? [...s.ex.slice(0, ei), { ...old, sets: done }, fresh, ...s.ex.slice(ei + 1)]
+    : [...s.ex.slice(0, ei), fresh, ...s.ex.slice(ei + 1)];
+  return { ...s, ex };
+}
+
+/** Mover un ejercicio de `from` a `to` (R-176). Lo ya terminado no se mueve. */
+export function moveExercise(s: WsState, from: number, to: number): WsState {
+  if (from === to || !s.ex[from] || to < 0 || to >= s.ex.length) return s;
+  if (s.ex[from].sets.every((x) => x.done_at)) return s;
+  const ex = s.ex.slice();
+  const [it] = ex.splice(from, 1);
+  ex.splice(to, 0, it);
+  return { ...s, ex };
+}
+
+/** "Hacerlo más tarde": el ejercicio pasa al final (máquina ocupada). */
+export const laterExercise = (s: WsState, ei: number): WsState => moveExercise(s, ei, s.ex.length - 1);

@@ -56,7 +56,8 @@ que guarda el usuario.
 2. **Crear la app** en App Store Connect → Apps → "+" → iOS, nombre
    "FitTrack: Gym Workout" (o el de tu idioma principal), idioma principal,
    bundle ID `nl.fittrack.app`, SKU `fittrack-ios`.
-3. **Compilar y subir** (desde cualquier ordenador, sin Mac, con EAS):
+3. **Compilar y subir** (desde cualquier ordenador, sin Mac, con EAS; paso a
+   paso con TestFlight en la sección de arriba):
    ```sh
    cd app
    npx eas-cli login                 # tu cuenta de Expo
@@ -71,6 +72,56 @@ que guarda el usuario.
 6. **Notas para revisión**: "No account or login needed. All data is stored
    on the device. Tap 'Start session' on Home to try a workout."
 7. **Enviar a revisión** (suele tardar 1–3 días).
+
+## Probar en tu iPhone con TestFlight (sin Mac)
+
+Necesitas: Apple Developer Program (hecho), una cuenta gratuita de Expo y la
+app **TestFlight** en el iPhone. Todo se hace desde Windows/WSL.
+
+1. **App Store Connect** (appstoreconnect.apple.com) → Apps → "+" → Nueva
+   app: iOS, nombre "FitTrack: Gym Workout", idioma principal, bundle ID
+   `nl.fittrack.app` (si no aparece en la lista, el paso 3 lo registra y
+   vuelves aquí), SKU `fittrack-ios`, acceso completo.
+2. En la app creada → **Información de la app** → copia el **Apple ID**
+   (un número, p. ej. 6740000000). Pon ese número en `ascAppId` y tu email
+   de Apple en `appleId` dentro de `app/eas.json` (o déjalos y EAS te los
+   pregunta).
+3. **Compilar y enviar a TestFlight** (WSL):
+   ```sh
+   cd ~/fittrack/app
+   npx eas-cli login                                   # cuenta de Expo
+   npx eas-cli build --platform ios --profile production --auto-submit
+   ```
+   La primera vez pide tu Apple ID (y el código 2FA) y crea solo el
+   certificado de distribución y el perfil. El número de build sube solo en
+   cada compilación (`appVersionSource: remote` + `autoIncrement`): la
+   primera vez EAS pregunta si toma el de `app.json`, responde que sí.
+   La compilación tarda ~15–25 min en los servidores de Expo; luego Apple
+   procesa la subida (5–30 min) y te llega un email.
+4. **Cumplimiento de exportación**: ya respondido en `app.json`
+   (`ITSAppUsesNonExemptEncryption: false`), no te lo preguntará.
+5. **Probadores internos** (sin revisión de Apple, hasta 100): App Store
+   Connect → tu app → **TestFlight** → Pruebas internas → "+" → crea un
+   grupo, añádete (tu usuario debe estar en *Usuarios y acceso*) y marca la
+   build. Te llega la invitación por email → ábrela en el iPhone → TestFlight
+   → Instalar.
+6. **Probadores externos** (amigos, hasta 10 000): TestFlight → Pruebas
+   externas → grupo → añade la build → Apple hace una revisión beta corta
+   (~1 día) → puedes compartir un **enlace público**.
+7. **Cada versión nueva**: repite el paso 3. Para una versión de tienda nueva
+   sube `expo.version` en `app.json` (1.0.0 → 1.1.0); para otra prueba de la
+   misma versión no hace falta tocar nada.
+
+Qué probar en el iPhone (R-128): sesión completa con descanso y la pantalla
+bloqueada (aviso), "Cambiar" (parecido / más tarde / orden), copia y
+restauración, vídeo, diario con foto.
+
+## Publicar en el App Store (después de probar)
+
+App Store Connect → tu app → versión **1.0** → "Compilación": elige la build
+que probaste en TestFlight → ficha (`<idioma>.md`), capturas (`apple/`),
+URLs de privacidad y soporte, "Data Not Collected", edad 4+ → **Enviar a
+revisión**. Al aprobarla, "Publicar".
 
 ## Pasos — Google Play
 
@@ -101,4 +152,8 @@ que guarda el usuario.
       bloqueado, vídeo, diario. Lo que falle, se arregla antes de subir.
 - [ ] La web publicada (Netlify) para que las URLs de privacidad y soporte
       funcionen.
+- [ ] ⛔ Decidir si el mensaje final lleva el nombre "David Goggins": usar el
+      nombre de una persona real en una app comercial puede hacer que Apple
+      la rechace (pauta 5.2.1, derechos de terceros) aunque diga "inspirado
+      en". Alternativa segura: quitar la línea `gg_by` en la build de tienda.
 - [ ] (Opcional) Dibujos que faltan (`docs/fotos/PROMPTS-DIBUJOS.md`).

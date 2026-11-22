@@ -542,5 +542,15 @@
   "xm_share": "I went the Extra mile at the gym today with FitTrack. Streak: {{count}} session.",
   "xm_share_btn": "Share streak",
   "xm_share_plural": "I have gone the Extra mile {{count}} sessions in a row with FitTrack.",
-  "xm_streak": "extra mile"
+  "xm_streak": "extra mile",
+  "chg_button": "Change",
+  "chg_title": "Change exercise",
+  "chg_similar": "Swap for a similar one",
+  "chg_none": "No similar exercise with your equipment.",
+  "chg_later": "Do it later",
+  "chg_order": "Order",
+  "chg_up": "Move up",
+  "chg_down": "Move down",
+  "chg_swapped": "Swapped for {{name}}",
+  "chg_moved": "You'll do it at the end"
 }

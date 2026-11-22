@@ -187,13 +187,16 @@ module.exports = async ({ load, shot, tap, tapLabel, drag, scrollBy, sleep, base
   await sleep(300);
   await shot('32-remove-exercise');
 
-  // 33 Máquina ocupada: el aplazado ofrece "Hacerlo ahora" desde el primer momento
+  // 33 Cambiar (R-176/R-177): otro parecido, hacerlo más tarde u otro orden
   await load({ ...base, 'fittrack.data.v1': DATA, 'fittrack.active.v1': ACTIVE });
   await tapLabel('Entrenar');
-  await tap('Más opciones');
-  await tap('Ocupado');
+  await tap('Cambiar');
+  await sleep(800);
+  await shot('33-change');
+  // 41 Tras "Usar": la serie hecha se queda en el original; el nuevo es el actual
+  await tap('Usar');
   await sleep(3500); // que se vaya el aviso
-  await shot('33-postponed');
+  await shot('41-change-swapped');
 
   // 34 Diario (Fase 15): escribir un comentario en una sesión
   await load({ ...base, 'fittrack.data.v1': DATA });

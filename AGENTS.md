@@ -302,6 +302,14 @@ se propone como ⛔ en TASKS. Detalle en `.claude/skills/stevejobs/SKILL.md`.
   Logo: `python3 scripts/make_logo.py` regenera icon, adaptive, splash,
   `logo-mark.png` y favicons. La web ya guarda (solo en el navegador) los
   entrenos terminados e importados.
+- **Sesión: foco y Cambiar (R-176…R-178)**: `lib/sessionFocus.ts` (puro,
+  probado) decide el ejercicio actual de la app (`nextPendingIndex`,
+  `otherPending`, `positionOf`, `restSecondsLeft`, `moveItem`, `swapEntry`);
+  la web usa `swapExercise` / `moveExercise` / `laterExercise` de
+  `lib/webSession.ts`. La hoja es `components/ChangeSheet.tsx` (la misma en
+  app y web); la web recibe las alternativas de `WebPlanner.alternatives`
+  (mismas exclusiones que el generador, `allowed`). EAS: `appVersionSource:
+  remote` + `autoIncrement` (el número de build lo lleva EAS).
 - **Tiempo de la web (R-153)**: `app/src/lib/webFit.ts` ajusta la sesión al
   tiempo (máximo); `WebPlanner.build` genera la base sin `duration_min` y
   pide ejercicios extra con `more()` (grupo con menos, sin repetir

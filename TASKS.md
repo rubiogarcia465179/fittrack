@@ -435,6 +435,16 @@ Sin contar dibujos (R-151) ni la prueba en iPhone (decisión del usuario). Nota:
 
 ## Hecho recientemente
 
+### Fase 26 — Cambiar ejercicio / orden, contador y tiendas (2026-11-22, R-176…R-181) ✅
+- [x] R-178 contador de la sesión en la app: la tarjeta actual avanza sola, "Ejercicio n de m · Serie n de m", "Siguiente" = próximo pendiente, Finalizar cuando no queda nada; descanso sin el segundo de más (app y web).
+- [x] R-176/R-177 hoja "Cambiar" en app y web: 3 parecidos ("Usar"), "Hacerlo más tarde", Orden (Subir/Bajar). Quitado "¿Máquina ocupada?" de "Más opciones" (lo cubre "Cambiar").
+- [x] R-179 Goggins: se quedan como "inspirados en" (sin citas literales: regla de oro y derechos).
+- [ ] ⛔ R-179 ¿Quitar el nombre "David Goggins" en la build de tienda? (riesgo de rechazo de Apple, pauta 5.2.1) — decide el usuario.
+- [x] R-180 capturas de tienda regeneradas; build numbers automáticos en EAS.
+- [x] R-181 guía TestFlight en `docs/store/README.md`.
+- [ ] ⛔ Usuario: crear la app en App Store Connect, rellenar `appleId`/`ascAppId` y lanzar `eas build --auto-submit` (pasos en la guía); probar en iPhone (R-128).
+- Pendiente de datos (anterior): algunos ejercicios con mancuernas tienen `equipment` ≠ `dumbbell` ("Dumbbell bench press"), así que no dicen "por mano".
+
 ### Fase 11c — Inicio, estilo coche y paleta uniforme (2026-11-15, commit con la 11d)
 - [x] Inicio sin título con estado, foto, un botón y calendario; sin volumen.
 - [x] Sesión con estado arriba, accesos rápidos en círculo y filas planas.

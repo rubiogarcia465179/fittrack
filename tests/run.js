@@ -246,6 +246,25 @@ eq(wlib.movementKey(byId.get('leg_curls_laying')) === wlib.movementKey(byId.get(
   }
   eq(bad, [], 'webFit: 3 enfoques × 4 objetivos × 30/45/60/90/120 min → entre T−10 y T minutos');
 }
+// Contador de la sesión en la app (iPhone/Android): ejercicio actual, n de m y descanso.
+{
+  const fTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/sessionFocus.ts'), 'utf8');
+  fs.writeFileSync(path.join(tmp, 'focus_app.mjs'), ts.transpileModule(fTs, { compilerOptions: { module: ts.ModuleKind.ES2020, target: ts.ScriptTarget.ES2020 } }).outputText);
+  const f = await import(path.join(tmp, 'focus_app.mjs'));
+  const S = (...done) => ({ sets: done.map((d) => ({ done: d })) });
+  const d = [S(true, true), S(false, false), S(true), S(false)];
+  eq([f.nextPendingIndex(d, 0), f.nextPendingIndex(d, 1), f.nextPendingIndex(d, 3)], [1, 3, 1], 'sesión app: siguiente = próximo ejercicio con series pendientes (vuelve a los saltados)');
+  eq(f.nextPendingIndex([S(true), S(true)], 0), -1, 'sesión app: todo hecho → no hay siguiente');
+  eq([f.otherPending(d, 1), f.otherPending([S(true), S(false)], 1)], [true, false], 'sesión app: Finalizar cuando no queda nada más (aunque no sea el último)');
+  eq([f.positionOf(d, 1), f.positionOf([S(true, false, false)], 0)], [{ ex: 2, exTotal: 4, set: 1, setTotal: 2 }, { ex: 1, exTotal: 1, set: 2, setTotal: 3 }], 'sesión app: "Ejercicio n de m · Serie n de m"');
+  eq([f.restSecondsLeft(90900, 0, 90), f.restSecondsLeft(90000, 30000, 90), f.restSecondsLeft(null, 0, 90), f.restSecondsLeft(1000, 2000, 90)], [90, 60, 0, 0], 'sesión app: descanso nunca por encima del total');
+  eq(f.moveItem([{ id: 'a', ...S(true) }, { id: 'b', ...S(false) }, { id: 'c', ...S(false) }], 2, 1).map((x) => x.id), ['a', 'c', 'b'], 'sesión app: Subir/Bajar cambia el orden');
+  eq(f.moveItem([{ id: 'a', ...S(true) }, { id: 'b', ...S(false) }], 0, 1).map((x) => x.id), ['a', 'b'], 'sesión app: lo terminado no se mueve');
+  eq([f.pendingFrom([S(true), S(false)], 0), f.pendingFrom([S(false), S(true)], 1)], [1, 0], 'sesión app: primer pendiente desde un punto');
+  const sw = f.swapEntry([{ id: 'a', ...S(true, false, false) }, { id: 'b', ...S(false) }], 0, { id: 'z', ...S(false, false) });
+  eq([sw.draft.map((x) => [x.id, x.sets.length]), sw.index], [[['a', 1], ['z', 2], ['b', 1]], 1], 'sesión app: cambiar a mitad conserva la serie hecha en el original');
+  eq(f.swapEntry([{ id: 'a', ...S(false) }], 0, { id: 'z', ...S(false) }).draft.map((x) => x.id), ['z'], 'sesión app: cambiar sin series hechas sustituye');
+}
 // R-152: seguir la sesión en la web (series, descanso, resumen).
 {
   const sTs = fs.readFileSync(path.join(ROOT, 'app/src/lib/webSession.ts'), 'utf8');
@@ -343,6 +362,26 @@ eq(wlib.movementKey(byId.get('leg_curls_laying')) === wlib.movementKey(byId.get(
   s = ws.completeSet(s, 4000);
   eq(ws.extraDone(s), true, 'Extra mile hecha tras una serie del ejercicio extra');
   eq(lg.entryFromSession(ws.endNow(s, 61000), '2026-11-21', true).ex.map((x) => [x.id, x.sets]), [['a', 2], ['b', 1], ['c', 1]], 'entryFromSession: solo lo hecho');
+  // R-176/R-177: cambiar orden y cambiar un ejercicio por otro parecido.
+  {
+    let q = ws.startSession([
+      { exercise_id: 'a', sets: 3, reps: 10, rest_sec: 60, recommended_weight_kg: 40 },
+      { exercise_id: 'b', sets: 2, reps: 10, rest_sec: 60, recommended_weight_kg: 20 },
+      { exercise_id: 'c', sets: 2, reps: 10, rest_sec: 60, recommended_weight_kg: 20 },
+    ], info, 15, 0);
+    q = ws.skipRest(ws.completeSet(q, 1000));
+    const alt = ws.exerciseFromRow({ exercise_id: 'z', sets: 3, reps: 8, rest_sec: 90, recommended_weight_kg: 30 }, info, 15);
+    let w = ws.swapExercise(q, 0, alt);
+    eq([w.ex.map((x) => [x.id, x.sets.length]), ws.current(w), ws.doneSets(w), ws.totalSets(w)], [[['a', 1], ['z', 2], ['b', 2], ['c', 2]], { ei: 1, si: 0 }, 1, 7], 'cambiar a mitad: la serie hecha se queda en el original y el nuevo hereda las 2 que faltan');
+    w = ws.swapExercise(ws.startSession([{ exercise_id: 'a', sets: 3, reps: 10, rest_sec: 60, recommended_weight_kg: 40 }], info, 15, 0), 0, alt);
+    eq(w.ex.map((x) => [x.id, x.sets.length, x.sets[0].kg]), [['z', 3, 30]], 'cambiar sin series hechas: sustituye con su propio peso');
+    let m = ws.moveExercise(q, 2, 0);
+    eq([m.ex.map((x) => x.id), ws.current(m)], [['c', 'a', 'b'], { ei: 0, si: 0 }], 'subir un ejercicio: pasa a ser el actual');
+    m = ws.laterExercise(q, 0);
+    eq([m.ex.map((x) => x.id), ws.current(m), ws.doneSets(m)], [['b', 'c', 'a'], { ei: 0, si: 0 }, 1], 'hacerlo más tarde: al final, conserva lo hecho');
+    const fin = ws.skipRest(ws.completeSet(ws.skipRest(ws.completeSet(q, 2000)), 3000));
+    eq(ws.moveExercise(fin, 0, 2).ex.map((x) => x.id), ['a', 'b', 'c'], 'lo terminado no se mueve');
+  }
   s = ws.setField(s, 'kg', 14);
   eq(s.ex[2].sets[1].kg, 14, 'setField: el peso nuevo pasa a la serie que queda');
 }

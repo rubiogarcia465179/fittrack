@@ -542,5 +542,15 @@
   "xm_share": "Aujourd’hui, j’ai fait l’Extra mile à la salle avec FitTrack. Série : {{count}} séance.",
   "xm_share_btn": "Partager la série",
   "xm_share_plural": "Ça fait {{count}} séances d’affilée que je fais l’Extra mile avec FitTrack.",
-  "xm_streak": "extra mile"
+  "xm_streak": "extra mile",
+  "chg_button": "Changer",
+  "chg_title": "Changer d'exercice",
+  "chg_similar": "Par un exercice similaire",
+  "chg_none": "Aucun exercice similaire avec ton matériel.",
+  "chg_later": "Le faire plus tard",
+  "chg_order": "Ordre",
+  "chg_up": "Monter",
+  "chg_down": "Descendre",
+  "chg_swapped": "Remplacé par {{name}}",
+  "chg_moved": "Tu le feras à la fin"
 }

@@ -16,8 +16,8 @@ import { useTranslation } from 'react-i18next';
 import { ThemeProvider, useTheme } from '../theme-context';
 import { LANGS, setLanguage, type Lang } from '../i18n';
 import { loadFonts } from '../lib/fonts';
-import { loadExercises } from '../data';
-import { applyTired, generateWorkout, isBodyweightExercise, movementKey, recentRows, schemeFor, type EquipmentMode, type WorkoutPlan } from '../lib/workout';
+import { loadExercises, type Exercise } from '../data';
+import { applyTired, generateWorkout, isBodyweightExercise, movementKey, recentRows, schemeFor, suggestAlternatives, weightForExercise, type EquipmentMode, type WorkoutPlan } from '../lib/workout';
 import { fmtKg, snapPlan } from '../lib/plates';
 import { asSessions, loadLog, type LogEntry } from '../lib/webLog';
 import { WebHistory } from './WebHistory';
@@ -30,7 +30,7 @@ import { ExerciseThumb } from '../components/ExerciseThumb';
 import { Chevron } from '../components/Chevron';
 import { WebSession } from './WebSession';
 import { fitToDuration, planMinutes } from '../lib/webFit';
-import { exerciseFromRow, startSession, type WsState } from '../lib/webSession';
+import { exerciseFromRow, startSession, type WsExercise, type WsState } from '../lib/webSession';
 import { BENCH_CHOICES, benchmarksFromBench, benchOneRm, intensityForLevel, levelFromBench, setsForLevel } from '../lib/benchEstimate';
 
 const BRAND_ICON = require('../../assets/logo-mark.png');
@@ -163,6 +163,37 @@ function Planner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focus, goals, tired, duration, mode, bench]);
 
+  // Lo que la web puede proponer: nada avanzado y solo lo que permite el material.
+  const allowed = (e: Exercise) =>
+    !(
+      e.level === 'advanced' ||
+      TOO_HARD.test(e.name_en) ||
+      (mode !== 'full_gym' && (NEEDS_GYM.test(e.name_en) || e.equipment === 'machine' || e.equipment === 'cable')) ||
+      (mode === 'bodyweight' && NEEDS_BAR.test(e.name_en))
+    );
+  const infoOf = (id: string) => {
+    const e = byId.get(id);
+    return { cardio: e?.muscle_group === 'cardio', bodyweight: !e || isBodyweightExercise(e) };
+  };
+  // R-177: 3 parecidos (mismo grupo, material parecido) con SU peso, no el del original.
+  const alternatives = (cur: WsExercise, taken: string[]): WsExercise[] => {
+    const orig = byId.get(cur.id);
+    if (!orig) return [];
+    const pend = cur.sets.find((x) => !x.done_at) ?? cur.sets[0];
+    const left = Math.max(1, cur.sets.filter((x) => !x.done_at).length);
+    const benchmarks = loads ? benchmarksFromBench(bench!, exercises, isBodyweightExercise) : undefined;
+    const recent = log.length ? recentRows(asSessions(log)) : undefined;
+    const intensity = level ? intensityForLevel(level) : ('moderate' as const);
+    return suggestAlternatives(orig, exercises.filter(allowed), { mode, benchmarks, recent, intensity, reps: pend.reps || 10, exclude: taken, limit: 3 }).map((e) => {
+      const w = weightForExercise(e, { benchmarks, recent, mode, intensity, reps: pend.reps || 10 });
+      return exerciseFromRow(
+        { exercise_id: e.id, sets: left, reps: pend.reps || 10, rest_sec: cur.rest, recommended_weight_kg: w ? w.weight_kg : 0 },
+        infoOf,
+        pend.min || cardioMin,
+      );
+    });
+  };
+
   // Brazos según el día: en empuje, tríceps; en tirón, bíceps (como en un
   // gimnasio de verdad). Dentro de cada grupo, el multiarticular primero.
   const build = (exclude: string[]) => {
@@ -191,15 +222,7 @@ function Planner() {
       exclude_ids: [
         ...exclude,
         ...extraExclude,
-        ...exercises
-          .filter(
-            (e) =>
-              e.level === 'advanced' ||
-              TOO_HARD.test(e.name_en) ||
-              (mode !== 'full_gym' && (NEEDS_GYM.test(e.name_en) || e.equipment === 'machine' || e.equipment === 'cable')) ||
-              (mode === 'bodyweight' && NEEDS_BAR.test(e.name_en)),
-          )
-          .map((e) => e.id),
+        ...exercises.filter((e) => !allowed(e)).map((e) => e.id),
       ],
     });
     const plan = generateWorkout(genOpts([]));
@@ -482,6 +505,7 @@ function Planner() {
                 setPlan(null);
               }}
               exitSignal={exitSignal}
+              onAlternatives={alternatives}
               onLog={setLog}
               onTop={() => setTimeout(() => scrollRef.current?.scrollTo({ y: 0, animated: false }), 0)}
               onExtra={(taken) => {

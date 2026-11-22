@@ -22,11 +22,12 @@ import { ExerciseHowTo } from '../components/ExerciseHowTo';
 import { LoadLine } from '../components/LoadLine';
 import { RestPreview } from '../components/RestPreview';
 import { GogginsCard } from '../components/GogginsCard';
+import { ChangeSheet } from '../components/ChangeSheet';
 import { pickTip } from '../lib/restTips';
 import { fmtKg, loadFor, stepWeight } from '../lib/plates';
 import { extraStreak, entryFromSession, loadLog, mergeLog, saveLog, toJson, toText, type LogEntry } from '../lib/webLog';
 import {
-  addExtra, addRest, clock, completeSet, current, doneSets, endNow, extraDone, lastDoneEi, restLeft, setField, skipRest, totalSets,
+  addExtra, addRest, clock, completeSet, current, doneSets, endNow, extraDone, laterExercise, lastDoneEi, moveExercise, restLeft, setField, skipRest, swapExercise, totalSets,
   type WsExercise, type WsState,
 } from '../lib/webSession';
 
@@ -45,6 +46,7 @@ export function WebSession({
   exitSignal = 0,
   onLog,
   onTop,
+  onAlternatives,
 }: {
   initial: WsState;
   byId: Map<string, Exercise>;
@@ -60,6 +62,8 @@ export function WebSession({
   onLog?: (log: LogEntry[]) => void;
   /** Volver arriba (al añadir la Extra mile, el botón queda abajo). */
   onTop?: () => void;
+  /** R-177: hasta 3 ejercicios parecidos al actual (con su peso). */
+  onAlternatives?: (ex: WsExercise, taken: string[]) => WsExercise[];
 }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language as Lang;
@@ -68,6 +72,8 @@ export function WebSession({
   const [now, setNow] = useState(() => Date.now());
   const [confirm, setConfirm] = useState(false);
   const [howto, setHowto] = useState<string | null>(null);
+  // R-176/R-177: hoja "Cambiar ejercicio" (parecido, más tarde, orden).
+  const [changing, setChanging] = useState(false);
   const [tip, setTip] = useState(() => pickTip(null));
   const [copied, setCopied] = useState(false);
   const [streak, setStreak] = useState(0);
@@ -159,7 +165,11 @@ export function WebSession({
   const tapDone = () => {
     primeWebAlerts(); // el toque desbloquea el pitido / háptico del descanso
     setTip((x) => pickTip(x));
-    setS((x) => completeSet(x, Date.now()));
+    // Mismo instante para la serie y el reloj: si no, el tic de 250 ms va por
+    // detrás y el descanso empieza un segundo por encima (1:31 con 90 s).
+    const at = Date.now();
+    setNow(at);
+    setS((x) => completeSet(x, at));
   };
 
   // ---------- Resumen ----------
@@ -315,14 +325,27 @@ export function WebSession({
           >
             <ExerciseThumb id={ex.id} group={e?.muscle_group || 'core'} size={150} color={p.text} animate />
           </Pressable>
-          {/* La misma hoja que en la lista: dibujos, qué entrena, pasos y vídeo. */}
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => setHowto(ex.id)}
-            style={({ pressed }) => [styles.howto, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
-          >
-            <Text style={[styles.howtoText, { color: p.text }]}>{t('howto_button')}</Text>
-          </Pressable>
+          {/* La misma hoja que en la lista (dibujos, pasos, vídeo) y, al lado,
+              "Cambiar": otro parecido, más tarde u otro orden (R-176/R-177). */}
+          <View style={styles.pills}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => setHowto(ex.id)}
+              style={({ pressed }) => [styles.howto, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
+            >
+              <Text style={[styles.howtoText, { color: p.text }]}>{t('howto_button')}</Text>
+            </Pressable>
+            {onAlternatives ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={`${t('chg_title')}: ${name(ex.id)}`}
+                onPress={() => setChanging(true)}
+                style={({ pressed }) => [styles.howto, { borderColor: p.border, opacity: pressed ? 0.6 : 1 }]}
+              >
+                <Text style={[styles.howtoText, { color: p.text }]}>{t('chg_button')}</Text>
+              </Pressable>
+            ) : null}
+          </View>
           <Text style={[styles.exName, { color: p.text }]} accessibilityRole="header" numberOfLines={3}>{name(ex.id)}</Text>
           {/* Dónde estás: ejercicio n de m · serie n de m (R-158). */}
           <Text style={[styles.label, { color: p.secondary, marginTop: 8, textAlign: 'center' }]}>
@@ -355,6 +378,35 @@ export function WebSession({
         </View>
       ) : null}
       {howto && byId.get(howto) ? <ExerciseHowTo exercise={byId.get(howto)!} onClose={() => setHowto(null)} hideCredit /> : null}
+      {changing && ex && c && onAlternatives ? (() => {
+        const alts = onAlternatives(ex, s.ex.map((x) => x.id));
+        const lastPending = s.ex.reduce((a, x, i) => (x.sets.some((y) => !y.done_at) ? i : a), -1);
+        return (
+          <ChangeSheet
+            title={name(ex.id)}
+            alts={alts.map((a) => {
+              const r = byId.get(a.id);
+              return { id: a.id, group: r?.muscle_group || 'core', name: name(a.id), sub: a.cardio ? `${a.sets[0].min} min` : setLine(a.sets[0], a.id, a.bodyweight) };
+            })}
+            rows={s.ex.map((x, i) => ({
+              key: `${i}-${x.id}`,
+              id: x.id,
+              group: byId.get(x.id)?.muscle_group || 'core',
+              name: name(x.id),
+              done: x.sets.every((y) => y.done_at),
+              current: i === c.ei,
+            }))}
+            onSwap={(id) => {
+              const a = alts.find((x) => x.id === id);
+              if (a) setS((x) => swapExercise(x, c.ei, a));
+              setChanging(false);
+            }}
+            onLater={lastPending > c.ei ? () => { setS((x) => laterExercise(x, c.ei)); setChanging(false); } : null}
+            onMove={(from, to) => setS((x) => moveExercise(x, from, to))}
+            onClose={() => setChanging(false)}
+          />
+        );
+      })() : null}
     </View>
   );
 }
@@ -437,6 +489,7 @@ const styles = StyleSheet.create({
   barFill: { height: 2 },
   center: { alignItems: 'center', paddingTop: 20 },
   howto: { marginTop: 14, minHeight: 44, paddingHorizontal: 18, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  pills: { flexDirection: 'row', gap: 10, justifyContent: 'center' },
   howtoText: { fontSize: 15, fontWeight: '700' },
   art: { width: 180, height: 180, borderRadius: 24, borderWidth: StyleSheet.hairlineWidth, alignItems: 'center', justifyContent: 'center' },
   exName: { fontSize: 26, fontWeight: '800', letterSpacing: -0.5, textAlign: 'center', marginTop: 12, lineHeight: 31 },
